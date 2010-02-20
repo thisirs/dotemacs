@@ -1,1 +1,0 @@
-/home/sylvain/.emacs.d

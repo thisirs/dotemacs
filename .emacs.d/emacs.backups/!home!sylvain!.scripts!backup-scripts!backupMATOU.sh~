@@ -1,0 +1,18 @@
+#!usr/bin/env sh
+
+#sauve la musique et les vidéos situées sur FATMAMA dans MATOU
+
+{
+	sleep 10
+	rsync -r -t -p -o -g -v /media/FATMAMA/Musique/ /media/MATOU/.backup/Musique
+	rsync -r -t -p -o -g -v /media/FATMAMA/Videos/ /media/MATOU/.backup/Videos
+} > $0.out.log 2> $0.err.log
+[ -s $0.out.log ] || rm $0.out.log
+[ -s $0.err.log ] || rm $0.err.log
+
+if [ -e "$0.err.log" ]; then
+	sudo -u sylvain /home/sylvain/.scripts/backup-scripts/notify-helper 'Backup' 'Backup on MATOU failed!'
+else
+	sudo -u sylvain /home/sylvain/.scripts/backup-scripts/notify-helper 'Backup' 'Backup on MATOU succeeded!'
+fi
+exit 0
