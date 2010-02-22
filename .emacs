@@ -1,4 +1,7 @@
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+
+(require 'auto-install)
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
