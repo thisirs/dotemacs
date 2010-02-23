@@ -1,5 +1,8 @@
 (add-to-list 'load-path "~/.emacs.d")
 
+(require 'auto-install)
+
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs
