@@ -1,7 +1,14 @@
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (require 'auto-install)
+;(require 'anything)
+;(require 'anything-config)
 
+;(when (fboundp 'winner-mode)
+;      (winner-mode 1))
+
+;(load "elscreen" "ElScreen" t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -64,9 +71,9 @@
   (lambda()(interactive)(find-file "~/.emacs")))
 
 ; se rappelle ou je suis dans un fichier
-(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-(setq-default save-place t)                   ;; activate it for all buffers
-(require 'saveplace)                          ;; get the package
+;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+;(setq-default save-place t)                   ;; activate it for all buffers
+;(require 'saveplace)                          ;; get the package
 
 
 ; Indentation du buffer
@@ -102,10 +109,10 @@
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 
 ; Scilab
-(add-to-list 'load-path "~/.emacs.d/scilabelisp")
-(load "scilab-startup")
-(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
-(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
+;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
+;(load "scilab-startup")
+;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
+;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
 
 ; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
@@ -229,7 +236,7 @@ recentf-menu-title "Recentf"
 
 
 ;; pouvoir ouvrir la liste des fichiers récents au clavier
-;;(global-set-key "\C-x\C-r" 'recentf-open-files-compl)
+;;(global-set-key "\C-x\C-r" 'recentf-open-files-complete)
 (global-set-key "\C-x\C-r" 'recentf-interactive-complete)
 
 
@@ -260,7 +267,7 @@ recentf-menu-title "Recentf"
 (setq auto-insert-alist
       '(
 	("\\.rb$" . ["autoinsert.ruby" (goto-char (point-max))])
-	("\\.sh\\'"   . ["autoinsert.bash" (goto-char (point-max))])
+	("\\.sh$"   . ["autoinsert.bash" (goto-char (point-max))])
 	))
 (setq auto-insert 'other)
 
@@ -301,7 +308,7 @@ recentf-menu-title "Recentf"
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(ecb-auto-activate t)
+; '(ecb-auto-activate t)
  '(ecb-layout-name "left14")
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
@@ -334,7 +341,7 @@ recentf-menu-title "Recentf"
 (server-start)
 
 ; minibuffer history
-(savehist-mode t)
+;(savehist-mode t)
 
 ;; Always add a final newline
 (setq require-trailing-newline t)

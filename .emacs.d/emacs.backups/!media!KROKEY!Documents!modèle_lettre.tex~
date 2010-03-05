@@ -11,7 +11,7 @@
 
 \begin{document}
 
-\begin{letter}{à Maud Cordray}
+\begin{letter}{à La Banque Postale\\ Centre Financier de Bordeaux}
 
   % pas de marque pour la pliure
   \NoRule
@@ -20,8 +20,8 @@
   \name{Sylvain Rousseau}
 
   % en haut à gauche, coordonnées de l'expéditeur.
-  \address{Sylvain Rousseau\\105, rue du Père de la Croix\\appt
-    31\\86000 Poitiers}
+  \address{Sylvain Rousseau\\105, rue du Père de
+    la Croix\\appt 31\\86000 Poitiers}
 
   % en haut à droite, lieu de rédaction de la lettre.
   \lieu{à Poitiers}
@@ -29,22 +29,22 @@
   % en haut à gauche, téléphone de l'expéditeur.
   \telephone{0677095927}
   % en haut à gauche, email de l'expéditeur.
-  \email{rousseau@sic.univ-poitiers.fr} \nofax
+  \email{thisirs@gmail.com} \nofax
 
   % en bas à droite, signature de l'expéditeur.
   \signature{
     Sylvain Rousseau,\\
-    \includegraphics[scale=1]{signature.jpg}
+    %\includegraphics[scale=1]{signature.jpg}
   }
 
   \def\concname{\bf Objet:~}
   % objet de la lettre.
-  \conc{Attestation de non rémunération.}
+  \conc{Fermeture de compte.}
 
 
-  \opening{Madame, Monsieur,} je soussigné Sylvain Rousseau atteste
-  sur l'honneur ne pas être rémunéré.  \closing{Je vous prie d'agréer,
-    Madame, Monsieur, mes salutations distinguées.}
+  \opening{Madame, Monsieur,} je soussigné Sylvain Rousseau vous informe que je souhaite fermer le compte CCP numéro: {\bf 1232597Y022}. L'argent restant pourra être transféré sur mon livret A numéro: {\bf 0795037044A}.
+  \closing{Je vous prie d'agréer, Madame, Monsieur, mes
+    salutations distinguées.}
 
 \end{letter}
 \end{document}
