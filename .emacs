@@ -2,11 +2,15 @@
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (require 'auto-install)
-;(require 'anything)
-;(require 'anything-config)
+(require 'anything)
+(require 'anything-config)
+(global-set-key (kbd "C-x C-a") 'anything)
 
 ;(when (fboundp 'winner-mode)
 ;      (winner-mode 1))
+
+
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 
 ;(load "elscreen" "ElScreen" t)
 
@@ -29,18 +33,50 @@
 (show-paren-mode 1)
 
 ; sélection avec les flèches dans buffer-list
-(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+(require 'ibuffer)
+(setq ibuffer-saved-filter-groups
+  (quote (("default"      
+            ("Org" ;; all org-related buffers
+              (mode . org-mode))  
+            ("Mail"
+              (or  ;; mail-related buffers
+               (mode . message-mode)
+               (mode . mail-mode)
+               ;; etc.; all your mail related modes
+               ))
+            ("MyProject1"
+              (filename . "src/myproject1/"))
+            ("MyProject2"
+              (filename . "src/myproject2/"))
+            ("Programming" ;; prog stuff not already in MyProjectX
+              (or
+                (mode . c-mode)
+                (mode . perl-mode)
+                (mode . python-mode)
+                (mode . emacs-lisp-mode)
+		(mode . ruby-mode)
+                ;; etc
+                )) 
+            ("ERC"   (mode . erc-mode))))))
 
-(global-set-key (kbd "C-S-k") 'kill-whole-line)
+(add-hook 'ibuffer-mode-hook
+  (lambda ()
+    (ibuffer-switch-to-saved-filter-groups "default")))
 
-; copie de la ligne avec M-w
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+
+
+
+; kill-ring-save (M-w) copie la ligne si aucune region active
 (defadvice kill-ring-save (before slick-copy activate compile) "When called
   interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end)) (message
   "Copied line") (list (line-beginning-position) (line-beginning-position
   2)))))
 
-; coupe de la ligne avec C-w
+; kill-region (C-w) coupe la ligne courante si aucune region active
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
@@ -56,6 +92,9 @@
 
 ; Non au défilement qui accélère 
 (setq mouse-wheel-progressive-speed nil)
+
+; sélection de tout le buffer
+(global-set-key "\C-c\C-a" 'mark-whole-buffer)
 
 ; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
@@ -86,8 +125,9 @@
 
 
 ; Numérotation des lignes dans la marge
-(require 'linum)
-(add-hook 'find-file-hook (lambda () (linum-mode 1)))
+(if (>= emacs-major-version 23) (require 'linum))
+
+;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
 ;marche pas
 ;(setq minor-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\|\\.tex\\)" . (linum-mode 1)) minor-mode-alist))
 
@@ -167,13 +207,51 @@
     (replace-string "\\^i" "î")))
 
 (add-hook 'LaTeX-mode-hook (lambda ()
-      (local-set-key  (kbd "M-b") '(lambda () (interactive) (insert "{\\bf }") (backward-char)))
-      (local-set-key  (kbd "M-c") '(lambda () (interactive) (insert "{\\tt }") (backward-char)))))
+      (local-set-key  (kbd "M-b")
+		      '(lambda () (interactive) (insert "{\\bf }") (backward-char)))
+      (local-set-key  (kbd "M-c")
+		      '(lambda () (interactive) (insert "{\\tt }") (backward-char)))))
 
-;; pour naviguer facilement entre les buffers avec C-x B
+;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ido-execute-command-cache nil)
+
+; complétion à la ido avec M-x
+(defun ido-execute-command ()
+  (interactive)
+  (call-interactively
+   (intern
+    (ido-completing-read
+     "M-x "
+     (progn
+       (unless ido-execute-command-cache
+	 (mapatoms (lambda (s)
+		     (when (commandp s)
+		       (setq ido-execute-command-cache
+			     (cons (format "%S" s) ido-execute-command-cache))))))
+       ido-execute-command-cache)))))
+
+(add-hook 'ido-setup-hook
+	  (lambda ()
+	    (setq ido-enable-flex-matching t)
+	    (global-set-key "\M-x" 'ido-execute-command)))
+
+
+;; Autoriser la transparence
+(set-frame-parameter (selected-frame) 'alpha '(85 50))
+(add-to-list 'default-frame-alist '(alpha 85 50))
+(eval-when-compile (require 'cl))
+(defun toggle-transparency ()
+  (interactive)
+  (if (/=
+       (cadr (find 'alpha (frame-parameters nil) :key #'car))
+       100)
+      (set-frame-parameter nil 'alpha '(100 100))
+    (set-frame-parameter nil 'alpha '(85 60))))
+(global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
 (require 'recentf)
@@ -316,7 +394,6 @@ recentf-menu-title "Recentf"
  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
  '(ecb-tip-of-the-day nil)
  '(ecb-windows-width 0.2)
- '(global-linum-mode nil)
  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
  '(inhibit-startup-screen t)
  '(scilab-shell-command "/usr/bin/scilab"))
@@ -347,7 +424,7 @@ recentf-menu-title "Recentf"
 (setq require-trailing-newline t)
 
 ;;; Drive out the mouse when it's too near to the cursor.
-(mouse-avoidance-mode 'animate)
+(if (display-mouse-p) (mouse-avoidance-mode 'animate)
 
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
@@ -375,3 +452,26 @@ recentf-menu-title "Recentf"
     (load
      (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
+
+(define-key global-map (kbd "RET") 'reindent-then-newline-and-indent)
+
+;; additional menu
+(require 'easymenu)
+(setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
+(easy-menu-define my-encoding-menu my-encoding-map
+  "Encoding Menu."
+ '("Change File Encoding"
+   ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+   ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+   ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+   ["--" nil nil]
+   ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+   ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+   ["--" nil nil]
+   ["EUC - Unix (LF)"  (set-buffer-file-coding-system 'euc-jp-unix) t]
+   ["JIS - Unix (LF)"  (set-buffer-file-coding-system 'junet-unix) t]
+   ))
+(define-key-after menu-bar-file-menu [my-file-separator]
+  '("--" . nil) 'kill-buffer)
+(define-key-after menu-bar-file-menu [my-encoding-menu]
+  (cons "File Encoding" my-encoding-menu) 'my-file-separator)

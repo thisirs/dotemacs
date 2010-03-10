@@ -11,7 +11,7 @@
 
 \begin{document}
 
-\begin{letter}{à La Banque Postale\\ Centre Financier de Bordeaux}
+\begin{letter}{à Mme Christine Couesnon\\Mission pour la recherche et l'innovation scientifique\\DGA/D4S/MRIS}
 
   % pas de marque pour la pliure
   \NoRule
@@ -39,10 +39,10 @@
 
   \def\concname{\bf Objet:~}
   % objet de la lettre.
-  \conc{Fermeture de compte.}
+  \conc{Monitorat.}
 
 
-  \opening{Madame, Monsieur,} je soussigné Sylvain Rousseau vous informe que je souhaite fermer le compte CCP numéro: {\bf 1232597Y022}. L'argent restant pourra être transféré sur mon livret A numéro: {\bf 0795037044A}.
+  \opening{Madame, Monsieur,} 
   \closing{Je vous prie d'agréer, Madame, Monsieur, mes
     salutations distinguées.}
 
