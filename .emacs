@@ -1,18 +1,56 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
+
+
+(defvar trans-term-p t "Check if fullscreen is on or off")
+
+(defun non-trans-term ()
+  (interactive)
+  (set-frame-parameter nil 'alpha '(100 100))
+  (tool-bar-mode 1)
+  (menu-bar-mode 1)
+  (jump-to-register 'r)
+  ) 
+
+(defun trans-term ()
+  (interactive)
+  (frame-configuration-to-register 'r)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (delete-other-windows)
+  (set-frame-parameter nil 'alpha '(50 50))
+  )
+
+(defun toggle-trans-term ()
+  (interactive)
+  (setq trans-term-p (not trans-term-p))
+  (if trans-term-p
+      (non-trans-term)
+    (trans-term)))
+
+(global-set-key [f8] 'toggle-trans-term)
+
+
+
+
+;;(load "elscreen" "ElScreen" t)
+
 (require 'auto-install)
 (require 'anything)
 (require 'anything-config)
-(global-set-key (kbd "C-x C-a") 'anything)
 
-;(when (fboundp 'winner-mode)
-;      (winner-mode 1))
+(require 'doremi)
+(require 'doremi-frm)
+
+(global-set-key (kbd "C-x C-a") 'anything-for-files)
+
+(when (fboundp 'winner-mode)
+      (winner-mode 1))
 
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 
-;(load "elscreen" "ElScreen" t)
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -35,6 +73,7 @@
 ; sélection avec les flèches dans buffer-list
 ;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 (require 'ibuffer)
+
 (setq ibuffer-saved-filter-groups
   (quote (("default"      
             ("Org" ;; all org-related buffers
@@ -125,7 +164,10 @@
 
 
 ; Numérotation des lignes dans la marge
-(if (>= emacs-major-version 23) (require 'linum))
+(if (>= emacs-major-version 23)
+    (progn
+      (require 'linum)
+      (global-linum-mode 1)))
 
 ;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
 ;marche pas
@@ -214,6 +256,7 @@
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
+;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -241,8 +284,8 @@
 
 
 ;; Autoriser la transparence
-(set-frame-parameter (selected-frame) 'alpha '(85 50))
-(add-to-list 'default-frame-alist '(alpha 85 50))
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 50))
 (eval-when-compile (require 'cl))
 (defun toggle-transparency ()
   (interactive)
@@ -344,13 +387,14 @@ recentf-menu-title "Recentf"
 (setq auto-insert-query nil)
 (setq auto-insert-alist
       '(
-	("\\.rb$" . ["autoinsert.ruby" (goto-char (point-max))])
-	("\\.sh$"   . ["autoinsert.bash" (goto-char (point-max))])
+	("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
+	("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
+	("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
 	))
 (setq auto-insert 'other)
 
-;(define-auto-insert "\\.sh\\'" "autoinsert.bash")
-;(define-auto-insert "\\.rb\\'" "autoinsert.ruby")
+;; (define-auto-insert "\.sh" " autoinsert.bash")
+;; (define-auto-insert "\.rb" "autoinsert.ruby")
 
 
 (defun change-to-utf-8 ()
@@ -373,13 +417,6 @@ recentf-menu-title "Recentf"
 
 (require 'ruby-electric)
 
-;(setq inhibit-startup-message t)
-
-;(split-window-horizontally)   ;; want two windows at startup 
-;(other-window 1)              ;; move to other window
-;(shell)                       ;; start a shell
-;(rename-buffer "shell-first") ;; rename it
-;(other-window 1)              ;; move back to first window 
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -424,7 +461,7 @@ recentf-menu-title "Recentf"
 (setq require-trailing-newline t)
 
 ;;; Drive out the mouse when it's too near to the cursor.
-(if (display-mouse-p) (mouse-avoidance-mode 'animate)
+(if (display-mouse-p) (mouse-avoidance-mode 'animate))
 
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
@@ -475,3 +512,5 @@ recentf-menu-title "Recentf"
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
+
+
