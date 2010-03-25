@@ -1,7 +1,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
+(load "elscreen" "ElScreen" t)
 
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
@@ -29,28 +31,13 @@
       (non-trans-term)
     (trans-term)))
 
-(global-set-key [f8] 'toggle-trans-term)
+(require 'linkd)
 
-
-
-
-;;(load "elscreen" "ElScreen" t)
-
-(require 'auto-install)
 (require 'anything)
 (require 'anything-config)
-
-(require 'doremi)
-(require 'doremi-frm)
-
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
 
-(when (fboundp 'winner-mode)
-      (winner-mode 1))
-
-
-
-
+(require 'magit)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -64,97 +51,103 @@
 ;; sens du défilement.
 (setq scroll-preserve-screen-position t)
 
-; sélection avec SHIFT
-;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
+;; sélection avec SHIFT
+;;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
 
 (load-library "paren")
 (show-paren-mode 1)
 
-; sélection avec les flèches dans buffer-list
-;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+
+;; Auto-indentation
+(add-hook 'emacs-lisp-mode-hook 
+	  '(lambda ()
+	     (local-set-key (kbd "RET") 'newline-and-indent)))
+
+
+;; sélection avec les flèches dans buffer-list
+;;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+
 (require 'ibuffer)
 
 (setq ibuffer-saved-filter-groups
-  (quote (("default"      
-            ("Org" ;; all org-related buffers
-              (mode . org-mode))  
-            ("Mail"
-              (or  ;; mail-related buffers
-               (mode . message-mode)
-               (mode . mail-mode)
-               ;; etc.; all your mail related modes
-               ))
-            ("MyProject1"
-              (filename . "src/myproject1/"))
-            ("MyProject2"
-              (filename . "src/myproject2/"))
-            ("Programming" ;; prog stuff not already in MyProjectX
-              (or
-                (mode . c-mode)
-                (mode . perl-mode)
-                (mode . python-mode)
-                (mode . emacs-lisp-mode)
-		(mode . ruby-mode)
-                ;; etc
-                )) 
-            ("ERC"   (mode . erc-mode))))))
+      (quote (("default"
+	       ("Org" ;; all org-related buffers
+		(mode . org-mode))
+	       ("Mail"
+		(or ;; mail-related buffers
+		 (mode . message-mode)
+		 (mode . mail-mode)
+		 ;; etc.;; all your mail related modes
+		 ))
+	       ("KROKEY's programming"
+		(filename . "/media/KROKEY/programming/"))
+	       ("Programming" ;; prog stuff not already in MyProjectX
+		(or
+		 (mode . c-mode)
+		 (mode . perl-mode)
+		 (mode . python-mode)
+		 (mode . emacs-lisp-mode)
+		 (mode . ruby-mode)
+		 ;; etc
+		 ))
+	       ("ERC" (mode . erc-mode))))))
 
 (add-hook 'ibuffer-mode-hook
-  (lambda ()
-    (ibuffer-switch-to-saved-filter-groups "default")))
+	  (lambda ()
+	    (ibuffer-switch-to-saved-filter-groups "default")))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
 
 
-; kill-ring-save (M-w) copie la ligne si aucune region active
+;; kill-ring-save (M-w) copie la ligne si aucune region active
 (defadvice kill-ring-save (before slick-copy activate compile) "When called
-  interactively with no active region, copy a single line instead."
+interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end)) (message
-  "Copied line") (list (line-beginning-position) (line-beginning-position
-  2)))))
+								       "Copied line") (list (line-beginning-position) (line-beginning-position
+														       2)))))
 
-; kill-region (C-w) coupe la ligne courante si aucune region active
+;; kill-region (C-w) coupe la ligne courante si aucune region active
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
-    (if mark-active (list (region-beginning) (region-end))
-      (list (line-beginning-position)
-        (line-beginning-position 2)))))
+   (if mark-active (list (region-beginning) (region-end))
+     (list (line-beginning-position)
+	   (line-beginning-position 2)))))
 
 ;;move between windows with meta-arrows
 (windmove-default-keybindings 'meta)
 
-; Mettre un titre aux fenêtres
+;; Mettre un titre aux fenêtres
 (setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
 
-; Non au défilement qui accélère 
+;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
 
-; sélection de tout le buffer
+;; sélection de tout le buffer
 (global-set-key "\C-c\C-a" 'mark-whole-buffer)
 
-; pas de file<2> quand 2 buffers ont le même nom
+;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-; pas de backup n'importe où...
+;; pas de backup n'importe où...
 (setq backup-directory-alist '(("." . "~/.emacs.d/emacs.backups")))
 
-; ouverture rapide avec la touche windows
+;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-S") ;; scratch
-  (lambda()(interactive)(switch-to-buffer "*scratch*")))
+		(lambda()(interactive)(switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-E") ;; .emacs
-  (lambda()(interactive)(find-file "~/.emacs")))
+		(lambda()(interactive)(find-file "~/.emacs")))
 
-; se rappelle ou je suis dans un fichier
-;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-;(setq-default save-place t)                   ;; activate it for all buffers
-;(require 'saveplace)                          ;; get the package
+;; se rappelle ou je suis dans un fichier
+;;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+;;(setq-default save-place t) ;; activate it for all buffers
+;;(require 'saveplace) ;; get the package
 
 
-; Indentation du buffer
+;; Indentation du buffer
 (defun indent-buffer ()
   "indent whole buffer"
   (interactive)
@@ -163,53 +156,50 @@
   (untabify (point-min) (point-max)))
 
 
-; Numérotation des lignes dans la marge
-(if (>= emacs-major-version 23)
-    (progn
-      (require 'linum)
-      (global-linum-mode 1)))
+;; Numérotation des lignes dans la marge
+(if (>= emacs-major-version 23) (require 'linum))
 
-;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
-;marche pas
-;(setq minor-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\|\\.tex\\)" . (linum-mode 1)) minor-mode-alist))
+;;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
+;;marche pas
+;;(setq minor-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\|\\.tex\\)" . (linum-mode 1)) minor-mode-alist))
 
-; Correction orthographique
+;; Correction orthographique
 (setq ispell-dictionary "francais")
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
-; Cedet
+;; Cedet
 (load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
 (global-ede-mode 1)                      ; Enable the Project management system
 (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
 (global-srecode-minor-mode 1)            ; Enable template insertion menu
 
-; ECB
+;; ECB
 (add-to-list 'load-path "~/.emacs.d/ecb-2.40")
 (require 'ecb)
 
-; color theme
+;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 
-; Scilab
-;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
-;(load "scilab-startup")
-;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
-;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
+;; Scilab
+;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
+;;(load "scilab-startup")
+;;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
+;;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
 
-; Auctex
+;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 
-; indentation correcte des items
+;; indentation correcte des items
 (setq LaTeX-item-indent 0)
 
 (add-hook 'LaTeX-mode-hook
-'(lambda ()
-(reftex-mode)
-(flyspell-mode)))
+	  '(lambda ()
+	     (reftex-mode)
+	     (flyspell-mode)))
 
-(defun  latex-accent () (interactive)
+(defun latex-accent () (interactive)
   (save-excursion
     (goto-char (point-min))
     (replace-string "\\'{e}" "é")
@@ -249,20 +239,21 @@
     (replace-string "\\^i" "î")))
 
 (add-hook 'LaTeX-mode-hook (lambda ()
-      (local-set-key  (kbd "M-b")
-		      '(lambda () (interactive) (insert "{\\bf }") (backward-char)))
-      (local-set-key  (kbd "M-c")
-		      '(lambda () (interactive) (insert "{\\tt }") (backward-char)))))
+			     (local-set-key (kbd "M-b")
+					    '(lambda () (interactive) (insert "{\\bf }") (backward-char)))
+			     (local-set-key (kbd "M-c")
+					    '(lambda () (interactive) (insert "{\\tt }") (backward-char)))))
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
 ;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
 (require 'ido)
+
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-execute-command-cache nil)
 
-; complétion à la ido avec M-x
+;; complétion à la ido avec M-x
 (defun ido-execute-command ()
   (interactive)
   (call-interactively
@@ -277,15 +268,14 @@
 			     (cons (format "%S" s) ido-execute-command-cache))))))
        ido-execute-command-cache)))))
 
-(add-hook 'ido-setup-hook
-	  (lambda ()
-	    (setq ido-enable-flex-matching t)
-	    (global-set-key "\M-x" 'ido-execute-command)))
+(global-set-key "\M-x" 'ido-execute-command)
+
+
 
 
 ;; Autoriser la transparence
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
-(add-to-list 'default-frame-alist '(alpha 100 50))
+(add-to-list 'default-frame-alist '(alpha 100 100))
 (eval-when-compile (require 'cl))
 (defun toggle-transparency ()
   (interactive)
@@ -293,44 +283,44 @@
        (cadr (find 'alpha (frame-parameters nil) :key #'car))
        100)
       (set-frame-parameter nil 'alpha '(100 100))
-    (set-frame-parameter nil 'alpha '(85 60))))
+    (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-arrange-by-rules-min-items 0
-recentf-arrange-by-rule-others nil
-recentf-arrange-rules
-'
-(
- ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
- ("Ruby files (%d)" ".\\.rb$")
- ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
- ("Java files (%d)" ".\\.java$")
- ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
- ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
- ("Configuration files (%d)" "rc$\\|/\\.")
- ("Ada files (%d)" ".\\.ad[sb]$")
- ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
- ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
- ("Documentation (%d)" "/doc/")
- ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
- ("Lisp files (%d)" ".\\.lisp$")
- )
-recentf-max-saved-items 50
-recentf-max-menu-items 30
-recentf-menu-path nil
-recentf-exclude '(".emacs-customize$"
-".newsrc"
-".etags$"
-".emacs.bmk$"
-".bbdb$"
-".log$"
-"^/tmp/")
-recentf-menu-filter 'recentf-arrange-by-rule
-recentf-menu-title "Recentf"
-)
+      recentf-arrange-by-rule-others nil
+      recentf-arrange-rules
+      '
+      (
+       ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+       ("Ruby files (%d)" ".\\.rb$")
+       ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+       ("Java files (%d)" ".\\.java$")
+       ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+       ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+       ("Configuration files (%d)" "rc$\\|/\\.")
+       ("Ada files (%d)" ".\\.ad[sb]$")
+       ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+       ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+       ("Documentation (%d)" "/doc/")
+       ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+       ("Lisp files (%d)" ".\\.lisp$")
+       )
+      recentf-max-saved-items 50
+      recentf-max-menu-items 30
+      recentf-menu-path nil
+      recentf-exclude '(".emacs-customize$"
+			".newsrc"
+			".etags$"
+			".emacs.bmk$"
+			".bbdb$"
+			".log$"
+			"^/tmp/")
+      recentf-menu-filter 'recentf-arrange-by-rule
+      recentf-menu-title "Recentf"
+      )
 
 (defun recentf-interactive-complete ()
   "find a file in the recently open file using ido for completion"
@@ -344,16 +334,16 @@ recentf-menu-title "Recentf"
 	 (filename (ido-read-buffer "Find Recent File: "))
 	 (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
 	 (result-length (length result-list)))
-         (find-file 
-	  (cond 
-	   ((= result-length 0) filename)
-	   ((= result-length 1) (car result-list))
-	   ( t
-	     (let ( (ido-make-buffer-list-hook
-		     (lambda ()
-		       (setq ido-temp-list result-list))))
-	       (ido-read-buffer (format "%d matches:" result-length))))
-	   ))))
+    (find-file
+     (cond
+      ((= result-length 0) filename)
+      ((= result-length 1) (car result-list))
+      ( t
+	(let ( (ido-make-buffer-list-hook
+		(lambda ()
+		  (setq ido-temp-list result-list))))
+	  (ido-read-buffer (format "%d matches:" result-length))))
+      ))))
 
 
 ;; pouvoir ouvrir la liste des fichiers récents au clavier
@@ -382,7 +372,7 @@ recentf-menu-title "Recentf"
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
 (require 'autoinsert)
-(auto-insert-mode t)  ;;; Adds hook to find-files-hook
+(auto-insert-mode t) ; Adds hook to find-files-hook
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 (setq auto-insert-alist
@@ -403,27 +393,27 @@ recentf-menu-title "Recentf"
 )
 
 
-(global-set-key [(f2)]          'change-to-utf-8)
+(global-set-key [(f2)] 'change-to-utf-8)
 
 
-; directory to put various el files into
-;(add-to-list 'load-path "~/.emacs.d")
+;; directory to put various el files into
+;;(add-to-list 'load-path "~/.emacs.d")
 
-; loads ruby mode when a .rb file is opened.
-;(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-;(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
-;(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+;; loads ruby mode when a .rb file is opened.
+;;(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
+;;(setq auto-mode-alist (cons '(".rb$" . ruby-mode) auto-mode-alist))
+;;(setq auto-mode-alist (cons '(".rhtml$" . html-mode) auto-mode-alist))
 
 
 (require 'ruby-electric)
 
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-; '(ecb-auto-activate t)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ ;; '(ecb-auto-activate t)
  '(ecb-layout-name "left14")
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
@@ -435,10 +425,10 @@ recentf-menu-title "Recentf"
  '(inhibit-startup-screen t)
  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 
 
@@ -454,13 +444,13 @@ recentf-menu-title "Recentf"
 
 (server-start)
 
-; minibuffer history
-;(savehist-mode t)
+;; minibuffer history
+;;(savehist-mode t)
 
 ;; Always add a final newline
 (setq require-trailing-newline t)
 
-;;; Drive out the mouse when it's too near to the cursor.
+;; Drive out the mouse when it's too near to the cursor.
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
 
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
@@ -480,11 +470,11 @@ recentf-menu-title "Recentf"
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
+;; This was installed by package-install.el.
+;; This provides support for the package system and
+;; interfacing with ELPA, the package archive.
+;; Move this code earlier if you want to reference
+;; packages in your .emacs.
 (when
     (load
      (expand-file-name "~/.emacs.d/elpa/package.el"))
@@ -497,20 +487,19 @@ recentf-menu-title "Recentf"
 (setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
 (easy-menu-define my-encoding-menu my-encoding-map
   "Encoding Menu."
- '("Change File Encoding"
-   ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-   ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-   ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-   ["--" nil nil]
-   ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-   ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-   ["--" nil nil]
-   ["EUC - Unix (LF)"  (set-buffer-file-coding-system 'euc-jp-unix) t]
-   ["JIS - Unix (LF)"  (set-buffer-file-coding-system 'junet-unix) t]
-   ))
+  '("Change File Encoding"
+    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+    ["--" nil nil]
+    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+    ["--" nil nil]
+    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
+    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
+    ))
 (define-key-after menu-bar-file-menu [my-file-separator]
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
-
 
