@@ -1,0 +1,261 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/media/KROKEY/Documents/rapport_stage_M2/" . "rapport/")
+ ("/media/KROKEY/Documents/Doctorat/dossiers de bourses/" . "pièces/")
+ ("/home/srousseau/git/" . "dotemacs/")
+ ("/media/KROKEY/Documents/Doctorat/" . "dossiers de bourses/")
+ ("/tmp/git/" . "RyOGame/")
+ ("/tmp/" . "RyOGame/")
+ ("/home/srousseau/git/dotemacs/.emacs.d/" . "auctex-11.85/")
+ ("/media/KROKEY/Documents/" . "rapport_stage_M2/")
+ ("/home/srousseau/git/dotemacs/" . ".emacs.d/")
+ ("/home/srousseau/.openoffice.org/3/" . "user/")
+ ("/home/srousseau/.openoffice.org/" . "3/")
+ ("/home/srousseau/.emacs.d/" . "auctex-11.85/")
+ ("/media/KROKEY/enseignements/2009-2010/TP_IMAGE/TP5_FILTRAGE/" . "SUJET/")
+ ("/media/KROKEY/enseignements/2009-2010/TP_IMAGE/" . "TP5_FILTRAGE/")
+ ("/media/KROKEY/programming/python/ode-geodesic/" . "img/")
+ ("/media/KROKEY/programming/python/" . "ode-geodesic/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/Akermi-Bois/" . "TP8_AKERMI_BOIS/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/" . "Akermi-Bois/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP6_HUFFMAN/" . "SUJET/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP1_HISTOGRAMME/" . "SUJET/")
+ ("/media/KROKEY/programming/ruby-scripts/contrepétries/" . "data/")
+ ("/media/KROKEY/programming/ruby-scripts/" . "ogame-proxy/")
+ ("/media/KROKEY/programming/" . "python/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/CODE/" . "CORRECTION/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/" . "SUJET/")
+ ("/media/KROKEY/enseignements/2009-2010/TP/" . "groupe/")
+ ("/home/" . "srousseau/")
+ ("/media/KROKEY/enseignements/2009-2010/" . "TP_IMAGE/")
+ ("/media/KROKEY/enseignements/" . "2009-2010/")
+ ("/media/KROKEY/" . "Documents/")
+ ("/media/" . "KROKEY/")
+ ("/" . "tmp/")
+ ("/home/srousseau/" . ".emacs.d/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/srousseau/"
+ "/tmp/"
+ "/media/KROKEY/article/"
+ "/media/KROKEY/Documents/rapport_stage_M2/rapport/"
+ "/home/srousseau/git/dotemacs/.emacs.d/auctex-11.85/"
+ "/media/KROKEY/Documents/Doctorat/dossiers de bourses/pièces/"
+ "/media/KROKEY/Documents/Doctorat/DGA/"
+ "/tmp/orbit-srousseau/"
+ "/home/srousseau/git/dotemacs/.emacs.d/autoinsert/"
+ "/home/srousseau/.emacs.d/autoinsert/"
+ "/media/KROKEY/enseignements/2009-2010/TP_IMAGE/TP5_FILTRAGE/SUJET/"
+ "/media/KROKEY/recettes/"
+ "/media/KROKEY/Documents/Org/"
+ "/media/KROKEY/programming/python/ode-geodesic/"
+ "/home/srousseau/.ssh/"
+ "/media/KROKEY/Documents/"
+ "/tmp/RyOGame/"
+ "/tmp/elscreen-1.4.6/"
+ "/media/KROKEY/programming/ruby-scripts/ogame-proxy/"
+ "/tmp/git/RyOGame/"
+ "/tmp/git/"
+ "/home/srousseau/.emacs.d/auto-install/"
+ "/home/srousseau/git/dotemacs/.emacs.d/"
+ "/media/KROKEY/scilab/"
+ "/home/srousseau/.emacs.d/nxhtml/"
+ "/media/KROKEY/programming/ruby-scripts/evernote/"
+ "/media/KROKEY/enseignements/2009-2010/TP/groupe/Akermi-Bois/TP8_AKERMI_BOIS/"
+ "/media/KROKEY/enseignements/2009-2010/TP/TP6_HUFFMAN/SUJET/"
+ "/media/KROKEY/programming/ruby-scripts/contrepétries/data/"
+ "/media/KROKEY/enseignements/2009-2010/TP/TP1_HISTOGRAMME/SUJET/"
+ "/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/SUJET/"
+ "/media/KROKEY/scilab/dim_red/"
+ "/media/KROKEY/"
+ "/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/CODE/CORRECTION/"
+ "/home/srousseau/.emacs.d/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ ".scratch"
+ ".notes"
+ "mqslkdjfk.c"
+ "phil_article.tex"
+ "rapport_de_stage.tex"
+ "rapport_de_stage.bib"
+ "tex-site.el"
+ "auctex.el"
+ "CHANGES"
+ "ALLOCATION_REGIONALE-Formulaire_2009bis.doc"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/srousseau/" (19379 24829) ".xdvirc" ".gnome/" ".sudoku/" ".gnupg/" "Vidéos/" "Téléchargements/" "Public/" ".gvfs/" "usr/" ".newsrc.eld" ".camel_certs/" ".fontconfig/" ".mozilla/" ".gitconfig" "git/" "local/" ".bash_history" ".octave_hist" "octave-core" ".esd_auth" ".emacs.old" ".mozilla-thunderbird/" ".gconfd/" ".ido.last" ".bashrc" ".notes" ".icons/" ".ido.last~" ".srecode/" ".kde/" ".macromedia/" "News/" ".xsession-errors.old" "rar/" "Demande rapport=?ISO-8859-1?Q?1=E8re_ann=E9e_de_th=E8se=2Edoc?=" ".cups/" ".recentf" "Documents/" ".emacs.d.old/" ".emacs.old~" ".pulse/" ".bash_logout" ".emacs.d/" ".bash_profile" ".gem/" ".eshell/" "../" ".dbus/" ".gtk-bookmarks" ".local/" ".recently-used" ".recently-used.xbel" ".semanticdb/" "Modèles/" ".scratch" ".lesshst" ".gimp-2.6/" "numpy-1.4.0.tar.gz" ".texmf-var/" "az.rb" ".bogofilter/" ".sane/" "ruby/" ".thumbnails/" ".gnome2_private/" ".emacs~" ".mission-control/" ".themes/" ".compiz/" ".matplotlib/" ".conkyrc" ".gegl-0.0/" ".config/" ".Scilab/" ".gstreamer-0.10/" "Images/" ".pulse-cookie" ".gconf/" "dwhelper/" ".Trash/" "Musique/" ".xsession-errors" ".nautilus/" ".cache/" "Bureau/" ".emacs" ".conkyrc~" "numpy-1.4.0/" ".openoffice.org/" "animal-0.15.3/" ".evolution/" "#az#" ".gksu.lock" ".pythonrc.py" ".ecb-tip-of-day.el" "Capture.png" ".projects.ede" ".recentf~" "./" ".gnome2/" "scipy-0.7.1.zip" ".ICEauthority" ".update-notifier/" ".adobe/" ".ssh/" ".scripts/" "examples.desktop" ".profile")
+
+ ("/home/srousseau/git/dotemacs/" (19379 21026) ".git/" ".#.emacs" ".emacs.d/" "test/" "../" "#.emacs#" "README" ".emacs" "./")
+
+ ("/home/srousseau/.emacs.d/" (19379 21000) "cedet-1.0pre6/" "cedet-1.0pre6.tar.gz" "scilabelisp/" "ecb-2.40/" "ecb-2.40.tar.gz" "scilab.el.old" "auto-install/" "history" "shell-pop.el" "index.html?url=http" "linum.diff" "ruby-electric.el" "apel-10.7/" "color-theme-6.6.0.tar.gz" "elscreen.el" "../" "url/" "autoinsert/" "anything-c-adaptive-history" "shell-pop.el~" "session.106bac2a06c4b3a419126116365341781800000018330048" "ibuffer.el" "auctex-11.85/" "emacs.backups/" "ruby-mode.el" "flyspell-1.7n.el" "elpa/" "auctex-11.85.tar.gz" "scilabelisp-2.1.7.tar.gz" "auto-save-list/" "color-theme-6.6.0/" "scilab.el" "./" "linum.el" "auto-install.el")
+
+ ("/home/srousseau/git/dotemacs/.emacs.d/" (19379 21000) "cedet-1.0pre6/" "cedet-1.0pre6.tar.gz" "scilabelisp/" "ecb-2.40/" "ecb-2.40.tar.gz" "scilab.el.old" "auto-install/" "history" "shell-pop.el" "index.html?url=http" "linum.diff" "ruby-electric.el" "apel-10.7/" "color-theme-6.6.0.tar.gz" "elscreen.el" "../" "url/" "autoinsert/" "anything-c-adaptive-history" "shell-pop.el~" "session.106bac2a06c4b3a419126116365341781800000018330048" "ibuffer.el" "auctex-11.85/" "emacs.backups/" "ruby-mode.el" "flyspell-1.7n.el" "elpa/" "auctex-11.85.tar.gz" "scilabelisp-2.1.7.tar.gz" "auto-save-list/" "color-theme-6.6.0/" "scilab.el" "./" "linum.el" "auto-install.el")
+
+ ("/tmp/" (19379 20334) "emacs1001/" "orbit-gdm/" "plugtmp/" ".exchange-srousseau/" "pulse-PKdhtXMmr18n/" ".esd-112/" "../" "pulse-8eeRW42NGhiR/" "ssh-ZpIQPE1677/" "virtual-srousseau.BWc6M2/" "orbit-srousseau/" ".esd-1001/" ".X11-unix/" ".X0-lock" "keyring-Kmmuh6/" "./" ".ICE-unix/")
+
+ ("/tmp/orbit-srousseau/" (19379 15871) "bonobo-activation-register-e065a3ca39ab8a8f0ca64c514bb33db1.lock" "bonobo-activation-server-e065a3ca39ab8a8f0ca64c514bb33db1-ior" "linc-735-0-2eebb07ee1c8e" "linc-7a3-0-7059010487ea9" "linc-773-0-17ca2e5a25e4f" "linc-733-0-4c99c769edd90" "linc-73e-0-70d7407912ad3" "linc-780-0-75a1b70edbfd" "linc-767-0-260c8e24b96aa" "linc-79c-0-67d0178c9d4b" "linc-741-0-47278a12589c0" "linc-67e-0-64a518a7d6cb" "linc-763-0-262dd907a9c7c" "linc-68d-0-37134a14dfb78" "linc-748-0-13bfea6319b0d" "../" "linc-762-0-7265f8b5a5fb4" "linc-742-0-75a1b70e34c3" "linc-72c-0-59ebf486cedf0" "linc-6c2-0-16cc51f8ca049" "linc-72e-0-2e10cc7032db" "linc-6c4-0-b17d576c7cd8" "linc-784-0-2131b1cf1369c" "linc-6cb-0-7c6847273ecb2" "linc-747-0-67d0d26112008" "linc-732-0-66a11537de814" "./" "linc-6dc-0-492ebc0c1e4a6" "linc-754-0-1858642b37c7e" "linc-6cc-0-1fa2d7af111a2" "linc-72d-0-647003c899303")
+
+ ("/media/KROKEY/programming/ruby-scripts/contrepétries/data/" (19280 34576) "contrepétries-triées-1253008749.74502~" "contrepétries-triées-1253008749.74502" "contrepétries-triées-1247222313.26694~" "contrepétries-triées-1247222313.26694" "contrepétries-triées-1245146605.66666~" "contrepétries-triées-1245146605.66666" "contrepétries-triées-1241083953.53337~" "contrepétries-triées-1242294467.32541" "contrepétries-triées" "contrepétries-triées-1239804823.39336~" "contrepétries-triées-1241689654.02599~" "contrepétries-triées-1241083953.53337" "contrepétries-triées-1242640893.90512" "contrepétries-triées-1242640893.90512~" "contrepétries-triées-1245146605.06978~" "contrepétries-triées-1245146605.06978" "contrepétries-triées-1240844587.43551" "contrepétries-triées-1242380764.85424" "contrepétries-triées-1242294467.32541~" "florilège~" "contrepétries-triées-1241689654.02599" "contrepétries-triées-1242380764.85424~" "contrepétries-triées-1240844481.31226" "contrepétries-triées-1240844534.7703" "contrepétries-triées-1241445770.86153~" "contrepétries-triées-1240844447.54148" "contrepétries-triées-1242380732.19738" "contrepétries-triées-1240844558.57259" "contrepétries-triées-1240844606.09909" "contrepétries-triées-1239804823.39336" "florilège" "contrepétries-triées-1241445770.86153" "contrepétries-triées-1240844606.09909~" "../" "./")
+
+ ("/media/KROKEY/programming/ruby-scripts/evernote/" (19304 18994) "test.rb~" "test.rb" "evernote-api-1.14/" "evernote-api-1.14.zip" "../" "./")
+
+ ("/media/KROKEY/programming/ruby-scripts/ogame-proxy/" (19350 25650) "myfile" ".desc" "../" "./")
+
+ ("/media/KROKEY/programming/python/ode-geodesic/" (19367 37626) "gen_image.py~" "croissant_chro.bmp" "Ginv.npy" "Finv.npy" "Einv.npy" "G.npy" "F.npy" "E.npy" "geodesic.py" "gen_image.py" "ode-geodesic.py~" "ode-geodesic.py" "#ode-geodesic.py#~" "img/" "../" "./")
+
+ ("/media/KROKEY/Documents/Org/" (19369 58468) "test.org" "TODO.org" "../" "./")
+
+ ("/media/KROKEY/recettes/" (19296 12384) "roulé_de_thon.tex~" "roulé_de_thon.tex" "roulé_de_thon.aux" "roulé_de_thon.log" "roulé_de_thon.dvi" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP_IMAGE/TP5_FILTRAGE/SUJET/" (19233 11488) "tp_filtrage.tex~" "tp_filtrage.tex" "tp_filtrage.ps" "tp_filtrage.pdf" "tp_filtrage.log" "tp_filtrage.dvi" "tp_filtrage.blg" "tp_filtrage.bbl" "tp_filtrage.aux" "c4.eps" ".DS_Store" "../" "./")
+
+ ("/media/KROKEY/Documents/Doctorat/dossiers de bourses/pièces/" (19376 25100) "lettre_de_motivation_monitorat.odt" "FICHE-candidature-alloc_2009-2010bis.doc" "impôts/" "attestation_de_M2.pdf" "lettre_de_motivation.pdf" "lettre_de_motivation.odt" "Parcours_de_Recherche.doc" "ALLOCATION_REGIONALE-Formulaire_2009bis.doc" "../" "./")
+
+ ("/media/KROKEY/article/" (19376 25258) "#phil_article.tex#" "IEEECopyrightForm_P4182.pdf" "paper_4182.pdf" "phil_article.bbl" "phil_article.blg" "phil_article.tex~" "phil_article.pdf" "phil_article.dvi" "phil_article.aux" "phil_article.log" "img/" "var_image.sci" "phil_article.tex" "refs.bib~" "strings.bib" "article.pdf" "article.tex~" "article.bbl" "refs.bib" "image4.pdf" "image3.pdf" "image1.pdf" "article.blg" "article.dvi" "article.aux" "article.log" "article.tex" "IEEEbib.bst" "spconf.sty" "../" "./")
+
+ ("/media/KROKEY/Documents/Doctorat/DGA/" (19376 45244) "#Etat_d'avancement_des_travaux.tex#" "Etat_d'avancement_des_travaux.pdf" "Etat_d'avancement_des_travaux.dvi" "Etat_d'avancement_des_travaux.aux" "Etat_d'avancement_des_travaux.tex" "Etat_d'avancement_des_travaux.log" "Contrat/" "lettre_changement_RIB_et_monitorat/" "attestation_de_non_rémunération.odt" "lettre_ROUSSEAU.pdf" "../" "./")
+
+ ("/media/KROKEY/Documents/rapport_stage_M2/rapport/" (19201 29836) "rapport_de_stage.tex~" "title.sty" "title.log" "texput.log" "RGB_cube.eps" "rapport_de_stage.toc" "rapport_de_stage.tex" "rapport_de_stage.ps" "rapport_de_stage.pdfsync" "rapport_de_stage.pdf_FAILED" "rapport_de_stage.pdf.mk" "rapport_de_stage.pdf" "rapport_de_stage.log" "rapport_de_stage.ist" "rapport_de_stage.glo" "rapport_de_stage.dvi" "rapport_de_stage.blg" "rapport_de_stage.bib" "rapport_de_stage.bbl" "rapport_de_stage.aux" "plan.tex" "plan.pdf.mk" "plan.pdf" "plan.log" "plan.dvi" "plan.aux" "peppers_horiz_dist_cropped.eps" "peppers_horiz_dist.eps" "peppers_horiz_cropped.eps" "peppers_horiz_classic_cropped.eps" "peppers_horiz_classic.eps" "peppers_horiz.eps" "peppers_cropped.eps" "peppers.eps" "my.tex" "missfont.log" "Makefile" "lena_zoom.eps" "lena_hv_grey.eps" "lena_horiz_grey.eps" "lena_horiz.xcf" "lena_horiz.eps" "lena.eps" "Kro.mac" "CIE1931_RGBCMF.eps" "b.mac" "my-packages/" "help/" "../" "./")
+
+ ("/media/KROKEY/Documents/rapport_stage_M2/" (19095 56536) "rapport/" "beamer/" ".DS_Store" "../" "./")
+
+ ("/media/KROKEY/présentation thèse/" (19330 21030) "peppers_horiz_cropped.png" "presentation.ppt" "peppers_cropped.png" "présentation.pdf" "présentation.dvi" "présentation.snm" "présentation.toc" "présentation.nav" "présentation.out" "présentation.aux" "présentation.tex~" "présentation.tex" "présentation.log" "../" "./")
+
+ ("/home/srousseau/git/dotemacs/.emacs.d/auctex-11.85/" (19330 24695) "tex-jp.el" "RELEASE" "tex-mik.elc" "install-sh" "tex-buf.el" "multi-prompt.elc" "latex.elc" "tex-fptex.el" "tex-fold.el" "COPYING" "tex-buf.elc" "context-nl.el" "Makefile" "context.el" "tex-site.el.out" "tex-bar.el" "bib-cite.el" "toolbar-x.el" "tex-jp.elc" "configure" "texmathp.elc" "tex-wizard.el" "tex-mik.el" "TODO" "tex-font.elc" "preview/" "tex-info.el" "auctex.el.in" "style/" "tex-fold.elc" "FAQ" "context.elc" "tex-site.el.in" "INSTALL" "context-nl.elc" "Makefile.in" "../" "font-latex.el" "tex-site.el" "configure.ac" "bib-cite.elc" "tex-style.el" "tex.el" "multi-prompt.el" "images/" "tex-font.el" "README" "toolbar-x.elc" "latex.el" "ChangeLog" "tex.elc" "auctex.spec" "config.log" "auto-loads.el~" "auctex.el" "mkinstalldirs" "context-en.elc" "config.status" "auto-loads.el" "tex-info.elc" "lpath.el" "tex-bar.elc" "texmathp.el" "CHANGES" "./" "doc/" "tex-style.elc" "font-latex.elc" "context-en.el" "INSTALL.windows" "aclocal.m4" "tex-fptex.elc")
+
+ ("/home/srousseau/.emacs.d/auctex-11.85/" (19330 24695) "tex-jp.el" "RELEASE" "tex-mik.elc" "install-sh" "tex-buf.el" "multi-prompt.elc" "latex.elc" "tex-fptex.el" "tex-fold.el" "COPYING" "tex-buf.elc" "context-nl.el" "Makefile" "context.el" "tex-site.el.out" "tex-bar.el" "bib-cite.el" "toolbar-x.el" "tex-jp.elc" "configure" "texmathp.elc" "tex-wizard.el" "tex-mik.el" "TODO" "tex-font.elc" "preview/" "tex-info.el" "auctex.el.in" "style/" "tex-fold.elc" "FAQ" "context.elc" "tex-site.el.in" "INSTALL" "context-nl.elc" "Makefile.in" "../" "font-latex.el" "tex-site.el" "configure.ac" "bib-cite.elc" "tex-style.el" "tex.el" "multi-prompt.el" "images/" "tex-font.el" "README" "toolbar-x.elc" "latex.el" "ChangeLog" "tex.elc" "auctex.spec" "config.log" "auto-loads.el~" "auctex.el" "mkinstalldirs" "context-en.elc" "config.status" "auto-loads.el" "tex-info.elc" "lpath.el" "tex-bar.elc" "texmathp.el" "CHANGES" "./" "doc/" "tex-style.elc" "font-latex.elc" "context-en.el" "INSTALL.windows" "aclocal.m4" "tex-fptex.elc")
+
+ ("/media/KROKEY/Documents/Doctorat/dossiers de bourses/" (18953 24674) "pièces/" "original/" "sujet-thèse-Sylvain_Rousseau-v2.pdf" "../" "./")
+
+ ("/media/KROKEY/Documents/Doctorat/" (19151 25202) "Diplômes/" "DGA/" "dossiers de bourses/" "../" "./")
+
+ ("/media/KROKEY/Documents/" (19372 41738) "Bibliographie/" "publi1864.pdf" "csurka99algebraic.pdf" "Hestenes98Chap2.pdf" "LaQuadratureduNet_Pi_2801.pdf" "GraphTheoryIII.pdf" "Org/" "NRenard_Thesis_08.pdf" "download3.pdf" "download2.pdf" "download.pdf" "modèle_lettre.pdf" "modèle_lettre.dvi" "modèle_lettre.tns" "modèle_lettre.aux" "modèle_lettre.log" "rapport_stage_M2/" "median.pdf" "plan_article.pdf" "plan_article.tex~" "plan_article.dvi" "plan_article.aux" "Métriques riemanniennes et géodésiques.pdf" "croissant.png" "ga_primer.pdf" "plan_article.tex" "croissant_rouge.png" "Hestenes98Chap1.pdf" "Clifford article.pdf" "croissant_gris.png" "croissant_eucl.png" "croissant.bmp" "signature.jpg" "beameruserguide.pdf" "Charles Batts - Beamer Tutorial.pdf" "intro_beamer.pdf" "letdoc.ps" "plan_article.log" "numpy-quickref_fr.pdf" "scilab-quickref_fr-2.pdf" "GeomComp.pdf" "aide_mémoire_administratif.ods" "Doctorat/" "Vim.pdf" "imag_numbs.ps.gz" "formula_sheet.ps.gz" "modèle_lettre.tex" "CONVENTION DE STAGE.doc" "modèle_lettre.tex~" "IMAGE/" "../" "./")
+
+ ("/media/" (19376 24735) "KROKEY/" "cdrom/" "floppy/" "../" "cdrom0/" "./" "floppy0/")
+
+ ("/home/srousseau/.emacs.d/auto-install/" (19372 57243) "alarm.elc" "linkd.elc" "doremi-frm.el" "anything-grep.elc" "ring+.elc" "one-key-default.el" "twit.el" "one-key.elc" "anything-config.el" "doremi.elc" "doremi-frm.elc" "frame-fns.el" "faces+.elc" "../" "faces+.el" "anything.el" "#alarm.el#" "frame-fns.elc" "hexrgb.elc" "one-key.el" "ring+.el" "anything-config.elc" "twit.elc" "one-key-default.elc" "linkd.el" "alarm.el" "anything-grep.el" "./" "anything.elc" "doremi.el" "hexrgb.el")
+
+ ("/home/srousseau/.emacs.d/autoinsert/" (19371 13827) "autoinsert.ruby~" "autoinsert.bash~" "autoinsert.tex" "autoinsert.ruby" "../" "./" "autoinsert.bash")
+
+ ("/home/srousseau/git/dotemacs/.emacs.d/autoinsert/" (19371 13827) "autoinsert.ruby~" "autoinsert.bash~" "autoinsert.tex" "autoinsert.ruby" "../" "./" "autoinsert.bash")
+
+ ("/tmp/RyOGame/" (19350 29251) "res.rb" ".git/" "buildings.rb" "research.rb" "unit_hash.rb" "planet_coord.rb" "engine.rb" "travel.rb" "planet.rb" "universe.rb" "../" "moon.rb" "proxy.rb" "unit_hash_factory.rb" "README" "fleet.rb" "main.rb" "./" "orbital_fleet.rb" "defense.rb" "o_game.rb")
+
+ ("/tmp/elscreen-1.4.6/" (19345 8996) "../" "README" "ChangeLog" "./")
+
+ ("/home/srousseau/.macromedia/" (19267 3907) "../" "./" "Flash_Player/")
+
+ ("/media/KROKEY/programming/ruby-scripts/" (19303 64184) "evernote/" "orquid/" "xsucker/" "allociné-sucker/" "lang-tree/" "conky-pick.tar.gz" "cliffmat/" "conky-pick (copie)/" "google-rank/" "conky-pick/" "agreg/" "rubix/" "vdm/" "dleex-sucker/" "youtube-sucker/" "wikipedia-sucker/" "evene-sucker/" "ogame/" "contrepétries/" "rhythmbox-recover/" "arbo/" "idiomes/" "photos-citz/" "divers/" "ogame-proxy/" "dtc/" "../" "./")
+
+ ("/tmp/git/RyOGame/" (19341 5467) "res.rb" ".git/" "buildings.rb" "research.rb" "my_mod.rb" "unit_hash.rb" "OGameModel/" "planet_coord.rb" "engine.rb" "travel.rb" "planet.rb" "universe.rb" "../" "moon.rb" "unit_hash_factory.rb" "attr_hash_obs.rb" "fleet.rb" "main.rb" "./" "orbital_fleet.rb" "defense.rb" "o_game.rb")
+
+ ("/tmp/git/" (19340 62472) ".git/" "../" "./" "RyOGame/")
+
+ ("/home/srousseau/.ssh/" (19340 61078) "id_rsa.pub" "known_hosts" "key_backup/" "id_rsa" "../" "./")
+
+ ("/home/srousseau/.evolution/cache/tmp/evolution-srousseau-RsTy6m/" (19339 34857) "\"Tempête\" pour info.eml" "../" "./")
+
+ ("/home/srousseau/Bureau/" (19335 36190) "../" "./" "RyOGame/" "AdobeReader.desktop")
+
+ ("/home/srousseau/Bureau/RyOGame/" (19335 36296) "res.rb" ".git/" "buildings.rb" "research.rb" "my_mod.rb" "unit_hash.rb" "OGameModel/" "planet_coord.rb" "engine.rb" "travel.rb" "planet.rb" "universe.rb" "../" "moon.rb" "unit_hash_factory.rb" "README" "attr_hash_obs.rb" "fleet.rb" "main.rb" "./" "orbital_fleet.rb" "defense.rb" "o_game.rb")
+
+ ("/usr/share/" (19330 24078) "keyrings/" "ca-certificates/" "pnm2ppa/" "orca/" "gnupg/" "byobu/" "avahi/" "espeak-data/" "update-manager/" "alsa/" "git-core/" "libgweather/" "glchess/" "speech-dispatcher/" "nano/" "xml-core/" "nis/" "ubufox/" "ibus-table/" "im-switch/" "gnome-dictionary/" "mysql-common/" "totem/" "gapi-2.0/" "usb-creator/" "foo2lava/" "vte/" "libvisual-plugins-0.4/" "sounds/" "X11/" "libsensors3/" "gnome-2.0/" "evolution-exchange/" "vinagre/" "checkbox/" "foo2slx/" "xpdf/" "readline/" "gnome-nettool/" "dbus-1/" "acpi-support/" "w3m/" "apport/" "brltty/" "myspell/" "defoma/" "nautilus-sendto/" "foo2zjs/" "mozilla/" "javazi/" "liblouis/" "zenity/" "screen/" "gvfs/" "evolution-data-server-2.28/" "aclocal/" "awk/" "file/" "hplip/" "nm-applet/" "adduser/" "cm-super/" "mobile-broadband-provider-info/" "consoletrans/" "foo2hiperc/" "libindicator/" "gtk-doc/" "gdm/" "indicators/" "tcltk/" "gstreamer-properties/" "directfb-1.2.7/" "gconf-editor/" "backgrounds/" "eog/" "tabset/" "ppp/" "ufw/" "pulseaudio/" "terminfo/" "redland/" "pkgconfig/" "pam-configs/" "gdict-1.0/" "snmp/" "gnuplot/" "texinfo/" "kde4/" "pyshared/" "dpkg/" "evince/" "texmf-texlive/" "gcj/" "gnome-games-common/" "tasksel/" "laptop-mode-tools/" "base-passwd/" "misc/" "libgksu/" "man/" "m17n/" "console-setup/" "tex4ht/" "nvidia-common/" "gconf/" "gnome-applets/" "telepathy/" "gnome-menus/" "tomboy/" "gnome-panel/" "vim/" "mime-info/" "gnome/" "gnome-settings-daemon/" "baobab/" "gstreamer-0.10/" "media-player-info/" "gnome-power-manager/" "base-files/" "gimp/" "dictionaries-common/" "mime/" "computerjanitor/" "screen-resolution-extra/" "evolution/" "GraphicsMagick-1.3.5/" "onboard/" "couchdb/" "guile/" "perl/" "synaptic/" "pygtk/" "purple/" "insserv/" "gnome-media/" "texlive-bin/" "gtksourceview-2.0/" "python/" "locales/" "python-apt/" "sgml-base/" "i18n/" "NetworkManager/" "intltool-debian/" "gnome-control-center/" "ppd/" "linux-sound-base/" "libparse-debianchangelog-perl/" "gnome-bluetooth/" "gnome-screenshot/" "foomatic/" "python-support/" "binfmts/" "gnome-system-tools/" "os-prober/" "fonts/" "gutenprint/" "consolefonts/" "icons/" "empathy/" "common-licenses/" "scilab/" "grace/" "pyshared-data/" "menu/" "idl/" "aptitude/" "gedit-2/" "gcalctool/" "system-tools-backends-2.0/" "tex-common/" "GeoIP/" "glade3/" "ibus/" "debhelper/" "sysv-rc/" "firefox/" "alsa-base/" "gnome-vpn-properties/" "foo2xqx/" "gnome-pilot/" "software-center/" "librarian/" "compizconfig/" "info/" "polkit-1/" "man-db/" "dotnet/" "lftp/" "vino/" "popularity-contest/" "images/" "gksu/" "command-not-found/" "binfmt-support/" "gnome-utils/" "ImageMagick-6.5.1/" "bug/" "gdebi/" "alacarte/" "sgml/" "gnome-background-properties/" "rdesktop/" "jetty/" "xmodmap/" "ggz/" "nautilus-share/" "linda/" "gnome-mag/" "calendar/" "gnome-panel-sharp/" "app-install/" "rhythmbox/" "apps/" "ssl-cert/" "foo2hp/" "desktopcouch/" "initrd-tools/" "octave/" "gnome-doc-utils/" "xml/" "computer-janitor/" "applications/" "ant/" "thunderbird/" "initramfs-tools/" "libgphoto2/" "e2fsprogs/" "themes/" "lcdf-typetools/" "samba/" "pam/" "initscripts/" "apt/" "gst-python/" "lintian/" "seahorse/" "cups/" "debianutils/" "sane/" "groff/" "grub/" "transmission/" "foo2qpdl/" "texlive-base/" "metacity/" "rsyslog/" "java/" "ubuntu-artwork/" "gtk-engines/" "language-selector/" "openoffice/" "pycentral-data/" "gnome-terminal/" "ri1.9.1/" "mono-1.0/" "aspell/" "texmf/" "gettext/" "pixmaps/" "ubuntuone-client/" "emacs/" "netbeans/" "compiz/" "libthai/" "djvu/" "brasero/" "yelp/" "gnome-screensaver/" "apt-xapian-index/" "desktop-directories/" "launchpad-integration/" "notify-osd/" "zoneinfo/" "cli-common/" "gnome-sudoku/" "omf/" "locale-langpack/" "xsessions/" "webkit-1.0/" "sgml-data/" "software-properties/" "matplotlib/" "po-debconf/" "netpbm/" "xserver-xorg/" "f-spot/" "gcr0/" "ca-certificates-java/" "mousetweaks/" "unattended-upgrades/" "debconf/" "emacs23/" "update-notifier/" "doc/" "nautilus/" "recovery-mode/" "gnome-session/" "omf-langpack/" "ibus-m17n/" "mono/" "locale/" "jockey/" "dict/" "gnome-sound-recorder/" "gnome-games/" "ifupdown/" "enchant/" "gtkhtml-3.14/" "perl5/" "file-roller/" "iptables/" "system-config-printer/" "gnome-about/" "application-registry/" "ghostscript/" "javascript/" "doc-base/" "hal/" "example-content/" "maven-repo/" "latex-cjk-common/" "language-support/" "apturl/" "xscreensaver/" "ubuntu-docs/" "foo2oak/" "../" "./")
+
+ ("/usr/share/texmf-texlive/" (19239 44881) "xdvi/" "omega/" "tex/" "source/" "mft/" "dvips/" "scripts/" "texdoctk/" "fonts/" "../" "ls-R" "web2c/" "metafont/" "./" "doc/" "metapost/" "makeindex/" "bibtex/")
+
+ ("/usr/share/texmf-texlive/tex/" (19239 44884) "eplain/" "latex3/" "cslatex/" "latex/" "ytex/" "context/" "mltex/" "texsis/" "xmltex/" "csplain/" "phyzzx/" "lambda/" "fontinst/" "alatex/" "../" "xelatex/" "plain/" "generic/" "psizzl/" "physe/" "startex/" "mex/" "amstex/" "./" "platex/")
+
+ ("/usr/share/texmf-texlive/tex/latex/" (19239 44885) "chemcono/" "eemeir/" "tcldoc/" "adrconv/" "chemcompounds/" "synttree/" "chapterfolder/" "everyshi/" "otibet/" "oldstyle/" "burmese/" "sffms/" "elpres/" "uhrzeit/" "g-brief/" "hyphenat/" "ar/" "tocbibind/" "tengwarscript/" "papercdcase/" "circ/" "ginpenc/" "moderncv/" "harvard/" "xtcapts/" "ieeepes/" "envlab/" "sprite/" "pdfslide/" "varindex/" "casyl/" "biblist/" "hitec/" "count1to/" "jknapltx/" "pst-ghsb/" "ltablex/" "pst-3d/" "stmaryrd/" "cslatex/" "slidenotes/" "hepthesis/" "caption/" "script/" "soyombo/" "dateiliste/" "thumb/" "pst-lens/" "courseoutline/" "fundus/" "pbox/" "12many/" "histogr/" "universa/" "resume/" "brushscr/" "fp/" "engrec/" "vpe/" "cmap/" "curve2e/" "onlyamsmath/" "lhcyr/" "maybemath/" "epsdice/" "dingbat/" "carlisle/" "grtimes/" "jpsj/" "xq/" "microtype/" "lexikon/" "gloss/" "sidecap/" "rlepsf/" "sudokubundle/" "svninfo/" "poemscol/" "formular/" "wnri/" "mparhack/" "subeqnarray/" "pst-eps/" "pclnfss/" "octavo/" "custom-bib/" "morse/" "bbm/" "preprint/" "trajan/" "skak/" "multirow/" "toolbox/" "shortlst/" "minipage-marginpar/" "autotab/" "betababel/" "upquote/" "labels/" "cjhebrew/" "marginnote/" "ucs/" "qobitree/" "antiqua/" "achemso/" "afm2pl/" "amsfonts/" "bpchem/" "authorindex/" "cd-cover/" "everypage/" "cmll/" "alnumsec/" "variations/" "randbild/" "moresize/" "fullpict/" "barcode2/" "europecv/" "dk-bib/" "formula/" "scale/" "cjw/" "wordlike/" "pdftricks/" "tabto-ltx/" "envbig/" "totpages/" "dotseqn/" "zefonts/" "go/" "curve/" "proba/" "aeguill/" "textpos/" "endfloat/" "trsym/" "rotpages/" "polyglot/" "multitoc/" "zapfchan/" "sciwordconv/" "lineno/" "bytefield/" "calrsfs/" "gmverb/" "covington/" "algorithm2e/" "pslatex/" "floatrow/" "inlinebib/" "nrc/" "warpcol/" "clock/" "ccfonts/" "supertabular/" "acmconf/" "velthuis/" "twoup/" "vntex/" "lsc/" "iso10303/" "ulsy/" "tensor/" "labbook/" "asaetr/" "dtk/" "crossreference/" "underlin/" "makedtx/" "leaflet/" "labelcas/" "teubner/" "makecmds/" "uml/" "fmp/" "vmargin/" "geometry/" "metre/" "nature/" "amsmath/" "zapfding/" "vita/" "fancynum/" "eurosans/" "abstract/" "mltex/" "scalebar/" "pst-dbicons/" "subfig/" "footnpag/" "vhistory/" "txfonts/" "fnbreak/" "listofsymbols/" "accfonts/" "sides/" "mceinleger/" "makebox/" "rccol/" "extract/" "paresse/" "citeref/" "fixme/" "abc/" "extsizes/" "polynom/" "pst-pdgr/" "vtex/" "ebezier/" "germbib/" "draftcopy/" "seqsplit/" "qfonts/" "elmath/" "facsimile/" "yhmath/" "lastpage/" "gmdoc/" "cdpbundl/" "mcite/" "ot2cyr/" "glossary/" "sudoku/" "economic/" "marvosym/" "plates/" "statistik/" "williams/" "footmisc/" "grfpaste/" "hhtensor/" "wsuipa/" "arabi/" "tabulary/" "fancybox/" "biocon/" "ifsym/" "dinbrief/" "eiad/" "revtex/" "noitcrul/" "photo/" "mflogo/" "pbsheet/" "listliketab/" "mff/" "xytree/" "polytable/" "avantgar/" "rcsinfo/" "bibtopic/" "eskdx/" "pst-fr3d/" "qsymbols/" "mwrite/" "mdwtools/" "arcs/" "eqlist/" "multicap/" "verse/" "lcd/" "ellipsis/" "parrun/" "ticket/" "coolstr/" "showlabels/" "cd/" "mh/" "courier/" "hrlatex/" "pdftex-def/" "extpfeil/" "kluwer/" "topfloat/" "HA-prosper/" "bigfoot/" "overpic/" "newvbtm/" "titling/" "functan/" "draftwatermark/" "begriff/" "colortbl/" "swimgraf/" "acmtrans/" "compactbib/" "cm-lgc/" "smartref/" "booktabs/" "makeplot/" "lettrine/" "syntrace/" "picinpar/" "ledmac/" "bibarts/" "cwpuzzle/" "arydshln/" "computational-complexity/" "alg/" "booklet/" "dropping/" "natbib/" "ntheorem/" "mftinc/" "bardiag/" "objectz/" "splitbib/" "sectsty/" "register/" "sectionbox/" "sgame/" "bibunits/" "clefval/" "gatech-thesis/" "oberdiek/" "makeglos/" "stack/" "ebsthesis/" "eepic/" "pawpict/" "fribrief/" "newlfm/" "sf298/" "mxedruli/" "textpath/" "egplot/" "fink/" "exercise/" "rotating/" "nag/" "currvita/" "texmate/" "genmpage/" "xkeyval/" "sseq/" "emp/" "pst-geo/" "isodate/" "codepage/" "spie/" "armenian/" "soul/" "tools/" "robustindex/" "schedule/" "apacite/" "decimal/" "talk/" "listings/" "cryst/" "coollist/" "isotope/" "itrans/" "aguplus/" "eurosym/" "ntabbing/" "gmutils/" "hc/" "eurofont/" "texshade/" "ushort/" "eco/" "euler/" "othello/" "pb-diagram/" "outline/" "epigraph/" "curves/" "cmcyralt/" "eqparbox/" "psfragx/" "clrscode/" "hyper/" "linguex/" "powerdot/" "pst-osci/" "rmpage/" "warning/" "egameps/" "sttools/" "fancyhdr/" "plweb/" "multibib/" "feyn/" "stellenbosch/" "gmiflink/" "chemarrow/" "postcards/" "fontinst/" "doipubmed/" "versions/" "cheq/" "trfsigns/" "romannum/" "nomencl/" "savesym/" "ecltree/" "papertex/" "grverb/" "relenc/" "altfont/" "hfoldsty/" "ncctools/" "parallel/" "pst-uml/" "pdfwin/" "greek/" "regcount/" "snapshot/" "modroman/" "savefnmark/" "epiolmec/" "manjutex/" "ucthesis/" "juramisc/" "pst-coil/" "units/" "frenchle/" "taupin/" "hepparticles/" "miniplot/" "method/" "answers/" "pdfscreen/" "dvipdfm/" "titlesec/" "bookman/" "arabtex/" "pittetd/" "flashcards/" "foilhtml/" "dottex/" "pict2e/" "lhelp/" "hyperxmp/" "mfnfss/" "flabels/" "hepunits/" "expdlist/" "GuIT/" "base/" "dvdcoll/" "sparklines/" "showdim/" "shadethm/" "xifthen/" "menu/" "eskd/" "randtext/" "ednotes/" "pst-func/" "todo/" "ppr-prv/" "pst-eucl/" "pageno/" "nath/" "directory/" "coordsys/" "mathcomp/" "pst-pdf/" "cooking/" "bophook/" "SIunits/" "mwcls/" "bitfield/" "chappg/" "rcs/" "filecontents/" "repeatindex/" "simplecv/" "arev/" "dnaseq/" "mhchem/" "concmath/" "everysel/" "engpron/" "msg/" "cellspace/" "textopo/" "semaphor/" "songbook/" "hanging/" "dyntree/" "courier-scaled/" "boxhandler/" "etex/" "pst-labo/" "binomexp/" "bibleref/" "deleq/" "breqn/" "tocvsec2/" "logpap/" "skull/" "calxxxx/" "kalender/" "rtklage/" "ly1/" "newthm/" "flippdf/" "lettre/" "latexconfig/" "aurical/" "boites/" "em/" "cool/" "extarrows/" "dashbox/" "eso-pic/" "permute/" "mailing/" "vrsion/" "splitindex/" "technics/" "subeqn/" "savetrees/" "ltxmisc/" "datenumber/" "limap/" "ESIEEcv/" "ntgclass/" "backgammon/" "Tabbing/" "iso/" "flowfram/" "listbib/" "koma-script/" "apa/" "newfile/" "combine/" "miller/" "fc/" "footbib/" "ctib/" "srcltx/" "msc/" "vector/" "bezos/" "linearA/" "xyling/" "outliner/" "wasysym/" "umlaute/" "pseudocode/" "rsc/" "greektex/" "screenplay/" "manfnt/" "subfigure/" "karnaugh/" "cbcoptic/" "yplan/" "galois/" "shadbox/" "allrunes/" "t2/" "ncntrsbk/" "ptptex/" "musictex/" "tabvar/" "play/" "augie/" "eulervm/" "calendar/" "bizcard/" "phaistos/" "exam/" "ifmslide/" "examdesign/" "cmsd/" "logic/" "ltxindex/" "mtgreek/" "pdfcprot/" "expl3/" "ncclatex/" "aiaa/" "mafr/" "gauss/" "texlogos/" "patch/" "qcm/" "diagnose/" "fixfoot/" "ae/" "seminar/" "ascii/" "tugboat/" "ibycus-babel/" "yafoot/" "bez123/" "graphicx-psmin/" "emulateapj/" "dramatist/" "helvetic/" "volumes/" "makecell/" "program/" "active-conf/" "pagenote/" "IEEEtran/" "fmtcount/" "jurabib/" "fancyref/" "mhs/" "csquotes/" "float/" "acronym/" "was/" "probsoln/" "stdclsdv/" "psnfss/" "bbold/" "pst-fill/" "ccaption/" "ltabptch/" "semantic/" "paper/" "notes/" "imac/" "zed-csp/" "pstricks-add/" "pst-blur/" "patchcmd/" "iwona/" "fullblck/" "hvfloat/" "pst-text/" "xfrac/" "digiconfigs/" "hpsdiss/" "smalltableof/" "multibbl/" "mhequ/" "svn-multi/" "manuscript/" "refcheck/" "mentis/" "figsize/" "setspace/" "xtab/" "uaclasses/" "psgo/" "qtree/" "pst-bar/" "multenum/" "pst-light3d/" "moreverb/" "changebar/" "bera/" "algorithms/" "lipsum/" "ragged2e/" "pracjourn/" "rst/" "bayer/" "icsv/" "invoice/" "tmmath/" "attachfile/" "endheads/" "pmgraph/" "tokenizer/" "cchess/" "hieroglf/" "minutes/" "times/" "mslapa/" "bbding/" "breakurl/" "layouts/" "localloc/" "umich-thesis/" "tracking/" "perltex/" "archaic/" "textcase/" "foekfont/" "bookhands/" "eqnarray/" "easy/" "svgcolor/" "xmpincl/" "guitar/" "dictsym/" "mcaption/" "titlefoot/" "pdfpages/" "uwthesis/" "palatino/" "isorot/" "refstyle/" "jura/" "type1cm/" "apl/" "graphics/" "pst-gr3d/" "progress/" "keystroke/" "kerkis/" "pst-slpe/" "substr/" "t-angles/" "minitoc/" "doublestroke/" "youngtab/" "akletter/" "esdiff/" "ascelike/" "quotchap/" "comment/" "colorinfo/" "amscls/" "svn/" "pxfonts/" "fancyvrb/" "slantsc/" "ipa/" "floatflt/" "datetime/" "contour/" "pecha/" "pst-jtree/" "lgreek/" "appendix/" "ifacmtg/" "xdoc/" "pst-vue3d/" "york-thesis/" "typogrid/" "antt/" "coverpage/" "SIstyle/" "eqname/" "cyrillic/" "numprint/" "cooltooltips/" "csvtools/" "bussproofs/" "subfloat/" "psnfssx/" "memoir/" "braille/" "pst-circ/" "sauerj/" "ibygrk/" "robustcommand/" "bangtex/" "wordcount/" "protocol/" "movie15/" "grotesq/" "babelbib/" "cmdtrack/" "cherokee/" "sugconf/" "procIAGssymp/" "faktor/" "opcit/" "blindtext/" "montex/" "misc209/" "eCards/" "lewis/" "mla-paper/" "pdfsync/" "dichokey/" "symbol/" "umoline/" "antp/" "paralist/" "morehelp/" "algorithmicx/" "kerntest/" "semioneside/" "muthesis/" "wrapfig/" "levy/" "phonetic/" "siggraph/" "rtkinenc/" "esint/" "cuisine/" "pauldoc/" "juraabbrev/" "showexpl/" "jneurosci/" "nih/" "pst-poly/" "forloop/" "crop/" "mapcodes/" "formlett/" "enumitem/" "prettyref/" "hvmath/" "slashbox/" "lazylist/" "scientificpaper/" "concprog/" "pspicture/" "wallpaper/" "textfit/" "captcont/" "pst-infixplot/" "dcpic/" "euro/" "leftidx/" "timing/" "dashrule/" "pst-3dplot/" "complexity/" "sciposter/" "flagderiv/" "esvect/" "maple/" "cursor/" "anysize/" "tocloft/" "petri-nets/" "plari/" "placeins/" "sauterfonts/" "crosswrd/" "frcursive/" "dialogl/" "blacklettert1/" "mxd/" "auto-pst-pdf/" "bengali/" "export/" "figbib/" "nomentbl/" "pst-math/" "undertilde/" "timesht/" "etaremune/" "stage/" "cv/" "beton/" "uiucthesis/" "IEEEconf/" "rotfloat/" "ocr-latex/" "unitsdef/" "prelim2e/" "mathdesign/" "platex/" "harpoon/" "aastex/" "lcg/" "pst-grad/" "adrlist/" "a0poster/" "lkproof/" "dpfloat/" "tree-dvips/" "docmfp/" "rectopma/" "ordinalpt/" "numline/" "commath/" "bridge/" "sae/" "chess/" "syntax/" "cite/" "thesis-titlepage-fhac/" "ctable/" "coursepaper/" "stdpage/" "examplep/" "refman/" "pstricks/" "skaknew/" "oxford/" "pacioli/" "assignment/" "fourier/" "pst-optic/" "elsevier/" "hyperref/" "typedref/" "nonfloat/" "index/" "smflatex/" "gastex/" "ethiop/" "gnuplottex/" "yfonts/" "pst-barcode/" "jhep/" "cmbright/" "fncychap/" "ssqquote/" "pictex2/" "struktex/" "shorttoc/" "psfrag/" "../" "./")
+
+ ("/usr/share/texmf-texlive/tex/latex/tensor/" (19239 44881) "../" "tensor.sty" "./")
+
+ ("/media/KROKEY/scilab/" (19330 47438) "tensor_img_filter.sci" "tensor2img.sci" "same_int.sci" "tensor_filter.sci" "lenna_g.png" "lenna_svd.png" "lenna_bruit_eucl.png" "img/" "bruit_lum.sci" "bruit_lum.sci~" "img_red.sci" "img_red.sci~" "band_b.png" "met_eucl_n.sci~" "dim_red.sci~" "dim_red.sci" "band.png" "gen_image.m" "gen_image.sci~" "median_filter.sci" "mask_gauss.sci" "mask_gauss.sci~" "met_uni_mask.sci" "gen_image.sci" "met_uni.sci~" "met_uni.sci" "eucl.bmp" "hs_err_pid26084.log" "median_filter.sci~" "scale_space.sci~" "main.sci~" "replace_met.sci" "scale_space.sci" "lire_image.sci" "main.sci" "svd.bmp" "met_eucl.sci~" "var_image.sci~" "loop.sci~" "loop.sci" "met_SVD.sci" "corr2d.sci~" "di_zenzo.sci~" "affiche_image.sci" "chargement_image.sci" "met_SVD.sci~" "sip_index_true_cmap.sci" "sip_approx_true_cmap.sci" "add_comp.sci" "affiche_image_couleur.sci" "met_eucl.sci" "old/" "var_image.sci" "di_zenzo.sci" "../" "./")
+
+ ("/home/srousseau/.openoffice.org/3/user/" (19238 4086) "gallery/" "config/" "uno_packages/" "wordbook/" "psprint/" "basic/" "Scripts/" "../" "registry/" "backup/" "database/" "temp/" "autocorr/" "store/" "./" "autotext/" "template/")
+
+ ("/home/srousseau/.openoffice.org/3/" (19289 33428) "../" "user/" "./")
+
+ ("/home/srousseau/.openoffice.org/" (19238 4082) "3/" "../" "./")
+
+ ("/home/srousseau/git/" (19330 24714) "dotemacs/" "../" "./")
+
+ ("/home/srousseau/.emacs.d/nxhtml/util/" (19221 40366) "udev-flymake-css.el" "hl-needed.el" "as-external.el" "whelp.el" "ecb-batch-compile.el" "css-color.el" "useful-commands.el" "chart.el" "fupd.el" "mumamo-regions.el" "inlimg.el" "udev-ecb.el" "udev-nxhtml.el" "viper-tut.el" "vline.el" "hfyview.el" "htmlfontify.el" "ourcomments-util.el" "mumamo.el" "ourcomments-widgets.el" "sex-mode.el" "zencoding-mode.el" "rnc-mode.el" "foldit.el" "wrap-to-fill.el" "anchored-transpose.el" "winsav.el" "search-form.el" "majmodpri.el" "../" "gimpedit.el" "winsize.el" "udev.el" "web-vcs-revision.txt" "mumamo-fun.el" "css-palette.el" "cus-new-user.el" "custsets.el" "ffip.el" "udev-cedet.el" "pause.el" "org-panel.el" "nxhtml-company-mode/" "mumamo-aspnet.el" "mlinks.el" "appmenu.el" "pointback.el" "n-back.el" "buffer-bg.el" "gpl.el" "css-simple-completion.el" "mumamo-trace.el" "popcmp.el" "new-key-seq-widget.el" "html-write.el" "appmenu-fold.el" "nxml-mode-os-additions.el" "key-cat.el" "rxi.el" "fold-dwim.el" "ocr-user.el" "./" "readme.txt" "web-vcs.el" "hfy-cmap.el" "udev-rinari.el" "tyda.el" "rebind.el" "tabkey2.el")
+
+ ("/home/srousseau/.emacs.d/nxhtml/" (19317 15696) "emacs22.cmd" "related/" "nxhtml/" "../" "etc/" "zipped-utils/" "alts/" "nxhtmlmaint.el" "nxhtml-loaddefs.el" "README.txt" "util/" "tests/" "autostart22.el" "./" "autostart.el")
+
+ ("/media/cdrom/" (19193 14077) "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP_IMAGE/TP5_FILTRAGE/" (19145 57312) "CODE/" "SUJET/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP_IMAGE/" (19289 33422) "trans.sh~" "encoding.sh" "TP7_QUANTIFICATION/" "TP6_HUFFMAN/" "groupe/" "TP5_FILTRAGE/" "TP4_MORPHO/" "TP3_FOURIER/" "TP1_HISTOGRAMME/" "TP2_SEUILLAGE/" "trans.sh" "delete_link~" "scilab-quickref_fr-2.pdf" "notes.ods" "TP8_JPEG/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP_ESIP/" (19303 64344) "notes_esip.ods" "SignauxSystemes/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/" (19303 64344) "TP_IMAGE/" "TP_ESIP/" "../" "./")
+
+ ("/media/KROKEY/programming/python/ode-geodesic/img/" (19284 26896) "lenna_rouge.png" "lenna_vp2.png" "lenna_vp.png" "2CV_R.img" "2CV_G.img" "2CV_B.img" "the.jpg" "the.bmp" "rbg_image.bmp" "rbg.bmp" "GY.bmp" "GB.bmp" "disque_rouge.bmp" "croissant_rouge.png" "croissant_gris.png" "croissant_eucl.png" "croissant.bmp" "2CV.tif" "lenna.png" "lenna2.png" "../" "./")
+
+ ("/media/KROKEY/programming/python/" (19302 43560) "ode-geodesic/" "../" "./")
+
+ ("/media/KROKEY/programming/" (19302 43560) "python/" "NetBeansProjects/" "c-projects/" "matlab/" "ruby-scripts/" "greasemonkey-scripts/" "emacs/" "bash-scripts/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP6_HUFFMAN/SUJET/" (19288 13548) "macro.sty" "huffman.tex~" "huffman.dvi" "huffman.aux" "huffman.tex" "huffman.log" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/Akermi-Bois/TP8_AKERMI_BOIS/" (19231 58346) "TP8.sci" "lenna.img" "chargement_image.sci" "affiche_image.sci" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/Akermi-Bois/" (19288 8070) "TP8_AKERMI_BOIS/" "TP7_AKERMI_BOIS/" "TP6_AKERMI_BOIS/" "TP8_AKERMI_BOIS.zip" "TP6_AKERMI_BOIS.zip" "TP7_AKERMI_BOIS.zip" "TP5_AKERMI_BOIS.zip" "TP5_AKERMI_BOIS/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/" (19289 27171) ".~lock.notes.ods#" "trans.sh~" "encoding.sh" "TP7_QUANTIFICATION/" "TP6_HUFFMAN/" "groupe/" "TP5_FILTRAGE/" "TP4_MORPHO/" "TP3_FOURIER/" "TP1_HISTOGRAMME/" "TP2_SEUILLAGE/" "trans.sh" "delete_link~" "scilab-quickref_fr-2.pdf" "notes.ods" "TP8_JPEG/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP6_HUFFMAN/" (19145 57308) "CODE/" "SUJET/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/" (19219 56446) "autogen.sh~" "Zong-Jiang/" "autogen.sh" "Li-Shi/" "Lefort-Plault/" "Guiochon-Lavenaire/" "Gbehounou-Yuan/" "Dogan-Gueu/" "Blaidy-Tamele/" "Akermi-Bois/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/groupe/Blaidy-Tamele/" (19288 8081) "DCT.sci" "huffman.sci" "quantif.sci" "filtre_lisseur.sci" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/SUJET/" (19275 20012) "zigzag_nb.jpg" "tp_jpeg.lol" "macro.sty~" "macro.sty" "tp_jpeg.tex~" "tp_jpeg.dvi" "tp_jpeg.aux" "tp_jpeg.tex" "tp_jpeg.log" "tp_JPEG.pdf" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP1_HISTOGRAMME/SUJET/" (19275 20012) "macro.sty~" "macro.sty" "tp_histo.tex~" "tp_histo.dvi" "tp_histo.pdf" "tp_histo.log" "tp_histo.aux" "tp_histo.bbl" "tp_histo.blg" "tp_histo.tex" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP1_HISTOGRAMME/" (19226 34716) "egal_histo.sci~" "test.sci~" "CODE/" "SUJET/" "../" "./")
+
+ ("/usr/" (19196 6897) "games/" "local/" "bin/" "lib32/" "lib64/" "include/" "../" "src/" "lib/" "share/" "sbin/" "./")
+
+ ("/usr/share/emacs/" (19193 24104) "../" "site-lisp/" "23.1/" "./")
+
+ ("/usr/share/emacs/23.1/" (19193 24106) "lisp/" "../" "etc/" "site-lisp/" "leim/" "./")
+
+ ("/usr/share/emacs/23.1/etc/" (19239 44788) "MACHINES" "grep.txt" "ETAGS.README" "ERC-NEWS" "ps-prin1.ps" "NEWS.18" "emacs3.py" "e/" "INTERVIEW" "COPYING" "emacs2.py" "sex.6" "spook.lines" "MOTIVATION" "DISTRIB" "CENSORSHIP" "GNU" "DEBUG" "TODO" "NEWS.1-17" "ORDERS" "HELLO" "condom.1" "SERVICE" "gnus-tut.txt" "rgb.txt" "MORE.STUFF" "emacs-buffer.gdb" "refcards/" "ses-example.ses" "NEWS" "ps-prin0.ps" "celibacy.1" "../" "NEWS.22" "LINUX-GNU" "BABYL" "charsets/" "GNUS-NEWS" "emacs.bash" "ms-kermit" "CONTRIBUTE" "images/" "README" "echo.msg" "ETAGS.EBNF" "FTP" "JOKES" "NXML-NEWS" "WHY-FREE" "yow.lines" "NEWS.19" "COOKIES" "MH-E-NEWS" "THE-GNU-PROJECT" "compilation.txt" "copying.paper" "emacs.icon" "future-bug" "nxml/" "NEWS.21" "enriched.doc" "edt-user.doc" "emacs.py" "forms-d2.dat" "DEVEL.HUMOR" "DOC-23.1.1" "MAILINGLISTS" "AUTHORS" "tutorials/" "emacs.csh" "schema/" "./" "TERMS" "NEWS.20" "gnus/" "PROBLEMS")
+
+ ("/usr/share/emacs/23.1/etc/refcards/" (19239 44788) "gnus-refcard.tex" "cs-survival.tex" "orgcard.pdf" "calccard.tex" "pt-br-refcard.tex" "Makefile" "sk-survival.tex" "gnus-refcard.pdf" "pdflayout.sty" "sk-dired-ref.tex" "sk-dired-ref.pdf" "dired-ref.tex" "dired-ref.pdf" "calccard.pdf" "survival.tex" "orgcard.tex" "fr-dired-ref.pdf" "sk-refcard.tex" "fr-refcard.pdf" "../" "de-refcard.tex" "gnus-booklet.pdf" "ru-refcard.tex" "README" "sk-refcard.pdf" "gnus-logo.pdf" "pl-refcard.pdf" "fr-survival.tex" "cs-refcard.tex" "viperCard.tex" "cs-dired-ref.pdf" "vipcard.tex" "refcard.pdf" "cs-refcard.pdf" "pl-refcard.tex" "fr-dired-ref.tex" "de-refcard.pdf" "refcard.tex" "gnus-logo.eps" "fr-refcard.tex" "./" "pt-br-refcard.pdf" "cs-dired-ref.tex" "ru-refcard.pdf")
+
+ ("/media/KROKEY/scilab/dim_red/" (19268 41838) "dim_red.sci~" "../" "./")
+
+ ("/media/KROKEY/programming/ruby-scripts/contrepétries/" (19140 35612) "contrepétries-triées-1248288780.90857" "similar" "contrepétries-triées-1248282947.18529.yaml" "contrepétries-triées-1246999931.63571.yaml" "contrepétries-triées-1246999362.78656.yaml" "contrepétries-triées-1246998701.11202.yaml" "contrepétries-triées-1246993270.70883.yaml" "contrepétries-triées-1246993167.23827.yaml" "leventest.rb~" "contrepétries-triées-1243429763.36301" "contrepetBDD.rb" "contrepetBDD.rb~" "reorderlastandsave.rb~" "main.rb" "log_file2.log" "contrepet2.rb~" "compare/" "vrac/" "contrepétries-triées-1243430046.61388" "levenshtein.rb~" "data/" "main.rb~" ".desc" "reorderlastandsave.rb" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/CODE/CORRECTION/" (19229 3036) "test.sci~" "test.sci" "RLE.sci" "quant_JPEG.sci" "perf.sci" "iDCT.sci" "gen_bmp.sci" "eqm.sci" "dequant_JPEG.sci" "decompression_JPEG.sci" "DCT.sci" "compression_JPEG.sci" "chargement_image.sci" "affiche_image.sci" "lenna.img" "lennas/" "autre/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/CODE/" (19226 34710) "perf.sci~" "decompression_JPEG.sci~" "compression_JPEG.sci~" "chargement_image.sci~" "eqm.sci~" "affiche_image.sci~" "RLE.sci~" "gen_bmp.sci~" "iDCT.sci~" "DCT.sci~" "CORRECTION/" "A_DONNER/" "../" "./")
+
+ ("/media/KROKEY/enseignements/2009-2010/TP/TP8_JPEG/" (19145 57300) "CODE/" "SUJET/" "../" "./")
+
+ ("/home/srousseau/.emacs.d/ecb-2.40/" (18958 49297) "ecb-analyse.el" "ecb-autoloads.el" "ecb-symboldef.el" "ecb-compatibility.el" "ecb-face.el" "ecb-file-browser.el" "ecb-util.el" "info-help/" "ecb-navigate.el" "Makefile" "ecb-tod.el" "ecb-layout.el" "ecb.el" "ecb-jde.el" "ecb-mode-line.el" "ecb-autogen.el" "ecb-cedet-wrapper.el" "ecb-compilation.el" "ecb-speedbar.el" "NEWS" "../" "ecb-winman-support.el" "ecb-examples.el" "html-help/" "ecb-layout-defs.el" "README" "ecb.texi" "ecb-help.el" "ecb-cycle.el" "ecb-makedef.mk" "ecb-create-layout.el" "RELEASE_NOTES" "ecb-eshell.el" "ecb-common-browser.el" "ecb-advice-test.el" "./" "ecb-images/" "ecb-upgrade.el" "ecb-method-browser.el" "tree-buffer.el" "silentcomp.el" "make.bat")
+
+ ("/home/srousseau/.emacs.d/ecb-2.40/info-help/" (18958 49297) "ecb.info-3" "ecb.info-2" "../" "ecb.info" "./" "ecb.info-1")
+
+ ("/media/KROKEY/enseignements/" (19157 51266) "2009-2010/" "../" "./")
+
+ ("/home/" (19219 55822) "admsys/" "../" "srousseau/" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

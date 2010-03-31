@@ -3,7 +3,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 (load "elscreen" "ElScreen" t)
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
+(require 'auto-install)
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
@@ -58,10 +58,6 @@
 (show-paren-mode 1)
 
 
-;; Auto-indentation
-(add-hook 'emacs-lisp-mode-hook 
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
 
 
 ;; sélection avec les flèches dans buffer-list
@@ -81,7 +77,7 @@
 		 ))
 	       ("KROKEY's programming"
 		(filename . "/media/KROKEY/programming/"))
-	       ("Programming" ;; prog stuff not already in MyProjectX
+	       ("Programming" 
 		(or
 		 (mode . c-mode)
 		 (mode . perl-mode)
@@ -90,6 +86,15 @@
 		 (mode . ruby-mode)
 		 ;; etc
 		 ))
+	       ("crap" (or
+                        (name . "^\\*trace")
+                        (name . "^\\*completions")
+                        (name . "^\\*Quail")
+                        (name . "^\\*magit")
+                        (name . "^\\*Backtrace\\*$")
+                        (name . "^\\*compilation\\*$")
+                        (name . "^\\*scratch\\*$")
+                        (name . "^\\*Messages\\*$")))
 	       ("ERC" (mode . erc-mode))))))
 
 (add-hook 'ibuffer-mode-hook
@@ -104,9 +109,11 @@
 ;; kill-ring-save (M-w) copie la ligne si aucune region active
 (defadvice kill-ring-save (before slick-copy activate compile) "When called
 interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end)) (message
-								       "Copied line") (list (line-beginning-position) (line-beginning-position
-														       2)))))
+  (interactive
+    (if mark-active
+      (list (region-beginning) (region-end))
+      (message "Copied line")
+      (list (line-beginning-position) (line-beginning-position 2)))))
 
 ;; kill-region (C-w) coupe la ligne courante si aucune region active
 (defadvice kill-region (before slick-cut activate compile)
@@ -132,14 +139,27 @@ interactively with no active region, copy a single line instead."
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; pas de backup n'importe où...
-(setq backup-directory-alist '(("." . "~/.emacs.d/emacs.backups")))
+;; put something different in the scratch buffer
+(setq initial-scratch-message
+  ";; scratch buffer created -- happy hacking\n")
+
+;; backups
+(setq make-backup-files t ;; do make backups
+  backup-by-copying t     ;; and copy them here
+  backup-directory-alist '(("." . "~/.emacs.d/emacs.backups"))
+  version-control t
+  kept-new-versions 2
+  kept-old-versions 5
+  delete-old-versions t)
+
 
 ;; ouverture rapide avec la touche windows
-(global-set-key (kbd "s-S") ;; scratch
+(global-set-key (kbd "s-s s") ;; scratch
 		(lambda()(interactive)(switch-to-buffer "*scratch*")))
-(global-set-key (kbd "s-E") ;; .emacs
+(global-set-key (kbd "s-s e") ;; .emacs
 		(lambda()(interactive)(find-file "~/.emacs")))
+(global-set-key (kbd "s-s o") ;; .emacs
+		(lambda()(interactive)(find-file "/media/KROKEY/Documents/org/TODO.org")))
 
 ;; se rappelle ou je suis dans un fichier
 ;;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
@@ -157,11 +177,8 @@ interactively with no active region, copy a single line instead."
 
 
 ;; Numérotation des lignes dans la marge
-(if (>= emacs-major-version 23) (require 'linum))
-
-;;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
-;;marche pas
-;;(setq minor-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\|\\.tex\\)" . (linum-mode 1)) minor-mode-alist))
+(require 'linum)
+(global-linum-mode 1)
 
 ;; Correction orthographique
 (setq ispell-dictionary "francais")
@@ -242,6 +259,7 @@ interactively with no active region, copy a single line instead."
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
 ;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
+;; Use C-f during file selection to switch to regular find-file
 (require 'ido)
 
 (ido-mode t)
@@ -363,6 +381,9 @@ interactively with no active region, copy a single line instead."
 ;; souvenait pas qu'il y avait un caractère en majuscules...
 (setq completion-ignore-case t)
 
+;; filenames too, to browse with dired for example...
+(setq read-file-name-completion-ignore-case t)
+
 
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
@@ -448,23 +469,62 @@ interactively with no active region, copy a single line instead."
 ;; Drive out the mouse when it's too near to the cursor.
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
 
+
+(setq x-select-enable-clipboard t        ; copy-paste should work ...
+      interprogram-paste-function            ; ...with...
+      'x-cut-buffer-or-selection-value)      ; ...other X clients
+
+
+;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
-;; eldoc for quick reference
+;; Customized Emacs Lisp mode
+(add-hook 'emacs-lisp-mode-hook 
+	  '(lambda ()
+	     (local-set-key (kbd "RET") 'newline-and-indent)))
+
 (require 'eldoc)
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+(add-hook 'emacs-lisp-mode-hook 
+  (lambda()
+    (setq mode-name "ELisp")
+    (local-set-key (kbd "C-<f7>") ;; overrides global C-f7 (compile) 
+      '(lambda()(interactive) 
+         (let ((debug-on-error t)) 
+           (eval-buffer)
+           (message "buffer evaluated")))) ; 
+
+    ;; complete lisp symbols as well
+    (make-local-variable 'hippie-expand-try-functions-list)
+    (setq hippie-expand-try-functions-list
+      '(yas/hippie-try-expand
+        try-complete-lisp-symbol))
+
+    (linum-mode t)
+    (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
+    (require 'folding nil 'noerror)
+    (font-lock-add-keywords nil '(("^[^;\n]\\{80\\}\\(.*\\)$"
+                                    1 font-lock-warning-face prepend)))
+    (font-lock-add-keywords nil 
+      '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 
+          1 font-lock-warning-face prepend)))  
+    (font-lock-add-keywords nil 
+      '(("\\<\\(add-hook\\|setq\\)" 
+          1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
 (delete-selection-mode 1)
+
 
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
 ;; This was installed by package-install.el.
 ;; This provides support for the package system and
 ;; interfacing with ELPA, the package archive.
