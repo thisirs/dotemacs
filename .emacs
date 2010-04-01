@@ -3,7 +3,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 (load "elscreen" "ElScreen" t)
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
@@ -59,13 +58,11 @@
 
 
 ;; Auto-indentation
-(add-hook 'emacs-lisp-mode-hook 
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
+;; (add-hook 'emacs-lisp-mode-hook 
+;; 	  '(lambda ()
+;; 	     (local-set-key (kbd "RET") 'newline-and-indent)))
 
 
-;; sélection avec les flèches dans buffer-list
-;;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 
 (require 'ibuffer)
 
@@ -102,13 +99,17 @@
 
 
 ;; kill-ring-save (M-w) copie la ligne si aucune region active
-(defadvice kill-ring-save (before slick-copy activate compile) "When called
-interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end)) (message
-								       "Copied line") (list (line-beginning-position) (line-beginning-position
-														       2)))))
+(defadvice kill-ring-save (before slick-copy activate compile)
+  "When called interactively with no active region, copy a single line instead."
+  (interactive
+   (if mark-active
+       (list
+	(region-beginning)
+	(region-end))
+     (message "Copied line")
+     (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; kill-region (C-w) coupe la ligne courante si aucune region active
+;; kill-region (C-w) coupe la ligne courante si aucune région active
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
@@ -157,11 +158,10 @@ interactively with no active region, copy a single line instead."
 
 
 ;; Numérotation des lignes dans la marge
-(if (>= emacs-major-version 23) (require 'linum))
-
-;;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
-;;marche pas
-;;(setq minor-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\|\\.tex\\)" . (linum-mode 1)) minor-mode-alist))
+(if (>= emacs-major-version 23)
+    (progn
+      (require 'linum)
+      (global-linum-mode 1)))
 
 ;; Correction orthographique
 (setq ispell-dictionary "francais")
@@ -179,6 +179,7 @@ interactively with no active region, copy a single line instead."
 
 ;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(require 'color-theme)
 
 ;; Scilab
 ;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
@@ -238,11 +239,20 @@ interactively with no active region, copy a single line instead."
     (goto-char (point-min))
     (replace-string "\\^i" "î")))
 
-(add-hook 'LaTeX-mode-hook (lambda ()
-			     (local-set-key (kbd "M-b")
-					    '(lambda () (interactive) (insert "{\\bf }") (backward-char)))
-			     (local-set-key (kbd "M-c")
-					    '(lambda () (interactive) (insert "{\\tt }") (backward-char)))))
+(add-hook 'LaTeX-mode-hook
+	  (lambda ()
+	    (local-set-key
+	     (kbd "M-b")
+	     '(lambda ()
+		(interactive)
+		(insert "{\\bf }")
+		(backward-char)))
+	    (local-set-key
+	     (kbd "M-c")
+	     '(lambda ()
+		(interactive)
+		(insert "{\\tt }")
+		(backward-char)))))
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
@@ -396,15 +406,6 @@ interactively with no active region, copy a single line instead."
 (global-set-key [(f2)] 'change-to-utf-8)
 
 
-;; directory to put various el files into
-;;(add-to-list 'load-path "~/.emacs.d")
-
-;; loads ruby mode when a .rb file is opened.
-;;(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-;;(setq auto-mode-alist (cons '(".rb$" . ruby-mode) auto-mode-alist))
-;;(setq auto-mode-alist (cons '(".rhtml$" . html-mode) auto-mode-alist))
-
-
 (require 'ruby-electric)
 
 
@@ -470,6 +471,8 @@ interactively with no active region, copy a single line instead."
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+
 ;; This was installed by package-install.el.
 ;; This provides support for the package system and
 ;; interfacing with ELPA, the package archive.
@@ -480,7 +483,6 @@ interactively with no active region, copy a single line instead."
      (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
-(define-key global-map (kbd "RET") 'reindent-then-newline-and-indent)
 
 ;; additional menu
 (require 'easymenu)
