@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\title{État d'avancement}
+\begin{document}
+
+\maketitle
+
+\section{Titre de la thèse préparée}
+Utilisation des algèbres géométriques pour l'imagerie multispectrale.
+
+\section{Présentation des principaux résultats obtenus}
+\begin{itemize}
+  \item Bibliographie sur l'utilisation des algèbres géométriques pour l'imagerie.
+  \item Mise à niveau en géométrie riemannienne.
+  \item Etude de plusieurs articles traitant de l'utilisation des outils de géométrie différentielle pour traiter une image.
+  \item Synthèse des recherches dans un article en cours de soumission.
+\end{itemize}
+\section{Axes de recherches prévus pour 2010/2011}
+\begin{itemize}
+  \item Tenseur de structure d'une image.
+  \item Probabilités et statistiques sur les variétés riemanniennes.
+\end{itemize}
+
+\end{document}

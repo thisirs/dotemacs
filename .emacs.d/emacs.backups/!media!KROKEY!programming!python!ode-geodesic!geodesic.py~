@@ -1,0 +1,341 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import numpy
+from numpy import zeros, matrix, ones, array, double, eye, max, save, load, min
+from scipy.integrate import odeint, ode
+from scipy.misc import imread, imshow, imsave
+from scipy import gradient
+from math import floor, ceil, sqrt
+from matplotlib.pyplot import plot, axis, colormaps
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.cm import gray
+from scipy.ndimage.filters import gaussian_filter
+
+def met_eucl():
+    "Retourne la métrique euclidienne"
+    metric=zeros((3, 3, 256, 256, 256), dtype=float)
+    e=slice(0,256)
+    metric[0, 0, e, e, e]=1
+    metric[1, 1, e, e, e]=1
+    metric[2, 2, e, e, e]=1
+    return metric
+
+
+def eigen(E, F, G):
+    (M, N)=E.shape
+    eig=zeros(E.shape, dtype=float)
+    for i in xrange(M):
+        for j in xrange(N):
+            eig[i, j]=sqrt(sqrt((E[i, j]-G[i, j])**2+4*F[i, j]**2))
+    return eig
+        
+        
+def smooth(E, F, G, sigma=1):
+    "lisse E, F, G et recalcule l'inverse en conséquence"
+    (M, N)=E.shape
+    E=gaussian_filter(E, sigma)
+    F=gaussian_filter(F, sigma)
+    G=gaussian_filter(G, sigma)
+    Einv = zeros((M, N), dtype=float)
+    Finv = zeros((M, N), dtype=float)
+    Ginv = zeros((M, N), dtype=float)
+    for i in xrange(M):
+        for j in xrange(N):
+            e=E[i, j]
+            f=F[i, j]
+            g=G[i, j]
+            d=e*g-f*f
+            Einv[i, j]=g/d
+            Finv[i, j]=-f/d
+            Ginv[i, j]=e/d
+    return E, F, G, Einv, Finv, Ginv
+            
+
+def pullback(img, met):
+    "réalise le pullback de la variété img plongée dans R^3 munie de la métrique metric"
+
+    print("Calcul des gradients de l'image.")
+    (grad_R_y, grad_R_x) = gradient(img[:, :, 0])
+    (grad_G_y, grad_G_x) = gradient(img[:, :, 1])
+    (grad_B_y, grad_B_x) = gradient(img[:, :, 2])
+    
+    print("Calcul de la première forme fondamentale.")
+    (M, N, plouf) = img.shape
+    size_img = (M, N)
+    pb_metric = zeros((2, 2) + (M, N), dtype=float)
+    E = zeros(size_img, dtype=float)
+    F = zeros(size_img, dtype=float)
+    G = zeros(size_img, dtype=float)
+    Einv = zeros(size_img, dtype=float)
+    Finv = zeros(size_img, dtype=float)
+    Ginv = zeros(size_img, dtype=float)
+
+    print("Calcul du pullback.")
+    for n in xrange(0, M):
+        for m in xrange(0, N):
+            J=matrix([[grad_R_x[n, m], grad_G_x[n, m], grad_B_x[n, m]], [grad_R_y[n, m], grad_G_y[n, m], grad_B_y[n, m]]], dtype=float)
+            (a, b, c)=img[n, m, :]
+            #metric=met[:, :, a, b, c]
+            #pb=J*metric*J.transpose()
+            pb=J*J.transpose()
+            pb_metric[:, :, n, m] = pb
+            e=pb[0, 0]
+            f=pb[0, 1]
+            g=pb[1, 1]
+            e+=0.00001
+            g+=0.00001
+            d=e*g-f*f
+            Einv[n, m]=g/d
+            Finv[n, m]=-f/d
+            Ginv[n, m]=e/d
+            E[n, m]=e
+            F[n, m]=f
+            G[n, m]=g
+    return E, F, G, Einv, Finv, Ginv
+    
+def metric_eucl():
+    size_img=(100, 100)
+    E = eye(100, dtype=float)
+    F = zeros(size_img, dtype=float)
+    G = eye(100, dtype=float)
+    Einv = eye(100, dtype=float)
+    Finv = zeros(size_img, dtype=float)
+    Ginv = eye(100, dtype=float)
+    return (E, F, G, Einv, Finv, Ginv)
+
+def metric_test(size_img=(100, 100)):
+    E=zeros(size_img, dtype=float)
+    G=zeros(size_img, dtype=float)
+    F=zeros(size_img, dtype=float)
+    Einv=zeros(size_img, dtype=float)
+    Finv=zeros(size_img, dtype=float)
+    Ginv=zeros(size_img, dtype=float)
+
+    for i in xrange(size_img[0]):
+        for j in xrange(size_img[1]):
+            E[i, j]=1./(j+10)**2
+            F[i, j]=1./100*i
+            G[i, j]=1./(j+100)**2
+            d=E[i, j]*G[i, j]-F[i, j]**2
+            Einv[i, j]=G[i, j]/d
+            Finv[i, j]=-Finv[i, j]/d
+            Ginv[i, j]=E[i, j]/d
+
+    return E, F, G, Einv, Finv, Ginv
+    
+def metric_poincare(size_img=(100, 100)):
+    "renvoie la métrique de Poincaré sur le demi plan"
+    E=zeros(size_img, dtype=float)
+    G=zeros(size_img, dtype=float)
+    F=zeros(size_img, dtype=float)
+    Einv=zeros(size_img, dtype=float)
+    Finv=zeros(size_img, dtype=float)
+    Ginv=zeros(size_img, dtype=float)
+
+    for i in xrange(size_img[0]):
+        for j in xrange(size_img[1]):
+            E[i, j]=1./(j+100)**2
+            G[i, j]=1./(j+100)**2
+            Einv[i, j]=(j+100)**2
+            Ginv[i, j]=(j+100)**2
+
+    return E, F, G, Einv, Finv, Ginv
+
+def christoffel(E, F, G, Einv, Finv, Ginv):
+    (Ey, Ex)=gradient(E)
+    (Fy, Fx)=gradient(F)
+    (Gy, Gx)=gradient(G)
+    return (0.5*Einv*Ex+0.5*Finv*(2*Fx-Ey),
+            0.5*Einv*Ey+0.5*Finv*Gx,
+            0.5*Einv*(2*Fy-Gx)+0.5*Finv*Gy,
+            0.5*Finv*Ex+0.5*Ginv*(2*Fx-Ey),
+            0.5*Finv*Ey+0.5*Ginv*Gx,
+            0.5*Finv*(2*Fy-Gx)+0.5*Ginv*Gy)
+
+def geodesic(E, F, G, Einv, Finv, Ginv):
+    "calcul les géodésiques avec la première forme"
+
+    print("Calcul des symboles de Christoffel.")
+    C111, C112, C122, C211, C212, C222 = christoffel(E, F, G, Einv, Finv, Ginv)
+    
+    def dist(a, b, c, d):
+        return sqrt((a-c)**2+(b-d)**2)
+
+    def val(tab, xx, yy):
+        i=floor(xx)
+        j=floor(yy)
+        v1=tab[i, j]
+        d1=dist(i, j, xx, yy)
+        v2=tab[i, j+1]
+        d2=dist(i, j+1, xx, yy)
+        v3=tab[i+1, j]
+        d3=dist(i+1, j, xx, yy)
+        v4=tab[i+1, j+1]
+        d4=dist(i+1, j+1, xx, yy)
+        if d1==0:
+            return tab[i, j]
+        if d2==0:
+            return tab[i, j+1]
+        if d3==0:
+            return tab[i+1, j]
+        if d4==0:
+            return tab[i+1, j+1]
+        return ((1/d1)*v1+(1/d2)*v2+(1/d3)*v3+(1/d4)*v4)/(1/d1+1/d2+1/d3+1/d4)
+
+    def func(y, t0):
+        xx=round(y[0])
+        yy=round(y[2])
+        return [y[1],
+                -val(C111, xx, yy)*y[1]**2-2*val(C112, xx, yy)*y[1]*y[3]-val(C122, xx, yy)*y[3]**2,
+                y[3],
+                -val(C211, xx, yy)*y[1]**2-2*val(C212, xx, yy)*y[1]*y[3]-val(C222, xx, yy)*y[3]**2]
+
+    def func4(y, t0):
+        xx=round(y[0])
+        yy=round(y[2])
+        return [y[1],
+                -C111[xx, yy]*y[1]**2-2*C112[xx, yy]*y[1]*y[3]-C122[xx, yy]*y[3]**2,
+                y[3],
+                -C211[xx, yy]*y[1]**2-2*C212[xx, yy]*y[1]*y[3]-C222[xx, yy]*y[3]**2]
+    
+    def func3(y, t):
+        xx=round(y[0])
+        yy=round(y[2])
+        return [y[1],
+                2*y[1]*y[3]/yy,
+                y[3],
+                -y[1]**2/yy+y[3]**2/yy]
+        
+    print("Résolution de l'équation différentielle.")
+
+    y = odeint(func4, [10, 0.1, 20, 0.1], [x for x in range(100)])
+    y=array(y)
+    return y[:,[0, 2]]
+
+    def func2(y, t):
+        xx=y[0]
+        yy=y[2]
+        return [y[1],
+                -val(C111, xx, yy)*y[1]**2-2*val(C112, xx, yy)*y[1]*y[3]-val(C122, xx, yy)*y[3]**2,
+                y[3],
+                -val(C211, xx, yy)*y[1]**2-2*val(C212, xx, yy)*y[1]*y[3]-val(C222, xx, yy)*y[3]**2]
+
+
+def demo_poincare_theorique():
+    "equa diff purement théorique"
+    def func(y, t):
+        return [y[1],
+                2*y[1]*y[3]/y[2],
+                y[3],
+                -y[1]**2/y[2]+y[3]**2/y[2]]
+
+    y,_ = odeint(func, [10, 1, 10, 1], [x for x in range(100)])
+    y=array(y)
+    return y
+    
+    
+        
+def demo_poincare():
+    (E, F, G, Einv, Finv, Ginv)=metric_test((500, 500))
+    y=geodesic(E, F, G, Einv, Finv, Ginv)
+    affiche_courbe(y)
+
+
+def affiche(y, img, E, F, G, Einv, Finv, Ginv):
+    plt.figure()
+    plt.subplot(231)
+    #plt.axis([0, 0, 1, -1])
+    plt.imshow(numpy.asarray(255*img, numpy.uint8))
+    plt.plot(y[:, 0], y[:, 1], 'rx')
+    plt.plot(y[:, 0], y[:, 1], 'b')
+    plt.subplot(232)
+    eig=eigen(E, F, G)
+    plt.imshow(numpy.asarray(eig, numpy.uint8), cmap=cm.gray)
+
+    plt.subplot(234)
+    mE=max(E)
+    mF=max(F)
+    mG=max(G)
+    m=max([mE, mF, mG])
+    print(E, F, G)
+    plt.imshow(numpy.asarray(255*E/m, numpy.uint8), cmap=cm.gray)
+    plt.subplot(235)
+    plt.imshow(numpy.asarray(255*(F-min(F))/m, numpy.uint8), cmap=cm.gray)
+    plt.subplot(236)
+    plt.imshow(numpy.asarray(255*G/m, numpy.uint8), cmap=cm.gray)
+    plt.show()
+
+def affiche_courbe(y, img=None):
+    plt.figure()
+    if img != None:
+        plt.imshow(numpy.asarray(img, numpy.uint8))
+        plt.xlim(0, img.shape[0])
+        plt.ylim(0, img.shape[1])
+    plt.plot(y[:, 0], y[:, 1], 'rx')
+    plt.plot(y[:, 0], y[:, 1], 'b')
+    plt.show()
+
+if __name__ == "__main__":
+    lenna=double(imread('img/path.png'))/255
+    #demo_poincare()
+    #(grad_R_y, grad_R_x) = gradient(lenna[:, :, 0])
+    #imshow(abs(grad_R_x))
+    
+    met=met_eucl()
+    (E, F, G, Einv, Finv, Ginv)=pullback(lenna, met)
+    save('E', E)
+    save('F', F)
+    save('G', G)
+    save('Einv', Einv)
+    save('Finv', Finv)
+    save('Ginv', Ginv)
+
+    E=load('E.npy')
+    F=load('F.npy')
+    G=load('G.npy')
+    Einv=load('Einv.npy')
+    Finv=load('Finv.npy')
+    Ginv=load('Ginv.npy')
+    y=geodesic(E, F, G, Einv, Finv, Ginv)
+    affiche(y, lenna, E, F, G, Einv, Finv, Ginv)
+        
+    #imshow(E/max(E)*255)
+        #imshow(lenna)
+    #eigen(E, F, G)
+    #del(met)
+    #(E, F, G, Einv, Finv, Ginv)=metric_poincare()
+    #geodesic(E, F, G, Einv, Finv, Ginv)
+    #x=r_[-10:10:100j]
+    #y=r_[-10:10:100j]
+    #z= add.outer(x*x, y*y)
+    ### Contour plot of z = x**2 + y**2
+    #p.contour(x,y,z)
+    ### ContourF plot of z = x**2 + y**2
+    #p.figure()
+    #p.contourf(x,y,z)
+    #p.show()
+    #demo_poincare_theorique()
+    #(E, F, G, Einv, Finv, Ginv)=metric_poincare((500, 500))
+    #C111, C112, C122, C211, C212, C222 = christoffel(E, F, G, Einv, Finv, Ginv)
+    #(E, F, G, Einv, Finv, Ginv)=smooth(E, F, G, sigma=10)
+    #eigen(E, F, G)
+    #E, F, G, Einv, Finv, Ginv=smooth(E, F, G, sigma=0.2)
+    #imshow(abs(E)/max(E))
+    #imshow(abs(F)/max(F))
+    #imshow(abs(G)/max(G))
+    #y=geodesic(E, F, G, Einv, Finv, Ginv)
+    #affiche_courbe(y, lenna)
+    #demo_poincare()
+    #(Ey, Ex)=gradient(E)
+    #(Fy, Fx)=gradient(F)
+    #(Gy, Gx)=gradient(G)
+    #print(Ey)
+    #print(C112)
+    #img=double(imread('img/test_grad.png'))
+    #imshow(img)
+    #(grad_R_y, grad_R_x) = gradient(img[:, :, 0])
+    #imshow(grad_R_x*255)
+
+    #imshow(E)
