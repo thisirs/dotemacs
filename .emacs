@@ -57,7 +57,16 @@
 (load-library "paren")
 (show-paren-mode 1)
 
-
+(defun rename-current-file-or-buffer ()
+  (interactive)
+  (if (not (buffer-file-name))
+      (call-interactively 'rename-buffer)
+    (let ((file (buffer-file-name)))
+      (with-temp-buffer
+        (set-buffer (dired-noselect file))
+        (dired-do-rename)
+        (kill-buffer nil))))
+  nil)
 
 
 ;; sélection avec les flèches dans buffer-list
@@ -104,18 +113,14 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
-
-
 ;; kill-ring-save (M-w) copie la ligne si aucune region active
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive
-   (if mark-active
-       (list
-	(region-beginning)
-	(region-end))
-     (message "Copied line")
-     (list (line-beginning-position) (line-beginning-position 2)))))
+    (if mark-active
+      (list (region-beginning) (region-end))
+      (message "Copied line")
+      (list (line-beginning-position) (line-beginning-position 2)))))
 
 ;; kill-region (C-w) coupe la ligne courante si aucune région active
 (defadvice kill-region (before slick-cut activate compile)
@@ -510,7 +515,11 @@
           1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
-(delete-selection-mode 1)
+;; by default on Emacs 23
+;;(delete-selection-mode 1)
+
+;; Text selection highlighted by default on Emacs 23
+;;(transient-mark-mode t)
 
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
