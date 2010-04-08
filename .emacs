@@ -162,11 +162,12 @@
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
-		(lambda()(interactive)(switch-to-buffer "*scratch*")))
+		(lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-		(lambda()(interactive)(find-file "~/.emacs")))
+		(lambda () (interactive) (find-file "~/.emacs")))
 (global-set-key (kbd "s-s o") ;; .emacs
-		(lambda()(interactive)(find-file "/media/KROKEY/Documents/org/TODO.org")))
+		(lambda () (interactive)
+		  (find-file "/media/KROKEY/Documents/Org/TODO.org")))
 
 ;; se rappelle ou je suis dans un fichier
 ;;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
