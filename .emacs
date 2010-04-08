@@ -57,7 +57,16 @@
 (load-library "paren")
 (show-paren-mode 1)
 
-
+(defun rename-current-file-or-buffer ()
+  (interactive)
+  (if (not (buffer-file-name))
+      (call-interactively 'rename-buffer)
+    (let ((file (buffer-file-name)))
+      (with-temp-buffer
+        (set-buffer (dired-noselect file))
+        (dired-do-rename)
+        (kill-buffer nil))))
+  nil)
 
 
 ;; sélection avec les flèches dans buffer-list
@@ -516,8 +525,11 @@ interactively with no active region, copy a single line instead."
           1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
-(delete-selection-mode 1)
+;; by default on Emacs 23
+;;(delete-selection-mode 1)
 
+;; Text selection highlighted by default on Emacs 23
+;;(transient-mark-mode t)
 
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
