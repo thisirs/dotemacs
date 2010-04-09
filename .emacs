@@ -148,7 +148,7 @@
 
 ;; put something different in the scratch buffer
 (setq initial-scratch-message
-  ";; scratch buffer created -- happy hacking\n")
+  ";; scratch buffer created -- happy hacking\n\n")
 
 ;; backups
 (setq make-backup-files t ;; do make backups
@@ -170,9 +170,9 @@
 		  (find-file "/media/KROKEY/Documents/Org/TODO.org")))
 
 ;; se rappelle ou je suis dans un fichier
-;;(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-;;(setq-default save-place t) ;; activate it for all buffers
-;;(require 'saveplace) ;; get the package
+;; (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+;; (setq-default save-place t) ;; activate it for all buffers
+;; (require 'saveplace) ;; get the package
 
 
 ;; Indentation du buffer
