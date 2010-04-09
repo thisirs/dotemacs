@@ -7,6 +7,14 @@
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
+
+(defun sudo-edit (&optional arg)
+  (interactive "p")
+  (if (or arg (not buffer-file-name))
+      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+
 (defun non-trans-term ()
   (interactive)
   (set-frame-parameter nil 'alpha '(100 100))
@@ -420,8 +428,8 @@
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-
-(require 'ruby-electric)
+(require 'starter-kit-ruby)
+;;(require 'ruby-electric)
 
 
 (custom-set-variables
