@@ -1,4 +1,0 @@
-PYTHONPATH=$HOME/local/lib/python2.6/site-packages:$PYTHONPATH
-export PYTHONPATH
-PYTHONSTARTUP=$HOME/.pythonrc.py
-export PYTHONSTARTUP
