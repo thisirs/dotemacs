@@ -1,1 +1,0 @@
-/home/srousseau/git/dotemacs/.emacs
