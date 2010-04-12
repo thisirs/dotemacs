@@ -1,0 +1,414 @@
+*** ./routines/xsci/jpc_Xloop.c	Tue May 15 10:03:28 2001
+--- ./routines/xsci/jpc_Xloop.c.fixed	Thu May  3 12:22:26 2001
+***************
+*** 23,29 ****
+  #include "../graphics/Math.h"
+  #include "../sun/Sun.h"
+  #include "All-extern.h"
+! 
+  extern int Xscilab  __PARAMS((Display **dpy, Widget *topwid));  
+  extern void xevents1  __PARAMS((void));  
+  
+--- 23,29 ----
+  #include "../graphics/Math.h"
+  #include "../sun/Sun.h"
+  #include "All-extern.h"
+! #define LF                    0x000a
+  extern int Xscilab  __PARAMS((Display **dpy, Widget *topwid));  
+  extern void xevents1  __PARAMS((void));  
+  
+***************
+*** 33,38 ****
+--- 33,39 ----
+   *************************************/
+  
+  static int INXscilab=0;
++ static int intoemacs;
+  
+  void SetXsciOn()
+  {
+***************
+*** 42,47 ****
+--- 43,53 ----
+    INXscilab=1;
+  }
+  
++ int IntoEmacs(void )
++ {
++   return(strcmp(getenv("TERM"),"dumb")==0);
++ }
++ 
+  int C2F(xscion)(i)
+       int *i;
+  {
+***************
+*** 61,66 ****
+--- 67,75 ----
+  Display *the_dpy = (Display *) NULL;
+  int BasicScilab = 1;
+  XtAppContext app_con;
++ int IsClick_menu(void);
++ void Click_menu(int n);
++ int charfromclick(void);
+  
+  static String bgfallback_resources[] = {
+  #include "../xsci/Xscilab.ad.h"
+***************
+*** 112,117 ****
+--- 121,127 ----
+        Select_mask = pty_mask | X_mask;  
+        Write_mask = 1 << fileno(stdout);
+        max_plus1 = (fd < Xsocket) ? (1 + Xsocket) : (1 + fd);
++       intoemacs=IntoEmacs();
+      }
+    XSync(dpy1,0);
+  }
+***************
+*** 127,138 ****
+--- 137,153 ----
+   *      stdin is supposed to be changed 
+   *      so as not to wait for <cr> this is done inside zzledt 
+   *      (in the following code  the key function is select )
++  *
++  *  Additionally, the case of emacs-shell is added
++  *                the case of calling from user graphical menu is added
++  *                now it is possible to run scicos from -nw mode
+   *******************************************************/
+  
+  int Xorgetchar()
+  {
+    register int i;
+    static struct timeval select_timeout;
++   static int state=0;
+    if ( BasicScilab) return(getchar());
+    for( ; ; ) {
+  	XFlush(the_dpy); /* always flush writes before waiting */
+***************
+*** 157,166 ****
+  	if (write_mask & Write_mask) {	  fflush(stdout);}
+  
+  	/* if there's something to read */
+! 
+! 	if (select_mask & pty_mask ) {
+! 	  return(getchar());
+! 	  break;
+  	}
+  	
+  	/* if there are X events already in our queue, it
+--- 172,190 ----
+  	if (write_mask & Write_mask) {	  fflush(stdout);}
+  
+  	/* if there's something to read */
+!         if ((select_mask & pty_mask) || IsClick_menu()) 
+!            state=1;
+!         else
+!            if (QLength(the_dpy) || (select_mask & X_mask) ||!(intoemacs))
+!              state=0;
+! 
+! 	if (state) {
+!          if(IsClick_menu())
+!             i=charfromclick();
+!          else
+!             i=getchar();
+!          if (i==LF) state=0;
+!      	  return(i);
+  	}
+  	
+  	/* if there are X events already in our queue, it
+***************
+*** 243,254 ****
+       char *command;
+  {
+    CommandRec *p, *q, *r;
+    /** first check if we have a special handler set for commands **/
+    if ( scig_command_handler(command) == 1) return 0;
+    if (get_is_reading()) 
+      { 
+        write_scilab(command);
+!       write_scilab("\n");
+        return 0;
+      }
+    p = (CommandRec *) malloc( sizeof(CommandRec));
+--- 267,280 ----
+       char *command;
+  {
+    CommandRec *p, *q, *r;
++   int i;
+    /** first check if we have a special handler set for commands **/
+    if ( scig_command_handler(command) == 1) return 0;
+    if (get_is_reading()) 
+      { 
+        write_scilab(command);
+!       C2F(xscion)(&i);
+!        if (i) write_scilab("\n");
+        return 0;
+      }
+    p = (CommandRec *) malloc( sizeof(CommandRec));
+*** ./routines/xsci/jpc_inter.c	Tue May 15 10:07:24 2001
+--- ./routines/xsci/jpc_inter.c.fixed	Thu May  3 13:26:48 2001
+***************
+*** 14,19 ****
+--- 14,25 ----
+     write_scilab set a scilab command to be executed and displayed at prompt time
+     works only with xsci interface
+  */
++ #define MAXBUFFSIZE 256
++ static int ClickMenu=0;
++ static char buffstring[MAXBUFFSIZE];
++ static int lenbuffstring;
++ static int posinbuff=0;
++ void Click_menu(int n);
+  
+  static void str_to_xterm ( string, nbytes)
+      register char *string;
+***************
+*** 23,28 ****
+--- 29,51 ----
+      StringInput(screen,string,strlen(string));
+  }
+  
++ 
++ static void str_to_xterm_nw ( string, nbytes)
++     register char *string;
++     int nbytes;
++ {
++   posinbuff=0;
++   if (nbytes>MAXBUFFSIZE-1)
++     {
++      Scierror(1020,"%s\n", "The menu  name is too long  to be strored");
++      return;
++     }
++   sprintf(buffstring,string);
++   buffstring[nbytes]='\n';
++   lenbuffstring=nbytes+1;
++   Click_menu(1);
++ }
++ 
+  void write_scilab(s)
+      char   *s;
+  {
+***************
+*** 31,39 ****
+      if (i==1)
+  	str_to_xterm(s,strlen(s));
+      else
+! 	printf("asynchronous actions are not supported with -nw option\n");
+  }
+  
+  
+  
+  
+--- 54,83 ----
+      if (i==1)
+  	str_to_xterm(s,strlen(s));
+      else
+!        	str_to_xterm_nw(s,strlen(s));
+!     /*      	printf(" asynchronous actions are not supported with -nw option\n");*/
+  }
+  
++ int IsClick_menu(void)
++ {
++   return(ClickMenu);
++ }
+  
++ void Click_menu(int n)
++ {
++   ClickMenu=n;
++   return;
++ }
+  
++ int charfromclick()
++ {
++   if (posinbuff==lenbuffstring-1)
++   {
++     ClickMenu=0;
++   }
++   if (posinbuff==lenbuffstring)
++     return(9999);
++   else
++      return(buffstring[posinbuff++]);
++ }
+  
+*** ./routines/interf/xawelm.f	Tue May 15 10:10:29 2001
+--- ./routines/interf/xawelm.f.fixed	Thu May  3 13:39:26 2001
+***************
+*** 63,73 ****
+        sadr(l)=(l/2)+1
+  
+        call xscion(inxsci)
+!       if (inxsci.eq.0) then
+!          buf='synchronous actions are not supported with -nw option'
+!          call error(1020)
+!          return
+!       endif
+        if (.not.checkrhs(fname,1,4)) return
+        if (.not.checklhs(fname,1,1)) return
+  c     checking last variable
+--- 63,73 ----
+        sadr(l)=(l/2)+1
+  
+        call xscion(inxsci)
+! c      if (inxsci.eq.0) then
+! c         buf='synchronous actions are not supported with -nw option'
+! c         call error(1020)
+! c         return
+! c      endif
+        if (.not.checkrhs(fname,1,4)) return
+        if (.not.checklhs(fname,1,1)) return
+  c     checking last variable
+***************
+*** 112,118 ****
+           if(.not.getscalar(fname,topk,top-rhs+1,lr))return
+           iwin = int(stk(lr))
+           iskip = 0
+!       elseif (istk(il1).eq.10) then
+  c     in main window
+           iskip =1
+           iwin =-1
+--- 112,124 ----
+           if(.not.getscalar(fname,topk,top-rhs+1,lr))return
+           iwin = int(stk(lr))
+           iskip = 0
+!          elseif (istk(il1).eq.10) then
+! c      if -nw mode main window does not exists - error
+!         if (inxsci.eq.0) then
+!          buf='No main graphic window in -nw mode, specify 1-th arg...'
+!           call error(1020)
+!           return
+!          endif
+  c     in main window
+           iskip =1
+           iwin =-1
+***************
+*** 195,203 ****
+        logical checkrhs,getsmat,getscalar
+        integer topk,m,n,lr,nlr
+        call xscion(inxsci)
+!       if (inxsci.eq.0) then
+!          return
+!       endif
+        if (.not.checkrhs(fname,1,2)) return
+        topk = top
+        if (.not.getsmat(fname,topk,top,m,n,1,1,lr,nlr)) return
+--- 201,209 ----
+        logical checkrhs,getsmat,getscalar
+        integer topk,m,n,lr,nlr
+        call xscion(inxsci)
+! c      if (inxsci.eq.0) then
+! c         return
+! c      endif
+        if (.not.checkrhs(fname,1,2)) return
+        topk = top
+        if (.not.getsmat(fname,topk,top,m,n,1,1,lr,nlr)) return
+***************
+*** 208,214 ****
+           if(.not.getscalar(fname,topk,top,lr))return
+           iwin=int(stk(lr))
+        else
+!          iwin=-1
+        endif
+        call delbtn(iwin,buf)
+        call objvide(fname,top)
+--- 214,226 ----
+           if(.not.getscalar(fname,topk,top,lr))return
+           iwin=int(stk(lr))
+        else
+! c      if -nw mode main window does not exists - error
+!         if (inxsci.eq.0) then
+!          buf='No main graphic window in -nw mode, specify 1-th arg...'
+!           call error(1020)
+!           return
+!          endif
+!        iwin=-1
+        endif
+        call delbtn(iwin,buf)
+        call objvide(fname,top)
+***************
+*** 226,234 ****
+        integer topk,m,n,lr,nlr,gettype
+        external func
+        call xscion(inxsci)
+!       if (inxsci.eq.0) then
+!          return
+!       endif
+        if (.not.checkrhs(fname,1,3)) return
+        topk = top
+        nsub=0
+--- 238,246 ----
+        integer topk,m,n,lr,nlr,gettype
+        external func
+        call xscion(inxsci)
+! c      if (inxsci.eq.0) then
+! c         return
+! c      endif
+        if (.not.checkrhs(fname,1,3)) return
+        topk = top
+        nsub=0
+***************
+*** 248,253 ****
+--- 260,271 ----
+           iwin = int(stk(lr))
+        else
+           if (.not.checkrhs(fname,1,2)) return
++ c      if -nw mode main window does not exists - error
++         if (inxsci.eq.0) then
++          buf='No main graphic window in -nw mode, specify 1-th arg...'
++           call error(1020)
++           return
++          endif
+           iwin = -1
+           if ( rhs.eq.2 ) then 
+              if(.not.getscalar(fname,topk,top,lr))return
+*** ./macros/scicos/cosclick.sci	Tue May 15 10:12:14 2001
+--- ./macros//scicos/cosclick.sci.fixed	Thu May  3 13:41:01 2001
+***************
+*** 2,15 ****
+  // Copyright INRIA
+  [lhs,rhs]=argn(0)
+  Cmenu=[]
+- 
+  if ~or(winsid()==curwin) then  Cmenu='Quit',return,end    
+  if rhs==1 then
+    [btn,xc,yc,win,str]=xclick(flag)
+  else
+    [btn,xc,yc,win,str]=xclick()
+  end
+  
+  if btn==-100 then  
+    if win==curwin then
+      Cmenu='Quit',
+--- 2,18 ----
+  // Copyright INRIA
+  [lhs,rhs]=argn(0)
+  Cmenu=[]
+  if ~or(winsid()==curwin) then  Cmenu='Quit',return,end    
++ 
++ #=xgetmouse();
+  if rhs==1 then
+    [btn,xc,yc,win,str]=xclick(flag)
+  else
+    [btn,xc,yc,win,str]=xclick()
+  end
+  
++ 
++ 
+  if btn==-100 then  
+    if win==curwin then
+      Cmenu='Quit',
+***************
+*** 17,23 ****
+      Cmenu='Open/Set'
+    end
+    return
+! end    
+  if btn==-2 then
+    // click in a dynamic menu
+    xc=0;yc=0
+--- 20,26 ----
+      Cmenu='Open/Set'
+    end
+    return
+! end 
+  if btn==-2 then
+    // click in a dynamic menu
+    xc=0;yc=0

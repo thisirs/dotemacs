@@ -1,0 +1,48 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/etc/" . "apt/")
+ ("/" . "etc/")
+ ("/home/" . "sylvain/")
+ ("/home/sylvain/Documents/" . "PACS/")
+ ("/home/sylvain/" . "Documents/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/etc/apt/"
+ "/home/sylvain/"
+ "/home/sylvain/Documents/PACS/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "sources.list"
+ ".emacs"
+ "bashfr.rb"
+ ".conkyrc"
+ "Pacs2.tex"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/sylvain/" (19391 45730) "git/" "Documents/" ".fltk/" ".emerald/" ".aMule/" "pms-linux-1.10.5.tgz" ".conkyrc" "gnu.rb" ".VirtualBox/" ".update-notifier/" ".purple/" "docs/" "headers.log" ".gegl-0.0/" ".ido.last" "cck-6.x-2.1.tar.gz" ".nautilus/" "tolua++-1.0.93/" ".gconf/" "rubyogameregex" ".emacs" "Des profondeurs" "Photos/" "Modèles/" ".mystartupscript" ".pulse-cookie" ".phosphorscreensaver" ".gvfs/" ".TeXmacs/" ".icedteaplugin/" ".adobe/" ".tsclient/" ".cache/" "#.emacs#" ".mysql_history" ".compiz/" ".openoffice.org2/" ".config/" ".blocnote.txt" "PS3UPDAT.PUP.part" "#essai#" "1018496.flv" "Jeux à la con/" "tolua++-1.0.93.tar.bz2" ".qdvdauthor/" "emacs-23.1/" ".icons/" "2936228.flv" "TODO~" ".netxrc" "droit.sh" ".Scilab/" "OGameUtilities.cfg" ".gksu.lock" "firesource.log" "bashstring" "Runaway - A Twist of Fate.nfo" ".gconfd/" "ogame/" "conky-1.7.0.tar.gz" "partage/" ".projects.ede" ".matlab/" "PS3UPDAT.PUP" ".nbi/" ".semanticdb/" ".sudo_as_admin_successful" "firesource.rb" ".tomboy/" "proxy2.rb" ".xscreensaver-getimage.cache" ".dbus/" "Runaway.A.T.O.F.AK-TEAM-NOx.iso" ".irssi/" ".bash_history" "proxy.rb" ".sudoku/" "conky-1.7.2.tar.gz" ".esd_auth" "alarm-clock-0.2.4/" ".ssh/" "fr-6.x-1.0.tar.gz" ".geany/" ".gnome2_private/" ".emacs.d/" ".bash_logout" ".macromedia/" "conky-1.7.1.1/" "1" "newlinexml.rb" "gtk-desktop-info.guide.pdf.tar.gz" "vdm.rb" "conky-1.7.2/" "MatLab/" ".update-manager-core/" "tolua-5.1b/" "Vidéos/" "Public/" ".private/" ".bash_aliases" "javafxsdk_linux_unofficial.tar.bz2" "alarm-clock-0.2.4.tar.gz" "ubcd411.iso" ".Xauthority" ".texmf-var/" "ufrs-toolbox_0.9.3-1.orig/" ".qt/" ".thumbnails/" ".sdcv_history" ".Trash/" "pms-linux-1.10.5/" ".themes/" ".gstreamer-0.10/" "ufrs-toolbox_0.9.3-1.orig.tar.gz" "emacs-23.1.tar.gz" "mongrel-1.1.5/" "conky-1.7.1_rc4/" "video41Mbps_001-2.flv" "www/" "logrubyporxy" "netbeans-6.5/" ".mozilla/" "wordpress-2.7.1.zip" "flexdock/" ".lesshst" "nbms/" ".mplayer/" "matlab_workspace/" "conky-1.7.0/" "TODO" ".codeblocks/" ".recentf" "missfont.log" ".xchat2/" ".gtk-bookmarks" ".pulse/" "conky-1.7.1.1.tar.gz" "imagefield-6.x-3.0-alpha4.tar.gz" "noirblancpeppers.png" ".gem/" "2936228-1.flv" ".tilda/" ".gnome2/" "mongrel-1.1.5.tgz" ".stardict/" "Downloads/" ".fontconfig/" "drupal-6.9.tar.gz" ".specto/" "matlab/" "tolua-5.1b.tar.gz" ".ICEauthority" ".gimp-2.6/" "Bureau/" "proxy.log" "seahorse-2.24.0.tar.gz" ".xsession-errors" "bashfr.rb" ".lyx/" ".wine/" "grille.png" ".gnupg/" ".dmrc" "Musique/" "mots.pdf" ".netbeans/" ".evolution/" ".tomboy.log" "mots.png" "dwhelper/" ".recently-used.xbel" "Joomla_1.5.9-Stable-Full_Package-French.v1.zip" "conky-1.7.0_rc1.tar.gz" ".mission-control/" ".emacs.d.old/" ".recently-used" ".wapi/" "mongrel-1.1.5.gem" "NetBeansProjects/" "vdmstring" "headerlog.rb" "grilles.pdf" ".bashrc" ".local/" "conky-1.7.1_rc4.tar.bz2" ".bzr.log" ".srecode/" "notify-osd/" "Images/" "Fortissimots - Mots mêlés - Grille n°15_1264280317832.png" "conky-1.7.0_rc1/" "texmf/" "CARIE_31s_VF.flv" ".netbeans-registration/" ".profile" ".xdvirc" "mime.py" ".lyrics/" "geany_run_script.sh" ".conky/" "../" "./")
+
+ ("/etc/apt/" (19280 63098) "secring.gpg" "sources.list" "trusted.gpg~" "./" "trusted.gpg" "sources.list~" "trustdb.gpg" "apt.conf.d/" "sources.list.d/" "../")
+
+ ("/etc/" (19391 39776) "crontab" "protocols" "vga/" "security/" "sane.d/" "mplayer/" "esound/" "rc3.d/" "kbd/" "skel/" "udev/" "laptop-mode/" "resolvconf/" "gnome-vfs-mime-magic" "usplash.conf" "php5/" "bogofilter.cf" "cron.monthly/" "ca-certificates.conf" "mysql/" "bindresvport.blacklist" "openoffice/" "ati/" "ConsoleKit/" "bash_completion" "fstab" "console-tools/" "debconf.conf" "papersize" "environment" "groff/" "magic.mime" "firefox-3.0/" "profile.d/" "java-6-openjdk/" "syslog.conf" "hdparm.conf" "lsb-release" "wodim.conf" "ca-certificates/" "xml/" "gnome-vfs-2.0/" "brltty/" "cron.weekly/" "odbcinst.ini" "pango/" "apt/" "PolicyKit/" "mime.types" "bluetooth/" "dbus-1/" "rc4.d/" "init.d/" "inputrc" "hwtest.d/" "gai.conf" "inetd.conf" "initramfs-tools/" "gre.d/" "issue.net" "dm/" "updatedb.conf" "pam.d/" "logrotate.d/" "hostname" "ld.so.conf" "odbc.ini" "profile" "NetworkManager/" "mke2fs.conf" "timidity/" "gdm/" "rmt" "ca-certificates.conf.dpkg-old" "ssl/" "dhcp3/" "shadow" "rc2.d/" "gshadow-" "calendar/" "lftp.conf" "ODBCDataSources/" "w3m/" "sgml/" ".java/" "securetty" "gnome/" "pam.conf" "subversion/" "ts.conf" "conky/" "locale.alias" "sudoers" "rc5.d/" "apparmor.d/" "readahead/" "iproute2/" "gconf/" "blkid.tab" "gnome-app-install/" "GeoIP.conf.default" "netscsid.conf" "e2fsck.conf" "at.deny" "zsh_command_not_found" "apm/" "ushare.conf" "sensors3.conf" "shells" "terminfo/" "defoma/" "popularity-contest.conf" "bash.bashrc" "avahi/" "modules" "kernel-img.conf" "emacs21/" "wpa_supplicant/" "debian_version" "cron.hourly/" "hosts" "belocs/" "modprobe.d/" "group" "magic" "chatscripts/" "obex-data-server/" "python2.5/" "hal/" "logrotate.conf" "motd" "uniconf.conf" "foomatic/" "apport/" "network/" "fuse.conf" "cups/" "login.defs" "wgetrc" "apache2/" "menu-methods/" "emacs/" "ld.so.conf.d/" "cron.daily/" "ssh/" "networks" "mtools.conf" "python/" "gamin/" "rpc" "bash_completion.d/" "rc.local" "brlapi.key" "nanorc" "hosts.deny" "java-6-sun/" "adduser.conf" "sensors.conf" "xpdf/" "mailcap.order" "menu/" "mtab" "purple/" "ltrace.conf" "passwd-" "libgda-3.0/" "dkms/" "wireshark/" "dpkg/" "lsb-base/" "cron.d/" "rcS.d/" "manpath.config" "ffserver.conf" "console-setup/" "hesiod.conf" "motd.tail" "bonobo-activation/" "brltty.conf" "gimp/" "doc-base/" "blkid.tab.old" "qt3/" "su-to-rootrc" "resolv.conf" "rc6.d/" "ppp/" "phpmyadmin/" "kernel/" "hp/" "texmf/" "ggi/" "openal/" "firefox-3.5/" "libpaper.d/" "default/" "screenrc" "lsb-base-logging.sh" "libao.conf" "opt/" "davfs2/" "compizconfig/" "event.d/" "rc0.d/" "X11/" "emacs22/" "host.conf" "hddtemp.db" "ufw/" "ucf.conf" "apparmor/" "scim/" "pm/" "pulse/" "checkinstallrc" "services" "vbox/" "shadow-" "ldap/" "gtk-2.0/" "irssi.conf" "gnome-system-tools/" "anacrontab" "acpi/" "nsswitch.conf" "sysctl.d/" "deluser.conf" "vim/" "issue" "sound/" "xulrunner-1.9/" "mailcap" "grub.d/" "depmod.d/" "logcheck/" "tidy.conf" "wvdial.conf" "dictionaries-common/" "hosts.allow" "passwd" "sysctl.conf" "ld.so.cache" "update-notifier/" "timezone" "gshadow" "pcmcia/" "group-" "samba/" "perl/" "update-manager/" "localtime" "xdg/" "farsight/" "alternatives/" "pnm2ppa.conf" "xulrunner-1.9.1/" "power/" "wildmidi/" "rc1.d/" "emacs-snapshot/" "mono/" "adjtime" "fonts/" ".pwd.lock" "../" "./")
+
+ ("/usr/" (18781 65049) "include/" "lib64/" "games/" "./" "etc/" "lib/" "sbin/" "X11R6/" "src/" "bin/" "local/" "share/" "../")
+
+ ("/home/sylvain/Documents/PACS/" (19374 2626) "Pacs2.aux" "../" "adresseLongjumeau" "Pacs2.dvi" "Pacs2.log" "Pacs2.tex" "./" "exportPDF")
+
+ ("/home/sylvain/.emacs.d/" (19371 14934) "ecb-2.40/" "../" "scilabelisp-2.1.7.tar.gz" "cedet-1.0pre6.tar.gz" "autoinsert/" "ecb-2.40.tar.gz" "shell-pop.el~" "shell-pop.el" "elpa/" "ruby-electric.el" "scilab.el" "ibuffer.el" "scilab.el.old" "cedet-1.0pre6/" "color-theme-6.6.0.tar.gz" "./" "scilabelisp/" "flyspell-1.7n.el" "history" "color-theme-6.6.0/" "linum.diff" "ruby-mode.el" "auto-save-list/" "session.106bac2a06c4b3a419126116365341781800000018330048" "auctex-11.85.tar.gz" "index.html?url=http" "auctex-11.85/" "linum.el" "emacs.backups/")
+
+ ("/home/" (18712 43308) "../" "lost+found/" "sylvain/" "./")
+
+ ("/home/sylvain/Documents/" (19373 61533) "liste kdo" "huffman.tex~" "convoc_fa.pdf" "impots.pdf" "impots" "The arithmetic of elliptic curves.djvu" "../" "inscription K ro.pdf" "tresorsuncharted" "guildwars pass" "RubyCExtensions.pdf" "cv2008.odt" "PACS/" "automake.pdf" "ConciseRevised.pdf" "thèse/" "Capture-3.png" "notes agreg sylvain.pdf" "autoconf.pdf" "gcc.pdf" "Bureau.rar" "weps.txt~" "weps.txt" "cpp.pdf" "Wiley.Linux.Command.Line.and.Shell.Scripting.Bible.May.2008.eBook-BBL/" "Lemarié.vig" "virement4_10.ps" "notes agreg kro.pdf" "FormulPreins0809.odt" "kdo kro" "Dossier d'inscription.pdf" "stage M2 Kro/" "thèseinfo.pdf" "EDF-GDF.pdf" "memento linux" "./" "Patrimoine mobilier/" "krocv2008.odt" "MATLAB/" "question 1.odt" "CONVENTION DE STAGE.doc" "tp_morpho2.tex" "Demande_de_diplome_maquette.doc" "Capture-2.png" "essai_glossaire.tex~" "rapport_de_stage.dvi")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
