@@ -3,7 +3,6 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 (load "elscreen" "ElScreen" t)
 
-
 (require 'auto-install)
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
