@@ -420,6 +420,10 @@
 ;; filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
 
+;; Désactivation des boites de dialogue
+(setq use-file-dialog nil) 
+(setq use-dialog-box nil)
+
 
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
@@ -491,7 +495,7 @@
 ;;(savehist-mode t)
 
 ;; Always add a final newline
-(setq require-trailing-newline t)
+(setq require-final-newline t)
 
 ;; Drive out the mouse when it's too near to the cursor.
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
