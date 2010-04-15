@@ -7,13 +7,21 @@
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
+(defvar notify-send-sound-default
+  "/home/sylvain/.sounds/tada.wav"
+  "Son par défaut pour notify-send")
+
+
+;; BUG no sound
 (defun notify-send (title msg &optional icon sound)
   "Show a popup if we're on X, or echo it otherwise; TITLE is the title
 of the message, MSG is the context. Optionally, you can provide an ICON and
 a sound to be played"
-  (interactive)
-  (when sound (shell-command
-                (concat "mplayer -really-quiet " sound " 2> /dev/null")))
+  (interactive "sTitle: \nsMessage: ")
+  (when sound
+    (progn
+      (when (eq t sound) (setq sound notify-send-sound-default))
+      (shell-command (concat "mplayer " sound " 2> /dev/null"))))
   (when (eq window-system 'x)
     (shell-command (concat "notify-send "
                      (if icon (concat "-i " icon) "")
