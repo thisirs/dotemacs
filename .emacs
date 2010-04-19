@@ -475,7 +475,7 @@ a sound to be played"
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-;;(require 'starter-kit-ruby)
+(require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
 
