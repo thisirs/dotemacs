@@ -571,8 +571,7 @@ a sound to be played"
           1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
-;; by default on Emacs 23
-;;(delete-selection-mode 1)
+(delete-selection-mode t)
 
 ;; Text selection highlighted by default on Emacs 23
 ;;(transient-mark-mode t)
