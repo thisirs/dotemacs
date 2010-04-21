@@ -221,9 +221,9 @@ a sound to be played"
 		  (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
 
 ;; se rappelle ou je suis dans un fichier
-;; (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-;; (setq-default save-place t) ;; activate it for all buffers
-;; (require 'saveplace) ;; get the package
+(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+(setq-default save-place t) ;; activate it for all buffers
+(require 'saveplace) ;; get the package
 
 
 ;; Indentation du buffer
