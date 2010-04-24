@@ -8,7 +8,7 @@
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defvar notify-send-sound-default
-  "/home/sylvain/.sounds/tada.wav"
+  (expand-file-name "~/.sounds/tada.wav")
   "Son par défaut pour notify-send")
 
 
