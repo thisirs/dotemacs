@@ -8,11 +8,13 @@
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defvar notify-send-sound-default
-  (expand-file-name "~/.sounds/tada.wav")
+  "/usr/share/sounds/gnome/default/alert/sonar.ogg"
   "Son par défaut pour notify-send")
 
+(defvar notify-send-icon-default
+  "/usr/share/icons/gnome/scalable/status/appointment-missed.svg"
+  "Icone par défault pour notify-send")
 
-;; BUG no sound
 (defun notify-send (title msg &optional icon sound)
   "Show a popup if we're on X, or echo it otherwise; TITLE is the title
 of the message, MSG is the context. Optionally, you can provide an ICON and
@@ -23,8 +25,9 @@ a sound to be played"
       (when (eq t sound) (setq sound notify-send-sound-default))
       (shell-command (concat "mplayer " sound " 2> /dev/null"))))
   (when (eq window-system 'x)
+    (when (eq t icon) (setq icon notify-send-icon-default))
     (shell-command (concat "notify-send "
-                     (if icon (concat "-i " icon) "")
+		     (if icon (concat "-i " icon) "")
                      " '" title "' '" msg "'")))
     ;; text only version
     (message (concat title ": " msg)))
@@ -74,7 +77,7 @@ a sound to be played"
 (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
 
-;;(require 'magit)
+(require 'magit)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
