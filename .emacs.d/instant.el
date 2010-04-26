@@ -24,5 +24,4 @@
 
 (global-set-key (kbd "<f2>") 'instant-switch)
 
-
 (provide 'instant)

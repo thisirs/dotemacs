@@ -225,6 +225,15 @@ a sound to be played"
 		(lambda () (interactive)
 		  (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
 
+;; intégration de remember dans org
+(global-set-key (kbd "C-c r") 'remember)
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(setq org-remember-templates
+      '((?n "* %U %?\n\n  %i\n  %a" "/media/THISKEY/Documents/Org/notes.org")))
+(setq remember-annotation-functions '(org-remember-annotation))
+(setq remember-handler-functions '(org-remember-handler))
+
+
 ;; se rappelle ou je suis dans un fichier
 (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
 (setq-default save-place t) ;; activate it for all buffers
