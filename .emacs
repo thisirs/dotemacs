@@ -7,32 +7,10 @@
 
 (require 'instant)
 
-(defvar trans-term-p t "Check if fullscreen is on or off")
+(require 'notify-send)
 
-(defvar notify-send-sound-default
-  "/usr/share/sounds/gnome/default/alert/sonar.ogg"
-  "Son par défaut pour notify-send")
 
-(defvar notify-send-icon-default
-  "/usr/share/icons/gnome/scalable/status/appointment-missed.svg"
-  "Icone par défault pour notify-send")
 
-(defun notify-send (title msg &optional icon sound)
-  "Show a popup if we're on X, or echo it otherwise; TITLE is the title
-of the message, MSG is the context. Optionally, you can provide an ICON and
-a sound to be played"
-  (interactive "sTitle: \nsMessage: ")
-  (when sound
-    (progn
-      (when (eq t sound) (setq sound notify-send-sound-default))
-      (shell-command (concat "mplayer " sound " 2> /dev/null"))))
-  (when (eq window-system 'x)
-    (when (eq t icon) (setq icon notify-send-icon-default))
-    (shell-command (concat "notify-send "
-		     (if icon (concat "-i " icon) "")
-                     " '" title "' '" msg "'")))
-    ;; text only version
-    (message (concat title ": " msg)))
 
 (defun sudo-edit (&optional arg)
   (interactive "p")
@@ -41,13 +19,14 @@ a sound to be played"
     (if (and
 	  (= arg 1)
 	  (buffer-file-name)
-	  (not (eq t (compare-strings
-		 tramp-prefix 0 l
-		 buffer-file-name 0 l))))
+	  (not (eq t (string=
+		       tramp-prefix
+		       (substring buffer-file-name 0 l)))))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: "))))))
+      (find-file (concat "/sudo:root@localhost:"
+		   (ido-read-file-name "File: "))))))
     
-
+(defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defun non-trans-term ()
   (interactive)
@@ -233,6 +212,12 @@ a sound to be played"
 (setq remember-annotation-functions '(org-remember-annotation))
 (setq remember-handler-functions '(org-remember-handler))
 
+
+
+(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
 
 ;; se rappelle ou je suis dans un fichier
 (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
