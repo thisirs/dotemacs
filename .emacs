@@ -5,6 +5,8 @@
 
 (require 'auto-install)
 
+(require 'instant)
+
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defvar notify-send-sound-default
@@ -124,8 +126,8 @@ a sound to be played"
 		 (mode . mail-mode)
 		 ;; etc.;; all your mail related modes
 		 ))
-	       ("KROKEY's programming"
-		(filename . "/media/KROKEY/programming/"))
+	       ("THISKEY's programming"
+		(filename . "/media/THISKEY/programming/"))
 	       ("Programming" 
 		(or
 		 (mode . c-mode)
