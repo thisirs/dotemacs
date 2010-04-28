@@ -12,7 +12,7 @@
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (let* ((tramp-prefix "/sudo:root@localhost:")
-    (l (length tramp-prefix)))
+	  (l (length tramp-prefix)))
     (if (and
 	  (= arg 1)
 	  (buffer-file-name)
@@ -22,7 +22,7 @@
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
       (find-file (concat "/sudo:root@localhost:"
 		   (ido-read-file-name "File: "))))))
-    
+
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defun non-trans-term ()
@@ -46,7 +46,7 @@
   (interactive)
   (setq trans-term-p (not trans-term-p))
   (if trans-term-p
-      (non-trans-term)
+    (non-trans-term)
     (trans-term)))
 
 (require 'linkd)
@@ -60,9 +60,9 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs
-      (lambda (e)
-        (y-or-n-p-with-timeout
-         "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
+  (lambda (e)
+    (y-or-n-p-with-timeout
+      "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
 
 ;; Laisser le curseur en place lors d'un défilement par pages. Par
 ;; défaut, Emacs place le curseur en début ou fin d'écran selon le
@@ -78,7 +78,7 @@
 (defun rename-current-file-or-buffer ()
   (interactive)
   (if (not (buffer-file-name))
-      (call-interactively 'rename-buffer)
+    (call-interactively 'rename-buffer)
     (let ((file (buffer-file-name)))
       (with-temp-buffer
         (set-buffer (dired-noselect file))
@@ -93,40 +93,40 @@
 (require 'ibuffer)
 
 (setq ibuffer-saved-filter-groups
-      (quote (("default"
-	       ("Org" ;; all org-related buffers
-		(mode . org-mode))
-	       ("Mail"
-		(or ;; mail-related buffers
-		 (mode . message-mode)
-		 (mode . mail-mode)
-		 ;; etc.;; all your mail related modes
-		 ))
-	       ("THISKEY's programming"
-		(filename . "/media/THISKEY/programming/"))
-	       ("Programming" 
-		(or
-		 (mode . c-mode)
-		 (mode . perl-mode)
-		 (mode . python-mode)
-		 (mode . emacs-lisp-mode)
-		 (mode . ruby-mode)
-		 ;; etc
-		 ))
-	       ("crap" (or
-                        (name . "^\\*trace")
-                        (name . "^\\*completions")
-                        (name . "^\\*Quail")
-                        (name . "^\\*magit")
-                        (name . "^\\*Backtrace\\*$")
-                        (name . "^\\*compilation\\*$")
-                        (name . "^\\*scratch\\*$")
-                        (name . "^\\*Messages\\*$")))
-	       ("ERC" (mode . erc-mode))))))
+  (quote (("default"
+	    ("Org" ;; all org-related buffers
+	      (mode . org-mode))
+	    ("Mail"
+	      (or ;; mail-related buffers
+		(mode . message-mode)
+		(mode . mail-mode)
+		;; etc.;; all your mail related modes
+		))
+	    ("THISKEY's programming"
+	      (filename . "/media/THISKEY/programming/"))
+	    ("Programming" 
+	      (or
+		(mode . c-mode)
+		(mode . perl-mode)
+		(mode . python-mode)
+		(mode . emacs-lisp-mode)
+		(mode . ruby-mode)
+		;; etc
+		))
+	    ("crap" (or
+		      (name . "^\\*trace")
+		      (name . "^\\*completions")
+		      (name . "^\\*Quail")
+		      (name . "^\\*magit")
+		      (name . "^\\*Backtrace\\*$")
+		      (name . "^\\*compilation\\*$")
+		      (name . "^\\*scratch\\*$")
+		      (name . "^\\*Messages\\*$")))
+	    ("ERC" (mode . erc-mode))))))
 
 (add-hook 'ibuffer-mode-hook
-	  (lambda ()
-	    (ibuffer-switch-to-saved-filter-groups "default")))
+  (lambda ()
+    (ibuffer-switch-to-saved-filter-groups "default")))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
@@ -303,9 +303,9 @@
 (setq LaTeX-item-indent 0)
 
 (add-hook 'LaTeX-mode-hook
-	  '(lambda ()
-	     (reftex-mode)
-	     (flyspell-mode)))
+  '(lambda ()
+     (reftex-mode)
+     (flyspell-mode)))
 
 (defun latex-accent () (interactive)
   (save-excursion
@@ -361,16 +361,16 @@
 (defun ido-execute-command ()
   (interactive)
   (call-interactively
-   (intern
-    (ido-completing-read
-     "M-x "
-     (progn
-       (unless ido-execute-command-cache
-	 (mapatoms (lambda (s)
-		     (when (commandp s)
-		       (setq ido-execute-command-cache
-			     (cons (format "%S" s) ido-execute-command-cache))))))
-       ido-execute-command-cache)))))
+    (intern
+      (ido-completing-read
+	"M-x "
+	(progn
+	  (unless ido-execute-command-cache
+	    (mapatoms (lambda (s)
+			(when (commandp s)
+			  (setq ido-execute-command-cache
+			    (cons (format "%S" s) ido-execute-command-cache))))))
+	  ido-execute-command-cache)))))
 
 (global-set-key "\M-x" 'ido-execute-command)
 
@@ -384,9 +384,9 @@
 (defun toggle-transparency ()
   (interactive)
   (if (/=
-       (cadr (find 'alpha (frame-parameters nil) :key #'car))
-       100)
-      (set-frame-parameter nil 'alpha '(100 100))
+	(cadr (find 'alpha (frame-parameters nil) :key #'car))
+	100)
+    (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
@@ -394,60 +394,60 @@
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-arrange-by-rules-min-items 0
-      recentf-arrange-by-rule-others nil
-      recentf-arrange-rules
-      '
-      (
-       ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-       ("Ruby files (%d)" ".\\.rb$")
-       ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-       ("Java files (%d)" ".\\.java$")
-       ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-       ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-       ("Configuration files (%d)" "rc$\\|/\\.")
-       ("Ada files (%d)" ".\\.ad[sb]$")
-       ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-       ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-       ("Documentation (%d)" "/doc/")
-       ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-       ("Lisp files (%d)" ".\\.lisp$")
-       )
-      recentf-max-saved-items 50
-      recentf-max-menu-items 30
-      recentf-menu-path nil
-      recentf-exclude '(".emacs-customize$"
-			".newsrc"
-			".etags$"
-			".emacs.bmk$"
-			".bbdb$"
-			".log$"
-			"^/tmp/")
-      recentf-menu-filter 'recentf-arrange-by-rule
-      recentf-menu-title "Recentf"
-      )
+  recentf-arrange-by-rule-others nil
+  recentf-arrange-rules
+  '
+  (
+    ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+    ("Ruby files (%d)" ".\\.rb$")
+    ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+    ("Java files (%d)" ".\\.java$")
+    ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+    ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+    ("Configuration files (%d)" "rc$\\|/\\.")
+    ("Ada files (%d)" ".\\.ad[sb]$")
+    ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+    ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+    ("Documentation (%d)" "/doc/")
+    ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+    ("Lisp files (%d)" ".\\.lisp$")
+    )
+  recentf-max-saved-items 50
+  recentf-max-menu-items 30
+  recentf-menu-path nil
+  recentf-exclude '(".emacs-customize$"
+		     ".newsrc"
+		     ".etags$"
+		     ".emacs.bmk$"
+		     ".bbdb$"
+		     ".log$"
+		     "^/tmp/")
+  recentf-menu-filter 'recentf-arrange-by-rule
+  recentf-menu-title "Recentf"
+  )
 
 (defun recentf-interactive-complete ()
   "find a file in the recently open file using ido for completion"
   (interactive)
   (let* ((all-files recentf-list)
-	 (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
-	 (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
-	 (ido-make-buffer-list-hook
-	  (lambda ()
-	    (setq ido-temp-list filename-list)))
-	 (filename (ido-read-buffer "Find Recent File: "))
-	 (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
-	 (result-length (length result-list)))
+	  (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
+	  (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
+	  (ido-make-buffer-list-hook
+	    (lambda ()
+	      (setq ido-temp-list filename-list)))
+	  (filename (ido-read-buffer "Find Recent File: "))
+	  (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
+	  (result-length (length result-list)))
     (find-file
-     (cond
-      ((= result-length 0) filename)
-      ((= result-length 1) (car result-list))
-      ( t
-	(let ( (ido-make-buffer-list-hook
-		(lambda ()
-		  (setq ido-temp-list result-list))))
-	  (ido-read-buffer (format "%d matches:" result-length))))
-      ))))
+      (cond
+	((= result-length 0) filename)
+	((= result-length 1) (car result-list))
+	( t
+	  (let ( (ido-make-buffer-list-hook
+		   (lambda ()
+		     (setq ido-temp-list result-list))))
+	    (ido-read-buffer (format "%d matches:" result-length))))
+	))))
 
 
 ;; pouvoir ouvrir la liste des fichiers récents au clavier
@@ -487,11 +487,11 @@
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 (setq auto-insert-alist
-      '(
-	("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
-	("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
-	("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
-	))
+  '(
+     ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
+     ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
+     ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
+     ))
 (setq auto-insert 'other)
 
 ;; (define-auto-insert "\.sh" " autoinsert.bash")
@@ -501,7 +501,7 @@
 (defun change-to-utf-8 ()
   (interactive)
   (set-buffer-file-coding-system 'utf-8-unix)
-)
+  )
 
 
 (global-set-key [(f2)] 'change-to-utf-8)
@@ -515,23 +515,23 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(ecb-layout-name "left14")
- '(ecb-options-version "2.40")
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
- '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
- '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
- '(ecb-tip-of-the-day nil)
- '(ecb-windows-width 0.2)
- '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
- '(inhibit-startup-screen t)
- '(org-agenda-files nil)
- '(scilab-shell-command "/usr/bin/scilab"))
+  '(ecb-layout-name "left14")
+  '(ecb-options-version "2.40")
+  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+  '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
+  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
+  '(ecb-tip-of-the-day nil)
+  '(ecb-windows-width 0.2)
+  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
+  '(inhibit-startup-screen t)
+  '(org-agenda-files nil)
+  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+  )
 
 
 
@@ -557,8 +557,8 @@
 
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
-      interprogram-paste-function            ; ...with...
-      'x-cut-buffer-or-selection-value)      ; ...other X clients
+  interprogram-paste-function            ; ...with...
+  'x-cut-buffer-or-selection-value)      ; ...other X clients
 
 
 ;; Make URLs in comments/strings clickable
@@ -566,8 +566,8 @@
 
 ;; Customized Emacs Lisp mode
 (add-hook 'emacs-lisp-mode-hook 
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
+  '(lambda ()
+     (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (require 'eldoc)
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
@@ -587,7 +587,7 @@
     (make-local-variable 'hippie-expand-try-functions-list)
     (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
-        try-complete-lisp-symbol))
+	 try-complete-lisp-symbol))
 
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
@@ -619,8 +619,8 @@
 ;; Move this code earlier if you want to reference
 ;; packages in your .emacs.
 (when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (load
+    (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
 
@@ -630,16 +630,16 @@
 (easy-menu-define my-encoding-menu my-encoding-map
   "Encoding Menu."
   '("Change File Encoding"
-    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-    ["--" nil nil]
-    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-    ["--" nil nil]
-    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
-    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
-    ))
+     ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+     ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+     ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+     ["--" nil nil]
+     ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+     ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+     ["--" nil nil]
+     ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
+     ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
+     ))
 (define-key-after menu-bar-file-menu [my-file-separator]
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
