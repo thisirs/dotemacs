@@ -159,6 +159,19 @@
        (t (list (line-beginning-position)
 	 (line-beginning-position 2))))))
 
+
+;;; la commande kill supprime automatiquement les espaces d'indentations si besoin
+(defadvice kill-line (before check-position activate)
+  (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
+			    c-mode c++-mode objc-mode
+			    latex-mode plain-tex-mode
+			    ruby-mode python-mode))
+    (if (and (eolp) (not (bolp)))
+      (progn (forward-char 1)
+	(just-one-space 0)
+	(backward-char 1)))))
+
+
 ;;move between windows with meta-arrows
 (windmove-default-keybindings 'meta)
 
@@ -211,6 +224,8 @@
 (setq remember-annotation-functions '(org-remember-annotation))
 (setq remember-handler-functions '(org-remember-handler))
 
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
 
 
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
