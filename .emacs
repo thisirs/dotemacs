@@ -152,28 +152,28 @@
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive
-     (cond
-       (mark-active (list (region-beginning) (region-end)))
-       ((looking-at "[])}]") (message "group copied!")
-	 (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-       ((looking-at "[[({]") (message "group copied!")
-	 (list (point) (save-excursion (forward-list))))
-       (t (message "line copied!") (list (line-beginning-position)
-	 (line-beginning-position 2))))))
+    (cond
+      (mark-active (list (region-beginning) (region-end)))
+      ((looking-at "[])}]") (message "group copied!")
+	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+      ((looking-at "[[({]") (message "group copied!")
+	(list (point) (save-excursion (forward-list))))
+      (t (message "line copied!") (list (line-beginning-position)
+				    (line-beginning-position 2))))))
 
 ;; kill-region (C-w) coupe la ligne courante si aucune région active
 ;; coupe le groupe si au dessus d'un délimiteur
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
-     (cond
-       (mark-active (list (region-beginning) (region-end)))
-       ((looking-at "[])}]")
-	 (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-       ((looking-at "[[({]")
-	 (list (point) (save-excursion (forward-list))))
-       (t (list (line-beginning-position)
-	 (line-beginning-position 2))))))
+    (cond
+      (mark-active (list (region-beginning) (region-end)))
+      ((looking-at "[])}]")
+	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+      ((looking-at "[[({]")
+	(list (point) (save-excursion (forward-list))))
+      (t (list (line-beginning-position)
+	   (line-beginning-position 2))))))
 
 
 ;;; la commande kill supprime automatiquement les espaces d'indentations si besoin
@@ -223,29 +223,31 @@
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
-		(lambda () (interactive) (switch-to-buffer "*scratch*")))
+  (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-		(lambda () (interactive) (find-file "~/.emacs")))
+  (lambda () (interactive) (find-file "~/.emacs")))
 (global-set-key (kbd "s-s o") ;; .emacs
-		(lambda () (interactive)
-		  (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
+  (lambda () (interactive)
+    (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
 ;; intégration de remember dans org
 (global-set-key (kbd "C-c r") 'remember)
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(org-remember-insinuate)
+
 (setq org-remember-templates
-      '((?n "* %U %?\n\n  %i\n  %a" "/media/THISKEY/Documents/Org/notes.org")))
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
+  '((?n "* %U %?\n\n  %i\n  %a" "/media/THISKEY/Documents/Org/notes.org")))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
+(setq org-agenda-files (list "/media/THISKEY/Documents/Org/TODO.org"
+			 "/media/THISKEY/Documents/Org/test.org"
+			 ))
 
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
-(require 'yasnippet) ;; not yasnippet-bundle
+(require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
 
