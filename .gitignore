@@ -1,3 +1,4 @@
-.emacs.d/auto-save-list/**/*
-.emacs.d/emacs.backups/**/*
-.emacs.d/data/**/*
+.emacs.d/auto-save-list
+.emacs.d/emacs.backups
+.emacs.d/data
+.emacs.d/saveplace

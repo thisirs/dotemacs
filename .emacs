@@ -5,41 +5,25 @@
 
 (require 'auto-install)
 
-(defvar trans-term-p t "Check if fullscreen is on or off")
+(require 'instant)
 
-(defvar notify-send-sound-default
-  "/home/sylvain/.sounds/tada.wav"
-  "Son par défaut pour notify-send")
-
-(defun notify-send (title msg &optional icon sound)
-  "Show a popup if we're on X, and echo it; TITLE is the title
-of the message, MSG is the context. Optionally, you can provide an ICON and
-a sound to be played. A sound set to t will play notify-send-sound-default"
-  (interactive "sTitle: \nsMessage: ")
-  (when sound
-    (progn
-      (when (eq t sound) (setq sound notify-send-sound-default))
-      (shell-command (concat "mplayer " sound " 2> /dev/null"))))
-  (when (eq window-system 'x)
-    (shell-command (concat "notify-send "
-                     (if icon (concat "-i " icon) "")
-                     " '" title "' '" msg "'")))
-    (message (concat title ": " msg)))
+(require 'notify-send)
 
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (let* ((tramp-prefix "/sudo:root@localhost:")
-    (l (length tramp-prefix)))
+	  (l (length tramp-prefix)))
     (if (and
 	  (= arg 1)
 	  (buffer-file-name)
-	  (not (eq t (compare-strings
-		 tramp-prefix 0 l
-		 buffer-file-name 0 l))))
+	  (not (eq t (string=
+		       tramp-prefix
+		       (substring buffer-file-name 0 l)))))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: "))))))
-    
+      (find-file (concat "/sudo:root@localhost:"
+		   (ido-read-file-name "File: "))))))
 
+(defvar trans-term-p t "Check if fullscreen is on or off")
 
 (defun non-trans-term ()
   (interactive)
@@ -62,7 +46,7 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
   (interactive)
   (setq trans-term-p (not trans-term-p))
   (if trans-term-p
-      (non-trans-term)
+    (non-trans-term)
     (trans-term)))
 
 (require 'linkd)
@@ -71,14 +55,14 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
 
-;;(require 'magit)
+(require 'magit)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs
-      (lambda (e)
-        (y-or-n-p-with-timeout
-         "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
+  (lambda (e)
+    (y-or-n-p-with-timeout
+      "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
 
 ;; Laisser le curseur en place lors d'un défilement par pages. Par
 ;; défaut, Emacs place le curseur en début ou fin d'écran selon le
@@ -94,7 +78,7 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (defun rename-current-file-or-buffer ()
   (interactive)
   (if (not (buffer-file-name))
-      (call-interactively 'rename-buffer)
+    (call-interactively 'rename-buffer)
     (let ((file (buffer-file-name)))
       (with-temp-buffer
         (set-buffer (dired-noselect file))
@@ -109,42 +93,58 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (require 'ibuffer)
 
 (setq ibuffer-saved-filter-groups
-      (quote (("default"
-	       ("Org" ;; all org-related buffers
-		(mode . org-mode))
-	       ("Mail"
-		(or ;; mail-related buffers
-		 (mode . message-mode)
-		 (mode . mail-mode)
-		 ;; etc.;; all your mail related modes
-		 ))
-	       ("KROKEY's programming"
-		(filename . "/media/KROKEY/programming/"))
-	       ("Programming" 
-		(or
-		 (mode . c-mode)
-		 (mode . perl-mode)
-		 (mode . python-mode)
-		 (mode . emacs-lisp-mode)
-		 (mode . ruby-mode)
-		 ;; etc
-		 ))
-	       ("crap" (or
-                        (name . "^\\*trace")
-                        (name . "^\\*completions")
-                        (name . "^\\*Quail")
-                        (name . "^\\*magit")
-                        (name . "^\\*Backtrace\\*$")
-                        (name . "^\\*compilation\\*$")
-                        (name . "^\\*scratch\\*$")
-                        (name . "^\\*Messages\\*$")))
-	       ("ERC" (mode . erc-mode))))))
+  (quote (("default"
+	    ("Org" ;; all org-related buffers
+	      (mode . org-mode))
+	    ("Mail"
+	      (or ;; mail-related buffers
+		(mode . message-mode)
+		(mode . mail-mode)
+		;; etc.;; all your mail related modes
+		))
+	    ("THISKEY's programming"
+	      (filename . "/media/THISKEY/programming/"))
+	    ("Programming" 
+	      (or
+		(mode . c-mode)
+		(mode . perl-mode)
+		(mode . python-mode)
+		(mode . emacs-lisp-mode)
+		(mode . ruby-mode)
+		;; etc
+		))
+	    ("crap" (or
+		      (name . "^\\*trace")
+		      (name . "^\\*completions")
+		      (name . "^\\*Quail")
+		      (name . "^\\*magit")
+		      (name . "^\\*Backtrace\\*$")
+		      (name . "^\\*compilation\\*$")
+		      (name . "^\\*scratch\\*$")
+		      (name . "^\\*Messages\\*$")))
+	    ("ERC" (mode . erc-mode))))))
 
 (add-hook 'ibuffer-mode-hook
-	  (lambda ()
-	    (ibuffer-switch-to-saved-filter-groups "default")))
+  (lambda ()
+    (ibuffer-switch-to-saved-filter-groups "default")))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;;; indenter automatiquement le code collé :
+(defadvice yank (after indent-region activate)
+  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
+			    c-mode c++-mode objc-mode
+			    latex-mode plain-tex-mode
+			    python-mode))
+    (indent-region (region-beginning) (region-end) nil)))
+
+(defadvice yank-pop (after indent-region activate)
+  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
+			    c-mode c++-mode objc-mode
+			    latex-mode plain-tex-mode
+			    python-mode))
+    (indent-region (region-beginning) (region-end) nil)))
+
 
 
 ;; kill-ring-save (M-w) copie la ligne si aucune region active,
@@ -152,28 +152,41 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive
-     (cond
-       (mark-active (list (region-beginning) (region-end)))
-       ((looking-at "[])}]") (message "group copied!")
-	 (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-       ((looking-at "[[({]") (message "group copied!")
-	 (list (point) (save-excursion (forward-list))))
-       (t (message "line copied!") (list (line-beginning-position)
-	 (line-beginning-position 2))))))
+    (cond
+      (mark-active (list (region-beginning) (region-end)))
+      ((looking-at "[])}]") (message "group copied!")
+	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+      ((looking-at "[[({]") (message "group copied!")
+	(list (point) (save-excursion (forward-list))))
+      (t (message "line copied!") (list (line-beginning-position)
+				    (line-beginning-position 2))))))
 
 ;; kill-region (C-w) coupe la ligne courante si aucune région active
 ;; coupe le groupe si au dessus d'un délimiteur
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
-     (cond
-       (mark-active (list (region-beginning) (region-end)))
-       ((looking-at "[])}]")
-	 (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-       ((looking-at "[[({]")
-	 (list (point) (save-excursion (forward-list))))
-       (t (list (line-beginning-position)
-	 (line-beginning-position 2))))))
+    (cond
+      (mark-active (list (region-beginning) (region-end)))
+      ((looking-at "[])}]")
+	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+      ((looking-at "[[({]")
+	(list (point) (save-excursion (forward-list))))
+      (t (list (line-beginning-position)
+	   (line-beginning-position 2))))))
+
+
+;;; la commande kill supprime automatiquement les espaces d'indentations si besoin
+(defadvice kill-line (before check-position activate)
+  (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
+			    c-mode c++-mode objc-mode
+			    latex-mode plain-tex-mode
+			    ruby-mode python-mode))
+    (if (and (eolp) (not (bolp)))
+      (progn (forward-char 1)
+	(just-one-space 0)
+	(backward-char 1)))))
+
 
 ;;move between windows with meta-arrows
 (windmove-default-keybindings 'meta)
@@ -210,17 +223,38 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
-		(lambda () (interactive) (switch-to-buffer "*scratch*")))
+  (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-		(lambda () (interactive) (find-file "~/.emacs")))
+  (lambda () (interactive) (find-file "~/.emacs")))
 (global-set-key (kbd "s-s o") ;; .emacs
-		(lambda () (interactive)
-		  (find-file "/media/KROKEY/Documents/Org/TODO.org")))
+  (lambda () (interactive)
+    (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
+(global-set-key (kbd "C-x à") 'delete-other-windows)
+(global-set-key (kbd "C-x C-à") 'delete-other-windows)
+
+;; intégration de remember dans org
+(global-set-key (kbd "C-c r") 'remember)
+(org-remember-insinuate)
+
+(setq org-remember-templates
+  '((?n "* %U %?\n\n  %i\n  %a" "/media/THISKEY/Documents/Org/notes.org")))
+
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+
+(setq org-agenda-files (list "/media/THISKEY/Documents/Org/TODO.org"
+			 "/media/THISKEY/Documents/Org/test.org"
+			 ))
+
+(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
 
 ;; se rappelle ou je suis dans un fichier
-;; (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-;; (setq-default save-place t) ;; activate it for all buffers
-;; (require 'saveplace) ;; get the package
+(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+(setq-default save-place t) ;; activate it for all buffers
+(require 'saveplace) ;; get the package
 
 
 ;; Indentation du buffer
@@ -269,9 +303,9 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (setq LaTeX-item-indent 0)
 
 (add-hook 'LaTeX-mode-hook
-	  '(lambda ()
-	     (reftex-mode)
-	     (flyspell-mode)))
+  '(lambda ()
+     (reftex-mode)
+     (flyspell-mode)))
 
 (defun latex-accent () (interactive)
   (save-excursion
@@ -327,16 +361,16 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (defun ido-execute-command ()
   (interactive)
   (call-interactively
-   (intern
-    (ido-completing-read
-     "M-x "
-     (progn
-       (unless ido-execute-command-cache
-	 (mapatoms (lambda (s)
-		     (when (commandp s)
-		       (setq ido-execute-command-cache
-			     (cons (format "%S" s) ido-execute-command-cache))))))
-       ido-execute-command-cache)))))
+    (intern
+      (ido-completing-read
+	"M-x "
+	(progn
+	  (unless ido-execute-command-cache
+	    (mapatoms (lambda (s)
+			(when (commandp s)
+			  (setq ido-execute-command-cache
+			    (cons (format "%S" s) ido-execute-command-cache))))))
+	  ido-execute-command-cache)))))
 
 (global-set-key "\M-x" 'ido-execute-command)
 
@@ -350,9 +384,9 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (defun toggle-transparency ()
   (interactive)
   (if (/=
-       (cadr (find 'alpha (frame-parameters nil) :key #'car))
-       100)
-      (set-frame-parameter nil 'alpha '(100 100))
+	(cadr (find 'alpha (frame-parameters nil) :key #'car))
+	100)
+    (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
@@ -360,60 +394,60 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-arrange-by-rules-min-items 0
-      recentf-arrange-by-rule-others nil
-      recentf-arrange-rules
-      '
-      (
-       ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-       ("Ruby files (%d)" ".\\.rb$")
-       ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-       ("Java files (%d)" ".\\.java$")
-       ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-       ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-       ("Configuration files (%d)" "rc$\\|/\\.")
-       ("Ada files (%d)" ".\\.ad[sb]$")
-       ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-       ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-       ("Documentation (%d)" "/doc/")
-       ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-       ("Lisp files (%d)" ".\\.lisp$")
-       )
-      recentf-max-saved-items 50
-      recentf-max-menu-items 30
-      recentf-menu-path nil
-      recentf-exclude '(".emacs-customize$"
-			".newsrc"
-			".etags$"
-			".emacs.bmk$"
-			".bbdb$"
-			".log$"
-			"^/tmp/")
-      recentf-menu-filter 'recentf-arrange-by-rule
-      recentf-menu-title "Recentf"
-      )
+  recentf-arrange-by-rule-others nil
+  recentf-arrange-rules
+  '
+  (
+    ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+    ("Ruby files (%d)" ".\\.rb$")
+    ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+    ("Java files (%d)" ".\\.java$")
+    ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+    ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+    ("Configuration files (%d)" "rc$\\|/\\.")
+    ("Ada files (%d)" ".\\.ad[sb]$")
+    ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+    ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+    ("Documentation (%d)" "/doc/")
+    ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+    ("Lisp files (%d)" ".\\.lisp$")
+    )
+  recentf-max-saved-items 50
+  recentf-max-menu-items 30
+  recentf-menu-path nil
+  recentf-exclude '(".emacs-customize$"
+		     ".newsrc"
+		     ".etags$"
+		     ".emacs.bmk$"
+		     ".bbdb$"
+		     ".log$"
+		     "^/tmp/")
+  recentf-menu-filter 'recentf-arrange-by-rule
+  recentf-menu-title "Recentf"
+  )
 
 (defun recentf-interactive-complete ()
   "find a file in the recently open file using ido for completion"
   (interactive)
   (let* ((all-files recentf-list)
-	 (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
-	 (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
-	 (ido-make-buffer-list-hook
-	  (lambda ()
-	    (setq ido-temp-list filename-list)))
-	 (filename (ido-read-buffer "Find Recent File: "))
-	 (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
-	 (result-length (length result-list)))
+	  (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
+	  (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
+	  (ido-make-buffer-list-hook
+	    (lambda ()
+	      (setq ido-temp-list filename-list)))
+	  (filename (ido-read-buffer "Find Recent File: "))
+	  (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
+	  (result-length (length result-list)))
     (find-file
-     (cond
-      ((= result-length 0) filename)
-      ((= result-length 1) (car result-list))
-      ( t
-	(let ( (ido-make-buffer-list-hook
-		(lambda ()
-		  (setq ido-temp-list result-list))))
-	  (ido-read-buffer (format "%d matches:" result-length))))
-      ))))
+      (cond
+	((= result-length 0) filename)
+	((= result-length 1) (car result-list))
+	( t
+	  (let ( (ido-make-buffer-list-hook
+		   (lambda ()
+		     (setq ido-temp-list result-list))))
+	    (ido-read-buffer (format "%d matches:" result-length))))
+	))))
 
 
 ;; pouvoir ouvrir la liste des fichiers récents au clavier
@@ -453,11 +487,11 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 (setq auto-insert-alist
-      '(
-	("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
-	("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
-	("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
-	))
+  '(
+     ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
+     ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
+     ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
+     ))
 (setq auto-insert 'other)
 
 ;; (define-auto-insert "\.sh" " autoinsert.bash")
@@ -467,37 +501,37 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (defun change-to-utf-8 ()
   (interactive)
   (set-buffer-file-coding-system 'utf-8-unix)
-)
+  )
 
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-;;(require 'starter-kit-ruby)
+(require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- ;; '(ecb-auto-activate t)
- '(ecb-layout-name "left14")
- '(ecb-options-version "2.40")
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
- '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
- '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
- '(ecb-tip-of-the-day nil)
- '(ecb-windows-width 0.2)
- '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
- '(inhibit-startup-screen t)
- '(scilab-shell-command "/usr/bin/scilab"))
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(ecb-layout-name "left14")
+  '(ecb-options-version "2.40")
+  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+  '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
+  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
+  '(ecb-tip-of-the-day nil)
+  '(ecb-windows-width 0.2)
+  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
+  '(inhibit-startup-screen t)
+  '(org-agenda-files nil)
+  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
 
 
 
@@ -523,8 +557,8 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
-      interprogram-paste-function            ; ...with...
-      'x-cut-buffer-or-selection-value)      ; ...other X clients
+  interprogram-paste-function            ; ...with...
+  'x-cut-buffer-or-selection-value)      ; ...other X clients
 
 
 ;; Make URLs in comments/strings clickable
@@ -532,8 +566,8 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 
 ;; Customized Emacs Lisp mode
 (add-hook 'emacs-lisp-mode-hook 
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
+  '(lambda ()
+     (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (require 'eldoc)
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
@@ -553,7 +587,7 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
     (make-local-variable 'hippie-expand-try-functions-list)
     (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
-        try-complete-lisp-symbol))
+	 try-complete-lisp-symbol))
 
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
@@ -568,8 +602,7 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
           1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
-;; by default on Emacs 23
-;;(delete-selection-mode 1)
+(delete-selection-mode t)
 
 ;; Text selection highlighted by default on Emacs 23
 ;;(transient-mark-mode t)
@@ -586,8 +619,8 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 ;; Move this code earlier if you want to reference
 ;; packages in your .emacs.
 (when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (load
+    (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
 
@@ -597,16 +630,16 @@ a sound to be played. A sound set to t will play notify-send-sound-default"
 (easy-menu-define my-encoding-menu my-encoding-map
   "Encoding Menu."
   '("Change File Encoding"
-    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-    ["--" nil nil]
-    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-    ["--" nil nil]
-    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
-    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
-    ))
+     ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+     ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+     ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+     ["--" nil nil]
+     ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+     ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+     ["--" nil nil]
+     ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
+     ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
+     ))
 (define-key-after menu-bar-file-menu [my-file-separator]
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
