@@ -11,12 +11,10 @@
   "/home/sylvain/.sounds/tada.wav"
   "Son par défaut pour notify-send")
 
-
-;; BUG no sound
 (defun notify-send (title msg &optional icon sound)
-  "Show a popup if we're on X, or echo it otherwise; TITLE is the title
+  "Show a popup if we're on X, and echo it; TITLE is the title
 of the message, MSG is the context. Optionally, you can provide an ICON and
-a sound to be played"
+a sound to be played. A sound set to t will play notify-send-sound-default"
   (interactive "sTitle: \nsMessage: ")
   (when sound
     (progn
@@ -26,7 +24,6 @@ a sound to be played"
     (shell-command (concat "notify-send "
                      (if icon (concat "-i " icon) "")
                      " '" title "' '" msg "'")))
-    ;; text only version
     (message (concat title ": " msg)))
 
 (defun sudo-edit (&optional arg)
