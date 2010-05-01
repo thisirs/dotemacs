@@ -9,6 +9,14 @@
 
 (require 'notify-send)
 
+;; abandonne le minibuffer quand on le quitte
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (let* ((tramp-prefix "/sudo:root@localhost:")
