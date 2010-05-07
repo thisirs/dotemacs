@@ -9,6 +9,14 @@
 
 (require 'notify-send)
 
+;; abandonne le minibuffer quand on le quitte
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (let* ((tramp-prefix "/sudo:root@localhost:")
@@ -237,13 +245,18 @@
 (org-remember-insinuate)
 
 (setq org-remember-templates
-  '((?n "* %U %?\n\n  %i\n  %a" "/media/THISKEY/Documents/Org/notes.org")))
+  (list
+    '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/notes.org" "Tâches")
+    '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org" (eval blah))
+))
+  
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
-(setq org-agenda-files (list "/media/THISKEY/Documents/Org/TODO.org"
-			 "/media/THISKEY/Documents/Org/test.org"
+(setq org-agenda-files (list "/media/THISKEY/Documents/Org/agenda.org"
+			 "/media/THISKEY/Documents/Org/someday.org"
+			 "/media/THISKEY/Documents/Org/birthday.org"
 			 ))
 
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
