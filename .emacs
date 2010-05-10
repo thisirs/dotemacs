@@ -243,10 +243,11 @@
 ;; intégration de remember dans org
 (global-set-key (kbd "C-c r") 'remember)
 (org-remember-insinuate)
+(setq org-hide-leading-stars t)
 
 (setq org-remember-templates
   (list
-    '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/notes.org" "Tâches")
+    '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
 ))
   
