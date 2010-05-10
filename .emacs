@@ -248,6 +248,7 @@
 (setq org-remember-templates
   (list
     '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
+    '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
 ))
   
