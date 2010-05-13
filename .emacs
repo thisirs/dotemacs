@@ -243,8 +243,12 @@
 ;; intégration de remember dans org
 (global-set-key (kbd "C-c r") 'remember)
 (org-remember-insinuate)
+
+;; Ne mettre qu'une seule étoile devant les titres
 (setq org-hide-leading-stars t)
 
+;; dater lorsqu'un TODO est mis à DONE
+(setq org-log-done t)
 (setq org-remember-templates
   (list
     '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
@@ -530,23 +534,23 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  '(ecb-layout-name "left14")
-  '(ecb-options-version "2.40")
-  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
-  '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
-  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
-  '(ecb-tip-of-the-day nil)
-  '(ecb-windows-width 0.2)
-  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
-  '(inhibit-startup-screen t)
-  '(org-agenda-files nil)
-  '(scilab-shell-command "/usr/bin/scilab"))
+ '(ecb-layout-name "left14")
+ '(ecb-options-version "2.40")
+ '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+ '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
+ '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
+ '(ecb-tip-of-the-day nil)
+ '(ecb-windows-width 0.2)
+ '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
+ '(inhibit-startup-screen t)
+ '(org-agenda-files (quote ("/media/THISKEY/Documents/Org/someday.org")))
+ '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  )
+ )
 
 
 
