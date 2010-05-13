@@ -543,7 +543,6 @@
  '(ecb-windows-width 0.2)
  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
  '(inhibit-startup-screen t)
- '(org-agenda-files (quote ("/media/THISKEY/Documents/Org/someday.org")))
  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
