@@ -253,6 +253,7 @@
   (list
     '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
     '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org")
+    '("Quotation" ?q "* %?" "/media/THISKEY/Documents/Org/quotes.org")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
 ))
   
