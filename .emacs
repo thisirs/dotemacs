@@ -26,7 +26,7 @@
 	  (buffer-file-name)
 	  (not (eq t (string=
 		       tramp-prefix
-		       (substring buffer-file-name 0 l)))))
+		       (substring buffer-file-name 0 (min l (length buffer-file-name)))))))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
       (find-file (concat "/sudo:root@localhost:"
 		   (ido-read-file-name "File: "))))))
