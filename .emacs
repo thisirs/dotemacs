@@ -1,7 +1,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
-(load "elscreen" "ElScreen" t)
+;; (load "elscreen" "ElScreen" t)
 
 (require 'auto-install)
 
@@ -36,9 +36,9 @@
 (defun non-trans-term ()
   (interactive)
   (set-frame-parameter nil 'alpha '(100 100))
+  (jump-to-register 'r)
   (tool-bar-mode 1)
   (menu-bar-mode 1)
-  (jump-to-register 'r)
   ) 
 
 (defun trans-term ()
@@ -47,6 +47,7 @@
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (delete-other-windows)
+  (set-frame-size (selected-frame) 70 40)
   (set-frame-parameter nil 'alpha '(50 50))
   )
 
@@ -57,6 +58,7 @@
     (non-trans-term)
     (trans-term)))
 
+(global-set-key (kbd "C-x C-p") 'find-file-at-point)
 (require 'linkd)
 
 (require 'anything)
