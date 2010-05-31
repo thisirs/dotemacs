@@ -59,6 +59,13 @@
     (trans-term)))
 
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
+
+(defun find-temp-file ()
+  (interactive)
+  (find-file (make-temp-file "foo")))
+
+(global-set-key (kbd "C-x C-t") 'find-temp-file)
+
 (require 'linkd)
 
 (require 'anything)
