@@ -66,6 +66,11 @@
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
+(global-set-key (kbd "<C-kp-6>") 'enlarge-window-horizontally)
+(global-set-key (kbd "<C-kp-4>") 'shrink-window-horizontally)
+(global-set-key (kbd "<C-kp-2>") 'enlarge-window)
+(global-set-key (kbd "<C-kp-8>") 'shrink-window)
+
 (require 'linkd)
 
 (require 'anything)
