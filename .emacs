@@ -118,6 +118,10 @@
   (quote (("default"
 	    ("Org" ;; all org-related buffers
 	      (mode . org-mode))
+	    ("TeX/LaTeX"
+	      (or
+		(mode . latex-mode)
+		(name . "^\\.tex$")))
 	    ("Mail"
 	      (or ;; mail-related buffers
 		(mode . message-mode)
