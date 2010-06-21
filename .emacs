@@ -270,7 +270,7 @@
 (setq org-remember-templates
   (list
     '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
-    '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org")
+    '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org", "Divers")
     '("Quotation" ?q "* %?" "/media/THISKEY/Documents/Org/quotes.org")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
 ))
@@ -556,6 +556,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(LaTeX-command "latex --shell-escape")
  '(ecb-layout-name "left14")
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
