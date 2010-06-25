@@ -76,6 +76,8 @@
 (require 'anything)
 (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
+(setq anything-c-locate-db-file "~/.emacs.d/.locatedb")
+(setq anything-c-locate-options `("locate" "-d" ,anything-c-locate-db-file "-i" "-r"))
 
 (require 'magit)
 
