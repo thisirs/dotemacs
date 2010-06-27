@@ -341,6 +341,7 @@
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
+(setq TeX-PDF-mode t)
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
