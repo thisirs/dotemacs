@@ -286,6 +286,8 @@
 			 "/media/THISKEY/Documents/Org/birthday.org"
 			 ))
 
+(add-hook 'after-init-hook 'org-agenda-list)
+
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
 (require 'yasnippet)
 (yas/initialize)
