@@ -1,12 +1,18 @@
-\documentclass{article}
+\documentclass{article}%           autres choix : report, book
 
-\usepackage[francais]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}%       encodage du fichier source
+\usepackage[T1]{fontenc}%          gestion des accents (pour les pdf)
+\usepackage[francais]{babel}%      rajouter éventuellement english, greek, etc.
+\usepackage{textcomp}%             caractères additionnels
+\usepackage{amsmath,amssymb}%      pour les maths
+\usepackage{lmodern}%              remplacer éventuellement par txfonts, fourier, etc.
+\usepackage[a4paper]{geometry}%    taille correcte du papier
+\usepackage{graphicx}%             pour inclure des images
+\usepackage{xcolor}%               pour gérer les couleurs
+\usepackage{microtype}%            améliorations typographiques
 
-\title{}
-\author{}
-\date{}
+\usepackage{hyperref}%             gestion des hyperliens
+\hypersetup{pdfstartview=XYZ}%     zoom par défaut
 
 \begin{document}
 
