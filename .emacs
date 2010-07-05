@@ -60,9 +60,10 @@
 
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
 
-(defun find-temp-file ()
-  (interactive)
-  (find-file (make-temp-file "foo")))
+(defun find-temp-file (extension)
+  (interactive "sExtension: ")
+  (if (> (length extension) 0) (setq extension (concat "." extension)))
+  (find-file (concat (make-temp-file "foo") extension)))
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
@@ -536,7 +537,7 @@
   '(
      ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
      ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
-     ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 13))])
+     ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 19))])
      ))
 (setq auto-insert 'other)
 
