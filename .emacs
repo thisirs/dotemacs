@@ -17,16 +17,14 @@
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
+;; ouvre un buffer en sudo via tramp
 (defun sudo-edit (&optional arg)
   (interactive "p")
-  (let* ((tramp-prefix "/sudo:root@localhost:")
-	  (l (length tramp-prefix)))
+  (let ((tramp-prefix "/sudo:root@localhost:"))
     (if (and
 	  (= arg 1)
 	  (buffer-file-name)
-	  (not (eq t (string=
-		       tramp-prefix
-		       (substring buffer-file-name 0 (min l (length buffer-file-name)))))))
+	  (not (string-match "^/sudo:root@localhost:" buffer-file-name)))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
       (find-file (concat "/sudo:root@localhost:"
 		   (ido-read-file-name "File: "))))))
