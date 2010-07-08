@@ -72,11 +72,15 @@
 
 (require 'linkd)
 
-(require 'anything)
-(require 'anything-config)
+(add-to-list 'load-path (expand-file-name "~/git/anything-config"))
+(add-to-list 'load-path (expand-file-name "~/git/anything-config/extensions"))
+(require 'anything-startup)
+;; (require 'anything)
+;; (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
-(setq anything-c-locate-db-file (expand-file-name "~/.locate.db"))
-(setq anything-c-locate-options `("locate" "-e" "-d" ,anything-c-locate-db-file "-i" "-r"))
+(setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r -- %s"))
+
+;; (setq anything-c-locate-options `("locate" "-e" "-d" ,anything-c-locate-db-file "-i" "-r"))
 
 (require 'magit)
 
