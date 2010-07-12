@@ -218,6 +218,8 @@
 	(just-one-space 0)
 	(backward-char 1)))))
 
+;; efface tous les espaces et sauts de ligne avec un seul backspace
+(setq backward-delete-char-untabify-method (quote all))
 
 ;;move between windows with meta-arrows
 (windmove-default-keybindings 'meta)
@@ -347,6 +349,7 @@
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
+(setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
@@ -565,6 +568,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(LaTeX-command "latex --shell-escape")
+ '(backward-delete-char-untabify-method (quote hungry))
  '(ecb-layout-name "left14")
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
