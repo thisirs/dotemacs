@@ -277,6 +277,7 @@
 (setq org-remember-templates
   (list
     '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
+    '("Programming" ?p "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Programming")
     '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org", "Divers")
     '("Quotation" ?q "* %?" "/media/THISKEY/Documents/Org/quotes.org")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
