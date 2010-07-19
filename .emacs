@@ -78,7 +78,7 @@
 ;; (require 'anything)
 ;; (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
-(setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r %s"))
+(setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\""))
 
 ;; (setq anything-c-locate-options `("locate" "-e" "-d" ,anything-c-locate-db-file "-i" "-r"))
 
@@ -282,7 +282,6 @@
     '("Quotation" ?q "* %?" "/media/THISKEY/Documents/Org/quotes.org")
     '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
 ))
-  
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -351,6 +350,9 @@
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
 (setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
+(add-to-list 'TeX-output-view-style (quote ("^pdf$" "." "evince %o %(outpage)")))
+
+;(add-hook  'LaTeX-mode-hook  'pdfevince  t) ; AUCTeX LaTeX mode
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
@@ -399,6 +401,16 @@
     (goto-char (point-min))
     (replace-string "\\^i" "î")))
 
+;; ouvre les pdf sous anything avec un prog externe par défaut
+(defadvice find-file (before gnome-find-file
+		       (filename &optional wildcards))
+  "Ouvre le fichier avec un programme externe si c'est un pdf."
+  (if (string-match "\\.pdf$" filename)
+    (gnome-open filename)))
+
+(defun gnome-open (filename)
+  (let ((process-connection-type nil))
+    (start-process "" nil "/usr/bin/gnome-open" filename)))
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
