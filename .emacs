@@ -1,4 +1,5 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+(add-to-list 'load-path (expand-file-name "~/git/org-mode/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
@@ -265,26 +266,37 @@
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
-;; intégration de remember dans org
-(global-set-key (kbd "C-c r") 'remember)
-(org-remember-insinuate)
+
+(require 'org-install)
+
+(setq org-capture-templates
+      '(("t" "Todo" entry
+	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
+	 "* TODO %?\n  %i\n")
+	("p" "Programming" entry
+	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
+	 "* TODO %?\n  %i\n")
+	("e" "Event" entry
+	 (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
+	 "* EVENT %?")
+	("q" "Quotation" entry
+	 (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
+	 "* %?")
+	("a" "Anniv" entry
+	 (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
+	 "* %^{Birthday}t Anniversaire de %^{prompt}!\n")))
+
+(define-key global-map "\C-cc" 'org-capture)
 
 ;; Ne mettre qu'une seule étoile devant les titres
 (setq org-hide-leading-stars t)
 
 ;; dater lorsqu'un TODO est mis à DONE
 (setq org-log-done t)
-(setq org-remember-templates
-  (list
-    '("Todo" ?t "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Tâches")
-    '("Programming" ?p "* TODO %?\n  %i\n" "/media/THISKEY/Documents/Org/someday.org" "Programming")
-    '("Event" ?e "* EVENT %?" "/media/THISKEY/Documents/Org/agenda.org", "Divers")
-    '("Quotation" ?q "* %?" "/media/THISKEY/Documents/Org/quotes.org")
-    '("Anniv" ?a "* %^{Birthday}t Anniversaire de %^{prompt}!\n" "/media/THISKEY/Documents/Org/birthday.org")
-))
 
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-agenda-files (list "/media/THISKEY/Documents/Org/agenda.org"
 			 "/media/THISKEY/Documents/Org/someday.org"
@@ -350,9 +362,6 @@
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
 (setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
-(add-to-list 'TeX-output-view-style (quote ("^pdf$" "." "evince %o %(outpage)")))
-
-;(add-hook  'LaTeX-mode-hook  'pdfevince  t) ; AUCTeX LaTeX mode
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
@@ -360,7 +369,8 @@
 (add-hook 'LaTeX-mode-hook
   '(lambda ()
      (reftex-mode)
-     (flyspell-mode)))
+     (flyspell-mode)
+     (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-accent () (interactive)
   (save-excursion
@@ -400,6 +410,20 @@
     (replace-string "\\^{i}" "î")
     (goto-char (point-min))
     (replace-string "\\^i" "î")))
+
+;; (add-to-list 'file-name-handler-alist '("\\.pdf" . my-file-handler))
+
+;; (defun my-file-handler (operation &rest args)
+;;   (message "\noperation=%s, args=%s" operation args))
+
+  ;; (cond ((eq operation 'find-file) (notify-send "blah" "blah"))
+  ;; 	(t (let ((inhibit-file-name-handlers
+  ;; 		  (cons 'my-file-handler
+  ;; 			(and (eq inhibit-file-name-operation operation)
+  ;; 			     inhibit-file-name-handlers)))
+  ;; 		 (inhibit-file-name-operation operation))
+  ;; 	     (apply operation args)))))
+
 
 ;; ouvre les pdf sous anything avec un prog externe par défaut
 (defadvice find-file (before gnome-find-file
