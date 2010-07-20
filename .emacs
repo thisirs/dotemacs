@@ -362,6 +362,7 @@
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
 (setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
+(setq LaTeX-command "latex --shell-escape")
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
@@ -604,7 +605,6 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(LaTeX-command "latex --shell-escape")
  '(ecb-layout-name "left14")
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
