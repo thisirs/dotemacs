@@ -1,5 +1,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(add-to-list 'load-path (expand-file-name "~/git/org-mode/lisp"))
+(add-to-list 'load-path (expand-file-name "~/dotemacs/org-mode/lisp"))
+(add-to-list 'load-path (expand-file-name "~/dotemacs/anything-config"))
+(add-to-list 'load-path (expand-file-name "~/dotemacs/anything-config/extensions"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
@@ -73,8 +75,6 @@
 
 (require 'linkd)
 
-(add-to-list 'load-path (expand-file-name "~/git/anything-config"))
-(add-to-list 'load-path (expand-file-name "~/git/anything-config/extensions"))
 (require 'anything-startup)
 ;; (require 'anything)
 ;; (require 'anything-config)
