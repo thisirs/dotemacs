@@ -81,8 +81,6 @@
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
 (setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\""))
 
-;; (setq anything-c-locate-options `("locate" "-e" "-d" ,anything-c-locate-db-file "-i" "-r"))
-
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
   
