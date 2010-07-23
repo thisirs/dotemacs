@@ -412,6 +412,26 @@
     (goto-char (point-min))
     (replace-string "\\^i" "î")))
 
+;; bookmarks
+(setq 
+  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
+  bookmark-save-flag 1)                        ;; autosave each change
+
+(defun define-trivial-mode(mode-prefix file-regexp &optional command)
+  (or command (setq command mode-prefix))
+  (let ((mode-command (intern (concat mode-prefix "-mode"))))
+    (fset mode-command
+      `(lambda ()
+	 (interactive)
+	 (toggle-read-only t)
+	 (start-process ,mode-prefix nil
+	   ,command (buffer-file-name))
+	 (kill-buffer (current-buffer))))
+    (add-to-list 'auto-mode-alist (cons file-regexp mode-command)))
+  )
+
+(define-trivial-mode "acrobat-reader" "\\.pdf$" "/home/srousseau/usr/Adobe/Reader9/bin/acroread")
+
 ;; (add-to-list 'file-name-handler-alist '("\\.pdf" . my-file-handler))
 
 ;; (defun my-file-handler (operation &rest args)
@@ -427,15 +447,15 @@
 
 
 ;; ouvre les pdf sous anything avec un prog externe par défaut
-(defadvice find-file (before gnome-find-file
-		       (filename &optional wildcards))
-  "Ouvre le fichier avec un programme externe si c'est un pdf."
-  (if (string-match "\\.pdf$" filename)
-    (gnome-open filename)))
+;; (defadvice find-file (before gnome-find-file
+;; 		       (filename &optional wildcards))
+;;   "Ouvre le fichier avec un programme externe si c'est un pdf."
+;;   (if (string-match "\\.pdf$" filename)
+;;     (gnome-open filename)))
 
-(defun gnome-open (filename)
-  (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/gnome-open" filename)))
+;; (defun gnome-open (filename)
+;;   (let ((process-connection-type nil))
+;;     (start-process "" nil "/usr/bin/gnome-open" filename)))
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
