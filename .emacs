@@ -417,45 +417,18 @@
   bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
   bookmark-save-flag 1)                        ;; autosave each change
 
-(defun define-trivial-mode(mode-prefix file-regexp &optional command)
-  (or command (setq command mode-prefix))
-  (let ((mode-command (intern (concat mode-prefix "-mode"))))
-    (fset mode-command
-      `(lambda ()
-	 (interactive)
-	 (toggle-read-only t)
-	 (start-process ,mode-prefix nil
-	   ,command (buffer-file-name))
-	 (kill-buffer (current-buffer))))
-    (add-to-list 'auto-mode-alist (cons file-regexp mode-command)))
-  )
+;; TODO faire survivre le processus à la fermeture de emacs
+(defun gnome-open (filename)
+  (let ((process-connection-type nil))
+    (start-process "" nil "/usr/bin/gnome-open" filename)))
 
-(define-trivial-mode "acrobat-reader" "\\.pdf$" "/home/srousseau/usr/Adobe/Reader9/bin/acroread")
+(defadvice find-file (around find-or-launch-file)
+  "Gnome opens file that emacs can't."
+  (if (string-match "\\.pdf$" (ad-get-arg 0))
+    (gnome-open (ad-get-arg 0))
+    ad-do-it))
 
-;; (add-to-list 'file-name-handler-alist '("\\.pdf" . my-file-handler))
-
-;; (defun my-file-handler (operation &rest args)
-;;   (message "\noperation=%s, args=%s" operation args))
-
-  ;; (cond ((eq operation 'find-file) (notify-send "blah" "blah"))
-  ;; 	(t (let ((inhibit-file-name-handlers
-  ;; 		  (cons 'my-file-handler
-  ;; 			(and (eq inhibit-file-name-operation operation)
-  ;; 			     inhibit-file-name-handlers)))
-  ;; 		 (inhibit-file-name-operation operation))
-  ;; 	     (apply operation args)))))
-
-
-;; ouvre les pdf sous anything avec un prog externe par défaut
-;; (defadvice find-file (before gnome-find-file
-;; 		       (filename &optional wildcards))
-;;   "Ouvre le fichier avec un programme externe si c'est un pdf."
-;;   (if (string-match "\\.pdf$" filename)
-;;     (gnome-open filename)))
-
-;; (defun gnome-open (filename)
-;;   (let ((process-connection-type nil))
-;;     (start-process "" nil "/usr/bin/gnome-open" filename)))
+(ad-activate 'find-file)
 
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
