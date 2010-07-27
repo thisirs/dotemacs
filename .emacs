@@ -269,19 +269,22 @@
 
 (require 'org-install)
 
+(setq org-todo-keywords 
+  '("TODO" "|" "CANCELLED(@)" "DONE"))
+
 (setq org-capture-templates
       '(("t" "Todo" entry
 	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
-	 "* TODO %?\n  %i\n")
+	  "* TODO %^{description}%?\n  OPENED: %U")
 	("p" "Programming" entry
 	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
-	 "* TODO %?\n  %i\n")
+	  "* TODO %^{description}%?\n  OPENED: %U")
 	("e" "Event" entry
 	 (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
 	 "* EVENT %?")
-	("q" "Quotation" entry
+	("q" "Quote" entry
 	 (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
-	 "* %?")
+	  "* %^{description}%?\n  OPENED: %U")
 	("a" "Anniv" entry
 	 (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
 	 "* %^{Birthday}t Anniversaire de %^{prompt}!\n")))
@@ -291,7 +294,7 @@
 ;; Ne mettre qu'une seule étoile devant les titres
 (setq org-hide-leading-stars t)
 
-;; dater lorsqu'un TODO est mis à DONE
+;; logging
 (setq org-log-done t)
 
 (global-set-key "\C-cl" 'org-store-link)
