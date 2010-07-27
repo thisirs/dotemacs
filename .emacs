@@ -84,7 +84,8 @@
 ;; (setq anything-c-locate-options `("locate" "-e" "-d" ,anything-c-locate-db-file "-i" "-r"))
 
 (require 'magit)
-
+(global-set-key "\C-ci" 'magit-status)
+  
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs
