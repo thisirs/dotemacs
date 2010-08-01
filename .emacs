@@ -628,7 +628,7 @@
 (global-set-key [f1] 'shell-pop)
 
 
-(server-start)
+;; (server-start)
 
 ;; minibuffer history
 ;;(savehist-mode t)
@@ -693,7 +693,7 @@
 ;;(transient-mark-mode t)
 
 ;; Use system trash (for emacs 23)
-(setq delete-by-moving-to-trash t)
+;; (setq delete-by-moving-to-trash t)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
