@@ -336,14 +336,14 @@
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
 ;; Cedet
-(load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
-(global-ede-mode 1)                      ; Enable the Project management system
-(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
-(global-srecode-minor-mode 1)            ; Enable template insertion menu
+;(load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
+;(global-ede-mode 1)                      ; Enable the Project management system
+;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
+;(global-srecode-minor-mode 1)            ; Enable template insertion menu
 
 ;; ECB
-(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
-(require 'ecb)
+;(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
+;(require 'ecb)
 
 ;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
@@ -661,7 +661,7 @@
 (add-hook 'emacs-lisp-mode-hook 
   (lambda()
     (setq mode-name "ELisp")
-    (local-set-key (kbd "C-<f7>") ;; overrides global C-f7 (compile) 
+    (local-set-key (kbd "<f7>")
       '(lambda()(interactive) 
          (let ((debug-on-error t)) 
            (eval-buffer)
@@ -676,13 +676,14 @@
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (require 'folding nil 'noerror)
+    ;marquer les caractères au delà de 80 caractères
     (font-lock-add-keywords nil '(("^[^;\n]\\{80\\}\\(.*\\)$"
                                     1 font-lock-warning-face prepend)))
     (font-lock-add-keywords nil 
       '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 
-          1 font-lock-warning-face prepend)))  
-    (font-lock-add-keywords nil 
-      '(("\\<\\(add-hook\\|setq\\)" 
+          1 font-lock-warning-face prepend)))
+    (font-lock-add-keywords nil
+      '(("\\<\\(add-hook\\|setq\\)\\>"
           1 font-lock-keyword-face prepend)))))
 
 ;; Delete the selected region when something is typed or with DEL
