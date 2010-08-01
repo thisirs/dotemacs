@@ -83,7 +83,10 @@
 
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
-  
+
+;; suit les liens vers système de contrôles de versions
+(setq vc-follow-symlinks nil)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs
@@ -422,7 +425,7 @@
 ;; TODO faire survivre le processus à la fermeture de emacs
 (defun gnome-open (filename)
   (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/gnome-open" filename)))
+    (start-process "" nil "/usr/bin/gnome-open" (concat filename " &"))))
 
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
