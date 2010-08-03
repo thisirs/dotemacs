@@ -448,7 +448,7 @@
 ;; TODO faire survivre le processus à la fermeture de emacs
 (defun gnome-open (filename)
   (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/gnome-open" (concat filename " &"))))
+    (start-process "" nil "/usr/bin/gnome-open" filename)))
 
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
