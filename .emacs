@@ -85,7 +85,7 @@
 (global-set-key "\C-ci" 'magit-status)
 
 ;; suit les liens vers système de contrôles de versions
-(setq vc-follow-symlinks nil)
+(setq vc-follow-symlinks t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
