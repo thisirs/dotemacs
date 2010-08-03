@@ -25,12 +25,12 @@
   (interactive "p")
   (let ((tramp-prefix "/sudo:root@localhost:"))
     (if (and
-	  (= arg 1)
-	  (buffer-file-name)
-	  (not (string-match "^/sudo:root@localhost:" buffer-file-name)))
+          (= arg 1)
+          (buffer-file-name)
+          (not (string-match "^/sudo:root@localhost:" buffer-file-name)))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
       (find-file (concat "/sudo:root@localhost:"
-		   (ido-read-file-name "File: "))))))
+                   (ido-read-file-name "File: "))))))
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
 
@@ -40,7 +40,7 @@
   (jump-to-register 'r)
   (tool-bar-mode 1)
   (menu-bar-mode 1)
-  ) 
+  )
 
 (defun trans-term ()
   (interactive)
@@ -124,39 +124,39 @@
 
 (setq ibuffer-saved-filter-groups
   (quote (("default"
-	    ("Org" ;; all org-related buffers
-	      (mode . org-mode))
-	    ("TeX/LaTeX"
-	      (or
-		(mode . latex-mode)
-		(name . "^\\.tex$")))
-	    ("Mail"
-	      (or ;; mail-related buffers
-		(mode . message-mode)
-		(mode . mail-mode)
-		;; etc.;; all your mail related modes
-		))
-	    ("THISKEY's programming"
-	      (filename . "/media/THISKEY/programming/"))
-	    ("Programming" 
-	      (or
-		(mode . c-mode)
-		(mode . perl-mode)
-		(mode . python-mode)
-		(mode . emacs-lisp-mode)
-		(mode . ruby-mode)
-		;; etc
-		))
-	    ("crap" (or
-		      (name . "^\\*trace")
-		      (name . "^\\*completions")
-		      (name . "^\\*Quail")
-		      (name . "^\\*magit")
-		      (name . "^\\*Backtrace\\*$")
-		      (name . "^\\*compilation\\*$")
-		      (name . "^\\*scratch\\*$")
-		      (name . "^\\*Messages\\*$")))
-	    ("ERC" (mode . erc-mode))))))
+            ("Org" ;; all org-related buffers
+              (mode . org-mode))
+            ("TeX/LaTeX"
+              (or
+                (mode . latex-mode)
+                (name . "^\\.tex$")))
+            ("Mail"
+              (or ;; mail-related buffers
+                (mode . message-mode)
+                (mode . mail-mode)
+                ;; etc.;; all your mail related modes
+                ))
+            ("THISKEY's programming"
+              (filename . "/media/THISKEY/programming/"))
+            ("Programming"
+              (or
+                (mode . c-mode)
+                (mode . perl-mode)
+                (mode . python-mode)
+                (mode . emacs-lisp-mode)
+                (mode . ruby-mode)
+                ;; etc
+                ))
+            ("crap" (or
+                      (name . "^\\*trace")
+                      (name . "^\\*completions")
+                      (name . "^\\*Quail")
+                      (name . "^\\*magit")
+                      (name . "^\\*Backtrace\\*$")
+                      (name . "^\\*compilation\\*$")
+                      (name . "^\\*scratch\\*$")
+                      (name . "^\\*Messages\\*$")))
+            ("ERC" (mode . erc-mode))))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
@@ -167,16 +167,16 @@
 ;;; indenter automatiquement le code collé :
 (defadvice yank (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
-			    c-mode c++-mode objc-mode
-			    latex-mode plain-tex-mode
-			    python-mode))
+                            c-mode c++-mode objc-mode
+                            latex-mode plain-tex-mode
+                            python-mode))
     (indent-region (region-beginning) (region-end) nil)))
 
 (defadvice yank-pop (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
-			    c-mode c++-mode objc-mode
-			    latex-mode plain-tex-mode
-			    python-mode))
+                            c-mode c++-mode objc-mode
+                            latex-mode plain-tex-mode
+                            python-mode))
     (indent-region (region-beginning) (region-end) nil)))
 
 
@@ -189,11 +189,11 @@
     (cond
       (mark-active (list (region-beginning) (region-end)))
       ((looking-at "[])}]") (message "group copied!")
-	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+        (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
       ((looking-at "[[({]") (message "group copied!")
-	(list (point) (save-excursion (forward-list))))
+        (list (point) (save-excursion (forward-list))))
       (t (message "line copied!") (list (line-beginning-position)
-				    (line-beginning-position 2))))))
+                                    (line-beginning-position 2))))))
 
 ;; kill-region (C-w) coupe la ligne courante si aucune région active
 ;; coupe le groupe si au dessus d'un délimiteur
@@ -203,23 +203,23 @@
     (cond
       (mark-active (list (region-beginning) (region-end)))
       ((looking-at "[])}]")
-	(list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+        (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
       ((looking-at "[[({]")
-	(list (point) (save-excursion (forward-list))))
+        (list (point) (save-excursion (forward-list))))
       (t (list (line-beginning-position)
-	   (line-beginning-position 2))))))
+           (line-beginning-position 2))))))
 
 
 ;;; la commande kill supprime automatiquement les espaces d'indentations si besoin
 (defadvice kill-line (before check-position activate)
   (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
-			    c-mode c++-mode objc-mode
-			    latex-mode plain-tex-mode
-			    ruby-mode python-mode))
+                            c-mode c++-mode objc-mode
+                            latex-mode plain-tex-mode
+                            ruby-mode python-mode))
     (if (and (eolp) (not (bolp)))
       (progn (forward-char 1)
-	(just-one-space 0)
-	(backward-char 1)))))
+        (just-one-space 0)
+        (backward-char 1)))))
 
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
@@ -273,25 +273,25 @@
 
 (require 'org-install)
 
-(setq org-todo-keywords 
+(setq org-todo-keywords
   '("TODO" "|" "CANCELLED(@)" "DONE"))
 
 (setq org-capture-templates
-      '(("t" "Todo" entry
-	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
-	  "* TODO %^{description}%?\n  OPENED: %U")
-	("p" "Programming" entry
-	 (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
-	  "* TODO %^{description}%?\n  OPENED: %U")
-	("e" "Event" entry
-	 (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
-	 "* EVENT %?")
-	("q" "Quote" entry
-	 (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
-	  "* %^{description}%?\n  OPENED: %U")
-	("a" "Anniv" entry
-	 (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
-	 "* %^{Birthday}t Anniversaire de %^{prompt}!\n")))
+  '(("t" "Todo" entry
+      (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
+      "* TODO %^{description}%?\n  OPENED: %U")
+     ("p" "Programming" entry
+       (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
+       "* TODO %^{description}%?\n  OPENED: %U")
+     ("e" "Event" entry
+       (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
+       "* EVENT %?")
+     ("q" "Quote" entry
+       (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
+       "* %^{description}%?\n  OPENED: %U")
+     ("a" "Anniv" entry
+       (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
+       "* %^{Birthday}t Anniversaire de %^{prompt}!\n")))
 
 (define-key global-map "\C-cc" 'org-capture)
 
@@ -306,9 +306,9 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-agenda-files (list "/media/THISKEY/Documents/Org/agenda.org"
-			 "/media/THISKEY/Documents/Org/someday.org"
-			 "/media/THISKEY/Documents/Org/birthday.org"
-			 ))
+                         "/media/THISKEY/Documents/Org/someday.org"
+                         "/media/THISKEY/Documents/Org/birthday.org"
+                         ))
 
 (add-hook 'after-init-hook 'org-agenda-list)
 
@@ -341,14 +341,14 @@
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
 ;; Cedet
-;(load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
-;(global-ede-mode 1)                      ; Enable the Project management system
-;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
-;(global-srecode-minor-mode 1)            ; Enable template insertion menu
+                                        ;(load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
+                                        ;(global-ede-mode 1)                      ; Enable the Project management system
+                                        ;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
+                                        ;(global-srecode-minor-mode 1)            ; Enable template insertion menu
 
 ;; ECB
-;(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
-;(require 'ecb)
+                                        ;(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
+                                        ;(require 'ecb)
 
 ;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
@@ -385,63 +385,40 @@
   (save-excursion
     (let
       ((assoc
-	 '(("\\'{e}" . "é")
-	    ("\\'e" . "é")
-	    ("\\`{e}" . "è")
-	    ("\\`e" . "è")
-	    ("\\`{a}" . "à")
-	    ("\\`a" . "à")
-	    ("\\`{u}" . "ù")
-	    ("\\`u" . "ù")
-	    ("\\^{e}" . "ê")
-	    ("\\^e" . "ê")
-	    ("\\^{o}" . "ô")
-	    ("\\^o" . "ô")
-	    ("\\^{u}" . "û")
-	    ("\\^u" . "û")
-	    ("\\\"{i}. " "ï")
-	    ("\\\"i. " "ï")
-	    ("\\c{c}" . "ç")
-	    ("\\^{i}" . "î")
-	    ("\\^i" . "î")))
-	(n 0))
+         '(("\\'{e}" . "é")
+            ("\\'e" . "é")
+            ("\\`{e}" . "è")
+            ("\\`e" . "è")
+            ("\\`{a}" . "à")
+            ("\\`a" . "à")
+            ("\\`{u}" . "ù")
+            ("\\`u" . "ù")
+            ("\\^{e}" . "ê")
+            ("\\^e" . "ê")
+            ("\\^{o}" . "ô")
+            ("\\^o" . "ô")
+            ("\\^{u}" . "û")
+            ("\\^u" . "û")
+            ("\\\"{i}. " "ï")
+            ("\\\"i. " "ï")
+            ("\\c{c}" . "ç")
+            ("\\^{i}" . "î")
+            ("\\^i" . "î")))
+        (n 0))
       (progn
-	(mapc
-	  (lambda (e)
-	    (while
-	      (search-forward (car e) nil t)
-	      (progn
-		(replace-match (cdr e) nil t)
-		(setq n (+ 1 n)))))
-	  assoc)
-	(message (format "Replaced %d occurences" n))))))
+        (mapc
+          (lambda (e)
+            (while
+              (search-forward (car e) nil t)
+              (progn
+                (replace-match (cdr e) nil t)
+                (setq n (+ 1 n)))))
+          assoc)
+        (message (format "Replaced %d occurences" n))))))
 
-       
-(defun latex-accent () (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    ("\\'{e}" . "é")
-    ("\\'e" . "é")
-    ("\\`{e}" . "è")
-    ("\\`e" . "è")
-    ("\\`{a}" . "à")
-    ("\\`a" . "à")
-    ("\\`{u}" . "ù")
-    ("\\`u" . "ù")
-    ("\\^{e}" . "ê")
-    ("\\^e" . "ê")
-    ("\\^{o}" . "ô")
-    ("\\^o" . "ô")
-    ("\\^{u}" . "û")
-    ("\\^u" . "û")
-    ("\\\"{i}. " "ï")
-    ("\\\"i. " "ï")
-    ("\\c{c}" . "ç")
-    ("\\^{i}" . "î")
-    ("\\^i" . "î")))
 
 ;; bookmarks
-(setq 
+(setq
   bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
   bookmark-save-flag 1)                        ;; autosave each change
 
@@ -474,14 +451,14 @@
   (call-interactively
     (intern
       (ido-completing-read
-	"M-x "
-	(progn
-	  (unless ido-execute-command-cache
-	    (mapatoms (lambda (s)
-			(when (commandp s)
-			  (setq ido-execute-command-cache
-			    (cons (format "%S" s) ido-execute-command-cache))))))
-	  ido-execute-command-cache)))))
+        "M-x "
+        (progn
+          (unless ido-execute-command-cache
+            (mapatoms (lambda (s)
+                        (when (commandp s)
+                          (setq ido-execute-command-cache
+                            (cons (format "%S" s) ido-execute-command-cache))))))
+          ido-execute-command-cache)))))
 
 (global-set-key "\M-x" 'ido-execute-command)
 
@@ -495,8 +472,8 @@
 (defun toggle-transparency ()
   (interactive)
   (if (/=
-	(cadr (find 'alpha (frame-parameters nil) :key #'car))
-	100)
+        (cadr (find 'alpha (frame-parameters nil) :key #'car))
+        100)
     (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
@@ -527,12 +504,12 @@
   recentf-max-menu-items 30
   recentf-menu-path nil
   recentf-exclude '(".emacs-customize$"
-		     ".newsrc"
-		     ".etags$"
-		     ".emacs.bmk$"
-		     ".bbdb$"
-		     ".log$"
-		     "^/tmp/")
+                     ".newsrc"
+                     ".etags$"
+                     ".emacs.bmk$"
+                     ".bbdb$"
+                     ".log$"
+                     "^/tmp/")
   recentf-menu-filter 'recentf-arrange-by-rule
   recentf-menu-title "Recentf"
   )
@@ -541,24 +518,24 @@
   "find a file in the recently open file using ido for completion"
   (interactive)
   (let* ((all-files recentf-list)
-	  (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
-	  (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
-	  (ido-make-buffer-list-hook
-	    (lambda ()
-	      (setq ido-temp-list filename-list)))
-	  (filename (ido-read-buffer "Find Recent File: "))
-	  (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
-	  (result-length (length result-list)))
+          (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
+          (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
+          (ido-make-buffer-list-hook
+            (lambda ()
+              (setq ido-temp-list filename-list)))
+          (filename (ido-read-buffer "Find Recent File: "))
+          (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
+          (result-length (length result-list)))
     (find-file
       (cond
-	((= result-length 0) filename)
-	((= result-length 1) (car result-list))
-	( t
-	  (let ( (ido-make-buffer-list-hook
-		   (lambda ()
-		     (setq ido-temp-list result-list))))
-	    (ido-read-buffer (format "%d matches:" result-length))))
-	))))
+        ((= result-length 0) filename)
+        ((= result-length 1) (car result-list))
+        ( t
+          (let ( (ido-make-buffer-list-hook
+                   (lambda ()
+                     (setq ido-temp-list result-list))))
+            (ido-read-buffer (format "%d matches:" result-length))))
+        ))))
 
 
 ;; pouvoir ouvrir la liste des fichiers récents au clavier
@@ -587,7 +564,7 @@
 (setq read-file-name-completion-ignore-case t)
 
 ;; Désactivation des boites de dialogue
-(setq use-file-dialog nil) 
+(setq use-file-dialog nil)
 (setq use-dialog-box nil)
 
 
@@ -626,22 +603,22 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(ecb-layout-name "left14")
- '(ecb-options-version "2.40")
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
- '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
- '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
- '(ecb-tip-of-the-day nil)
- '(ecb-windows-width 0.2)
- '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
- '(inhibit-startup-screen t)
- '(scilab-shell-command "/usr/bin/scilab"))
+  '(ecb-layout-name "left14")
+  '(ecb-options-version "2.40")
+  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+  '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
+  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
+  '(ecb-tip-of-the-day nil)
+  '(ecb-windows-width 0.2)
+  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
+  '(inhibit-startup-screen t)
+  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+  )
 
 
 
@@ -650,7 +627,7 @@
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term")
 (shell-pop-set-internal-mode-shell "/bin/bash")
-(shell-pop-set-window-height 60) ; the number for the percentage of the selected window. 
+(shell-pop-set-window-height 60) ; the number for the percentage of the selected window.
 (global-set-key [f1] 'shell-pop)
 
 
@@ -675,7 +652,7 @@
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
 ;; Customized Emacs Lisp mode
-(add-hook 'emacs-lisp-mode-hook 
+(add-hook 'emacs-lisp-mode-hook
   '(lambda ()
      (local-set-key (kbd "RET") 'newline-and-indent)))
 
@@ -684,29 +661,29 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-(add-hook 'emacs-lisp-mode-hook 
+(add-hook 'emacs-lisp-mode-hook
   (lambda()
     (setq mode-name "ELisp")
     (local-set-key (kbd "<f7>")
-      '(lambda()(interactive) 
-         (let ((debug-on-error t)) 
+      '(lambda()(interactive)
+         (let ((debug-on-error t))
            (eval-buffer)
-           (message "buffer evaluated")))) ; 
+           (message "buffer evaluated")))) ;
 
     ;; complete lisp symbols as well
     (make-local-variable 'hippie-expand-try-functions-list)
     (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
-	 try-complete-lisp-symbol))
+         try-complete-lisp-symbol))
 
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (require 'folding nil 'noerror)
-    ;marquer les caractères au delà de 80 caractères
+                                        ;marquer les caractères au delà de 80 caractères
     (font-lock-add-keywords nil '(("^[^;\n]\\{80\\}\\(.*\\)$"
                                     1 font-lock-warning-face prepend)))
-    (font-lock-add-keywords nil 
-      '(("\\<\\(FIXME\\|TODO\\|BUG\\)" 
+    (font-lock-add-keywords nil
+      '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
           1 font-lock-warning-face prepend)))
     (font-lock-add-keywords nil
       '(("\\<\\(add-hook\\|setq\\)\\>"
