@@ -75,11 +75,13 @@
 
 (require 'linkd)
 
+(require 'xml)
 (require 'anything-startup)
 ;; (require 'anything)
 ;; (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
 (setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\""))
+
 
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
