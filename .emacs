@@ -80,6 +80,9 @@
 ;; (require 'anything)
 ;; (require 'anything-config)
 (global-set-key (kbd "C-x C-a") 'anything-for-files)
+
+;; create database with
+;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
 (setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\""))
 
 
