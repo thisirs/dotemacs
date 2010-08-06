@@ -79,7 +79,8 @@
 (require 'anything-startup)
 ;; (require 'anything)
 ;; (require 'anything-config)
-(global-set-key (kbd "C-x C-a") 'anything-for-files)
+;; (global-set-key (kbd "C-x C-a") 'anything-for-files)
+(setq anything-command-map-prefix-key "C-x C-a")
 
 ;; create database with
 ;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
