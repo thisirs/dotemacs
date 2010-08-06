@@ -83,7 +83,12 @@
 
 ;; create database with
 ;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
-(setq anything-c-locate-command (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\""))
+(setq anything-c-locate-command
+  (concat
+    "locate -e -d "
+    (expand-file-name "~/.locate.db")
+    ":/var/lib/mlocate/mlocate.db"
+    " -i -r \"%s\""))
 
 
 (require 'magit)
