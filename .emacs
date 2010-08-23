@@ -281,7 +281,32 @@
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
+;; TESTING
 
+
+;; save a list of open files in ~/.emacs.desktop
+;; save the desktop file automatically if it already exists
+(setq desktop-save 'if-exists)
+(desktop-save-mode 1)
+
+;; save a bunch of variables to the desktop file
+;; for lists specify the len of the maximal saved data also
+(setq desktop-globals-to-save
+  (append '((extended-command-history . 30)
+	     (file-name-history        . 100)
+	     (grep-history             . 30)
+	     (compile-history          . 30)
+	     (minibuffer-history       . 50)
+	     (query-replace-history    . 60)
+	     (read-expression-history  . 60)
+	     (regexp-history           . 60)
+	     (regexp-search-ring       . 20)
+	     (search-ring              . 20)
+	     (shell-command-history    . 50)
+	     tags-file-name
+	     register-alist)))
+
+;; org-mode
 (require 'org-install)
 
 (setq org-todo-keywords
@@ -614,22 +639,23 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  '(ecb-layout-name "left14")
-  '(ecb-options-version "2.40")
-  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
-  '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
-  '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
-  '(ecb-tip-of-the-day nil)
-  '(ecb-windows-width 0.2)
-  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
-  '(inhibit-startup-screen t)
-  '(scilab-shell-command "/usr/bin/scilab"))
+ '(anything-command-map-prefix-key "C-x C-a")
+ '(ecb-layout-name "left14")
+ '(ecb-options-version "2.40")
+ '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+ '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
+ '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
+ '(ecb-tip-of-the-day nil)
+ '(ecb-windows-width 0.2)
+ '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
+ '(inhibit-startup-screen t)
+ '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-  )
+ )
 
 
 
