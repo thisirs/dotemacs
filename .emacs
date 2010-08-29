@@ -726,6 +726,9 @@
       '(("\\<\\(add-hook\\|setq\\)\\>"
           1 font-lock-keyword-face prepend)))))
 
+;; enable narrow-to-region binding
+(put 'narrow-to-region 'disabled nil)
+
 ;; Delete the selected region when something is typed or with DEL
 (delete-selection-mode t)
 
@@ -769,4 +772,6 @@
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
+
+
 
