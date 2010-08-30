@@ -596,6 +596,17 @@
 ;; souvenait pas qu'il y avait un caractère en majuscules...
 (setq completion-ignore-case t)
 
+;; dired customizations
+(defvar dired-sort-map (make-sparse-keymap))
+
+(define-key dired-mode-map "s" dired-sort-map)
+
+(define-key dired-sort-map "s" (lambda () "sort by Size" (interactive) (dired-sort-other (concat dired-listing-switches "S"))))
+(define-key dired-sort-map "x" (lambda () "sort by eXtension" (interactive) (dired-sort-other (concat dired-listing-switches "X"))))
+(define-key dired-sort-map "t" (lambda () "sort by Time" (interactive) (dired-sort-other (concat dired-listing-switches "t"))))
+(define-key dired-sort-map "n" (lambda () "sort by Name" (interactive) (dired-sort-other dired-listing-switches)))
+(define-key dired-sort-map "d" (lambda () "sort by name grouping Dirs" (interactive) (dired-sort-other (concat dired-listing-switches " --group-directories-first"))))
+
 ;; filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
 
@@ -736,7 +747,7 @@
 ;;(transient-mark-mode t)
 
 ;; Use system trash (for emacs 23)
-;; (setq delete-by-moving-to-trash t)
+(setq delete-by-moving-to-trash t)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
