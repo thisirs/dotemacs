@@ -100,10 +100,10 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(setq confirm-kill-emacs
-  (lambda (e)
-    (y-or-n-p-with-timeout
-      "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
+;; (setq confirm-kill-emacs
+;;   (lambda (e)
+;;     (y-or-n-p-with-timeout
+;;       "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
 
 ;; Laisser le curseur en place lors d'un défilement par pages. Par
 ;; défaut, Emacs place le curseur en début ou fin d'écran selon le
