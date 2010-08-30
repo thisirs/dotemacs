@@ -147,6 +147,10 @@
                 (mode . mail-mode)
                 ;; etc.;; all your mail related modes
                 ))
+	    ("Dired"
+	      ; dired related buffers
+	      (mode . dired-mode)
+	      )
             ("THISKEY's programming"
               (filename . "/media/THISKEY/programming/"))
             ("Programming"
