@@ -597,10 +597,11 @@
 (setq completion-ignore-case t)
 
 ;; dired customizations
+(require 'dired+)
+(require 'dired-x)
+
 (defvar dired-sort-map (make-sparse-keymap))
-
 (define-key dired-mode-map "s" dired-sort-map)
-
 (define-key dired-sort-map "s" (lambda () "sort by Size" (interactive) (dired-sort-other (concat dired-listing-switches "S"))))
 (define-key dired-sort-map "x" (lambda () "sort by eXtension" (interactive) (dired-sort-other (concat dired-listing-switches "X"))))
 (define-key dired-sort-map "t" (lambda () "sort by Time" (interactive) (dired-sort-other (concat dired-listing-switches "t"))))
