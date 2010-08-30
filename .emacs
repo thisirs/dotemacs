@@ -704,6 +704,9 @@
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
+;; hippie-expand
+(global-set-key (kbd "M-/") 'hippie-expand)
+
 ;; Customized Emacs Lisp mode
 (add-hook 'emacs-lisp-mode-hook
   '(lambda ()
