@@ -237,6 +237,15 @@
         (just-one-space 0)
         (backward-char 1)))))
 
+
+;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
+(defun textmate-next-line ()
+  "Go to next line and indent wherever you are in a line"
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+(global-set-key [C-return] 'textmate-next-line)
+
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
 
@@ -290,6 +299,11 @@
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
 (desktop-save-mode 1)
+
+;; don't let Customize mess with my .emacs
+(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
+(setq custom-file (concat emacs-dir "custom.el"))
+(load custom-file 'noerror)
 
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
@@ -654,20 +668,14 @@
 (require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
-
-
-
-
-
-
-(require 'shell-pop)
-(shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell "/bin/bash")
-(shell-pop-set-window-height 60) ; the number for the percentage of the selected window.
-(global-set-key [f1] 'shell-pop)
-
-
-;; (server-start)
+;;shell-toggle 
+(autoload 'shell-toggle "shell-toggle" 
+  "Toggles between the shell buffer and whatever buffer you are editing."
+  t)
+(autoload 'shell-toggle-cd "shell-toggle" 
+  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+(global-set-key [M-f1] 'shell-toggle)
+(global-set-key [C-f1] 'shell-toggle-cd)
 
 ;; minibuffer history
 ;;(savehist-mode t)
@@ -774,29 +782,3 @@
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
-
-
-
-;; TESTING
-
-
-(autoload 'shell-toggle "shell-toggle" 
-    "Toggles between the shell buffer and whatever buffer you are editing."
-    t)
-   (autoload 'shell-toggle-cd "shell-toggle" 
-    "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-   (global-set-key [M-f1] 'shell-toggle)
-   (global-set-key [C-f1] 'shell-toggle-cd)
- 
-;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
-(defun textmate-next-line ()
-  "Go to next line and indent wherever you are in a line"
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-(global-set-key [C-return] 'textmate-next-line)
-
-;; don't let Customize mess with my .emacs
-(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
-(setq custom-file (concat emacs-dir "custom.el"))
-(load custom-file 'noerror)
