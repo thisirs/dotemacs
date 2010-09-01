@@ -780,6 +780,14 @@
 ;; TESTING
 
 
+(autoload 'shell-toggle "shell-toggle" 
+    "Toggles between the shell buffer and whatever buffer you are editing."
+    t)
+   (autoload 'shell-toggle-cd "shell-toggle" 
+    "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+   (global-set-key [M-f1] 'shell-toggle)
+   (global-set-key [C-f1] 'shell-toggle-cd)
+ 
 ;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
 (defun textmate-next-line ()
   "Go to next line and indent wherever you are in a line"
