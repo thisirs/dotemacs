@@ -160,6 +160,7 @@
                 (mode . python-mode)
                 (mode . emacs-lisp-mode)
                 (mode . ruby-mode)
+		(mode . sh-mode)
                 ;; etc
                 ))
             ("crap" (or
