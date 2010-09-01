@@ -133,8 +133,37 @@
 
 (require 'ibuffer)
 
+(require 'cl) ; needed on some install to be able to use reduce...
+(defun find-projects (dir)
+  (let ((dir (if (string= (substring dir -1 nil) "/")
+	       dir (concat dir "/"))))
+    (if (not (file-directory-p dir))
+      nil
+      (reduce (lambda (list prj)
+                (let ((prj-dir (concat dir prj)))
+                  (cond
+		    ((null prj) nil)
+		    ((and (file-exists-p (concat prj-dir "/.git"))
+		       (not (file-exists-p (concat prj-dir "/.hidden"))))
+		      (cons `(,prj . ,prj-dir) list))
+		    ((file-directory-p prj-dir)
+		      (append (find-projects prj-dir) list))
+		    (t list))))
+	(cddr (directory-files dir))
+	:initial-value nil))))
+
+(defun make-ibuffer-projects-list (prefix dir)
+  (reduce (lambda (list prj)
+            (cons
+	      `(,(concat prefix (car prj)) (filename . ,(cdr prj)))
+	      list))
+    (find-projects dir)
+    :initial-value nil))
+
 (setq ibuffer-saved-filter-groups
-  (quote (("default"
+  `(("default"
+      ,@(make-ibuffer-projects-list "Project: "
+	  (concat (getenv "HOME") "/dotemacs"))
             ("Org" ;; all org-related buffers
               (mode . org-mode))
             ("TeX/LaTeX"
@@ -172,7 +201,7 @@
                       (name . "^\\*compilation\\*$")
                       (name . "^\\*scratch\\*$")
                       (name . "^\\*Messages\\*$")))
-            ("ERC" (mode . erc-mode))))))
+            ("ERC" (mode . erc-mode)))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
@@ -637,7 +666,7 @@
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
@@ -683,6 +712,9 @@
 ;; Always add a final newline
 (setq require-final-newline t)
 
+;; automatically indent wherever I am
+(global-set-key (kbd "RET") 'newline-and-indent)
+
 ;; Drive out the mouse when it's too near to the cursor.
 (if (display-mouse-p) (mouse-avoidance-mode 'animate))
 
@@ -699,10 +731,6 @@
 (global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; Customized Emacs Lisp mode
-(add-hook 'emacs-lisp-mode-hook
-  '(lambda ()
-     (local-set-key (kbd "RET") 'newline-and-indent)))
-
 (require 'eldoc)
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
@@ -716,13 +744,6 @@
          (let ((debug-on-error t))
            (eval-buffer)
            (message "buffer evaluated")))) ;
-
-    ;; complete lisp symbols as well
-    (make-local-variable 'hippie-expand-try-functions-list)
-    (setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
-         try-complete-lisp-symbol))
-
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (require 'folding nil 'noerror)
@@ -782,3 +803,16 @@
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
+
+;; TESTING
+
+(defun match-paren (arg)
+  "Go to the matching parenthesis if on parenthesis otherwise insert %."
+  (interactive "p")
+  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
+    ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+    (t (self-insert-command (or arg 1)))))
+(global-set-key "%" 'match-paren)
+
+;; but give the emacs window a still good shape !
+;; (setq initial-frame-alist '((width . 90) (height . 42))) ; .Xdefaults
