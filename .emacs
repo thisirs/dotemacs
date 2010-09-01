@@ -480,31 +480,28 @@
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
 ;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
 ;; Use C-f during file selection to switch to regular find-file
-(require 'ido)
+;;(require 'ido)
 
-(ido-mode t)
-(setq ido-enable-flex-matching t)
-(setq ido-execute-command-cache nil)
+;; (ido-mode t)
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-execute-command-cache nil)
 
-;; complétion à la ido avec M-x
-(defun ido-execute-command ()
-  (interactive)
-  (call-interactively
-    (intern
-      (ido-completing-read
-        "M-x "
-        (progn
-          (unless ido-execute-command-cache
-            (mapatoms (lambda (s)
-                        (when (commandp s)
-                          (setq ido-execute-command-cache
-                            (cons (format "%S" s) ido-execute-command-cache))))))
-          ido-execute-command-cache)))))
+;; ;; complétion à la ido avec M-x
+;; (defun ido-execute-command ()
+;;   (interactive)
+;;   (call-interactively
+;;     (intern
+;;       (ido-completing-read
+;;         "M-x "
+;;         (progn
+;;           (unless ido-execute-command-cache
+;;             (mapatoms (lambda (s)
+;;                         (when (commandp s)
+;;                           (setq ido-execute-command-cache
+;;                             (cons (format "%S" s) ido-execute-command-cache))))))
+;;           ido-execute-command-cache)))))
 
-(global-set-key "\M-x" 'ido-execute-command)
-
-
-
+;; (global-set-key "\M-x" 'ido-execute-command)
 
 ;; Autoriser la transparence
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
@@ -555,33 +552,33 @@
   recentf-menu-title "Recentf"
   )
 
-(defun recentf-interactive-complete ()
-  "find a file in the recently open file using ido for completion"
-  (interactive)
-  (let* ((all-files recentf-list)
-          (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
-          (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
-          (ido-make-buffer-list-hook
-            (lambda ()
-              (setq ido-temp-list filename-list)))
-          (filename (ido-read-buffer "Find Recent File: "))
-          (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
-          (result-length (length result-list)))
-    (find-file
-      (cond
-        ((= result-length 0) filename)
-        ((= result-length 1) (car result-list))
-        ( t
-          (let ( (ido-make-buffer-list-hook
-                   (lambda ()
-                     (setq ido-temp-list result-list))))
-            (ido-read-buffer (format "%d matches:" result-length))))
-        ))))
+;; (defun recentf-interactive-complete ()
+;;   "find a file in the recently open file using ido for completion"
+;;   (interactive)
+;;   (let* ((all-files recentf-list)
+;;           (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
+;;           (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
+;;           (ido-make-buffer-list-hook
+;;             (lambda ()
+;;               (setq ido-temp-list filename-list)))
+;;           (filename (ido-read-buffer "Find Recent File: "))
+;;           (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
+;;           (result-length (length result-list)))
+;;     (find-file
+;;       (cond
+;;         ((= result-length 0) filename)
+;;         ((= result-length 1) (car result-list))
+;;         ( t
+;;           (let ( (ido-make-buffer-list-hook
+;;                    (lambda ()
+;;                      (setq ido-temp-list result-list))))
+;;             (ido-read-buffer (format "%d matches:" result-length))))
+;;         ))))
 
 
-;; pouvoir ouvrir la liste des fichiers récents au clavier
-;;(global-set-key "\C-x\C-r" 'recentf-open-files-complete)
-(global-set-key "\C-x\C-r" 'recentf-interactive-complete)
+;; ;; pouvoir ouvrir la liste des fichiers récents au clavier
+;; ;;(global-set-key "\C-x\C-r" 'recentf-open-files-complete)
+;; (global-set-key "\C-x\C-r" 'recentf-interactive-complete)
 
 
 ;; Prise en charge de la molette de la souris
@@ -601,6 +598,9 @@
 ;; souvenait pas qu'il y avait un caractère en majuscules...
 (setq completion-ignore-case t)
 
+;; filenames too, to browse with dired for example...
+(setq read-file-name-completion-ignore-case t)
+
 ;; dired customizations
 (require 'dired+)
 (require 'dired-x)
@@ -613,13 +613,10 @@
 (define-key dired-sort-map "n" (lambda () "sort by Name" (interactive) (dired-sort-other dired-listing-switches)))
 (define-key dired-sort-map "d" (lambda () "sort by name grouping Dirs" (interactive) (dired-sort-other (concat dired-listing-switches " --group-directories-first"))))
 
-;; filenames too, to browse with dired for example...
-(setq read-file-name-completion-ignore-case t)
-
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
-
+(tool-bar-mode nil)
 
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
