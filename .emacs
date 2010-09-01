@@ -286,9 +286,6 @@
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
-;; TESTING
-
-
 ;; save a list of open files in ~/.emacs.desktop
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
@@ -352,6 +349,16 @@
                          ))
 
 ;; (add-hook 'after-init-hook 'org-agenda-list)
+
+
+;; (defun toggle-fullscreen ()
+;;   (interactive)
+;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;;     '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;;     '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+;;   )
+;; (add-hook 'after-init-hook 'toggle-fullscreen)
 
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
 (require 'yasnippet)
@@ -648,28 +655,6 @@
 ;;(require 'ruby-electric)
 
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(anything-command-map-prefix-key "C-x C-a")
- '(ecb-layout-name "left14")
- '(ecb-options-version "2.40")
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
- '(ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "my-layout2")))
- '(ecb-source-path (quote (("/media/KROKEY/programming" "/"))))
- '(ecb-tip-of-the-day nil)
- '(ecb-windows-width 0.2)
- '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
- '(inhibit-startup-screen t)
- '(scilab-shell-command "/usr/bin/scilab"))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
 
 
 
@@ -792,3 +777,18 @@
 
 
 
+;; TESTING
+
+
+;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
+(defun textmate-next-line ()
+  "Go to next line and indent wherever you are in a line"
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+(global-set-key [C-return] 'textmate-next-line)
+
+;; don't let Customize mess with my .emacs
+(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
+(setq custom-file (concat emacs-dir "custom.el"))
+(load custom-file 'noerror)
