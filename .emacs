@@ -693,9 +693,6 @@
      ))
 (setq auto-insert 'other)
 
-;; (define-auto-insert "\.sh" " autoinsert.bash")
-;; (define-auto-insert "\.rb" "autoinsert.ruby")
-
 
 (defun change-to-utf-8 ()
   (interactive)
