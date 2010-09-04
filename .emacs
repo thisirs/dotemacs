@@ -739,7 +739,7 @@
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
 ;; hippie-expand
-(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "S-SPC") 'hippie-expand)
 
 ;; Customized Emacs Lisp mode
 (require 'eldoc)
