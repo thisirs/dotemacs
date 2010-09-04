@@ -824,3 +824,6 @@
 
 ;; but give the emacs window a still good shape !
 ;; (setq initial-frame-alist '((width . 90) (height . 42))) ; .Xdefaults
+(setq initial-frame-alist
+  `((left . 0) (top . 51)
+     (width . 176) (height . 46)))
