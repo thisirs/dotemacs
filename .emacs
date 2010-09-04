@@ -652,8 +652,19 @@
 (setq read-file-name-completion-ignore-case t)
 
 ;; dired customizations
-(require 'dired+)
-(require 'dired-x)
+(add-hook 'dired-load-hook
+          (function (lambda ()
+                      (load "dired-x")
+                      ;; Set global variables here.  For example:
+                      ;; (setq dired-guess-shell-gnutar "gtar")
+                      )))
+(add-hook 'dired-mode-hook
+          (function (lambda ()
+                      ;; Set buffer-local variables here.  For example:
+                      ;; (dired-omit-mode 1)
+                      )))
+
+;; (require 'dired+)
 
 (defvar dired-sort-map (make-sparse-keymap))
 (define-key dired-mode-map "s" dired-sort-map)
