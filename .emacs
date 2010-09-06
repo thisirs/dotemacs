@@ -313,12 +313,6 @@
   kept-old-versions 5
   delete-old-versions t)
 
-;; autosave dans /tmp
-(setq backup-directory-alist
-  `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-  `((".*" ,temporary-file-directory t)))
-
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
   (lambda () (interactive) (switch-to-buffer "*scratch*")))
