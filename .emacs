@@ -307,11 +307,14 @@
 ;; backups
 (setq make-backup-files t ;; do make backups
   backup-by-copying t     ;; and copy them here
-  backup-directory-alist '(("." . "~/.emacs.d/emacs.backups"))
+  backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
   version-control t
   kept-new-versions 2
   kept-old-versions 5
   delete-old-versions t)
+
+(setq auto-save-list-file-prefix
+  "~/.emacs.d/cache/auto-save-list/.saves-")
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
@@ -347,8 +350,7 @@
 	     register-alist)))
 
 ;; don't let Customize mess with my .emacs
-(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
-(setq custom-file (concat emacs-dir "custom.el"))
+(setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
 ;; org-mode
