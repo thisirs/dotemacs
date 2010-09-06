@@ -292,11 +292,17 @@
 
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(setq
+  uniquify-buffer-name-style 'post-forward-angle-brackets
+  uniquify-after-kill-buffer-p t)
 
 ;; put something different in the scratch buffer
 (setq initial-scratch-message
   ";; scratch buffer created -- happy hacking\n\n")
+
+;; override the default function....
+(defun emacs-session-filename (SESSION-ID)
+  (concat "~/.emacs.d/cache/session." SESSION-ID))
 
 ;; backups
 (setq make-backup-files t ;; do make backups
