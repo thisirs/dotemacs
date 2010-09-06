@@ -838,3 +838,59 @@
 (setq initial-frame-alist
   `((left . 0) (top . 51)
      (width . 176) (height . 46)))
+
+
+;; Nom français des jours et mois affichés dans le calendrier
+;; (cf. M-x calendar)
+(setq european-calendar-style t)
+(setq calendar-week-start-day 1)
+(defvar calendar-day-name-array
+  ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
+(defvar calendar-day-abbrev-array
+  ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
+(defvar calendar-month-name-array
+  ["janvier" "février" "mars" "avril" "mai" "juin"
+    "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
+(defvar calendar-month-abbrev-array
+  ["jan" "fév" "mar" "avr" "mai" "jun"
+    "jul" "aoû" "sep" "oct" "nov" "déc"])
+
+
+;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
+;; qu'Emacs me l'affiche sur autant de lignes que nécessaire plutôt que de
+;; masquer la partie qui dépasse à droite de l'écran. Pour que ce comportement
+;; vaille en toute circonstance, il est nécessaire de fixer deux variables :
+;; - truncate-lines : comportement dans un tampon occupant toute la largeur de
+;;   la fenêtre
+;; - truncate-partial-width-windows : comportement dans un tampon n'occupant
+;;   qu'une fraction de la largeur de la fenêtre (par exemple, après un
+;;   découpage horizontal C-x 3).
+(setq truncate-lines nil)
+(setq truncate-partial-width-windows nil)
+
+
+;; Suppression du formatage sur N colonnes (comme la fonction n'existe pas,
+;; l'astuce consiste à définir temporairement une largeur de ligne extrêmement
+;; grande et de formater le paragraphe sur cette base).
+(defun remove-hard-wrap-paragraph ()
+  "Replace newline chars in current paragraph by single spaces."
+  (interactive)
+  (let ((fill-column 10000000))
+    (fill-paragraph nil)
+    )
+  )
+
+;; Fonction équivalente à la précédente appliquée à la région sélectionnée et
+;; non plus au paragraphe courant.
+(defun remove-hard-wrap-region (start end)
+  "Replace newline chars in region by single spaces."
+  (interactive "r")
+  (let ((fill-column 10000000))
+    (fill-region start end)
+    )
+  )
+
+;; TODO tester si une région existe
+;; « M-S-q » (i.e. M-Q) : supprime le formatage du paragraphe courant (la
+;; combinaison « M-q », qui existe par défaut, le formatant)
+(global-set-key (kbd "M-Q") 'remove-hard-wrap-paragraph)
