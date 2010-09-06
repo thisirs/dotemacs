@@ -329,11 +329,6 @@
 (setq desktop-save 'if-exists)
 (desktop-save-mode 1)
 
-;; don't let Customize mess with my .emacs
-(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
-(setq custom-file (concat emacs-dir "custom.el"))
-(load custom-file 'noerror)
-
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
 (setq desktop-globals-to-save
@@ -350,6 +345,11 @@
 	     (shell-command-history    . 50)
 	     tags-file-name
 	     register-alist)))
+
+;; don't let Customize mess with my .emacs
+(setq emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
+(setq custom-file (concat emacs-dir "custom.el"))
+(load custom-file 'noerror)
 
 ;; org-mode
 (require 'org-install)
