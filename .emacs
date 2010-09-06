@@ -719,6 +719,7 @@
 
 ;; Always add a final newline
 (setq require-final-newline t)
+(add-hook 'write-file-functions 'delete-trailing-whitespace)
 
 ;; automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)
