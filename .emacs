@@ -705,11 +705,11 @@
 (require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
-;;shell-toggle 
-(autoload 'shell-toggle "shell-toggle" 
+;;shell-toggle
+(autoload 'shell-toggle "shell-toggle"
   "Toggles between the shell buffer and whatever buffer you are editing."
   t)
-(autoload 'shell-toggle-cd "shell-toggle" 
+(autoload 'shell-toggle-cd "shell-toggle"
   "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
 (global-set-key [M-f1] 'shell-toggle)
 (global-set-key [C-f1] 'shell-toggle-cd)
