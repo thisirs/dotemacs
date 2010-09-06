@@ -721,6 +721,16 @@
 (setq require-final-newline t)
 (add-hook 'write-file-functions 'delete-trailing-whitespace)
 
+;; Afficher l'heure dans la barre d'état (format 24 heures)
+(display-time)
+(setq display-time-24hr-format 1)
+
+;; Selon les règles typographiques françaises, le point final d'une phrase
+;; n'est suivi que d'un seul espace (contre deux dans la tradition
+;; anglo-saxonne). Il est utile qu'Emacs le sache pour formater correctement
+;; les textes.
+(setq sentence-end-double-space nil)
+
 ;; automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)
 
