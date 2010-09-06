@@ -362,10 +362,10 @@
 (setq org-capture-templates
   '(("t" "Todo" entry
       (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
-      "* TODO %^{description}%?\n  OPENED: %U")
+      "* TODO %?\n  OPENED: %U")
      ("p" "Programming" entry
        (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
-       "* TODO %^{description}%?\n  OPENED: %U")
+       "* TODO %?\n  OPENED: %U")
      ("e" "Event" entry
        (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
        "* EVENT %?")
