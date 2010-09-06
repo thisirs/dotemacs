@@ -315,6 +315,8 @@
 
 (setq auto-save-list-file-prefix
   "~/.emacs.d/cache/auto-save-list/.saves-")
+(setq auto-save-file-name-transforms
+  `((".*" ,temporary-file-directory t)))
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
