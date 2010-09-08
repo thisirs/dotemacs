@@ -77,19 +77,38 @@
 
 (require 'xml)
 (require 'anything-startup)
-;; (require 'anything)
-;; (require 'anything-config)
-;; (global-set-key (kbd "C-x C-a") 'anything-for-files)
 (setq anything-command-map-prefix-key "C-x C-a")
+
+(defun my-anything ()
+  (interactive)
+  (anything-other-buffer
+    (append anything-for-files-prefered-list
+      '(anything-c-source-locate-thiskey))" *anything for files*"))
+
+(define-key anything-command-map (kbd "f") 'my-anything)
+
+(defun anything-c-locate-thiskey-init ()
+  "Initialize async locate process for `anything-c-source-locate'."
+  (start-process-shell-command "locate-thiskey-process" nil
+    (format (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
+      anything-pattern)))
+
+(defvar anything-c-source-locate-thiskey
+  '((name . "Locate in THISKEY")
+     (candidates . anything-c-locate-thiskey-init)
+     (type . file)
+     (requires-pattern . 3)
+     (delayed))
+  "Find files matching the current input pattern with locate.")
 
 ;; create database with
 ;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
-(setq anything-c-locate-command
-  (concat
-    "locate -e -d "
-    (expand-file-name "~/.locate.db")
-    ":/var/lib/mlocate/mlocate.db"
-    " -i -r \"%s\""))
+;; (setq anything-c-locate-command
+;;   (concat
+;;     "locate -e -d "
+;;     (expand-file-name "~/.locate.db")
+;;     ":/var/lib/mlocate/mlocate.db"
+;;     " -i -r \"%s\""))
 
 
 (require 'magit)
