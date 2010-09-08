@@ -75,6 +75,8 @@
 
 (require 'linkd)
 
+
+;; anything
 (require 'xml)
 (require 'anything-startup)
 (setq anything-command-map-prefix-key "C-x C-a")
@@ -111,6 +113,7 @@
 ;;     " -i -r \"%s\""))
 
 
+;; magit
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
 
