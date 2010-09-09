@@ -459,6 +459,7 @@
 ;; Numérotation des lignes dans la marge
 (require 'linum)
 (global-linum-mode 1)
+(setq linum-format "%5d")
 
 ;; Correction orthographique
 (setq ispell-dictionary "francais")
