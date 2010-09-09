@@ -299,6 +299,11 @@
   (newline-and-indent))
 (global-set-key [C-return] 'textmate-next-line)
 
+;; FIXME: make it for all coding modes
+;; auto-fill-mode uniquement pour les commentaires
+(set (make-local-variable 'comment-auto-fill-only-comments) t)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
 
