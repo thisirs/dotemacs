@@ -938,3 +938,64 @@
 ;; « M-S-q » (i.e. M-Q) : supprime le formatage du paragraphe courant (la
 ;; combinaison « M-q », qui existe par défaut, le formatant)
 (global-set-key (kbd "M-Q") 'remove-hard-wrap-paragraph)
+
+
+;; Thu Sep  9 15:33:21 2010
+(defadvice show-paren-function (after my-echo-paren-matching-line activate)
+  "If a matching paren is off-screen, echo the matching line."
+  (when (char-equal (char-syntax (char-before (point))) ?\))
+    (let ((matching-text (blink-matching-open)))
+      (when matching-text
+        (message matching-text)))))
+
+;; IDEA tip of the day http://bitbucket.org/scfrazer/dot_emacs/src/tip/init.el
+
+;; isearch-mode-map http://bitbucket.org/birkenfeld/dotemacs/src/tip/init.el
+
+;; Put the cursor in an intelligent place when searching
+(add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
+(defun custom-goto-match-beginning ()
+  "Use with isearch hook to end search at first char of match"
+  (when (and
+	  isearch-forward
+	  (not mark-active)
+	  (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
+
+;; function at point!!
+(global-set-key  [f1] 'find-function-at-point)
+
+
+;; always revert buffers if their files change on disk to reflect new changes
+;; (global-auto-revert-mode 1)
+
+;; shortcut for reverting a buffer
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
+
+
+;; (defun smart-tab ()
+;;   "This smart tab is minibuffer compliant: it acts as usual in
+;;    the minibuffer. Else, if mark is active, indents region. Else if
+;;    point is at the end of a symbol, expands it. Else indents the
+;;    current line."
+;;   (interactive)
+;;   (if (minibufferp)
+;;     (unless (minibuffer-complete)
+;;       (dabbrev-expand nil))
+;;     (if (smart-tab-must-expand 0)
+;;       (smart-expand-function)
+;;       (smart-indent))))
+
+;; (defun smart-indent ()
+;;   "Indents region if mark is active, or current line otherwise."
+;;   (interactive)
+;;   (if mark-active
+;;     (indent-region (region-beginning)
+;;       (region-end))
+;;     (indent-for-tab-command)))
+
+;; (defun smart-tab-must-expand (&optional prefix)
+;;   "If PREFIX is \\[universal-argument], answers no.
+;;    Otherwise, analyses point position and answers."
+;;   (unless (or (consp prefix)
+;; 	    mark-active)
+;;     (looking-at "\\_>")))
