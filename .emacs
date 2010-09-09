@@ -802,11 +802,11 @@
 (add-hook 'emacs-lisp-mode-hook
   (lambda()
     (setq mode-name "ELisp")
-    (local-set-key (kbd "<f7>")
+    (local-set-key (kbd "C-x E")
       '(lambda()(interactive)
          (let ((debug-on-error t))
            (eval-buffer)
-           (message "buffer evaluated")))) ;
+           (message "Buffer evaluated!"))))
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (require 'folding nil 'noerror)
