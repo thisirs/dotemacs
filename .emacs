@@ -288,6 +288,8 @@
         (just-one-space 0)
         (backward-char 1)))))
 
+;; echo keystrokes quickly
+(setq echo-keystrokes 0.1)
 
 ;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
 (defun textmate-next-line ()
