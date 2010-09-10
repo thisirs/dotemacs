@@ -478,7 +478,7 @@
 ;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
-(color-theme-subtle-hacker)
+;;(color-theme-subtle-hacker)
 
 ;; Scilab
 ;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
@@ -820,9 +820,10 @@
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
-	 lisp-complete-symbol
 	 try-expand-dabbrev-visible
-	 try-expand-dabbrev))
+	 try-expand-dabbrev
+	 try-complete-lisp-symbol-partially
+	 try-complete-lisp-symbol))
     ;;marquer les caractères au delà de 80 caractères
     (font-lock-add-keywords nil
       '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
