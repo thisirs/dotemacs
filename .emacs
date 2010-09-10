@@ -1018,3 +1018,18 @@
 ;;   (unless (or (consp prefix)
 ;; 	    mark-active)
 ;;     (looking-at "\\_>")))
+
+(global-set-key [\C-home] 'beginning-of-buffer)
+(global-set-key [\C-end] 'end-of-buffer)
+
+;; TODO add custom hippie hook depending on the major mode
+(add-hook 'python-mode-hook
+  (lambda ()
+    (set (make-local-variable 'hippie-expand-try-functions-list)
+      '(yas/hippie-try-expand
+	 py-complete
+	 try-expand-dabbrev-visible
+	 try-expand-dabbrev))))
+
+;; fuck occur and word isearch
+(global-set-key (kbd "M-s") 'backward-kill-word)
