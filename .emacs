@@ -807,14 +807,24 @@
     (local-set-key (kbd "C-x E")
       '(lambda()(interactive)
          (let ((debug-on-error t))
-           (eval-buffer)
-           (message "Buffer evaluated!"))))
+           (cond
+	     (mark-active
+	       (call-interactively 'eval-region)
+	       (message "Region evaluated!"))
+	     (t
+	       (eval-buffer)
+	       (message "Buffer evaluated!"))))))
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (require 'folding nil 'noerror)
-                                        ;marquer les caractères au delà de 80 caractères
-    (font-lock-add-keywords nil '(("^[^;\n]\\{80\\}\\(.*\\)$"
-                                    1 font-lock-warning-face prepend)))
+    (set (make-local-variable 'hippie-expand-try-functions-list)
+      '(yas/hippie-try-expand
+	 lisp-complete-symbol
+	 try-expand-dabbrev-visible
+	 try-expand-dabbrev))
+    ;;marquer les caractères au delà de 80 caractères
+    (font-lock-add-keywords nil
+      '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
     (font-lock-add-keywords nil
       '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
           1 font-lock-warning-face prepend)))
