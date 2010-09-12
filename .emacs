@@ -383,11 +383,17 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
+;; color theme
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-subtle-hacker)
+
 ;; org-mode
 (require 'org-install)
 
 (setq org-todo-keywords
-  '("TODO" "|" "CANCELLED(@)" "DONE"))
+  '("TODO" "|" "CANCELLED" "DONE"))
 
 (setq org-capture-templates
   '(("t" "Todo" entry
@@ -473,12 +479,6 @@
 ;; ECB
 ;;(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
 ;;(require 'ecb)
-
-;; color theme
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-subtle-hacker)
 
 ;; Scilab
 ;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
