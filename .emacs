@@ -415,10 +415,11 @@
 (define-key global-map "\C-cc" 'org-capture)
 
 ;; Ne mettre qu'une seule étoile devant les titres
-(setq org-hide-leading-stars t)
+;; FIXME marche pas quand on change le color-theme
+;; (setq org-hide-leading-stars t)
 
 ;; logging
-(setq org-log-done t)
+(setq org-log-done 'time)
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
