@@ -89,6 +89,7 @@
 
 (define-key anything-command-map (kbd "f") 'my-anything)
 
+;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command "locate-thiskey-process" nil
@@ -102,15 +103,6 @@
      (requires-pattern . 3)
      (delayed))
   "Find files matching the current input pattern with locate.")
-
-;; create database with
-;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
-;; (setq anything-c-locate-command
-;;   (concat
-;;     "locate -e -d "
-;;     (expand-file-name "~/.locate.db")
-;;     ":/var/lib/mlocate/mlocate.db"
-;;     " -i -r \"%s\""))
 
 
 ;; magit
@@ -478,7 +470,8 @@
 ;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
-;;(color-theme-subtle-hacker)
+(color-theme-initialize)
+(color-theme-subtle-hacker)
 
 ;; Scilab
 ;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
