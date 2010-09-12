@@ -487,9 +487,6 @@
 ;;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
 ;;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
 
-;; ispell
-(setq ispell-dictionary "english")
-
 ;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
 (load "auctex.el" nil t t)
