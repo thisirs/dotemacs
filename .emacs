@@ -820,6 +820,7 @@
 	       (message "Buffer evaluated!"))))))
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
+    (turn-on-auto-fill)
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
