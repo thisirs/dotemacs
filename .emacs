@@ -84,8 +84,15 @@
 (defun my-anything ()
   (interactive)
   (anything-other-buffer
-    (append anything-for-files-prefered-list
-      '(anything-c-source-locate-thiskey))" *anything for files*"))
+    '(anything-c-source-ffap-line
+       anything-c-source-ffap-guesser
+       anything-c-source-buffers+
+       anything-c-source-recentf
+       anything-c-source-bookmarks
+       anything-c-source-file-cache
+       anything-c-source-files-in-current-dir+
+       anything-c-source-locate-thiskey
+       anything-c-source-locate) "*anything for files*"))
 
 (define-key anything-command-map (kbd "f") 'my-anything)
 
