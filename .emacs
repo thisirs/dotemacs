@@ -802,6 +802,9 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+;; M-RET to keep writing comments
+(global-set-key (kbd "M-RET") comment-line-break-function)
+
 (add-hook 'emacs-lisp-mode-hook
   (lambda()
     (setq mode-name "ELisp")
