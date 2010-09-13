@@ -775,6 +775,10 @@
   interprogram-paste-function            ; ...with...
   'x-cut-buffer-or-selection-value)      ; ...other X clients
 
+;; quit, no prompt
+(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+  "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+  (flet ((process-list ())) ad-do-it))
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
