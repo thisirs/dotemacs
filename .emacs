@@ -768,7 +768,7 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; Drive out the mouse when it's too near to the cursor.
-(if (display-mouse-p) (mouse-avoidance-mode 'animate))
+(mouse-avoidance-mode 'animate)
 
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
