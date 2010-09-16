@@ -849,6 +849,10 @@
 ;; Text selection highlighted by default on Emacs 23
 ;;(transient-mark-mode t)
 
+;; non interactive function in apropos
+;; Make C-h a act as C-u C-h a
+(setq apropos-do-all t)
+
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
