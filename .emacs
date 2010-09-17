@@ -96,7 +96,12 @@
 
 (define-key anything-command-map (kbd "f") 'my-anything)
 
-;; updatedb -l 0 -U /media/THISKEY/ -o .locate.db
+(defun update-locate-database ()
+  "Update locate databases"
+  (interactive)
+  (start-process-shell-command "updatedb process" nil
+    "updatedb -l 0 -U /media/THISKEY/ -o $HOME/.locate.db"))
+
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command "locate-thiskey-process" nil
