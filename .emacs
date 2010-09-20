@@ -509,7 +509,7 @@
 
 (add-hook 'LaTeX-mode-hook
   '(lambda ()
-     (reftex-mode)
+     (turn-on-reftex)
      (flyspell-mode)
      (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
