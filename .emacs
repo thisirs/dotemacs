@@ -413,12 +413,26 @@
      ("e" "Event" entry
        (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
        "* EVENT %?")
-     ("q" "Quote" entry
+     ("qu" "Quote" entry
        (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
        "* %^{description}%?\n  OPENED: %U")
      ("a" "Anniv" entry
        (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
-       "* %^{Birthday}t Anniversaire de %^{prompt}!\n")))
+       "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
+     ("b" "Livres empruntés")
+     ("bu" "Bibliothèque Universitaire" entry
+       (file+headline "/media/THISKEY/Documents/Org/books.org"
+  "Empruntés")
+       "* %?\n  BORROWED: %u\n  À RENDRE: %(add-days 15)")
+     ("bl" "Bibliothèque du labo" entry
+       (file+headline "/media/THISKEY/Documents/Org/books.org"
+	 "Empruntés")
+       "* %?\n  BORROWED: %u\n  À RENDRE: %(add-days 365)")))
+
+(defun add-days (days)
+  (format-time-string
+    (car org-time-stamp-formats)
+    (time-add (current-time) (seconds-to-time (* 24 3600 days)))))
 
 (define-key global-map "\C-cc" 'org-capture)
 
@@ -436,6 +450,7 @@
 (setq org-agenda-files (list "/media/THISKEY/Documents/Org/agenda.org"
                          "/media/THISKEY/Documents/Org/someday.org"
                          "/media/THISKEY/Documents/Org/birthday.org"
+			 "/media/THISKEY/Documents/Org/books.org"
                          ))
 
 ;; (add-hook 'after-init-hook 'org-agenda-list)
