@@ -451,6 +451,7 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
+(yas/global-mode 1)
 
 ;; se rappelle ou je suis dans un fichier
 (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
