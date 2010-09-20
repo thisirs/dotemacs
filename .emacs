@@ -1052,3 +1052,108 @@
 
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
+
+;;; http://steve.yegge.googlepages.com/my-dot-emacs-file
+;; someday might want to rotate windows if more than 2 of them
+(defun swap-windows ()
+  "If you have 2 windows, it swaps them."
+  (interactive)
+  (cond ((not (= (count-windows) 2))
+          (message "You need exactly 2 windows to do this."))
+    (t
+      (let* ((w1 (first (window-list)))
+              (w2 (second (window-list)))
+              (b1 (window-buffer w1))
+              (b2 (window-buffer w2))
+              (s1 (window-start w1))
+              (s2 (window-start w2)))
+        (set-window-buffer w1 b2)
+        (set-window-buffer w2 b1)
+        (set-window-start w1 s2)
+        (set-window-start w2 s1)))))
+
+;; TODO is it better than the one i have?
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
+  (let ((name (buffer-name))
+         (filename (buffer-file-name)))
+    (if (not filename)
+      (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+        (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file name new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
+
+
+(defun move-buffer-file (dir)
+  "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+  (let* ((name (buffer-name))
+          (filename (buffer-file-name))
+          (dir
+            (if (string-match dir "\\(?:/\\|\\\\)$")
+              (substring dir 0 -1) dir))
+          (newname (concat dir "/" name)))
+
+    (if (not filename)
+      (message "Buffer '%s' is not visiting a file!" name)
+      (progn (copy-file filename newname 1
+               (delete-file filename)
+               (set-visited-file-name newname)
+               (set-buffer-modified-p nil)
+               t)))))
+
+  (defun my-find-thing-at-point ()
+    "Find variable, function or file at point."
+    (interactive)
+    (cond ((not (eq (variable-at-point) 0))
+	    (call-interactively 'describe-variable))
+      ((function-called-at-point)
+	(call-interactively 'describe-function))
+      (t (find-file-at-point))))
+
+
+
+(defun my-reindent-then-newline-and-indent-and-indent-sexp ()
+  "Reindent current line, insert newline, then indent the new line.
+Move backward out of one level of parentheses.
+Indent each line of the list starting just after point."
+  (interactive "*")
+  (reindent-then-newline-and-indent)
+  (save-excursion
+    (backward-up-list)
+    (indent-sexp)))
+
+
+(defmacro bind-to-f1 (func)
+  `(global-set-key [f1] (lambda () (interactive) (,func))))
+
+(bind-to-f1 my-reindent-then-newline-and-indent-and-indent-sexp)
+
+(defun my-beginning-of-line ()
+  (interactive)
+  (message "mlkdsf")
+  (let ((old-point (point)))
+    (beginning-of-line-text)
+    (and (= (point) old-point) (beginning-of-line))))
+
+(defun my-beginning-of-line ()
+  (interactive)
+  (if (bolp)
+    (beginning-of-line-text)
+    (beginning-of-line)))
+
+(setq desktop-buffers-not-to-save
+  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^/tmp"
+    "\\)$"))
+
+(add-to-list 'desktop-modes-not-to-save 'dired-mode)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
+;; redo support, yay
+;; (require 'redo)
+;; (global-set-key (kbd "C-ç") 'redo)
