@@ -1186,3 +1186,22 @@ Indent each line of the list starting just after point."
      (latex . t) ; this is the entry to activate LaTeX
      (sh . t)
      ))
+
+(setq Info-default-directory-list
+  (append
+    '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.85/doc"
+       "/home/sylvain/dotemacs/org-mode/doc")
+    Info-default-directory-list))
+
+(defun my-change-dictionary ()
+  "Change the dictionary."
+  (interactive)
+  (let ((dict (or ispell-local-dictionary ispell-dictionary)))
+    (setq dict (if (string= dict "fr_FR") "en_US" "fr_FR"))
+    (message "Switched to %S" dict)
+    (sit-for 0.4)
+    (ispell-change-dictionary dict)
+    (when flyspell-mode
+      (flyspell-delete-all-overlays)
+      (flyspell-buffer))))
+
