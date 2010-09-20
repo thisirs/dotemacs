@@ -159,6 +159,9 @@
 
 (require 'ibuffer)
 
+;; don't show empty groups
+(setq ibuffer-show-empty-filter-groups nil)
+
 (require 'cl) ; needed on some install to be able to use reduce...
 (defun find-projects (dir)
   (let ((dir (if (string= (substring dir -1 nil) "/")
