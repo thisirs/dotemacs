@@ -1129,11 +1129,14 @@ Indent each line of the list starting just after point."
     (backward-up-list)
     (indent-sexp)))
 
+;; quick bind to f1 to try out
+(defmacro bind-to-f1 (&rest prog)
+  `(global-set-key [f1]
+     (lambda ()
+       (interactive)
+       ,@prog)))
 
-(defmacro bind-to-f1 (func)
-  `(global-set-key [f1] (lambda () (interactive) (,func))))
-
-(bind-to-f1 my-reindent-then-newline-and-indent-and-indent-sexp)
+(bind-to-f1 (my-reindent-then-newline-and-indent-and-indent-sexp))
 
 (defun my-beginning-of-line ()
   (interactive)
@@ -1160,3 +1163,11 @@ Indent each line of the list starting just after point."
 ;; redo support, yay
 ;; (require 'redo)
 ;; (global-set-key (kbd "C-ç") 'redo)
+
+
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '(
+     (latex . t) ; this is the entry to activate LaTeX
+     (sh . t)
+     ))
