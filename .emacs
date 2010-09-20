@@ -162,72 +162,72 @@
 (require 'cl) ; needed on some install to be able to use reduce...
 (defun find-projects (dir)
   (let ((dir (if (string= (substring dir -1 nil) "/")
-	       dir (concat dir "/"))))
+               dir (concat dir "/"))))
     (if (not (file-directory-p dir))
       nil
       (reduce (lambda (list prj)
                 (let ((prj-dir (concat dir prj)))
                   (cond
-		    ((null prj) nil)
-		    ((and (file-exists-p (concat prj-dir "/.git"))
-		       (not (file-exists-p (concat prj-dir "/.hidden"))))
-		      (cons `(,prj . ,prj-dir) list))
-		    ((file-directory-p prj-dir)
-		      (append (find-projects prj-dir) list))
-		    (t list))))
-	(cddr (directory-files dir))
-	:initial-value nil))))
+                    ((null prj) nil)
+                    ((and (file-exists-p (concat prj-dir "/.git"))
+                       (not (file-exists-p (concat prj-dir "/.hidden"))))
+                      (cons `(,prj . ,prj-dir) list))
+                    ((file-directory-p prj-dir)
+                      (append (find-projects prj-dir) list))
+                    (t list))))
+        (cddr (directory-files dir))
+        :initial-value nil))))
 
 (defun make-ibuffer-projects-list (prefix dir)
   (reduce (lambda (list prj)
             (cons
-	      `(,(concat prefix (car prj)) (filename . ,(cdr prj)))
-	      list))
+              `(,(concat prefix (car prj)) (filename . ,(cdr prj)))
+              list))
     (find-projects dir)
     :initial-value nil))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
-	  (concat (getenv "HOME") "/dotemacs"))
-            ("Org" ;; all org-related buffers
-              (mode . org-mode))
-            ("TeX/LaTeX"
-              (or
-                (mode . latex-mode)
-                (name . "^\\.tex$")))
-            ("Mail"
-              (or ;; mail-related buffers
-                (mode . message-mode)
-                (mode . mail-mode)
-                ;; etc.;; all your mail related modes
-                ))
-	    ("Dired"
-	      ; dired related buffers
-	      (mode . dired-mode)
-	      )
-            ("THISKEY's programming"
-              (filename . "/media/THISKEY/programming/"))
-            ("Programming"
-              (or
-                (mode . c-mode)
-                (mode . perl-mode)
-                (mode . python-mode)
-                (mode . emacs-lisp-mode)
-                (mode . ruby-mode)
-		(mode . sh-mode)
-                ;; etc
-                ))
-            ("crap" (or
-                      (name . "^\\*trace")
-                      (name . "^\\*completions")
-                      (name . "^\\*Quail")
-                      (name . "^\\*magit")
-                      (name . "^\\*Backtrace\\*$")
-                      (name . "^\\*compilation\\*$")
-                      (name . "^\\*scratch\\*$")
-                      (name . "^\\*Messages\\*$")))
-            ("ERC" (mode . erc-mode)))))
+          (concat (getenv "HOME") "/dotemacs"))
+      ("Org" ;; all org-related buffers
+        (mode . org-mode))
+      ("TeX/LaTeX"
+        (or
+          (mode . latex-mode)
+          (name . "^\\.tex$")))
+      ("Mail"
+        (or ;; mail-related buffers
+          (mode . message-mode)
+          (mode . mail-mode)
+          ;; etc.;; all your mail related modes
+          ))
+      ("Dired"
+                                        ; dired related buffers
+        (mode . dired-mode)
+        )
+      ("THISKEY's programming"
+        (filename . "/media/THISKEY/programming/"))
+      ("Programming"
+        (or
+          (mode . c-mode)
+          (mode . perl-mode)
+          (mode . python-mode)
+          (mode . emacs-lisp-mode)
+          (mode . ruby-mode)
+          (mode . sh-mode)
+          ;; etc
+          ))
+      ("crap" (or
+                (name . "^\\*trace")
+                (name . "^\\*completions")
+                (name . "^\\*Quail")
+                (name . "^\\*magit")
+                (name . "^\\*Backtrace\\*$")
+                (name . "^\\*compilation\\*$")
+                (name . "^\\*scratch\\*$")
+                (name . "^\\*Messages\\*$")))
+      ("ERC" (mode . erc-mode)))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
@@ -371,18 +371,18 @@
 ;; for lists specify the len of the maximal saved data also
 (setq desktop-globals-to-save
   (append '((extended-command-history . 30)
-	     (file-name-history        . 100)
-	     (grep-history             . 30)
-	     (compile-history          . 30)
-	     (minibuffer-history       . 50)
-	     (query-replace-history    . 60)
-	     (read-expression-history  . 60)
-	     (regexp-history           . 60)
-	     (regexp-search-ring       . 20)
-	     (search-ring              . 20)
-	     (shell-command-history    . 50)
-	     tags-file-name
-	     register-alist)))
+             (file-name-history        . 100)
+             (grep-history             . 30)
+             (compile-history          . 30)
+             (minibuffer-history       . 50)
+             (query-replace-history    . 60)
+             (read-expression-history  . 60)
+             (regexp-history           . 60)
+             (regexp-search-ring       . 20)
+             (search-ring              . 20)
+             (shell-command-history    . 50)
+             tags-file-name
+             register-alist)))
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -692,16 +692,16 @@
 
 ;; dired customizations
 (add-hook 'dired-load-hook
-          (function (lambda ()
-                      (load "dired-x")
-                      ;; Set global variables here.  For example:
-                      ;; (setq dired-guess-shell-gnutar "gtar")
-                      )))
+  (function (lambda ()
+              (load "dired-x")
+              ;; Set global variables here.  For example:
+              ;; (setq dired-guess-shell-gnutar "gtar")
+              )))
 (add-hook 'dired-mode-hook
-          (function (lambda ()
-                      ;; Set buffer-local variables here.  For example:
-                      ;; (dired-omit-mode 1)
-                      )))
+  (function (lambda ()
+              ;; Set buffer-local variables here.  For example:
+              ;; (dired-omit-mode 1)
+              )))
 
 ;; (require 'dired+)
 
@@ -820,22 +820,22 @@
       '(lambda()(interactive)
          (let ((debug-on-error t))
            (cond
-	     (mark-active
-	       (call-interactively 'eval-region)
-	       (message "Region evaluated!"))
-	     (t
-	       (eval-buffer)
-	       (message "Buffer evaluated!"))))))
+             (mark-active
+               (call-interactively 'eval-region)
+               (message "Region evaluated!"))
+             (t
+               (eval-buffer)
+               (message "Buffer evaluated!"))))))
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
     (turn-on-auto-fill)
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
-	 try-expand-dabbrev-visible
-	 try-expand-dabbrev
-	 try-complete-lisp-symbol-partially
-	 try-complete-lisp-symbol))
+         try-expand-dabbrev-visible
+         try-expand-dabbrev
+         try-complete-lisp-symbol-partially
+         try-complete-lisp-symbol))
     ;;marquer les caractères au delà de 80 caractères
     (font-lock-add-keywords nil
       '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
@@ -988,9 +988,9 @@
 (defun custom-goto-match-beginning ()
   "Use with isearch hook to end search at first char of match"
   (when (and
-	  isearch-forward
-	  (not mark-active)
-	  (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
+          isearch-forward
+          (not mark-active)
+          (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
 
 (define-key isearch-mode-map (kbd "C-o")
   (lambda ()
@@ -1035,7 +1035,7 @@
 ;;   "If PREFIX is \\[universal-argument], answers no.
 ;;    Otherwise, analyses point position and answers."
 ;;   (unless (or (consp prefix)
-;; 	    mark-active)
+;;          mark-active)
 ;;     (looking-at "\\_>")))
 
 (global-set-key [\C-home] 'beginning-of-buffer)
@@ -1046,9 +1046,9 @@
   (lambda ()
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
-	 py-complete
-	 try-expand-dabbrev-visible
-	 try-expand-dabbrev))))
+         py-complete
+         try-expand-dabbrev-visible
+         try-expand-dabbrev))))
 
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
