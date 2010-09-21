@@ -1,0 +1,3 @@
+[submodule ".emacs.d/vendor/anything-config"]
+	path = .emacs.d/vendor/anything-config
+	url = git://repo.or.cz/anything-config.git
