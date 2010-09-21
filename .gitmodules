@@ -4,3 +4,6 @@
 [submodule ".emacs.d/vendor/org-mode"]
 	path = .emacs.d/vendor/org-mode
 	url = git://repo.or.cz/org-mode.git
+[submodule ".emacs.d/vendor/magit"]
+	path = .emacs.d/vendor/magit
+	url = http://github.com/philjackson/magit.git
