@@ -1,7 +1,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(add-to-list 'load-path (expand-file-name "~/dotemacs/org-mode/lisp"))
-(add-to-list 'load-path (expand-file-name "~/dotemacs/anything-config"))
-(add-to-list 'load-path (expand-file-name "~/dotemacs/anything-config/extensions"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config/extensions"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
@@ -451,7 +451,7 @@
                          "/media/THISKEY/Documents/Org/someday.org"
                          "/media/THISKEY/Documents/Org/birthday.org"
 			 "/media/THISKEY/Documents/Org/books.org"
-                         ))
+			 ))
 
 ;; (add-hook 'after-init-hook 'org-agenda-list)
 
