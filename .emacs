@@ -423,7 +423,7 @@
      ("bu" "Bibliothèque Universitaire" entry
        (file+headline "/media/THISKEY/Documents/Org/books.org"
   "Empruntés")
-       "* %?\n  BORROWED: %u\n  À RENDRE: %(add-days 15)")
+       "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE: %(add-days 15)")
      ("bl" "Bibliothèque du labo" entry
        (file+headline "/media/THISKEY/Documents/Org/books.org"
 	 "Empruntés")
@@ -1180,12 +1180,12 @@ Indent each line of the list starting just after point."
 ;; (global-set-key (kbd "C-ç") 'redo)
 
 
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '(
-     (latex . t) ; this is the entry to activate LaTeX
-     (sh . t)
-     ))
+;; (org-babel-do-load-languages
+;;   'org-babel-load-languages
+;;   '(
+;;      (latex . t) ; this is the entry to activate LaTeX
+;;      (sh . t)
+;;      ))
 
 (setq Info-default-directory-list
   (append
