@@ -1206,3 +1206,53 @@ Indent each line of the list starting just after point."
       (flyspell-delete-all-overlays)
       (flyspell-buffer))))
 
+(bind-to-f1 (anything-translate))
+(defun anything-translate ()
+  (interactive)
+  (anything-other-buffer
+    '(anything-c-source-google-translate) "*anything translate*"))
+
+
+(defvar anything-c-source-google-translate
+  '((name . "Google translate")
+     (candidates . ("blah" "blih" "bloh"));anything-c-google-translate)
+     (action . (("Google Search" . anything-c-google-suggest-action)))
+     (volatile)
+     (requires-pattern . 3)
+     (delayed))
+  "Find the translation of current input pattern with google
+  translate")
+
+(setq anything-c-source-google-translate
+  '((name . "Google translate")
+     (delayed)
+     (filtered-candidate-transformer . (lambda (candidates source)
+					 anything-c-google-translate))))
+
+;;(anything-c-google-translate)
+;; (anything 'anything-c-source-google-translate)
+
+(setq anything-c-source-google-translate
+  '((name . "Google translate")
+     (candidates . "Chat avec moi");anything-c-google-translate)
+     (action . (("Google Search" . anything-c-google-suggest-action)))
+     (volatile)
+     (requires-pattern . 3)
+     (delayed)))
+
+
+(defun anything-c-google-translate ()
+  (let ((request
+	  (concat
+	    "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
+	    (url-hexify-string anything-pattern)
+	    "&langpair=en%7Cfr")))
+    (with-temp-buffer
+      (call-process "curl" nil '(t nil) nil request)
+      (goto-char (point-min))
+      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"")
+	(list (match-string 1))
+	'("not found")))))
+
+
+;;(anything-c-google-translate)
