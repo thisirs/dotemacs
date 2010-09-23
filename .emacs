@@ -194,20 +194,18 @@
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
-      ("Org" ;; all org-related buffers
+      ("Org"
         (mode . org-mode))
       ("TeX/LaTeX"
         (or
           (mode . latex-mode)
           (name . "^\\.tex$")))
       ("Mail"
-        (or ;; mail-related buffers
+        (or
           (mode . message-mode)
           (mode . mail-mode)
-          ;; etc.;; all your mail related modes
           ))
       ("Dired"
-                                        ; dired related buffers
         (mode . dired-mode)
         )
       ("THISKEY's programming"
@@ -220,7 +218,6 @@
           (mode . emacs-lisp-mode)
           (mode . ruby-mode)
           (mode . sh-mode)
-          ;; etc
           ))
       ("crap" (or
                 (name . "^\\*trace")
@@ -1206,7 +1203,6 @@ Indent each line of the list starting just after point."
       (flyspell-delete-all-overlays)
       (flyspell-buffer))))
 
-(bind-to-f1 (anything-translate))
 (defun anything-translate ()
   (interactive)
   (anything-other-buffer
@@ -1215,31 +1211,10 @@ Indent each line of the list starting just after point."
 
 (defvar anything-c-source-google-translate
   '((name . "Google translate")
-     (candidates . ("blah" "blih" "bloh"));anything-c-google-translate)
-     (action . (("Google Search" . anything-c-google-suggest-action)))
-     (volatile)
-     (requires-pattern . 3)
-     (delayed))
-  "Find the translation of current input pattern with google
-  translate")
-
-(setq anything-c-source-google-translate
-  '((name . "Google translate")
+     (dummy)
      (delayed)
      (filtered-candidate-transformer . (lambda (candidates source)
-					 anything-c-google-translate))))
-
-;;(anything-c-google-translate)
-;; (anything 'anything-c-source-google-translate)
-
-(setq anything-c-source-google-translate
-  '((name . "Google translate")
-     (candidates . "Chat avec moi");anything-c-google-translate)
-     (action . (("Google Search" . anything-c-google-suggest-action)))
-     (volatile)
-     (requires-pattern . 3)
-     (delayed)))
-
+					 (anything-c-google-translate)))))
 
 (defun anything-c-google-translate ()
   (let ((request
@@ -1250,9 +1225,7 @@ Indent each line of the list starting just after point."
     (with-temp-buffer
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
-      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"")
+      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
 	(list (match-string 1))
-	'("not found")))))
+	nil))))
 
-
-;;(anything-c-google-translate)
