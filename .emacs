@@ -76,7 +76,7 @@
 (require 'linkd)
 
 
-;; anything
+;;; anything
 (require 'xml)
 (require 'anything-startup)
 (setq anything-command-map-prefix-key "C-x C-a")
@@ -389,13 +389,13 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
-;; color theme
+;;; color theme
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-subtle-hacker)
 
-;; org-mode
+;;; org-mode
 (require 'org-install)
 
 (setq org-todo-keywords
@@ -509,7 +509,7 @@
 ;;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
 ;;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
 
-;; Auctex
+;;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
@@ -706,7 +706,7 @@
 ;; filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
 
-;; dired customizations
+;;; dired, dired-x and co
 (add-hook 'dired-load-hook
   (function (lambda ()
               (load "dired-x")
@@ -734,6 +734,7 @@
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
 
+;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
 (require 'autoinsert)
@@ -760,7 +761,7 @@
 (require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
-;;shell-toggle
+;;; shell-toggle
 (autoload 'shell-toggle "shell-toggle"
   "Toggles between the shell buffer and whatever buffer you are editing."
   t)
@@ -805,7 +806,7 @@
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
-;; hippie-expand
+;;; hippie-expand
 (global-set-key (kbd "S-SPC") 'hippie-expand)
 (global-set-key (kbd "C-S-SPC") '(lambda () (interactive) (hippie-expand -1)))
 
@@ -1069,7 +1070,7 @@
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
 
-;;; http://steve.yegge.googlepages.com/my-dot-emacs-file
+;; http://steve.yegge.googlepages.com/my-dot-emacs-file
 ;; someday might want to rotate windows if more than 2 of them
 (defun swap-windows ()
   "If you have 2 windows, it swaps them."
@@ -1215,6 +1216,7 @@ Indent each line of the list starting just after point."
      (delayed)
      (filtered-candidate-transformer . (lambda (candidates source)
 					 (anything-c-google-translate)))))
+
 
 (defun anything-c-google-translate ()
   (let ((request
