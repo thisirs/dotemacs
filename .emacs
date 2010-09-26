@@ -877,7 +877,9 @@
 (setq apropos-do-all t)
 
 ;; Use system trash (for emacs 23)
-(setq delete-by-moving-to-trash t)
+;; BUG when trying to delete /tmp/emacs1000/server
+;; setting to nil (default)
+;;(setq delete-by-moving-to-trash t)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -1230,4 +1232,17 @@ Indent each line of the list starting just after point."
       (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
 	(list (match-string 1))
 	nil))))
+
+
+(defun shutdown-emacs-server () (interactive)
+  (when (not (eq window-system 'x))
+    (message "Initializing x windows system.")
+    (x-initialize-window-system)
+    (when (not x-display-name) (setq x-display-name (getenv "DISPLAY")))
+    (select-frame (make-frame-on-display x-display-name '((window-system . x))))
+    )
+  (let ((last-nonmenu-event nil)(window-system
+  "x"))(save-buffers-kill-emacs)))
+
+
 
