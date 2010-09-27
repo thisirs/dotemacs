@@ -194,6 +194,10 @@
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
+      ("ICIP article"
+	(or
+	  (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
+	  (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
       ("Org"
         (mode . org-mode))
       ("TeX/LaTeX"
@@ -879,6 +883,7 @@
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
+
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -1196,10 +1201,10 @@ Indent each line of the list starting just after point."
   "Change the dictionary."
   (interactive)
   (let ((dict (or ispell-local-dictionary ispell-dictionary)))
-    (setq dict (if (string= dict "fr_FR") "en_US" "fr_FR"))
-    (message "Switched to %S" dict)
+    (setq mdict (if (string= dict "fr_FR") "en_US" "fr_FR"))
+    (message "Switched to %S" mdict)
     (sit-for 0.4)
-    (ispell-change-dictionary dict)
+    (ispell-change-dictionary mdict)
     (when flyspell-mode
       (flyspell-delete-all-overlays)
       (flyspell-buffer))))
@@ -1223,7 +1228,7 @@ Indent each line of the list starting just after point."
 	  (concat
 	    "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
 	    (url-hexify-string anything-pattern)
-	    "&langpair=en%7Cfr")))
+	    "&langpair=fr%7Cen")))
     (with-temp-buffer
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
@@ -1231,6 +1236,7 @@ Indent each line of the list starting just after point."
 	(list (match-string 1))
 	nil))))
 
+(define-key anything-command-map (kbd "t") 'anything-translate)
 
 (defun shutdown-emacs-server () (interactive)
   (when (not (eq window-system 'x))
