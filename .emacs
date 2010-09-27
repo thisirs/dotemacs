@@ -877,9 +877,7 @@
 (setq apropos-do-all t)
 
 ;; Use system trash (for emacs 23)
-;; BUG when trying to delete /tmp/emacs1000/server
-;; setting to nil (default)
-;;(setq delete-by-moving-to-trash t)
+(setq delete-by-moving-to-trash t)
 
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
