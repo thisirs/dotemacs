@@ -1250,3 +1250,22 @@ Indent each line of the list starting just after point."
 
 
 
+(defun repl (exp pattern patch)
+  (cond
+    ((null exp) ())
+    ((equal pattern exp) patch)
+    ((listp exp)
+      (cons (repl (car exp) pattern patch) (repl (cdr exp) pattern patch)))
+    (t exp)))
+
+(defun patch (func pattern patch)
+  (fset func (repl (symbol-function func) pattern patch)))
+
+
+(patch 'LaTeX-label
+  '(completing-read
+     (TeX-argument-prompt t nil "What label")
+     (LaTeX-label-list) nil nil prefix)
+  '(completing-read
+     (TeX-argument-prompt t nil "What label")
+     (LaTeX-label-list) nil nil nil nil (concat prefix title)))
