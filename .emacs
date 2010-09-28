@@ -1256,8 +1256,24 @@ Indent each line of the list starting just after point."
     (other-window 1)))
 
 
+(defun patch (func pattern patch)
+  (fset func (repl (symbol-function func) pattern patch)))
 
+(defun repl (exp pattern patch)
+  (cond
+    ((null exp) nil)
+    ((listp exp)
+      (let ((expr (repl (car exp) pattern patch)))
+	(if (equal expr pattern)
+	  `(,@patch ,@(repl (cdr exp) pattern patch))
+	  (cons expr (repl (cdr exp) pattern patch)))))
+    (t exp)))
 
+(defun blah nil
+  '(a b)
+  '(e f))
+
+(patch 'blah (quote (quote (e f))) '((c d)))
 ;; (defmacro patch (func pattern &rest patch)
 ;;   `(fset ,func (repl ,(symbol-function func) ,pattern ,patch)))
 
