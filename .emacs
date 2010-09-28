@@ -1258,36 +1258,53 @@ Indent each line of the list starting just after point."
 
 
 
-(defmacro patch (func pattern &rest patch)
-  (fset func (repl (symbol-function func) pattern patch)))
+;; (defmacro patch (func pattern &rest patch)
+;;   `(fset ,func (repl ,(symbol-function func) ,pattern ,patch)))
 
-(defmacro repl (exp pattern patch)
-  (cond
-    ((null exp) ())
-    ((listp exp)
-      (let ((expr `(repl ,(car exp) pattern patch)))
-	(if (equal expr pattern)
-	  `(,@patch ,@(repl (cdr exp) pattern patch))
-	  (cons (car exp) (repl (cdr exp) pattern patch)))))
-    (t exp)))
-
-(defun blah nil
-  '(a b)
-  '(e f))
+;; (macroexpand '(patch blah (a b) (c d)))
 
 
-(repl (a) nil nil)
-(patch blah '(e f) '(c d))
+;; (defmacro repl (exp pattern patch)
+;;   `(cond
+;;     ((null ,exp) ())
+;;     ((listp ,exp)
+;;       (let ((expr (repl ,(car exp) ,pattern ,patch)))
+;; 	(if (equal expr ,pattern)
+;; 	  (,@patch @(repl (cdr ,exp) ,pattern ,patch))
+;; 	  (cons (car ,exp) (repl ,(cdr exp) ,pattern ,patch)))))
+;;     (t ,exp)))
 
-(patch 'LaTeX-label
-  (completing-read
-    (TeX-argument-prompt t nil "What label")
-    (LaTeX-label-list) nil nil prefix)
-  (completing-read
-    (TeX-argument-prompt t nil "What label")
-    (LaTeX-label-list) nil nil nil nil (concat prefix title)))
+;; (macroexpand '(repl ((a b) c d) (a b) (a b)))
 
-(patch LaTeX-common-initialization
-  '("eqnarray" LaTeX-env-label)
-  '("equation" LaTeX-env-label)
-  '("equation*" LaTeX-env-label))
+;; (setq eval-expression-print-length 100)
+;; (setq eval-expression-print-level 10)
+
+;; (defun blah nil
+;;   '(a b)
+;;   '(e f))
+
+;; (macroexpand '(patch 'blah (e f) (c d)))
+;; (repl '((a b) c) '(a b) '(a b))
+;; (patch blah (e f) (c d))
+
+;; (patch 'LaTeX-label
+;;   (completing-read
+;;     (TeX-argument-prompt t nil "What label")
+;;     (LaTeX-label-list) nil nil prefix)
+;;   (completing-read
+;;     (TeX-argument-prompt t nil "What label")
+;;     (LaTeX-label-list) nil nil nil nil (concat prefix title)))
+
+;; (patch LaTeX-common-initialization
+;;   '("eqnarray" LaTeX-env-label)
+;;   '("equation" LaTeX-env-label)
+;;   '("equation*" LaTeX-env-label))
+
+;; (defmacro incr (x)
+;;   `(setq x (+ x 1)))
+
+;; (setq x 2)
+
+;; (macroexpand '(incr xa))
+
+;; (incr x)
