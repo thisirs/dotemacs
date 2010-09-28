@@ -1249,23 +1249,45 @@ Indent each line of the list starting just after point."
   "x"))(save-buffers-kill-emacs)))
 
 
+(global-set-key (kbd "C-x 3")
+  (lambda nil
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1)))
 
-(defun repl (exp pattern patch)
-  (cond
-    ((null exp) ())
-    ((equal pattern exp) patch)
-    ((listp exp)
-      (cons (repl (car exp) pattern patch) (repl (cdr exp) pattern patch)))
-    (t exp)))
 
-(defun patch (func pattern patch)
+
+
+(defmacro patch (func pattern &rest patch)
   (fset func (repl (symbol-function func) pattern patch)))
 
+(defmacro repl (exp pattern patch)
+  (cond
+    ((null exp) ())
+    ((listp exp)
+      (let ((expr `(repl ,(car exp) pattern patch)))
+	(if (equal expr pattern)
+	  `(,@patch ,@(repl (cdr exp) pattern patch))
+	  (cons (car exp) (repl (cdr exp) pattern patch)))))
+    (t exp)))
+
+(defun blah nil
+  '(a b)
+  '(e f))
+
+
+(repl (a) nil nil)
+(patch blah '(e f) '(c d))
 
 (patch 'LaTeX-label
-  '(completing-read
-     (TeX-argument-prompt t nil "What label")
-     (LaTeX-label-list) nil nil prefix)
-  '(completing-read
-     (TeX-argument-prompt t nil "What label")
-     (LaTeX-label-list) nil nil nil nil (concat prefix title)))
+  (completing-read
+    (TeX-argument-prompt t nil "What label")
+    (LaTeX-label-list) nil nil prefix)
+  (completing-read
+    (TeX-argument-prompt t nil "What label")
+    (LaTeX-label-list) nil nil nil nil (concat prefix title)))
+
+(patch LaTeX-common-initialization
+  '("eqnarray" LaTeX-env-label)
+  '("equation" LaTeX-env-label)
+  '("equation*" LaTeX-env-label))
