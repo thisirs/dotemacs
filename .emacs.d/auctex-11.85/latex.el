@@ -4959,16 +4959,17 @@ i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
    '("tabular" LaTeX-env-array)
    '("tabular*" LaTeX-env-tabular*)
    '("array" LaTeX-env-array)
-   '("eqnarray" LaTeX-env-label)
+;;   '("eqnarray" LaTeX-env-label) eqnarray is evil
    '("equation" LaTeX-env-label)
    '("minipage" LaTeX-env-minipage)
 
    ;; The following have no special support, but are included in
    ;; case the auto files are missing.
 
+    "equation*" "pmatrix"
    "sloppypar" "picture" "tabbing" "verbatim" "verbatim*"
    "flushright" "flushleft" "displaymath" "math" "quote" "quotation"
-   "abstract" "center" "titlepage" "verse" "eqnarray*"
+   "abstract" "center" "titlepage" "verse" ;;"eqnarray*" evil i said!
 
    ;; The following are not defined in latex.el, but in a number of
    ;; other style files.  I'm to lazy to copy them to all the
