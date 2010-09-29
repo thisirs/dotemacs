@@ -310,8 +310,8 @@
 
 ;; FIXME: make it for all coding modes
 ;; auto-fill-mode uniquement pour les commentaires
-(set (make-local-variable 'comment-auto-fill-only-comments) t)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+;;(set (make-local-variable 'comment-auto-fill-only-comments) t)
+;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
@@ -512,6 +512,34 @@
 ;;(load "scilab-startup")
 ;;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
 ;;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
+
+
+
+(defun patch (func pattern patch)
+  (fset func (repl (symbol-function func) pattern patch)))
+
+(defun repl (exp pattern patch)
+  (cond
+    ((null exp) nil)
+    ((listp exp)
+      (let ((expr (repl (car exp) pattern patch)))
+	(if (equal expr pattern)
+	  `(,@patch ,@(repl (cdr exp) pattern patch))
+	  (cons expr (repl (cdr exp) pattern patch)))))
+    (t exp)))
+
+;; (eval-after-load "~/dotemacs/dotemacs/.emacs.d/auctex-11.85/latex"
+;;   '(patch 'LaTeX-label
+;;      '(completing-read
+;; 	(TeX-argument-prompt t nil "What label")
+;; 	(LaTeX-label-list) nil nil prefix)
+;;      '((completing-read
+;; 	 (TeX-argument-prompt t nil "What labelz")
+;; 	 (LaTeX-label-list) nil nil nil nil (concat prefix title)))))
+
+;; (eval-after-load 'latex '(patch 'LaTeX-common-initialization
+;; 			   (quote '("eqnarray" LaTeX-env-label))
+;; 			   (quote ('("equation" LaTeX-env-label) '("equation*" LaTeX-env-label)))))
 
 ;;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.85")
@@ -849,7 +877,7 @@
                (message "Buffer evaluated!"))))))
     (linum-mode t)
     (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
-    (turn-on-auto-fill)
+    ;;(turn-on-auto-fill)
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
@@ -1256,24 +1284,7 @@ Indent each line of the list starting just after point."
     (other-window 1)))
 
 
-(defun patch (func pattern patch)
-  (fset func (repl (symbol-function func) pattern patch)))
 
-(defun repl (exp pattern patch)
-  (cond
-    ((null exp) nil)
-    ((listp exp)
-      (let ((expr (repl (car exp) pattern patch)))
-	(if (equal expr pattern)
-	  `(,@patch ,@(repl (cdr exp) pattern patch))
-	  (cons expr (repl (cdr exp) pattern patch)))))
-    (t exp)))
-
-(defun blah nil
-  '(a b)
-  '(e f))
-
-(patch 'blah (quote (quote (e f))) '((c d)))
 ;; (defmacro patch (func pattern &rest patch)
 ;;   `(fset ,func (repl ,(symbol-function func) ,pattern ,patch)))
 
