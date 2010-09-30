@@ -1,21 +1,23 @@
-;; -*- emacs-lisp -*-
+;; -*- emacs-lisp -*- <10/09/29 17:06:48 /home/srousseau/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
 ((["sudo" "root" "localhost" nil]
-   ("uname" "Linux 2.6.27-17-generic")
+   ("uname" "Linux 2.6.31-19-generic")
    ("test" "test")
    ("remote-path"
      ("/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin"))
    ("remote-shell" "/bin/sh")
-   ("file-exists" "test -e")
+   ("readlink" "\\readlink")
    ("stat" "\\stat")
+   ("file-exists" "test -e")
    ("id" "/usr/bin/id")
    ("gid-integer" 0)
    ("uid-integer" 0)
+   ("perl-file-spec" t)
+   ("perl-cwd-realpath" t)
+   ("perl" "\\perl")
    ("local-encoding" base64-encode-region)
    ("local-decoding" base64-decode-region)
    ("remote-encoding" "base64")
-   ("remote-decoding" "base64 -d")
-   ("ls" "/bin/ls")
-   ("~root" "/root")))
+   ("remote-decoding" "base64 -d")))
