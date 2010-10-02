@@ -116,6 +116,34 @@
      (delayed))
   "Find files matching the current input pattern with locate.")
 
+(defun anything-translate ()
+  (interactive)
+  (anything-other-buffer
+    '(anything-c-source-google-translate) "*anything translate*"))
+
+
+(defvar anything-c-source-google-translate
+  '((name . "Google translate")
+     (dummy)
+     (delayed)
+     (filtered-candidate-transformer . (lambda (candidates source)
+					 (anything-c-google-translate)))))
+
+
+(defun anything-c-google-translate ()
+  (let ((request
+	  (concat
+	    "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
+	    (url-hexify-string anything-pattern)
+	    "&langpair=fr%7Cen")))
+    (with-temp-buffer
+      (call-process "curl" nil '(t nil) nil request)
+      (goto-char (point-min))
+      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
+	(list (match-string 1))
+	nil))))
+
+(define-key anything-command-map (kbd "t") 'anything-translate)
 
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
@@ -296,6 +324,43 @@
       (progn (forward-char 1)
         (just-one-space 0)
         (backward-char 1)))))
+
+(defun my-beginning-of-line ()
+  (interactive)
+  (if (bolp)
+    (beginning-of-line-text)
+    (beginning-of-line)))
+
+(global-set-key (kbd "C-e") 'my-beginning-of-line)
+
+
+(defun my-find-thing-at-point ()
+  "Find variable, function or file at point."
+  (interactive)
+  (cond ((not (eq (variable-at-point) 0))
+	  (call-interactively 'describe-variable))
+    ((function-called-at-point)
+      (call-interactively 'describe-function))
+    (t (find-file-at-point))))
+
+(global-set-key  [f1] 'my-find-thing-at-point)
+
+;; quick bind to f1 to try out
+(defmacro bind-to-f1 (&rest prog)
+  `(global-set-key [f1]
+     (lambda ()
+       (interactive)
+       ,@prog)))
+
+
+;; Put the cursor in an intelligent place when searching
+(add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
+(defun custom-goto-match-beginning ()
+  "Use with isearch hook to end search at first char of match"
+  (when (and
+          isearch-forward
+          (not mark-active)
+          (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
@@ -1033,14 +1098,6 @@
 
 ;; isearch-mode-map http://bitbucket.org/birkenfeld/dotemacs/src/tip/init.el
 
-;; Put the cursor in an intelligent place when searching
-(add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
-(defun custom-goto-match-beginning ()
-  "Use with isearch hook to end search at first char of match"
-  (when (and
-          isearch-forward
-          (not mark-active)
-          (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
 
 (define-key isearch-mode-map (kbd "C-o")
   (lambda ()
@@ -1048,9 +1105,6 @@
     (let ((case-fold-search isearch-case-fold-search))
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
-
-;; function at point!!
-(global-set-key  [f1] 'find-function-at-point)
 
 
 ;; always revert buffers if their files change on disk to reflect new changes
@@ -1156,16 +1210,6 @@
                t)))))
 
 
-  (defun my-find-thing-at-point ()
-    "Find variable, function or file at point."
-    (interactive)
-    (cond ((not (eq (variable-at-point) 0))
-	    (call-interactively 'describe-variable))
-      ((function-called-at-point)
-	(call-interactively 'describe-function))
-      (t (find-file-at-point))))
-
-(global-set-key  [f1] 'my-find-thing-at-point)
 
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
   "Reindent current line, insert newline, then indent the new line.
@@ -1177,27 +1221,16 @@ Indent each line of the list starting just after point."
     (backward-up-list)
     (indent-sexp)))
 
-;; quick bind to f1 to try out
-(defmacro bind-to-f1 (&rest prog)
-  `(global-set-key [f1]
-     (lambda ()
-       (interactive)
-       ,@prog)))
 
 ;;(bind-to-f1 (my-reindent-then-newline-and-indent-and-indent-sexp))
 
-(defun my-beginning-of-line ()
-  (interactive)
-  (message "mlkdsf")
-  (let ((old-point (point)))
-    (beginning-of-line-text)
-    (and (= (point) old-point) (beginning-of-line))))
+;; (defun my-beginning-of-line ()
+;;   (interactive)
+;;   (message "mlkdsf")
+;;   (let ((old-point (point)))
+;;     (beginning-of-line-text)
+;;     (and (= (point) old-point) (beginning-of-line))))
 
-(defun my-beginning-of-line ()
-  (interactive)
-  (if (bolp)
-    (beginning-of-line-text)
-    (beginning-of-line)))
 
 (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
 (setq desktop-buffers-not-to-save
@@ -1239,34 +1272,6 @@ Indent each line of the list starting just after point."
       (flyspell-delete-all-overlays)
       (flyspell-buffer))))
 
-(defun anything-translate ()
-  (interactive)
-  (anything-other-buffer
-    '(anything-c-source-google-translate) "*anything translate*"))
-
-
-(defvar anything-c-source-google-translate
-  '((name . "Google translate")
-     (dummy)
-     (delayed)
-     (filtered-candidate-transformer . (lambda (candidates source)
-					 (anything-c-google-translate)))))
-
-
-(defun anything-c-google-translate ()
-  (let ((request
-	  (concat
-	    "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
-	    (url-hexify-string anything-pattern)
-	    "&langpair=fr%7Cen")))
-    (with-temp-buffer
-      (call-process "curl" nil '(t nil) nil request)
-      (goto-char (point-min))
-      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-	(list (match-string 1))
-	nil))))
-
-(define-key anything-command-map (kbd "t") 'anything-translate)
 
 (defun shutdown-emacs-server () (interactive)
   (when (not (eq window-system 'x))
@@ -1278,7 +1283,7 @@ Indent each line of the list starting just after point."
   (let ((last-nonmenu-event nil)(window-system
   "x"))(save-buffers-kill-emacs)))
 
-
+;; split screen and switch to it!
 (global-set-key (kbd "C-x 3")
   (lambda nil
     (interactive)
@@ -1287,53 +1292,6 @@ Indent each line of the list starting just after point."
 
 
 
-;; (defmacro patch (func pattern &rest patch)
-;;   `(fset ,func (repl ,(symbol-function func) ,pattern ,patch)))
-
-;; (macroexpand '(patch blah (a b) (c d)))
-
-
-;; (defmacro repl (exp pattern patch)
-;;   `(cond
-;;     ((null ,exp) ())
-;;     ((listp ,exp)
-;;       (let ((expr (repl ,(car exp) ,pattern ,patch)))
-;; 	(if (equal expr ,pattern)
-;; 	  (,@patch @(repl (cdr ,exp) ,pattern ,patch))
-;; 	  (cons (car ,exp) (repl ,(cdr exp) ,pattern ,patch)))))
-;;     (t ,exp)))
-
-;; (macroexpand '(repl ((a b) c d) (a b) (a b)))
-
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
 
-;; (defun blah nil
-;;   '(a b)
-;;   '(e f))
-
-;; (macroexpand '(patch 'blah (e f) (c d)))
-;; (repl '((a b) c) '(a b) '(a b))
-;; (patch blah (e f) (c d))
-
-;; (patch 'LaTeX-label
-;;   (completing-read
-;;     (TeX-argument-prompt t nil "What label")
-;;     (LaTeX-label-list) nil nil prefix)
-;;   (completing-read
-;;     (TeX-argument-prompt t nil "What label")
-;;     (LaTeX-label-list) nil nil nil nil (concat prefix title)))
-
-;; (patch LaTeX-common-initialization
-;;   '("eqnarray" LaTeX-env-label)
-;;   '("equation" LaTeX-env-label)
-;;   '("equation*" LaTeX-env-label))
-
-;; (defmacro incr (x)
-;;   `(setq x (+ x 1)))
-
-;; (setq x 2)
-
-;; (macroexpand '(incr xa))
-
-;; (incr x)
