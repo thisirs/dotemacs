@@ -1155,6 +1155,7 @@
                (set-buffer-modified-p nil)
                t)))))
 
+
   (defun my-find-thing-at-point ()
     "Find variable, function or file at point."
     (interactive)
@@ -1164,7 +1165,7 @@
 	(call-interactively 'describe-function))
       (t (find-file-at-point))))
 
-
+(global-set-key  [f1] 'my-find-thing-at-point)
 
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
   "Reindent current line, insert newline, then indent the new line.
@@ -1183,7 +1184,7 @@ Indent each line of the list starting just after point."
        (interactive)
        ,@prog)))
 
-(bind-to-f1 (my-reindent-then-newline-and-indent-and-indent-sexp))
+;;(bind-to-f1 (my-reindent-then-newline-and-indent-and-indent-sexp))
 
 (defun my-beginning-of-line ()
   (interactive)
@@ -1198,8 +1199,9 @@ Indent each line of the list starting just after point."
     (beginning-of-line-text)
     (beginning-of-line)))
 
+(setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
 (setq desktop-buffers-not-to-save
-  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^/tmp"
+  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
     "\\)$"))
 
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
