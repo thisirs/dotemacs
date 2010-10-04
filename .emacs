@@ -339,7 +339,7 @@
     (beginning-of-line-text)
     (beginning-of-line)))
 
-(global-set-key (kbd "C-e") 'my-beginning-of-line)
+(global-set-key (kbd "C-a") 'my-beginning-of-line)
 
 
 (defun my-find-thing-at-point ()
