@@ -145,6 +145,14 @@
 
 (define-key anything-command-map (kbd "t") 'anything-translate)
 
+;; boss key!
+(defun boss nil
+  (interactive)
+  (switch-to-buffer "revue.tex")
+  (delete-other-windows))
+
+(global-set-key (kbd "²") 'boss)
+
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
 (require 'magit)
