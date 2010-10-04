@@ -944,7 +944,8 @@
            (cond
              (mark-active
                (call-interactively 'eval-region)
-               (message "Region evaluated!"))
+               (message "Region evaluated!")
+	       (setq deactivate-mark t))
              (t
                (eval-buffer)
                (message "Buffer evaluated!"))))))
