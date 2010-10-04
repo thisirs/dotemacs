@@ -601,14 +601,14 @@
 	  (cons expr (repl (cdr exp) pattern patch)))))
     (t exp)))
 
-;; (eval-after-load "~/dotemacs/dotemacs/.emacs.d/auctex-11.85/latex"
-;;   '(patch 'LaTeX-label
-;;      '(completing-read
-;; 	(TeX-argument-prompt t nil "What label")
-;; 	(LaTeX-label-list) nil nil prefix)
-;;      '((completing-read
-;; 	 (TeX-argument-prompt t nil "What labelz")
-;; 	 (LaTeX-label-list) nil nil nil nil (concat prefix title)))))
+;; (patch 'LaTeX-label
+;;   '(completing-read
+;;      (TeX-argument-prompt t nil "What label")
+;;      (LaTeX-label-list) nil nil prefix)
+;;   '((completing-read
+;;       (TeX-argument-prompt t nil "What labelz")
+;;       (LaTeX-label-list) nil nil nil nil
+;;       (concat prefix (reftex-string-to-label title)))))
 
 ;; (eval-after-load 'latex '(patch 'LaTeX-common-initialization
 ;; 			   (quote '("eqnarray" LaTeX-env-label))
