@@ -633,7 +633,6 @@
 
 (defun latex-accent ()
   (interactive)
-  (save-excursion
     (let
       ((assoc
          '(("\\'{e}" . "é")
@@ -656,16 +655,17 @@
             ("\\^{i}" . "î")
             ("\\^i" . "î")))
         (n 0))
-      (progn
+      (save-excursion
         (mapc
           (lambda (e)
+	    (goto-char (point-min))
             (while
               (search-forward (car e) nil t)
               (progn
                 (replace-match (cdr e) nil t)
                 (setq n (+ 1 n)))))
           assoc)
-        (message (format "Replaced %d occurences" n))))))
+        (message (format "Replaced %d occurences" n)))))
 
 
 ;; bookmarks
