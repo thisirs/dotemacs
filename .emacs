@@ -1268,7 +1268,7 @@ Indent each line of the list starting just after point."
   "Change the dictionary."
   (interactive)
   (let ((dict (or ispell-local-dictionary ispell-dictionary)))
-    (setq mdict (if (string= dict "fr_FR") "en_US" "fr_FR"))
+    (setq mdict (if (string= dict "fr") "en" "fr"))
     (message "Switched to %S" mdict)
     (sit-for 0.4)
     (ispell-change-dictionary mdict)
