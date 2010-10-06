@@ -1299,3 +1299,4 @@ Indent each line of the list starting just after point."
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
 
+(require 'goto-last-change)
