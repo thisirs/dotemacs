@@ -480,27 +480,27 @@
 
 (setq org-capture-templates
   '(("t" "Todo" entry
-      (file+headline "/media/THISKEY/Documents/Org/someday.org" "Tâches")
+      (file+headline "~/Dropbox/Org/someday.org" "Tâches")
       "* TODO %?\n  OPENED: %U")
      ("p" "Programming" entry
-       (file+headline "/media/THISKEY/Documents/Org/someday.org" "Programming")
+       (file+headline "~/Dropbox/Org/someday.org" "Programming")
        "* TODO %?\n  OPENED: %U")
      ("e" "Event" entry
-       (file+headline "/media/THISKEY/Documents/Org/agenda.org" \,)
+       (file+headline "~/Dropbox/Org/agenda.org" \,)
        "* EVENT %?")
      ("qu" "Quote" entry
-       (file+headline "/media/THISKEY/Documents/Org/quotes.org" "")
+       (file+headline "~/Dropbox/Org/quotes.org" "")
        "* %^{description}%?\n  OPENED: %U")
      ("a" "Anniv" entry
-       (file+headline "/media/THISKEY/Documents/Org/birthday.org" "")
+       (file+headline "~/Dropbox/Org/birthday.org" "")
        "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
-       (file+headline "/media/THISKEY/Documents/Org/books.org"
+       (file+headline "~/Dropbox/Org/books.org"
   "Empruntés")
-       "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE: %(add-days 15)")
+       "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE: %(add-days 31)")
      ("bl" "Bibliothèque du labo" entry
-       (file+headline "/media/THISKEY/Documents/Org/books.org"
+       (file+headline "~/Dropbox/Org/books.org"
 	 "Empruntés")
        "* %?\n  BORROWED: %u\n  À RENDRE: %(add-days 365)")))
 
@@ -522,10 +522,10 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-(setq org-agenda-files (list "/media/THISKEY/Documents/Org/agenda.org"
-                         "/media/THISKEY/Documents/Org/someday.org"
-                         "/media/THISKEY/Documents/Org/birthday.org"
-			 "/media/THISKEY/Documents/Org/books.org"
+(setq org-agenda-files (list "~/Dropbox/Org/agenda.org"
+                         "~/Dropbox/Org/someday.org"
+                         "~/Dropbox/Org/birthday.org"
+			 "~/Dropbox/Org/books.org"
 			 ))
 
 ;; (add-hook 'after-init-hook 'org-agenda-list)
