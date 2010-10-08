@@ -62,6 +62,7 @@
 (global-set-key (kbd "C-x C-p") 'find-file-at-point)
 
 (defun find-temp-file (extension)
+  "quick find file in tmp/"
   (interactive "sExtension: ")
   (cond
     ((equal (length extension) 0) (find-file (make-temp-file "foo")))
