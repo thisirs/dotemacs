@@ -63,8 +63,11 @@
 
 (defun find-temp-file (extension)
   (interactive "sExtension: ")
-  (if (> (length extension) 0) (setq extension (concat "." extension)))
-  (find-file (concat (make-temp-file "foo") extension)))
+  (cond
+    ((equal (length extension) 0) (find-file (make-temp-file "foo")))
+    ((memq ?. (string-to-list extension))
+      (find-file (concat "/tmp/" extension)))
+    (t (find-file (concat (make-temp-file "foo") "." extension)))))
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
