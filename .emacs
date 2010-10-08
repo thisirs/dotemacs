@@ -615,7 +615,7 @@
 ;; 			   (quote ('("equation" LaTeX-env-label) '("equation*" LaTeX-env-label)))))
 
 ;;; Auctex
-(add-to-list 'load-path "~/.emacs.d/auctex-11.85")
+(add-to-list 'load-path "~/.emacs.d/auctex-11.86")
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
@@ -1260,7 +1260,7 @@ Indent each line of the list starting just after point."
 
 (setq Info-default-directory-list
   (append
-    '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.85/doc"
+    '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc"
        "/home/sylvain/dotemacs/org-mode/doc")
     Info-default-directory-list))
 
