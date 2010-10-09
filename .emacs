@@ -421,7 +421,7 @@
 
 ;; backups
 (setq make-backup-files t ;; do make backups
-  backup-by-copying t     ;; and copy them here
+;;  backup-by-copying t     ;; and copy them here
   backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
   version-control t
   kept-new-versions 2
@@ -506,7 +506,7 @@
      ("bl" "Bibliothèque du labo" entry
        (file+headline "~/Dropbox/Org/books.org"
 	 "Empruntés")
-       "* %?\n  BORROWED: %u\n  À RENDRE: %(add-days 365)")))
+       "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE:  %(add-days 365)")))
 
 (defun add-days (days)
   (format-time-string
