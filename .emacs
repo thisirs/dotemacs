@@ -282,15 +282,15 @@
 
 ;;; indenter automatiquement le code collé :
 (defadvice yank (after indent-region activate)
-  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
-                            c-mode c++-mode objc-mode
+  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+			    lisp-mode c-mode c++-mode objc-mode
                             latex-mode plain-tex-mode
                             python-mode))
     (indent-region (region-beginning) (region-end) nil)))
 
 (defadvice yank-pop (after indent-region activate)
-  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode lisp-mode
-                            c-mode c++-mode objc-mode
+  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+			    lisp-mode c-mode c++-mode objc-mode
                             latex-mode plain-tex-mode
                             python-mode))
     (indent-region (region-beginning) (region-end) nil)))
@@ -326,7 +326,8 @@
            (line-beginning-position 2))))))
 
 
-;;; la commande kill supprime automatiquement les espaces d'indentations si besoin
+;;; la commande kill supprime automatiquement les espaces
+;;; d'indentations si besoin
 (defadvice kill-line (before check-position activate)
   (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
                             c-mode c++-mode objc-mode
@@ -438,9 +439,7 @@
   (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
   (lambda () (interactive) (find-file "~/.emacs")))
-(global-set-key (kbd "s-s o") ;; .emacs
-  (lambda () (interactive)
-    (find-file-existing "/media/THISKEY/Documents/Org/TODO.org")))
+
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
@@ -500,12 +499,10 @@
        "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
-       (file+headline "~/Dropbox/Org/books.org"
-  "Empruntés")
+       (file+headline "~/Dropbox/Org/books.org" "Empruntés")
        "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE: %(add-days 31)")
      ("bl" "Bibliothèque du labo" entry
-       (file+headline "~/Dropbox/Org/books.org"
-	 "Empruntés")
+       (file+headline "~/Dropbox/Org/books.org" "Empruntés")
        "* %?\n  BORROWED: %u\n  À RENDRE:\n  DEADLINE:  %(add-days 365)")))
 
 (defun add-days (days)
@@ -574,22 +571,17 @@
 (setq ispell-dictionary "francais")
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
-;; Cedet
-;;(load-file "~/.emacs.d/cedet-1.0pre6/common/cedet.el")
-;;(global-ede-mode 1)                      ; Enable the Project management system
-;;(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
-;;(global-srecode-minor-mode 1)            ; Enable template insertion menu
-
-;; ECB
-;;(add-to-list 'load-path "~/.emacs.d/ecb-2.40")
-;;(require 'ecb)
-
-;; Scilab
-;;(add-to-list 'load-path "~/.emacs.d/scilabelisp")
-;;(load "scilab-startup")
-;;(setq auto-mode-alist (cons '("\\(\\.sci$\\|\\.sce$\\)" . scilab-mode) auto-mode-alist))
-;;(add-hook 'scilab-mode-hook '(lambda () (setq fill-column 90)))
-
+(defun switch-dictionary ()
+  "Change the dictionary."
+  (interactive)
+  (let ((dict (or ispell-local-dictionary ispell-dictionary)))
+    (setq mdict (if (string= dict "fr") "en" "fr"))
+    (message "Switched to %S" mdict)
+    (sit-for 0.4)
+    (ispell-change-dictionary mdict)
+    (when flyspell-mode
+      (flyspell-delete-all-overlays)
+      (flyspell-buffer))))
 
 
 (defun patch (func pattern patch)
@@ -885,10 +877,10 @@
 (display-time)
 (setq display-time-24hr-format 1)
 
-;; Selon les règles typographiques françaises, le point final d'une phrase
-;; n'est suivi que d'un seul espace (contre deux dans la tradition
-;; anglo-saxonne). Il est utile qu'Emacs le sache pour formater correctement
-;; les textes.
+;; Selon les règles typographiques françaises, le point final d'une
+;; phrase n'est suivi que d'un seul espace (contre deux dans la
+;; tradition anglo-saxonne). Il est utile qu'Emacs le sache pour
+;; formater correctement les textes.
 (setq sentence-end-double-space nil)
 
 ;; automatically indent wherever I am
@@ -984,7 +976,6 @@
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
-
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -1073,9 +1064,7 @@
   "Replace newline chars in current paragraph by single spaces."
   (interactive)
   (let ((fill-column 10000000))
-    (fill-paragraph nil)
-    )
-  )
+    (fill-paragraph nil)))
 
 ;; Fonction équivalente à la précédente appliquée à la région sélectionnée et
 ;; non plus au paragraphe courant.
@@ -1083,9 +1072,7 @@
   "Replace newline chars in region by single spaces."
   (interactive "r")
   (let ((fill-column 10000000))
-    (fill-region start end)
-    )
-  )
+    (fill-region start end)))
 
 ;; TODO tester si une région existe
 ;; « M-S-q » (i.e. M-Q) : supprime le formatage du paragraphe courant (la
@@ -1186,7 +1173,8 @@
 
 ;; TODO is it better than the one i have?
 (defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
   (let ((name (buffer-name))
          (filename (buffer-file-name)))
     (if (not filename)
@@ -1201,14 +1189,14 @@
 
 
 (defun move-buffer-file (dir)
-  "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+  "Moves both current buffer and file it's visiting to DIR."
+  (interactive "DNew directory: ")
   (let* ((name (buffer-name))
           (filename (buffer-file-name))
           (dir
             (if (string-match dir "\\(?:/\\|\\\\)$")
               (substring dir 0 -1) dir))
           (newname (concat dir "/" name)))
-
     (if (not filename)
       (message "Buffer '%s' is not visiting a file!" name)
       (progn (copy-file filename newname 1
@@ -1216,7 +1204,6 @@
                (set-visited-file-name newname)
                (set-buffer-modified-p nil)
                t)))))
-
 
 
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
@@ -1228,17 +1215,6 @@ Indent each line of the list starting just after point."
   (save-excursion
     (backward-up-list)
     (indent-sexp)))
-
-
-;;(bind-to-f1 (my-reindent-then-newline-and-indent-and-indent-sexp))
-
-;; (defun my-beginning-of-line ()
-;;   (interactive)
-;;   (message "mlkdsf")
-;;   (let ((old-point (point)))
-;;     (beginning-of-line-text)
-;;     (and (= (point) old-point) (beginning-of-line))))
-
 
 (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
 (setq desktop-buffers-not-to-save
@@ -1267,18 +1243,6 @@ Indent each line of the list starting just after point."
     '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc"
        "/home/sylvain/dotemacs/org-mode/doc")
     Info-default-directory-list))
-
-(defun my-change-dictionary ()
-  "Change the dictionary."
-  (interactive)
-  (let ((dict (or ispell-local-dictionary ispell-dictionary)))
-    (setq mdict (if (string= dict "fr") "en" "fr"))
-    (message "Switched to %S" mdict)
-    (sit-for 0.4)
-    (ispell-change-dictionary mdict)
-    (when flyspell-mode
-      (flyspell-delete-all-overlays)
-      (flyspell-buffer))))
 
 
 (defun shutdown-emacs-server () (interactive)
