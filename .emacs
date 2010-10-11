@@ -250,6 +250,9 @@
 	(or
 	  (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
 	  (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
+      ("TP IMAGE 2010/2011"
+	(or
+	  (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/"))
       ("Org"
         (mode . org-mode))
       ("TeX/LaTeX"
