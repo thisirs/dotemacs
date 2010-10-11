@@ -961,6 +961,8 @@
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
+	 try-complete-file-name-partially
+	 try-complete-file-name
          try-expand-dabbrev-visible
          try-expand-dabbrev
          try-complete-lisp-symbol-partially
