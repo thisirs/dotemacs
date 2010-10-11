@@ -198,6 +198,18 @@
 ;; sélection avec les flèches dans buffer-list
 ;;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 
+
+;;; matlab mode
+(autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
+(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
+(autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
+(defun my-matlab-mode-hook ()
+  (setq matlab-indent-function t)       ; if you want function bodies indented
+  (setq fill-column 76)         ; where auto-fill should wrap
+  (matlab-mode-hilit)
+  (turn-on-auto-fill))
+(add-hook 'matlab-hook 'my-matlab-mode-hook)
+
 (require 'ibuffer)
 
 ;; don't show empty groups
