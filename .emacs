@@ -1285,3 +1285,57 @@ Indent each line of the list starting just after point."
 ;; (setq eval-expression-print-level 10)
 
 (require 'goto-last-change)
+
+;; This is sweet!  right-click, get a list of functions in the source
+;; file you are editing
+;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
+(global-set-key [mouse-3] `imenu)
+
+
+(defun smart-tab ()
+  "This smart tab is minibuffer compliant: it acts as usual in
+    the minibuffer. Else, if mark is active, indents region. Else if
+    point is at the end of a symbol, expands it. Else indents the
+    current line."
+  (interactive)
+  ;; change this to (if (minibufferp) when I can finally ditch the
+  ;; old version of emacs at work.
+  (if (string-match "Minibuf" (buffer-name))
+    (unless (minibuffer-complete)
+      (dabbrev-expand nil))
+    (if mark-active
+      (indent-region (region-beginning)
+	(region-end))
+      ;; add an underscore after the '\\' when I can finally ditch
+      ;; the old version of emacs at work.
+      (if (looking-at "\\>")
+	(dabbrev-expand nil)
+	(indent-for-tab-command)))))
+
+(global-set-key [tab] 'smart-tab)
+
+(defun rename-file-and-buffer2 (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+	 (filename (buffer-file-name)))
+    (if (not filename)
+      (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+	(message "A buffer named '%s' already exists!" new-name)
+	(progn 	 (rename-file name new-name 1) 	 (rename-buffer new-name) 	 (set-visited-file-name new-name) 	 (set-buffer-modified-p nil)))))) ;;
+;; Never understood why Emacs doesn't have this function, either.
+;;
+(defun move-buffer-file2 (dir)
+  "Moves both current buffer and file it's visiting to DIR."
+  (interactive "DNew directory: ")
+  (let* ((name (buffer-name))
+	  (filename (buffer-file-name))
+	  (dir
+	    (if (string-match dir "\\(?:/\\|\\\\)$")
+	      (substring dir 0 -1) dir))
+	  (newname (concat dir "/" name)))
+
+    (if (not filename)
+      (message "Buffer '%s' is not visiting a file!" name)
+      (progn 	(copy-file filename newname 1) 	(delete-file filename) 	(set-visited-file-name newname) 	(set-buffer-modified-p nil) 	t))))
