@@ -204,8 +204,10 @@
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
 (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 (defun my-matlab-mode-hook ()
+  (setq matlab-functions-have-end t)
+  (setq matlab-indent-function-body t)
   (setq matlab-indent-function t)       ; if you want function bodies indented
-  (setq fill-column 76)         ; where auto-fill should wrap
+  (setq fill-column 76)			; where auto-fill should wrap
   (matlab-mode-hilit)
   (turn-on-auto-fill))
 (add-hook 'matlab-hook 'my-matlab-mode-hook)
@@ -1290,7 +1292,6 @@ Indent each line of the list starting just after point."
 ;; file you are editing
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
-
 
 (defun smart-tab ()
   "This smart tab is minibuffer compliant: it acts as usual in
