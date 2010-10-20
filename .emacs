@@ -6,6 +6,11 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
 
+;; Désactivation des boites de dialogue
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
+(tool-bar-mode -1)
+
 (require 'auto-install)
 
 (require 'instant)
@@ -23,13 +28,13 @@
 ;; ouvre un buffer en sudo via tramp
 (defun sudo-edit (&optional arg)
   (interactive "p")
-  (let ((tramp-prefix "/sudo:root@localhost:"))
+  (let ((tramp-prefix "/sudo::"))
     (if (and
           (= arg 1)
           (buffer-file-name)
-          (not (string-match "^/sudo:root@localhost:" buffer-file-name)))
-      (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
+          (not (string-match "^/sudo::" buffer-file-name)))
+      (find-alternate-file (concat "/sudo::" buffer-file-name))
+      (find-file (concat "/sudo::"
                    (ido-read-file-name "File: "))))))
 
 (defvar trans-term-p t "Check if fullscreen is on or off")
@@ -842,11 +847,6 @@
 (define-key dired-sort-map "n" (lambda () "sort by Name" (interactive) (dired-sort-other dired-listing-switches)))
 (define-key dired-sort-map "d" (lambda () "sort by name grouping Dirs" (interactive) (dired-sort-other (concat " --group-directories-first " dired-listing-switches))))
 
-;; Désactivation des boites de dialogue
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
-(tool-bar-mode -1)
-
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
@@ -1313,7 +1313,7 @@ Indent each line of the list starting just after point."
 	(dabbrev-expand nil)
 	(indent-for-tab-command)))))
 
-(global-set-key [tab] 'smart-tab)
+;; (global-set-key [tab] 'smart-tab)
 
 (defun rename-file-and-buffer2 (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
@@ -1324,7 +1324,11 @@ Indent each line of the list starting just after point."
       (message "Buffer '%s' is not visiting a file!" name)
       (if (get-buffer new-name)
 	(message "A buffer named '%s' already exists!" new-name)
-	(progn 	 (rename-file name new-name 1) 	 (rename-buffer new-name) 	 (set-visited-file-name new-name) 	 (set-buffer-modified-p nil)))))) ;;
+	(rename-file name new-name 1)
+	(rename-buffer new-name)
+	(set-visited-file-name new-name)
+	(set-buffer-modified-p nil)))))
+
 ;; Never understood why Emacs doesn't have this function, either.
 ;;
 (defun move-buffer-file2 (dir)
@@ -1339,4 +1343,8 @@ Indent each line of the list starting just after point."
 
     (if (not filename)
       (message "Buffer '%s' is not visiting a file!" name)
-      (progn 	(copy-file filename newname 1) 	(delete-file filename) 	(set-visited-file-name newname) 	(set-buffer-modified-p nil) 	t))))
+      (copy-file filename newname 1)
+      (delete-file filename)
+      (set-visited-file-name newname)
+      (set-buffer-modified-p nil)
+      t)))
