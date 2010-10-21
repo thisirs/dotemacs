@@ -109,12 +109,13 @@
   "Update locate databases"
   (interactive)
   (start-process-shell-command "updatedb process" nil
-    "updatedb -l 0 -U /media/THISKEY/ --add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\" -o $HOME/.locate.db"))
+    "updatedb -l 0 -U /media/THISKEY/ --add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\" -o $HOME/.locate.db")
+  (message "Locate database updated!"))
 
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command "locate-thiskey-process" nil
-    (format (concat "locate -e -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
+    (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
       anything-pattern)))
 
 (defvar anything-c-source-locate-thiskey
