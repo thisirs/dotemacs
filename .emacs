@@ -77,6 +77,9 @@
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
+;; shortcut for reverting a buffer
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
+
 (global-set-key (kbd "<C-kp-6>") 'enlarge-window-horizontally)
 (global-set-key (kbd "<C-kp-4>") 'shrink-window-horizontally)
 (global-set-key (kbd "<C-kp-2>") 'enlarge-window)
@@ -210,10 +213,6 @@
         (dired-do-rename)
         (kill-buffer nil))))
   nil)
-
-
-;; sélection avec les flèches dans buffer-list
-;;(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 
 
 ;;; matlab mode
@@ -1380,36 +1379,3 @@ Indent each line of the list starting just after point."
 
 ;; (global-set-key [tab] 'smart-tab)
 
-(defun rename-file-and-buffer2 (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-	 (filename (buffer-file-name)))
-    (if (not filename)
-      (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-	(message "A buffer named '%s' already exists!" new-name)
-	(rename-file name new-name 1)
-	(rename-buffer new-name)
-	(set-visited-file-name new-name)
-	(set-buffer-modified-p nil)))))
-
-;; Never understood why Emacs doesn't have this function, either.
-;;
-(defun move-buffer-file2 (dir)
-  "Moves both current buffer and file it's visiting to DIR."
-  (interactive "DNew directory: ")
-  (let* ((name (buffer-name))
-	  (filename (buffer-file-name))
-	  (dir
-	    (if (string-match dir "\\(?:/\\|\\\\)$")
-	      (substring dir 0 -1) dir))
-	  (newname (concat dir "/" name)))
-
-    (if (not filename)
-      (message "Buffer '%s' is not visiting a file!" name)
-      (copy-file filename newname 1)
-      (delete-file filename)
-      (set-visited-file-name newname)
-      (set-buffer-modified-p nil)
-      t)))
