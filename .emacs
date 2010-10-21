@@ -156,12 +156,23 @@
 (define-key anything-command-map (kbd "t") 'anything-translate)
 
 ;; boss key!
+
+(defvar boss-buffer "*scratch*" "Buffer to swith to when the boss comes!")
+
+(defun define-current-buffer-as-boss-buffer nil
+  "Define current buffer as boss buffer"
+  (interactive)
+  (setq boss-buffer (buffer-name))
+  (message "Buffer %s is now the boss buffer!"
+    boss-buffer))
+
 (defun boss nil
   (interactive)
-  (switch-to-buffer "revue.tex")
+  (switch-to-buffer boss-buffer)
   (delete-other-windows))
 
 (global-set-key (kbd "²") 'boss)
+(global-set-key (kbd "C-²") 'define-current-buffer-as-boss-buffer)
 
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
