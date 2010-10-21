@@ -403,10 +403,19 @@
 (add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
 (defun custom-goto-match-beginning ()
   "Use with isearch hook to end search at first char of match"
-  (when (and
-          isearch-forward
-          (not mark-active)
-          (not isearch-mode-end-hook-quit)) (goto-char isearch-other-end)))
+  (and isearch-forward
+    (not mark-active)
+    (not isearch-mode-end-hook-quit)
+    (goto-char isearch-other-end)))
+
+;; occur mode
+(define-key isearch-mode-map (kbd "C-o")
+  (lambda ()
+    (interactive)
+    (let ((case-fold-search isearch-case-fold-search))
+      (occur (if isearch-regexp isearch-string
+               (regexp-quote isearch-string))))))
+
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
@@ -476,6 +485,20 @@
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 
+;; split screen and switch to it!
+(global-set-key (kbd "C-x 3")
+  (lambda nil
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1)))
+
+(global-set-key (kbd "C-x 2")
+  (lambda nil
+    (interactive)
+    (split-window-vertically)
+    (other-window 1)))
+
+
 ;; save a list of open files in ~/.emacs.desktop
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
@@ -497,6 +520,16 @@
              (shell-command-history    . 50)
              tags-file-name
              register-alist)))
+
+(setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
+(setq desktop-buffers-not-to-save
+  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
+    "\\)$"))
+
+(add-to-list 'desktop-modes-not-to-save 'dired-mode)
+(add-to-list 'desktop-modes-not-to-save 'Info-mode)
+(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -615,6 +648,21 @@
 			 "~/Dropbox/Org/books.org"
 			 ))
 
+;; Nom français des jours et mois affichés dans le calendrier
+;; (cf. M-x calendar)
+(setq european-calendar-style t)
+(setq calendar-week-start-day 1)
+(defvar calendar-day-name-array
+  ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
+(defvar calendar-day-abbrev-array
+  ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
+(defvar calendar-month-name-array
+  ["janvier" "février" "mars" "avril" "mai" "juin"
+    "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
+(defvar calendar-month-abbrev-array
+  ["jan" "fév" "mar" "avr" "mai" "jun"
+    "jul" "aoû" "sep" "oct" "nov" "déc"])
+
 ;; (add-hook 'after-init-hook 'org-agenda-list)
 
 
@@ -638,6 +686,8 @@
 (setq-default save-place t) ;; activate it for all buffers
 (require 'saveplace) ;; get the package
 
+;; retourne au dernier endroit changé dans le buffer
+(require 'goto-last-change)
 
 ;; Indentation du buffer
 (defun indent-buffer ()
@@ -1111,21 +1161,6 @@
      (width . 176) (height . 46)))
 
 
-;; Nom français des jours et mois affichés dans le calendrier
-;; (cf. M-x calendar)
-(setq european-calendar-style t)
-(setq calendar-week-start-day 1)
-(defvar calendar-day-name-array
-  ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
-(defvar calendar-day-abbrev-array
-  ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
-(defvar calendar-month-name-array
-  ["janvier" "février" "mars" "avril" "mai" "juin"
-    "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
-(defvar calendar-month-abbrev-array
-  ["jan" "fév" "mar" "avr" "mai" "jun"
-    "jul" "aoû" "sep" "oct" "nov" "déc"])
-
 
 ;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
 ;; qu'Emacs me l'affiche sur autant de lignes que nécessaire plutôt que de
@@ -1174,24 +1209,6 @@
 
 ;; IDEA tip of the day http://bitbucket.org/scfrazer/dot_emacs/src/tip/init.el
 
-;; isearch-mode-map http://bitbucket.org/birkenfeld/dotemacs/src/tip/init.el
-
-
-(define-key isearch-mode-map (kbd "C-o")
-  (lambda ()
-    (interactive)
-    (let ((case-fold-search isearch-case-fold-search))
-      (occur (if isearch-regexp isearch-string
-               (regexp-quote isearch-string))))))
-
-
-;; always revert buffers if their files change on disk to reflect new changes
-;; (global-auto-revert-mode 1)
-
-;; shortcut for reverting a buffer
-(global-set-key (kbd "C-x C-r") 'revert-buffer)
-
-
 ;; (defun smart-tab ()
 ;;   "This smart tab is minibuffer compliant: it acts as usual in
 ;;    the minibuffer. Else, if mark is active, indents region. Else if
@@ -1223,15 +1240,6 @@
 (global-set-key [\C-home] 'beginning-of-buffer)
 (global-set-key [\C-end] 'end-of-buffer)
 
-;; TODO add custom hippie hook depending on the major mode
-(add-hook 'python-mode-hook
-  (lambda ()
-    (set (make-local-variable 'hippie-expand-try-functions-list)
-      '(yas/hippie-try-expand
-         py-complete
-         try-expand-dabbrev-visible
-         try-expand-dabbrev))))
-
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
 
@@ -1240,54 +1248,19 @@
 (defun swap-windows ()
   "If you have 2 windows, it swaps them."
   (interactive)
-  (cond ((not (= (count-windows) 2))
-          (message "You need exactly 2 windows to do this."))
-    (t
-      (let* ((w1 (first (window-list)))
-              (w2 (second (window-list)))
-              (b1 (window-buffer w1))
-              (b2 (window-buffer w2))
-              (s1 (window-start w1))
-              (s2 (window-start w2)))
-        (set-window-buffer w1 b2)
-        (set-window-buffer w2 b1)
-        (set-window-start w1 s2)
-        (set-window-start w2 s1)))))
-
-;; TODO is it better than the one i have?
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-         (filename (buffer-file-name)))
-    (if (not filename)
-      (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-        (message "A buffer named '%s' already exists!" new-name)
-        (progn
-          (rename-file name new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil))))))
-
-
-(defun move-buffer-file (dir)
-  "Moves both current buffer and file it's visiting to DIR."
-  (interactive "DNew directory: ")
-  (let* ((name (buffer-name))
-          (filename (buffer-file-name))
-          (dir
-            (if (string-match dir "\\(?:/\\|\\\\)$")
-              (substring dir 0 -1) dir))
-          (newname (concat dir "/" name)))
-    (if (not filename)
-      (message "Buffer '%s' is not visiting a file!" name)
-      (progn (copy-file filename newname 1
-               (delete-file filename)
-               (set-visited-file-name newname)
-               (set-buffer-modified-p nil)
-               t)))))
-
+  (if (not (= (count-windows) 2))
+    (message "You need exactly 2 windows to do this.")
+    (let* ((w1 (first (window-list)))
+	    (w2 (second (window-list)))
+	    (b1 (window-buffer w1))
+	    (b2 (window-buffer w2))
+	    (s1 (window-start w1))
+	    (s2 (window-start w2)))
+      (set-window-buffer w1 b2)
+      (set-window-buffer w2 b1)
+      (set-window-start w1 s2)
+      (set-window-start w2 s1)
+      (other-window 1))))
 
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
   "Reindent current line, insert newline, then indent the new line.
@@ -1298,16 +1271,6 @@ Indent each line of the list starting just after point."
   (save-excursion
     (backward-up-list)
     (indent-sexp)))
-
-(setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
-(setq desktop-buffers-not-to-save
-  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
-    "\\)$"))
-
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
 ;; redo support, yay
 ;; (require 'redo)
@@ -1338,25 +1301,15 @@ Indent each line of the list starting just after point."
   (let ((last-nonmenu-event nil)(window-system
   "x"))(save-buffers-kill-emacs)))
 
-;; split screen and switch to it!
-(global-set-key (kbd "C-x 3")
-  (lambda nil
-    (interactive)
-    (split-window-horizontally)
-    (other-window 1)))
-
-
-
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
-
-(require 'goto-last-change)
 
 ;; This is sweet!  right-click, get a list of functions in the source
 ;; file you are editing
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
 
+;; marche pas avec magit par exemple...
 (defun smart-tab ()
   "This smart tab is minibuffer compliant: it acts as usual in
     the minibuffer. Else, if mark is active, indents region. Else if
