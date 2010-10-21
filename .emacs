@@ -157,7 +157,7 @@
 
 ;; boss key!
 
-(defvar boss-buffer "*scratch*" "Buffer to swith to when the boss comes!")
+(defvar boss-buffer "*scratch*" "Buffer to switch to when the boss comes!")
 
 (defun define-current-buffer-as-boss-buffer nil
   "Define current buffer as boss buffer"
