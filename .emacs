@@ -64,8 +64,6 @@
     (non-trans-term)
     (trans-term)))
 
-(global-set-key (kbd "C-x C-p") 'find-file-at-point)
-
 (defun find-temp-file (extension)
   "quick find file in tmp/"
   (interactive "sExtension: ")
@@ -389,7 +387,7 @@
       (call-interactively 'describe-function))
     (t (find-file-at-point))))
 
-(global-set-key  [f1] 'my-find-thing-at-point)
+(global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
 ;; quick bind to f1 to try out
 (defmacro bind-to-f1 (&rest prog)
