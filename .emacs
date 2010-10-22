@@ -217,13 +217,14 @@
 (autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
 (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
-(defun my-matlab-mode-hook ()
-  (setq matlab-functions-have-end t)
-  (setq matlab-indent-function-body t)
-  (setq matlab-indent-function t)       ; if you want function bodies indented
-  (setq fill-column 76)			; where auto-fill should wrap
-  (matlab-mode-hilit)
-  (turn-on-auto-fill))
+(add-hook 'matlab-mode-hook
+  (lambda ()
+    (setq fill-column 76)			; where auto-fill should wrap
+    (turn-on-auto-fill)
+    (setq matlab-functions-have-end t)
+    (setq matlab-indent-function-body t)
+    (setq matlab-indent-function t)))
+
 (add-hook 'matlab-hook 'my-matlab-mode-hook)
 
 (require 'ibuffer)
