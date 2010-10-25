@@ -91,6 +91,8 @@
 (require 'anything-startup)
 (setq anything-command-map-prefix-key "C-x C-a")
 
+(setq anything-su-or-sudo "sudo")
+
 (defun my-anything ()
   (interactive)
   (anything-other-buffer
