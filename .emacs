@@ -111,9 +111,15 @@
 (defun update-locate-database ()
   "Update locate databases"
   (interactive)
-  (start-process-shell-command "updatedb process" nil
-    "updatedb -l 0 -U /media/THISKEY/ --add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\" -o $HOME/.locate.db")
-  (message "Locate database updated!"))
+  (set-process-sentinel (start-process-shell-command "updatedb process" nil
+    "updatedb -l 0"
+    "-U /media/THISKEY/"
+    "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+    "-o $HOME/.locate.db")
+    (lambda (process event)
+      (if (string-match "^finished" event)
+	(message "Locate database updated!")
+	(message "Updating locate database failed!")))))
 
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
