@@ -1338,3 +1338,9 @@ Indent each line of the list starting just after point."
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/vendor/auto-complete-1.3/ac-dict")
 (ac-config-default)
+
+
+(eval-after-load "comint"
+  '(progn
+     (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
+     (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
