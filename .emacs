@@ -626,7 +626,7 @@
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* %?\n  BORROWED: %u\n  DEADLINE: %(add-days 31)")
+       "* %?\n  BORROWED: %u\n  DEADLINE: %(add-days 28)")
      ("bl" "Bibliothèque du labo" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
        "* %?\n  BORROWED: %u\n  DEADLINE:  %(add-days 365)")))
