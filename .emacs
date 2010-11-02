@@ -233,7 +233,11 @@
     (setq matlab-indent-function-body t)
     (setq matlab-indent-function t)))
 
-(add-hook 'matlab-hook 'my-matlab-mode-hook)
+;; history navigation
+(eval-after-load "comint"
+  '(progn
+     (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
+     (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
 (require 'ibuffer)
 
@@ -1346,7 +1350,3 @@ Indent each line of the list starting just after point."
 (ac-config-default)
 
 
-(eval-after-load "comint"
-  '(progn
-     (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
-     (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
