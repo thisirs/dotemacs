@@ -112,14 +112,14 @@
   "Update locate databases"
   (interactive)
   (set-process-sentinel (start-process-shell-command "updatedb process" nil
-    "updatedb -l 0"
-    "-U /media/THISKEY/"
-    "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
-    "-o $HOME/.locate.db")
+                          "updatedb -l 0"
+                          "-U /media/THISKEY/"
+                          "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+                          "-o $HOME/.locate.db")
     (lambda (process event)
       (if (string-match "^finished" event)
-	(message "Locate database updated!")
-	(message "Updating locate database failed!")))))
+        (message "Locate database updated!")
+        (message "Updating locate database failed!")))))
 
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
@@ -146,21 +146,21 @@
      (dummy)
      (delayed)
      (filtered-candidate-transformer . (lambda (candidates source)
-					 (anything-c-google-translate)))))
+                                         (anything-c-google-translate)))))
 
 
 (defun anything-c-google-translate ()
   (let ((request
-	  (concat
-	    "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
-	    (url-hexify-string anything-pattern)
-	    "&langpair=fr%7Cen")))
+          (concat
+            "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
+            (url-hexify-string anything-pattern)
+            "&langpair=fr%7Cen")))
     (with-temp-buffer
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
       (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-	(list (match-string 1))
-	nil))))
+        (list (match-string 1))
+        nil))))
 
 (define-key anything-command-map (kbd "t") 'anything-translate)
 
@@ -227,7 +227,7 @@
 (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 (add-hook 'matlab-mode-hook
   (lambda ()
-    (setq fill-column 76)			; where auto-fill should wrap
+    (setq fill-column 76)                       ; where auto-fill should wrap
     (turn-on-auto-fill)
     (setq matlab-functions-have-end t)
     (setq matlab-indent-function-body t)
@@ -276,12 +276,12 @@
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
       ("ICIP article"
-	(or
-	  (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
-	  (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
+        (or
+          (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
+          (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
       ("TP IMAGE 2010/2011"
-	(or
-	  (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/")))
+        (or
+          (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/")))
       ("Org"
         (mode . org-mode))
       ("TeX/LaTeX"
@@ -327,14 +327,14 @@
 ;;; indenter automatiquement le code collé :
 (defadvice yank (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-			    lisp-mode c-mode c++-mode objc-mode
+                            lisp-mode c-mode c++-mode objc-mode
                             latex-mode plain-tex-mode
                             python-mode))
     (indent-region (region-beginning) (region-end) nil)))
 
 (defadvice yank-pop (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-			    lisp-mode c-mode c++-mode objc-mode
+                            lisp-mode c-mode c++-mode objc-mode
                             latex-mode plain-tex-mode
                             python-mode))
     (indent-region (region-beginning) (region-end) nil)))
@@ -395,7 +395,7 @@
   "Find variable, function or file at point."
   (interactive)
   (cond ((not (eq (variable-at-point) 0))
-	  (call-interactively 'describe-variable))
+          (call-interactively 'describe-variable))
     ((function-called-at-point)
       (call-interactively 'describe-function))
     (t (find-file-at-point))))
@@ -475,7 +475,7 @@
 
 ;; backups
 (setq make-backup-files t ;; do make backups
-;;  backup-by-copying t     ;; and copy them here
+  ;;  backup-by-copying t     ;; and copy them here
   backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
   version-control t
   kept-new-versions 2
@@ -555,9 +555,9 @@
   (color-theme-install
     '(color-theme-railscasts
        ((background-color . "#232323")
-	 (background-mode . dark)
-	 (cursor-color . "#5A647E")
-	 (foreground-color . "#E6E1DC"))
+         (background-mode . dark)
+         (cursor-color . "#5A647E")
+         (foreground-color . "#E6E1DC"))
        (default ((t (nil))))
        (bold ((t (:bold t))))
        (bold-italic ((t (:italic t :bold t))))
@@ -579,20 +579,20 @@
        (italic ((t (:italic t))))
        (modeline ((t (:background "#A5BAF1" :foreground "black"))))
        (modeline-buffer-id ((t (:background "#A5BAF1" :foreground
-				 "black"))))
+                                 "black"))))
        (modeline-mousable ((t (:background "#A5BAF1" :foreground
-				"black"))))
+                                "black"))))
        (modeline-mousable-minor-mode ((t (:background
-					   "#A5BAF1" :foreground "black"))))
+                                           "#A5BAF1" :foreground "black"))))
        (region ((t (:background "#555577"))))
        (primary-selection ((t (:background "#555577"))))
        (isearch ((t (:background "#555555"))))
        (zmacs-region ((t (:background "#555577"))))
        (secondary-selection ((t (:background "darkslateblue"))))
        (flymake-errline ((t (:background "LightSalmon" :foreground
-			      "black"))))
+                              "black"))))
        (flymake-warnline ((t (:background "LightSteelBlue" :foreground
-			       "black"))))
+                               "black"))))
        (underline ((t (:underline t))))
        (minibuffer-prompt ((t (:bold t :foreground "#FF6600"))))
        ;; two org-mode faces
@@ -656,8 +656,8 @@
 (setq org-agenda-files (list "~/Dropbox/Org/agenda.org"
                          "~/Dropbox/Org/someday.org"
                          "~/Dropbox/Org/birthday.org"
-			 "~/Dropbox/Org/books.org"
-			 ))
+                         "~/Dropbox/Org/books.org"
+                         ))
 
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
@@ -739,9 +739,9 @@
     ((null exp) nil)
     ((listp exp)
       (let ((expr (repl (car exp) pattern patch)))
-	(if (equal expr pattern)
-	  `(,@patch ,@(repl (cdr exp) pattern patch))
-	  (cons expr (repl (cdr exp) pattern patch)))))
+        (if (equal expr pattern)
+          `(,@patch ,@(repl (cdr exp) pattern patch))
+          (cons expr (repl (cdr exp) pattern patch)))))
     (t exp)))
 
 ;; (patch 'LaTeX-label
@@ -754,8 +754,8 @@
 ;;       (concat prefix (reftex-string-to-label title)))))
 
 ;; (eval-after-load 'latex '(patch 'LaTeX-common-initialization
-;; 			   (quote '("eqnarray" LaTeX-env-label))
-;; 			   (quote ('("equation" LaTeX-env-label) '("equation*" LaTeX-env-label)))))
+;;                         (quote '("eqnarray" LaTeX-env-label))
+;;                         (quote ('("equation" LaTeX-env-label) '("equation*" LaTeX-env-label)))))
 
 ;;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.86")
@@ -770,40 +770,41 @@
 
 (add-hook 'LaTeX-mode-hook
   '(lambda ()
+     (setq LaTeX-verbatim-environments-local '("tikz"))
      (turn-on-reftex)
      (flyspell-mode)
      (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-accent ()
   (interactive)
-    (let ((n 0))
-      (save-excursion
-        (mapc
-          (lambda (e)
-	    (goto-char (point-min))
-            (while (search-forward (car e) nil t)
-	      (replace-match (cdr e) nil t)
-	      (setq n (+ 1 n))))
-	  '(("\\'{e}" . "é")
-		("\\'e" . "é")
-		("\\`{e}" . "è")
-		("\\`e" . "è")
-		("\\`{a}" . "à")
-		("\\`a" . "à")
-		("\\`{u}" . "ù")
-		("\\`u" . "ù")
-		("\\^{e}" . "ê")
-		("\\^e" . "ê")
-		("\\^{o}" . "ô")
-		("\\^o" . "ô")
-		("\\^{u}" . "û")
-		("\\^u" . "û")
-		("\\\"{i}. " "ï")
-		("\\\"i. " "ï")
-		("\\c{c}" . "ç")
-		("\\^{i}" . "î")
-		("\\^i" . "î"))))
-      (message (format "Replaced %d occurences" n))))
+  (let ((n 0))
+    (save-excursion
+      (mapc
+        (lambda (e)
+          (goto-char (point-min))
+          (while (search-forward (car e) nil t)
+            (replace-match (cdr e) nil t)
+            (setq n (+ 1 n))))
+        '(("\\'{e}" . "é")
+           ("\\'e" . "é")
+           ("\\`{e}" . "è")
+           ("\\`e" . "è")
+           ("\\`{a}" . "à")
+           ("\\`a" . "à")
+           ("\\`{u}" . "ù")
+           ("\\`u" . "ù")
+           ("\\^{e}" . "ê")
+           ("\\^e" . "ê")
+           ("\\^{o}" . "ô")
+           ("\\^o" . "ô")
+           ("\\^{u}" . "û")
+           ("\\^u" . "û")
+           ("\\\"{i}. " "ï")
+           ("\\\"i. " "ï")
+           ("\\c{c}" . "ç")
+           ("\\^{i}" . "î")
+           ("\\^i" . "î"))))
+    (message (format "Replaced %d occurences" n))))
 
 
 ;; bookmarks
@@ -1078,7 +1079,7 @@
              (mark-active
                (call-interactively 'eval-region)
                (message "Region evaluated!")
-	       (setq deactivate-mark t))
+               (setq deactivate-mark t))
              (t
                (eval-buffer)
                (message "Buffer evaluated!"))))))
@@ -1088,8 +1089,8 @@
     (require 'folding nil 'noerror)
     (set (make-local-variable 'hippie-expand-try-functions-list)
       '(yas/hippie-try-expand
-	 try-complete-file-name-partially
-	 try-complete-file-name
+         try-complete-file-name-partially
+         try-complete-file-name
          try-expand-dabbrev-visible
          try-expand-dabbrev
          try-complete-lisp-symbol-partially
@@ -1262,11 +1263,11 @@
   (if (not (= (count-windows) 2))
     (message "You need exactly 2 windows to do this.")
     (let* ((w1 (first (window-list)))
-	    (w2 (second (window-list)))
-	    (b1 (window-buffer w1))
-	    (b2 (window-buffer w2))
-	    (s1 (window-start w1))
-	    (s2 (window-start w2)))
+            (w2 (second (window-list)))
+            (b1 (window-buffer w1))
+            (b2 (window-buffer w2))
+            (s1 (window-start w1))
+            (s2 (window-start w2)))
       (set-window-buffer w1 b2)
       (set-window-buffer w2 b1)
       (set-window-start w1 s2)
@@ -1310,7 +1311,7 @@ Indent each line of the list starting just after point."
     (select-frame (make-frame-on-display x-display-name '((window-system . x))))
     )
   (let ((last-nonmenu-event nil)(window-system
-  "x"))(save-buffers-kill-emacs)))
+                                  "x"))(save-buffers-kill-emacs)))
 
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
@@ -1334,12 +1335,12 @@ Indent each line of the list starting just after point."
       (dabbrev-expand nil))
     (if mark-active
       (indent-region (region-beginning)
-	(region-end))
+        (region-end))
       ;; add an underscore after the '\\' when I can finally ditch
       ;; the old version of emacs at work.
       (if (looking-at "\\>")
-	(dabbrev-expand nil)
-	(indent-for-tab-command)))))
+        (dabbrev-expand nil)
+        (indent-for-tab-command)))))
 
 ;; (global-set-key [tab] 'smart-tab)
 
