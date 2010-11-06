@@ -967,6 +967,20 @@
 
 (defvar dired-sort-map (make-sparse-keymap))
 (define-key dired-mode-map "s" dired-sort-map)
+
+;; (mapc
+;;   (lambda (elt)
+;;     (define-key dired-sort-map (car elt)
+;;       `(lambda ()
+;; 	(interactive)
+;; 	(dired-sort-other (concat dired-listing-switches
+;; 			    (if (memq ?r dired-actual-switches)
+;; 			      "r") ,(cadr elt))))))
+;;   '(("n" "")
+;;      ("x" "x")
+;;      ("s" "s")))
+
+
 (define-key dired-sort-map "s" (lambda () "sort by Size" (interactive) (dired-sort-other (concat dired-listing-switches "S"))))
 (define-key dired-sort-map "x" (lambda () "sort by eXtension" (interactive) (dired-sort-other (concat dired-listing-switches "X"))))
 (define-key dired-sort-map "t" (lambda () "sort by Time" (interactive) (dired-sort-other (concat dired-listing-switches "t"))))
