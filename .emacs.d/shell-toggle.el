@@ -42,10 +42,10 @@
 ;;;
 ;;; o Place this file in a directory in your 'load-path.
 ;;; o Put the following in your .emacs file:
-;;;   (autoload 'shell-toggle "shell-toggle" 
+;;;   (autoload 'shell-toggle "shell-toggle"
 ;;;    "Toggles between the shell buffer and whatever buffer you are editing."
 ;;;    t)
-;;;   (autoload 'shell-toggle-cd "shell-toggle" 
+;;;   (autoload 'shell-toggle-cd "shell-toggle"
 ;;;    "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
 ;;;   (global-set-key [M-f1] 'shell-toggle)
 ;;;   (global-set-key [C-f1] 'shell-toggle-cd)
@@ -86,8 +86,8 @@ shell-buffer")
 
 (defvar shell-toggle-automatic-cd t
   "*If non-nil `shell-toggle-cd' will send the \"cd\" command to the shell.
-If nil `shell-toggle-cd' will only insert the \"cd\" command in the 
-shell-buffer.  Leaving it to the user to press RET to send the command to 
+If nil `shell-toggle-cd' will only insert the \"cd\" command in the
+shell-buffer.  Leaving it to the user to press RET to send the command to
 the shell.")
 
 (defvar shell-toggle-launch-shell 'shell-toggle-ansi-term
@@ -157,7 +157,7 @@ Options: `shell-toggle-goto-eob'"
   ;; If not in shell-buffer, switch to it.
   ;; If in shell-buffer and called twice in a row, delete other windows
   ;; If in shell-buffer and not called twice in a row, return to state before
-  ;;  going to the shell-buffer 
+  ;;  going to the shell-buffer
   (if (eq (current-buffer) shell-toggle-shell-buffer)
     (if (and (or (eq last-command 'shell-toggle)
 	       (eq last-command 'shell-toggle-cd))
@@ -200,13 +200,13 @@ Stores the window configuration before creating and/or switching window."
 	 (cd-command
 	   ;; Find out which directory we are in (the method differs for
 	   ;; different buffers)
-	   (or (and make-cd 
+	   (or (and make-cd
 		 (buffer-file-name)
 		 (file-name-directory (buffer-file-name))
-		 (concat "cd " (file-name-directory (buffer-file-name))))
+		 (concat "cd \"" (file-name-directory (buffer-file-name)) "\""))
 	     (and make-cd
 	       list-buffers-directory
-	       (concat "cd " list-buffers-directory)))))
+	       (concat "cd \"" list-buffers-directory "\"")))))
 
     ;; Switch to an existing shell if one exists, otherwise switch to another
     ;; window and start a new shell
@@ -218,13 +218,13 @@ Stores the window configuration before creating and/or switching window."
       ;; (it has to do with my shell-mode-hook which inserts text into the
       ;; newly created shell-buffer and thats not allways a good idea).
       (condition-case the-error
-	(setq shell-toggle-shell-buffer 
+	(setq shell-toggle-shell-buffer
 	  (funcall shell-toggle-launch-shell))
 	(error (switch-to-buffer shell-toggle-shell-buffer))))
     (if (or cd-command shell-toggle-goto-eob)
       (goto-char (point-max)))
     (if (not (get-buffer-process (current-buffer)))
-      (setq shell-toggle-shell-buffer 
+      (setq shell-toggle-shell-buffer
 	(funcall shell-toggle-launch-shell)))
     (if cd-command
       (progn
@@ -253,7 +253,7 @@ Stores the window configuration before creating and/or switching window."
   "Switches to other window.  If the current window is the only window in the
 current frame, create a new window and switch to it.
 
-\(This is less intrusive to the current window configuration than 
+\(This is less intrusive to the current window configuration than
 `switch-buffer-other-window')"
   (let ((this-window (selected-window)))
     (other-window 1)
