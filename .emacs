@@ -465,8 +465,12 @@
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
 
-;;move between windows with meta-arrows
-(windmove-default-keybindings 'meta)
+;; move between windows with meta-arrows
+;; (windmove-default-keybindings 'meta)
+(global-set-key (kbd "s-b") 'windmove-left)
+(global-set-key (kbd "s-f") 'windmove-right)
+(global-set-key (kbd "s-p") 'windmove-up)
+(global-set-key (kbd "s-n") 'windmove-down)
 
 ;; Mettre un titre aux fenêtres
 (setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
