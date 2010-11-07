@@ -968,24 +968,20 @@
 (defvar dired-sort-map (make-sparse-keymap))
 (define-key dired-mode-map "s" dired-sort-map)
 
-;; (mapc
-;;   (lambda (elt)
-;;     (define-key dired-sort-map (car elt)
-;;       `(lambda ()
-;; 	(interactive)
-;; 	(dired-sort-other (concat dired-listing-switches
-;; 			    (if (memq ?r dired-actual-switches)
-;; 			      "r") ,(cadr elt))))))
-;;   '(("n" "")
-;;      ("x" "x")
-;;      ("s" "s")))
-
-
-(define-key dired-sort-map "s" (lambda () "sort by Size" (interactive) (dired-sort-other (concat dired-listing-switches "S"))))
-(define-key dired-sort-map "x" (lambda () "sort by eXtension" (interactive) (dired-sort-other (concat dired-listing-switches "X"))))
-(define-key dired-sort-map "t" (lambda () "sort by Time" (interactive) (dired-sort-other (concat dired-listing-switches "t"))))
-(define-key dired-sort-map "n" (lambda () "sort by Name" (interactive) (dired-sort-other dired-listing-switches)))
-(define-key dired-sort-map "d" (lambda () "sort by name grouping Dirs" (interactive) (dired-sort-other (concat " --group-directories-first " dired-listing-switches))))
+(mapc
+  (lambda (elt)
+    (define-key dired-sort-map (car elt)
+      `(lambda ()
+	(interactive)
+	(dired-sort-other
+	  (concat dired-listing-switches
+	    (unless (string-match "-r" dired-actual-switches)
+	      " -r") ,(cadr elt))))))
+  '(("n" "")
+     ("x" " -X")
+     ("s" " -S")
+     ("t" " -t")
+     ("d" " --group-directories-first")))
 
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
