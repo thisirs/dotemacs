@@ -430,6 +430,21 @@
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
 
+(defun isearch-beginning-of-buffer ()
+  "Move isearch point to the beginning of the buffer."
+  (interactive)
+  (goto-char (point-min))
+  (isearch-repeat-forward))
+
+(define-key isearch-mode-map "\M-<" 'isearch-beginning-of-buffer)
+
+(defun isearch-end-of-buffer ()
+  "Move isearch point to the end of the buffer."
+  (interactive)
+  (goto-char (point-max))
+  (isearch-repeat-backward))
+
+(define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
