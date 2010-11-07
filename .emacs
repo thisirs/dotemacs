@@ -83,6 +83,9 @@
 (global-set-key (kbd "<C-kp-2>") 'enlarge-window)
 (global-set-key (kbd "<C-kp-8>") 'shrink-window)
 
+;; don't suspend
+(global-unset-key "\C-z")
+
 (require 'linkd)
 
 
