@@ -169,22 +169,30 @@
 
 ;; boss key!
 
-(defvar boss-buffer "*scratch*" "Buffer to switch to when the boss comes!")
+(defvar boss-window-configuration nil "Window configuration to switch to when the boss comes!")
+(defvar my-window-configuration nil "Window configuration to switch back to!")
 
-(defun define-current-buffer-as-boss-buffer nil
-  "Define current buffer as boss buffer"
+(defun define-current-window-configuration nil
+  "Define current window configuration as boss's one"
   (interactive)
-  (setq boss-buffer (buffer-name))
-  (message "Buffer %s is now the boss buffer!"
-    boss-buffer))
+  (setq boss-window-configuration (current-window-configuration))
+  (message "Boss window configuration set to current!"))
 
 (defun boss nil
+  "Switch to boss windows configuration"
   (interactive)
-  (switch-to-buffer boss-buffer)
-  (delete-other-windows))
+  (if (equal (current-window-configuration) boss-window-configuration)
+    (set-window-configuration my-window-configuration)
+    (setq my-window-configuration (current-window-configuration))
+    (set-window-configuration boss-window-configuration)))
 
 (global-set-key (kbd "²") 'boss)
-(global-set-key (kbd "C-²") 'define-current-buffer-as-boss-buffer)
+(global-set-key (kbd "C-²") 'define-current-window-configuration)
+
+
+;; winner-mode
+(setq winner-boring-buffers
+  '("*Completions*" "*anything for files*" "anything find-file*"))
 
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
