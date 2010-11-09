@@ -749,16 +749,16 @@
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
 (defun switch-dictionary ()
-  "Change the dictionary."
+  "Switch between en and fr dictionaries."
   (interactive)
-  (let ((dict (or ispell-local-dictionary ispell-dictionary)))
-    (setq mdict (if (string= dict "fr") "en" "fr"))
-    (message "Switched to %S" mdict)
-    (sit-for 0.4)
-    (ispell-change-dictionary mdict)
-    (when flyspell-mode
-      (flyspell-delete-all-overlays)
-      (flyspell-buffer))))
+  (ispell-change-dictionary
+    (if (string=
+	  (or ispell-local-dictionary ispell-dictionary)
+	  "fr")
+      "en" "fr"))
+  (when flyspell-mode
+    (flyspell-delete-all-overlays)
+    (flyspell-buffer)))
 
 
 (defun patch (func pattern patch)
