@@ -438,6 +438,7 @@
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
 
+;; staying in isearch mode when typing M-< M-> C-l
 (defun isearch-beginning-of-buffer ()
   "Move isearch point to the beginning of the buffer."
   (interactive)
@@ -453,6 +454,8 @@
   (isearch-repeat-backward))
 
 (define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
+
+(define-key isearch-mode-map "\C-l" 'recenter-top-bottom)
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
