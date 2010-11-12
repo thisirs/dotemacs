@@ -1210,11 +1210,11 @@
 (global-set-key "%" 'match-paren)
 
 ;; but give the emacs window a still good shape !
+;; emacs -mm starts maximized
 ;; (setq initial-frame-alist '((width . 90) (height . 42))) ; .Xdefaults
-(setq initial-frame-alist
-  `((left . 0) (top . 51)
-     (width . 176) (height . 46)))
-
+;; (setq initial-frame-alist
+;;   '((left . 1) (top . 1)
+;;      (width . 176) (height . 46)))
 
 
 ;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
