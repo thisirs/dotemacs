@@ -1394,3 +1394,22 @@ Indent each line of the list starting just after point."
 ;; (ac-config-default)
 
 
+(setq
+  appt-message-warning-time 15 ;; warn 15 min in advance
+  appt-display-mode-line t     ;; show in the modeline
+  appt-display-format 'window) ;; use our func
+(appt-activate 1)              ;; active appt (appointment notification)
+(display-time)                 ;; time display is required for this...
+
+;; update appt each time agenda opened
+
+(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+
+;; our little façade-function for djcb-popup
+(defun appt-display (min-to-app new-time msg)
+  (notify-send (format "Appointment in %s minute(s)" min-to-app)
+    msg
+    "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+    "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+
+(setq appt-disp-window-function (function appt-display))
