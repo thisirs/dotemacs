@@ -692,6 +692,27 @@
                          "~/Dropbox/Org/books.org"
                          ))
 
+;; warning with appt and notify-send
+(setq
+  appt-message-warning-time 15 ;; warn 15 min in advance
+  appt-display-mode-line t     ;; show in the modeline
+  appt-display-format 'window) ;; use our func
+(appt-activate 1)              ;; active appt (appointment notification)
+(display-time)                 ;; time display is required for this...
+
+;; update appt each time agenda opened
+
+(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+
+;; our little façade-function for djcb-popup
+(defun appt-display (min-to-app new-time msg)
+  (notify-send (format "Appointment in %s minute(s)" min-to-app)
+    msg
+    "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+    "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+
+(setq appt-disp-window-function (function appt-display))
+
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
 (setq european-calendar-style t)
@@ -1084,6 +1105,11 @@
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
   (flet ((process-list ())) ad-do-it))
+
+;; don't warn when killing running processes
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+    kill-buffer-query-functions))
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
