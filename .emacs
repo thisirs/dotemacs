@@ -769,7 +769,7 @@
 (setq linum-format "%5d")
 
 ;; Correction orthographique
-(setq ispell-dictionary "francais")
+(setq ispell-dictionary "fr")
 (load-file "~/.emacs.d/flyspell-1.7n.el")
 
 (defun switch-dictionary ()
