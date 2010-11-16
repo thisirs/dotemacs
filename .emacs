@@ -191,8 +191,9 @@
 
 
 ;; winner-mode
+(winner-mode 1)
 (setq winner-boring-buffers
-  '("*Completions*" "*anything for files*" "anything find-file*"))
+  '("*Completions*" "*anything for files*" "*anything find-file*"))
 
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
