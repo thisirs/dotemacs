@@ -13,7 +13,7 @@
       (setq buffer-before-switch (current-buffer))
       (switch-to-buffer buffer-to-switch-to)
       (message (format "Switched to %s!" buffer-to-switch-to)))))
-      
+
 
 (defun instant-set-buffer-to-switch-to ()
   (interactive)

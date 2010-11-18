@@ -21,3 +21,5 @@
     (copy-file (concat letter-templates-location "/" template)
       (concat letter-location "/" name "/" name ".tex"))
     (find-file (concat letter-location "/" name "/" name ".tex"))))
+
+(provide 'letter)

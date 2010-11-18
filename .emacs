@@ -17,6 +17,8 @@
 
 (require 'notify-send)
 
+(require 'letter)
+
 ;; abandonne le minibuffer quand on le quitte
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
