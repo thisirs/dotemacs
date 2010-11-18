@@ -659,7 +659,7 @@
        (file+headline "~/Dropbox/Org/someday.org" "Programming")
        "* TODO %?\n  OPENED: %U")
      ("e" "Event" entry
-       (file+headline "~/Dropbox/Org/agenda.org" \,)
+       (file+headline "~/Dropbox/Org/agenda.org" "Divers")
        "* EVENT %?")
      ("qu" "Quote" entry
        (file+headline "~/Dropbox/Org/quotes.org" "")
@@ -670,10 +670,10 @@
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BORROWED: %u\n  DEADLINE: %(add-days 28)")
+       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(add-days 28)")
      ("bl" "Bibliothèque du labo" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BORROWED: %u\n  DEADLINE:  %(add-days 365)")))
+       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(add-days 365)")))
 
 (defun add-days (days)
   (format-time-string
@@ -1141,9 +1141,6 @@
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-
-;; M-RET to keep writing comments
-(global-set-key (kbd "M-RET") comment-line-break-function)
 
 (add-hook 'emacs-lisp-mode-hook
   (lambda()
