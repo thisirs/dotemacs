@@ -722,18 +722,18 @@
 
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
-(setq european-calendar-style t)
-(setq calendar-week-start-day 1)
-(defvar calendar-day-name-array
-  ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
-(defvar calendar-day-abbrev-array
-  ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
-(defvar calendar-month-name-array
-  ["janvier" "février" "mars" "avril" "mai" "juin"
-    "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
-(defvar calendar-month-abbrev-array
-  ["jan" "fév" "mar" "avr" "mai" "jun"
-    "jul" "aoû" "sep" "oct" "nov" "déc"])
+;; (setq european-calendar-style t)
+;; (setq calendar-week-start-day 1)
+;; (defvar calendar-day-name-array
+;;   ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
+;; (defvar calendar-day-abbrev-array
+;;   ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
+;; (defvar calendar-month-name-array
+;;   ["janvier" "février" "mars" "avril" "mai" "juin"
+;;     "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
+;; (defvar calendar-month-abbrev-array
+;;   ["jan" "fév" "mar" "avr" "mai" "jun"
+;;     "jul" "aoû" "sep" "oct" "nov" "déc"])
 
 ;; (add-hook 'after-init-hook 'org-agenda-list)
 
