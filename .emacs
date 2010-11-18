@@ -96,6 +96,8 @@
 
 (setq anything-su-or-sudo "sudo")
 
+(setq anything-c-locate-command "locate -e -b -i -r \"%s\"")
+
 (defun my-anything ()
   (interactive)
   (anything-other-buffer
