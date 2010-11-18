@@ -37,35 +37,8 @@
       (find-file (concat "/sudo::"
                    (ido-read-file-name "File: "))))))
 
-(defvar trans-term-p t "Check if fullscreen is on or off")
-
-(defun non-trans-term ()
-  (interactive)
-  (set-frame-parameter nil 'alpha '(100 100))
-  (jump-to-register 'r)
-  (tool-bar-mode 1)
-  (menu-bar-mode 1)
-  )
-
-(defun trans-term ()
-  (interactive)
-  (frame-configuration-to-register 'r)
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (delete-other-windows)
-  (set-frame-size (selected-frame) 70 40)
-  (set-frame-parameter nil 'alpha '(50 50))
-  )
-
-(defun toggle-trans-term ()
-  (interactive)
-  (setq trans-term-p (not trans-term-p))
-  (if trans-term-p
-    (non-trans-term)
-    (trans-term)))
-
 (defun find-temp-file (extension)
-  "quick find file in tmp/"
+  "quick find file in /tmp/"
   (interactive "sExtension: ")
   (cond
     ((equal (length extension) 0) (find-file (make-temp-file "foo")))
