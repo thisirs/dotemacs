@@ -197,6 +197,10 @@
 (setq winner-boring-buffers
   '("*Completions*" "*anything for files*" "*anything find-file*"))
 
+
+;; M-RET to keep writing comments, clashes with auctex mode
+;; (global-set-key (kbd "M-RET") comment-line-break-function)
+
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
 (require 'magit)
