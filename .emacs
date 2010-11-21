@@ -870,6 +870,7 @@
 ;; (ido-mode t)
 ;; (setq ido-enable-flex-matching t)
 ;; (setq ido-execute-command-cache nil)
+;; (setq ido-save-directory-list-file "~/.emacs.d/cache/.ido.last")
 
 ;; ;; complétion à la ido avec M-x
 ;; (defun ido-execute-command ()
