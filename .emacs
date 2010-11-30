@@ -1392,3 +1392,55 @@ Indent each line of the list starting just after point."
         (indent-for-tab-command)))))
 
 ;; (global-set-key [tab] 'smart-tab)
+
+;; writing hippie-expand flyspell
+;; (defun try-expand-all-abbrevs (old)
+;;   "Try to expand word before point according to all abbrev tables.
+;; The argument OLD has to be nil the first call of this function, and t
+;; for subsequent calls (for further possible expansions of the same
+;; string).  It returns t if a new expansion is found, nil otherwise."
+;;   (if (not old)
+;;     (progn
+;;       (he-init-string (he-dabbrev-beg) (point))
+;;       (setq he-expand-list
+;; 	(and (not (equal he-search-string ""))
+;; 	  (mapcar (function (lambda (sym)
+;; 			      (if (and (boundp sym) (vectorp (eval sym)))
+;; 				(abbrev-expansion (downcase he-search-string)
+;; 				  (eval sym)))))
+;; 	    (append '(local-abbrev-table
+;; 		       global-abbrev-table)
+;; 	      abbrev-table-name-list))))))
+;;   (while (and he-expand-list
+;; 	   (or (not (car he-expand-list))
+;; 	     (he-string-member (car he-expand-list) he-tried-table t)))
+;;     (setq he-expand-list (cdr he-expand-list)))
+;;   (if (null he-expand-list)
+;;     (progn
+;;       (if old (he-reset-string))
+;;       ())
+;;     (progn
+;;       (he-substitute-string (car he-expand-list) t)
+;;       (setq he-expand-list (cdr he-expand-list))
+;;       t)))
+
+
+;; (setq word "fenetre")
+;; (process-send-string ispell-process "%\n") ;put in verbose mode
+;; (process-send-string ispell-process (concat "^" word "\n"))
+;; ;; wait until ispell has processed word
+;; (while (progn
+;; 	 (accept-process-output ispell-process)
+;; 	 (not (string= "" (car ispell-filter)))))
+;; (setq ispell-filter (cdr ispell-filter))
+;; (if (consp ispell-filter)
+;;   (setq poss (ispell-parse-output (car ispell-filter))))
+
+;; poss
+;; (cond
+;;   ((or (eq poss t) (stringp poss))
+;;     ;; don't correct word
+;;     t)
+;;   ((null poss)
+;;     ;; ispell error
+;;     (error "Ispell: error in Ispell process"))
