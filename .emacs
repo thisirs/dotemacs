@@ -642,18 +642,31 @@
      ("a" "Anniv" entry
        (file+headline "~/Dropbox/Org/birthday.org" "")
        "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
+     ("f" "Phone calls")
+     ("fr" "Received phone calls" entry
+       (file+headline "~/Dropbox/Org/phonecalls.org" "Received")
+       "* Received phone call:\n  at %U\n  from %?")
+     ("fm" "Made phone calls" entry
+       (file+headline "~/Dropbox/Org/phonecalls.org" "Made")
+       "* Made phone call:\n  at %U\n  to %?")
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(add-days 28)")
+       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(add-days 28 4)")
      ("bl" "Bibliothèque du labo" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(add-days 365)")))
+       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(add-days 365 4)")))
 
-(defun add-days (days)
-  (format-time-string
-    (car org-time-stamp-formats)
-    (time-add (current-time) (seconds-to-time (* 24 3600 days)))))
+(defun add-days (days &optional deadline)
+  "Construit la date de retour avec une deadline"
+  (let ((time (format-time-string
+		(car org-time-stamp-formats)
+		(time-add (current-time) (seconds-to-time (* 24 3600 days))))))
+    (if (integerp deadline)
+      (replace-regexp-in-string ">"
+	(concat " -" (format "%d" deadline) "d>")
+	time)
+      time)))
 
 (define-key global-map "\C-cc" 'org-capture)
 
