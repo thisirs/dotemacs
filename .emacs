@@ -346,7 +346,9 @@
       ((looking-at "[[({]") (message "group copied!")
         (list (point) (save-excursion (forward-list))))
       (t (message "line copied!") (list (line-beginning-position)
-                                    (line-beginning-position 2))))))
+                                    (line-beginning-position 2)))))
+  (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
+
 
 ;; kill-region (C-w) coupe la ligne courante si aucune région active
 ;; coupe le groupe si au dessus d'un délimiteur
@@ -360,7 +362,8 @@
       ((looking-at "[[({]")
         (list (point) (save-excursion (forward-list))))
       (t (list (line-beginning-position)
-           (line-beginning-position 2))))))
+           (line-beginning-position 2)))))
+  (setq last-buffer-we-cut-from (expand-file-name buffer-file-name)))
 
 
 ;;; la commande kill supprime automatiquement les espaces
