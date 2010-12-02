@@ -13,8 +13,6 @@
  '(european-calendar-style t)
  '(gnuserv-program "/usr/lib/xemacs-21.0/i386-pc-linux/gnuserv")
  '(inhibit-startup-screen t)
- '(org-display-custom-times t)
- '(org-time-stamp-custom-formats (quote ("<%d/%m/%Y %a>" . "<%d/%m/%Y %a %H:%M>")))
  '(recentf-arrange-by-rule-others nil)
  '(recentf-max-menu-items 30)
  '(recentf-max-saved-items 50)
