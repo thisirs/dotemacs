@@ -677,6 +677,8 @@
 ;; logging
 (setq org-log-done 'time)
 
+(setq org-agenda-skip-deadline-if-done t)
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
