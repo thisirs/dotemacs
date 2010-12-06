@@ -666,10 +666,10 @@
 		(car org-time-stamp-formats)
 		(time-add (current-time) (seconds-to-time (* 24 3600 days))))))
     (if (integerp deadline)
-      (replace-regexp-in-string ">"
-	(concat " -" (format "%d" deadline) "d>")
-	time)
-      time)))
+      (concat
+	(substring time 0 -1)
+	" -" (format "%d" deadline) "d>")
+    time)))
 
 (define-key global-map "\C-cc" 'org-capture)
 
