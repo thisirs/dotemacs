@@ -4915,7 +4915,7 @@ Similar to  `comint-send-input'."
       (setq comint-save-input-ring-index comint-input-ring-index))
   (setq comint-input-ring-index nil))
 
-(defun matlab-shell-save-and-go ()
+(defun matlab-shell-save-and-go (&optional change-dir)
   "Save this M file, and evaluate it in a MATLAB shell."
   (interactive)
   (if (not (eq major-mode 'matlab-mode))
@@ -4925,7 +4925,8 @@ Similar to  `comint-send-input'."
   (let ((fn-name (file-name-sans-extension
 		  (file-name-nondirectory (buffer-file-name))))
 	(msbn (concat "*" matlab-shell-buffer-name "*"))
-	(param ""))
+	(param "")
+	 (dir (file-name-directory buffer-file-name)))
     (save-buffer)
     ;; Do we need parameters?
     (if (save-excursion
@@ -4947,6 +4948,8 @@ Similar to  `comint-send-input'."
 	  (select-window (get-buffer-window msbn t))
 	(switch-to-buffer (concat "*" matlab-shell-buffer-name "*")))
 
+      (unless change-dir (matlab-shell-send-string
+		       (concat "cd " dir)))
       (let ((cmd (concat fn-name " " param)))
 	(matlab-shell-add-to-input-history cmd)
 	(matlab-shell-send-string (concat cmd "\n"))))))
