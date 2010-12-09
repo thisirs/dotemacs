@@ -442,6 +442,8 @@
 
 (define-key isearch-mode-map "\C-l" 'recenter-top-bottom)
 
+(define-key isearch-mode-map (kbd "C-h") 'isearch-mode-help)
+
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
