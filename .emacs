@@ -363,7 +363,7 @@
         (list (point) (save-excursion (forward-list))))
       (t (list (line-beginning-position)
            (line-beginning-position 2)))))
-  (setq last-buffer-we-cut-from (expand-file-name buffer-file-name)))
+  (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
 
 
 ;;; la commande kill supprime automatiquement les espaces
