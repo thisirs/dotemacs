@@ -692,6 +692,20 @@
                          "~/Dropbox/Org/books.org"
                          ))
 
+(setq calendar-holidays
+  '((holiday-fixed 1 1 "Nouvel an")
+     (holiday-fixed 5 1 "Fête du travail")
+     (holiday-fixed 5 8 "Victoire 1945")
+     (holiday-fixed 7 14 "Fête nationale")
+     (holiday-fixed 8 15 "Assomption")
+     (holiday-fixed 11 11 "Armistice 1918")
+     (holiday-fixed 11 1 "Toussaint")
+     (holiday-fixed 12 25 "Noël")
+     (holiday-float 5 0 2 "Fête des mères")
+     (holiday-float 6 0 3 "Fête des pères")))
+
+(setq mark-holidays-in-calendar t)
+
 ;; warning with appt and notify-send
 (setq
   appt-message-warning-time 15 ;; warn 15 min in advance
