@@ -657,16 +657,24 @@
      ("b" "Livres empruntés")
      ("bu" "Bibliothèque Universitaire" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(add-days 28 4)")
+       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(deadline-from-now 28 4)")
      ("bl" "Bibliothèque du labo" entry
        (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(add-days 365 4)")))
+       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(deadline-from-now 365 4)")))
 
-(defun add-days (days &optional deadline)
+(defun add-days (date1 days)
+  "Add `days' days to `date'"
+  (eq
+    date
+    (time-add
+      (apply 'encode-time (org-parse-time-string date1))
+      (days-to-time days))))
+
+(defun deadline-from-now (days &optional deadline)
   "Construit la date de retour avec une deadline"
   (let ((time (format-time-string
 		(car org-time-stamp-formats)
-		(time-add (current-time) (seconds-to-time (* 24 3600 days))))))
+		(time-add (current-time) (days-to-time (days))))))
     (if (integerp deadline)
       (concat
 	(substring time 0 -1)
