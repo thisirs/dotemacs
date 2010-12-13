@@ -645,7 +645,7 @@
        (file+headline "~/Dropbox/Org/quotes.org" "")
        "* %^{description}%?\n  OPENED: %U")
      ("a" "Anniv" entry
-       (file+headline "~/Dropbox/Org/birthday.org" "")
+       (file+headline "~/Dropbox/Org/specialdays.org" "")
        "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
      ("f" "Phone calls")
      ("fr" "Received phone calls" entry
