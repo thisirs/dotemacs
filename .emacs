@@ -664,8 +664,7 @@
 
 (defun add-days (date1 days)
   "Add `days' days to `date'"
-  (eq
-    date
+  (decode-time
     (time-add
       (apply 'encode-time (org-parse-time-string date1))
       (days-to-time days))))
@@ -698,7 +697,7 @@
 
 (setq org-agenda-files (list "~/Dropbox/Org/agenda.org"
                          "~/Dropbox/Org/someday.org"
-                         "~/Dropbox/Org/birthday.org"
+                         "~/Dropbox/Org/specialdays.org"
                          "~/Dropbox/Org/books.org"
                          ))
 
@@ -711,7 +710,7 @@
      (holiday-fixed 11 11 "Armistice 1918")
      (holiday-fixed 11 1 "Toussaint")
      (holiday-fixed 12 25 "Noël")
-     (holiday-float 5 0 2 "Fête des mères")
+     (holiday-float 5 0 -1 "Fête des mères")
      (holiday-float 6 0 3 "Fête des pères")))
 
 (setq mark-holidays-in-calendar t)
