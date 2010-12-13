@@ -4900,6 +4900,9 @@ Returns a string path to the root of the executing MATLAB."
 (defvar matlab-shell-save-and-go-history '("()")
   "Keep track of parameters passed to the MATLAB shell.")
 
+(defvar matlab-change-directory t
+  "Change to current script's directory before running it")
+
 (defun matlab-shell-add-to-input-history (string)
   "Add STRING to the input-ring and run `comint-input-filter-functions' on it.
 Similar to  `comint-send-input'."
@@ -4915,7 +4918,7 @@ Similar to  `comint-send-input'."
       (setq comint-save-input-ring-index comint-input-ring-index))
   (setq comint-input-ring-index nil))
 
-(defun matlab-shell-save-and-go (&optional change-dir)
+(defun matlab-shell-save-and-go ()
   "Save this M file, and evaluate it in a MATLAB shell."
   (interactive)
   (if (not (eq major-mode 'matlab-mode))
@@ -4948,8 +4951,8 @@ Similar to  `comint-send-input'."
 	  (select-window (get-buffer-window msbn t))
 	(switch-to-buffer (concat "*" matlab-shell-buffer-name "*")))
 
-      (unless change-dir (matlab-shell-send-string
-		       (concat "cd " dir)))
+      (if matlab-change-directory (matlab-shell-send-string
+		       (concat "cd '" dir "'\n")))
       (let ((cmd (concat fn-name " " param)))
 	(matlab-shell-add-to-input-history cmd)
 	(matlab-shell-send-string (concat cmd "\n"))))))
