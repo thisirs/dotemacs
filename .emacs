@@ -97,10 +97,11 @@
                           "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
                           "-o $HOME/.locate.db")
     (lambda (process event)
-      (if (string-match "^finished" event)
-        (message "Locate database updated!")
-        (message "Updating locate database failed!")))))
+      (message (if (string-match "^finished" event)
+        "Locate database updated!"
+        "Updating locate database failed!")))))
 
+;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
 
 (defun anything-c-locate-thiskey-init ()
