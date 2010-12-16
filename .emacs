@@ -101,6 +101,8 @@
         (message "Locate database updated!")
         (message "Updating locate database failed!")))))
 
+(run-with-idle-timer 10 nil 'update-locate-database)
+
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command "locate-thiskey-process" nil
