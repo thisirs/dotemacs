@@ -685,6 +685,12 @@
 
 (define-key global-map "\C-cc" 'org-capture)
 
+(setq org-agenda-category-icon-alist
+  '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
+     ("Books" "~/.emacs.d/book.png" nil nil :ascent center)
+     ("Anniv" "~/.emacs.d/birthday.png" nil nil :ascent center)
+     ("" '(space . (:height (16) :width (16))))))
+
 ;; Ne mettre qu'une seule étoile devant les titres
 ;; FIXME marche pas quand on change le color-theme
 ;; (setq org-hide-leading-stars t)
