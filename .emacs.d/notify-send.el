@@ -12,16 +12,22 @@ of the message, MSG is the context. Optionally, you can provide an ICON and
 a sound to be played"
   (interactive "sTitle: \nsMessage: ")
   (and sound
-    (shell-command (concat
-		     "mplayer "
-		     (if (stringp sound)
-		       sound notify-send-sound-default)
-		     " 2>&1 /dev/null") nil nil))
+    (start-process-shell-command
+      "mplayer"
+      nil
+      (concat
+	"mplayer "
+	(if (stringp sound)
+	  sound notify-send-sound-default)
+	" 2>&1 /dev/null")))
   (or (stringp msg) (setq msg title))
   (and (eq window-system 'x)
-    (shell-command (concat "notify-send -i "
-		     (if (stringp icon)
-		       icon notify-send-icon-default)
-		     " '" title "' '" msg "'")) nil nil))
+    (start-process-shell-command
+      "notify-send"
+      nil
+      (concat "notify-send -i "
+	(if (stringp icon)
+	  icon notify-send-icon-default)
+	" '" title "' '" msg "'"))))
 
 (provide 'notify-send)

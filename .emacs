@@ -745,6 +745,7 @@
 ;; warning with appt and notify-send
 (setq
   appt-message-warning-time 15 ;; warn 15 min in advance
+  appt-display-interval 1
   appt-display-mode-line t     ;; show in the modeline
   appt-display-format 'window) ;; use our func
 (appt-activate 1)              ;; active appt (appointment notification)
@@ -761,7 +762,8 @@
     "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
     "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
 
-(setq appt-disp-window-function (function appt-display))
+(setq appt-disp-window-function 'appt-display)
+
 
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
