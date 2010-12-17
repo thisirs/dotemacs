@@ -695,6 +695,20 @@
      ("Anniv" "~/.emacs.d/birthday.png" nil nil :ascent center)
      ("" '(space . (:height (16) :width (16))))))
 
+(setq org-agenda-day-face-function
+  (defun jd:org-agenda-day-face-holidays-function (date)
+    "Compute DATE face for holidays."
+    (unless (org-agenda-todayp date)
+      (dolist (file (org-agenda-files nil 'ifmode))
+	(let ((face
+		(dolist (entry (org-agenda-get-day-entries file date))
+		  (let ((category (with-temp-buffer
+				    (insert entry)
+				    (org-get-category (point-min)))))
+		    (when (string= "Vacances" category)
+		      (return 'org-agenda-date-weekend))))))
+	  (when face (return face)))))))
+
 ;; Ne mettre qu'une seule étoile devant les titres
 ;; FIXME marche pas quand on change le color-theme
 ;; (setq org-hide-leading-stars t)
