@@ -173,7 +173,11 @@
 ;; winner-mode
 (winner-mode 1)
 (setq winner-boring-buffers
-  '("*Completions*" "*anything for files*" "*anything find-file*" "*Ibuffer*"))
+  '("*Completions*"
+     "*anything for files*"
+     "*anything find-file*"
+     "*Ibuffer*"
+     "*Calendar*"))
 
 
 ;; M-RET to keep writing comments, clashes with auctex mode
