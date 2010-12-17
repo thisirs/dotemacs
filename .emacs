@@ -680,7 +680,7 @@
   "Construit la date de retour avec une deadline"
   (let ((time (format-time-string
 		(car org-time-stamp-formats)
-		(time-add (current-time) (days-to-time (days))))))
+		(time-add (current-time) (days-to-time days)))))
     (if (integerp deadline)
       (concat
 	(substring time 0 -1)
