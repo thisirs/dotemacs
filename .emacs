@@ -189,6 +189,14 @@
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
 
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")
+     (when (not window-system)
+       (set-face-background 'magit-item-highlight "white"))))
+
+
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
 
