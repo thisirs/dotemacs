@@ -1307,6 +1307,14 @@
 
 ;; TESTING
 
+;; replace-string and replace-regexp need a key binding
+(global-set-key (kbd "C-c s") 'replace-string)
+(global-set-key (kbd "C-c r") 'replace-regexp)
+
+(defun inside-string-p ()
+  "Returns true if we're inside a string."
+  (cadddr (syntax-ppss)))
+
 (defun match-paren (arg)
   "Go to the matching parenthesis if on parenthesis otherwise insert %."
   (interactive "p")
