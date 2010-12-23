@@ -253,6 +253,14 @@
 ;; don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
+(defadvice ibuffer (around ibuffer-point-to-most-recent) ()
+  "Open ibuffer with cursor pointed to most recent buffer name"
+  (let ((recent-buffer-name (buffer-name (other-buffer))))
+    ad-do-it
+    (ibuffer-jump-to-buffer recent-buffer-name)))
+(ad-activate 'ibuffer)
+
+
 (require 'cl) ; needed on some install to be able to use reduce...
 (defun find-projects (dir)
   (let ((dir (if (string= (substring dir -1 nil) "/")
