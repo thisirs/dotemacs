@@ -279,8 +279,16 @@
                     ((file-directory-p prj-dir)
                       (append (find-projects prj-dir) list))
                     (t list))))
-        (cddr (directory-files dir))
+        (directory-files dir nil "[^\\.]\\|\\(\\.\\{3,\\}\\)")
         :initial-value nil))))
+
+;; (defun find-projects2 (dir &optional list)
+;;   (cond
+;;     ((null dir) list)
+;;     ((and (file-exists-p (concat dir "/.git")))
+;;       (cons dir list))
+;;     (t list)))
+
 
 (defun make-ibuffer-projects-list (prefix dir)
   (reduce (lambda (list prj)
@@ -293,7 +301,7 @@
 (setq ibuffer-saved-filter-groups
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
-          (concat (getenv "HOME") "/xdotemacs"))
+          (concat (getenv "HOME") "/dotemacs"))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
