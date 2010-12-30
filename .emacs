@@ -40,7 +40,7 @@
                    (ido-read-file-name "File: "))))))
 
 (defun find-temp-file (extension)
-  "quick find file in /tmp/"
+  "quick find file in /tmp"
   (interactive "sExtension: ")
   (cond
     ((equal (length extension) 0) (find-file (make-temp-file "foo")))
@@ -262,6 +262,7 @@
 
 
 (require 'cl) ; needed on some install to be able to use reduce...
+;; BUG fails if cddr doesn't strip . and .. directories
 (defun find-projects (dir)
   (let ((dir (if (string= (substring dir -1 nil) "/")
                dir (concat dir "/"))))
@@ -291,7 +292,7 @@
 (setq ibuffer-saved-filter-groups
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
-          (concat (getenv "HOME") "/dotemacs"))
+          (concat (getenv "HOME") "/xdotemacs"))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
