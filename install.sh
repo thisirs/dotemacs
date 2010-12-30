@@ -1,16 +1,11 @@
 #! /usr/bin/env bash
 
-INSTALL_PATH=~/dotemacs
+INSTALL_PATH=${1:-"/$HOME/git-repos"}
 
-#Création de la structure
-[ -e "$INSTALL_PATH" ] && { echo "Install path $INSTALL_PATH already exists, aborting..."; exit 1; }
-mkdir -p "$INSTALL_PATH"
-cp -r ../dotemacs "$INSTALL_PATH"
-
-#Téléchargement des derniers paquets
-cd "$INSTALL_PATH"
-git clone git://repo.or.cz/anything-config.git
-git clone git://repo.or.cz/org-mode.git
+cd $INSTALL_PATH
+git clone git@github.com:thisirs/dotemacs.git
+git submodule init
+git submodule update
 
 #Sauvegarde de la configuration existante
 [ -e "$HOME/.emacs" ] && { echo "Moving existing ~/.emacs to ~/.emacs.old"; mv $HOME/.emacs{,.old}; }
@@ -20,3 +15,4 @@ git clone git://repo.or.cz/org-mode.git
 cd $HOME
 ln -s "$INSTALL_PATH/dotemacs/.emacs"
 ln -s "$INSTALL_PATH/dotemacs/.emacs.d"
+
