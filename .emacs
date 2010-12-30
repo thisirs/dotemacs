@@ -178,7 +178,8 @@
      "*anything for files*"
      "*anything find-file*"
      "*Ibuffer*"
-     "*Calendar*"))
+     "*Calendar*"
+     "*anything*"))
 
 
 ;; M-RET to keep writing comments, clashes with auctex mode
