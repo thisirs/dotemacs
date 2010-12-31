@@ -262,46 +262,30 @@
 (ad-activate 'ibuffer)
 
 
-(require 'cl) ; needed on some install to be able to use reduce...
-;; BUG fails if cddr doesn't strip . and .. directories
 (defun find-projects (dir)
-  (let ((dir (if (string= (substring dir -1 nil) "/")
-               dir (concat dir "/"))))
-    (if (not (file-directory-p dir))
-      nil
-      (reduce (lambda (list prj)
-                (let ((prj-dir (concat dir prj)))
-                  (cond
-                    ((null prj) nil)
-                    ((and (file-exists-p (concat prj-dir "/.git"))
-                       (not (file-exists-p (concat prj-dir "/.hidden"))))
-                      (cons `(,prj . ,prj-dir) list))
-                    ((file-directory-p prj-dir)
-                      (append (find-projects prj-dir) list))
-                    (t list))))
-        (directory-files dir nil "[^\\.]\\|\\(\\.\\{3,\\}\\)")
-        :initial-value nil))))
-
-;; (defun find-projects2 (dir &optional list)
-;;   (cond
-;;     ((null dir) list)
-;;     ((and (file-exists-p (concat dir "/.git")))
-;;       (cons dir list))
-;;     (t list)))
+  (let ((list
+	  (when (and (file-directory-p (concat dir "/.git"))
+		  (not (file-exists-p (concat dir "/.hidden"))))
+	    (cons dir nil))))
+    (apply 'append list
+      (mapcar
+	(lambda (path)
+	  (if (file-directory-p path)
+	    (find-projects path)))
+	(directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
-(defun make-ibuffer-projects-list (prefix dir)
-  (reduce (lambda (list prj)
-            (cons
-              `(,(concat prefix (car prj)) (filename . ,(cdr prj)))
-              list))
-    (find-projects dir)
-    :initial-value nil))
+(defmacro make-ibuffer-projects-list (prefix dir)
+  (mapcar
+    (lambda (dir)
+      (list (concat prefix (file-name-nondirectory dir))
+	 `(filename . ,dir)))
+    (reverse (find-projects2 dir))))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
-      ,@(make-ibuffer-projects-list "Project: "
-          (concat (getenv "HOME") "/dotemacs"))
+      ,@(macroexpand `(make-ibuffer-projects-list "Project: "
+          ,(concat (getenv "HOME") "/dotemacs")))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
