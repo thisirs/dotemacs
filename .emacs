@@ -280,7 +280,7 @@
     (lambda (dir)
       (list (concat prefix (file-name-nondirectory dir))
 	 `(filename . ,dir)))
-    (reverse (find-projects2 dir))))
+    (reverse (find-projects dir))))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
