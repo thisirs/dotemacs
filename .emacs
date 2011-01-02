@@ -318,7 +318,7 @@
           (mode . emacs-lisp-mode)
           (mode . ruby-mode)
           (mode . sh-mode)
-	  (filename . "^\\*scratch\\*$")
+	  (name . "^\\*scratch\\*$")
           ))
       ("crap" (or
                 (name . "^\\*trace")
