@@ -285,7 +285,7 @@
 (setq ibuffer-saved-filter-groups
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
-          (concat (getenv "HOME") "/dotemacs")))
+          (concat (getenv "HOME") "/dotemacs"))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
@@ -329,7 +329,7 @@
                 (name . "^\\*compilation\\*$")
 
                 (name . "^\\*Messages\\*$")))
-      ("ERC" (mode . erc-mode))))
+      ("ERC" (mode . erc-mode)))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
@@ -702,6 +702,8 @@
 
 (define-key global-map "\C-cc" 'org-capture)
 
+
+;; icons in agenda
 (setq org-agenda-category-icon-alist
   '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
      ("Books" "~/.emacs.d/book.png" nil nil :ascent center)
@@ -1506,6 +1508,25 @@ Indent each line of the list starting just after point."
       (if (looking-at "\\>")
         (dabbrev-expand nil)
         (indent-for-tab-command)))))
+
+
+;; trying bbdb
+(add-to-list  'load-path "~/.emacs.d/bbdb-2.35/lisp/")
+(require 'bbdb)
+(bbdb-initialize)
+
+
+;; trying erc
+;; check channels
+(erc-track-mode t)
+(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+                                 "324" "329" "332" "333" "353" "477"))
+(setq erc-autojoin-channels-alist
+  '(("freenode.net" "#emacs" "#ruby-lang" "#rubyfr" "#ruby"
+     "#git-fr" "#emacsfr" "#linux-fr")))
+(erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
+
+
 
 ;; (global-set-key [tab] 'smart-tab)
 
