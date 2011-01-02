@@ -264,8 +264,8 @@
 
 (defun find-projects (dir)
   (let ((list
-	  (when (and (file-directory-p (concat dir "/.git"))
-		  (not (file-exists-p (concat dir "/.hidden"))))
+	  (and (file-directory-p (concat dir "/.git"))
+	    (not (file-exists-p (concat dir "/.hidden")))
 	    (cons dir nil))))
     (apply 'append list
       (mapcar
