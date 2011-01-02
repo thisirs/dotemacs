@@ -318,6 +318,7 @@
           (mode . emacs-lisp-mode)
           (mode . ruby-mode)
           (mode . sh-mode)
+	  (filename . "^\\*scratch\\*$")
           ))
       ("crap" (or
                 (name . "^\\*trace")
@@ -326,7 +327,7 @@
                 (name . "^\\*magit")
                 (name . "^\\*Backtrace\\*$")
                 (name . "^\\*compilation\\*$")
-                (name . "^\\*scratch\\*$")
+
                 (name . "^\\*Messages\\*$")))
       ("ERC" (mode . erc-mode)))))
 
