@@ -275,7 +275,7 @@
 	(directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
-(defmacro make-ibuffer-projects-list (prefix dir)
+(defun make-ibuffer-projects-list (prefix dir)
   (mapcar
     (lambda (dir)
       (list (concat prefix (file-name-nondirectory dir))
@@ -284,8 +284,8 @@
 
 (setq ibuffer-saved-filter-groups
   `(("default"
-      ,@(macroexpand `(make-ibuffer-projects-list "Project: "
-          ,(concat (getenv "HOME") "/dotemacs")))
+      ,@(make-ibuffer-projects-list "Project: "
+          (concat (getenv "HOME") "/dotemacs")))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
@@ -329,7 +329,7 @@
                 (name . "^\\*compilation\\*$")
 
                 (name . "^\\*Messages\\*$")))
-      ("ERC" (mode . erc-mode)))))
+      ("ERC" (mode . erc-mode))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
