@@ -1521,7 +1521,7 @@ Indent each line of the list starting just after point."
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                  "324" "329" "332" "333" "353" "477"))
 (setq erc-autojoin-channels-alist
-  '(("freenode.net" "#emacs" "#ruby-lang" "#rubyfr" "#ruby"
+  '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
      "#git-fr" "#emacsfr" "#linux-fr")))
 (erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
 
