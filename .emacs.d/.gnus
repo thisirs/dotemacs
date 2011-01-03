@@ -17,7 +17,9 @@
 ;; make gnus NOT ignore [Gmail] mailboxes
 (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
-(setq gnus-select-method
+
+
+(add-to-list 'gnus-secondary-select-methods
   '(nnimap "gmail"
      (nnimap-address "imap.gmail.com")
      (nnimap-server-port 993)
