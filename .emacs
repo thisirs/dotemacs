@@ -1456,12 +1456,11 @@ Indent each line of the list starting just after point."
 ;; (global-set-key (kbd "C-ç") 'redo)
 
 
-;; (org-babel-do-load-languages
-;;   'org-babel-load-languages
-;;   '(
-;;      (latex . t) ; this is the entry to activate LaTeX
-;;      (sh . t)
-;;      ))
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((emacs-lisp . t)
+     (latex . t) ; this is the entry to activate LaTeX
+     (sh . t)))
 
 (setq Info-default-directory-list
   (append
