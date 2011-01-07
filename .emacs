@@ -1473,7 +1473,7 @@ Indent each line of the list starting just after point."
   (when (not (eq window-system 'x))
     (message "Initializing x windows system.")
     (x-initialize-window-system)
-    (when (not x-display-name) (setq x-display-name (getenv "DISPLAY")))
+    (unless x-display-name (setq x-display-name (getenv "DISPLAY")))
     (select-frame (make-frame-on-display x-display-name '((window-system . x))))
     )
   (let ((last-nonmenu-event nil)(window-system
@@ -1523,7 +1523,7 @@ Indent each line of the list starting just after point."
 (setq erc-autojoin-channels-alist
   '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
      "#git-fr" "#emacsfr" "#linux-fr")))
-(erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
+;; (erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
 
 
 
