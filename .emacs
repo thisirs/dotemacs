@@ -298,6 +298,7 @@
       ("TeX/LaTeX"
         (or
           (mode . latex-mode)
+	  (name . "^\\.bib$")
           (name . "^\\.tex$")))
       ("Mail"
         (or
@@ -319,17 +320,11 @@
           (mode . ruby-mode)
           (mode . sh-mode)
 	  (name . "^\\*scratch\\*$")
+	  (name . "^\\*Messages\\*$")
           ))
-      ("crap" (or
-                (name . "^\\*trace")
-                (name . "^\\*completions")
-                (name . "^\\*Quail")
-                (name . "^\\*magit")
-                (name . "^\\*Backtrace\\*$")
-                (name . "^\\*compilation\\*$")
+      ("ERC" (mode . erc-mode))
+      ("crap" (name . "^\\*.*\\*$")))))
 
-                (name . "^\\*Messages\\*$")))
-      ("ERC" (mode . erc-mode)))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
