@@ -254,13 +254,22 @@
 ;; don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
+(defun ibuffer-next-buffer ()
+  (interactive)
+  (setq th/current-buffer (1+ th/current-buffer))
+  (ibuffer-jump-to-buffer
+    (buffer-name
+      (nth th/current-buffer (buffer-list)))))
+
+(define-key ibuffer-mode-map [(control ?b)] 'ibuffer-next-buffer)
+
 (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
   "Open ibuffer with cursor pointed to most recent buffer name"
   (let ((recent-buffer-name (buffer-name (other-buffer))))
+    (setq th/current-buffer 0)
     ad-do-it
     (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
-
 
 (defun find-projects (dir)
   (let ((list
