@@ -824,6 +824,7 @@
 
 ;; retourne au dernier endroit changé dans le buffer
 (require 'goto-last-change)
+(global-set-key (kbd "C-x C-_") 'goto-last-change)
 
 ;; Indentation du buffer
 (defun indent-buffer ()
