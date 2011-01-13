@@ -1585,3 +1585,13 @@ Indent each line of the list starting just after point."
 ;;   ((null poss)
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
+
+(defun list-backends ()
+  (let ((list ""))
+    (dolist (buffer (buffer-list) list)
+      (and (buffer-file-name buffer)
+	(setq list (concat list (buffer-file-name buffer) ": "
+		     (format "%s" (with-demoted-errors
+				    (vc-backend
+				      (buffer-file-name buffer))))
+		     "\n"))))))
