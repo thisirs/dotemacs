@@ -333,9 +333,15 @@
           ))
       ("ERC" (mode . erc-mode))
       ("crap" (name . "^\\*.*\\*$")))
-     ("correctionTP"
-       ("Djonkoué/Tandia"
-	 (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/groupe/\\w+/Djonkoue-Tandia")))))
+     ("Elisp-mode"
+       (".el.gz elisp files"
+	 (name . "\\.el\\.gz$"))
+       ("Elisp files"
+	   (mode . emacs-lisp-mode))
+       ("Test"
+	 (name . "^\\*scratch\\*$")
+	 (name . "^\\*Messages\\*$")))))
+
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
