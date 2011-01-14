@@ -332,8 +332,10 @@
 	  (name . "^\\*Messages\\*$")
           ))
       ("ERC" (mode . erc-mode))
-      ("crap" (name . "^\\*.*\\*$")))))
-
+      ("crap" (name . "^\\*.*\\*$")))
+     ("correctionTP"
+       ("Djonkoué/Tandia"
+	 (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/groupe/\\w+/Djonkoue-Tandia")))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
