@@ -1586,12 +1586,19 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
-(defun list-backends ()
-  (let ((list ""))
-    (dolist (buffer (buffer-list) list)
-      (and (buffer-file-name buffer)
-	(setq list (concat list (buffer-file-name buffer) ": "
-		     (format "%s" (with-demoted-errors
-				    (vc-backend
-				      (buffer-file-name buffer))))
-		     "\n"))))))
+(defun check-changes-or-unpushed ()
+  (and
+    (memq nil
+      (mapcar
+	(lambda (buf)
+	  (null (and (string-match "^\*magit:" (buffer-name buf))
+		  (with-current-buffer buf
+		    (save-excursion
+		      (goto-char (point-min))
+		      (re-search-forward "^\\(Unpushed commits\\|Changes\\)" nil t))))))
+		   (buffer-list)))
+    (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
+
+
+(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
+
