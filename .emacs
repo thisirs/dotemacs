@@ -1611,5 +1611,6 @@ Indent each line of the list starting just after point."
     (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
 
 
-(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
+;; BUG broke save-buffers-kill-terminal
+;;(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
 
