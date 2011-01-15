@@ -1598,19 +1598,18 @@ Indent each line of the list starting just after point."
 ;;     (error "Ispell: error in Ispell process"))
 
 (defun check-changes-or-unpushed ()
-  (and
-    (memq nil
-      (mapcar
-	(lambda (buf)
-	  (null (and (string-match "^\*magit:" (buffer-name buf))
-		  (with-current-buffer buf
-		    (save-excursion
-		      (goto-char (point-min))
-		      (re-search-forward "^\\(Unpushed commits\\|Changes\\)" nil t))))))
-		   (buffer-list)))
+  (or
+    (not
+      (memq nil
+	(mapcar
+	  (lambda (buf)
+	    (null (and (string-match "^\*magit:" (buffer-name buf))
+		    (with-current-buffer buf
+		      (save-excursion
+			(goto-char (point-min))
+			(re-search-forward "^\\(Unpushed commits\\|Changes\\)" nil t))))))
+	  (buffer-list))))
     (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
 
 
-;; BUG broke save-buffers-kill-terminal
-;;(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
-
+(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
