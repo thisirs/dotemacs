@@ -1607,7 +1607,7 @@ Indent each line of the list starting just after point."
 		    (with-current-buffer buf
 		      (save-excursion
 			(goto-char (point-min))
-			(re-search-forward "^\\(Unpushed commits\\|Changes\\)" nil t))))))
+			(re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
 	  (buffer-list))))
     (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
 
