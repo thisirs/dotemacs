@@ -110,19 +110,12 @@
 
 (defvar conky-keywords-regexp (regexp-opt conky-keywords 'words))
 
-
 (setq conky-font-lock-keywords
-  `(
-     (,conky-keywords-regexp . font-lock-keyword-face)))
+  `((,conky-keywords-regexp . font-lock-keyword-face)))
 
 (define-derived-mode conky-mode fundamental-mode
-  "conky mode"
+  "Conky"
   "Major mode for editing conky configuration file"
-
-  ;; code for syntax highlighting
   (setq font-lock-defaults '((conky-font-lock-keywords)))
-
-  ;; clear memory
-  (setq conky-keywords-regexp nil)
-  )
+  (setq conky-keywords-regexp nil))
 
