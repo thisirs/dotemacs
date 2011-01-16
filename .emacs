@@ -418,6 +418,17 @@
 
 (global-set-key (kbd "C-a") 'my-beginning-of-line)
 
+(defun transpose-buffers (arg)
+  "Transpose the buffers shown in two windows."
+  (interactive "p")
+  (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+    (while (/= arg 0)
+      (let ((this-win (window-buffer))
+	     (next-win (window-buffer (funcall selector))))
+        (set-window-buffer (selected-window) next-win)
+        (set-window-buffer (funcall selector) this-win)
+        (select-window (funcall selector)))
+      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
 (defun my-find-thing-at-point ()
   "Find variable, function or file at point."
@@ -1422,36 +1433,6 @@
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
 
-;; http://steve.yegge.googlepages.com/my-dot-emacs-file
-;; someday might want to rotate windows if more than 2 of them
-(defun swap-windows ()
-  "If you have 2 windows, it swaps them."
-  (interactive)
-  (if (not (= (count-windows) 2))
-    (message "You need exactly 2 windows to do this.")
-    (let* ((w1 (first (window-list)))
-            (w2 (second (window-list)))
-            (b1 (window-buffer w1))
-            (b2 (window-buffer w2))
-            (s1 (window-start w1))
-            (s2 (window-start w2)))
-      (set-window-buffer w1 b2)
-      (set-window-buffer w2 b1)
-      (set-window-start w1 s2)
-      (set-window-start w2 s1)
-      (other-window 1))))
-
-(defun transpose-buffers (arg)
-  "Transpose the buffers shown in two windows."
-  (interactive "p")
-  (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
-    (while (/= arg 0)
-      (let ((this-win (window-buffer))
-	     (next-win (window-buffer (funcall selector))))
-        (set-window-buffer (selected-window) next-win)
-        (set-window-buffer (funcall selector) this-win)
-        (select-window (funcall selector)))
-      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
 
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
