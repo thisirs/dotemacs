@@ -1540,17 +1540,6 @@ Indent each line of the list starting just after point."
 
 
 ;; trying erc
-;; check channels
-(erc-track-mode t)
-(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                 "324" "329" "332" "333" "353" "477"))
-(setq erc-autojoin-channels-alist
-  '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
-     "#git-fr" "#emacsfr" "#linux-fr")))
-
-(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-
-;; (erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
 
 
 
