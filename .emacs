@@ -802,6 +802,11 @@
 
 (setq appt-disp-window-function 'appt-display)
 
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((emacs-lisp . t)
+     (latex . t) ; this is the entry to activate LaTeX
+     (sh . t)))
 
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
@@ -1450,11 +1455,6 @@ Indent each line of the list starting just after point."
 ;; (global-set-key (kbd "C-ç") 'redo)
 
 
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '((emacs-lisp . t)
-     (latex . t) ; this is the entry to activate LaTeX
-     (sh . t)))
 
 (setq Info-default-directory-list
   (append
