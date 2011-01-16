@@ -197,9 +197,39 @@
      (when (not window-system)
        (set-face-background 'magit-item-highlight "white"))))
 
+;; warn when untracked files, unpushed commits or changes
+(defun check-changes-or-unpushed ()
+  (or
+    (not
+      (memq nil
+	(mapcar
+	  (lambda (buf)
+	    (null (and (string-match "^\*magit:" (buffer-name buf))
+		    (with-current-buffer buf
+		      (save-excursion
+			(goto-char (point-min))
+			(re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
+	  (buffer-list))))
+    (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
+
+
+(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
 
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
+
+;; erc
+;; check channels
+(erc-track-mode t)
+(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+                                 "324" "329" "332" "333" "353" "477"))
+(setq erc-autojoin-channels-alist
+  '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
+      "#git-fr" "#emacsfr" "#linux-fr")))
+
+(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
+
+;; (erc :server "irc.freenode.net" :port 6667 :nick "thisirs")
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -1578,19 +1608,3 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
-(defun check-changes-or-unpushed ()
-  (or
-    (not
-      (memq nil
-	(mapcar
-	  (lambda (buf)
-	    (null (and (string-match "^\*magit:" (buffer-name buf))
-		    (with-current-buffer buf
-		      (save-excursion
-			(goto-char (point-min))
-			(re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
-	  (buffer-list))))
-    (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
-
-
-(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
