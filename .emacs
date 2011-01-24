@@ -1511,39 +1511,12 @@ Indent each line of the list starting just after point."
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
 
-;; marche pas avec magit par exemple...
-(defun smart-tab ()
-  "This smart tab is minibuffer compliant: it acts as usual in
-    the minibuffer. Else, if mark is active, indents region. Else if
-    point is at the end of a symbol, expands it. Else indents the
-    current line."
-  (interactive)
-  ;; change this to (if (minibufferp) when I can finally ditch the
-  ;; old version of emacs at work.
-  (if (string-match "Minibuf" (buffer-name))
-    (unless (minibuffer-complete)
-      (dabbrev-expand nil))
-    (if mark-active
-      (indent-region (region-beginning)
-        (region-end))
-      ;; add an underscore after the '\\' when I can finally ditch
-      ;; the old version of emacs at work.
-      (if (looking-at "\\>")
-        (dabbrev-expand nil)
-        (indent-for-tab-command)))))
-
-
 ;; trying bbdb
 (add-to-list  'load-path "~/.emacs.d/bbdb-2.35/lisp/")
 (require 'bbdb)
 (bbdb-initialize)
 
 
-;; trying erc
-
-
-
-;; (global-set-key [tab] 'smart-tab)
 
 ;; writing hippie-expand flyspell
 ;; (defun try-expand-all-abbrevs (old)
