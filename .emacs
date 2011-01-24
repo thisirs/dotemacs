@@ -838,6 +838,16 @@
      (latex . t) ; this is the entry to activate LaTeX
      (sh . t)))
 
+;; bib citations in org files
+(defun org-mode-reftex-setup ()
+  (load-library "reftex")
+  (and (buffer-file-name)
+    (file-exists-p (buffer-file-name))
+    (reftex-parse-all))
+  (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
+(add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
 ;; (setq european-calendar-style t)
