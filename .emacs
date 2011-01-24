@@ -185,6 +185,14 @@
 ;; M-RET to keep writing comments, clashes with auctex mode
 ;; (global-set-key (kbd "M-RET") comment-line-break-function)
 
+;; (defadvice indent-for-tab-command (around tab-completion activate)
+;;   (cond
+;;     ((minibufferp)
+;;       (minibuffer-complete))
+;;     ((looking-at "\\>")
+;;       (hippie-expand nil))
+;;     (t ad-do-it)))
+
 ;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
 (require 'magit)
@@ -278,6 +286,7 @@
   '(progn
      (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
+
 
 (require 'ibuffer)
 
