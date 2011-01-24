@@ -337,8 +337,8 @@
       ("TeX/LaTeX"
         (or
           (mode . latex-mode)
-	  (name . "^\\.bib$")
-          (name . "^\\.tex$")))
+	  (name . "\\.bib$")
+          (name . "\\.tex$")))
       ("Mail"
         (or
           (mode . message-mode)
