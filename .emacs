@@ -334,6 +334,8 @@
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
+      ("Thèse"
+	(filename . "/media/THISKEY/Documents/Bibliographie/"))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
