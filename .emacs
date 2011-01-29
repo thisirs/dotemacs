@@ -1598,3 +1598,4 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
+(global-set-key (kbd "C-,") 'other-window)
