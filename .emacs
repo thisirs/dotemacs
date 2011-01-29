@@ -237,6 +237,8 @@
 
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
+(setq erc-join-buffer 'bury)
+
 (defun erc-start-or-switch ()
   "Connect to ERC, or switch to last active buffer"
   (interactive)
