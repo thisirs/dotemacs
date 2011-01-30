@@ -297,6 +297,7 @@
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
 
+;; IBuffer
 (require 'ibuffer)
 
 ;; don't show empty groups
@@ -608,6 +609,7 @@
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
+(global-set-key (kbd "C-,") 'other-window)
 
 ;; split screen and switch to it!
 (global-set-key (kbd "C-x 3")
@@ -1600,4 +1602,7 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
-(global-set-key (kbd "C-,") 'other-window)
+
+
+;; copy when in read only buffer
+(setq kill-read-only-ok t)
