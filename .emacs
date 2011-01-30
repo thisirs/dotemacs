@@ -1602,6 +1602,21 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
+;; (defun pcomplete-erc-command-name ()
+;;   "Returns the command name of the first argument."
+;;   ;;  (message (pcomplete-erc-nicks))
+;;   (if (memq (substring (pcomplete-arg 'first) 1)
+;;         (pcomplete-erc-nicks))
+;;     (progn
+;;       "NICKLIST"
+;;       (message (substring (pcomplete-arg 'first) 0 -1)))
+;;     (if (eq (elt (pcomplete-arg 'first) 0) ?/)
+;;       (upcase (substring (pcomplete-arg 'first) 1))
+;;       "SAY")))
+
+;; (defun pcomplete/erc-mode/NICKLIST ()
+;;   (message "ahahah nicklist")
+;;   (while (pcomplete-here (pcomplete-erc-nicks))))
 
 
 ;; copy when in read only buffer
