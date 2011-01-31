@@ -379,6 +379,7 @@
           (mode . emacs-lisp-mode)
           (mode . ruby-mode)
           (mode . sh-mode)
+	  (mode . matlab-mode)
 	  (name . "^\\*scratch\\*$")
 	  (name . "^\\*Messages\\*$")
           ))
