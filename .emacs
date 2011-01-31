@@ -1602,22 +1602,34 @@ Indent each line of the list starting just after point."
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
 
-;; (defun pcomplete-erc-command-name ()
-;;   "Returns the command name of the first argument."
-;;   ;;  (message (pcomplete-erc-nicks))
-;;   (if (memq (substring (pcomplete-arg 'first) 1)
-;;         (pcomplete-erc-nicks))
-;;     (progn
-;;       "NICKLIST"
-;;       (message (substring (pcomplete-arg 'first) 0 -1)))
-;;     (if (eq (elt (pcomplete-arg 'first) 0) ?/)
-;;       (upcase (substring (pcomplete-arg 'first) 1))
-;;       "SAY")))
+(defun pcomplete-erc-command-name ()
+  "Returns the command name of the first argument."
+  (let ((cmd (pcomplete-arg 'first)))
+    (cond
+      ((member (substring cmd 0 -1)
+	(pcomplete-erc-nicks))
+      "NICKLIST")
+      ((eq (elt cmd 0) ?/)
+	(upcase (substring cmd 1)))
+      (t "SAY"))))
 
-;; (defun pcomplete/erc-mode/NICKLIST ()
-;;   (message "ahahah nicklist")
-;;   (while (pcomplete-here (pcomplete-erc-nicks))))
+(defun is-nick-p (nick)
+  (message "<<%s>>" nick)
+  (member (substring nick 0 -1)
+    (pcomplete-erc-nicks)))
 
+(defun pcomplete/erc-mode/NICKLIST ()
+  (message "NICKLIST")
+  (while (and (pcomplete-test 'is-nick-p)
+	   (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
+    (let ((start erc-input-marker))
+      (save-excursion
+	(goto-char (pcomplete-begin 0))
+	(while (re-search-backward ": " start t)
+	  (replace-match ", "))))
+    (pcomplete-here (pcomplete-erc-nicks ": ")))
+  (message "SIMPLE NICKS")
+  (while (pcomplete-here (pcomplete-erc-nicks))))
 
 ;; copy when in read only buffer
 (setq kill-read-only-ok t)
