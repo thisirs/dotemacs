@@ -297,7 +297,7 @@
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
 
-;; IBuffer
+;;; IBuffer
 (require 'ibuffer)
 
 ;; don't show empty groups
@@ -400,7 +400,7 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;;; indenter automatiquement le code collé :
+;; indenter automatiquement le code collé :
 (defadvice yank (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
                             lisp-mode c-mode c++-mode objc-mode
@@ -449,8 +449,8 @@
   (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
 
 
-;;; la commande kill supprime automatiquement les espaces
-;;; d'indentations si besoin
+;; la commande kill supprime automatiquement les espaces
+;; d'indentations si besoin
 (defadvice kill-line (before check-position activate)
   (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
                             c-mode c++-mode objc-mode
@@ -624,7 +624,7 @@
     (split-window-vertically)
     (other-window 1)))
 
-
+;;; desktop-mode
 ;; save a list of open files in ~/.emacs.desktop
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
