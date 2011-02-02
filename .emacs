@@ -1620,12 +1620,10 @@ Indent each line of the list starting just after point."
       (t "SAY"))))
 
 (defun is-nick-p (nick)
-  (message "<<%s>>" nick)
   (member (substring nick 0 -1)
     (pcomplete-erc-nicks)))
 
 (defun pcomplete/erc-mode/NICKLIST ()
-  (message "NICKLIST")
   (while (and (pcomplete-test 'is-nick-p)
 	   (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
     (let ((start erc-input-marker))
@@ -1634,7 +1632,6 @@ Indent each line of the list starting just after point."
 	(while (re-search-backward ": " start t)
 	  (replace-match ", "))))
     (pcomplete-here (pcomplete-erc-nicks ": ")))
-  (message "SIMPLE NICKS")
   (while (pcomplete-here (pcomplete-erc-nicks))))
 
 ;; copy when in read only buffer
