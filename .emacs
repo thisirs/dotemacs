@@ -489,7 +489,11 @@
           (call-interactively 'describe-variable))
     ((function-called-at-point)
       (call-interactively 'describe-function))
-    (t (find-file-at-point))))
+    (t (if (ffap-file-at-point)		;trick to ffap when point is at the end of a link
+	 (find-file-at-point)
+	 (save-excursion
+	   (backward-char 2)
+	   (find-file-at-point))))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
@@ -867,6 +871,7 @@
   (and (buffer-file-name)
     (file-exists-p (buffer-file-name))
     (reftex-parse-all))
+  (reftex-set-cite-format "[[note::%l][%l]]")
   (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
