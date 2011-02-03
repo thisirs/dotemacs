@@ -867,12 +867,12 @@
 
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
-  (load-library "reftex")
-  (and (buffer-file-name)
-    (file-exists-p (buffer-file-name))
-    (reftex-parse-all))
-  (reftex-set-cite-format "[[note::%l][%l]]")
-  (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
+  (when (and buffer-file-name
+	(file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
+    (load-library "reftex")
+    (reftex-parse-all)
+    (reftex-set-cite-format "[[note::%l][%l]]")
+    (define-key org-mode-map (kbd "C-c )") 'reftex-citation)))
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
 
