@@ -1039,9 +1039,12 @@
 
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
-  (if (string-match "\\.pdf$" (ad-get-arg 0))
-    (gnome-open (ad-get-arg 0))
-    ad-do-it))
+  (cond
+    ((string-match "\\.\\(ods\\|pdf\\)$" (ad-get-arg 0))
+      (gnome-open (ad-get-arg 0))
+      (message "Gnome-opening file..."))
+    (t
+      ad-do-it)))
 
 (ad-activate 'find-file)
 
