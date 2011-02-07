@@ -1651,6 +1651,7 @@ Indent each line of the list starting just after point."
 (setq kill-read-only-ok t)
 
 (defun note-org-bib-function (s)
+  "Insert Org entry for a given Bibtex id."
   (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
 	 pos)
     (save-excursion
@@ -1670,19 +1671,42 @@ Indent each line of the list starting just after point."
 	  (print year t)
 	  (goto-char (point-max))
 	  (or (bolp) (newline))
-	  (insert "* " year title author "\n")
+	  (insert "* " (clean-authors author) " - " year " - " title "\n")
 	  (insert "  :PROPERTIES:\n")
 	  (insert "  :BIB: <<" s ">>\n")
 	  (insert "  :END:\n")
 	  (insert "** Abstract\n"))))))
 
-(defun clean-authors (authors)
-  (let (case-fold-search (aut authors))
-    (setq aut (replace-regexp-in-string "[A-Z]\\." "" aut))
-    (setq aut (replace-regexp-in-string "\\<[a-z]+\\>" "" aut))
-    ))
 
-(clean-authors "Cai, J.F. and Candes, E.J. and Shen, Z.")
 (add-hook 'org-execute-file-search-functions 'note-org-bib-function)
-(replace-regexp-in-string "[A-Z]" "%" "A bb bb" t t)
-(string-match "[A-Z]" "12a")
+
+(defun clean-authors (authors-string)
+  "Take a BibTeX authors string and return comma separated surnames."
+  (mapconcat
+    (lambda (s)
+      (let* ((names (split-string s "[, \f\t\n\r\v]" t))
+	      (name (mapcar
+		      (lambda (ss)
+			(or
+			  (numberp (string-match "\\([A-Z]\\.\\)+" ss))
+			  ss))
+		      names)))
+	(cond
+	  ((eq (length name) 1)
+	    (elt name 0))
+	  ((and (eq (length name) 2) (memq t name))
+	    (if (eq t (elt name 0))
+	      (elt name 1)
+	      (elt name 0)))
+	  ((eq (length name) 2)
+	    (elt name 1))
+	  (t
+	    (elt name 2)))))
+    (split-string
+	(with-temp-buffer
+	  (insert (authors-string)
+	  (latex-accent)
+	  (buffer-string))
+	"\\<and\\>" t)
+    ", "))
+
