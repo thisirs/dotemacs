@@ -345,7 +345,9 @@
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
       ("Thèse"
-	(filename . "/media/THISKEY/Documents/Bibliographie/"))
+	(or
+	  (filename . "/media/THISKEY/Documents/Bibliographie/")
+	  (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
