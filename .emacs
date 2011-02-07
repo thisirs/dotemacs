@@ -730,6 +730,14 @@
 ;;; org-mode
 (require 'org-install)
 
+;; FIXME does it work?
+(add-hook 'org-mode-hook
+  (lambda ()
+    (org-set-local 'yas/trigger-key [tab])
+    (define-key yas/keymap [tab]
+      'yas/next-field-group)))
+
+
 (setq org-todo-keywords
   '("TODO" "|" "CANCELLED" "DONE"))
 
