@@ -1638,3 +1638,40 @@ Indent each line of the list starting just after point."
 
 ;; copy when in read only buffer
 (setq kill-read-only-ok t)
+
+(defun note-org-bib-function (s)
+  (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
+	 pos)
+    (save-excursion
+      (goto-char (point-min))
+      (and (re-search-forward
+	     (concat "<<" s0 ">>") nil t)
+	(setq pos (point))))
+    (cond
+      (pos (goto-char pos))
+      ((y-or-n-p "No match - create as a new article note? ")
+	(let (year title author)
+	  (with-current-buffer "refs.bib"
+	    (bibtex-search-crossref s)
+	    (setq year (or (bibtex-text-in-field "year") "not found"))
+	    (setq title (or (bibtex-text-in-field "title") "not found"))
+	    (setq author (or (bibtex-text-in-field "author") "not found")))
+	  (print year t)
+	  (goto-char (point-max))
+	  (or (bolp) (newline))
+	  (insert "* " year title author "\n")
+	  (insert "  :PROPERTIES:\n")
+	  (insert "  :BIB: <<" s ">>\n")
+	  (insert "  :END:\n")
+	  (insert "** Abstract\n"))))))
+
+(defun clean-authors (authors)
+  (let (case-fold-search (aut authors))
+    (setq aut (replace-regexp-in-string "[A-Z]\\." "" aut))
+    (setq aut (replace-regexp-in-string "\\<[a-z]+\\>" "" aut))
+    ))
+
+(clean-authors "Cai, J.F. and Candes, E.J. and Shen, Z.")
+(add-hook 'org-execute-file-search-functions 'note-org-bib-function)
+(replace-regexp-in-string "[A-Z]" "%" "A bb bb" t t)
+(string-match "[A-Z]" "12a")
