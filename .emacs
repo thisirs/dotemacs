@@ -235,8 +235,8 @@
   '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
       "#git-fr" "#emacsfr" "#linux-fr")))
 
-(setq erc-keywords '("magit" "and"))
 (erc-match-mode 1)
+(setq erc-keywords '("magit"))
 
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
