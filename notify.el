@@ -52,6 +52,7 @@ May be overridden with key-value additional arguments to `notify'.")
       (cond
         ((executable-find "growlnotify") 'notify-via-growl)
 	((and (require 'dbus nil t)
+	   (fboundp 'dbus-call-method)
 	   (dbus-ping :session "org.freedesktop.Notifications"))
 	  (defvar notify-id 0 "Current D-Bus notification id.")
 	  'notify-via-dbus)
