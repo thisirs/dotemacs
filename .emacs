@@ -247,7 +247,7 @@
 	    (or (erc-default-target) "#unknown"))
     ;; Remove duplicate spaces
     (cond
-      ((eq matched-type 'current-nick)
+      ((eq match-type 'current-nick)
 	"is talking about you!")
       (t
 	(replace-regexp-in-string " +" " " message)))
