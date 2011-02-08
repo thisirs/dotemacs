@@ -235,6 +235,27 @@
   '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
       "#git-fr" "#emacsfr" "#linux-fr")))
 
+(setq erc-keywords '("magit" "and"))
+(erc-match-mode 1)
+
+(defun my-notify-erc (match-type nickuserhost message)
+  "Notify when a message is received."
+  (notify (format "%s in %s"
+	    ;; Username of sender
+	    (car (split-string nickuserhost "!"))
+	    ;; Channel
+	    (or (erc-default-target) "#unknown"))
+    ;; Remove duplicate spaces
+    (cond
+      ((eq matched-type 'current-nick)
+	"is talking about you!")
+      (t
+	(replace-regexp-in-string " +" " " message)))
+	:icon "emacs-snapshot"
+	:timeout -1))
+
+(add-hook 'erc-text-matched-hook 'my-notify-erc)
+
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
 (setq erc-join-buffer 'bury)
