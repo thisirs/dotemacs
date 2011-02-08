@@ -130,9 +130,10 @@ May be overridden with key-value additional arguments to `notify'.")
 
 
 ;;;###autoload
-(defun notify (title body &rest args)
+(defun notify (title &optional body &rest args)
   "Notify TITLE, BODY via `notify-method'.
 ARGS may be amongst :timeout, :icon, :urgency, :app and :category."
+  (setq body (or body title))
   (when (time-less-p notify-delay
 	  (time-since notify-last-notification))
     (or (eq notify-method 'notify-via-message)
