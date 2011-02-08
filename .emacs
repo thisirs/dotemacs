@@ -1665,13 +1665,17 @@ Indent each line of the list starting just after point."
 	((y-or-n-p "No match - create as a new article note? ")
 	  (let (year title author)
 	    (with-current-buffer "refs.bib"
-	      (bibtex-search-crossref s)
-	      (setq year (or (bibtex-text-in-field "year") "not found"))
+	      (or (bibtex-search-crossref s)
+		(error "No BibTeX entry for %s!" s))
+	      (setq year (bibtex-text-in-field "year"))
 	      (setq title (or (bibtex-text-in-field "title") "not found"))
 	      (setq author (or (bibtex-text-in-field "author") "not found")))
 	    (goto-char (point-max))
 	    (or (bolp) (newline))
-	    (insert "* " (clean-authors author) " - " year " - "
+	    (insert "* "
+	      (clean-authors author)
+	      " - "
+	      (if year (concat year " - ") "")
 	      (replace-regexp-in-string "[{}]+" "" title) "\n")
 	    (insert "  :PROPERTIES:\n")
 	    (insert "  :BIB: <<" s ">>\n")
