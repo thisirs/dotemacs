@@ -1652,39 +1652,41 @@ Indent each line of the list starting just after point."
 
 (defun note-org-bib-function (s)
   "Insert Org entry for a given Bibtex id."
-  (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
-	 pos)
-    (save-excursion
-      (goto-char (point-min))
-      (and (re-search-forward
-	     (concat "<<" s0 ">>") nil t)
-	(setq pos (point))))
-    (cond
-      (pos (goto-char pos))
-      ((y-or-n-p "No match - create as a new article note? ")
-	(let (year title author)
-	  (with-current-buffer "refs.bib"
-	    (bibtex-search-crossref s)
-	    (setq year (or (bibtex-text-in-field "year") "not found"))
-	    (setq title (or (bibtex-text-in-field "title") "not found"))
-	    (setq author (or (bibtex-text-in-field "author") "not found")))
-	  (print year t)
-	  (goto-char (point-max))
-	  (or (bolp) (newline))
-	  (insert "* " (clean-authors author) " - " year " - " title "\n")
-	  (insert "  :PROPERTIES:\n")
-	  (insert "  :BIB: <<" s ">>\n")
-	  (insert "  :END:\n")
-	  (insert "** Abstract\n"))))))
+  (if (equal (file-name-nondirectory  buffer-file-name) "notes.org")
+    (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
+	   pos)
+      (save-excursion
+	(goto-char (point-min))
+	(and (re-search-forward
+	       (concat "<<" s0 ">>") nil t)
+	  (setq pos (point))))
+      (cond
+	(pos (goto-char pos))
+	((y-or-n-p "No match - create as a new article note? ")
+	  (let (year title author)
+	    (with-current-buffer "refs.bib"
+	      (bibtex-search-crossref s)
+	      (setq year (or (bibtex-text-in-field "year") "not found"))
+	      (setq title (or (bibtex-text-in-field "title") "not found"))
+	      (setq author (or (bibtex-text-in-field "author") "not found")))
+	    (goto-char (point-max))
+	    (or (bolp) (newline))
+	    (insert "* " (clean-authors author) " - " year " - "
+	      (replace-regexp-in-string "[{}]+" "" title) "\n")
+	    (insert "  :PROPERTIES:\n")
+	    (insert "  :BIB: <<" s ">>\n")
+	    (insert "  :END:\n")
+	    (insert "** Abstract\n")))))))
 
 
 (add-hook 'org-execute-file-search-functions 'note-org-bib-function)
+
 
 (defun clean-authors (authors-string)
   "Take a BibTeX authors string and return comma separated surnames."
   (mapconcat
     (lambda (s)
-      (let* ((names (split-string s "[, \f\t\n\r\v]" t))
+      (let* ((names (split-string s "[, \f\t\n\r\v]+" t))
 	      (name (mapcar
 		      (lambda (ss)
 			(or
@@ -1703,10 +1705,9 @@ Indent each line of the list starting just after point."
 	  (t
 	    (elt name 2)))))
     (split-string
-	(with-temp-buffer
-	  (insert (authors-string)
-	  (latex-accent)
-	  (buffer-string))
-	"\\<and\\>" t)
+      (with-temp-buffer
+	(insert authors-string)
+	(latex-accent)
+	(buffer-string))
+      "\\<and\\>" t)
     ", "))
-
