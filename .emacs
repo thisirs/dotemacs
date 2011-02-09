@@ -205,8 +205,8 @@
 
 ;; warn when untracked files, unpushed commits or changes
 (defun check-changes-or-unpushed ()
-  (or
-    (not
+  (and
+      ;; true if there is a *magit:xx* buffer with untracked...
       (memq nil
 	(mapcar
 	  (lambda (buf)
@@ -216,7 +216,7 @@
 			(goto-char (point-min))
 			(re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
 	  (buffer-list))))
-    (yes-or-no-p "Changes not committed or unpushed commits; exit anyway? ")))
+    (yes-or-no-p "Changes not committed or unpushed commits; save before leave? ")))
 
 
 (add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
