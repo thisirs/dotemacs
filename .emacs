@@ -15,8 +15,6 @@
 
 (require 'instant)
 
-(require 'notify-send)
-
 (require 'letter)
 
 ;; abandonne le minibuffer quand on le quitte
