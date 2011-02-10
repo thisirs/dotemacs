@@ -224,6 +224,9 @@
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
 
+;; notify events
+(autoload 'notify "notify" "Notify TITLE, BODY.")
+
 ;; erc
 ;; check channels
 (erc-track-mode t)
@@ -234,7 +237,7 @@
       "#git-fr" "#emacsfr" "#linux-fr")))
 
 (erc-match-mode 1)
-(setq erc-keywords '("magit"))
+(setq erc-keywords '("magit" "koans" "rubywarrior"))
 
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
@@ -243,14 +246,13 @@
 	    (car (split-string nickuserhost "!"))
 	    ;; Channel
 	    (or (erc-default-target) "#unknown"))
-    ;; Remove duplicate spaces
     (cond
       ((eq match-type 'current-nick)
-	"is talking about you!")
+	(if (string-"is talking about you!")
       (t
 	(replace-regexp-in-string " +" " " message)))
 	:icon "emacs-snapshot"
-	:timeout -1))
+	:timeout -1))))
 
 (add-hook 'erc-text-matched-hook 'my-notify-erc)
 
@@ -866,7 +868,7 @@
 
 (setq mark-holidays-in-calendar t)
 
-;; warning with appt and notify-send
+;; warning with appt and notify
 (setq
   appt-message-warning-time 15 ;; warn 15 min in advance
   appt-display-interval 1
@@ -881,7 +883,7 @@
 
 ;; our little façade-function for djcb-popup
 (defun appt-display (min-to-app new-time msg)
-  (notify-send (format "Appointment in %s minute(s)" min-to-app)
+  (notify (format "Appointment in %s minute(s)" min-to-app)
     msg
     "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
     "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
