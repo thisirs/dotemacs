@@ -134,14 +134,13 @@ May be overridden with key-value additional arguments to `notify'.")
 (defun notify (title &optional body &rest args)
   "Notify TITLE, BODY via `notify-method'.
 ARGS may be amongst :timeout, :icon, :urgency, :app and :category."
-  (setq body (or body title))
   (when (time-less-p notify-delay
 	  (time-since notify-last-notification))
     (or (eq notify-method 'notify-via-message)
       (keywords-to-properties 'notify-defaults args
 	notify-defaults))
     (setq notify-last-notification (current-time))
-    (funcall notify-method title body)))
+    (funcall notify-method title (or body title))))
 
 (provide 'notify)
 
