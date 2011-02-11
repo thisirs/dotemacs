@@ -1690,7 +1690,7 @@ Indent each line of the list starting just after point."
 	((y-or-n-p "No match - create as a new article note? ")
 	  (null (let (year title author)
 		  (with-current-buffer "refs.bib"
-		    (or (bibtex-search-crossref s)
+		    (or (bibtex-search-entry s)
 		      (error "No BibTeX entry for %s!" s))
 		    (setq year (bibtex-text-in-field "year"))
 		    (setq title (or (bibtex-text-in-field "title") "not found"))
