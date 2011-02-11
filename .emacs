@@ -1681,33 +1681,31 @@ Indent each line of the list starting just after point."
   "Insert Org entry for a given Bibtex id."
   (if (equal (file-name-nondirectory  buffer-file-name) "notes.org")
     (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
-	   pos)
-      (save-excursion
-	(goto-char (point-min))
-	(and (re-search-forward
-	       (concat "<<" s0 ">>") nil t)
-	  (setq pos (point))))
+	   (pos (car (org-map-entries '(point)
+		       (concat "BIB=\"" s "\"")))))
       (cond
-	(pos (goto-char pos))
+	(pos
+	  (goto-char pos)
+	  (null (show-children)))
 	((y-or-n-p "No match - create as a new article note? ")
-	  (let (year title author)
-	    (with-current-buffer "refs.bib"
-	      (or (bibtex-search-crossref s)
-		(error "No BibTeX entry for %s!" s))
-	      (setq year (bibtex-text-in-field "year"))
-	      (setq title (or (bibtex-text-in-field "title") "not found"))
-	      (setq author (or (bibtex-text-in-field "author") "not found")))
-	    (goto-char (point-max))
-	    (or (bolp) (newline))
-	    (insert "* "
-	      (clean-authors author)
-	      " - "
-	      (if year (concat year " - ") "")
-	      (replace-regexp-in-string "[{}]+" "" title) "\n")
-	    (insert "  :PROPERTIES:\n")
-	    (insert "  :BIB: <<" s ">>\n")
-	    (insert "  :END:\n")
-	    (insert "** Abstract\n")))))))
+	  (null (let (year title author)
+		  (with-current-buffer "refs.bib"
+		    (or (bibtex-search-crossref s)
+		      (error "No BibTeX entry for %s!" s))
+		    (setq year (bibtex-text-in-field "year"))
+		    (setq title (or (bibtex-text-in-field "title") "not found"))
+		    (setq author (or (bibtex-text-in-field "author") "not found")))
+		  (goto-char (point-max))
+		  (or (bolp) (newline))
+		  (insert "* "
+		    (clean-authors author)
+		    " - "
+		    (if year (concat year " - ") "")
+		    (replace-regexp-in-string "[{}]+" "" title) "\n"
+		    "  :PROPERTIES:\n"
+		    "  :BIB: " s "\n"
+		    "  :END:\n"
+		    "** Abstract\n"))))))))
 
 
 (add-hook 'org-execute-file-search-functions 'note-org-bib-function)
@@ -1725,14 +1723,18 @@ Indent each line of the list starting just after point."
 			  ss))
 		      names)))
 	(cond
+	  ;; Knuth, choosing Knuth
 	  ((eq (length name) 1)
 	    (elt name 0))
+	  ;; D. Knuth or Knuth D., choosing Knuth
 	  ((and (eq (length name) 2) (memq t name))
 	    (if (eq t (elt name 0))
 	      (elt name 1)
 	      (elt name 0)))
+	  ;; Donald Knuth, choosing Knuth
 	  ((eq (length name) 2)
 	    (elt name 1))
+	  ;; choose last
 	  (t
 	    (elt name 2)))))
     (split-string
