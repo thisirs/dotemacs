@@ -237,7 +237,7 @@
       "#git-fr" "#emacsfr" "#linux-fr" "#debianfr" "#org-mode-fr")))
 
 (erc-match-mode 1)
-(setq erc-keywords '("magit" "koans" "rubywarrior"))
+(setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
 
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
@@ -248,11 +248,17 @@
 	    (or (erc-default-target) "#unknown"))
     (cond
       ((eq match-type 'current-nick)
-	(if (string-"is talking about you!")
+	(if (string-match "^[Tt]hisirs" message)
+	  "is talking to you!"
+	  "is talking about you!"))
+      ((and (eq match-type 'keywords)
+	 (string-match "?" message))
+	(and (string-match "?$" message)
+	  (concat "is asking a question!\n" message)))
       (t
 	(replace-regexp-in-string " +" " " message)))
-	:icon "emacs-snapshot"
-	:timeout -1))))
+    :icon "emacs-snapshot"
+    :timeout -1))
 
 (add-hook 'erc-text-matched-hook 'my-notify-erc)
 
