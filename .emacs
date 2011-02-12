@@ -348,6 +348,7 @@
 (ad-activate 'ibuffer)
 
 (defun find-projects (dir)
+  "Return a list of all directories containing a not hidden git repo"
   (let ((list
 	  (and (file-directory-p (concat dir "/.git"))
 	    (not (file-exists-p (concat dir "/.hidden")))
@@ -357,15 +358,18 @@
 	(lambda (path)
 	  (if (file-directory-p path)
 	    (find-projects path)))
+	;; avoiding . and ..
 	(directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
 (defun make-ibuffer-projects-list (prefix dir)
+  "Return a list whose elements are of the form ((`prefixdir' (filename . `directory')"
   (mapcar
     (lambda (dir)
       (list (concat prefix (file-name-nondirectory dir))
 	 `(filename . ,dir)))
-    (reverse (find-projects dir))))
+    (and (file-directory-p dir)
+	  (nreverse (find-projects dir)))))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
