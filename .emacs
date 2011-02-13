@@ -759,7 +759,7 @@
      (color-theme-railscasts)))
 
 ;;; org-mode
-(require 'org-install)
+(require 'org)
 
 ;; FIXME does it work?
 (add-hook 'org-mode-hook
