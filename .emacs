@@ -221,6 +221,23 @@
 
 (add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
 
+
+;; auto-save with non-visiting buffer is too rigid
+(add-hook 'kill-emacs-hook
+  (lambda ()
+    "create a backup of scratch buffer"
+    (with-current-buffer "*scratch*"
+      (and (buffer-modified-p)
+        (write-file (let ((alist backup-directory-alist)
+                           elt backup-directory)
+                      (while alist
+                        (setq elt (pop alist))
+                        (if (string-match (car elt) "*scratch*")
+                          (setq backup-directory (cdr elt)
+                            alist nil)))
+                      (concat (file-name-as-directory
+                                backup-directory) "scratch-buffer-backup")))))))
+
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
 
