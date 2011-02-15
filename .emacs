@@ -97,8 +97,8 @@
       "-o $HOME/.locate.db")
     (lambda (process event)
       (message (if (string-match "^finished" event)
-		 "Locate database updated!"
-		 "Updating locate database failed!")))))
+                 "Locate database updated!"
+                 "Updating locate database failed!")))))
 
 ;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
@@ -206,17 +206,17 @@
 ;; warn when untracked files, unpushed commits or changes
 (defun check-changes-or-unpushed ()
   (not (and
-	 ;; true if there is a *magit:xx* buffer with untracked...
-	 (memq nil
-	   (mapcar
-	     (lambda (buf)
-	       (null (and (string-match "^\*magit:" (buffer-name buf))
-		       (with-current-buffer buf
-			 (save-excursion
-			   (goto-char (point-min))
-			   (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
-	     (buffer-list)))
-	 (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
+         ;; true if there is a *magit:xx* buffer with untracked...
+         (memq nil
+           (mapcar
+             (lambda (buf)
+               (null (and (string-match "^\*magit:" (buffer-name buf))
+                       (with-current-buffer buf
+                         (save-excursion
+                           (goto-char (point-min))
+                           (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
+             (buffer-list)))
+         (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
 
 
 (add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
@@ -259,21 +259,21 @@
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
   (notify (format "%s in %s"
-	    ;; Username of sender
-	    (car (split-string nickuserhost "!"))
-	    ;; Channel
-	    (or (erc-default-target) "#unknown"))
+            ;; Username of sender
+            (car (split-string nickuserhost "!"))
+            ;; Channel
+            (or (erc-default-target) "#unknown"))
     (cond
       ((eq match-type 'current-nick)
-	(if (string-match "^[Tt]hisirs" message)
-	  "is talking to you!"
-	  "is talking about you!"))
+        (if (string-match "^[Tt]hisirs" message)
+          "is talking to you!"
+          "is talking about you!"))
       ((and (eq match-type 'keywords)
-	 (string-match "?" message))
-	(and (string-match "?$" message)
-	  (concat "is asking a question!\n" message)))
+         (string-match "?" message))
+        (and (string-match "?$" message)
+          (concat "is asking a question!\n" message)))
       (t
-	(replace-regexp-in-string " +" " " message)))
+        (replace-regexp-in-string " +" " " message)))
     :icon "emacs-snapshot"
     :timeout -1))
 
@@ -367,16 +367,16 @@
 (defun find-projects (dir)
   "Return a list of all directories containing a not hidden git repo"
   (let ((list
-	  (and (file-directory-p (concat dir "/.git"))
-	    (not (file-exists-p (concat dir "/.hidden")))
-	    (cons dir nil))))
+          (and (file-directory-p (concat dir "/.git"))
+            (not (file-exists-p (concat dir "/.hidden")))
+            (cons dir nil))))
     (apply 'append list
       (mapcar
-	(lambda (path)
-	  (if (file-directory-p path)
-	    (find-projects path)))
-	;; avoiding . and ..
-	(directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
+        (lambda (path)
+          (if (file-directory-p path)
+            (find-projects path)))
+        ;; avoiding . and ..
+        (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
 (defun make-ibuffer-projects-list (prefix dir)
@@ -384,18 +384,18 @@
   (mapcar
     (lambda (dir)
       (list (concat prefix (file-name-nondirectory dir))
-	 `(filename . ,dir)))
+         `(filename . ,dir)))
     (and (file-directory-p dir)
-	  (nreverse (find-projects dir)))))
+          (nreverse (find-projects dir)))))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
       ,@(make-ibuffer-projects-list "Project: "
           (concat (getenv "HOME") "/dotemacs"))
       ("Thèse"
-	(or
-	  (filename . "/media/THISKEY/Documents/Bibliographie/")
-	  (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
+        (or
+          (filename . "/media/THISKEY/Documents/Bibliographie/")
+          (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
       ("ICIP article"
         (or
           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
@@ -408,7 +408,7 @@
       ("TeX/LaTeX"
         (or
           (mode . latex-mode)
-	  (name . "\\.bib$")
+          (name . "\\.bib$")
           (name . "\\.tex$")))
       ("Mail"
         (or
@@ -423,26 +423,26 @@
       ("Programming"
         (or
           (mode . c-mode)
-	  (mode . c++-mode)
+          (mode . c++-mode)
           (mode . perl-mode)
           (mode . python-mode)
           (mode . emacs-lisp-mode)
           (mode . ruby-mode)
           (mode . sh-mode)
-	  (mode . matlab-mode)
-	  (name . "^\\*scratch\\*$")
-	  (name . "^\\*Messages\\*$")
+          (mode . matlab-mode)
+          (name . "^\\*scratch\\*$")
+          (name . "^\\*Messages\\*$")
           ))
       ("ERC" (mode . erc-mode))
       ("crap" (name . "^\\*.*\\*$")))
      ("Elisp-mode"
        (".el.gz elisp files"
-	 (name . "\\.el\\.gz$"))
+         (name . "\\.el\\.gz$"))
        ("Elisp files"
-	   (mode . emacs-lisp-mode))
+           (mode . emacs-lisp-mode))
        ("Test"
-	 (name . "^\\*scratch\\*$")
-	 (name . "^\\*Messages\\*$")))))
+         (name . "^\\*scratch\\*$")
+         (name . "^\\*Messages\\*$")))))
 
 
 (add-hook 'ibuffer-mode-hook
@@ -526,7 +526,7 @@
   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
     (while (/= arg 0)
       (let ((this-win (window-buffer))
-	     (next-win (window-buffer (funcall selector))))
+             (next-win (window-buffer (funcall selector))))
         (set-window-buffer (selected-window) next-win)
         (set-window-buffer (funcall selector) this-win)
         (select-window (funcall selector)))
@@ -539,11 +539,11 @@
           (call-interactively 'describe-variable))
     ((function-called-at-point)
       (call-interactively 'describe-function))
-    (t (if (ffap-file-at-point)		;trick to ffap when point is at the end of a link
-	 (find-file-at-point)
-	 (save-excursion
-	   (backward-char 2)
-	   (find-file-at-point))))))
+    (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
+         (find-file-at-point)
+         (save-excursion
+           (backward-char 2)
+           (find-file-at-point))))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
@@ -830,12 +830,12 @@
 (defun deadline-from-now (days &optional deadline)
   "Construit la date de retour avec une deadline"
   (let ((time (format-time-string
-		(car org-time-stamp-formats)
-		(time-add (current-time) (days-to-time days)))))
+                (car org-time-stamp-formats)
+                (time-add (current-time) (days-to-time days)))))
     (if (integerp deadline)
       (concat
-	(substring time 0 -1)
-	" -" (format "%d" deadline) "d>")
+        (substring time 0 -1)
+        " -" (format "%d" deadline) "d>")
     time)))
 
 (define-key global-map "\C-cc" 'org-capture)
@@ -853,14 +853,14 @@
     "Compute DATE face for holidays."
     (unless (org-agenda-todayp date)
       (dolist (file (org-agenda-files nil 'ifmode))
-	(let ((face
-		(dolist (entry (org-agenda-get-day-entries file date))
-		  (let ((category (with-temp-buffer
-				    (insert entry)
-				    (org-get-category (point-min)))))
-		    (when (string= "Vacances" category)
-		      (return 'org-agenda-date-weekend))))))
-	  (when face (return face)))))))
+        (let ((face
+                (dolist (entry (org-agenda-get-day-entries file date))
+                  (let ((category (with-temp-buffer
+                                    (insert entry)
+                                    (org-get-category (point-min)))))
+                    (when (string= "Vacances" category)
+                      (return 'org-agenda-date-weekend))))))
+          (when face (return face)))))))
 
 ;; Ne mettre qu'une seule étoile devant les titres
 ;; FIXME marche pas quand on change le color-theme
@@ -926,7 +926,7 @@
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
   (when (and buffer-file-name
-	(file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
+        (file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
     (load-library "reftex")
     (reftex-parse-all)
     (reftex-set-cite-format "[[note::%l][%l]]")
@@ -999,8 +999,8 @@
   (interactive)
   (ispell-change-dictionary
     (if (string=
-	  (or ispell-local-dictionary ispell-dictionary)
-	  "fr")
+          (or ispell-local-dictionary ispell-dictionary)
+          "fr")
       "en" "fr"))
   (when flyspell-mode
     (flyspell-delete-all-overlays)
@@ -1252,11 +1252,11 @@
   (lambda (elt)
     (define-key dired-sort-map (car elt)
       `(lambda ()
-	(interactive)
-	(dired-sort-other
-	  (concat dired-listing-switches
-	    (unless (string-match "-r" dired-actual-switches)
-	      " -r") ,(cadr elt))))))
+        (interactive)
+        (dired-sort-other
+          (concat dired-listing-switches
+            (unless (string-match "-r" dired-actual-switches)
+              " -r") ,(cadr elt))))))
   '(("n" "")
      ("x" " -X")
      ("s" " -S")
@@ -1627,17 +1627,17 @@ Indent each line of the list starting just after point."
 ;;     (progn
 ;;       (he-init-string (he-dabbrev-beg) (point))
 ;;       (setq he-expand-list
-;; 	(and (not (equal he-search-string ""))
-;; 	  (mapcar (function (lambda (sym)
-;; 			      (if (and (boundp sym) (vectorp (eval sym)))
-;; 				(abbrev-expansion (downcase he-search-string)
-;; 				  (eval sym)))))
-;; 	    (append '(local-abbrev-table
-;; 		       global-abbrev-table)
-;; 	      abbrev-table-name-list))))))
+;;      (and (not (equal he-search-string ""))
+;;        (mapcar (function (lambda (sym)
+;;                            (if (and (boundp sym) (vectorp (eval sym)))
+;;                              (abbrev-expansion (downcase he-search-string)
+;;                                (eval sym)))))
+;;          (append '(local-abbrev-table
+;;                     global-abbrev-table)
+;;            abbrev-table-name-list))))))
 ;;   (while (and he-expand-list
-;; 	   (or (not (car he-expand-list))
-;; 	     (he-string-member (car he-expand-list) he-tried-table t)))
+;;         (or (not (car he-expand-list))
+;;           (he-string-member (car he-expand-list) he-tried-table t)))
 ;;     (setq he-expand-list (cdr he-expand-list)))
 ;;   (if (null he-expand-list)
 ;;     (progn
@@ -1654,8 +1654,8 @@ Indent each line of the list starting just after point."
 ;; (process-send-string ispell-process (concat "^" word "\n"))
 ;; ;; wait until ispell has processed word
 ;; (while (progn
-;; 	 (accept-process-output ispell-process)
-;; 	 (not (string= "" (car ispell-filter)))))
+;;       (accept-process-output ispell-process)
+;;       (not (string= "" (car ispell-filter)))))
 ;; (setq ispell-filter (cdr ispell-filter))
 ;; (if (consp ispell-filter)
 ;;   (setq poss (ispell-parse-output (car ispell-filter))))
@@ -1674,10 +1674,10 @@ Indent each line of the list starting just after point."
   (let ((cmd (pcomplete-arg 'first)))
     (cond
       ((member (substring cmd 0 -1)
-	(pcomplete-erc-nicks))
+        (pcomplete-erc-nicks))
       "NICKLIST")
       ((eq (elt cmd 0) ?/)
-	(upcase (substring cmd 1)))
+        (upcase (substring cmd 1)))
       (t "SAY"))))
 
 (defun is-nick-p (nick)
@@ -1686,12 +1686,12 @@ Indent each line of the list starting just after point."
 
 (defun pcomplete/erc-mode/NICKLIST ()
   (while (and (pcomplete-test 'is-nick-p)
-	   (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
+           (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
     (let ((start erc-input-marker))
       (save-excursion
-	(goto-char (pcomplete-begin 0))
-	(while (re-search-backward ": " start t)
-	  (replace-match ", "))))
+        (goto-char (pcomplete-begin 0))
+        (while (re-search-backward ": " start t)
+          (replace-match ", "))))
     (pcomplete-here (pcomplete-erc-nicks ": ")))
   (while (pcomplete-here (pcomplete-erc-nicks))))
 
@@ -1702,31 +1702,31 @@ Indent each line of the list starting just after point."
   "Insert Org entry for a given Bibtex id."
   (if (equal (file-name-nondirectory  buffer-file-name) "notes.org")
     (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
-	   (pos (car (org-map-entries '(point)
-		       (concat "BIB=\"" s "\"")))))
+           (pos (car (org-map-entries '(point)
+                       (concat "BIB=\"" s "\"")))))
       (cond
-	(pos
-	  (goto-char pos)
-	  (null (show-children)))
-	((y-or-n-p "No match - create as a new article note? ")
-	  (null (let (year title author)
-		  (with-current-buffer "refs.bib"
-		    (or (bibtex-search-entry s)
-		      (error "No BibTeX entry for %s!" s))
-		    (setq year (bibtex-text-in-field "year"))
-		    (setq title (or (bibtex-text-in-field "title") "not found"))
-		    (setq author (or (bibtex-text-in-field "author") "not found")))
-		  (goto-char (point-max))
-		  (or (bolp) (newline))
-		  (insert "* "
-		    (clean-authors author)
-		    " - "
-		    (if year (concat year " - ") "")
-		    (replace-regexp-in-string "[{}]+" "" title) "\n"
-		    "  :PROPERTIES:\n"
-		    "  :BIB: " s "\n"
-		    "  :END:\n"
-		    "** Abstract\n"))))))))
+        (pos
+          (goto-char pos)
+          (null (show-children)))
+        ((y-or-n-p "No match - create as a new article note? ")
+          (null (let (year title author)
+                  (with-current-buffer "refs.bib"
+                    (or (bibtex-search-entry s)
+                      (error "No BibTeX entry for %s!" s))
+                    (setq year (bibtex-text-in-field "year"))
+                    (setq title (or (bibtex-text-in-field "title") "not found"))
+                    (setq author (or (bibtex-text-in-field "author") "not found")))
+                  (goto-char (point-max))
+                  (or (bolp) (newline))
+                  (insert "* "
+                    (clean-authors author)
+                    " - "
+                    (if year (concat year " - ") "")
+                    (replace-regexp-in-string "[{}]+" "" title) "\n"
+                    "  :PROPERTIES:\n"
+                    "  :BIB: " s "\n"
+                    "  :END:\n"
+                    "** Abstract\n"))))))))
 
 
 (add-hook 'org-execute-file-search-functions 'note-org-bib-function)
@@ -1737,31 +1737,31 @@ Indent each line of the list starting just after point."
   (mapconcat
     (lambda (s)
       (let* ((names (split-string s "[, \f\t\n\r\v]+" t))
-	      (name (mapcar
-		      (lambda (ss)
-			(or
-			  (numberp (string-match "\\([A-Z]\\.\\)+" ss))
-			  ss))
-		      names)))
-	(cond
-	  ;; Knuth, choosing Knuth
-	  ((eq (length name) 1)
-	    (elt name 0))
-	  ;; D. Knuth or Knuth D., choosing Knuth
-	  ((and (eq (length name) 2) (memq t name))
-	    (if (eq t (elt name 0))
-	      (elt name 1)
-	      (elt name 0)))
-	  ;; Donald Knuth, choosing Knuth
-	  ((eq (length name) 2)
-	    (elt name 1))
-	  ;; choose last
-	  (t
-	    (elt name 2)))))
+              (name (mapcar
+                      (lambda (ss)
+                        (or
+                          (numberp (string-match "\\([A-Z]\\.\\)+" ss))
+                          ss))
+                      names)))
+        (cond
+          ;; Knuth, choosing Knuth
+          ((eq (length name) 1)
+            (elt name 0))
+          ;; D. Knuth or Knuth D., choosing Knuth
+          ((and (eq (length name) 2) (memq t name))
+            (if (eq t (elt name 0))
+              (elt name 1)
+              (elt name 0)))
+          ;; Donald Knuth, choosing Knuth
+          ((eq (length name) 2)
+            (elt name 1))
+          ;; choose last
+          (t
+            (elt name 2)))))
     (split-string
       (with-temp-buffer
-	(insert authors-string)
-	(latex-accent)
-	(buffer-string))
+        (insert authors-string)
+        (latex-accent)
+        (buffer-string))
       "\\<and\\>" t)
     ", "))
