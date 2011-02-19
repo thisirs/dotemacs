@@ -1570,7 +1570,6 @@
 (global-set-key (kbd "M-s") 'backward-kill-word)
 
 
-
 (defun my-reindent-then-newline-and-indent-and-indent-sexp ()
   "Reindent current line, insert newline, then indent the new line.
 Move backward out of one level of parentheses.
@@ -1580,12 +1579,6 @@ Indent each line of the list starting just after point."
   (save-excursion
     (backward-up-list)
     (indent-sexp)))
-
-;; redo support, yay
-;; (require 'redo)
-;; (global-set-key (kbd "C-ç") 'redo)
-
-
 
 (setq Info-default-directory-list
   (append
