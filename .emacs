@@ -384,9 +384,9 @@
   (mapcar
     (lambda (dir)
       (list (concat prefix (file-name-nondirectory dir))
-         `(filename . ,dir)))
+	`(filename . ,dir)))
     (and (file-directory-p dir)
-          (nreverse (find-projects dir)))))
+      (nreverse (find-projects dir)))))
 
 (setq ibuffer-saved-filter-groups
   `(("default"
@@ -439,7 +439,7 @@
        (".el.gz elisp files"
          (name . "\\.el\\.gz$"))
        ("Elisp files"
-           (mode . emacs-lisp-mode))
+	 (mode . emacs-lisp-mode))
        ("Test"
          (name . "^\\*scratch\\*$")
          (name . "^\\*Messages\\*$")))))
@@ -836,7 +836,7 @@
       (concat
         (substring time 0 -1)
         " -" (format "%d" deadline) "d>")
-    time)))
+      time)))
 
 (define-key global-map "\C-cc" 'org-capture)
 
@@ -875,11 +875,11 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-(setq org-agenda-files (list "~/Dropbox/Org/agenda.org"
-                         "~/Dropbox/Org/someday.org"
-                         "~/Dropbox/Org/specialdays.org"
-                         "~/Dropbox/Org/books.org"
-                         ))
+(setq org-agenda-files
+  '("~/Dropbox/Org/agenda.org"
+     "~/Dropbox/Org/someday.org"
+     "~/Dropbox/Org/specialdays.org"
+     "~/Dropbox/Org/books.org"))
 
 (setq calendar-holidays
   '((holiday-fixed 1 1 "Nouvel an")
@@ -901,6 +901,7 @@
   appt-display-interval 1
   appt-display-mode-line t     ;; show in the modeline
   appt-display-format 'window) ;; use our func
+
 (appt-activate 1)              ;; active appt (appointment notification)
 (display-time)                 ;; time display is required for this...
 
@@ -926,7 +927,7 @@
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
   (when (and buffer-file-name
-        (file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
+	  (file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
     (load-library "reftex")
     (reftex-parse-all)
     (reftex-set-cite-format "[[note::%l][%l]]")
@@ -1148,25 +1149,23 @@
 ;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
 (require 'recentf)
 (recentf-mode 1)
+
 (setq recentf-arrange-by-rules-min-items 0
   recentf-arrange-by-rule-others nil
   recentf-arrange-rules
-  '
-  (
-    ("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-    ("Ruby files (%d)" ".\\.rb$")
-    ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-    ("Java files (%d)" ".\\.java$")
-    ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-    ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-    ("Configuration files (%d)" "rc$\\|/\\.")
-    ("Ada files (%d)" ".\\.ad[sb]$")
-    ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-    ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-    ("Documentation (%d)" "/doc/")
-    ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-    ("Lisp files (%d)" ".\\.lisp$")
-    )
+  '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+     ("Ruby files (%d)" ".\\.rb$")
+     ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+     ("Java files (%d)" ".\\.java$")
+     ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+     ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+     ("Configuration files (%d)" "rc$\\|/\\.")
+     ("Ada files (%d)" ".\\.ad[sb]$")
+     ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+     ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+     ("Documentation (%d)" "/doc/")
+     ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+     ("Lisp files (%d)" ".\\.lisp$"))
   recentf-max-saved-items 50
   recentf-max-menu-items 30
   recentf-menu-path nil
@@ -1178,8 +1177,7 @@
                      ".log$"
                      "^/tmp/")
   recentf-menu-filter 'recentf-arrange-by-rule
-  recentf-menu-title "Recentf"
-  )
+  recentf-menu-title "Recentf")
 
 ;; (defun recentf-interactive-complete ()
 ;;   "find a file in the recently open file using ido for completion"
@@ -1251,12 +1249,12 @@
 (mapc
   (lambda (elt)
     (define-key dired-sort-map (car elt)
-      `(lambda ()
-        (interactive)
-        (dired-sort-other
-          (concat dired-listing-switches
-            (unless (string-match "-r" dired-actual-switches)
-              " -r") ,(cadr elt))))))
+      (lambda ()
+	(interactive)
+	(dired-sort-other
+	  (concat dired-listing-switches
+	    (unless (string-match "-r" dired-actual-switches)
+	      " -r") ,(cadr elt))))))
   '(("n" "")
      ("x" " -X")
      ("s" " -S")
@@ -1281,8 +1279,7 @@
 
 (defun change-to-utf-8 ()
   (interactive)
-  (set-buffer-file-coding-system 'utf-8-unix)
-  )
+  (set-buffer-file-coding-system 'utf-8-unix))
 
 
 (global-set-key [(f2)] 'change-to-utf-8)
@@ -1674,8 +1671,8 @@ Indent each line of the list starting just after point."
   (let ((cmd (pcomplete-arg 'first)))
     (cond
       ((member (substring cmd 0 -1)
-        (pcomplete-erc-nicks))
-      "NICKLIST")
+	 (pcomplete-erc-nicks))
+	"NICKLIST")
       ((eq (elt cmd 0) ?/)
         (upcase (substring cmd 1)))
       (t "SAY"))))
