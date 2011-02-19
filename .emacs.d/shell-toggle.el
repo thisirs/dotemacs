@@ -149,7 +149,7 @@ the directory of the current buffer.
 Call twice in a row to get a full screen window for the shell buffer.
 
 When called in the shell buffer returns you to the buffer you were editing
-before caling the first time.
+before calling the first time.
 
 Options: `shell-toggle-goto-eob'"
   (interactive "P")
@@ -192,7 +192,7 @@ start a new shell and switch to it in other window.  If argument MAKE-CD is
 non-nil, insert a \"cd DIR\" command into the shell, where DIR is the directory
 of the current buffer.
 
-Stores the window configuration before creating and/or switching window."
+Stores the window confitguration before creating and/or switching window."
   (setq shell-toggle-pre-shell-win-conf
     (current-window-configuration))
   (run-hooks 'shell-toggle-leave-buffer-hook)
@@ -200,13 +200,17 @@ Stores the window configuration before creating and/or switching window."
 	 (cd-command
 	   ;; Find out which directory we are in (the method differs for
 	   ;; different buffers)
-	   (or (and make-cd
-		 (buffer-file-name)
-		 (file-name-directory (buffer-file-name))
-		 (concat "cd \"" (file-name-directory (buffer-file-name)) "\""))
-	     (and make-cd
-	       list-buffers-directory
-	       (concat "cd \"" list-buffers-directory "\"")))))
+	   (with-current-buffer
+	     (if (eq last-command 'other-window)
+	       (other-buffer)
+	       (current-buffer))
+	     (or (and make-cd
+		   (buffer-file-name)
+		   (file-name-directory (buffer-file-name))
+		   (concat "cd \"" (file-name-directory (buffer-file-name)) "\""))
+	       (and make-cd
+		 list-buffers-directory
+		 (concat "cd \"" list-buffers-directory "\""))))))
 
     ;; Switch to an existing shell if one exists, otherwise switch to another
     ;; window and start a new shell
