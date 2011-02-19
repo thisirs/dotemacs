@@ -1053,49 +1053,6 @@
      (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
-  (interactive "P")
-  (let ((n 0))
-    (save-excursion
-      (mapc
-        (lambda (e)
-	  (let ((beg
-		  (if (region-active-p)
-		    (region-beginning)
-		    (point-min)))
-		 (end
-		   (if (region-active-p)
-		     (region-end)
-		     (point-max)))
-		 (from
-		   (if escape (car e) (cdr e)))
-		 (to
-		   (if escape (cdr e) (car e))))
-	    (goto-char beg)
-	    (while (search-forward from end t)
-	      (replace-match to nil t)
-	      (setq n (+ 1 n)))))
-	'(("\\'{e}" . "é")
-	   ("\\'e" . "é")
-	   ("\\`{e}" . "è")
-	   ("\\`e" . "è")
-	   ("\\`{a}" . "à")
-	   ("\\`a" . "à")
-	   ("\\`{u}" . "ù")
-	   ("\\`u" . "ù")
-	   ("\\^{e}" . "ê")
-	   ("\\^e" . "ê")
-	   ("\\^{o}" . "ô")
-	   ("\\^o" . "ô")
-	   ("\\^{u}" . "û")
-	   ("\\^u" . "û")
-	   ("\\\"{i}" . "ï")
-	   ("\\\"i" . "ï")
-	   ("\\c{c}" . "ç")
-	   ("\\^{i}" . "î")
-	   ("\\^i" . "î"))))
-    (message "Replaced %d occurences" n)))
-
-(defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
   escaping, the first element of a list is preferred when there
   is a list. When any prefix argument, unescape accented
@@ -1129,20 +1086,7 @@
 	   (("\\^u" "\\^{u}") . "û")
 	   (("\\\"i" "\\\"{i}") . "ï")
 	   ("\\c{c}" . "ç")
-	   (("\\^i" "\\^{i}") . "î")
-	   ("\`{o}" "ò")
-	   ("\'{o}" "ó")
-	   ("\"{o}" "ö")
-	   ("\H{o}" "ő")
-	   ("\~{o}" "õ")
-	   ("\k{a}" "ą")
-	   ("\l" "ł")
-	   ("\={o}" "ō")
-	   ("\.{o}" "ȯ")
-	   ("\d{u}" "ụ")
-	   ("\r{a}" "å")
-	   ("\u{o}" "ŏ")
-	   ("\v{s}" "š"))))
+	   (("\\^i" "\\^{i}") . "î"))))
     (message "Replaced %d occurences" n)))
 
 ;; bookmarks
