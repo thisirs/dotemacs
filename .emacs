@@ -244,7 +244,7 @@
 ;; notify events
 (autoload 'notify "notify" "Notify TITLE, BODY.")
 
-;; erc
+;;; erc
 ;; check channels
 (erc-track-mode t)
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
@@ -273,7 +273,7 @@
         (and (string-match "?$" message)
           (concat "is asking a question!\n" message)))
       (t
-        (replace-regexp-in-string " +" " " message)))
+        (replace-regexp-in-string "[\t\n ]+" " " message)))
     :icon "emacs-snapshot"
     :timeout -1))
 
