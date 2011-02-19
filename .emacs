@@ -236,7 +236,7 @@
                           (setq backup-directory (cdr elt)
                             alist nil)))
                       (concat (file-name-as-directory
-                                backup-directory) "scratch-buffer-backup")))))))
+                                backup-directory) "scratch-buffer-backup.el")))))))
 
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
@@ -1700,3 +1700,5 @@ Indent each line of the list starting just after point."
 ;; copy when in read only buffer
 (setq kill-read-only-ok t)
 
+(require 'epa)
+(epa-file-enable)
