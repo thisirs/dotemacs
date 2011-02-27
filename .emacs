@@ -789,6 +789,9 @@
 (setq org-todo-keywords
   '("TODO" "|" "CANCELLED" "DONE"))
 
+;; no recursive todo in agenda
+(setq org-agenda-todo-list-sublevels nil)
+
 (setq org-capture-templates
   '(("t" "Todo" entry
       (file+headline "~/Dropbox/Org/someday.org" "Tâches")
