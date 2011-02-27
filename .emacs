@@ -929,7 +929,8 @@
   'org-babel-load-languages
   '((emacs-lisp . t)
      (latex . t) ; this is the entry to activate LaTeX
-     (sh . t)))
+     (sh . t)
+     (ruby . t)))
 
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
