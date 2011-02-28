@@ -91,10 +91,11 @@
   (interactive)
   (set-process-sentinel
     (start-process-shell-command "updatedb process" nil
-      "updatedb -l 0"
-      "-U /media/THISKEY/"
-      "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
-      "-o $HOME/.locate.db")
+      (concat
+	"updatedb -l 0"
+	"-U /media/THISKEY/"
+	"--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+	"-o $HOME/.locate.db"))
     (lambda (process event)
       (message (if (string-match "^finished" event)
                  "Locate database updated!"
@@ -330,9 +331,9 @@
   (lambda ()
     (setq fill-column 76)                       ; where auto-fill should wrap
     (turn-on-auto-fill)
-    (setq matlab-functions-have-end t)
-    (setq matlab-indent-function-body t)
-    (setq matlab-indent-function t)))
+    (setq-default matlab-functions-have-end t)
+    (setq-default matlab-indent-function-body t)
+    (setq-default matlab-indent-function t)))
 
 ;; history navigation
 (eval-after-load "comint"
@@ -900,7 +901,7 @@
      (holiday-float 5 0 -1 "Fête des mères")
      (holiday-float 6 0 3 "Fête des pères")))
 
-(setq mark-holidays-in-calendar t)
+(setq calendar-mark-holidays-flag t)
 
 ;; warning with appt and notify
 (setq
@@ -1267,7 +1268,7 @@
 	(dired-sort-other
 	  (concat dired-listing-switches
 	    (unless (string-match "-r" dired-actual-switches)
-	      " -r") ,(cadr elt))))))
+	      " -r") (cadr elt))))))
   '(("n" "")
      ("x" " -X")
      ("s" " -S")
@@ -1671,6 +1672,7 @@ Indent each line of the list starting just after point."
 ;;   ((null poss)
 ;;     ;; ispell error
 ;;     (error "Ispell: error in Ispell process"))
+
 
 (defun pcomplete-erc-command-name ()
   "Returns the command name of the first argument."
