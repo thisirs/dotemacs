@@ -1337,7 +1337,7 @@
   interprogram-paste-function            ; ...with...
   'x-cut-buffer-or-selection-value)      ; ...other X clients
 
-;; quit, no prompt
+;; don't warn when quitting emacs with running processes
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
   (flet ((process-list ())) ad-do-it))
