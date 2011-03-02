@@ -176,6 +176,7 @@
   '("*Completions*"
      "*anything for files*"
      "*anything find-file*"
+     "*anything complete*"
      "*Ibuffer*"
      "*Calendar*"
      "*anything*"))
