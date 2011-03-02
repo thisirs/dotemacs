@@ -92,9 +92,9 @@
   (set-process-sentinel
     (start-process-shell-command "updatedb process" nil
       (concat
-	"updatedb -l 0"
-	"-U /media/THISKEY/"
-	"--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+	"updatedb -l 0 "
+	"-U /media/THISKEY/ "
+	"--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\" "
 	"-o $HOME/.locate.db"))
     (lambda (process event)
       (message (if (string-match "^finished" event)
