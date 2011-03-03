@@ -946,6 +946,7 @@
     (define-key org-mode-map (kbd "C-c )") 'reftex-citation)))
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
+(require 'org-bib-workflow)
 
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
