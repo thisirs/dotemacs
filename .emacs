@@ -1717,23 +1717,21 @@ Indent each line of the list starting just after point."
 (defun ibuffer-previous-saved-filter-groups ()
   (interactive)
   (ibuffer-next-saved-filter-groups-aux
-    (nreverse ibuffer-saved-filter-groups)))
+    (reverse ibuffer-saved-filter-groups)))
 
 (defun ibuffer-next-saved-filter-groups-aux (list)
   (if (null ibuffer-saved-filter-groups)
     (error "No saved filters"))
-  (let ((next-filter-group))
-    (while (and (null next-filter-group) list)
-      (if (equal ibuffer-filter-groups (cdr (car list)))
-	(setq next-filter-group (car (car list))))
-	(setq list (cdr list)))
-    (setq list (or list ibuffer-saved-filter-groups))
-    (setq ibuffer-filter-groups	(cdr (car list)))
-    (message "Switched to \"%s\" filter group!" (car (car list))))
+  (let ((next-filter-group) (list0 list))
+    (while (and (null next-filter-group) list0)
+      (if (equal ibuffer-filter-groups (cdr (car list0)))
+	(setq next-filter-group (car (car list0))))
+	(setq list0 (cdr list0)))
+    (setq list0 (or list0 list))
+    (setq ibuffer-filter-groups	(cdr (car list0)))
+    (message "Switched to \"%s\" filter group!" (car (car list0))))
   (setq ibuffer-hidden-filter-groups nil)
   (ibuffer-update nil t))
 
-
-
-(global-set-key (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
-
+(define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
+(define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
