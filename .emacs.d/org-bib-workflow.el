@@ -63,7 +63,7 @@
     (split-string
       (with-temp-buffer
         (insert authors-string)
-        (latex-accent)
+	(latex-escape-or-unescape-accented-characters t)
         (buffer-string))
       "\\<and\\>" t)
     ", "))
