@@ -210,14 +210,15 @@
 (defun check-changes-or-unpushed ()
   (not (and
          ;; true if there is a *magit:xx* buffer with untracked...
-         (memq nil
+         (memq t
            (mapcar
              (lambda (buf)
-               (null (and (string-match "^\*magit:" (buffer-name buf))
-                       (with-current-buffer buf
-                         (save-excursion
-                           (goto-char (point-min))
-                           (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t))))))
+               (and (string-match "^\*magit:" (buffer-name buf))
+		 (with-current-buffer buf
+		   (save-excursion
+		     (goto-char (point-min))
+		     (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t)))
+		 t))
              (buffer-list)))
          (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
 
