@@ -647,21 +647,32 @@
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
 
+(defun insert-in-scratch-buffer (string)
+  (with-current-buffer (get-buffer-create "*scratch*")
+    (save-excursion
+      (goto-char (point-max))
+      (and (not (bolp)) (insert "\n"))
+      (insert
+        (with-temp-buffer
+          (insert (mapconcat
+                    'identity
+                    (split-string string "\n\n")
+                    " "))
+          (let ((fill-colunm 70)
+                 (fill-prefix ";; "))
+            (goto-char (point-min))
+            (insert ";; ")
+            (fill-region (point-min) (point-max)))
+          (buffer-string))))))
+
+
 (set-process-filter
   (start-process-shell-command
     "msg in scratch buffer"
     nil
     "ruby ~/Dropbox/VDM.rb -p aleatoire")
   (lambda (process string)
-    (with-current-buffer "*scratch*"
-      (save-excursion
-        (goto-char (point-max))
-        (insert
-          (with-temp-buffer
-            (insert (concat ";; " string))
-            (let ((fill-prefix ";; "))
-              (fill-region (point-min) (point-max))
-              (buffer-string))))))))
+    (insert-in-scratch-buffer string)))
 
 ;; override the default function....
 (defun emacs-session-filename (SESSION-ID)
