@@ -30,21 +30,21 @@
   (interactive "p")
   (let ((tramp-prefix "/sudo::"))
     (if (and
-          (= arg 1)
-          (buffer-file-name)
-          (not (string-match "^/sudo::" buffer-file-name)))
-      (find-alternate-file (concat "/sudo::" buffer-file-name))
+         (= arg 1)
+         (buffer-file-name)
+         (not (string-match "^/sudo::" buffer-file-name)))
+        (find-alternate-file (concat "/sudo::" buffer-file-name))
       (find-file (concat "/sudo::"
-                   (ido-read-file-name "File: "))))))
+                         (ido-read-file-name "File: "))))))
 
 (defun find-temp-file (extension)
   "quick find file in /tmp"
   (interactive "sExtension: ")
   (cond
-    ((equal (length extension) 0) (find-file (make-temp-file "foo")))
-    ((memq ?. (string-to-list extension))
-      (find-file (concat "/tmp/" extension)))
-    (t (find-file (concat (make-temp-file "foo") "." extension)))))
+   ((equal (length extension) 0) (find-file (make-temp-file "foo")))
+   ((memq ?. (string-to-list extension))
+    (find-file (concat "/tmp/" extension)))
+   (t (find-file (concat (make-temp-file "foo") "." extension)))))
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
@@ -74,15 +74,15 @@
 (defun my-anything ()
   (interactive)
   (anything-other-buffer
-    '(anything-c-source-ffap-line
-       anything-c-source-ffap-guesser
-       anything-c-source-buffers+
-       anything-c-source-recentf
-       anything-c-source-bookmarks
-       anything-c-source-file-cache
-       anything-c-source-files-in-current-dir+
-       anything-c-source-locate-thiskey
-       anything-c-source-locate) "*anything for files*"))
+   '(anything-c-source-ffap-line
+     anything-c-source-ffap-guesser
+     anything-c-source-buffers+
+     anything-c-source-recentf
+     anything-c-source-bookmarks
+     anything-c-source-file-cache
+     anything-c-source-files-in-current-dir+
+     anything-c-source-locate-thiskey
+     anything-c-source-locate) "*anything for files*"))
 
 (define-key anything-command-map (kbd "f") 'my-anything)
 
@@ -90,17 +90,19 @@
   "Update locate databases"
   (interactive)
   (set-process-sentinel
-    (start-process-shell-command "updatedb process" nil
-      (mapconcat 'identity
-	'("updatedb -l 0"
-	   "-U /media/THISKEY/"
-	   "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
-	   "-o $HOME/.locate.db")
-	" "))
-    (lambda (process event)
-      (message (if (string-match "^finished" event)
-                 "Locate database updated!"
-                 "Updating locate database failed!")))))
+   (start-process-shell-command
+    "updatedb process" nil
+    (mapconcat
+     'identity
+     '("updatedb -l 0"
+       "-U /media/THISKEY/"
+       "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+       "-o $HOME/.locate.db")
+     " "))
+   (lambda (process event)
+     (message (if (string-match "^finished" event)
+                  "Locate database updated!"
+                "Updating locate database failed!")))))
 
 ;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
@@ -108,42 +110,42 @@
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command "locate-thiskey-process" nil
-    (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
-      anything-pattern)))
+                               (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
+                                       anything-pattern)))
 
 (defvar anything-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
-     (candidates . anything-c-locate-thiskey-init)
-     (type . file)
-     (requires-pattern . 3)
-     (delayed))
+    (candidates . anything-c-locate-thiskey-init)
+    (type . file)
+    (requires-pattern . 3)
+    (delayed))
   "Find files matching the current input pattern with locate.")
 
 (defun anything-translate ()
   (interactive)
   (anything-other-buffer
-    '(anything-c-source-google-translate) "*anything translate*"))
+   '(anything-c-source-google-translate) "*anything translate*"))
 
 
 (defvar anything-c-source-google-translate
   '((name . "Google translate")
-     (dummy)
-     (delayed)
-     (filtered-candidate-transformer . (lambda (candidates source)
-                                         (anything-c-google-translate)))))
+    (dummy)
+    (delayed)
+    (filtered-candidate-transformer . (lambda (candidates source)
+                                        (anything-c-google-translate)))))
 
 
 (defun anything-c-google-translate ()
   (let ((request
-          (concat
-            "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
-            (url-hexify-string anything-pattern)
-            "&langpair=fr%7Cen")))
+         (concat
+          "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
+          (url-hexify-string anything-pattern)
+          "&langpair=fr%7Cen")))
     (with-temp-buffer
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
       (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-        (list (match-string 1))
+          (list (match-string 1))
         nil))))
 
 (define-key anything-command-map (kbd "t") 'anything-translate)
@@ -163,7 +165,7 @@
   "Switch to boss windows configuration"
   (interactive)
   (if (equal (current-window-configuration) boss-window-configuration)
-    (set-window-configuration my-window-configuration)
+      (set-window-configuration my-window-configuration)
     (setq my-window-configuration (current-window-configuration))
     (set-window-configuration boss-window-configuration)))
 
@@ -174,14 +176,16 @@
 ;; winner-mode
 (winner-mode 1)
 (setq winner-boring-buffers
-  '("*Completions*"
-     "*anything for files*"
-     "*anything find-file*"
-     "*anything complete*"
-     "*Ibuffer*"
-     "*Calendar*"
-     "*anything*"))
+      '("*Completions*"
+        "*anything for files*"
+        "*anything find-file*"
+        "*anything complete*"
+        "*Ibuffer*"
+        "*Calendar*"
+        "*anything*"))
 
+
+(setq indent-tabs-mode nil)
 
 ;; M-RET to keep writing comments, clashes with auctex mode
 ;; (global-set-key (kbd "M-RET") comment-line-break-function)
@@ -209,18 +213,18 @@
 ;; warn when untracked files, unpushed commits or changes
 (defun check-changes-or-unpushed ()
   (not (and
-         ;; true if there is a *magit:xx* buffer with untracked...
-         (memq t
-           (mapcar
-             (lambda (buf)
-               (and (string-match "^\*magit:" (buffer-name buf))
-		 (with-current-buffer buf
-		   (save-excursion
-		     (goto-char (point-min))
-		     (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t)))
-		 t))
-             (buffer-list)))
-         (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
+        ;; true if there is a *magit:xx* buffer with untracked...
+        (memq t
+              (mapcar
+               (lambda (buf)
+                 (and (string-match "^\*magit:" (buffer-name buf))
+                      (with-current-buffer buf
+                        (save-excursion
+                          (goto-char (point-min))
+                          (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t)))
+                      t))
+               (buffer-list)))
+        (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
 
 
 (add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
@@ -228,20 +232,20 @@
 
 ;; auto-save with non-visiting buffer is too rigid
 (add-hook 'kill-emacs-hook
-  (lambda ()
-    "create a backup of scratch buffer"
-    (and (get-buffer "*scratch*")
-      (with-current-buffer "*scratch*"
-	(and (buffer-modified-p)
-	  (write-file (let ((alist backup-directory-alist)
-			     elt backup-directory)
-			(while alist
-			  (setq elt (pop alist))
-			  (if (string-match (car elt) "*scratch*")
-			    (setq backup-directory (cdr elt)
-			      alist nil)))
-			(concat (file-name-as-directory
-				  backup-directory) "scratch-buffer-backup.el"))))))))
+          (lambda ()
+            "create a backup of scratch buffer"
+            (and (get-buffer "*scratch*")
+                 (with-current-buffer "*scratch*"
+                   (and (buffer-modified-p)
+                        (write-file (let ((alist backup-directory-alist)
+                                          elt backup-directory)
+                                      (while alist
+                                        (setq elt (pop alist))
+                                        (if (string-match (car elt) "*scratch*")
+                                            (setq backup-directory (cdr elt)
+                                                  alist nil)))
+                                      (concat (file-name-as-directory
+                                               backup-directory) "scratch-buffer-backup.el"))))))))
 
 ;; suit les liens vers système de contrôles de versions
 (setq vc-follow-symlinks t)
@@ -253,10 +257,10 @@
 ;; check channels
 (erc-track-mode t)
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                 "324" "329" "332" "333" "353" "477"))
+                                "324" "329" "332" "333" "353" "477"))
 (setq erc-autojoin-channels-alist
-  '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
-      "#git-fr" "#emacsfr" "#linux-fr" "#debianfr" "#org-mode-fr")))
+      '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
+         "#git-fr" "#emacsfr" "#linux-fr" "#debianfr" "#org-mode-fr")))
 
 (erc-match-mode 1)
 (setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
@@ -264,23 +268,23 @@
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
   (notify (format "%s in %s"
-            ;; Username of sender
-            (car (split-string nickuserhost "!"))
-            ;; Channel
-            (or (erc-default-target) "#unknown"))
-    (cond
-      ((eq match-type 'current-nick)
-        (if (string-match "^[Tt]hisirs" message)
-          "is talking to you!"
-          "is talking about you!"))
-      ((and (eq match-type 'keywords)
-         (string-match "?" message))
-        (and (string-match "?$" message)
-          (concat "is asking a question!\n" message)))
-      (t
-        (replace-regexp-in-string "[\t\n ]+" " " message)))
-    :icon "emacs-snapshot"
-    :timeout -1))
+                  ;; Username of sender
+                  (car (split-string nickuserhost "!"))
+                  ;; Channel
+                  (or (erc-default-target) "#unknown"))
+          (cond
+           ((eq match-type 'current-nick)
+            (if (string-match "^[Tt]hisirs" message)
+                "is talking to you!"
+              "is talking about you!"))
+           ((and (eq match-type 'keywords)
+                 (string-match "?" message))
+            (and (string-match "?$" message)
+                 (concat "is asking a question!\n" message)))
+           (t
+            (replace-regexp-in-string "[\t\n ]+" " " message)))
+          :icon "emacs-snapshot"
+          :timeout -1))
 
 (add-hook 'erc-text-matched-hook 'my-notify-erc)
 
@@ -292,7 +296,7 @@
   "Connect to ERC, or switch to last active buffer"
   (interactive)
   (if (get-buffer "irc.freenode.net:6667") ;; ERC already active?
-    (erc-track-switch-buffer 1) ;; yes: switch to last active
+      (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (y-or-n-p "Start ERC? ") ;; no: maybe start ERC
       (erc :server "irc.freenode.net" :port 6667 :nick "thisirs"))))
 
@@ -318,7 +322,7 @@
 (defun rename-current-file-or-buffer ()
   (interactive)
   (if (not (buffer-file-name))
-    (call-interactively 'rename-buffer)
+      (call-interactively 'rename-buffer)
     (let ((file (buffer-file-name)))
       (with-temp-buffer
         (set-buffer (dired-noselect file))
@@ -332,12 +336,12 @@
 (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
 (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 (add-hook 'matlab-mode-hook
-  (lambda ()
-    (setq fill-column 76)                       ; where auto-fill should wrap
-    (turn-on-auto-fill)
-    (setq-default matlab-functions-have-end t)
-    (setq-default matlab-indent-function-body t)
-    (setq-default matlab-indent-function t)))
+          (lambda ()
+            (setq fill-column 76)                       ; where auto-fill should wrap
+            (turn-on-auto-fill)
+            (setq-default matlab-functions-have-end t)
+            (setq-default matlab-indent-function-body t)
+            (setq-default matlab-indent-function t)))
 
 ;; history navigation
 (eval-after-load "comint"
@@ -356,8 +360,8 @@
   (interactive)
   (setq th/current-buffer (1+ th/current-buffer))
   (ibuffer-jump-to-buffer
-    (buffer-name
-      (nth th/current-buffer (buffer-list)))))
+   (buffer-name
+    (nth th/current-buffer (buffer-list)))))
 
 (define-key ibuffer-mode-map [(control ?b)] 'ibuffer-next-buffer)
 
@@ -372,104 +376,104 @@
 (defun find-projects (dir)
   "Return a list of all directories containing a not hidden git repo"
   (let ((list
-          (and (file-directory-p (concat dir "/.git"))
-            (not (file-exists-p (concat dir "/.hidden")))
-            (cons dir nil))))
+         (and (file-directory-p (concat dir "/.git"))
+              (not (file-exists-p (concat dir "/.hidden")))
+              (cons dir nil))))
     (apply 'append list
-      (mapcar
-        (lambda (path)
-          (if (file-directory-p path)
-            (find-projects path)))
-        ;; avoiding . and ..
-        (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
+           (mapcar
+            (lambda (path)
+              (if (file-directory-p path)
+                  (find-projects path)))
+            ;; avoiding . and ..
+            (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
 (defun make-ibuffer-projects-list (prefix dir)
   "Return a list whose elements are of the form ((`prefixdir' (filename . `directory')"
   (mapcar
-    (lambda (dir)
-      (list (concat prefix (file-name-nondirectory dir))
-	`(filename . ,dir)))
-    (and (file-directory-p dir)
-      (nreverse (find-projects dir)))))
+   (lambda (dir)
+     (list (concat prefix (file-name-nondirectory dir))
+           `(filename . ,dir)))
+   (and (file-directory-p dir)
+        (nreverse (find-projects dir)))))
 
 (setq ibuffer-saved-filter-groups
-  `(("default"
-      ,@(make-ibuffer-projects-list "Project: "
-          (concat (getenv "HOME") "/dotemacs"))
-      ("Thèse"
-        (or
-          (filename . "/media/THISKEY/Documents/Bibliographie/")
-          (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
-      ("ICIP article"
-        (or
-          (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
-          (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
-      ("TP IMAGE 2010/2011"
-        (or
-          (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/")))
-      ("Org"
-        (mode . org-mode))
-      ("TeX/LaTeX"
-        (or
-          (mode . latex-mode)
-          (name . "\\.bib$")
-          (name . "\\.tex$")))
-      ("Mail"
-        (or
-          (mode . message-mode)
-          (mode . mail-mode)
-          ))
-      ("Dired"
-        (mode . dired-mode)
-        )
-      ("THISKEY's programming"
-        (filename . "/media/THISKEY/programming/"))
-      ("Programming"
-        (or
-          (mode . c-mode)
-          (mode . c++-mode)
-          (mode . perl-mode)
-          (mode . python-mode)
-          (mode . emacs-lisp-mode)
-          (mode . ruby-mode)
-          (mode . sh-mode)
-          (mode . matlab-mode)
+      `(("default"
+         ,@(make-ibuffer-projects-list "Project: "
+                                       (concat (getenv "HOME") "/dotemacs"))
+         ("Thèse"
+          (or
+           (filename . "/media/THISKEY/Documents/Bibliographie/")
+           (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
+         ("ICIP article"
+          (or
+           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
+           (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
+         ("TP IMAGE 2010/2011"
+          (or
+           (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/")))
+         ("Org"
+          (mode . org-mode))
+         ("TeX/LaTeX"
+          (or
+           (mode . latex-mode)
+           (name . "\\.bib$")
+           (name . "\\.tex$")))
+         ("Mail"
+          (or
+           (mode . message-mode)
+           (mode . mail-mode)
+           ))
+         ("Dired"
+          (mode . dired-mode)
+          )
+         ("THISKEY's programming"
+          (filename . "/media/THISKEY/programming/"))
+         ("Programming"
+          (or
+           (mode . c-mode)
+           (mode . c++-mode)
+           (mode . perl-mode)
+           (mode . python-mode)
+           (mode . emacs-lisp-mode)
+           (mode . ruby-mode)
+           (mode . sh-mode)
+           (mode . matlab-mode)
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$")
+           ))
+         ("ERC" (mode . erc-mode))
+         ("crap" (name . "^\\*.*\\*$")))
+        ("Elisp-mode"
+         (".el.gz elisp files"
+          (name . "\\.el\\.gz$"))
+         ("Elisp files"
+          (mode . emacs-lisp-mode))
+         ("Test"
           (name . "^\\*scratch\\*$")
-          (name . "^\\*Messages\\*$")
-          ))
-      ("ERC" (mode . erc-mode))
-      ("crap" (name . "^\\*.*\\*$")))
-     ("Elisp-mode"
-       (".el.gz elisp files"
-         (name . "\\.el\\.gz$"))
-       ("Elisp files"
-	 (mode . emacs-lisp-mode))
-       ("Test"
-         (name . "^\\*scratch\\*$")
-         (name . "^\\*Messages\\*$")))))
+          (name . "^\\*Messages\\*$")))))
 
 
 (add-hook 'ibuffer-mode-hook
-  (lambda ()
-    (ibuffer-switch-to-saved-filter-groups "default")))
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; indenter automatiquement le code collé :
 (defadvice yank (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                            lisp-mode c-mode c++-mode objc-mode
-                            latex-mode plain-tex-mode
-                            python-mode))
-    (indent-region (region-beginning) (region-end) nil)))
+                                     lisp-mode c-mode c++-mode objc-mode
+                                     latex-mode plain-tex-mode
+                                     python-mode))
+      (indent-region (region-beginning) (region-end) nil)))
 
 (defadvice yank-pop (after indent-region activate)
   (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                            lisp-mode c-mode c++-mode objc-mode
-                            latex-mode plain-tex-mode
-                            python-mode))
-    (indent-region (region-beginning) (region-end) nil)))
+                                     lisp-mode c-mode c++-mode objc-mode
+                                     latex-mode plain-tex-mode
+                                     python-mode))
+      (indent-region (region-beginning) (region-end) nil)))
 
 
 
@@ -478,14 +482,14 @@
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive
-    (cond
-      (mark-active (list (region-beginning) (region-end)))
-      ((looking-at "[])}]") (message "group copied!")
-        (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-      ((looking-at "[[({]") (message "group copied!")
-        (list (point) (save-excursion (forward-list))))
-      (t (message "line copied!") (list (line-beginning-position)
-                                    (line-beginning-position 2)))))
+   (cond
+    (mark-active (list (region-beginning) (region-end)))
+    ((looking-at "[])}]") (message "group copied!")
+     (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+    ((looking-at "[[({]") (message "group copied!")
+     (list (point) (save-excursion (forward-list))))
+    (t (message "line copied!") (list (line-beginning-position)
+                                      (line-beginning-position 2)))))
   (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
 
 
@@ -494,14 +498,14 @@
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
-    (cond
-      (mark-active (list (region-beginning) (region-end)))
-      ((looking-at "[])}]")
-        (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-      ((looking-at "[[({]")
-        (list (point) (save-excursion (forward-list))))
-      (t (list (line-beginning-position)
-           (line-beginning-position 2)))))
+   (cond
+    (mark-active (list (region-beginning) (region-end)))
+    ((looking-at "[])}]")
+     (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
+    ((looking-at "[[({]")
+     (list (point) (save-excursion (forward-list))))
+    (t (list (line-beginning-position)
+             (line-beginning-position 2)))))
   (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
 
 
@@ -509,18 +513,18 @@
 ;; d'indentations si besoin
 (defadvice kill-line (before check-position activate)
   (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
-                            c-mode c++-mode objc-mode
-                            latex-mode plain-tex-mode
-                            ruby-mode python-mode))
-    (if (and (eolp) (not (bolp)))
-      (progn (forward-char 1)
-        (just-one-space 0)
-        (backward-char 1)))))
+                                           c-mode c++-mode objc-mode
+                                           latex-mode plain-tex-mode
+                                           ruby-mode python-mode))
+      (if (and (eolp) (not (bolp)))
+          (progn (forward-char 1)
+                 (just-one-space 0)
+                 (backward-char 1)))))
 
 (defun my-beginning-of-line ()
   (interactive)
   (if (bolp)
-    (beginning-of-line-text)
+      (beginning-of-line-text)
     (beginning-of-line)))
 
 (global-set-key (kbd "C-a") 'my-beginning-of-line)
@@ -531,7 +535,7 @@
   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
     (while (/= arg 0)
       (let ((this-win (window-buffer))
-             (next-win (window-buffer (funcall selector))))
+            (next-win (window-buffer (funcall selector))))
         (set-window-buffer (selected-window) next-win)
         (set-window-buffer (funcall selector) this-win)
         (select-window (funcall selector)))
@@ -541,23 +545,23 @@
   "Find variable, function or file at point."
   (interactive)
   (cond ((not (eq (variable-at-point) 0))
-          (call-interactively 'describe-variable))
-    ((function-called-at-point)
-      (call-interactively 'describe-function))
-    (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
-         (find-file-at-point)
-         (save-excursion
-           (backward-char 2)
-           (find-file-at-point))))))
+         (call-interactively 'describe-variable))
+        ((function-called-at-point)
+         (call-interactively 'describe-function))
+        (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
+               (find-file-at-point)
+             (save-excursion
+               (backward-char 2)
+               (find-file-at-point))))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
 ;; quick bind to f1 to try out
 (defmacro bind-to-f1 (&rest prog)
   `(global-set-key [f1]
-     (lambda ()
-       (interactive)
-       ,@prog)))
+                   (lambda ()
+                     (interactive)
+                     ,@prog)))
 
 
 ;; Put the cursor in an intelligent place when searching
@@ -565,9 +569,9 @@
 (defun custom-goto-match-beginning ()
   "Use with isearch hook to end search at first char of match"
   (and isearch-forward
-    (not mark-active)
-    (not isearch-mode-end-hook-quit)
-    (goto-char isearch-other-end)))
+       (not mark-active)
+       (not isearch-mode-end-hook-quit)
+       (goto-char isearch-other-end)))
 
 ;; occur mode
 (define-key isearch-mode-map (kbd "C-o")
@@ -636,12 +640,12 @@
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
 (setq
-  uniquify-buffer-name-style 'post-forward-angle-brackets
-  uniquify-after-kill-buffer-p t)
+ uniquify-buffer-name-style 'post-forward-angle-brackets
+ uniquify-after-kill-buffer-p t)
 
 ;; put something different in the scratch buffer
 (setq initial-scratch-message
-  ";; scratch buffer created -- happy hacking\n\n")
+      ";; scratch buffer created -- happy hacking\n\n")
 
 ;; override the default function....
 (defun emacs-session-filename (SESSION-ID)
@@ -649,23 +653,23 @@
 
 ;; backups
 (setq make-backup-files t ;; do make backups
-  ;;  backup-by-copying t     ;; and copy them here
-  backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
-  version-control t
-  kept-new-versions 2
-  kept-old-versions 5
-  delete-old-versions t)
+      ;;  backup-by-copying t     ;; and copy them here
+      backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
+      version-control t
+      kept-new-versions 2
+      kept-old-versions 5
+      delete-old-versions t)
 
 (setq auto-save-list-file-prefix
-  "~/.emacs.d/cache/auto-save-list/.saves-")
+      "~/.emacs.d/cache/auto-save-list/.saves-")
 (setq auto-save-file-name-transforms
-  `((".*" ,temporary-file-directory t)))
+      `((".*" ,temporary-file-directory t)))
 
 ;; ouverture rapide avec la touche windows
 (global-set-key (kbd "s-s s") ;; scratch
-  (lambda () (interactive) (switch-to-buffer "*scratch*")))
+                (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-  (lambda () (interactive) (find-file "~/.emacs")))
+                (lambda () (interactive) (find-file "~/.emacs")))
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
@@ -673,16 +677,16 @@
 
 ;; split screen and switch to it!
 (global-set-key (kbd "C-x 3")
-  (lambda nil
-    (interactive)
-    (split-window-horizontally)
-    (other-window 1)))
+                (lambda nil
+                  (interactive)
+                  (split-window-horizontally)
+                  (other-window 1)))
 
 (global-set-key (kbd "C-x 2")
-  (lambda nil
-    (interactive)
-    (split-window-vertically)
-    (other-window 1)))
+                (lambda nil
+                  (interactive)
+                  (split-window-vertically)
+                  (other-window 1)))
 
 ;;; desktop-mode
 ;; save a list of open files in ~/.emacs.desktop
@@ -693,24 +697,24 @@
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
 (setq desktop-globals-to-save
-  (append '((extended-command-history . 30)
-             (file-name-history        . 100)
-             (grep-history             . 30)
-             (compile-history          . 30)
-             (minibuffer-history       . 50)
-             (query-replace-history    . 60)
-             (read-expression-history  . 60)
-             (regexp-history           . 60)
-             (regexp-search-ring       . 20)
-             (search-ring              . 20)
-             (shell-command-history    . 50)
-             tags-file-name
-             register-alist)))
+      (append '((extended-command-history . 30)
+                (file-name-history        . 100)
+                (grep-history             . 30)
+                (compile-history          . 30)
+                (minibuffer-history       . 50)
+                (query-replace-history    . 60)
+                (read-expression-history  . 60)
+                (regexp-history           . 60)
+                (regexp-search-ring       . 20)
+                (search-ring              . 20)
+                (shell-command-history    . 50)
+                tags-file-name
+                register-alist)))
 
 (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
 (setq desktop-buffers-not-to-save
-  (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
-    "\\)$"))
+      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
+              "\\)$"))
 
 (add-to-list 'desktop-modes-not-to-save 'dired-mode)
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
@@ -728,52 +732,52 @@
 (defun color-theme-railscasts ()
   (interactive)
   (color-theme-install
-    '(color-theme-railscasts
-       ((background-color . "#232323")
-         (background-mode . dark)
-         (cursor-color . "#5A647E")
-         (foreground-color . "#E6E1DC"))
-       (default ((t (nil))))
-       (bold ((t (:bold t))))
-       (bold-italic ((t (:italic t :bold t))))
-       (fringe ((t (:background "#232323"))))
-       (font-lock-builtin-face ((t (:foreground "#D0D0FF"))))
-       (font-lock-comment-face ((t (:foreground "#BC9458" :italic t))))
-       (font-lock-constant-face ((t (:foreground "#6D9CBE"))))
-       (font-lock-doc-string-face ((t (:foreground "#A5C261"))))
-       (font-lock-function-name-face ((t (:foreground "#FFC66D"))))
-       (font-lock-keyword-face ((t (:foreground "#CC7833"))))
-       (font-lock-preprocessor-face ((t (:foreground "#CC7833"))))
-       (font-lock-reference-face ((t (:foreground "LightSteelBlue"))))
-       (font-lock-string-face ((t (:foreground "#A5C261"))))
-       (font-lock-type-face ((t (:foreground "white"))))
-       (font-lock-variable-name-face ((t (:foreground "LightSteelBlue"))))
-       (font-lock-warning-face ((t (:foreground "Pink"))))
-       (paren-face-match-light ((t (:foreground "#FFC66D" :background "#555577"))))
-       (highlight ((t (:background "darkolivegreen"))))
-       (italic ((t (:italic t))))
-       (modeline ((t (:background "#A5BAF1" :foreground "black"))))
-       (modeline-buffer-id ((t (:background "#A5BAF1" :foreground
-                                 "black"))))
-       (modeline-mousable ((t (:background "#A5BAF1" :foreground
-                                "black"))))
-       (modeline-mousable-minor-mode ((t (:background
-                                           "#A5BAF1" :foreground "black"))))
-       (region ((t (:background "#555577"))))
-       (primary-selection ((t (:background "#555577"))))
-       (isearch ((t (:background "#555555"))))
-       (zmacs-region ((t (:background "#555577"))))
-       (secondary-selection ((t (:background "darkslateblue"))))
-       (flymake-errline ((t (:background "LightSalmon" :foreground
-                              "black"))))
-       (flymake-warnline ((t (:background "LightSteelBlue" :foreground
-                               "black"))))
-       (underline ((t (:underline t))))
-       (minibuffer-prompt ((t (:bold t :foreground "#FF6600"))))
-       ;; two org-mode faces
-       (org-document-info-keyword ((t (:foreground "#BC9458" :bold t))))
-       (org-document-title ((t (:foreground "#BC9458" :bold t))))
-       )))
+   '(color-theme-railscasts
+     ((background-color . "#232323")
+      (background-mode . dark)
+      (cursor-color . "#5A647E")
+      (foreground-color . "#E6E1DC"))
+     (default ((t (nil))))
+     (bold ((t (:bold t))))
+     (bold-italic ((t (:italic t :bold t))))
+     (fringe ((t (:background "#232323"))))
+     (font-lock-builtin-face ((t (:foreground "#D0D0FF"))))
+     (font-lock-comment-face ((t (:foreground "#BC9458" :italic t))))
+     (font-lock-constant-face ((t (:foreground "#6D9CBE"))))
+     (font-lock-doc-string-face ((t (:foreground "#A5C261"))))
+     (font-lock-function-name-face ((t (:foreground "#FFC66D"))))
+     (font-lock-keyword-face ((t (:foreground "#CC7833"))))
+     (font-lock-preprocessor-face ((t (:foreground "#CC7833"))))
+     (font-lock-reference-face ((t (:foreground "LightSteelBlue"))))
+     (font-lock-string-face ((t (:foreground "#A5C261"))))
+     (font-lock-type-face ((t (:foreground "white"))))
+     (font-lock-variable-name-face ((t (:foreground "LightSteelBlue"))))
+     (font-lock-warning-face ((t (:foreground "Pink"))))
+     (paren-face-match-light ((t (:foreground "#FFC66D" :background "#555577"))))
+     (highlight ((t (:background "darkolivegreen"))))
+     (italic ((t (:italic t))))
+     (modeline ((t (:background "#A5BAF1" :foreground "black"))))
+     (modeline-buffer-id ((t (:background "#A5BAF1" :foreground
+                                          "black"))))
+     (modeline-mousable ((t (:background "#A5BAF1" :foreground
+                                         "black"))))
+     (modeline-mousable-minor-mode ((t (:background
+                                        "#A5BAF1" :foreground "black"))))
+     (region ((t (:background "#555577"))))
+     (primary-selection ((t (:background "#555577"))))
+     (isearch ((t (:background "#555555"))))
+     (zmacs-region ((t (:background "#555577"))))
+     (secondary-selection ((t (:background "darkslateblue"))))
+     (flymake-errline ((t (:background "LightSalmon" :foreground
+                                       "black"))))
+     (flymake-warnline ((t (:background "LightSteelBlue" :foreground
+                                        "black"))))
+     (underline ((t (:underline t))))
+     (minibuffer-prompt ((t (:bold t :foreground "#FF6600"))))
+     ;; two org-mode faces
+     (org-document-info-keyword ((t (:foreground "#BC9458" :bold t))))
+     (org-document-title ((t (:foreground "#BC9458" :bold t))))
+     )))
 
 (eval-after-load "color-theme"
   '(progn
@@ -788,66 +792,66 @@
   (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
 
 (add-hook 'org-mode-hook
-  (lambda ()
-    ;; yasnippet (using the new org-cycle hooks)
-    (make-variable-buffer-local 'yas/trigger-key)
-    (setq yas/trigger-key [tab])
-    (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-    (define-key yas/keymap [tab] 'yas/next-field)))
+          (lambda ()
+            ;; yasnippet (using the new org-cycle hooks)
+            (make-variable-buffer-local 'yas/trigger-key)
+            (setq yas/trigger-key [tab])
+            (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+            (define-key yas/keymap [tab] 'yas/next-field)))
 
 (setq org-todo-keywords
-  '("TODO" "|" "CANCELLED" "DONE"))
+      '("TODO" "|" "CANCELLED" "DONE"))
 
 ;; no recursive todo in agenda
 (setq org-agenda-todo-list-sublevels nil)
 
 (setq org-capture-templates
-  '(("t" "Todo" entry
-      (file+headline "~/Dropbox/Org/someday.org" "Tâches")
-      "* TODO %?\n  OPENED: %U")
-     ("p" "Programming" entry
-       (file+headline "~/Dropbox/Org/someday.org" "Programming")
-       "* TODO %?\n  OPENED: %U")
-     ("e" "Event" entry
-       (file+headline "~/Dropbox/Org/agenda.org" "Divers")
-       "* EVENT %?")
-     ("qu" "Quote" entry
-       (file+headline "~/Dropbox/Org/quotes.org" "")
-       "* %^{description}%?\n  OPENED: %U")
-     ("a" "Anniv" entry
-       (file+headline "~/Dropbox/Org/specialdays.org" "")
-       "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
-     ("f" "Phone calls")
-     ("fr" "Received phone calls" entry
-       (file+headline "~/Dropbox/Org/phonecalls.org" "Received")
-       "* Received phone call:\n  at %U\n  from %?")
-     ("fm" "Made phone calls" entry
-       (file+headline "~/Dropbox/Org/phonecalls.org" "Made")
-       "* Made phone call:\n  at %U\n  to %?")
-     ("b" "Livres empruntés")
-     ("bu" "Bibliothèque Universitaire" entry
-       (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(deadline-from-now 28 4)")
-     ("bl" "Bibliothèque du labo" entry
-       (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-       "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(deadline-from-now 365 4)")))
+      '(("t" "Todo" entry
+         (file+headline "~/Dropbox/Org/someday.org" "Tâches")
+         "* TODO %?\n  OPENED: %U")
+        ("p" "Programming" entry
+         (file+headline "~/Dropbox/Org/someday.org" "Programming")
+         "* TODO %?\n  OPENED: %U")
+        ("e" "Event" entry
+         (file+headline "~/Dropbox/Org/agenda.org" "Divers")
+         "* EVENT %?")
+        ("qu" "Quote" entry
+         (file+headline "~/Dropbox/Org/quotes.org" "")
+         "* %^{description}%?\n  OPENED: %U")
+        ("a" "Anniv" entry
+         (file+headline "~/Dropbox/Org/specialdays.org" "")
+         "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
+        ("f" "Phone calls")
+        ("fr" "Received phone calls" entry
+         (file+headline "~/Dropbox/Org/phonecalls.org" "Received")
+         "* Received phone call:\n  at %U\n  from %?")
+        ("fm" "Made phone calls" entry
+         (file+headline "~/Dropbox/Org/phonecalls.org" "Made")
+         "* Made phone call:\n  at %U\n  to %?")
+        ("b" "Livres empruntés")
+        ("bu" "Bibliothèque Universitaire" entry
+         (file+headline "~/Dropbox/Org/books.org" "Empruntés")
+         "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(deadline-from-now 28 4)")
+        ("bl" "Bibliothèque du labo" entry
+         (file+headline "~/Dropbox/Org/books.org" "Empruntés")
+         "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(deadline-from-now 365 4)")))
 
 (defun add-days (date1 days)
   "Add `days' days to `date'"
   (decode-time
-    (time-add
-      (apply 'encode-time (org-parse-time-string date1))
-      (days-to-time days))))
+   (time-add
+    (apply 'encode-time (org-parse-time-string date1))
+    (days-to-time days))))
 
 (defun deadline-from-now (days &optional deadline)
   "Construit la date de retour avec une deadline"
   (let ((time (format-time-string
-                (car org-time-stamp-formats)
-                (time-add (current-time) (days-to-time days)))))
+               (car org-time-stamp-formats)
+               (time-add (current-time) (days-to-time days)))))
     (if (integerp deadline)
-      (concat
-        (substring time 0 -1)
-        " -" (format "%d" deadline) "d>")
+        (concat
+         (substring time 0 -1)
+         " -" (format "%d" deadline) "d>")
       time)))
 
 (define-key global-map "\C-cc" 'org-capture)
@@ -855,28 +859,28 @@
 
 ;; icons in agenda
 (setq org-agenda-category-icon-alist
-  '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
-     ("Books" "~/.emacs.d/icons/book.png" nil nil :ascent center)
-     ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
-     ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
-     ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
-     ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
-     ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
-     ("" '(space . (:height (16) :width (16))))))
+      '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
+        ("Books" "~/.emacs.d/icons/book.png" nil nil :ascent center)
+        ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
+        ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
+        ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
+        ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
+        ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
+        ("" '(space . (:height (16) :width (16))))))
 
 (setq org-agenda-day-face-function
-  (defun jd:org-agenda-day-face-holidays-function (date)
-    "Compute DATE face for holidays."
-    (unless (org-agenda-todayp date)
-      (dolist (file (org-agenda-files nil 'ifmode))
-        (let ((face
-                (dolist (entry (org-agenda-get-day-entries file date))
-                  (let ((category (with-temp-buffer
-                                    (insert entry)
-                                    (org-get-category (point-min)))))
-                    (when (string= "Vacances" category)
-                      (return 'org-agenda-date-weekend))))))
-          (when face (return face)))))))
+      (defun jd:org-agenda-day-face-holidays-function (date)
+        "Compute DATE face for holidays."
+        (unless (org-agenda-todayp date)
+          (dolist (file (org-agenda-files nil 'ifmode))
+            (let ((face
+                   (dolist (entry (org-agenda-get-day-entries file date))
+                     (let ((category (with-temp-buffer
+                                       (insert entry)
+                                       (org-get-category (point-min)))))
+                       (when (string= "Vacances" category)
+                         (return 'org-agenda-date-weekend))))))
+              (when face (return face)))))))
 
 ;; Ne mettre qu'une seule étoile devant les titres
 ;; FIXME marche pas quand on change le color-theme
@@ -892,31 +896,31 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-agenda-files
-  '("~/Dropbox/Org/agenda.org"
-     "~/Dropbox/Org/someday.org"
-     "~/Dropbox/Org/specialdays.org"
-     "~/Dropbox/Org/books.org"))
+      '("~/Dropbox/Org/agenda.org"
+        "~/Dropbox/Org/someday.org"
+        "~/Dropbox/Org/specialdays.org"
+        "~/Dropbox/Org/books.org"))
 
 (setq calendar-holidays
-  '((holiday-fixed 1 1 "Nouvel an")
-     (holiday-fixed 5 1 "Fête du travail")
-     (holiday-fixed 5 8 "Victoire 1945")
-     (holiday-fixed 7 14 "Fête nationale")
-     (holiday-fixed 8 15 "Assomption")
-     (holiday-fixed 11 11 "Armistice 1918")
-     (holiday-fixed 11 1 "Toussaint")
-     (holiday-fixed 12 25 "Noël")
-     (holiday-float 5 0 -1 "Fête des mères")
-     (holiday-float 6 0 3 "Fête des pères")))
+      '((holiday-fixed 1 1 "Nouvel an")
+        (holiday-fixed 5 1 "Fête du travail")
+        (holiday-fixed 5 8 "Victoire 1945")
+        (holiday-fixed 7 14 "Fête nationale")
+        (holiday-fixed 8 15 "Assomption")
+        (holiday-fixed 11 11 "Armistice 1918")
+        (holiday-fixed 11 1 "Toussaint")
+        (holiday-fixed 12 25 "Noël")
+        (holiday-float 5 0 -1 "Fête des mères")
+        (holiday-float 6 0 3 "Fête des pères")))
 
 (setq calendar-mark-holidays-flag t)
 
 ;; warning with appt and notify
 (setq
-  appt-message-warning-time 15 ;; warn 15 min in advance
-  appt-display-interval 1
-  appt-display-mode-line t     ;; show in the modeline
-  appt-display-format 'window) ;; use our func
+ appt-message-warning-time 15 ;; warn 15 min in advance
+ appt-display-interval 1
+ appt-display-mode-line t     ;; show in the modeline
+ appt-display-format 'window) ;; use our func
 
 (appt-activate 1)              ;; active appt (appointment notification)
 (display-time)                 ;; time display is required for this...
@@ -928,23 +932,23 @@
 ;; our little façade-function for djcb-popup
 (defun appt-display (min-to-app new-time msg)
   (notify (format "Appointment in %s minute(s)" min-to-app)
-    msg
-    "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
-    "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+          msg
+          "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+          "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
 
 (setq appt-disp-window-function 'appt-display)
 
 (org-babel-do-load-languages
-  'org-babel-load-languages
-  '((emacs-lisp . t)
-     (latex . t) ; this is the entry to activate LaTeX
-     (sh . t)
-     (ruby . t)))
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (latex . t) ; this is the entry to activate LaTeX
+   (sh . t)
+   (ruby . t)))
 
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
   (when (and buffer-file-name
-	  (file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
+             (file-exists-p (buffer-file-name))) ;error when file does not exists (for ex: org-capture
     (load-library "reftex")
     (reftex-parse-all)
     (reftex-set-cite-format "[[note::%l][%l]]")
@@ -1017,10 +1021,10 @@
   "Switch between en and fr dictionaries."
   (interactive)
   (ispell-change-dictionary
-    (if (string=
-          (or ispell-local-dictionary ispell-dictionary)
-          "fr")
-      "en" "fr"))
+   (if (string=
+        (or ispell-local-dictionary ispell-dictionary)
+        "fr")
+       "en" "fr"))
   (when flyspell-mode
     (flyspell-delete-all-overlays)
     (flyspell-buffer)))
@@ -1031,13 +1035,13 @@
 
 (defun repl (exp pattern patch)
   (cond
-    ((null exp) nil)
-    ((listp exp)
-      (let ((expr (repl (car exp) pattern patch)))
-        (if (equal expr pattern)
+   ((null exp) nil)
+   ((listp exp)
+    (let ((expr (repl (car exp) pattern patch)))
+      (if (equal expr pattern)
           `(,@patch ,@(repl (cdr exp) pattern patch))
-          (cons expr (repl (cdr exp) pattern patch)))))
-    (t exp)))
+        (cons expr (repl (cdr exp) pattern patch)))))
+   (t exp)))
 
 ;; (patch 'LaTeX-label
 ;;   '(completing-read
@@ -1064,11 +1068,11 @@
 (setq LaTeX-item-indent 0)
 
 (add-hook 'LaTeX-mode-hook
-  '(lambda ()
-     (setq LaTeX-verbatim-environments-local '("tikz"))
-     (turn-on-reftex)
-     (flyspell-mode)
-     (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+          '(lambda ()
+             (setq LaTeX-verbatim-environments-local '("tikz"))
+             (turn-on-reftex)
+             (flyspell-mode)
+             (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
@@ -1077,40 +1081,40 @@
   characters."
   (interactive "P")
   (let ((n 0)
-	 (beg (copy-marker
-		(if (region-active-p) (region-beginning) (point-min))))
-	 (end (copy-marker
-		(if (region-active-p) (region-end) (point-max)))))
+        (beg (copy-marker
+              (if (region-active-p) (region-beginning) (point-min))))
+        (end (copy-marker
+              (if (region-active-p) (region-end) (point-max)))))
     (save-excursion
       (mapc
-        (lambda (e)
-	  (let* ((to (if escape (cdr e) (car e)))
-		  (to (if (listp to) (car to) to))
-		  (from (if escape (car e) (cdr e)))
-		  (from (if (listp from) from (list from))))
-	    (mapc
-	      (lambda (froma)
-		(goto-char beg)
-		(while (search-forward froma end t)
-		  (replace-match to nil t)
-		  (setq n (+ n 1))))
-	      from)))
-	'((("\\'e" "\\'{e}") . "é")
-	   (("\\`e" "\\`{e}") . "è")
-	   (("\\`a" "\\`{a}") . "à")
-	   (("\\`u" "\\`{u}") . "ù")
-	   (("\\^e" "\\^{e}") . "ê")
-	   (("\\^o" "\\^{o}") . "ô")
-	   (("\\^u" "\\^{u}") . "û")
-	   (("\\\"i" "\\\"{i}") . "ï")
-	   ("\\c{c}" . "ç")
-	   (("\\^i" "\\^{i}") . "î"))))
+       (lambda (e)
+         (let* ((to (if escape (cdr e) (car e)))
+                (to (if (listp to) (car to) to))
+                (from (if escape (car e) (cdr e)))
+                (from (if (listp from) from (list from))))
+           (mapc
+            (lambda (froma)
+              (goto-char beg)
+              (while (search-forward froma end t)
+                (replace-match to nil t)
+                (setq n (+ n 1))))
+            from)))
+       '((("\\'e" "\\'{e}") . "é")
+         (("\\`e" "\\`{e}") . "è")
+         (("\\`a" "\\`{a}") . "à")
+         (("\\`u" "\\`{u}") . "ù")
+         (("\\^e" "\\^{e}") . "ê")
+         (("\\^o" "\\^{o}") . "ô")
+         (("\\^u" "\\^{u}") . "û")
+         (("\\\"i" "\\\"{i}") . "ï")
+         ("\\c{c}" . "ç")
+         (("\\^i" "\\^{i}") . "î"))))
     (message "Replaced %d occurences" n)))
 
 ;; bookmarks
 (setq
-  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
-  bookmark-save-flag 1)                        ;; autosave each change
+ bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
+ bookmark-save-flag 1)                        ;; autosave each change
 
 ;; TODO faire survivre le processus à la fermeture de emacs
 (defun gnome-open (filename)
@@ -1120,11 +1124,11 @@
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
   (cond
-    ((string-match "\\.\\(ods\\|pdf\\)$" (ad-get-arg 0))
-      (gnome-open (ad-get-arg 0))
-      (message "Gnome-opening file..."))
-    (t
-      ad-do-it)))
+   ((string-match "\\.\\(ods\\|pdf\\)$" (ad-get-arg 0))
+    (gnome-open (ad-get-arg 0))
+    (message "Gnome-opening file..."))
+   (t
+    ad-do-it)))
 
 (ad-activate 'find-file)
 
@@ -1163,9 +1167,9 @@
 (defun toggle-transparency ()
   (interactive)
   (if (/=
-        (cadr (find 'alpha (frame-parameters nil) :key #'car))
-        100)
-    (set-frame-parameter nil 'alpha '(100 100))
+       (cadr (find 'alpha (frame-parameters nil) :key #'car))
+       100)
+      (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
@@ -1174,33 +1178,33 @@
 (recentf-mode 1)
 
 (setq recentf-arrange-by-rules-min-items 0
-  recentf-arrange-by-rule-others nil
-  recentf-arrange-rules
-  '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-     ("Ruby files (%d)" ".\\.rb$")
-     ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-     ("Java files (%d)" ".\\.java$")
-     ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-     ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-     ("Configuration files (%d)" "rc$\\|/\\.")
-     ("Ada files (%d)" ".\\.ad[sb]$")
-     ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-     ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-     ("Documentation (%d)" "/doc/")
-     ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-     ("Lisp files (%d)" ".\\.lisp$"))
-  recentf-max-saved-items 50
-  recentf-max-menu-items 30
-  recentf-menu-path nil
-  recentf-exclude '(".emacs-customize$"
-                     ".newsrc"
-                     ".etags$"
-                     ".emacs.bmk$"
-                     ".bbdb$"
-                     ".log$"
-                     "^/tmp/")
-  recentf-menu-filter 'recentf-arrange-by-rule
-  recentf-menu-title "Recentf")
+      recentf-arrange-by-rule-others nil
+      recentf-arrange-rules
+      '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+        ("Ruby files (%d)" ".\\.rb$")
+        ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+        ("Java files (%d)" ".\\.java$")
+        ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+        ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+        ("Configuration files (%d)" "rc$\\|/\\.")
+        ("Ada files (%d)" ".\\.ad[sb]$")
+        ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+        ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+        ("Documentation (%d)" "/doc/")
+        ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+        ("Lisp files (%d)" ".\\.lisp$"))
+      recentf-max-saved-items 50
+      recentf-max-menu-items 30
+      recentf-menu-path nil
+      recentf-exclude '(".emacs-customize$"
+                        ".newsrc"
+                        ".etags$"
+                        ".emacs.bmk$"
+                        ".bbdb$"
+                        ".log$"
+                        "^/tmp/")
+      recentf-menu-filter 'recentf-arrange-by-rule
+      recentf-menu-title "Recentf")
 
 ;; (defun recentf-interactive-complete ()
 ;;   "find a file in the recently open file using ido for completion"
@@ -1253,16 +1257,16 @@
 
 ;;; dired, dired-x and co
 (add-hook 'dired-load-hook
-  (function (lambda ()
-              (load "dired-x")
-              ;; Set global variables here.  For example:
-              ;; (setq dired-guess-shell-gnutar "gtar")
-              )))
+          (function (lambda ()
+                      (load "dired-x")
+                      ;; Set global variables here.  For example:
+                      ;; (setq dired-guess-shell-gnutar "gtar")
+                      )))
 (add-hook 'dired-mode-hook
-  (function (lambda ()
-              ;; Set buffer-local variables here.  For example:
-              ;; (dired-omit-mode 1)
-              )))
+          (function (lambda ()
+                      ;; Set buffer-local variables here.  For example:
+                      ;; (dired-omit-mode 1)
+                      )))
 
 ;; (require 'dired+)
 
@@ -1270,19 +1274,19 @@
 (define-key dired-mode-map "s" dired-sort-map)
 
 (mapc
-  (lambda (elt)
-    (define-key dired-sort-map (car elt)
-      (lambda ()
-	(interactive)
-	(dired-sort-other
-	  (concat dired-listing-switches
-	    (unless (string-match "-r" dired-actual-switches)
-	      " -r") (cadr elt))))))
-  '(("n" "")
-     ("x" " -X")
-     ("s" " -S")
-     ("t" " -t")
-     ("d" " --group-directories-first")))
+ (lambda (elt)
+   (define-key dired-sort-map (car elt)
+     (lambda ()
+       (interactive)
+       (dired-sort-other
+        (concat dired-listing-switches
+                (unless (string-match "-r" dired-actual-switches)
+                  " -r") (cadr elt))))))
+ '(("n" "")
+   ("x" " -X")
+   ("s" " -S")
+   ("t" " -t")
+   ("d" " --group-directories-first")))
 
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
@@ -1292,11 +1296,11 @@
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 (setq auto-insert-alist
-  '(
-     ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
-     ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
-     ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 19))])
-     ))
+      '(
+        ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
+        ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
+        ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 19))])
+        ))
 (setq auto-insert 'other)
 
 
@@ -1344,8 +1348,8 @@
 
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
-  interprogram-paste-function            ; ...with...
-  'x-cut-buffer-or-selection-value)      ; ...other X clients
+      interprogram-paste-function            ; ...with...
+      'x-cut-buffer-or-selection-value)      ; ...other X clients
 
 ;; don't warn when quitting emacs with running processes
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
@@ -1354,8 +1358,8 @@
 
 ;; don't warn when killing running processes
 (setq kill-buffer-query-functions
-  (remq 'process-kill-buffer-query-function
-    kill-buffer-query-functions))
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
@@ -1365,15 +1369,15 @@
 (global-set-key (kbd "C-S-SPC") '(lambda () (interactive) (hippie-expand -1)))
 
 (setq hippie-expand-try-functions-list
-  '(yas/hippie-try-expand
-     try-complete-file-name-partially
-     try-complete-file-name
-     ;;try-expand-list
-     ;;try-expand-line
-     try-expand-dabbrev-visible
-     try-expand-dabbrev
-     try-expand-dabbrev-all-buffers
-     try-expand-dabbrev-from-kill))
+      '(yas/hippie-try-expand
+        try-complete-file-name-partially
+        try-complete-file-name
+        ;;try-expand-list
+        ;;try-expand-line
+        try-expand-dabbrev-visible
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
 
 ;; Customized Emacs Lisp mode
 (require 'eldoc)
@@ -1382,50 +1386,53 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 (add-hook 'emacs-lisp-mode-hook
-  (lambda()
-    (setq mode-name "ELisp")
-    (local-set-key (kbd "C-x E")
-      '(lambda()(interactive)
-         (let ((debug-on-error t))
-           (cond
-             (mark-active
-               (call-interactively 'eval-region)
-               (message "Region evaluated!")
-               (setq deactivate-mark t))
-             (t
-               (eval-buffer)
-               (message "Buffer evaluated!"))))))
-    (linum-mode t)
-    (setq lisp-indent-offset 2) ; indent with two spaces, enough for lisp
-    ;;(turn-on-auto-fill)
-    (require 'folding nil 'noerror)
-    (set (make-local-variable 'hippie-expand-try-functions-list)
-      '(yas/hippie-try-expand
-         try-complete-file-name-partially
-         try-complete-file-name
-         try-expand-dabbrev-visible
-         try-expand-dabbrev
-         try-complete-lisp-symbol-partially
-         try-complete-lisp-symbol))
-    ;;marquer les caractères au delà de 80 caractères
-    (font-lock-add-keywords nil
-      '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
-    (font-lock-add-keywords nil
-      '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
-          1 font-lock-warning-face prepend)))
-    (font-lock-add-keywords nil
-      '(("\\<\\(add-hook\\|setq\\)\\>"
-          1 font-lock-keyword-face prepend)))))
+          (lambda()
+            (setq mode-name "ELisp")
+            (local-set-key (kbd "C-x E")
+                           '(lambda()(interactive)
+                              (let ((debug-on-error t))
+                                (cond
+                                 (mark-active
+                                  (call-interactively 'eval-region)
+                                  (message "Region evaluated!")
+                                  (setq deactivate-mark t))
+                                 (t
+                                  (eval-buffer)
+                                  (message "Buffer evaluated!"))))))
+            (linum-mode t)
+            (setq lisp-indent-offset nil)
+            ;;(turn-on-auto-fill)
+            (require 'folding nil 'noerror)
+            (set (make-local-variable 'hippie-expand-try-functions-list)
+                 '(yas/hippie-try-expand
+                   try-complete-file-name-partially
+                   try-complete-file-name
+                   try-expand-dabbrev-visible
+                   try-expand-dabbrev
+                   try-complete-lisp-symbol-partially
+                   try-complete-lisp-symbol))
+            ;;marquer les caractères au delà de 80 caractères
+            (font-lock-add-keywords
+              nil
+              '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
+            (font-lock-add-keywords
+              nil
+              '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
+                  1 font-lock-warning-face prepend)))
+            (font-lock-add-keywords
+              nil
+              '(("\\<\\(add-hook\\|setq\\)\\>"
+                  1 font-lock-keyword-face prepend)))))
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
   (backward-kill-sexp)
   (condition-case nil
-    (prin1 (eval (read (current-kill 0)))
-      (current-buffer))
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
     (error (message "Invalid expression")
-      (insert (current-kill 0)))))
+           (insert (current-kill 0)))))
 
 (global-set-key (kbd "C-c e") 'eval-and-replace)
 
@@ -1454,8 +1461,8 @@
 ;; Move this code earlier if you want to reference
 ;; packages in your .emacs.
 (when
-  (load
-    (expand-file-name "~/.emacs.d/elpa/package.el"))
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
 
@@ -1465,16 +1472,16 @@
 (easy-menu-define my-encoding-menu my-encoding-map
   "Encoding Menu."
   '("Change File Encoding"
-     ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-     ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-     ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-     ["--" nil nil]
-     ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-     ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-     ["--" nil nil]
-     ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
-     ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
-     ))
+    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+    ["--" nil nil]
+    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+    ["--" nil nil]
+    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
+    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
+    ))
 (define-key-after menu-bar-file-menu [my-file-separator]
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
@@ -1494,8 +1501,8 @@
   "Go to the matching parenthesis if on parenthesis otherwise insert %."
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-    ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-    (t (self-insert-command (or arg 1)))))
+        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+        (t (self-insert-command (or arg 1)))))
 (global-set-key "%" 'match-paren)
 
 ;; but give the emacs window a still good shape !
@@ -1599,10 +1606,10 @@ Indent each line of the list starting just after point."
     (indent-sexp)))
 
 (setq Info-default-directory-list
-  (append
-    '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc"
-       "/home/sylvain/dotemacs/org-mode/doc")
-    Info-default-directory-list))
+      (append
+       '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc"
+         "/home/sylvain/dotemacs/org-mode/doc")
+       Info-default-directory-list))
 
 
 (defun shutdown-emacs-server () (interactive)
@@ -1613,7 +1620,7 @@ Indent each line of the list starting just after point."
     (select-frame (make-frame-on-display x-display-name '((window-system . x))))
     )
   (let ((last-nonmenu-event nil)(window-system
-                                  "x"))(save-buffers-kill-emacs)))
+                                 "x"))(save-buffers-kill-emacs)))
 
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
@@ -1687,20 +1694,20 @@ Indent each line of the list starting just after point."
   "Returns the command name of the first argument."
   (let ((cmd (pcomplete-arg 'first)))
     (cond
-      ((member (substring cmd 0 -1)
-	 (pcomplete-erc-nicks))
-	"NICKLIST")
-      ((eq (elt cmd 0) ?/)
-        (upcase (substring cmd 1)))
-      (t "SAY"))))
+     ((member (substring cmd 0 -1)
+              (pcomplete-erc-nicks))
+      "NICKLIST")
+     ((eq (elt cmd 0) ?/)
+      (upcase (substring cmd 1)))
+     (t "SAY"))))
 
 (defun is-nick-p (nick)
   (member (substring nick 0 -1)
-    (pcomplete-erc-nicks)))
+          (pcomplete-erc-nicks)))
 
 (defun pcomplete/erc-mode/NICKLIST ()
   (while (and (pcomplete-test 'is-nick-p)
-           (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
+              (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
     (let ((start erc-input-marker))
       (save-excursion
         (goto-char (pcomplete-begin 0))
@@ -1722,18 +1729,18 @@ Indent each line of the list starting just after point."
 (defun ibuffer-previous-saved-filter-groups ()
   (interactive)
   (ibuffer-next-saved-filter-groups-aux
-    (reverse ibuffer-saved-filter-groups)))
+   (reverse ibuffer-saved-filter-groups)))
 
 (defun ibuffer-next-saved-filter-groups-aux (list)
   (if (null ibuffer-saved-filter-groups)
-    (error "No saved filters"))
+      (error "No saved filters"))
   (let ((next-filter-group) (list0 list))
     (while (and (null next-filter-group) list0)
       (if (equal ibuffer-filter-groups (cdr (car list0)))
-	(setq next-filter-group (car (car list0))))
-	(setq list0 (cdr list0)))
+          (setq next-filter-group (car (car list0))))
+      (setq list0 (cdr list0)))
     (setq list0 (or list0 list))
-    (setq ibuffer-filter-groups	(cdr (car list0)))
+    (setq ibuffer-filter-groups (cdr (car list0)))
     (message "Switched to \"%s\" filter group!" (car (car list0))))
   (setq ibuffer-hidden-filter-groups nil)
   (ibuffer-update nil t))
