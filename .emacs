@@ -649,14 +649,19 @@
 
 (set-process-filter
   (start-process-shell-command
-    "fortune process"
+    "msg in scratch buffer"
     nil
-    "fortune /media/THISKEY/contrepétries")
+    "ruby ~/Dropbox/VDM.rb -p aleatoire")
   (lambda (process string)
     (with-current-buffer "*scratch*"
       (save-excursion
         (goto-char (point-max))
-        (insert (concat ";; " string))))))
+        (insert
+          (with-temp-buffer
+            (insert (concat ";; " string))
+            (let ((fill-prefix ";; "))
+              (fill-region (point-min) (point-max))
+              (buffer-string))))))))
 
 ;; override the default function....
 (defun emacs-session-filename (SESSION-ID)
