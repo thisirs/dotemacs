@@ -647,6 +647,17 @@
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
 
+(set-process-filter
+  (start-process-shell-command
+    "fortune process"
+    nil
+    "fortune /media/THISKEY/contrepétries")
+  (lambda (process string)
+    (with-current-buffer "*scratch*"
+      (save-excursion
+        (goto-char (point-max))
+        (insert (concat ";; " string))))))
+
 ;; override the default function....
 (defun emacs-session-filename (SESSION-ID)
   (concat "~/.emacs.d/cache/session." SESSION-ID))
