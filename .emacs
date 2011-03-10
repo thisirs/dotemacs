@@ -836,6 +836,12 @@
       '(("t" "Todo" entry
          (file+headline "~/Dropbox/Org/someday.org" "Tâches")
          "* TODO %?\n  OPENED: %U")
+        ("d" "Téléchargement" entry
+         (file+headline "~/Dropbox/Org/someday.org" "Downloads")
+         "* TODO %?\n  OPENED: %U")
+        ("m" "Emacs" entry
+         (file+headline "~/Dropbox/Org/someday.org" "Programming")
+         "* TODO %?                                                :emacs:\n  OPENED: %U")
         ("p" "Programming" entry
          (file+headline "~/Dropbox/Org/someday.org" "Programming")
          "* TODO %?\n  OPENED: %U")
