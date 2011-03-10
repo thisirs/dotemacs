@@ -893,6 +893,7 @@
         ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
         ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
         ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
+        ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
         ("" '(space . (:height (16) :width (16))))))
 
 (setq org-agenda-day-face-function
