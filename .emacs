@@ -356,19 +356,45 @@
 ;; don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
-(defun ibuffer-next-buffer ()
-  (interactive)
-  (setq th/current-buffer (1+ th/current-buffer))
-  (ibuffer-jump-to-buffer
-   (buffer-name
-    (nth th/current-buffer (buffer-list)))))
 
-(define-key ibuffer-mode-map [(control ?b)] 'ibuffer-next-buffer)
+(defun ibuffer-next-buffer ()
+  "Jump to next buffer in IBuffer according to `(buffer-list)'"
+  (interactive)
+  (ibuffer-next-buffer-aux (buffer-list)))
+
+(defun ibuffer-previous-buffer ()
+  "Jump to previous buffer in IBuffer according to `(buffer-list)'"
+  (interactive)
+  (ibuffer-next-buffer-aux
+   (reverse (buffer-list))))
+
+(define-key ibuffer-mode-map (kbd "C-b") 'ibuffer-next-buffer)
+(define-key ibuffer-mode-map (kbd "C-f") 'ibuffer-previous-buffer)
+
+(defun ibuffer-next-buffer-aux (list)
+  (if (null list)
+      (error "No buffers!"))
+  (let ((current-buffer (ibuffer-current-buffer t))
+        (list0 list)
+        (list1 list)
+        (ibuffer-buffer-list
+         (mapcar #'(lambda (x)
+                     (car x))
+                 (ibuffer-current-state-list))))
+    (while (not (equal current-buffer (car list0)))
+      (setq list0 (cdr list0)))
+    (setq list0 (cdr list0))
+    (while (and list0 (not (memql (car list0) ibuffer-buffer-list)))
+      (setq list0 (cdr list0)))
+    (if list0 (setq next-buffer (car list0))
+      (while (not (memql (car list1) ibuffer-buffer-list))
+        (setq list1 (cdr list1)))
+      (setq next-buffer (car list1)))
+    (ibuffer-jump-to-buffer (buffer-name next-buffer))))
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
   "Open ibuffer with cursor pointed to most recent buffer name"
   (let ((recent-buffer-name (buffer-name (other-buffer))))
-    (setq th/current-buffer 0)
     ad-do-it
     (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
