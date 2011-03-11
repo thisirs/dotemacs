@@ -1692,8 +1692,8 @@ Indent each line of the list starting just after point."
 
 (setq Info-default-directory-list
       (append
-       '("/home/sylvain/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc"
-         "/home/sylvain/dotemacs/org-mode/doc")
+       (list (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc")
+             (expand-file-name "~/dotemacs/dotemacs/.emacs.d/vendor/org-mode/doc"))
        Info-default-directory-list))
 
 
