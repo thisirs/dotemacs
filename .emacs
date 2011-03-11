@@ -356,21 +356,6 @@
 ;; don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
-
-(defun ibuffer-next-buffer ()
-  "Jump to next buffer in IBuffer according to `(buffer-list)'"
-  (interactive)
-  (ibuffer-next-buffer-aux (buffer-list)))
-
-(defun ibuffer-previous-buffer ()
-  "Jump to previous buffer in IBuffer according to `(buffer-list)'"
-  (interactive)
-  (ibuffer-next-buffer-aux
-   (reverse (buffer-list))))
-
-(define-key ibuffer-mode-map (kbd "C-b") 'ibuffer-next-buffer)
-(define-key ibuffer-mode-map (kbd "C-f") 'ibuffer-previous-buffer)
-
 (defun ibuffer-next-buffer-aux (list)
   (if (null list)
       (error "No buffers!"))
@@ -391,6 +376,46 @@
         (setq list1 (cdr list1)))
       (setq next-buffer (car list1)))
     (ibuffer-jump-to-buffer (buffer-name next-buffer))))
+
+(defun ibuffer-next-buffer ()
+  "Jump to next buffer in IBuffer according to `(buffer-list)'"
+  (interactive)
+  (ibuffer-next-buffer-aux (buffer-list)))
+
+(defun ibuffer-previous-buffer ()
+  "Jump to previous buffer in IBuffer according to `(buffer-list)'"
+  (interactive)
+  (ibuffer-next-buffer-aux
+   (reverse (buffer-list))))
+
+(define-key ibuffer-mode-map (kbd "C-b") 'ibuffer-next-buffer)
+(define-key ibuffer-mode-map (kbd "C-f") 'ibuffer-previous-buffer)
+
+(defun ibuffer-next-saved-filter-groups-aux (list)
+  (if (null ibuffer-saved-filter-groups)
+      (error "No saved filters"))
+  (let ((next-filter-group) (list0 list))
+    (while (and (null next-filter-group) list0)
+      (if (equal ibuffer-filter-groups (cdr (car list0)))
+          (setq next-filter-group (car (car list0))))
+      (setq list0 (cdr list0)))
+    (setq list0 (or list0 list))
+    (setq ibuffer-filter-groups (cdr (car list0)))
+    (message "Switched to \"%s\" filter group!" (car (car list0))))
+  (setq ibuffer-hidden-filter-groups nil)
+  (ibuffer-update nil t))
+
+(defun ibuffer-next-saved-filter-groups ()
+  (interactive)
+  (ibuffer-next-saved-filter-groups-aux ibuffer-saved-filter-groups))
+
+(defun ibuffer-previous-saved-filter-groups ()
+  (interactive)
+  (ibuffer-next-saved-filter-groups-aux
+   (reverse ibuffer-saved-filter-groups)))
+
+(define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
+(define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
   "Open ibuffer with cursor pointed to most recent buffer name"
@@ -1782,28 +1807,3 @@ Indent each line of the list starting just after point."
 (require 'epa)
 (epa-file-enable)
 
-(defun ibuffer-next-saved-filter-groups ()
-  (interactive)
-  (ibuffer-next-saved-filter-groups-aux ibuffer-saved-filter-groups))
-
-(defun ibuffer-previous-saved-filter-groups ()
-  (interactive)
-  (ibuffer-next-saved-filter-groups-aux
-   (reverse ibuffer-saved-filter-groups)))
-
-(defun ibuffer-next-saved-filter-groups-aux (list)
-  (if (null ibuffer-saved-filter-groups)
-      (error "No saved filters"))
-  (let ((next-filter-group) (list0 list))
-    (while (and (null next-filter-group) list0)
-      (if (equal ibuffer-filter-groups (cdr (car list0)))
-          (setq next-filter-group (car (car list0))))
-      (setq list0 (cdr list0)))
-    (setq list0 (or list0 list))
-    (setq ibuffer-filter-groups (cdr (car list0)))
-    (message "Switched to \"%s\" filter group!" (car (car list0))))
-  (setq ibuffer-hidden-filter-groups nil)
-  (ibuffer-update nil t))
-
-(define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
-(define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
