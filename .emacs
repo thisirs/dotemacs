@@ -707,7 +707,7 @@
         (with-temp-buffer
           (insert (mapconcat
                     'identity
-                    (split-string string "\n\n")
+                    (split-string string "\n+")
                     " "))
           (let ((fill-colunm 70)
                  (fill-prefix ";; "))
