@@ -109,9 +109,10 @@
 
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
-  (start-process-shell-command "locate-thiskey-process" nil
-                               (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
-                                       anything-pattern)))
+  (start-process-shell-command
+   "locate-thiskey-process" nil
+   (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
+	   anything-pattern)))
 
 (defvar anything-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
@@ -131,8 +132,21 @@
   '((name . "Google translate")
     (dummy)
     (delayed)
+    (persistent-action . (lambda (c) (text-to-speech c)))
     (filtered-candidate-transformer . (lambda (candidates source)
                                         (anything-c-google-translate)))))
+
+(defun text-to-speech (text)
+  (notify (concat "-q -U Mozilla -O /tmp/output0.mp3 "
+		  "\"http://translate.google.com/translate_tts?tl=en&q="
+		  text
+		  "\""))
+  (call-process "wget" nil t nil
+		(concat "-q -U Mozilla -O /tmp/output0.mp3 "
+			"\"http://translate.google.com/translate_tts?tl=en&q="
+			text
+			"\""))
+  (call-process "mplayer" nil nil nil "/tmp/output.mp3"))
 
 
 (defun anything-c-google-translate ()
@@ -144,9 +158,8 @@
     (with-temp-buffer
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
-      (if (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-          (list (match-string 1))
-        nil))))
+      (and (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
+	   (list (match-string 1))))))
 
 (define-key anything-command-map (kbd "t") 'anything-translate)
 
