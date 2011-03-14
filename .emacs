@@ -132,20 +132,20 @@
   '((name . "Google translate")
     (dummy)
     (delayed)
-    (persistent-action . (lambda (c) (text-to-speech c)))
+    (persistent-action . text-to-speech)
     (filtered-candidate-transformer . (lambda (candidates source)
                                         (anything-c-google-translate)))))
 
 (defun text-to-speech (text)
-  (notify (concat "-q -U Mozilla -O /tmp/output0.mp3 "
-		  "\"http://translate.google.com/translate_tts?tl=en&q="
-		  text
-		  "\""))
-  (call-process "wget" nil t nil
-		(concat "-q -U Mozilla -O /tmp/output0.mp3 "
-			"\"http://translate.google.com/translate_tts?tl=en&q="
-			text
-			"\""))
+  (call-process "wget" nil nil nil
+		"-q"
+		"-U"
+		"Mozilla"
+		"-O"
+		"/tmp/output.mp3"
+		(concat
+		 "http://translate.google.com/translate_tts?tl=en&q="
+		 text))
   (call-process "mplayer" nil nil nil "/tmp/output.mp3"))
 
 
