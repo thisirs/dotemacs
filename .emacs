@@ -512,10 +512,10 @@
          (".el.gz elisp files"
           (name . "\\.el\\.gz$"))
          ("Elisp files"
-          (mode . emacs-lisp-mode))
-         ("Test"
-          (name . "^\\*scratch\\*$")
-          (name . "^\\*Messages\\*$")))))
+          (or
+           (mode . emacs-lisp-mode)
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$"))))))
 
 
 (add-hook 'ibuffer-mode-hook
