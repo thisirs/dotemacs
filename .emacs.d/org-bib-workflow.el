@@ -1,3 +1,9 @@
+(defun org-sort-by-year ()
+  "Return the first year found in the headline, \"0\" otherwise"
+  (save-excursion
+    (if (re-search-forward "[0-9]\\{4\\}" nil t)
+	(match-string-no-properties 0)
+      "0")))
 
 
 (defun note-org-bib-function (s)
