@@ -1012,9 +1012,11 @@ the template of a snippet in the current snippet-table."
         (skip-syntax-backward syntax)
         (setq start (point)))
       (setq templates
-            (mapcan #'(lambda (table)
-                        (yas/fetch table (buffer-substring-no-properties start end)))
-                    (yas/get-snippet-tables)))
+	    (if (equal (buffer-substring-no-properties start end) "yas")
+		(mapcan #'yas/snippet-table-templates (yas/get-snippet-tables))
+	      (mapcan #'(lambda (table)
+			  (yas/fetch table (buffer-substring-no-properties start end)))
+		      (yas/get-snippet-tables))))
       (if templates
           (setq done t)
         (setq start end)))
