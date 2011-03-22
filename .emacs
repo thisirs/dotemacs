@@ -430,6 +430,8 @@
 (define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
 (define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
 
+(define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
+
 (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
   "Open ibuffer with cursor pointed to most recent buffer name"
   (let ((recent-buffer-name (buffer-name (other-buffer))))
