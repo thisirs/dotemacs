@@ -18,13 +18,13 @@
           (null (show-children)))
 	 (t
 	  (y-or-n-p "No match - create as a new article note? ")
-	  (null (let (year title author)
+	  (null (multiple-value-bind (year title author)
                   (with-current-buffer "refs.bib"
                     (or (bibtex-search-entry s)
 			(error "No BibTeX entry for %s!" s))
-                    (setq year (bibtex-text-in-field "year"))
-                    (setq title (or (bibtex-text-in-field "title") "not found"))
-                    (setq author (or (bibtex-text-in-field "author") "not found")))
+                    (list (bibtex-text-in-field "year")
+			  (or (bibtex-text-in-field "title") "not found")
+			  (or (bibtex-text-in-field "author") "not found")))
                   (goto-char (point-max))
                   (or (bolp) (newline))
                   (insert "* "
