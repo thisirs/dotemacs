@@ -517,7 +517,12 @@
           (or
            (mode . emacs-lisp-mode)
            (name . "^\\*scratch\\*$")
-           (name . "^\\*Messages\\*$"))))))
+           (name . "^\\*Messages\\*$"))))
+        ("Matlab-mode"
+         ("Matlab"
+          (or
+           (filename . "\\.m$")
+           (name . "^\\*MATLAB\\*$"))))))
 
 
 (add-hook 'ibuffer-mode-hook
