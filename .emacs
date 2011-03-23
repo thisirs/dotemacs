@@ -964,7 +964,7 @@
 ;; icons in agenda
 (setq org-agenda-category-icon-alist
       '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
-        ("Books" "~/.emacs.d/icons/book.png" nil nil :ascent center)
+        ("Books\\|Magazines" "~/.emacs.d/icons/book.png" nil nil :ascent center)
         ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
         ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
         ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
