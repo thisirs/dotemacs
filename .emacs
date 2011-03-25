@@ -592,6 +592,9 @@
                  (just-one-space 0)
                  (backward-char 1)))))
 
+;; copy when in read only buffer
+(setq kill-read-only-ok t)
+
 (defun my-beginning-of-line ()
   (interactive)
   (if (bolp)
@@ -1820,9 +1823,6 @@ Indent each line of the list starting just after point."
           (replace-match ", "))))
     (pcomplete-here (pcomplete-erc-nicks ": ")))
   (while (pcomplete-here (pcomplete-erc-nicks))))
-
-;; copy when in read only buffer
-(setq kill-read-only-ok t)
 
 (require 'epa)
 (epa-file-enable)
