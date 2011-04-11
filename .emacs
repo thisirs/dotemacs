@@ -1232,7 +1232,12 @@
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
   (cond
-   ((string-match "\\.\\(ods\\|pdf\\)$" (ad-get-arg 0))
+   ((string-match
+     (concat
+      "\\."
+      (regexp-opt "ods" "odt" "pdf" t)
+      "$")
+     (ad-get-arg 0))
     (gnome-open (ad-get-arg 0))
     (message "Gnome-opening file..."))
    (t
