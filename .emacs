@@ -1235,7 +1235,7 @@
    ((string-match
      (concat
       "\\."
-      (regexp-opt "ods" "odt" "pdf" t)
+      (regexp-opt '("ods" "odt" "pdf") t)
       "$")
      (ad-get-arg 0))
     (gnome-open (ad-get-arg 0))
