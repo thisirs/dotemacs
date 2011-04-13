@@ -906,6 +906,9 @@
 ;; no recursive todo in agenda
 (setq org-agenda-todo-list-sublevels nil)
 
+;; remove tags in agenda
+(setq org-agenda-remove-tags t)
+
 (setq org-capture-templates
       '(("t" "Todo" entry
          (file+headline "~/Dropbox/Org/someday.org" "Tâches")
