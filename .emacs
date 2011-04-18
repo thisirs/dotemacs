@@ -1392,12 +1392,12 @@
 (mapc
  (lambda (elt)
    (define-key dired-sort-map (car elt)
-     (lambda ()
+     `(lambda ()
        (interactive)
        (dired-sort-other
         (concat dired-listing-switches
                 (unless (string-match "-r" dired-actual-switches)
-                  " -r") (cadr elt))))))
+                  " -r") ,(cadr elt))))))
  '(("n" "")
    ("x" " -X")
    ("s" " -S")
