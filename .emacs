@@ -518,6 +518,11 @@
            (mode . emacs-lisp-mode)
            (name . "^\\*scratch\\*$")
            (name . "^\\*Messages\\*$"))))
+        ("Ruby-mode"
+         ("Ruby"
+          (or
+           (mode . inf-ruby-mode)
+           (mode . ruby-mode))))
         ("Matlab-mode"
          ("Matlab"
           (or
