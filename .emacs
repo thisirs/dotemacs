@@ -1177,6 +1177,7 @@
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
+(setq TeX-save-query nil) ;;autosave before compiling
 (setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
 (setq LaTeX-command "latex --shell-escape")
 
