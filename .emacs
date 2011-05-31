@@ -1059,6 +1059,7 @@
  '((emacs-lisp . t)
    (latex . t) ; this is the entry to activate LaTeX
    (sh . t)
+   (matlab . t)
    (ruby . t)))
 
 ;; bib citations in org files
