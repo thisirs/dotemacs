@@ -728,7 +728,6 @@
 
 (defun insert-in-scratch-buffer (string)
   (with-current-buffer (get-buffer-create "*scratch*")
-    (save-excursion
       (goto-char (point-max))
       (and (not (bolp)) (insert "\n"))
       (insert
@@ -742,7 +741,9 @@
             (goto-char (point-min))
             (insert ";; ")
             (fill-region (point-min) (point-max)))
-          (buffer-string))))))
+          (buffer-string))
+	"\n\n")
+      (set-buffer-modified-p nil)))
 
 
 (set-process-filter
