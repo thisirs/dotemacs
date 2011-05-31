@@ -1437,6 +1437,11 @@
 (require 'starter-kit-ruby)
 ;;(require 'ruby-electric)
 
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
 ;;; shell-toggle
 (autoload 'shell-toggle "shell-toggle"
   "Toggles between the shell buffer and whatever buffer you are editing."
