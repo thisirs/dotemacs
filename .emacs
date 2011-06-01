@@ -467,6 +467,8 @@
       `(("default"
          ,@(make-ibuffer-projects-list "Project: "
                                        (concat (getenv "HOME") "/dotemacs"))
+         ,@(make-ibuffer-projects-list "Project on THISKEY: "
+                                       "/media/THISKEY/programming")
          ("Thèse"
           (or
            (filename . "/media/THISKEY/Documents/Bibliographie/")
