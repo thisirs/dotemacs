@@ -454,14 +454,18 @@
             (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
 
-(defun make-ibuffer-projects-list (prefix dir)
+(defun make-ibuffer-projects-list (prefix &rest dir-list)
   "Return a list whose elements are of the form ((`prefixdir' (filename . `directory')"
   (mapcar
    (lambda (dir)
      (list (concat prefix (file-name-nondirectory dir))
            `(filename . ,dir)))
-   (and (file-directory-p dir)
-        (nreverse (find-projects dir)))))
+   (apply 'append
+    (mapcar
+     (lambda (dir)
+       (and (file-directory-p dir)
+	    (nreverse (find-projects dir))))
+     dir-list))))
 
 (setq ibuffer-saved-filter-groups
       `(("default"
