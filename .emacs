@@ -724,6 +724,8 @@
  uniquify-buffer-name-style 'post-forward-angle-brackets
  uniquify-after-kill-buffer-p t)
 
+;;; scratch
+
 ;; put something different in the scratch buffer
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
