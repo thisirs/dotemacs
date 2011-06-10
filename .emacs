@@ -1194,6 +1194,7 @@
           '(lambda ()
              (setq LaTeX-verbatim-environments-local '("tikz"))
              (turn-on-reftex)
+	     (reftex-set-cite-format "~\\cite{%l}")
              (flyspell-mode)
              (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
