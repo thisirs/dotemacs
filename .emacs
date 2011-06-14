@@ -1195,12 +1195,13 @@
 (setq LaTeX-item-indent 0)
 
 (add-hook 'LaTeX-mode-hook
-          '(lambda ()
-             (setq LaTeX-verbatim-environments-local '("tikz"))
-             (turn-on-reftex)
-	     (reftex-set-cite-format "~\\cite{%l}")
-             (flyspell-mode)
-             (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+          (lambda ()
+	    (setq LaTeX-verbatim-environments-local '("tikz"))
+	    (when buffer-file-name
+		 (turn-on-reftex)
+		 (reftex-set-cite-format "~\\cite{%l}"))
+	    (flyspell-mode)
+	    (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
