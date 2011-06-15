@@ -1884,3 +1884,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
     (delete-frame (selected-frame))))
 
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
+
+(add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
+(require 'org-google-weather)
