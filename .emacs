@@ -758,7 +758,7 @@
   (start-process-shell-command
     "msg in scratch buffer"
     nil
-    "ruby ~/Dropbox/VDM.rb -p aleatoire")
+    "ruby ~/Dropbox/SCMB.rb")
   (lambda (process string)
     (insert-in-scratch-buffer string)))
 
