@@ -1083,6 +1083,10 @@
 
 (require 'org-bib-workflow)
 
+;; bigger latex fragment
+(plist-put org-format-latex-options :scale 1.5)
+
+
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
 ;; (setq european-calendar-style t)
