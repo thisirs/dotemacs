@@ -1898,3 +1898,10 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 
 (add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
 (require 'org-google-weather)
+
+(defun to-scr (srt)
+  "print in scratch buffer"
+  (with-current-buffer "*scratch*"
+    (save-excursion
+      (goto-char (point-max))
+      (insert srt))))
