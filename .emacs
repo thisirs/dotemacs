@@ -835,6 +835,7 @@
 (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+(add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
