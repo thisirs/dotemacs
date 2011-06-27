@@ -1192,8 +1192,14 @@
 (load "auctex.el" nil t t)
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
-(setq TeX-save-query nil) ;;autosave before compiling
+(setq TeX-save-query nil) ; autosave before compiling
+
+;; Source specials
+(TeX-source-specials-mode t)
+(setq TeX-source-specials-tex-flags "-src-specials -synctex=1")
 (setq TeX-source-specials-view-emacsclient-flags "-c -no-wait +%%l %%f")
+
+;; Needed to use external programs
 (setq LaTeX-command "latex --shell-escape")
 
 ;; indentation correcte des items
