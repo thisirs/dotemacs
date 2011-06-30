@@ -837,6 +837,14 @@
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
+(add-to-list 'desktop-locals-to-save 'buffer-display-time)
+
+(require 'midnight)
+(cancel-timer midnight-timer)
+(run-with-idle-timer 10 nil
+		     (lambda ()
+		       (run-hooks 'midnight-hook)))
+
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
