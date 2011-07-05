@@ -1915,4 +1915,5 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
   (with-current-buffer "*scratch*"
     (save-excursion
       (goto-char (point-max))
+      (or (bolp) (insert "\n"))
       (insert srt))))
