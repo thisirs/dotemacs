@@ -1067,8 +1067,9 @@
 (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
 
 ;; our little façade-function for djcb-popup
-(defun appt-display (min-to-app new-time msg)
-  (notify (format "Appointment in %s minute(s)" min-to-app)
+(defun appt-display (min-to-app current-time msg)
+  (notify (format "Appointment in %s minute%s" min-to-app
+		  (if (> min-to-app 1) "s" ""))
           msg
           "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
           "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
