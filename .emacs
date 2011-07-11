@@ -992,6 +992,10 @@
 
 (define-key global-map "\C-cc" 'org-capture)
 
+;; custom agenda view
+(setq org-agenda-custom-commands
+      '(("b" "Thesis Work" tags-todo "boss")))
+
 
 ;; icons in agenda
 (setq org-agenda-category-icon-alist
