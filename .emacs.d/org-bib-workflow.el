@@ -12,30 +12,30 @@
       (let ((s0 (mapconcat 'identity (org-split-string s "[ \t\r\n]+") " "))
 	    (pos (car (org-map-entries '(point)
 				       (concat "BIB=\"" s "\"")))))
-	(cond
-	 (pos
-          (goto-char pos)
-          (null (show-children)))
-	 (t
-	  (y-or-n-p "No match - create as a new article note? ")
-	  (null (multiple-value-bind (year title author)
-                  (with-current-buffer "refs.bib"
-                    (or (bibtex-search-entry s)
-			(error "No BibTeX entry for %s!" s))
-                    (list (bibtex-text-in-field "year")
-			  (or (bibtex-text-in-field "title") "not found")
-			  (or (bibtex-text-in-field "author") "not found")))
-                  (goto-char (point-max))
-                  (or (bolp) (newline))
-                  (insert "* "
-			  (clean-authors author)
-			  " - "
-			  (if year (concat year " - ") "")
-			  (replace-regexp-in-string "[{}]+" "" title) "\n"
-			  "  :PROPERTIES:\n"
-			  "  :BIB: " s "\n"
-			  "  :END:\n"
-			  "** Abstract\n"))))))))
+	(prog1 t
+	  (cond
+	   (pos
+	    (goto-char pos)
+	    (or (show-children) t))
+	   ((y-or-n-p "No match - create as a new article note? ")
+	    (null (multiple-value-bind (year title author)
+		      (with-current-buffer "refs.bib"
+			(or (bibtex-search-entry s)
+			    (error "No BibTeX entry for %s!" s))
+			(list (bibtex-text-in-field "year")
+			      (or (bibtex-text-in-field "title") "not found")
+			      (or (bibtex-text-in-field "author") "not found")))
+		    (goto-char (point-max))
+		    (or (bolp) (newline))
+		    (insert "* "
+			    (clean-authors author)
+			    " - "
+			    (if year (concat year " - ") "")
+			    (replace-regexp-in-string "[{}]+" "" title) "\n"
+			    "  :PROPERTIES:\n"
+			    "  :BIB: " s "\n"
+			    "  :END:\n"
+			    "** Abstract\n")))))))))
 
 
 (add-hook 'org-execute-file-search-functions 'note-org-bib-function)
