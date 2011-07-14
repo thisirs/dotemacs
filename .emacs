@@ -1920,4 +1920,7 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
     (save-excursion
       (goto-char (point-max))
       (or (bolp) (insert "\n"))
-      (insert srt))))
+      (insert
+       (if (stringp srt)
+	   srt
+	 (prin1-to-string srt))))))
