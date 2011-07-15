@@ -1931,15 +1931,20 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
   (save-excursion
     (let (labels)
       (goto-char (point-min))
-      (while (re-search-forward "\\\\ref{\\([^}]+\\)}" nil t)
+      (while (re-search-forward "\\\\ref{\\([^\n\r%\\{}]+\\)}" nil t)
 	(setq labels (cons (match-string-no-properties 1) labels)))
       (goto-char (point-min))
-      (while (re-search-forward "\\\\label{\\([^}]+\\)}" nil t)
+      (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
 	(unless (member (match-string-no-properties 1) labels)
 	  (delete-region (match-beginning 0) (match-end 0)))))))
 
 (defun refactor-label (label new)
-  (interactive "sOld:\nsNew:")
+  (interactive
+   (list (let ((tap (thing-at-point 'word)))
+	   (read-string
+	    (format "Old label%s: " (if tap (concat " (" tap ")") ""))
+	    nil nil tap))
+	 (read-string "New label: ")))
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward
