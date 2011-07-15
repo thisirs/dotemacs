@@ -1924,3 +1924,28 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
        (if (stringp srt)
 	   srt
 	 (prin1-to-string srt))))))
+
+
+(defun delete-unreferenced-labels ()
+  (interactive)
+  (save-excursion
+    (let (labels)
+      (goto-char (point-min))
+      (while (re-search-forward "\\\\ref{\\([^}]+\\)}" nil t)
+	(setq labels (cons (match-string-no-properties 1) labels)))
+      (goto-char (point-min))
+      (while (re-search-forward "\\\\label{\\([^}]+\\)}" nil t)
+	(unless (member (match-string-no-properties 1) labels)
+	  (delete-region (match-beginning 0) (match-end 0)))))))
+
+(defun refactor-label (label new)
+  (interactive "sOld:\nsNew:")
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward
+	    (concat "\\\\\\(ref\\|label\\){\\("
+		    (regexp-quote label)
+		    "\\)}")
+	    nil t)
+      (to-scr (match-string 0))
+      (replace-match new t t nil 2))))
