@@ -1927,6 +1927,8 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 
 
 (defun delete-unreferenced-labels ()
+  "Delete all occurences of a label that is not referenced in the
+document."
   (interactive)
   (save-excursion
     (let (labels)
@@ -1939,6 +1941,7 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 	  (delete-region (match-beginning 0) (match-end 0)))))))
 
 (defun refactor-label (label new)
+  "Rename a label and its references."
   (interactive
    (list (let ((tap (thing-at-point 'word)))
 	   (read-string
@@ -1952,5 +1955,4 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 		    (regexp-quote label)
 		    "\\)}")
 	    nil t)
-      (to-scr (match-string 0))
       (replace-match new t t nil 2))))
