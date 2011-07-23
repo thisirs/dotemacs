@@ -785,6 +785,8 @@
                 (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
                 (lambda () (interactive) (find-file "~/.emacs")))
+(global-set-key (kbd "s-s m") ;; messages
+                (lambda () (interactive) (switch-to-buffer "*Messages*")))
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
