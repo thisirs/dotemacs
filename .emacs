@@ -107,6 +107,40 @@
 ;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
 
+
+(require 'dbus)
+
+(defun THISKEY-dbus-signal-handler (service id args)
+  (when (string= "THISKEY" (cadr args))
+    (let ((desktop-load-locked-desktop t))
+      (desktop-read))
+    (message "Mounting THISKEY, desktop-read")))
+
+(when (fboundp 'dbus-register-signal)
+  (dbus-register-signal
+   :session
+   "org.gtk.Private.GduVolumeMonitor"
+   "/org/gtk/Private/RemoteVolumeMonitor"
+   "org.gtk.Private.RemoteVolumeMonitor"
+   "MountAdded"
+   'THISKEY-dbus-signal-handler))
+
+(defun emacs-process-p (pid)
+  "If pid is the process ID of an emacs process, return t, else nil.
+Also returns nil if pid is nil."
+  (when pid
+    (let* ((cmdline-file (concat "/proc/" (int-to-string pid) "/cmdline")))
+      (when (file-exists-p cmdline-file)
+        (with-temp-buffer
+          (insert-file-contents-literally cmdline-file)
+          (goto-char (point-min))
+          (and (search-forward "emacs" nil t) t))))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
+
 (defun anything-c-locate-thiskey-init ()
   "Initialize async locate process for `anything-c-source-locate'."
   (start-process-shell-command
