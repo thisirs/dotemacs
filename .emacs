@@ -1933,14 +1933,18 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 document."
   (interactive)
   (save-excursion
-    (let (labels)
+    (let (labels (count 0))
       (goto-char (point-min))
       (while (re-search-forward "\\\\ref{\\([^\n\r%\\{}]+\\)}" nil t)
 	(setq labels (cons (match-string-no-properties 1) labels)))
       (goto-char (point-min))
       (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
 	(unless (member (match-string-no-properties 1) labels)
-	  (delete-region (match-beginning 0) (match-end 0)))))))
+	  (delete-region (match-beginning 0) (match-end 0))
+	  (setq count (+ 1 count))))
+      (message "%s label%s deleted!"
+	       (if (= count 0) "No" (int-to-string count))
+	       (if (>= count 2) "s" "")))))
 
 (defun refactor-label (label new)
   "Rename a label and its references."
