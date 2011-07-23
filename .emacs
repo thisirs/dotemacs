@@ -762,10 +762,6 @@
   (lambda (process string)
     (insert-in-scratch-buffer string)))
 
-;; override the default function....
-(defun emacs-session-filename (SESSION-ID)
-  (concat "~/.emacs.d/cache/session." SESSION-ID))
-
 ;; backups
 (setq make-backup-files t ;; do make backups
       ;;  backup-by-copying t     ;; and copy them here
