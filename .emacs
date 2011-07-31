@@ -814,7 +814,7 @@ Also returns nil if pid is nil."
 (global-set-key (kbd "s-s s") ;; scratch
                 (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-                (lambda () (interactive) (find-file "~/.emacs")))
+                (lambda () (interactive) (find-file (file-truename "~/.emacs"))))
 (global-set-key (kbd "s-s m") ;; messages
                 (lambda () (interactive) (switch-to-buffer "*Messages*")))
 
