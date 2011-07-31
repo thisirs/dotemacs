@@ -1261,10 +1261,6 @@ Also returns nil if pid is nil."
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
-	    (LaTeX-add-environments
-	     "equation*"
-	     '("subnumcases" "Before")
-	     '("block" "Title"))
   escaping, the first element of a list is preferred when there
   is a list. When any prefix argument, unescape accented
   characters."
