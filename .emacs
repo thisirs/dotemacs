@@ -629,10 +629,12 @@ Also returns nil if pid is nil."
 ;; la commande kill supprime automatiquement les espaces
 ;; d'indentations si besoin
 (defadvice kill-line (before check-position activate)
-  (if (member major-mode '(emacs-lisp-mode scheme-mode lisp-mode
-                                           c-mode c++-mode objc-mode
-                                           latex-mode plain-tex-mode
-                                           ruby-mode python-mode))
+  (if (member major-mode '(emacs-lisp-mode
+			   lisp-interaction-mode
+			   scheme-mode lisp-mode
+			   c-mode c++-mode objc-mode
+			   latex-mode plain-tex-mode
+			   ruby-mode python-mode))
       (if (and (eolp) (not (bolp)))
           (progn (forward-char 1)
                  (just-one-space 0)
