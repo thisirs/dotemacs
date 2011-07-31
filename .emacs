@@ -1208,6 +1208,9 @@ Also returns nil if pid is nil."
 
 
 (defun patch (func pattern patch)
+  "Patch a function definition by replacing `pattern' by `patch'."
+  (and (byte-code-function-p (symbol-function func))
+       (error "Symbol `%s' is bound to a byte compiled function." func))
   (fset func (repl (symbol-function func) pattern patch)))
 
 (defun repl (exp pattern patch)
@@ -1215,19 +1218,19 @@ Also returns nil if pid is nil."
    ((null exp) nil)
    ((listp exp)
     (let ((expr (repl (car exp) pattern patch)))
-      (if (equal expr pattern)
-          `(,@patch ,@(repl (cdr exp) pattern patch))
-        (cons expr (repl (cdr exp) pattern patch)))))
+      (cons
+       (if (equal expr pattern) patch expr)
+       (repl (cdr exp) pattern patch))))
    (t exp)))
 
 ;; (patch 'LaTeX-label
 ;;   '(completing-read
 ;;      (TeX-argument-prompt t nil "What label")
 ;;      (LaTeX-label-list) nil nil prefix)
-;;   '((completing-read
+;;   '(completing-read
 ;;       (TeX-argument-prompt t nil "What labelz")
 ;;       (LaTeX-label-list) nil nil nil nil
-;;       (concat prefix (reftex-string-to-label title)))))
+;;       (concat prefix "blah blah plouf")))
 
 ;; (eval-after-load 'latex '(patch 'LaTeX-common-initialization
 ;;                         (quote '("eqnarray" LaTeX-env-label))
