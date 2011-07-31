@@ -1238,19 +1238,30 @@ Also returns nil if pid is nil."
 
 ;;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.86")
+(add-to-list 'load-path "~/.emacs.d/auctex-11.86/preview")
 (load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
 (setq TeX-save-query nil) ; autosave before compiling
 
-;; Needed to use external programs
+;; Needed to use external programs such as gnuplot
 (setq LaTeX-command "latex --shell-escape")
 
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
 
+;; add subnumcases to the list of math environments
+(eval-after-load "font-latex"
+  '(add-to-list 'font-latex-math-environments "subnumcases"))
+
 (add-hook 'LaTeX-mode-hook
           (lambda ()
+	    (LaTeX-add-environments
+	     "equation*"
+	     '("subnumcases" "Before")
+	     '("block" "Title"))
 	    (setq LaTeX-verbatim-environments-local '("tikz"))
 	    (when buffer-file-name
 		 (turn-on-reftex)
@@ -1261,6 +1272,10 @@ Also returns nil if pid is nil."
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
+	    (LaTeX-add-environments
+	     "equation*"
+	     '("subnumcases" "Before")
+	     '("block" "Title"))
   escaping, the first element of a list is preferred when there
   is a list. When any prefix argument, unescape accented
   characters."
