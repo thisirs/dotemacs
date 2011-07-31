@@ -1223,19 +1223,6 @@ Also returns nil if pid is nil."
        (repl (cdr exp) pattern patch))))
    (t exp)))
 
-;; (patch 'LaTeX-label
-;;   '(completing-read
-;;      (TeX-argument-prompt t nil "What label")
-;;      (LaTeX-label-list) nil nil prefix)
-;;   '(completing-read
-;;       (TeX-argument-prompt t nil "What labelz")
-;;       (LaTeX-label-list) nil nil nil nil
-;;       (concat prefix "blah blah plouf")))
-
-;; (eval-after-load 'latex '(patch 'LaTeX-common-initialization
-;;                         (quote '("eqnarray" LaTeX-env-label))
-;;                         (quote ('("equation" LaTeX-env-label) '("equation*" LaTeX-env-label)))))
-
 ;;; Auctex
 (add-to-list 'load-path "~/.emacs.d/auctex-11.86")
 (add-to-list 'load-path "~/.emacs.d/auctex-11.86/preview")
