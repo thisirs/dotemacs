@@ -1298,7 +1298,7 @@ Also returns nil if pid is nil."
  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
  bookmark-save-flag 1)                        ;; autosave each change
 
-;; TODO faire survivre le processus à la fermeture de emacs
+;; gnome-open file that emacs can't
 (defun gnome-open (filename)
   (let ((process-connection-type nil))
     (start-process "" nil "/usr/bin/gnome-open" filename)))
