@@ -298,7 +298,7 @@ Also returns nil if pid is nil."
 (setq vc-follow-symlinks t)
 
 ;; notify events
-(autoload 'notify "notify" "Notify TITLE, BODY.")
+(require 'notifications)
 
 ;;; erc
 ;; check channels
@@ -314,24 +314,25 @@ Also returns nil if pid is nil."
 
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
-  (notify (format "%s in %s"
+  (notifications-notify
+   :title (format "%s in %s"
                   ;; Username of sender
                   (car (split-string nickuserhost "!"))
                   ;; Channel
                   (or (erc-default-target) "#unknown"))
-          (cond
-           ((eq match-type 'current-nick)
-            (if (string-match "^[Tt]hisirs" message)
-                "is talking to you!"
-              "is talking about you!"))
-           ((and (eq match-type 'keywords)
-                 (string-match "?" message))
-            (and (string-match "?$" message)
-                 (concat "is asking a question!\n" message)))
-           (t
-            (replace-regexp-in-string "[\t\n ]+" " " message)))
-          :icon "emacs-snapshot"
-          :timeout -1))
+   :body (cond
+	  ((eq match-type 'current-nick)
+	   (if (string-match "^[Tt]hisirs" message)
+	       "is talking to you!"
+	     "is talking about you!"))
+	  ((and (eq match-type 'keywords)
+		(string-match "?" message))
+	   (and (string-match "?$" message)
+		(concat "is asking a question!\n" message)))
+	  (t
+	   (replace-regexp-in-string "[\t\n ]+" " " message)))
+   :icon "emacs-snapshot"
+   :timeout -1))
 
 (add-hook 'erc-text-matched-hook 'my-notify-erc)
 
@@ -1100,11 +1101,12 @@ Also returns nil if pid is nil."
 
 ;; our little façade-function for djcb-popup
 (defun appt-display (min-to-app current-time msg)
-  (notify (format "Appointment in %s minute%s" min-to-app
+  (notifications-notify
+   :title (format "Appointment in %s minute%s" min-to-app
 		  (if (> min-to-app 1) "s" ""))
-          msg
-          "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
-          "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+   :body msg
+   :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+   :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
 
 (setq appt-disp-window-function 'appt-display)
 
