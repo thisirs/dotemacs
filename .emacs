@@ -1055,10 +1055,6 @@ Also returns nil if pid is nil."
                          (return 'org-agenda-date-weekend))))))
               (when face (return face)))))))
 
-;; Ne mettre qu'une seule étoile devant les titres
-;; FIXME marche pas quand on change le color-theme
-;; (setq org-hide-leading-stars t)
-
 ;; logging
 (setq org-log-done 'time)
 
