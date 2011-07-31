@@ -496,11 +496,11 @@ Also returns nil if pid is nil."
      (list (concat prefix (file-name-nondirectory dir))
            `(filename . ,dir)))
    (apply 'append
-    (mapcar
-     (lambda (dir)
-       (and (file-directory-p dir)
-	    (nreverse (find-projects dir))))
-     dir-list))))
+	  (mapcar
+	   (lambda (dir)
+	     (and (file-directory-p dir)
+		  (nreverse (find-projects dir))))
+	   dir-list))))
 
 (setq ibuffer-saved-filter-groups
       `(("default"
@@ -773,31 +773,31 @@ Also returns nil if pid is nil."
 
 (defun insert-in-scratch-buffer (string)
   (with-current-buffer (get-buffer-create "*scratch*")
-      (goto-char (point-max))
-      (and (not (bolp)) (insert "\n"))
-      (insert
-        (with-temp-buffer
-          (insert (mapconcat
-                    'identity
-                    (split-string string "\n+")
-                    " "))
-          (let ((fill-colunm 70)
-                 (fill-prefix ";; "))
-            (goto-char (point-min))
-            (insert ";; ")
-            (fill-region (point-min) (point-max)))
-          (buffer-string))
-	"\n\n")
-      (set-buffer-modified-p nil)))
+    (goto-char (point-max))
+    (and (not (bolp)) (insert "\n"))
+    (insert
+     (with-temp-buffer
+       (insert (mapconcat
+		'identity
+		(split-string string "\n+")
+		" "))
+       (let ((fill-colunm 70)
+	     (fill-prefix ";; "))
+	 (goto-char (point-min))
+	 (insert ";; ")
+	 (fill-region (point-min) (point-max)))
+       (buffer-string))
+     "\n\n")
+    (set-buffer-modified-p nil)))
 
 
 (set-process-filter
-  (start-process-shell-command
-    "msg in scratch buffer"
-    nil
-    "ruby ~/Dropbox/SCMB.rb")
-  (lambda (process string)
-    (insert-in-scratch-buffer string)))
+ (start-process-shell-command
+  "msg in scratch buffer"
+  nil
+  "ruby ~/Dropbox/SCMB.rb")
+ (lambda (process string)
+   (insert-in-scratch-buffer string)))
 
 ;; backups
 (setq make-backup-files t ;; do make backups
@@ -1249,12 +1249,12 @@ Also returns nil if pid is nil."
           (lambda ()
 	    (LaTeX-add-environments
 	     "equation*"
-	     '("subnumcases" "Before")
+             '("subnumcases" "Before")
 	     '("block" "Title"))
 	    (setq LaTeX-verbatim-environments-local '("tikz"))
 	    (when buffer-file-name
-		 (turn-on-reftex)
-		 (reftex-set-cite-format "~\\cite{%l}"))
+	      (turn-on-reftex)
+	      (reftex-set-cite-format "~\\cite{%l}"))
 	    (flyspell-mode)
 	    (TeX-source-correlate-mode 1) ; Source Specials
 	    (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
@@ -1467,11 +1467,11 @@ Also returns nil if pid is nil."
  (lambda (elt)
    (define-key dired-sort-map (car elt)
      `(lambda ()
-       (interactive)
-       (dired-sort-other
-        (concat dired-listing-switches
-                (unless (string-match "-r" dired-actual-switches)
-                  " -r") ,(cadr elt))))))
+	(interactive)
+	(dired-sort-other
+	 (concat dired-listing-switches
+		 (unless (string-match "-r" dired-actual-switches)
+		   " -r") ,(cadr elt))))))
  '(("n" "")
    ("x" " -X")
    ("s" " -S")
@@ -1611,16 +1611,17 @@ Also returns nil if pid is nil."
                    try-complete-lisp-symbol))
             ;;marquer les caractères au delà de 80 caractères
             (font-lock-add-keywords
-              nil
-              '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
+	     nil
+	     '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
             (font-lock-add-keywords
-              nil
-              '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
-                  1 font-lock-warning-face prepend)))
+	     nil
+	     '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
+		1 font-lock-warning-face prepend)))
             (font-lock-add-keywords
-              nil
-              '(("\\<\\(add-hook\\|setq\\)\\>"
-                  1 font-lock-keyword-face prepend)))))
+	     nil
+	     '(("\\<\\(add-hook\\|setq\\)\\>"
+		1 font-lock-keyword-face prepend)))))
+
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
