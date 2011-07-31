@@ -100,7 +100,7 @@
        "-o $HOME/.locate.db")
      " "))
    (lambda (process event)
-     (message (if (string-match "^finished" event)
+     (message (if (string= "finished\n" event)
                   "Locate database updated!"
                 "Updating locate database failed!")))))
 
