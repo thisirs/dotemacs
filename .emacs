@@ -1564,7 +1564,7 @@ Also returns nil if pid is nil."
 
 ;;; hippie-expand
 (global-set-key (kbd "S-SPC") 'hippie-expand)
-(global-set-key (kbd "C-S-SPC") '(lambda () (interactive) (hippie-expand -1)))
+(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
 
 (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
@@ -1587,7 +1587,7 @@ Also returns nil if pid is nil."
           (lambda()
             (setq mode-name "ELisp")
             (local-set-key (kbd "C-x E")
-                           '(lambda()(interactive)
+                           (lambda()(interactive)
                               (let ((debug-on-error t))
                                 (cond
                                  (mark-active
