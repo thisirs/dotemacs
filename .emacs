@@ -1251,7 +1251,6 @@ Also returns nil if pid is nil."
 	     "equation*"
              '("subnumcases" "Before")
 	     '("block" "Title"))
-	    (setq LaTeX-verbatim-environments-local '("tikz"))
 	    (when buffer-file-name
 	      (turn-on-reftex)
 	      (reftex-set-cite-format "~\\cite{%l}"))
