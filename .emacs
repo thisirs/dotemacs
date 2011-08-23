@@ -1733,7 +1733,7 @@ Also returns nil if pid is nil."
 (defun remove-hard-wrap-paragraph ()
   "Replace newline chars in current paragraph by single spaces."
   (interactive)
-  (let ((fill-column 10000000))
+  (let ((fill-column most-positive-fixnum))
     (fill-paragraph nil)))
 
 ;; Fonction équivalente à la précédente appliquée à la région sélectionnée et
@@ -1741,7 +1741,7 @@ Also returns nil if pid is nil."
 (defun remove-hard-wrap-region (start end)
   "Replace newline chars in region by single spaces."
   (interactive "r")
-  (let ((fill-column 10000000))
+  (let ((fill-column most-positive-fixnum))
     (fill-region start end)))
 
 ;; TODO tester si une région existe
