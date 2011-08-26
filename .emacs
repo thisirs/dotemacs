@@ -1969,7 +1969,7 @@ document."
   (save-excursion
     (let (labels (count 0))
       (goto-char (point-min))
-      (while (re-search-forward "\\\\ref{\\([^\n\r%\\{}]+\\)}" nil t)
+      (while (re-search-forward "\\\\\\(eq\\|page\\|[fvF]\\)?ref{\\([^\n\r%\\{}]+\\)}" nil t)
 	(setq labels (cons (match-string-no-properties 1) labels)))
       (goto-char (point-min))
       (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
@@ -1991,8 +1991,15 @@ document."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward
-	    (concat "\\\\\\(ref\\|label\\){\\("
+	    (concat "\\\\\\(\\(eq\\|page\\|[fvF]\\)?ref\\|label\\){\\("
 		    (regexp-quote label)
 		    "\\)}")
 	    nil t)
-      (replace-match new t t nil 2))))
+      (replace-match new t t nil 3))))
+
+(defun latex-occur-ref-wo-tilde ()
+  (interactive)
+  (occur "[^~]\\\\\\(eq\\|page\\|[fvF]\\)?ref"))
+
+(global-set-key [(control tab)] 'other-window)
+
