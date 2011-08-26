@@ -946,6 +946,15 @@ Also returns nil if pid is nil."
      (color-theme-initialize)
      (color-theme-railscasts)))
 
+
+;; yasnippet
+(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
+(yas/global-mode 1)
+(setq yas/triggers-in-field t)
+
 ;;; org-mode
 (require 'org)
 
@@ -1162,12 +1171,6 @@ Also returns nil if pid is nil."
 ;;     '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
 ;;   )
 ;; (add-hook 'after-init-hook 'toggle-fullscreen)
-
-(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
-(yas/global-mode 1)
 
 ;; se rappelle ou je suis dans un fichier
 (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
