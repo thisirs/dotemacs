@@ -2003,3 +2003,6 @@ document."
 
 (global-set-key [(control tab)] 'other-window)
 
+(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
+(require 'org-drill)
+
