@@ -1,7 +1,5 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config/extensions"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
@@ -63,28 +61,29 @@
 
 
 ;;; anything
-(require 'xml)
-(require 'anything-startup)
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config/extensions"))
+(require 'anything-config)
+(require 'anything-match-plugin)
+(require 'anything-complete)
+(anything-read-string-mode 1)
+
 (setq anything-command-map-prefix-key "C-x C-a")
 
 (setq anything-su-or-sudo "sudo")
 
 (setq anything-c-locate-command "locate -e -b -i -r \"%s\"")
 
-(defun my-anything ()
-  (interactive)
-  (anything-other-buffer
-   '(anything-c-source-ffap-line
-     anything-c-source-ffap-guesser
-     anything-c-source-buffers+
-     anything-c-source-recentf
-     anything-c-source-bookmarks
-     anything-c-source-file-cache
-     anything-c-source-files-in-current-dir+
-     anything-c-source-locate-thiskey
-     anything-c-source-locate) "*anything for files*"))
-
-(define-key anything-command-map (kbd "f") 'my-anything)
+(setq anything-for-files-prefered-list
+      '(anything-c-source-ffap-line
+	anything-c-source-ffap-guesser
+	anything-c-source-buffers-list
+	anything-c-source-recentf
+	anything-c-source-bookmarks
+	anything-c-source-file-cache
+	anything-c-source-files-in-current-dir+
+	anything-c-source-locate-thiskey
+	anything-c-source-locate))
 
 (defun update-locate-database ()
   "Update locate databases"
