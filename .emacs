@@ -1563,6 +1563,12 @@ Also returns nil if pid is nil."
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
+;; tidy.el
+(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
+(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
+(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
+(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
+
 ;;; hippie-expand
 (global-set-key (kbd "S-SPC") 'hippie-expand)
 (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
