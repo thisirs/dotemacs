@@ -1967,7 +1967,7 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 	 (prin1-to-string srt))))))
 
 
-(defun delete-unreferenced-labels ()
+(defun latex-delete-unreferenced-labels ()
   "Delete all occurences of a label that is not referenced in the
 document."
   (interactive)
@@ -1985,7 +1985,7 @@ document."
 	       (if (= count 0) "No" (int-to-string count))
 	       (if (>= count 2) "s" "")))))
 
-(defun refactor-label (label new)
+(defun latex-refactor-label (label new)
   "Rename a label and its references."
   (interactive
    (list (let ((tap (thing-at-point 'word)))
