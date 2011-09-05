@@ -1486,11 +1486,15 @@ Also returns nil if pid is nil."
 (auto-insert-mode t) ; Adds hook to find-files-hook
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
+
+(load-file "~/Dropbox/auto-insert.el")
+
 (setq auto-insert-alist
       '(
-        ("\\.rb$" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])
-        ("\\.sh$"   . ["autoinsert.bash" (lambda () (goto-char (point-max)))])
-        ("\\.tex$" . ["autoinsert.tex" (lambda () (goto-line 19))])
+        ("\\.rb$" . (("Ruby shebang" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])))
+        ("\\.sh$" . (("Bash shebang" . ["autoinsert.bash" (lambda () (goto-char (point-max)))])))
+        ("\\.tex$" . (("Latex article" . ["autoinsert.tex" (lambda () (goto-line 19))])
+		      ("Standalone TikZ" . ["standalone-tikz.tex"])))
         ))
 (setq auto-insert 'other)
 
