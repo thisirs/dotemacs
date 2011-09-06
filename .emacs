@@ -2040,3 +2040,17 @@ document."
 (add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
 (require 'org-drill)
 
+;; trying paredit
+(autoload 'enable-paredit-mode "paredit"
+  "Turn on pseudo-structural editing of Lisp code."
+  t)
+
+(autoload 'hl-sexp-mode "hl-sexp")
+
+;; Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each command
+(eval-after-load "hl-sexp"
+  '(defadvice hl-sexp-mode (after unflicker (turn-on) activate)
+     (when turn-on
+       (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
+
+(add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
