@@ -1490,23 +1490,15 @@ Also returns nil if pid is nil."
 (load-file "~/Dropbox/auto-insert.el")
 
 (setq auto-insert-alist
-      '(
+      `(
         ("\\.rb$" . (("Ruby shebang" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])))
         ("\\.sh$" . (("Bash shebang" . ["autoinsert.bash" (lambda () (goto-char (point-max)))])))
-        ("\\.tex$" . (("Latex article" . ["latex-default.tex" (lambda () (goto-line 19))])
-		      ("Standalone TikZ" . ["standalone-tikz.tex" (lambda () (goto-line 18))])))
-	("\\.el$" . (("Blah time" . (lambda () (auto-insert-yasnippet "time")))))
-        ))
+        ("\\.tex$" .
+	 (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
+	  ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))))))
 
-(defun auto-insert-yasnippet (key)
-  (let ((template (cdr (car (mapcan #'(lambda (table)
-				   (yas/fetch table key))
-			       (yas/get-snippet-tables))))))
-    (yas/expand-snippet (yas/template-content template)
-			(point)
-			(point)
-			(yas/template-expand-env template))))
-
+(defmacro auto-insert-yasnippet (key)
+  `(lambda () (insert ,key) (yas/expand)))
 
 (setq auto-insert 'other)
 
