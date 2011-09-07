@@ -1510,6 +1510,9 @@ Also returns nil if pid is nil."
 
 (load-file "~/Dropbox/auto-insert.el")
 
+(defmacro auto-insert-yasnippet (key)
+  `(lambda () (insert ,key) (yas/expand)))
+
 (setq auto-insert-alist
       `(
         ("\\.rb$" . (("Ruby shebang" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])))
@@ -1517,9 +1520,6 @@ Also returns nil if pid is nil."
         ("\\.tex$" .
 	 (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
 	  ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))))))
-
-(defmacro auto-insert-yasnippet (key)
-  `(lambda () (insert ,key) (yas/expand)))
 
 (setq auto-insert 'other)
 
