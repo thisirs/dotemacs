@@ -278,21 +278,22 @@ Also returns nil if pid is nil."
 
 
 ;; auto-save with non-visiting buffer is too rigid
-(add-hook 'kill-emacs-hook
-          (lambda ()
-            "create a backup of scratch buffer"
-            (and (get-buffer "*scratch*")
-                 (with-current-buffer "*scratch*"
-                   (and (buffer-modified-p)
-                        (write-file (let ((alist backup-directory-alist)
-                                          elt backup-directory)
-                                      (while alist
-                                        (setq elt (pop alist))
-                                        (if (string-match (car elt) "*scratch*")
-                                            (setq backup-directory (cdr elt)
-                                                  alist nil)))
-                                      (concat (file-name-as-directory
-                                               backup-directory) "scratch-buffer-backup.el"))))))))
+(defun save-scratch-buffer ()
+  "Create a backup of scratch buffer"
+  (and (get-buffer "*scratch*")
+       (with-current-buffer "*scratch*"
+	 (and (buffer-modified-p)
+	      (write-file (let ((alist backup-directory-alist)
+				elt backup-directory)
+			    (while alist
+			      (setq elt (pop alist))
+			      (if (string-match (car elt) "*scratch*")
+				  (setq backup-directory (cdr elt)
+					alist nil)))
+			    (concat (file-name-as-directory
+				     backup-directory) "scratch-buffer-backup.el")))))))
+
+(add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
 (defun backup-scratch-buffer ()
   (with-current-buffer "*scratch*"
