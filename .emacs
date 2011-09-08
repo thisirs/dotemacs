@@ -76,14 +76,14 @@
 
 (setq anything-for-files-prefered-list
       '(anything-c-source-ffap-line
-	anything-c-source-ffap-guesser
-	anything-c-source-buffers-list
-	anything-c-source-recentf
-	anything-c-source-bookmarks
-	anything-c-source-file-cache
-	anything-c-source-files-in-current-dir+
-	anything-c-source-locate-thiskey
-	anything-c-source-locate))
+        anything-c-source-ffap-guesser
+        anything-c-source-buffers-list
+        anything-c-source-recentf
+        anything-c-source-bookmarks
+        anything-c-source-file-cache
+        anything-c-source-files-in-current-dir+
+        anything-c-source-locate-thiskey
+        anything-c-source-locate))
 
 (defun update-locate-database ()
   "Update locate databases"
@@ -146,7 +146,7 @@ Also returns nil if pid is nil."
   (start-process-shell-command
    "locate-thiskey-process" nil
    (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
-	   anything-pattern)))
+           anything-pattern)))
 
 (defvar anything-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
@@ -172,14 +172,14 @@ Also returns nil if pid is nil."
 
 (defun text-to-speech (text)
   (call-process "wget" nil nil nil
-		"-q"
-		"-U"
-		"Mozilla"
-		"-O"
-		"/tmp/output.mp3"
-		(concat
-		 "http://translate.google.com/translate_tts?tl=en&q="
-		 text))
+                "-q"
+                "-U"
+                "Mozilla"
+                "-O"
+                "/tmp/output.mp3"
+                (concat
+                 "http://translate.google.com/translate_tts?tl=en&q="
+                 text))
   (call-process "mplayer" nil nil nil "/tmp/output.mp3"))
 
 
@@ -193,7 +193,7 @@ Also returns nil if pid is nil."
       (call-process "curl" nil '(t nil) nil request)
       (goto-char (point-min))
       (and (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-	   (list (match-string 1))))))
+           (list (match-string 1))))))
 
 (define-key anything-command-map (kbd "t") 'anything-translate)
 
@@ -286,31 +286,31 @@ Also returns nil if pid is nil."
   "Create a backup of scratch buffer"
   (and (get-buffer "*scratch*")
        (with-current-buffer "*scratch*"
-	 (and (buffer-modified-p)
-	      (write-file (let ((alist backup-directory-alist)
-				elt backup-directory)
-			    (while alist
-			      (setq elt (pop alist))
-			      (if (string-match (car elt) "*scratch*")
-				  (setq backup-directory (cdr elt)
-					alist nil)))
-			    (concat (file-name-as-directory
-				     backup-directory) "scratch-buffer-backup.el")))))))
+         (and (buffer-modified-p)
+              (write-file (let ((alist backup-directory-alist)
+                                elt backup-directory)
+                            (while alist
+                              (setq elt (pop alist))
+                              (if (string-match (car elt) "*scratch*")
+                                  (setq backup-directory (cdr elt)
+                                        alist nil)))
+                            (concat (file-name-as-directory
+                                     backup-directory) "scratch-buffer-backup.el")))))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
 (defun backup-scratch-buffer ()
   (with-current-buffer "*scratch*"
     (let ((alist backup-directory-alist)
-	  elt backup-directory)
+          elt backup-directory)
       (while alist
-	(setq elt (pop alist))
-	(if (string-match (car elt) "*scratch*")
-	    (setq backup-directory (cdr elt)
-		  alist nil)))
+        (setq elt (pop alist))
+        (if (string-match (car elt) "*scratch*")
+            (setq backup-directory (cdr elt)
+                  alist nil)))
       (setq buffer-file-name
-	    (concat (file-name-as-directory backup-directory)
-		    "*scratch*.el"))
+            (concat (file-name-as-directory backup-directory)
+                    "*scratch*.el"))
       (backup-buffer))
     (setq buffer-file-name nil)))
 
@@ -343,16 +343,16 @@ Also returns nil if pid is nil."
                   ;; Channel
                   (or (erc-default-target) "#unknown"))
    :body (cond
-	  ((eq match-type 'current-nick)
-	   (if (string-match "^[Tt]hisirs" message)
-	       "is talking to you!"
-	     "is talking about you!"))
-	  ((and (eq match-type 'keywords)
-		(string-match "?" message))
-	   (and (string-match "?$" message)
-		(concat "is asking a question!\n" message)))
-	  (t
-	   (replace-regexp-in-string "[\t\n ]+" " " message)))
+          ((eq match-type 'current-nick)
+           (if (string-match "^[Tt]hisirs" message)
+               "is talking to you!"
+             "is talking about you!"))
+          ((and (eq match-type 'keywords)
+                (string-match "?" message))
+           (and (string-match "?$" message)
+                (concat "is asking a question!\n" message)))
+          (t
+           (replace-regexp-in-string "[\t\n ]+" " " message)))
    :icon "emacs-snapshot"
    :timeout -1))
 
@@ -518,11 +518,11 @@ Also returns nil if pid is nil."
      (list (concat prefix (file-name-nondirectory dir))
            `(filename . ,dir)))
    (apply 'append
-	  (mapcar
-	   (lambda (dir)
-	     (and (file-directory-p dir)
-		  (nreverse (find-projects dir))))
-	   dir-list))))
+          (mapcar
+           (lambda (dir)
+             (and (file-directory-p dir)
+                  (nreverse (find-projects dir))))
+           dir-list))))
 
 (setq ibuffer-saved-filter-groups
       `(("default"
@@ -604,15 +604,15 @@ Also returns nil if pid is nil."
 
 (setq ibuffer-formats
       '((mark modified read-only " "
-	     (name 18 18 :left :elide)
-	     " "
-	     (size-h 9 -1 :right)
-	     " "
-	     (mode 16 16 :left :elide)
-	     " " filename-and-process)
-       (mark " "
-	     (name 16 -1)
-	     " " filename)))
+              (name 18 18 :left :elide)
+              " "
+              (size-h 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " " filename-and-process)
+        (mark " "
+              (name 16 -1)
+              " " filename)))
 
 (add-hook 'ibuffer-mode-hook
           (lambda ()
@@ -673,11 +673,11 @@ Also returns nil if pid is nil."
 ;; d'indentations si besoin
 (defadvice kill-line (before check-position activate)
   (if (member major-mode '(emacs-lisp-mode
-			   lisp-interaction-mode
-			   scheme-mode lisp-mode
-			   c-mode c++-mode objc-mode
-			   latex-mode plain-tex-mode
-			   ruby-mode python-mode))
+                           lisp-interaction-mode
+                           scheme-mode lisp-mode
+                           c-mode c++-mode objc-mode
+                           latex-mode plain-tex-mode
+                           ruby-mode python-mode))
       (if (and (eolp) (not (bolp)))
           (progn (forward-char 1)
                  (just-one-space 0)
@@ -821,14 +821,14 @@ Also returns nil if pid is nil."
     (insert
      (with-temp-buffer
        (insert (mapconcat
-		'identity
-		(split-string string "\n+")
-		" "))
+                'identity
+                (split-string string "\n+")
+                " "))
        (let ((fill-colunm 70)
-	     (fill-prefix ";; "))
-	 (goto-char (point-min))
-	 (insert ";; ")
-	 (fill-region (point-min) (point-max)))
+             (fill-prefix ";; "))
+         (goto-char (point-min))
+         (insert ";; ")
+         (fill-region (point-min) (point-max)))
        (buffer-string))
      "\n\n")
     (set-buffer-modified-p nil)))
@@ -923,8 +923,8 @@ Also returns nil if pid is nil."
 
 ;; nuke old buffer after running emacs
 (run-with-idle-timer 10 nil
-		     (lambda ()
-		       (run-hooks 'midnight-hook)))
+                     (lambda ()
+                       (run-hooks 'midnight-hook)))
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -1011,7 +1011,7 @@ Also returns nil if pid is nil."
             (make-variable-buffer-local 'yas/trigger-key)
             (setq yas/trigger-key [tab])
             (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-	    (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
+            (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 
 (setq org-todo-keywords
       '("TODO" "|" "CANCELLED" "DONE"))
@@ -1157,7 +1157,7 @@ Also returns nil if pid is nil."
 (defun appt-display (min-to-app current-time msg)
   (notifications-notify
    :title (format "Appointment in %s minute%s" min-to-app
-		  (if (> min-to-app 1) "s" ""))
+                  (if (> min-to-app 1) "s" ""))
    :body msg
    :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
    :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
@@ -1296,16 +1296,16 @@ Also returns nil if pid is nil."
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
-	    (LaTeX-add-environments
-	     "equation*"
+            (LaTeX-add-environments
+             "equation*"
              '("subnumcases" "Before")
-	     '("block" "Title"))
-	    (when buffer-file-name
-	      (turn-on-reftex)
-	      (reftex-set-cite-format "~\\cite{%l}"))
-	    (flyspell-mode)
-	    (TeX-source-correlate-mode 1) ; Source Specials
-	    (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+             '("block" "Title"))
+            (when buffer-file-name
+              (turn-on-reftex)
+              (reftex-set-cite-format "~\\cite{%l}"))
+            (flyspell-mode)
+            (TeX-source-correlate-mode 1) ; Source Specials
+            (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
@@ -1515,11 +1515,11 @@ Also returns nil if pid is nil."
  (lambda (elt)
    (define-key dired-sort-map (car elt)
      `(lambda ()
-	(interactive)
-	(dired-sort-other
-	 (concat dired-listing-switches
-		 (unless (string-match "-r" dired-actual-switches)
-		   " -r") ,(cadr elt))))))
+        (interactive)
+        (dired-sort-other
+         (concat dired-listing-switches
+                 (unless (string-match "-r" dired-actual-switches)
+                   " -r") ,(cadr elt))))))
  '(("n" "")
    ("x" " -X")
    ("s" " -S")
@@ -1544,8 +1544,8 @@ Also returns nil if pid is nil."
         ("\\.rb$" . (("Ruby shebang" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])))
         ("\\.sh$" . (("Bash shebang" . ["autoinsert.bash" (lambda () (goto-char (point-max)))])))
         ("\\.tex$" .
-	 (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
-	  ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))))))
+         (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
+          ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))))))
 
 (setq auto-insert 'other)
 
@@ -1650,15 +1650,15 @@ Also returns nil if pid is nil."
             (setq mode-name "ELisp")
             (local-set-key (kbd "C-x E")
                            (lambda()(interactive)
-                              (let ((debug-on-error t))
-                                (cond
-                                 (mark-active
-                                  (call-interactively 'eval-region)
-                                  (message "Region evaluated!")
-                                  (setq deactivate-mark t))
-                                 (t
-                                  (eval-buffer)
-                                  (message "Buffer evaluated!"))))))
+                             (let ((debug-on-error t))
+                               (cond
+                                (mark-active
+                                 (call-interactively 'eval-region)
+                                 (message "Region evaluated!")
+                                 (setq deactivate-mark t))
+                                (t
+                                 (eval-buffer)
+                                 (message "Buffer evaluated!"))))))
             (linum-mode t)
             (setq lisp-indent-offset nil)
             ;;(turn-on-auto-fill)
@@ -1673,16 +1673,16 @@ Also returns nil if pid is nil."
                    try-complete-lisp-symbol))
             ;;marquer les caractères au delà de 80 caractères
             (font-lock-add-keywords
-	     nil
-	     '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
+             nil
+             '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
             (font-lock-add-keywords
-	     nil
-	     '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
-		1 font-lock-warning-face prepend)))
+             nil
+             '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
+                1 font-lock-warning-face prepend)))
             (font-lock-add-keywords
-	     nil
-	     '(("\\<\\(add-hook\\|setq\\)\\>"
-		1 font-lock-keyword-face prepend)))))
+             nil
+             '(("\\<\\(add-hook\\|setq\\)\\>"
+                1 font-lock-keyword-face prepend)))))
 
 
 (defun eval-and-replace ()
@@ -2018,8 +2018,8 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
       (or (bolp) (insert "\n"))
       (insert
        (if (stringp srt)
-	   srt
-	 (prin1-to-string srt))))))
+           srt
+         (prin1-to-string srt))))))
 
 
 (defun latex-delete-unreferenced-labels ()
@@ -2030,31 +2030,31 @@ document."
     (let (labels (count 0))
       (goto-char (point-min))
       (while (re-search-forward "\\\\\\(eq\\|page\\|[fvF]\\)?ref{\\([^\n\r%\\{}]+\\)}" nil t)
-	(setq labels (cons (match-string-no-properties 1) labels)))
+        (setq labels (cons (match-string-no-properties 1) labels)))
       (goto-char (point-min))
       (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
-	(unless (member (match-string-no-properties 1) labels)
-	  (delete-region (match-beginning 0) (match-end 0))
-	  (setq count (+ 1 count))))
+        (unless (member (match-string-no-properties 1) labels)
+          (delete-region (match-beginning 0) (match-end 0))
+          (setq count (+ 1 count))))
       (message "%s label%s deleted!"
-	       (if (= count 0) "No" (int-to-string count))
-	       (if (>= count 2) "s" "")))))
+               (if (= count 0) "No" (int-to-string count))
+               (if (>= count 2) "s" "")))))
 
 (defun latex-refactor-label (label new)
   "Rename a label and its references."
   (interactive
    (list (let ((tap (thing-at-point 'word)))
-	   (read-string
-	    (format "Old label%s: " (if tap (concat " (" tap ")") ""))
-	    nil nil tap))
-	 (read-string "New label: ")))
+           (read-string
+            (format "Old label%s: " (if tap (concat " (" tap ")") ""))
+            nil nil tap))
+         (read-string "New label: ")))
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward
-	    (concat "\\\\\\(\\(eq\\|page\\|[fvF]\\)?ref\\|label\\){\\("
-		    (regexp-quote label)
-		    "\\)}")
-	    nil t)
+            (concat "\\\\\\(\\(eq\\|page\\|[fvF]\\)?ref\\|label\\){\\("
+                    (regexp-quote label)
+                    "\\)}")
+            nil t)
       (replace-match new t t nil 3))))
 
 (defun latex-occur-ref-wo-tilde ()
