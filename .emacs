@@ -110,6 +110,7 @@
 (require 'dbus)
 
 (defun THISKEY-dbus-signal-handler (service id args)
+  "Resurrect THISKEY opened buffers when it is plugged"
   (when (string= "THISKEY" (cadr args))
     (let ((desktop-load-locked-desktop t))
       (desktop-read))
