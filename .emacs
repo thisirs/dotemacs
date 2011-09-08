@@ -1233,8 +1233,12 @@ Also returns nil if pid is nil."
   (untabify (point-min) (point-max)))
 
 ;; if indent-tabs-mode is off, untabify before saving
-(add-hook 'write-file-hooks
-          (lambda () (or indent-tabs-mode (untabify (point-min) (point-max)))))
+(add-hook 'write-file-functions
+          (lambda ()
+	    (and
+	     (or indent-tabs-mode (untabify (point-min) (point-max)))
+	     nil)))
+
 
 ;; Numérotation des lignes dans la marge
 (require 'linum)
