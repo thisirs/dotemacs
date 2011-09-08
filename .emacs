@@ -202,13 +202,13 @@ Also returns nil if pid is nil."
 (defvar boss-window-configuration nil "Window configuration to switch to when the boss comes!")
 (defvar my-window-configuration nil "Window configuration to switch back to!")
 
-(defun define-current-window-configuration nil
+(defun boss-save nil
   "Define current window configuration as boss's one"
   (interactive)
   (setq boss-window-configuration (current-window-configuration))
   (message "Boss window configuration set to current!"))
 
-(defun boss nil
+(defun boss-reload nil
   "Switch to boss windows configuration"
   (interactive)
   (if (equal (current-window-configuration) boss-window-configuration)
@@ -216,8 +216,8 @@ Also returns nil if pid is nil."
     (setq my-window-configuration (current-window-configuration))
     (set-window-configuration boss-window-configuration)))
 
-(global-set-key (kbd "²") 'boss)
-(global-set-key (kbd "C-²") 'define-current-window-configuration)
+(global-set-key (kbd "²") 'boss-reload)
+(global-set-key (kbd "C-²") 'boss-save)
 
 
 ;; winner-mode
