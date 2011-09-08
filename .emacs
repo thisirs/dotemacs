@@ -1279,8 +1279,9 @@ Also returns nil if pid is nil."
    (t exp)))
 
 ;;; Auctex
-(add-to-list 'load-path "~/.emacs.d/auctex-11.86")
-(add-to-list 'load-path "~/.emacs.d/auctex-11.86/preview")
+(add-to-list 'load-path "~/.emacs.d/auctex-cvs")
+(add-to-list 'load-path "~/.emacs.d/auctex-cvs/preview")
+
 (load "auctex.el" nil t t)
 (load "preview-latex.el" nil t t)
 
