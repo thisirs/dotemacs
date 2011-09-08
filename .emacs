@@ -294,7 +294,24 @@ Also returns nil if pid is nil."
                                       (concat (file-name-as-directory
                                                backup-directory) "scratch-buffer-backup.el"))))))))
 
-;; suit les liens vers système de contrôles de versions
+(defun backup-scratch-buffer ()
+  (with-current-buffer "*scratch*"
+    (let ((alist backup-directory-alist)
+	  elt backup-directory)
+      (while alist
+	(setq elt (pop alist))
+	(if (string-match (car elt) "*scratch*")
+	    (setq backup-directory (cdr elt)
+		  alist nil)))
+      (setq buffer-file-name
+	    (concat (file-name-as-directory backup-directory)
+		    "*scratch*.el"))
+      (backup-buffer))
+    (setq buffer-file-name nil)))
+
+
+
+;; suit les liens vers les systèmes de contrôle de versions
 (setq vc-follow-symlinks t)
 
 ;; notify events
