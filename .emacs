@@ -2026,6 +2026,15 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
            srt
          (prin1-to-string srt))))))
 
+(defmacro to-scr2 (srt)
+  "print in scratch buffer"
+  `(with-current-buffer "*scratch*"
+     (save-excursion
+       (goto-char (point-max))
+       (or (bolp) (insert "\n"))
+       (insert
+	(format "%s: %s" (symbol-name ',srt) ,srt)))))
+
 
 (defun latex-delete-unreferenced-labels ()
   "Delete all occurences of a label that is not referenced in the
