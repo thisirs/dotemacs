@@ -231,8 +231,8 @@ Also returns nil if pid is nil."
         "*Calendar*"
         "*anything*"))
 
-
-(setq indent-tabs-mode nil)
+;;; Prevent Extraneous Tabs
+(setq-default indent-tabs-mode nil)
 
 ;; M-RET to keep writing comments, clashes with auctex mode
 ;; (global-set-key (kbd "M-RET") comment-line-break-function)
