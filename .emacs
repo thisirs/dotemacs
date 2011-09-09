@@ -258,10 +258,6 @@ Also returns nil if pid is nil."
        (set-face-background 'magit-item-highlight "white"))))
 
 ;; warn when untracked files, unpushed commits or changes
-(defadvice save-buffers-kill-emacs (before query-vc activate)
-  (check-changes-or-unpushed))
-
-
 (defun check-changes-or-unpushed ()
   (not (and
         ;; true if there is a *magit:xx* buffer with untracked...
@@ -276,7 +272,6 @@ Also returns nil if pid is nil."
                       t))
                (buffer-list)))
         (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
-
 
 (add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
 
