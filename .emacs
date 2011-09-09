@@ -1550,7 +1550,9 @@ Also returns nil if pid is nil."
         ("\\.sh$" . (("Bash shebang" . ["autoinsert.bash" (lambda () (goto-char (point-max)))])))
         ("\\.tex$" .
          (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
-          ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))))))
+          ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))
+	  ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))))))
+
 
 (setq auto-insert 'other)
 
