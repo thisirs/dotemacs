@@ -2013,6 +2013,7 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
 
 (add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
+(setq url-cache-directory "~/.emacs.d/cache")
 (require 'org-google-weather)
 
 (defun to-scr (srt)
