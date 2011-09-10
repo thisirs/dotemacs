@@ -1230,9 +1230,9 @@ Also returns nil if pid is nil."
 ;; if indent-tabs-mode is off, untabify before saving
 (add-hook 'write-file-functions
           (lambda ()
-	    (and
-	     (or indent-tabs-mode (untabify (point-min) (point-max)))
-	     nil)))
+            (and
+             (or indent-tabs-mode (untabify (point-min) (point-max)))
+             nil)))
 
 
 ;; Numérotation des lignes dans la marge
@@ -1546,7 +1546,7 @@ Also returns nil if pid is nil."
         ("\\.tex$" .
          (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
           ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))
-	  ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))))))
+          ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))))))
 
 
 (setq auto-insert 'other)
@@ -2031,7 +2031,7 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
        (goto-char (point-max))
        (or (bolp) (insert "\n"))
        (insert
-	(format "%s: %s" (symbol-name ',srt) ,srt)))))
+        (format "%s: %s" (symbol-name ',srt) ,srt)))))
 
 
 (defun latex-delete-unreferenced-labels ()
