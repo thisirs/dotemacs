@@ -616,21 +616,15 @@ Also returns nil if pid is nil."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; indenter automatiquement le code collé :
-(defadvice yank (after indent-region activate)
-  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                     lisp-mode c-mode c++-mode objc-mode
-                                     latex-mode plain-tex-mode
-                                     python-mode))
-      (indent-region (region-beginning) (region-end) nil)))
-
-(defadvice yank-pop (after indent-region activate)
-  (if (member major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                     lisp-mode c-mode c++-mode objc-mode
-                                     latex-mode plain-tex-mode
-                                     python-mode))
-      (indent-region (region-beginning) (region-end) nil)))
-
-
+(mapc
+ (lambda (func)
+   (defadvice func (after indent-region activate)
+     (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+				      lisp-mode c-mode c++-mode objc-mode
+				      latex-mode plain-tex-mode
+				      python-mode))
+      (indent-region (region-beginning) (region-end) nil))))
+ '(yank yank-pop))
 
 ;; kill-ring-save (M-w) copie la ligne si aucune region active,
 ;; copie le groupe si au dessus d'un délimiteur
