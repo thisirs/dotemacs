@@ -1750,26 +1750,6 @@ Also returns nil if pid is nil."
 (global-set-key (kbd "C-c s") 'replace-string)
 (global-set-key (kbd "C-c r") 'replace-regexp)
 
-(defun inside-string-p ()
-  "Returns true if we're inside a string."
-  (cadddr (syntax-ppss)))
-
-(defun match-paren (arg)
-  "Go to the matching parenthesis if on parenthesis otherwise insert %."
-  (interactive "p")
-  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-        (t (self-insert-command (or arg 1)))))
-(global-set-key "%" 'match-paren)
-
-;; but give the emacs window a still good shape !
-;; emacs -mm starts maximized
-;; (setq initial-frame-alist '((width . 90) (height . 42))) ; .Xdefaults
-;; (setq initial-frame-alist
-;;   '((left . 1) (top . 1)
-;;      (width . 176) (height . 46)))
-
-
 ;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
 ;; qu'Emacs me l'affiche sur autant de lignes que nécessaire plutôt que de
 ;; masquer la partie qui dépasse à droite de l'écran. Pour que ce comportement
