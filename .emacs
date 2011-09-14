@@ -114,6 +114,7 @@
   (when (string= "THISKEY" (cadr args))
     (let ((desktop-load-locked-desktop t))
       (desktop-read))
+    (run-with-idle-timer 10 nil 'update-locate-database)
     (message "Mounting THISKEY, desktop-read")))
 
 (when (fboundp 'dbus-register-signal)
