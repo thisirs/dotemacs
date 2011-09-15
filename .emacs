@@ -9,6 +9,9 @@
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
 
+;; no limit on how many lines to keep in *Messages* buffer
+(setq message-log-max t)
+
 (require 'auto-install)
 
 (require 'instant)
