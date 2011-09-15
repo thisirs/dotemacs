@@ -619,12 +619,12 @@ Also returns nil if pid is nil."
 ;; indenter automatiquement le code collé :
 (mapc
  (lambda (func)
-   (defadvice func (after indent-region activate)
+   (eval `(defadvice ,func (after indent-region activate)
      (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-				      lisp-mode c-mode c++-mode objc-mode
-				      latex-mode plain-tex-mode
-				      python-mode))
-      (indent-region (region-beginning) (region-end) nil))))
+                                      lisp-mode c-mode c++-mode objc-mode
+                                      latex-mode plain-tex-mode
+                                      python-mode matlab-mode))
+      (indent-region (region-beginning) (region-end) nil)))))
  '(yank yank-pop))
 
 ;; kill-ring-save (M-w) copie la ligne si aucune region active,
