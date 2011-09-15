@@ -1237,7 +1237,7 @@ Also returns nil if pid is nil."
 
 ;; Correction orthographique
 (setq ispell-dictionary "fr")
-(load-file "~/.emacs.d/flyspell-1.7n.el")
+(require 'flyspell)
 
 (defun switch-dictionary ()
   "Switch between en and fr dictionaries."
