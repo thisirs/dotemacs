@@ -1544,7 +1544,8 @@ Also returns nil if pid is nil."
         ("\\.tex$" .
          (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
           ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))
-          ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))))))
+          ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))
+          ("Letter" . ,(auto-insert-yasnippet "ll"))))))
 
 
 (setq auto-insert 'other)
