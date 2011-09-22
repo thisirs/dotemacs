@@ -1350,7 +1350,8 @@ Also returns nil if pid is nil."
 ;; gnome-open file that emacs can't
 (defun gnome-open (filename)
   (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/gnome-open" filename)))
+    (start-process "" nil "/usr/bin/gnome-open"
+                   (expand-file-name filename))))
 
 (defadvice find-file (around find-or-launch-file)
   "Gnome opens file that emacs can't."
