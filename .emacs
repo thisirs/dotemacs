@@ -2032,22 +2032,39 @@ document."
                (if (= count 0) "No" (int-to-string count))
                (if (>= count 2) "s" "")))))
 
+
+(defun enclosing-braces-at-point ()
+  (and (thing-at-point-looking-at "{\\([^}]*\\)}")
+       (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
+
 (defun latex-refactor-label (label new)
-  "Rename a label and its references."
+  "Rename a label and its references in a LaTeX document. Word at
+point is suggested as the default label to replace. A message
+show you how many labels and refs have been replaced."
   (interactive
-   (list (let ((tap (thing-at-point 'word)))
+   (list (let ((tap (or (enclosing-braces-at-point) (thing-at-point 'word))))
            (read-string
             (format "Old label%s: " (if tap (concat " (" tap ")") ""))
             nil nil tap))
          (read-string "New label: ")))
   (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward
-            (concat "\\\\\\(\\(eq\\|page\\|[fvF]\\)?ref\\|label\\){\\("
-                    (regexp-quote label)
-                    "\\)}")
-            nil t)
-      (replace-match new t t nil 3))))
+    (message
+     (concat "\"%s\" -> \"%s\": "
+             (mapconcat
+              (lambda (args)
+                (goto-char (point-min))
+                (let ((n 0))
+                  (while (re-search-forward
+                          (concat "\\\\\\(?:" (car args) "\\){\\("
+                                  (regexp-quote label) "\\)}") nil t)
+                    (setq n (1+ n))
+                    (replace-match new t t nil 1))
+                  (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
+              '(("label" . "label")
+                ("\\(?:eq\\|page\\|[fvF]\\)?ref" . "reference"))
+              " and ")
+             " replaced!")
+     label new)))
 
 (defun latex-occur-ref-wo-tilde ()
   (interactive)
