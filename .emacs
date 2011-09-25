@@ -2072,3 +2072,15 @@ document."
        (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
 
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
+
+(defun mapconcatend (list func separator last-separator)
+  "Like mapconcat but the last separator can be specified."
+  (cond
+   ((null list) "")
+   ((cdr (cdr list))
+    (concat (funcall func (car list)) separator
+            (mapconcatend (cdr list) func separator last-separator)))
+   (t (concat
+       (funcall func (car list))
+       last-separator
+       (funcall func (cadr list))))))
