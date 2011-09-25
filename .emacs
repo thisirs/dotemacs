@@ -2073,14 +2073,36 @@ document."
 
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
 
-(defun mapconcatend (list func separator last-separator)
+(defun mapconcatend (func list separator last-separator)
   "Like mapconcat but the last separator can be specified."
   (cond
    ((null list) "")
    ((cdr (cdr list))
     (concat (funcall func (car list)) separator
-            (mapconcatend (cdr list) func separator last-separator)))
+            (mapconcatend func (cdr list) separator last-separator)))
    (t (concat
        (funcall func (car list))
        last-separator
        (funcall func (cadr list))))))
+
+
+
+(defvar magit-check-sections
+  '((unstaged . "%s unstaged changes")))
+
+(defun magit-check-unfinished ()
+  (mapc
+   (lambda (buf)
+     (and (string-match "^\*magit: \\(.*\\)$" buf)
+          (with-current-buffer buf
+            (mapconcatend
+             (lambda (section)
+               (let ((sec (magit-find-section (list (car section) magit-top-section))))
+                 (if sec (format (cdr section)
+                                 (length (magit-section-children sec)))
+                   "")))
+             magit-check-sections
+             ", " " and "))))))
+
+
+(add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
