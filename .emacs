@@ -261,23 +261,49 @@ Also returns nil if pid is nil."
      (when (not window-system)
        (set-face-background 'magit-item-highlight "white"))))
 
-;; warn when untracked files, unpushed commits or changes
-(defun check-changes-or-unpushed ()
-  (not (and
-        ;; true if there is a *magit:xx* buffer with untracked...
-        (memq t
-              (mapcar
-               (lambda (buf)
-                 (and (string-match "^\*magit:" (buffer-name buf))
-                      (with-current-buffer buf
-                        (save-excursion
-                          (goto-char (point-min))
-                          (re-search-forward "^\\(Untracked files\\|Unpushed commits\\|Changes\\)" nil t)))
-                      t))
-               (buffer-list)))
-        (yes-or-no-p "Changes not committed or unpushed commits; save before leave? "))))
+(defun mapconcatend (func list separator last-separator)
+  "Like mapconcat but the last separator can be specified."
+  (cond
+   ((null list) "")
+   ((cdr (cdr list))
+    (concat (funcall func (car list)) separator
+            (mapconcatend func (cdr list) separator last-separator)))
+   ((cdr list) (concat
+                (funcall func (car list))
+                last-separator
+                (funcall func (cadr list))))
+   (t (funcall func (car list)))))
 
-(add-to-list 'kill-emacs-query-functions 'check-changes-or-unpushed)
+(defvar magit-check-sections
+  '((".*" (unstaged . "unstaged changes")
+     (unpushed . "unpushed commits"))))
+
+;; warn when untracked files, unpushed commits or changes
+(defun magit-check-unfinished ()
+  (let ((bl (buffer-list)))
+    (while (and bl
+                (or (not (string-match "^\\*magit: \\(.*\\)\\*$" (buffer-name (car bl))))
+                    (let* ((git-repo-name (match-string 1 (buffer-name (car bl))))
+                           (item-list (assoc-default git-repo-name
+                                                     magit-check-sections
+                                                     'string-match))
+                           (unfinished
+                            (with-current-buffer (car bl)
+                              (remove-if-not
+                               (lambda (section)
+                                 (let ((sec (magit-find-section (list (car section)) magit-top-section)))
+                                   (and sec (> (length (magit-section-children sec)) 0))))
+                               item-list))))
+                      (message "%s" unfinished)
+                      (or (not unfinished)
+                          (yes-or-no-p
+                           (format "You have %s in %s; Exit anyway?"
+                                   (mapconcatend 'cdr unfinished ", " " and ")
+                                   git-repo-name))))))
+      (setq bl (cdr bl)))
+    (null bl)))
+
+(add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
 
 
 ;; auto-save with non-visiting buffer is too rigid
@@ -2090,36 +2116,3 @@ show you how many labels and refs have been replaced."
 
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
 
-(defun mapconcatend (func list separator last-separator)
-  "Like mapconcat but the last separator can be specified."
-  (cond
-   ((null list) "")
-   ((cdr (cdr list))
-    (concat (funcall func (car list)) separator
-            (mapconcatend func (cdr list) separator last-separator)))
-   (t (concat
-       (funcall func (car list))
-       last-separator
-       (funcall func (cadr list))))))
-
-
-
-(defvar magit-check-sections
-  '((unstaged . "%s unstaged changes")))
-
-(defun magit-check-unfinished ()
-  (mapc
-   (lambda (buf)
-     (and (string-match "^\*magit: \\(.*\\)$" buf)
-          (with-current-buffer buf
-            (mapconcatend
-             (lambda (section)
-               (let ((sec (magit-find-section (list (car section) magit-top-section))))
-                 (if sec (format (cdr section)
-                                 (length (magit-section-children sec)))
-                   "")))
-             magit-check-sections
-             ", " " and "))))))
-
-
-(add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
