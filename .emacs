@@ -262,7 +262,8 @@ Also returns nil if pid is nil."
        (set-face-background 'magit-item-highlight "white"))))
 
 (defun mapconcatend (func list separator last-separator)
-  "Like mapconcat but the last separator can be specified."
+  "Like mapconcat but the last separator can be specified. Useful
+when building sentence like blah, blih, bloh and bluh."
   (cond
    ((null list) "")
    ((cdr (cdr list))
@@ -294,7 +295,6 @@ Also returns nil if pid is nil."
                                  (let ((sec (magit-find-section (list (car section)) magit-top-section)))
                                    (and sec (> (length (magit-section-children sec)) 0))))
                                item-list))))
-                      (message "%s" unfinished)
                       (or (not unfinished)
                           (yes-or-no-p
                            (format "You have %s in %s; Exit anyway?"
