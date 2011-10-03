@@ -1063,6 +1063,9 @@ when building sentence like blah, blih, bloh and bluh."
         ("a" "Anniv" entry
          (file+headline "~/Dropbox/Org/specialdays.org" "")
          "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
+        ("b" "Boss" entry
+         (file+headline "~/Dropbox/Org/someday.org" "Boss")
+         "* TODO %?                                                :boss:\n  OPENED: %U")
         ("f" "Phone calls")
         ("fr" "Received phone calls" entry
          (file+headline "~/Dropbox/Org/phonecalls.org" "Received")
@@ -1070,11 +1073,11 @@ when building sentence like blah, blih, bloh and bluh."
         ("fm" "Made phone calls" entry
          (file+headline "~/Dropbox/Org/phonecalls.org" "Made")
          "* Made phone call:\n  at %U\n  to %?")
-        ("b" "Livres empruntés")
-        ("bu" "Bibliothèque Universitaire" entry
+        ("l" "Livres empruntés")
+        ("lu" "Bibliothèque Universitaire" entry
          (file+headline "~/Dropbox/Org/books.org" "Empruntés")
          "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(deadline-from-now 28 4)")
-        ("bl" "Bibliothèque du labo" entry
+        ("ll" "Bibliothèque du labo" entry
          (file+headline "~/Dropbox/Org/books.org" "Empruntés")
          "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(deadline-from-now 365 4)")))
 
