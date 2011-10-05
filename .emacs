@@ -650,6 +650,7 @@ when building sentence like blah, blih, bloh and bluh."
  (lambda (func)
    (eval `(defadvice ,func (after indent-region activate)
      (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+                                      lisp-interaction-mode
                                       lisp-mode c-mode c++-mode objc-mode
                                       latex-mode plain-tex-mode
                                       python-mode matlab-mode))
