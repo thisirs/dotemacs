@@ -2070,7 +2070,7 @@ document."
 (defun latex-refactor-label (label new)
   "Rename a label and its references in a LaTeX document. Word at
 point is suggested as the default label to replace. A message
-show you how many labels and refs have been replaced."
+shows you how many labels and refs have been replaced."
   (interactive
    (list (let ((tap (or (enclosing-braces-at-point) (thing-at-point 'word))))
            (read-string
