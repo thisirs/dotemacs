@@ -118,6 +118,9 @@
     (let ((desktop-load-locked-desktop t))
       (desktop-read))
     (run-with-idle-timer 10 nil 'update-locate-database)
+    (run-with-idle-timer 10 nil
+                         (lambda ()
+                           (run-hooks 'midnight-hook)))
     (message "Mounting THISKEY, desktop-read")))
 
 (when (fboundp 'dbus-register-signal)
