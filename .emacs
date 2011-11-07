@@ -1045,10 +1045,27 @@ when building sentence like blah, blih, bloh and bluh."
 ;; remove tags in agenda
 (setq org-agenda-remove-tags t)
 
+(defun todo-item ()
+  (interactive)
+  (with-current-buffer (org-capture-get :original-buffer)
+    (save-excursion
+      (beginning-of-line)
+      (if (not (re-search-forward "TODO" (line-end-position) t))
+          ""
+        (skip-chars-forward "\t ")
+        (let* ((txt (buffer-substring (point) (line-end-position)))
+               (search (org-make-org-heading-search-string
+                        (buffer-substring (line-beginning-position)
+                                          (line-end-position))))
+               (link (concat "file:" (abbreviate-file-name buffer-file-name)
+                             "::" search)))
+          (org-make-link-string link txt))))))
+
 (setq org-capture-templates
-      '(("t" "Todo" entry
+      '(
+        ("t" "Todo" entry
          (file+headline "~/Dropbox/Org/someday.org" "Tâches")
-         "* TODO %?\n  OPENED: %U")
+         "* TODO %?%(todo-item)\n  OPENED: %U")
         ("d" "Téléchargement" entry
          (file+headline "~/Dropbox/Org/someday.org" "Downloads")
          "* TODO %?\n  OPENED: %U")
