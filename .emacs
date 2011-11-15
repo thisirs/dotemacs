@@ -1819,15 +1819,19 @@ when building sentence like blah, blih, bloh and bluh."
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
+(defun my-fill-paragraph (&optional arg)
+  (interactive "P")
+  (if arg
+      (call-interactively 'unfill-paragraph)
+    (call-interactively 'fill-paragraph)))
 
-;; Suppression du formatage sur N colonnes (comme la fonction n'existe pas,
-;; l'astuce consiste à définir temporairement une largeur de ligne extrêmement
-;; grande et de formater le paragraphe sur cette base).
-(defun remove-hard-wrap-paragraph ()
+(defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces."
   (interactive)
   (let ((fill-column most-positive-fixnum))
-    (fill-paragraph nil)))
+    (fill-paragraph)))
+
+(global-set-key (kbd "M-q") 'my-fill-paragraph)
 
 ;; Fonction équivalente à la précédente appliquée à la région sélectionnée et
 ;; non plus au paragraphe courant.
