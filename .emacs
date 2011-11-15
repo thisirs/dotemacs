@@ -2126,7 +2126,7 @@ shows you how many labels and refs have been replaced."
 
 (defun latex-occur-ref-wo-tilde ()
   (interactive)
-  (occur "[^~]\\\\\\(eq\\|page\\|[fvF]\\)?ref"))
+  (occur "[^~(](?\\\\\\(eq\\|page\\|[fvF]\\)?ref"))
 
 (global-set-key [(control tab)] 'other-window)
 
