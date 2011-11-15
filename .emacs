@@ -2104,23 +2104,25 @@ shows you how many labels and refs have been replaced."
             nil nil tap))
          (read-string "New label: ")))
   (save-excursion
-    (message
-     (concat "\"%s\" -> \"%s\": "
-             (mapconcat
-              (lambda (args)
-                (goto-char (point-min))
-                (let ((n 0))
-                  (while (re-search-forward
-                          (concat "\\\\\\(?:" (car args) "\\){\\("
-                                  (regexp-quote label) "\\)}") nil t)
-                    (setq n (1+ n))
-                    (replace-match new t t nil 1))
-                  (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
-              '(("label" . "label")
-                ("\\(?:eq\\|page\\|[fvF]\\)?ref" . "reference"))
-              " and ")
-             " replaced!")
-     label new)))
+    (save-restriction
+      (and mark-active (narrow-to-region (region-beginning) (region-end)))
+      (message
+       (concat "\"%s\" -> \"%s\": "
+               (mapconcat
+                (lambda (args)
+                  (goto-char (point-min))
+                  (let ((n 0))
+                    (while (re-search-forward
+                            (concat "\\\\\\(?:" (car args) "\\){\\("
+                                    (regexp-quote label) "\\)}") nil t)
+                      (setq n (1+ n))
+                      (replace-match new t t nil 1))
+                    (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
+                '(("label" . "label")
+                  ("\\(?:eq\\|page\\|[fvF]\\)?ref" . "reference"))
+                " and ")
+               " replaced in %s!")
+       label new (if mark-active "region" "buffer")))))
 
 (defun latex-occur-ref-wo-tilde ()
   (interactive)
