@@ -1351,6 +1351,7 @@ when building sentence like blah, blih, bloh and bluh."
             (when buffer-file-name
               (turn-on-reftex)
               (reftex-set-cite-format "~\\cite{%l}"))
+            (auto-fill-mode)
             (flyspell-mode)
             (TeX-source-correlate-mode 1) ; Source Specials
             (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
