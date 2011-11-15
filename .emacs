@@ -284,6 +284,7 @@ when building sentence like blah, blih, bloh and bluh."
 
 ;; warn when untracked files, unpushed commits or changes
 (defun magit-check-unfinished ()
+  (autoload 'remove-if-not "cl-seq")
   (let ((bl (buffer-list)))
     (while (and bl
                 (or (not (string-match "^\\*magit: \\(.*\\)\\*$" (buffer-name (car bl))))
