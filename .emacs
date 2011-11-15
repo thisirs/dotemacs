@@ -561,15 +561,13 @@ when building sentence like blah, blih, bloh and bluh."
                                        "/media/THISKEY/programming")
          ("Thèse"
           (or
-           (filename . "/media/THISKEY/Documents/Bibliographie/")
-           (filename . ,(expand-file-name "~/Dropbox/matrix-completion/"))))
-         ("ICIP article"
+           (filename . "/media/THISKEY/Documents/Thèse/thesis")))
+         ("Current paper"
           (or
-           (filename . "/media/THISKEY/Documents/article_ICIP_2010/")
-           (filename . "/media/THISKEY/Documents/IMG_PROC_revue/")))
-         ("TP IMAGE 2010/2011"
+           (filename . "/media/THISKEY/Documents/Thèse/ARTICLE_REVUE")))
+         ("TP IMAGE 2011/2012"
           (or
-           (filename . "/media/THISKEY/enseignements/2010-2011/TP_IMAGE/")))
+           (filename . "/media/THISKEY/enseignements/2011-2012/")))
          ("Org"
           (mode . org-mode))
          ("TeX/LaTeX"
