@@ -1609,8 +1609,12 @@ when building sentence like blah, blih, bloh and bluh."
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-(require 'starter-kit-ruby)
-;;(require 'ruby-electric)
+;;; ruby
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/inf-ruby"))
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(autoload 'inf-ruby-keys "inf-ruby" "" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'inf-ruby-keys))
 
 
 (require 'yaml-mode)
