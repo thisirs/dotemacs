@@ -1013,10 +1013,10 @@ when building sentence like blah, blih, bloh and bluh."
 
 
 ;; yasnippet
-(add-to-list 'load-path "~/.emacs.d/yasnippet-0.6.1c")
+(add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet-0.6.1c/snippets")
+(yas/load-directory "~/.emacs.d/snippets")
 (yas/global-mode 1)
 (setq yas/triggers-in-field t)
 
