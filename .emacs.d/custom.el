@@ -20,7 +20,7 @@
  '(recentf-menu-title "Recentf")
  '(recentf-mode t)
  '(recentf-save-file "~/.emacs.d/cache/.recentf")
- '(safe-local-variable-values (quote ((eval progn (make-local-variable (quote TeX-font-list)) (setq TeX-font-list (cons (quote (20 "\\mcode{" "}")) TeX-font-list))))))
+ '(safe-local-variable-values (quote ((eval setq ispell-personal-dictionary (concat (file-name-directory (buffer-file-name)) "./thesis.dict")) (eval progn (make-local-variable (quote TeX-font-list)) (setq TeX-font-list (cons (quote (20 "\\mcode{" "}")) TeX-font-list))))))
  '(scilab-shell-command "/usr/bin/scilab"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
