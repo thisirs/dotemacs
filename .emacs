@@ -1,5 +1,4 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
@@ -1021,6 +1020,8 @@ when building sentence like blah, blih, bloh and bluh."
 (setq yas/triggers-in-field t)
 
 ;;; org-mode
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
+
 (require 'org)
 
 ;; workaround to use yassnippet in org-mode
@@ -2149,4 +2150,3 @@ shows you how many labels and refs have been replaced."
        (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
 
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
-
