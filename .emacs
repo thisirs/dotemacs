@@ -61,6 +61,9 @@
 
 (require 'linkd)
 
+;;; el-get
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(require 'el-get)
 
 ;;; anything
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
