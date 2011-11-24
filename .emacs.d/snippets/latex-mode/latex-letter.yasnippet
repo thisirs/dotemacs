@@ -1,0 +1,65 @@
+# -*- mode: snippet -*-
+# name: latex-letter
+# key: ll
+# --
+\documentclass[11pt]{lettre}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{graphicx}
+
+\makeatletter
+\newcommand*{\NoRule}{\renewcommand*{\rule@length}{0}}
+\makeatother
+
+\begin{document}
+
+\begin{letter}{À l'attention de $1.}
+
+  % pas de marque pour la pliure
+  \NoRule
+
+  % Doit être défini si signature ne l'est pas.
+  % $2
+  \name{${2:$(cdr (assoc yas/text '(("moi" . "Sylvain Rousseau") ("david" . "David Helbert"))))}}
+
+  % en haut à gauche, coordonnées de l'expéditeur.
+  \address{${2:$(cdr (assoc yas/text '(("david" . "David HELBERT\\\\\\\\\
+    Laboratoire SIC - FRE CNRS 2731\\\\\\\\\
+    Université de Poitiers\\\\\\\\\
+    Bvd Marie et Pierre Curie - BP 30179\\\\\\\\\
+    86962 FUTUROSCOPE-CHASSENEUIL CEDEX, FRANCE")
+    ("moi" . "Sylvain Rousseau\\\\\\\\
+    Laboratoire SIC - FRE CNRS 2731\\\\\\\\
+    Université de Poitiers\\\\\\\\\
+    Bvd Marie et Pierre Curie - BP 30179\\\\\\\\\
+    86962 FUTUROSCOPE-CHASSENEUIL CEDEX, FRANCE"))))}}
+
+  % en haut à droite, lieu de rédaction de la lettre.
+  \lieu{à Poitiers}
+
+  % en haut à gauche, téléphone de l'expéditeur.
+  % \telephone{05 49 49 68 95 }
+  % en haut à gauche, email de l'expéditeur.
+  \email{helbert@sic.sp2mi.univ-poitiers.fr} \nofax
+
+  % en bas à droite, signature de l'expéditeur.
+  \signature{
+    David Helbert,\\
+    % \includegraphics[scale=1]{signatureLemarie.jpg}
+  }
+
+  \def\concname{\bf Objet:~}
+  % objet de la lettre.
+  \conc{$3}
+
+  \opening{$4}
+
+  $0
+
+  \closing{Je vous prie d'agréer, Madame, l'expression de mes
+    salutations distinguées.}
+
+\end{letter}
+\end{document}
