@@ -560,10 +560,10 @@ when building sentence like blah, blih, bloh and bluh."
                                        "/media/THISKEY/programming")
          ("Thèse"
           (or
-           (filename . "/media/THISKEY/Documents/Thèse/thesis")))
+           (filename . "/media/THISKEY/Documents/These/thesis")))
          ("Current paper"
           (or
-           (filename . "/media/THISKEY/Documents/Thèse/ARTICLE_REVUE")))
+           (filename . "/media/THISKEY/Documents/These/ARTICLE_REVUE")))
          ("TP IMAGE 2011/2012"
           (or
            (filename . "/media/THISKEY/enseignements/2011-2012/")))
