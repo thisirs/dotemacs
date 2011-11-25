@@ -970,7 +970,7 @@ when building sentence like blah, blih, bloh and bluh."
      (default ((t (nil))))
      (bold ((t (:bold t))))
      (bold-italic ((t (:italic t :bold t))))
-     (fringe ((t (:background "#232323"))))
+     (fringe ((t (:background "#131313"))))
      (font-lock-builtin-face ((t (:foreground "#D0D0FF"))))
      (font-lock-comment-face ((t (:foreground "#BC9458" :italic t))))
      (font-lock-constant-face ((t (:foreground "#6D9CBE"))))
