@@ -884,7 +884,7 @@ when building sentence like blah, blih, bloh and bluh."
 (global-set-key (kbd "s-s s") ;; scratch
                 (lambda () (interactive) (switch-to-buffer "*scratch*")))
 (global-set-key (kbd "s-s e") ;; .emacs
-                (lambda () (interactive) (find-file (file-truename "~/.emacs"))))
+                (lambda () (interactive) (find-file (file-truename "~/.emacs.d/init.el"))))
 (global-set-key (kbd "s-s m") ;; messages
                 (lambda () (interactive) (switch-to-buffer "*Messages*")))
 
