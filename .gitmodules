@@ -10,3 +10,6 @@
 [submodule ".emacs.d/vendor/yasnippet"]
 	path = .emacs.d/vendor/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
+[submodule ".emacs.d/vendor/inf-ruby"]
+	path = .emacs.d/vendor/inf-ruby
+	url = https://github.com/nonsequitur/inf-ruby.git
