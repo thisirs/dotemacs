@@ -4,6 +4,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
 ;; (load "elscreen" "ElScreen" t)
 
+
+(set-default-font "-unknown-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
