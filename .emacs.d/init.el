@@ -567,7 +567,7 @@ when building sentence like blah, blih, bloh and bluh."
                                        "/media/THISKEY/programming")
          ("Thèse"
           (or
-           (filename . "/media/THISKEY/Documents/These/thesis")))
+           (filename . "/media/THISKEY/Documents/These")))
          ("Current paper"
           (or
            (filename . "/media/THISKEY/Documents/These/ARTICLE_REVUE")))
