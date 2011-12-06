@@ -1,15 +1,15 @@
 [submodule ".emacs.d/vendor/anything-config"]
-	path = .emacs.d/vendor/anything-config
-	url = git://repo.or.cz/anything-config.git
+        path = .emacs.d/vendor/anything-config
+        url = git://repo.or.cz/anything-config.git
 [submodule ".emacs.d/vendor/org-mode"]
-	path = .emacs.d/vendor/org-mode
-	url = git://repo.or.cz/org-mode.git
+        path = .emacs.d/vendor/org-mode
+        url = git://repo.or.cz/org-mode.git
 [submodule ".emacs.d/vendor/magit"]
-	path = .emacs.d/vendor/magit
-	url = http://github.com/philjackson/magit.git
+        path = .emacs.d/vendor/magit
+        url = git://github.com/philjackson/magit.git
 [submodule ".emacs.d/vendor/yasnippet"]
-	path = .emacs.d/vendor/yasnippet
-	url = https://github.com/capitaomorte/yasnippet.git
+        path = .emacs.d/vendor/yasnippet
+        url = git://github.com/capitaomorte/yasnippet.git
 [submodule ".emacs.d/vendor/inf-ruby"]
-	path = .emacs.d/vendor/inf-ruby
-	url = https://github.com/nonsequitur/inf-ruby.git
+        path = .emacs.d/vendor/inf-ruby
+        url = git://github.com/nonsequitur/inf-ruby.git
