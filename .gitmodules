@@ -13,3 +13,6 @@
 [submodule ".emacs.d/vendor/inf-ruby"]
         path = .emacs.d/vendor/inf-ruby
         url = git://github.com/nonsequitur/inf-ruby.git
+[submodule ".emacs.d/vendor/matlab-emacs"]
+	path = .emacs.d/vendor/matlab-emacs
+	url = git://github.com/ruediger/matlab-emacs.git
