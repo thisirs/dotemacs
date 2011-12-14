@@ -450,7 +450,7 @@ when building sentence like blah, blih, bloh and bluh."
 
 (add-to-list 'load-path "~/.emacs.d/vendor/matlab-emacs")
 (require 'matlab-load)
-(setq 'matlab-shell-command-switches "-nodesktop -nosplash")
+(setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
 
 ;; history navigation
 (eval-after-load "comint"
