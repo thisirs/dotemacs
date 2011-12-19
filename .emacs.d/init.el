@@ -866,14 +866,14 @@ when building sentence like blah, blih, bloh and bluh."
      "\n\n")
     (set-buffer-modified-p nil)))
 
-
-(set-process-filter
- (start-process-shell-command
-  "msg in scratch buffer"
-  nil
-  "ruby ~/Dropbox/SCMB.rb")
- (lambda (process string)
-   (insert-in-scratch-buffer string)))
+(and (executable-find "ruby")
+     (set-process-filter
+      (start-process-shell-command
+       "msg in scratch buffer"
+       nil
+       "ruby ~/Dropbox/SCMB.rb")
+      (lambda (process string)
+        (insert-in-scratch-buffer string))))
 
 ;; backups
 (setq make-backup-files t ;; do make backups
