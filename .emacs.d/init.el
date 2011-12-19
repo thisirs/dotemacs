@@ -5,7 +5,8 @@
 ;; (load "elscreen" "ElScreen" t)
 
 
-(set-default-font "-unknown-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+(ignore-errors
+  (set-default-font "-unknown-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
@@ -355,7 +356,7 @@ when building sentence like blah, blih, bloh and bluh."
 (setq vc-follow-symlinks t)
 
 ;; notify events
-(require 'notifications)
+(require 'notifications nil t)
 
 ;;; erc
 ;; check channels
