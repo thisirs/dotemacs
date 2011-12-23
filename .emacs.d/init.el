@@ -1225,6 +1225,8 @@ when building sentence like blah, blih, bloh and bluh."
    (matlab . t)
    (ruby . t)))
 
+(setq org-babel-sh-command "bash")
+
 ;; bib citations in org files
 (defun org-mode-reftex-setup ()
   (when (and buffer-file-name
@@ -2163,4 +2165,3 @@ shows you how many labels and refs have been replaced."
        (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
 
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
-
