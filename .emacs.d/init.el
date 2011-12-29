@@ -1637,9 +1637,8 @@ when building sentence like blah, blih, bloh and bluh."
   '(add-hook 'ruby-mode-hook 'inf-ruby-keys))
 
 
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(autoload 'yaml-mode "yaml-mode")
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;;; shell-toggle
 (autoload 'shell-toggle "shell-toggle"
