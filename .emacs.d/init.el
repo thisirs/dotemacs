@@ -8,6 +8,10 @@
 (ignore-errors
   (set-default-font "-unknown-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
+;; Font size
+(define-key global-map (kbd "C-+") 'text-scale-increase)
+(define-key global-map (kbd "C--") 'text-scale-decrease)
+
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
