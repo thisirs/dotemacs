@@ -17,6 +17,9 @@
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
 
+;; unified diff format and no whitespace when using `diff'
+(setq diff-switches "-u -w")
+
 ;; no limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
 
