@@ -1404,7 +1404,7 @@ when building sentence like blah, blih, bloh and bluh."
             (TeX-source-correlate-mode 1) ; Source Specials
             (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
-(setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
+(setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
