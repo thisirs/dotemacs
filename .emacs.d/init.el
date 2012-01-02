@@ -29,6 +29,9 @@
 
 (require 'letter)
 
+;; no fringe in minibuffer
+(set-window-fringes (minibuffer-window) 1 0)
+
 ;; abandonne le minibuffer quand on le quitte
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
