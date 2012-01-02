@@ -4,7 +4,8 @@
 SCRIPT_PATH=$(readlink -f "$(dirname "$0")")
 
 # Where to copy dotemacs repo
-INSTALL_PATH=${1:-"$HOME/git-repos"}
+INSTALL_PATH=${1:-"/$HOME/repositories"}
+
 
 mkdir -p $INSTALL_PATH
 cd $INSTALL_PATH
@@ -22,4 +23,3 @@ git submodule update
 #Création des liens
 cd $HOME
 ln -s "$INSTALL_PATH/dotemacs/.emacs.d"
-
