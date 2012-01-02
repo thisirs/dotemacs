@@ -1010,7 +1010,7 @@ when building sentence like blah, blih, bloh and bluh."
                                         "#A5BAF1" :foreground "black"))))
      (region ((t (:background "#555577"))))
      (primary-selection ((t (:background "#555577"))))
-     (isearch ((t (:background "#555555"))))
+     (isearch ((t (:background "#0000FF"))))
      (zmacs-region ((t (:background "#555577"))))
      (secondary-selection ((t (:background "darkslateblue"))))
      (flymake-errline ((t (:background "LightSalmon" :foreground
