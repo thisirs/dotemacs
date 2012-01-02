@@ -954,7 +954,8 @@ when building sentence like blah, blih, bloh and bluh."
                 tags-file-name
                 register-alist)))
 
-(setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)")
+(setq desktop-files-not-to-save
+      "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)\\|\\(.gpg$\\)")
 (setq desktop-buffers-not-to-save
       (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
               "\\)$"))
