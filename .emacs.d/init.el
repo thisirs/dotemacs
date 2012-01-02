@@ -94,16 +94,22 @@
 
 (setq anything-c-locate-command "locate -e -b -i -r \"%s\"")
 
-(setq anything-for-files-prefered-list
-      '(anything-c-source-ffap-line
+(defun anything-for-files-prefered-list ()
+      `(anything-c-source-ffap-line
         anything-c-source-ffap-guesser
         anything-c-source-buffers-list
         anything-c-source-recentf
         anything-c-source-bookmarks
         anything-c-source-file-cache
         anything-c-source-files-in-current-dir+
-        anything-c-source-locate-thiskey
+        ,@(if (file-exists-p "/media/THISKEY") '(anything-c-source-locate-thiskey))
         anything-c-source-locate))
+
+(defun anything-for-files ()
+  "Preconfigured `anything' for opening files.
+ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> locate."
+  (interactive)
+  (anything-other-buffer (anything-for-files-prefered-list) "*anything for files*"))
 
 (defun update-locate-database ()
   "Update locate databases"
