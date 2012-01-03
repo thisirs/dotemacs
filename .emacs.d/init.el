@@ -132,6 +132,7 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
 ;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
 
+(ignore-errors
 
 (require 'dbus)
 
@@ -146,14 +147,14 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
                            (run-hooks 'midnight-hook)))
     (message "Mounting THISKEY, desktop-read")))
 
-(when (fboundp 'dbus-register-signal)
-  (dbus-register-signal
-   :session
-   "org.gtk.Private.GduVolumeMonitor"
-   "/org/gtk/Private/RemoteVolumeMonitor"
-   "org.gtk.Private.RemoteVolumeMonitor"
-   "MountAdded"
-   'THISKEY-dbus-signal-handler))
+  (when (fboundp 'dbus-register-signal)
+    (dbus-register-signal
+     :session
+     "org.gtk.Private.GduVolumeMonitor"
+     "/org/gtk/Private/RemoteVolumeMonitor"
+     "org.gtk.Private.RemoteVolumeMonitor"
+     "MountAdded"
+     'THISKEY-dbus-signal-handler)))
 
 (defun emacs-process-p (pid)
   "If pid is the process ID of an emacs process, return t, else nil.
@@ -372,7 +373,7 @@ when building sentence like blah, blih, bloh and bluh."
 (setq vc-follow-symlinks t)
 
 ;; notify events
-(require 'notifications nil t)
+(ignore-errors (require 'notifications nil t))
 
 ;;; erc
 ;; check channels
@@ -933,6 +934,9 @@ when building sentence like blah, blih, bloh and bluh."
 
 ;;; desktop-mode
 ;; save a list of open files in ~/.emacs.desktop
+
+(setq desktop-load-locked-desktop t)
+
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
 (desktop-save-mode 1)
