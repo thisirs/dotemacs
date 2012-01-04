@@ -5,8 +5,9 @@
 ;; (load "elscreen" "ElScreen" t)
 
 
-(ignore-errors
-  (set-default-font "-unknown-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
+(add-to-list 'default-frame-alist
+             '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
+
 
 ;; Font size
 (define-key global-map (kbd "C-+") 'text-scale-increase)
