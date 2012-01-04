@@ -286,7 +286,7 @@ Also returns nil if pid is nil."
   '(progn
      (set-face-foreground 'magit-diff-add "green3")
      (set-face-foreground 'magit-diff-del "red3")
-     (when (not window-system)
+     (when (and (not window-system) (not (daemonp)))
        (set-face-background 'magit-item-highlight "white"))))
 
 (defun mapconcatend (func list separator last-separator)
