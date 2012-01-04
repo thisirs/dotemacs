@@ -30,8 +30,11 @@
 
 (require 'letter)
 
+;; no fringe on the right
+(set-fringe-mode '(8 . 0))
+
 ;; no fringe in minibuffer
-(set-window-fringes (minibuffer-window) 1 0)
+(set-window-fringes (minibuffer-window) 0 0)
 
 ;; abandonne le minibuffer quand on le quitte
 (defun stop-using-minibuffer ()
