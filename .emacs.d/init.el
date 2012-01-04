@@ -1974,15 +1974,16 @@ Indent each line of the list starting just after point."
        Info-default-directory-list))
 
 
-(defun shutdown-emacs-server () (interactive)
+(defun shutdown-emacs-server ()
+  (interactive)
   (when (not (eq window-system 'x))
     (message "Initializing x windows system.")
     (x-initialize-window-system)
     (unless x-display-name (setq x-display-name (getenv "DISPLAY")))
-    (select-frame (make-frame-on-display x-display-name '((window-system . x))))
-    )
-  (let ((last-nonmenu-event nil)(window-system
-                                 "x"))(save-buffers-kill-emacs)))
+    (select-frame (make-frame-on-display x-display-name '((window-system . x)))))
+  (let ((last-nonmenu-event nil)
+        (window-system "x"))
+    (save-buffers-kill-emacs)))
 
 ;; (setq eval-expression-print-length 100)
 ;; (setq eval-expression-print-level 10)
