@@ -551,9 +551,15 @@ when building sentence like blah, blih, bloh and bluh."
 
 (define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
 
-(defadvice ibuffer (after ibuffer-point-to-most-recent activate) ()
-  "Open ibuffer with cursor pointed to most recent buffer name"
-    (ibuffer-next-buffer))
+(defadvice ibuffer (around ibuffer-point-to-most-recent)
+  "Open ibuffer with cursour pointed to second most recent buffer
+name"
+  (let ((recent-buffer-name (buffer-name)))
+    ad-do-it
+    (ibuffer-jump-to-buffer recent-buffer-name)
+    (ibuffer-next-buffer)))
+
+(ad-activate 'ibuffer)
 
 (defun find-projects (dir)
   "Return a list of all directories containing a not hidden git repo"
