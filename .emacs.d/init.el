@@ -191,47 +191,6 @@ Also returns nil if pid is nil."
     (delayed))
   "Find files matching the current input pattern with locate.")
 
-(defun anything-translate ()
-  (interactive)
-  (anything-other-buffer
-   '(anything-c-source-google-translate) "*anything translate*"))
-
-
-(defvar anything-c-source-google-translate
-  '((name . "Google translate")
-    (dummy)
-    (delayed)
-    (persistent-action . text-to-speech)
-    (filtered-candidate-transformer . (lambda (candidates source)
-                                        (anything-c-google-translate)))))
-
-(defun text-to-speech (text)
-  (call-process "wget" nil nil nil
-                "-q"
-                "-U"
-                "Mozilla"
-                "-O"
-                "/tmp/output.mp3"
-                (concat
-                 "http://translate.google.com/translate_tts?tl=en&q="
-                 text))
-  (call-process "mplayer" nil nil nil "/tmp/output.mp3"))
-
-
-(defun anything-c-google-translate ()
-  (let ((request
-         (concat
-          "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q="
-          (url-hexify-string anything-pattern)
-          "&langpair=fr%7Cen")))
-    (with-temp-buffer
-      (call-process "curl" nil '(t nil) nil request)
-      (goto-char (point-min))
-      (and (re-search-forward "translatedText\":\"\\([^\"]+\\)\"" nil t)
-           (list (match-string 1))))))
-
-(define-key anything-command-map (kbd "t") 'anything-translate)
-
 ;; boss key!
 
 (defvar boss-window-configuration nil "Window configuration to switch to when the boss comes!")
