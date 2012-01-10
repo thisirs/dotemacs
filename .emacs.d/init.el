@@ -650,7 +650,7 @@ name"
  (lambda (func)
    (eval `(defadvice ,func (after indent-region activate)
      (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                      lisp-interaction-mode
+                                      lisp-interaction-mode sh-mode
                                       lisp-mode c-mode c++-mode objc-mode
                                       latex-mode plain-tex-mode
                                       python-mode matlab-mode))
