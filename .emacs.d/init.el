@@ -45,16 +45,21 @@
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; ouvre un buffer en sudo via tramp
-(defun sudo-edit (&optional arg)
-  (interactive "p")
-  (let ((tramp-prefix "/sudo::"))
-    (if (and
-         (= arg 1)
-         (buffer-file-name)
-         (not (string-match "^/sudo::" buffer-file-name)))
-        (find-alternate-file (concat "/sudo::" buffer-file-name))
-      (find-file (concat "/sudo::"
-                         (ido-read-file-name "File: "))))))
+(defun th-find-file-sudo (file)
+  "Opens FILE with root privileges."
+  (interactive "F")
+  (set-buffer (find-file (concat "/sudo::" file))))
+
+(defadvice find-file (around th-find-file activate)
+  "Open FILENAME using tramp's sudo method if it's read-only."
+  (if (and (not (file-writable-p (ad-get-arg 0)))
+           (not (file-remote-p (ad-get-arg 0)))
+           (y-or-n-p (concat "File "
+                             (ad-get-arg 0)
+                             " is read-only.  Open it as root? ")))
+      (th-find-file-sudo (ad-get-arg 0))
+    ad-do-it))
+
 
 (defun find-temp-file (extension)
   "quick find file in /tmp"
