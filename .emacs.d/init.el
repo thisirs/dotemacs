@@ -1254,6 +1254,10 @@ name"
     (define-key org-mode-map (kbd "C-c )") 'reftex-citation)))
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
+;; open pdf files with acroread
+(and (executable-find "acroread")
+     (push (cons "pdf" "acroread %s") org-file-apps))
+
 (require 'org-bib-workflow)
 
 ;; bigger latex fragment
