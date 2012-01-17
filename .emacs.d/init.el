@@ -1651,7 +1651,13 @@ name"
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-keys "inf-ruby" "" t)
 (eval-after-load 'ruby-mode
-  '(add-hook 'ruby-mode-hook 'inf-ruby-keys))
+  '(progn
+     (add-hook 'ruby-mode-hook 'inf-ruby-keys)
+     (add-hook 'ruby-mode-hook
+               (lambda ()
+                 (define-key ruby-mode-map (kbd "RET")
+                   'reindent-then-newline-and-indent)))))
+
 
 
 (autoload 'yaml-mode "yaml-mode")
