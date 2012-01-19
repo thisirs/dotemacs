@@ -904,6 +904,10 @@ name"
 ;;; desktop-mode
 ;; save a list of open files in ~/.emacs.desktop
 
+;; Save frame from patch
+(if (boundp 'desktop-save-frames)
+    (setq desktop-save-frames t))
+
 (setq desktop-load-locked-desktop t)
 
 ;; save the desktop file automatically if it already exists
