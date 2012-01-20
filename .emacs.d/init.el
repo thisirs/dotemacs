@@ -1825,6 +1825,9 @@ name"
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
+;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
+(add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
+
 ;; This was installed by package-install.el.
 ;; This provides support for the package system and
 ;; interfacing with ELPA, the package archive.
