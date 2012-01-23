@@ -1077,12 +1077,15 @@ name"
 (setq org-agenda-remove-tags t)
 
 (defun todo-item ()
+  "Auto insert link when capturing if point is on a TODO line."
   (interactive)
   (with-current-buffer (org-capture-get :original-buffer)
     (save-excursion
       (beginning-of-line)
-      (if (not (re-search-forward "TODO" (line-end-position) t))
+      (skip-chars-forward (concat (or comment-start "") "\t "))
+      (if (not (looking-at "TODO"))
           ""
+        (goto-char (match-end 0))
         (skip-chars-forward "\t ")
         (let* ((txt (buffer-substring (point) (line-end-position)))
                (search (org-make-org-heading-search-string
