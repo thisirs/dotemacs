@@ -2190,6 +2190,10 @@ shows you how many labels and refs have been replaced."
   (interactive)
   (occur "[^~(](?\\\\\\(eq\\|page\\|[fvF]\\)?ref"))
 
+(defun latex-occur-ref-with-parent ()
+  (interactive)
+  (occur "(\\\\ref{[^{]*})"))
+
 (global-set-key [(control tab)] 'other-window)
 
 (add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
