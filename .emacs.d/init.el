@@ -2211,5 +2211,8 @@ shows you how many labels and refs have been replaced."
   '(defadvice hl-sexp-mode (after unflicker (turn-on) activate)
      (when turn-on
        (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
-
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
+
+;; trying expand-region
+(global-set-key (kbd "C-à") 'er/expand-region)
+(global-set-key (kbd "C-M-à") 'er/contract-region)
