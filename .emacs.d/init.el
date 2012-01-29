@@ -1081,9 +1081,8 @@ name"
   (interactive)
   (with-current-buffer (org-capture-get :original-buffer)
     (save-excursion
-      (beginning-of-line)
-      (skip-chars-forward (concat (or comment-start "") "\t "))
-      (if (not (looking-at "TODO"))
+      (beginning-of-line-text)
+      (if (not (looking-at "TODO:?[\t ]+"))
           ""
         (goto-char (match-end 0))
         (skip-chars-forward "\t ")
