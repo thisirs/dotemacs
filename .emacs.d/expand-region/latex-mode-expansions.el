@@ -7,6 +7,8 @@
         '(LaTeX-mark-enclosing-$))))
 
 (defun LaTeX-mark-enclosing-$ ()
+  "Mark enclosing $"
+  (er--setup)
   (when (and (texmathp) (equal (car texmathp-why) "$"))
       (set-mark (cdr texmathp-why))
       (re-search-forward "\\$" nil t)
