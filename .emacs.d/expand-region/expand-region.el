@@ -443,6 +443,7 @@ moving point or mark as little as possible."
 (require 'html-mode-expansions)
 (require 'css-mode-expansions)
 (require 'clojure-mode-expansions)
+(require 'LaTeX-mode-expansions)
 
 (provide 'expand-region)
 
