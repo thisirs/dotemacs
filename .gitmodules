@@ -16,3 +16,6 @@
 [submodule ".emacs.d/vendor/matlab-emacs"]
 	path = .emacs.d/vendor/matlab-emacs
 	url = git://github.com/ruediger/matlab-emacs.git
+[submodule ".emacs.d/vendor/expand-region.el"]
+	path = .emacs.d/vendor/expand-region.el
+	url = https://github.com/magnars/expand-region.el.git
