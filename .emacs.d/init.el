@@ -1076,9 +1076,11 @@ name"
 ;; remove tags in agenda
 (setq org-agenda-remove-tags t)
 
+;; special navigation in org mode
+(setq org-special-ctrl-a/e t)
+
 (defun todo-item ()
   "Auto insert link when capturing if point is on a TODO line."
-  (interactive)
   (with-current-buffer (org-capture-get :original-buffer)
     (save-excursion
       (beginning-of-line-text)
