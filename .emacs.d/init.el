@@ -149,7 +149,8 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
   "Resurrect THISKEY opened buffers when it is plugged"
   (when (string= "THISKEY" (cadr args))
     (let ((desktop-load-locked-desktop t))
-      (desktop-read))
+      (save-window-excursion
+        (desktop-read)))
     (run-with-idle-timer 10 nil 'update-locate-database)
     (run-with-idle-timer 10 nil
                          (lambda ()
@@ -1401,8 +1402,8 @@ name"
               (reftex-set-cite-format "~\\cite{%l}"))
             (auto-fill-mode)
             (flyspell-mode)
-            (TeX-source-correlate-mode 1) ; Source Specials
-            (add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+            (TeX-source-correlate-mode 1))) ; Source Specials
+            ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
@@ -2224,3 +2225,8 @@ shows you how many labels and refs have been replaced."
 ;; trying expand-region
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
+
+(global-set-key (kbd "C-j")
+                (lambda ()
+                  (interactive)
+                  (kill-line 0)))
