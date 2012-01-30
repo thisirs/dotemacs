@@ -739,6 +739,13 @@ name"
                (backward-char 2)
                (find-file-at-point))))))
 
+;; find pdf at a ref which has the same name in `pdfs-directory'
+(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
+
+(defun ffap-bib-latex-mode (name)
+  (and (stringp 'pdfs-directory)
+       (concat pdfs-directory name ".pdf")))
+
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
 ;; quick bind to f1 to try out
