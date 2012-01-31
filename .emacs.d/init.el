@@ -866,7 +866,7 @@ name"
       (start-process-shell-command
        "msg in scratch buffer"
        nil
-       "ruby ~/Dropbox/SCMB.rb")
+       "ruby ~/Dropbox/scripts/SCMB.rb")
       (lambda (process string)
         (insert-in-scratch-buffer string))))
 
