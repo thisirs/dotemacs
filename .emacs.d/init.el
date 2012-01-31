@@ -1087,6 +1087,9 @@ name"
 ;; special navigation in org mode
 (setq org-special-ctrl-a/e t)
 
+;; fontify src blocks
+(setq org-src-fontify-natively t)
+
 (defun todo-item ()
   "Auto insert link when capturing if point is on a TODO line."
   (with-current-buffer (org-capture-get :original-buffer)
