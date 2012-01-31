@@ -2226,6 +2226,8 @@ shows you how many labels and refs have been replaced."
 (add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
 
 ;; trying expand-region
+(add-to-list 'load-path "~/.emacs.d/vendor/expand-region.el")
+(require 'expand-region)
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
 
