@@ -7,15 +7,3 @@
 [submodule ".emacs.d/vendor/magit"]
         path = .emacs.d/vendor/magit
         url = git://github.com/philjackson/magit.git
-[submodule ".emacs.d/vendor/yasnippet"]
-        path = .emacs.d/vendor/yasnippet
-        url = git://github.com/capitaomorte/yasnippet.git
-[submodule ".emacs.d/vendor/inf-ruby"]
-        path = .emacs.d/vendor/inf-ruby
-        url = git://github.com/nonsequitur/inf-ruby.git
-[submodule ".emacs.d/vendor/matlab-emacs"]
-	path = .emacs.d/vendor/matlab-emacs
-	url = git://github.com/ruediger/matlab-emacs.git
-[submodule ".emacs.d/vendor/expand-region.el"]
-	path = .emacs.d/vendor/expand-region.el
-	url = https://github.com/magnars/expand-region.el.git
