@@ -416,6 +416,7 @@ when building sentence like blah, blih, bloh and bluh."
   (if (not (buffer-file-name))
       (call-interactively 'rename-buffer)
     (let ((file (buffer-file-name)))
+      (save-buffer)
       (with-temp-buffer
         (set-buffer (dired-noselect file))
         (dired-do-rename)
