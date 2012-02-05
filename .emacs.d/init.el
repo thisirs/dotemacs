@@ -1094,20 +1094,26 @@ name"
 
 (defun todo-item ()
   "Auto insert link when capturing if point is on a TODO line."
-  (with-current-buffer (org-capture-get :original-buffer)
-    (save-excursion
-      (beginning-of-line-text)
-      (if (not (looking-at "TODO:?[\t ]+"))
-          ""
-        (goto-char (match-end 0))
-        (skip-chars-forward "\t ")
-        (let* ((txt (buffer-substring (point) (line-end-position)))
-               (search (org-make-org-heading-search-string
-                        (buffer-substring (line-beginning-position)
-                                          (line-end-position))))
-               (link (concat "file:" (abbreviate-file-name buffer-file-name)
-                             "::" search)))
-          (org-make-link-string link txt))))))
+  (or
+   (with-current-buffer (org-capture-get :original-buffer)
+     (save-excursion
+       (beginning-of-line)
+       (when (and
+              (buffer-file-name)
+              (looking-at
+               (concat "[\t ]*"
+                       (regexp-quote (or comment-start ""))
+                       "[\t ]+TODO:?[\t ]+")))
+         (goto-char (match-end 0))
+         (let* ((txt (buffer-substring (point) (line-end-position)))
+                (search (org-make-org-heading-search-string
+                         (buffer-substring (line-beginning-position)
+                                           (line-end-position))))
+                (link (concat "file:" (abbreviate-file-name buffer-file-name)
+                              "::" search)))
+           (org-make-link-string link txt)))))
+   ""))
+
 
 (setq org-capture-templates
       '(
