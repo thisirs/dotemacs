@@ -1113,6 +1113,16 @@ name"
                 (org-make-link-string link txt))))))
      ""))
 
+;; shorter description
+(setq org-link-to-description
+      '(("\\`file:.*/\\([^/:]+\\)" . "\\1")))
+
+(setq org-make-link-description-function
+      (lambda (link description)
+        (let ((found (assoc-default link org-link-to-description 'string-match)))
+          (cond
+           ((stringp found) (match-substitute-replacement found t nil link))))))
+
 
 (setq org-capture-templates
       '(
