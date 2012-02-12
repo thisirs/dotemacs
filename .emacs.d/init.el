@@ -1444,6 +1444,10 @@ name"
             (TeX-source-correlate-mode 1))) ; Source Specials
             ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
+;; enable fr dictionary when using package frenchb
+(add-hook ’TeX-language-frenchb-hook
+           (lambda () (ispell-change-dictionary "fr")))
+
 (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
 
