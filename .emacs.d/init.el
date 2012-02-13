@@ -1072,19 +1072,6 @@ name"
           (cond
            ((stringp found) (match-substitute-replacement found t nil link))))))
 
-;; annoted todo are stared
-(add-to-list 'org-agenda-prefix-format
-             '(todo . " %(annotedp)%i %-12:c"))
-
-(defun annotedp ()
-  (or
-   (and (boundp 'beg) (boundp 'end)
-       (save-excursion
-         (goto-char beg)
-         (if (re-search-forward "- Note taken" end t) "*")))
-   " "))
-
-
 (setq org-capture-templates
       '(
         ("t" "Todo" entry
@@ -1176,6 +1163,20 @@ name"
                        (when (string= "Vacances" category)
                          (return 'org-agenda-date-weekend))))))
               (when face (return face)))))))
+
+;; annoted todo are stared
+(eval-after-load "org-agenda"
+    '(add-to-list 'org-agenda-prefix-format
+                  '(todo . " %(annotedp)%i %-12:c")))
+
+(defun annotedp ()
+  (or
+   (and (boundp 'beg) (boundp 'end)
+        (save-excursion
+          (goto-char beg)
+          (if (re-search-forward "- Note taken" end t) "*")))
+   " "))
+
 
 ;; logging
 (setq org-log-done 'time)
