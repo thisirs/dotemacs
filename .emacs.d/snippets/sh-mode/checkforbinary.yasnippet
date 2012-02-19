@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: checkforbinary
+# key: ci
+# --
+hash $1 2>&- || { echo >&2 "${2:$1} not installed. Aborting."; exit 1; }
+$0
