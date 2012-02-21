@@ -1697,7 +1697,19 @@ name"
 
 ;; Always add a final newline
 (setq require-final-newline t)
-(add-hook 'write-file-functions 'delete-trailing-whitespace)
+
+(defun delete-trailing-whitespace-non-vc ()
+  "Delete trailing whitespace if file is not version controlled
+or version controlled but untracked."
+  (and
+   (and (buffer-file-name)
+        (or
+         (not (vc-backend (buffer-file-name)))
+         (eq (vc-backend (buffer-file-name)) 'none))
+        (delete-trailing-whitespace))
+   nil))
+
+(add-hook 'write-file-functions 'delete-trailing-whitespace-non-vc)
 
 ;; Afficher l'heure dans la barre d'état (format 24 heures)
 (display-time)
