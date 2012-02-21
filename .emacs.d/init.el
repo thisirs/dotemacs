@@ -1308,12 +1308,19 @@ name"
   (untabify (point-min) (point-max)))
 
 ;; if indent-tabs-mode is off, untabify before saving
-(add-hook 'write-file-functions
-          (lambda ()
-            (and
-             (or indent-tabs-mode (untabify (point-min) (point-max)))
-             nil)))
+(defun untabify-non-vc ()
+  "Untabify buffer if it is not VC or untracked in VC and if
+`indent-tabs-mode' is nil."
+  (and
+   (and (buffer-file-name)
+        (or
+         (not (vc-backend (buffer-file-name)))
+         (eq (vc-backend (buffer-file-name)) 'none))
+        (not indent-tabs-mode)
+        (untabify (point-min) (point-max)))
+   nil))
 
+(add-hook 'write-file-functions 'untabify-non-vc)
 
 ;; Numérotation des lignes dans la marge
 (require 'linum)
