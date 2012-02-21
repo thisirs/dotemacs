@@ -48,7 +48,10 @@
 (defun th-find-file-sudo (file)
   "Opens FILE with root privileges."
   (interactive "F")
-  (set-buffer (find-file (concat "/sudo::" file))))
+  (set-buffer
+   (find-file
+    (concat "/sudo::"
+            (expand-file-name file)))))
 
 (defadvice find-file (around th-find-file activate)
   "Open FILENAME using tramp's sudo method if it's read-only."
