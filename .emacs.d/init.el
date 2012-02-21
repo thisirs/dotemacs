@@ -1682,7 +1682,7 @@ name"
 (global-set-key [M-f1] 'shell-toggle)
 (global-set-key [C-f1] 'shell-toggle-cd)
 
-(setq shell-toggle-launch-shell 'shell-toggle-eshell)
+(setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
 
 
 ;; minibuffer history
