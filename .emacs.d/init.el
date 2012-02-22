@@ -980,6 +980,9 @@ name"
 ;; loading zenburn theme
 (load-theme 'zenburn t)
 
+;; BUG: require is cyan. Loading zenburn-theme.el fixes this
+(load "zenburn-theme")
+
 ;; yasnippet
 (add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
 (require 'yasnippet)
