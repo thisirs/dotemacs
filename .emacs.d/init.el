@@ -259,12 +259,12 @@ if `boss-window-configuration' is nil."
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
 
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")
-     (when (and (not window-system) (not (daemonp)))
-       (set-face-background 'magit-item-highlight "white"))))
+;; (eval-after-load 'magit
+;;   '(progn
+;;      (set-face-foreground 'magit-diff-add "green3")
+;;      (set-face-foreground 'magit-diff-del "red3")
+;;      (when (and (not window-system) (not (daemonp)))
+;;        (set-face-background 'magit-item-highlight "white"))))
 
 (defun mapconcatend (func list separator last-separator)
   "Like mapconcat but the last separator can be specified. Useful
