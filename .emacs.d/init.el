@@ -1636,20 +1636,17 @@ name"
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 
-(load-file "~/Dropbox/auto-insert.el")
-
-(defmacro auto-insert-yasnippet (key)
-  `(lambda () (insert ,key) (yas/expand)))
+(load-file "~/Dropbox/scripts/auto-insert.el")
 
 (setq auto-insert-alist
-      `(
-        ("\\.rb$" . (("Ruby shebang" . ["autoinsert.ruby" (lambda () (goto-char (point-max)))])))
-        ("\\.sh$" . (("Bash shebang" . ["autoinsert.bash" (lambda () (goto-char (point-max)))])))
-        ("\\.tex$" .
-         (("Latex article" . ,(auto-insert-yasnippet "headerlatex"))
-          ("Standalone TikZ" . ,(auto-insert-yasnippet "headertikz"))
-          ("Standalone TikZ for my thesis" . ,(auto-insert-yasnippet "latextikzthesis"))
-          ("Letter" . ,(auto-insert-yasnippet "ll"))))))
+      '(
+        ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "shebang"))
+        ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "shebang"))
+        ("\\.tex$"
+         ("Latex article" (auto-insert-yasnippet "headerlatex"))
+         ("Standalone TikZ" (auto-insert-yasnippet "headertikz"))
+         ("Standalone TikZ for my thesis" (auto-insert-yasnippet "latextikzthesis"))
+         ("Letter" (auto-insert-yasnippet "ll")))))
 
 
 (setq auto-insert 'other)
