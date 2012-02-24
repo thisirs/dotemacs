@@ -202,8 +202,12 @@ Also returns nil if pid is nil."
 
 ;; boss key!
 
-(defvar boss-window-configuration nil "Window configuration to switch to when the boss comes!")
-(defvar my-window-configuration nil "Window configuration to switch back to!")
+(defvar boss-window-configuration nil
+  "Window configuration to switch to when the boss comes!")
+
+(defvar my-window-configuration nil
+  "Window configuration to switch back to!")
+
 (defvar boss-mode nil)
 
 (defun boss-save nil
