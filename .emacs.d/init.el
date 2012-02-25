@@ -1651,9 +1651,12 @@ name"
         ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "shebang"))
         ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "shebang"))
         ("\\.tex$"
-         ("Latex article" (auto-insert-yasnippet "headerlatex"))
-         ("Standalone TikZ" (auto-insert-yasnippet "headertikz"))
-         ("Standalone TikZ for my thesis" (auto-insert-yasnippet "latextikzthesis"))
+         ("Latex article"
+          (auto-insert-yasnippet "headerlatex"))
+         ("Standalone TikZ"
+          (auto-insert-yasnippet "headertikz"))
+         ("Standalone TikZ for my thesis"
+          (auto-insert-yasnippet "latextikzthesis"))
          ("Letter" (auto-insert-yasnippet "ll")))))
 
 
