@@ -474,8 +474,7 @@ when building sentence like blah, blih, bloh and bluh."
         (list0 list)
         (list1 list)
         (ibuffer-buffer-list
-         (mapcar #'(lambda (x)
-                     (car x))
+         (mapcar #'car
                  (ibuffer-current-state-list))))
     (while (not (equal current-buffer (car list0)))
       (setq list0 (cdr list0)))
