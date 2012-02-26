@@ -1397,8 +1397,9 @@ name"
 (setq LaTeX-item-indent 0)
 
 ;; disable fill in env
-(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
-      '("tikzpicture" "scope" "figure"))
+(eval-after-load "latex"
+  '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
+         '("tikzpicture" "scope" "figure")))
 
 ;; add subnumcases to the list of math environments
 (eval-after-load "font-latex"
