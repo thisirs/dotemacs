@@ -464,16 +464,13 @@ when building sentence like blah, blih, bloh and bluh."
 ;;; IBuffer
 (require 'ibuffer)
 
-(defun ibuffer-diff-two-buffers ()
-  (interactive)
+(defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
   (require 'diff)
   (let ((marked-bufs (ibuffer-get-marked-buffers)))
-    (when (eq (length marked-bufs) 2)
-      (diff (car marked-bufs) (cadr marked-bufs)))))
+    (if (eq (length marked-bufs) 2)
+      (diff (car marked-bufs) (cadr marked-bufs))
+      ad-do-it)))
 
-(define-key ibuffer-mode-map (kbd "=") 'ibuffer-diff-two-buffers)
-
-      
 ;; don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
