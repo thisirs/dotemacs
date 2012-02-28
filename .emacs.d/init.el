@@ -1,9 +1,5 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/apel-10.7"))
-;; (load "elscreen" "ElScreen" t)
-
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
@@ -23,12 +19,6 @@
 
 ;; no limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
-
-(require 'auto-install)
-
-(require 'instant)
-
-(require 'letter)
 
 ;; no fringe on the right
 (set-fringe-mode '(8 . 0))
@@ -85,8 +75,6 @@
 
 ;; don't suspend
 (global-unset-key "\C-z")
-
-(require 'linkd)
 
 ;;; el-get
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -2027,12 +2015,6 @@ Indent each line of the list starting just after point."
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
 
-;; trying bbdb
-(add-to-list  'load-path "~/.emacs.d/bbdb-2.35/lisp/")
-(require 'bbdb)
-(bbdb-initialize)
-
-
 
 ;; writing hippie-expand flyspell
 ;; (defun try-expand-all-abbrevs (old)
@@ -2239,15 +2221,6 @@ shows you how many labels and refs have been replaced."
 (autoload 'enable-paredit-mode "paredit"
   "Turn on pseudo-structural editing of Lisp code."
   t)
-
-(autoload 'hl-sexp-mode "hl-sexp")
-
-;; Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each command
-(eval-after-load "hl-sexp"
-  '(defadvice hl-sexp-mode (after unflicker (turn-on) activate)
-     (when turn-on
-       (remove-hook 'pre-command-hook #'hl-sexp-unhighlight))))
-(add-hook 'lisp-mode-hook (lambda () (hl-sexp-mode t)))
 
 ;; trying expand-region
 (add-to-list 'load-path "~/.emacs.d/vendor/expand-region.el")

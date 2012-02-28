@@ -1,7 +1,0 @@
-To insatall scicos-emacs-nw-mode.patch:
-Put the patch on $SCI directory:
-Go to $SCI directory:
-run:
- path -p0< scicos-emacs-nw-mode.patch
- make all
-
