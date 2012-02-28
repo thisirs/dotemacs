@@ -1700,6 +1700,9 @@ name"
 
 (setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
 
+;; paste in term
+(require 'term)
+(define-key term-raw-map (kbd "C-y") 'term-paste)
 
 ;; minibuffer history
 ;;(savehist-mode t)
