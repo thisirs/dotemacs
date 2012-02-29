@@ -1,5 +1,4 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
@@ -1016,6 +1015,7 @@ name"
 (define-key yas/keymap (kbd "C-k") 'yas/clear-current-field)
 
 ;;; org-mode
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
 (require 'org)
 
 ;; workaround to use yassnippet in org-mode
