@@ -1381,6 +1381,9 @@ name"
 ;; indentation correcte des items
 (setq LaTeX-item-indent 0)
 
+;; newline and indent in tex files
+(setq TeX-newline-function 'newline-and-indent)
+
 ;; disable fill in env
 (eval-after-load "latex"
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
