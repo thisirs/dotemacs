@@ -12,6 +12,7 @@
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
+(setq inhibit-startup-screen t)
 
 ;; unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
@@ -82,12 +83,13 @@
 ;;; anything
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config/extensions"))
+
+(setq anything-command-map-prefix-key "\C-a")
+
 (require 'anything-config)
 (require 'anything-match-plugin)
 (require 'anything-complete)
 (anything-read-string-mode 1)
-
-(setq anything-command-map-prefix-key "C-x C-a")
 
 (setq anything-su-or-sudo "sudo")
 
