@@ -608,15 +608,12 @@ containing a not hidden git repository."
 (setq ibuffer-saved-filter-groups
       `(("default"
          ,@(ibuffer-project-list)
-         ("Thèse"
-          (or
-           (filename . "/media/THISKEY/Documents/These")))
          ("Current paper"
           (or
            (filename . "/media/THISKEY/Documents/These/ARTICLE_REVUE")))
-         ("TP IMAGE 2011/2012"
+         ("Thèse"
           (or
-           (filename . "/media/THISKEY/enseignements/2011-2012/")))
+           (filename . "/media/THISKEY/Documents/These")))
          ("Org"
           (mode . org-mode))
          ("TeX/LaTeX"
