@@ -549,7 +549,7 @@ name"
 
 
 (defun make-ibuffer-projects-list (prefix &rest dir-list)
-  "Return a list whose elements are of the form ((`prefixdir' (filename . `directory')"
+  "Return a list whose elements are of the form ((`prefix' (filename . `directory')"
   (mapcar
    (lambda (dir)
      (list (concat prefix (file-name-nondirectory dir))
@@ -561,12 +561,52 @@ name"
                   (nreverse (find-projects dir))))
            dir-list))))
 
+(setq ibuffer-project-alist
+      `(("Project: " . ,(concat (getenv "HOME") "/dotemacs"))
+        ("Project on THISKEY: " . "/media/THISKEY/programming")))
+
+(setq ibuffer-project-list-cache-file
+      "~/.emacs.d/cache/ibuffer-project")
+
+(defun ibuffer-project-list-write-cache (ibuffer-project-list)
+  "Write `ibuffer-project-list' in cache file. Return `ibuffer-project-list'."
+  (with-temp-buffer
+      (print ibuffer-project-list (current-buffer))
+      (write-region (point-min)
+                    (point-max)
+                    ibuffer-project-list-cache-file))
+  ibuffer-project-list)
+
+(defun ibuffer-project-list-read-cache ()
+  "Read the cache file if it exists; otherwise return nil."
+  (if (file-exists-p ibuffer-project-list-cache-file)
+      (with-temp-buffer
+        (insert-file-contents ibuffer-project-list-cache-file)
+        (read (buffer-string)))))
+  
+  
+(defun ibuffer-project-list ()
+  "Return project list. Generates and caches it if necessary."
+  (or (ibuffer-project-list-read-cache)
+      (ibuffer-project-list-write-cache
+       (ibuffer-project-list-generate))))
+
+;; Generate project list when idle
+(run-with-idle-timer 10 nil
+                     (lambda () (ibuffer-project-list-write-cache
+                                 (ibuffer-project-list-generate))
+                       (message "IBuffer cache written!")))
+                         
+(defun ibuffer-project-list-generate ()
+  "Generate project list by examining `ibuffer-project-alist'."
+  (mapcan
+   (lambda (e)
+     (make-ibuffer-projects-list (car e) (cdr e)))
+   ibuffer-project-alist))
+     
 (setq ibuffer-saved-filter-groups
       `(("default"
-         ,@(make-ibuffer-projects-list "Project: "
-                                       (concat (getenv "HOME") "/dotemacs"))
-         ,@(make-ibuffer-projects-list "Project on THISKEY: "
-                                       "/media/THISKEY/programming")
+         ,@(ibuffer-project-list)
          ("Thèse"
           (or
            (filename . "/media/THISKEY/Documents/These")))
