@@ -534,7 +534,8 @@ name"
     (ibuffer-next-buffer)))
 
 (defun find-projects (dir)
-  "Return a list of all directories containing a not hidden git repo"
+  "Return a list of all directories and sub-directories
+containing a not hidden git repository."
   (let ((list
          (and (file-directory-p (concat dir "/.git"))
               (not (file-exists-p (concat dir "/.hidden")))
