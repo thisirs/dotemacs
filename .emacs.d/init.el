@@ -1407,6 +1407,19 @@ containing a not hidden git repository."
     (flyspell-delete-all-overlays)
     (flyspell-buffer)))
 
+;; flyspell comments and strings in programming modes
+;; (preventing it from finding mistakes in the code)
+(add-hook 'autoconf-mode-hook   'flyspell-prog-mode)
+(add-hook 'autotest-mode-hook   'flyspell-prog-mode)
+(add-hook 'c++-mode-hook        'flyspell-prog-mode)
+(add-hook 'c-mode-hook          'flyspell-prog-mode)
+(add-hook 'cperl-mode-hook      'flyspell-prog-mode)
+(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
+(add-hook 'makefile-mode-hook   'flyspell-prog-mode)
+(add-hook 'nxml-mode-hook       'flyspell-prog-mode)
+(add-hook 'python-mode-hook     'flyspell-prog-mode)
+(add-hook 'ruby-mode-hook       'flyspell-prog-mode)
+
 
 (defun patch (func pattern patch)
   "Patch a function definition by replacing `pattern' by `patch'."
