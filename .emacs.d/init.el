@@ -95,6 +95,9 @@
 
 (setq anything-c-locate-command "locate -e -b -i -r \"%s\"")
 
+;; don't save history information to file
+(remove-hook 'kill-emacs-hook 'anything-c-adaptive-save-history)
+
 (defun anything-for-files-prefered-list ()
       `(anything-c-source-ffap-line
         anything-c-source-ffap-guesser
