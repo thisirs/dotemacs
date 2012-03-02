@@ -608,16 +608,25 @@ containing a not hidden git repository."
    (lambda (e)
      (make-ibuffer-projects-list (car e) (cdr e)))
    ibuffer-project-alist))
-     
+
+
+(setq ibuffer-personnal-settings "~/Dropbox/conf-files/ibuffer-personnal.el")
+
+(defun ibuffer-personnal-settings ()
+  "Make a list of each read form in `ibuffer-personnal-settings'."
+  (if (file-exists-p ibuffer-personnal-settings)
+      (with-temp-buffer
+        (insert-file-contents ibuffer-personnal-settings)
+        (let ((marker (copy-marker 0))
+              form-list form)
+          (while (ignore-errors (setq form (read marker)))
+            (setq form-list (cons form form-list)))
+          (reverse form-list)))))
+
 (setq ibuffer-saved-filter-groups
       `(("default"
          ,@(ibuffer-project-list)
-         ("Current paper"
-          (or
-           (filename . "/media/THISKEY/Documents/These/ARTICLE_REVUE")))
-         ("Thèse"
-          (or
-           (filename . "/media/THISKEY/Documents/These")))
+         ,@(ibuffer-personnal-settings)
          ("Org"
           (mode . org-mode))
          ("TeX/LaTeX"
