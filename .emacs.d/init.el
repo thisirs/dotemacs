@@ -873,8 +873,18 @@ containing a not hidden git repository."
 (global-set-key (kbd "s-n") 'windmove-down)
 
 ;; Mettre un titre aux fenêtres
-(setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
-
+(setq frame-title-format
+      '(:eval
+        (concat "Emacs: "
+                (or
+                 buffer-file-name
+                 (and (eq major-mode 'dired-mode)
+                      (expand-file-name
+                       (if (listp dired-directory)
+                           (car dired-directory)
+                         dired-directory)))
+                 (buffer-name)))))
+                            
 ;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
 
