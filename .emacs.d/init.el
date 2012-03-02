@@ -91,6 +91,7 @@
 (require 'anything-match-plugin)
 (require 'anything-complete)
 (anything-read-string-mode 1)
+(ac-mode -1)
 
 (setq anything-su-or-sudo "sudo")
 
