@@ -2311,3 +2311,45 @@ shows you how many labels and refs have been replaced."
                 (lambda ()
                   (interactive)
                   (kill-line 0)))
+
+
+
+;; trying auto-complete
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
+(ac-config-default)
+
+(setq ac-use-menu-map t)
+;; Default settings
+(define-key ac-menu-map "\C-n" 'ac-next)
+(define-key ac-menu-map "\C-p" 'ac-previous)
+
+(add-to-list 'ac-sources 'ac-source-yasnippet)
+
+
+(define-key ac-mode-map (kbd "S-SPC") 'auto-complete)
+
+(defun jump-to-org-agenda ()
+  (interactive)
+  (let ((buf (get-buffer "*Org Agenda*"))
+        wind)
+    (if buf
+        (if (setq wind (get-buffer-window buf))
+            (select-window wind)
+          (if (called-interactively-p)
+              (progn
+                (select-window (display-buffer buf t t))
+                (org-fit-window-to-buffer)
+                ;; (org-agenda-redo)
+                )
+            (with-selected-window (display-buffer buf)
+              (org-fit-window-to-buffer)
+              ;; (org-agenda-redo)
+              )))
+      (call-interactively 'org-agenda-list)))
+  ;;(let ((buf (get-buffer "*Calendar*")))
+  ;;  (unless (get-buffer-window buf)
+  ;;    (org-agenda-goto-calendar)))
+  )
+
+(run-with-idle-timer 900 t 'jump-to-org-agenda)
