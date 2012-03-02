@@ -1389,6 +1389,10 @@ containing a not hidden git repository."
 
 ;; Correction orthographique
 (setq ispell-dictionary "fr")
+
+;; save the personal dictionary without confirmation
+(setq ispell-silently-savep t)
+
 (require 'flyspell)
 
 (defun switch-dictionary ()
