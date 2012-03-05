@@ -1851,19 +1851,19 @@ or version controlled but untracked."
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; hippie-expand
-(global-set-key (kbd "S-SPC") 'hippie-expand)
-(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
+;; (global-set-key (kbd "S-SPC") 'hippie-expand)
+;; (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
 
-(setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
-        try-complete-file-name-partially
-        try-complete-file-name
-        ;;try-expand-list
-        ;;try-expand-line
-        try-expand-dabbrev-visible
-        try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
+;; (setq hippie-expand-try-functions-list
+;;       '(yas/hippie-try-expand
+;;         try-complete-file-name-partially
+;;         try-complete-file-name
+;;         ;;try-expand-list
+;;         ;;try-expand-line
+;;         try-expand-dabbrev-visible
+;;         try-expand-dabbrev
+;;         try-expand-dabbrev-all-buffers
+;;         try-expand-dabbrev-from-kill))
 
 ;; Customized Emacs Lisp mode
 (require 'eldoc)
@@ -1889,14 +1889,14 @@ or version controlled but untracked."
             (setq lisp-indent-offset nil)
             ;;(turn-on-auto-fill)
             (require 'folding nil 'noerror)
-            (set (make-local-variable 'hippie-expand-try-functions-list)
-                 '(yas/hippie-try-expand
-                   try-complete-file-name-partially
-                   try-complete-file-name
-                   try-expand-dabbrev-visible
-                   try-expand-dabbrev
-                   try-complete-lisp-symbol-partially
-                   try-complete-lisp-symbol))
+            ;; (set (make-local-variable 'hippie-expand-try-functions-list)
+            ;;      '(yas/hippie-try-expand
+            ;;        try-complete-file-name-partially
+            ;;        try-complete-file-name
+            ;;        try-expand-dabbrev-visible
+            ;;        try-expand-dabbrev
+            ;;        try-complete-lisp-symbol-partially
+            ;;        try-complete-lisp-symbol))
             ;;marquer les caractères au delà de 80 caractères
             (font-lock-add-keywords
              nil
@@ -2327,7 +2327,7 @@ shows you how many labels and refs have been replaced."
 
 ;; trying auto-complete
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
 (setq ac-use-menu-map t)
