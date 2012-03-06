@@ -2306,6 +2306,35 @@ shows you how many labels and refs have been replaced."
   (interactive)
   (occur "(\\\\ref{[^{]*})"))
 
+(defun latex-rename-label-after-includegraphics ()
+  "Refactor label when it is preceded by an includegraphics. The
+  filename used in includegraphics becomes the new label. Create
+  a label when non existing."
+  (interactive)
+  (save-excursion
+    (goto-char 1)
+    (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
+      ;; remove extension from filename
+      (let ((newname ((lambda (filename)
+                        (substring filename
+                                   0
+                                   (string-match
+                                    (concat
+                                     (regexp-opt '(".jpeg" ".png" ".pdf"))
+                                     "$")
+                                    filename)))
+                      (match-string-no-properties 2))))
+        (forward-line)
+        ;; skip caption for correct numbering
+        (if (looking-at "[ \t]*\\\\caption") (forward-line))
+        (if (looking-at "[ \t]*\\\\label{\\([^}]+\\)")
+            (unless (equal (match-string-no-properties 1) newname)
+              (latex-refactor-label (match-string-no-properties 1) newname))
+          (open-line 1)
+          (insert (format "\\label{%s}" newname))
+          (indent-for-tab-command))))))
+
+
 (global-set-key [(control tab)] 'other-window)
 
 (add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
