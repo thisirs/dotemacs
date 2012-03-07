@@ -99,8 +99,7 @@
    '(italic ((t (:slant italic))))
    '(underline ((t (:underline t))))
 
-
-   '(fringe ((t (:inherit 'default))))
+   `(fringe ((t (:background ,zenburn-bg-1))))
    '(header-line ((t (:inherit 'zenburn-highlight-damp
                                :box (:color "#2e3330" :line-width 2)))))
    '(highlight ((t (:weight bold :underline t))))
