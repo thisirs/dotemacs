@@ -105,15 +105,15 @@
 (remove-hook 'kill-emacs-hook 'anything-c-adaptive-save-history)
 
 (defun anything-for-files-prefered-list ()
-      `(anything-c-source-ffap-line
-        anything-c-source-ffap-guesser
-        anything-c-source-buffers-list
-        anything-c-source-recentf
-        anything-c-source-bookmarks
-        anything-c-source-file-cache
-        anything-c-source-files-in-current-dir+
-        ,@(if (file-exists-p "/media/THISKEY") '(anything-c-source-locate-thiskey))
-        anything-c-source-locate))
+  `(anything-c-source-ffap-line
+    anything-c-source-ffap-guesser
+    anything-c-source-buffers-list
+    anything-c-source-recentf
+    anything-c-source-bookmarks
+    anything-c-source-file-cache
+    anything-c-source-files-in-current-dir+
+    ,@(if (file-exists-p "/media/THISKEY") '(anything-c-source-locate-thiskey))
+    anything-c-source-locate))
 
 (defun anything-for-files ()
   "Preconfigured `anything' for opening files.
@@ -145,19 +145,19 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
 
 (ignore-errors
 
-(require 'dbus)
+  (require 'dbus)
 
-(defun THISKEY-dbus-signal-handler (service id args)
-  "Resurrect THISKEY opened buffers when it is plugged"
-  (when (string= "THISKEY" (cadr args))
-    (let ((desktop-load-locked-desktop t))
-      (save-window-excursion
-        (desktop-read)))
-    (run-with-idle-timer 10 nil 'update-locate-database)
-    (run-with-idle-timer 10 nil
-                         (lambda ()
-                           (run-hooks 'midnight-hook)))
-    (message "Mounting THISKEY, desktop-read")))
+  (defun THISKEY-dbus-signal-handler (service id args)
+    "Resurrect THISKEY opened buffers when it is plugged"
+    (when (string= "THISKEY" (cadr args))
+      (let ((desktop-load-locked-desktop t))
+        (save-window-excursion
+          (desktop-read)))
+      (run-with-idle-timer 10 nil 'update-locate-database)
+      (run-with-idle-timer 10 nil
+                           (lambda ()
+                             (run-hooks 'midnight-hook)))
+      (message "Mounting THISKEY, desktop-read")))
 
   (when (fboundp 'dbus-register-signal)
     (dbus-register-signal
@@ -467,7 +467,7 @@ when building sentence like blah, blih, bloh and bluh."
   (require 'diff)
   (let ((marked-bufs (ibuffer-get-marked-buffers)))
     (if (eq (length marked-bufs) 2)
-      (diff (car marked-bufs) (cadr marked-bufs))
+        (diff (car marked-bufs) (cadr marked-bufs))
       ad-do-it)))
 
 ;; don't show empty groups
@@ -582,10 +582,10 @@ containing a not hidden git repository."
 (defun ibuffer-project-list-write-cache (ibuffer-project-list)
   "Write `ibuffer-project-list' in cache file. Return `ibuffer-project-list'."
   (with-temp-buffer
-      (print ibuffer-project-list (current-buffer))
-      (write-region (point-min)
-                    (point-max)
-                    ibuffer-project-list-cache-file))
+    (print ibuffer-project-list (current-buffer))
+    (write-region (point-min)
+                  (point-max)
+                  ibuffer-project-list-cache-file))
   ibuffer-project-list)
 
 (defun ibuffer-project-list-read-cache ()
@@ -594,8 +594,8 @@ containing a not hidden git repository."
       (with-temp-buffer
         (insert-file-contents ibuffer-project-list-cache-file)
         (read (buffer-string)))))
-  
-  
+
+
 (defun ibuffer-project-list ()
   "Return project list. Generates and caches it if necessary."
   (or (ibuffer-project-list-read-cache)
@@ -607,7 +607,7 @@ containing a not hidden git repository."
                      (lambda () (ibuffer-project-list-write-cache
                                  (ibuffer-project-list-generate))
                        (message "IBuffer cache written!")))
-                         
+
 (defun ibuffer-project-list-generate ()
   "Generate project list by examining `ibuffer-project-alist'."
   (mapcan
@@ -716,12 +716,12 @@ containing a not hidden git repository."
 (mapc
  (lambda (func)
    (eval `(defadvice ,func (after indent-region activate)
-     (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                      lisp-interaction-mode sh-mode
-                                      lisp-mode c-mode c++-mode objc-mode
-                                      latex-mode plain-tex-mode
-                                      python-mode matlab-mode))
-      (indent-region (region-beginning) (region-end) nil)))))
+            (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+                                             lisp-interaction-mode sh-mode
+                                             lisp-mode c-mode c++-mode objc-mode
+                                             latex-mode plain-tex-mode
+                                             python-mode matlab-mode))
+                (indent-region (region-beginning) (region-end) nil)))))
  '(yank yank-pop))
 
 ;; kill-ring-save (M-w) copie la ligne si aucune region active,
@@ -903,7 +903,7 @@ containing a not hidden git repository."
                            (car dired-directory)
                          dired-directory)))
                  (buffer-name)))))
-                            
+
 ;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
 
@@ -1136,7 +1136,7 @@ containing a not hidden git repository."
                      (link (concat "file:" (abbreviate-file-name buffer-file-name)
                                    "::" search)))
                 (org-make-link-string link txt))))))
-     ""))
+   ""))
 
 ;; shorter description
 (setq org-link-to-description
@@ -1242,8 +1242,8 @@ containing a not hidden git repository."
 
 ;; annoted todo are stared
 (eval-after-load "org-agenda"
-    '(add-to-list 'org-agenda-prefix-format
-                  '(todo . " %(annotedp)%i %-12:c")))
+  '(add-to-list 'org-agenda-prefix-format
+                '(todo . " %(annotedp)%i %-12:c")))
 
 (defun annotedp ()
   (or
@@ -1489,7 +1489,7 @@ containing a not hidden git repository."
             (auto-fill-mode)
             (flyspell-mode)
             (TeX-source-correlate-mode 1))) ; Source Specials
-            ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 ;; add styles location, francais.el is not loaded :(
 (eval-after-load "latex"
@@ -1498,7 +1498,7 @@ containing a not hidden git repository."
 
 ;; enable fr dictionary when using package frenchb
 (add-hook 'TeX-language-fr-hook
-           (lambda () (ispell-change-dictionary "fr")))
+          (lambda () (ispell-change-dictionary "fr")))
 
 (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
@@ -2379,9 +2379,9 @@ shows you how many labels and refs have been replaced."
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 (setq-default ac-sources
-      '(ac-source-yasnippet
-        ac-source-filename
-        ac-source-words-in-all-buffer))
+              '(ac-source-yasnippet
+                ac-source-filename
+                ac-source-words-in-all-buffer))
 
 ;;(add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
 (global-auto-complete-mode t)
