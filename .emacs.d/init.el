@@ -246,28 +246,10 @@ if `boss-window-configuration' is nil."
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
-;; M-RET to keep writing comments, clashes with auctex mode
-;; (global-set-key (kbd "M-RET") comment-line-break-function)
-
-;; (defadvice indent-for-tab-command (around tab-completion activate)
-;;   (cond
-;;     ((minibufferp)
-;;       (minibuffer-complete))
-;;     ((looking-at "\\>")
-;;       (hippie-expand nil))
-;;     (t ad-do-it)))
-
 ;;; magit
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
-
-;; (eval-after-load 'magit
-;;   '(progn
-;;      (set-face-foreground 'magit-diff-add "green3")
-;;      (set-face-foreground 'magit-diff-del "red3")
-;;      (when (and (not window-system) (not (daemonp)))
-;;        (set-face-background 'magit-item-highlight "white"))))
 
 (defun mapconcatend (func list separator last-separator)
   "Like mapconcat but the last separator can be specified. Useful
@@ -406,11 +388,6 @@ when building sentence like blah, blih, bloh and bluh."
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-;; (setq confirm-kill-emacs
-;;   (lambda (e)
-;;     (y-or-n-p-with-timeout
-;;       "Really exit Emacs (automatically exits in 5 secs)? " 5 t)))
 
 ;; Laisser le curseur en place lors d'un défilement par pages. Par
 ;; défaut, Emacs place le curseur en début ou fin d'écran selon le
@@ -2036,36 +2013,6 @@ or version controlled but untracked."
 ;; combinaison « M-q », qui existe par défaut, le formatant)
 (global-set-key (kbd "M-Q") 'remove-hard-wrap-paragraph)
 
-;; IDEA tip of the day http://bitbucket.org/scfrazer/dot_emacs/src/tip/init.el
-
-;; (defun smart-tab ()
-;;   "This smart tab is minibuffer compliant: it acts as usual in
-;;    the minibuffer. Else, if mark is active, indents region. Else if
-;;    point is at the end of a symbol, expands it. Else indents the
-;;    current line."
-;;   (interactive)
-;;   (if (minibufferp)
-;;     (unless (minibuffer-complete)
-;;       (dabbrev-expand nil))
-;;     (if (smart-tab-must-expand 0)
-;;       (smart-expand-function)
-;;       (smart-indent))))
-
-;; (defun smart-indent ()
-;;   "Indents region if mark is active, or current line otherwise."
-;;   (interactive)
-;;   (if mark-active
-;;     (indent-region (region-beginning)
-;;       (region-end))
-;;     (indent-for-tab-command)))
-
-;; (defun smart-tab-must-expand (&optional prefix)
-;;   "If PREFIX is \\[universal-argument], answers no.
-;;    Otherwise, analyses point position and answers."
-;;   (unless (or (consp prefix)
-;;          mark-active)
-;;     (looking-at "\\_>")))
-
 (global-set-key [\C-home] 'beginning-of-buffer)
 (global-set-key [\C-end] 'end-of-buffer)
 
@@ -2108,59 +2055,6 @@ Indent each line of the list starting just after point."
 ;; file you are editing
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
-
-
-;; writing hippie-expand flyspell
-;; (defun try-expand-all-abbrevs (old)
-;;   "Try to expand word before point according to all abbrev tables.
-;; The argument OLD has to be nil the first call of this function, and t
-;; for subsequent calls (for further possible expansions of the same
-;; string).  It returns t if a new expansion is found, nil otherwise."
-;;   (if (not old)
-;;     (progn
-;;       (he-init-string (he-dabbrev-beg) (point))
-;;       (setq he-expand-list
-;;      (and (not (equal he-search-string ""))
-;;        (mapcar (function (lambda (sym)
-;;                            (if (and (boundp sym) (vectorp (eval sym)))
-;;                              (abbrev-expansion (downcase he-search-string)
-;;                                (eval sym)))))
-;;          (append '(local-abbrev-table
-;;                     global-abbrev-table)
-;;            abbrev-table-name-list))))))
-;;   (while (and he-expand-list
-;;         (or (not (car he-expand-list))
-;;           (he-string-member (car he-expand-list) he-tried-table t)))
-;;     (setq he-expand-list (cdr he-expand-list)))
-;;   (if (null he-expand-list)
-;;     (progn
-;;       (if old (he-reset-string))
-;;       ())
-;;     (progn
-;;       (he-substitute-string (car he-expand-list) t)
-;;       (setq he-expand-list (cdr he-expand-list))
-;;       t)))
-
-
-;; (setq word "fenetre")
-;; (process-send-string ispell-process "%\n") ;put in verbose mode
-;; (process-send-string ispell-process (concat "^" word "\n"))
-;; ;; wait until ispell has processed word
-;; (while (progn
-;;       (accept-process-output ispell-process)
-;;       (not (string= "" (car ispell-filter)))))
-;; (setq ispell-filter (cdr ispell-filter))
-;; (if (consp ispell-filter)
-;;   (setq poss (ispell-parse-output (car ispell-filter))))
-
-;; poss
-;; (cond
-;;   ((or (eq poss t) (stringp poss))
-;;     ;; don't correct word
-;;     t)
-;;   ((null poss)
-;;     ;; ispell error
-;;     (error "Ispell: error in Ispell process"))
 
 
 (defun pcomplete-erc-command-name ()
