@@ -2036,16 +2036,6 @@ or version controlled but untracked."
 ;; combinaison « M-q », qui existe par défaut, le formatant)
 (global-set-key (kbd "M-Q") 'remove-hard-wrap-paragraph)
 
-
-;; Thu Sep  9 15:33:21 2010
-;; FIXME marche qu'avec le curseur sur la parenthèse fermante.
-(defadvice show-paren-function (after my-echo-paren-matching-line activate)
-  "If a matching paren is off-screen, echo the matching line."
-  (when (char-equal (char-syntax (char-before (point))) ?\))
-    (let ((matching-text (blink-matching-open)))
-      (when matching-text
-        (message matching-text)))))
-
 ;; IDEA tip of the day http://bitbucket.org/scfrazer/dot_emacs/src/tip/init.el
 
 ;; (defun smart-tab ()
