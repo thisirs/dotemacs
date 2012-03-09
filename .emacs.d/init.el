@@ -1463,6 +1463,9 @@ containing a not hidden git repository."
 (setq TeX-PDF-mode t)
 (setq TeX-save-query nil) ; autosave before compiling
 
+(setq TeX-parse-self t) ; Enable parse on load.
+(setq TeX-auto-save t) ; Enable parse on save.
+
 ;; Needed to use external programs such as gnuplot
 (setq LaTeX-command "latex --shell-escape")
 
