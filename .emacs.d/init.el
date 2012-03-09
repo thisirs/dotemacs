@@ -1490,6 +1490,11 @@ containing a not hidden git repository."
              "equation*"
              '("subnumcases" "Before")
              '("block" "Title"))
+;; add styles location, francais.el is not loaded :(
+(eval-after-load "latex"
+  '(add-to-list 'TeX-style-path
+                (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/style")))
+
             (when buffer-file-name
               (turn-on-reftex)
               (reftex-set-cite-format "~\\cite{%l}"))
