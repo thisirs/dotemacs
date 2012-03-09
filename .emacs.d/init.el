@@ -2371,14 +2371,20 @@ shows you how many labels and refs have been replaced."
 ;; trying auto-complete
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
+;;(ac-config-default)
 
 (setq ac-use-menu-map t)
 ;; Default settings
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
-(add-to-list 'ac-sources 'ac-source-yasnippet)
+(setq-default ac-sources
+      '(ac-source-yasnippet
+        ac-source-filename
+        ac-source-words-in-all-buffer))
+
+;;(add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
+(global-auto-complete-mode t)
 
 
 (define-key ac-mode-map (kbd "S-SPC") 'auto-complete)
