@@ -1733,12 +1733,21 @@ containing a not hidden git repository."
         ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "shebang"))
         ("\\.tex$"
          ("Latex article"
-          (auto-insert-yasnippet "headerlatex"))
+          (progn
+            (auto-insert-yasnippet "headerlatex")
+            (TeX-normal-mode 1)))
          ("Standalone TikZ"
-          (auto-insert-yasnippet "headertikz"))
+          (progn
+            (auto-insert-yasnippet "headertikz")
+            (TeX-normal-mode 1)))
          ("Standalone TikZ for my thesis"
-          (auto-insert-yasnippet "latextikzthesis"))
-         ("Letter" (auto-insert-yasnippet "ll")))))
+          (progn
+            (auto-insert-yasnippet "latextikzthesis")
+            (TeX-normal-mode 1)))
+         ("Letter"
+          (progn
+            (auto-insert-yasnippet "ll")
+            (TeX-normal-mode 1))))))
 
 
 (setq auto-insert 'other)
