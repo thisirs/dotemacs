@@ -1490,6 +1490,11 @@ containing a not hidden git repository."
             (TeX-source-correlate-mode 1))) ; Source Specials
             ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
+;; add styles location, francais.el is not loaded :(
+(eval-after-load "latex"
+  '(add-to-list 'TeX-style-path
+                (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/style")))
+
 ;; enable fr dictionary when using package frenchb
 (add-hook 'TeX-language-fr-hook
            (lambda () (ispell-change-dictionary "fr")))
