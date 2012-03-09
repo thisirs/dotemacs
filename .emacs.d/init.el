@@ -124,20 +124,21 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
 (defun update-locate-database ()
   "Update locate databases"
   (interactive)
-  (set-process-sentinel
-   (start-process-shell-command
-    "updatedb process" nil
-    (mapconcat
-     'identity
-     '("updatedb -l 0"
-       "-U /media/THISKEY/"
-       "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
-       "-o $HOME/.locate.db")
-     " "))
-   (lambda (process event)
-     (message (if (string= "finished\n" event)
-                  "Locate database updated!"
-                "Updating locate database failed!")))))
+  (and (file-exists-p "/media/THISKEY")
+       (set-process-sentinel
+        (start-process-shell-command
+         "updatedb process" nil
+         (mapconcat
+          'identity
+          '("updatedb -l 0"
+            "-U /media/THISKEY/"
+            "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+            "-o $HOME/.locate.db")
+          " "))
+        (lambda (process event)
+          (minibuffer-message (if (string= "finished\n" event)
+                                  "Locate database updated!"
+                                "Updating locate database failed!"))))))
 
 ;; update locate database when idle during 10 sec
 (run-with-idle-timer 10 nil 'update-locate-database)
