@@ -1480,21 +1480,8 @@ containing a not hidden git repository."
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
          '("tikzpicture" "scope" "figure")))
 
-;; add subnumcases to the list of math environments
-(eval-after-load "font-latex"
-  '(add-to-list 'font-latex-math-environments "subnumcases"))
-
 (add-hook 'LaTeX-mode-hook
           (lambda ()
-            (LaTeX-add-environments
-             "equation*"
-             '("subnumcases" "Before")
-             '("block" "Title"))
-;; add styles location, francais.el is not loaded :(
-(eval-after-load "latex"
-  '(add-to-list 'TeX-style-path
-                (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/style")))
-
             (when buffer-file-name
               (turn-on-reftex)
               (reftex-set-cite-format "~\\cite{%l}"))
