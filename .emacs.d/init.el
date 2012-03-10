@@ -2366,7 +2366,7 @@ subdirectory img and filtered by extension."
 
 
 (add-to-list 'load-path
-             (expand-file-name "~/dotemacs/dotemacs/.emacs.d/el-get/browse-kill-ring/"))
+             (expand-file-name "~/.emacs.d/el-get/browse-kill-ring/"))
 
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
