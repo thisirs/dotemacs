@@ -45,7 +45,8 @@
 
 (defadvice find-file (around th-find-file activate)
   "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (not (file-writable-p (ad-get-arg 0)))
+  (if (and (file-exists-p (ad-get-arg 0))
+           (not (file-writable-p (ad-get-arg 0)))
            (not (file-remote-p (ad-get-arg 0)))
            (not (file-directory-p (ad-get-arg 0)))
            (y-or-n-p (concat "File "
