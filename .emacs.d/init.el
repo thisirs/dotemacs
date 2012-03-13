@@ -594,23 +594,22 @@ containing a not hidden git repository."
    ibuffer-project-alist))
 
 
-(setq ibuffer-personnal-settings "~/Dropbox/conf-files/ibuffer-personnal.el")
-
-(defun ibuffer-personnal-settings ()
-  "Make a list of each read form in `ibuffer-personnal-settings'."
-  (if (file-exists-p ibuffer-personnal-settings)
+(defun load-file-to-list (file)
+  "Return a list of FORM found in file `file'."
+  (if (and (file-exists-p file)
+           (file-readable-p file))
       (with-temp-buffer
-        (insert-file-contents ibuffer-personnal-settings)
+        (insert-file-contents file)
         (let ((marker (copy-marker 0))
               form-list form)
           (while (ignore-errors (setq form (read marker)))
             (setq form-list (cons form form-list)))
           (reverse form-list)))))
-
+  
 (setq ibuffer-saved-filter-groups
       `(("default"
          ,@(ibuffer-project-list)
-         ,@(ibuffer-personnal-settings)
+         ,@(load-file-to-list "~/Dropbox/conf-files/ibuffer-personnal.el")
          ("Org"
           (mode . org-mode))
          ("TeX/LaTeX"
@@ -1129,46 +1128,9 @@ containing a not hidden git repository."
           (cond
            ((stringp found) (match-substitute-replacement found t nil link))))))
 
+;; load templates from personnal location
 (setq org-capture-templates
-      '(
-        ("t" "Todo" entry
-         (file+headline "~/Dropbox/Org/someday.org" "Tâches")
-         "* TODO %(todo-item)%?\n  OPENED: %U")
-        ("d" "Téléchargement" entry
-         (file+headline "~/Dropbox/Org/someday.org" "Downloads")
-         "* TODO %?\n  OPENED: %U")
-        ("m" "Emacs" entry
-         (file+headline "~/Dropbox/Org/someday.org" "Programming")
-         "* TODO %?                                                :emacs:\n  OPENED: %U")
-        ("p" "Programming" entry
-         (file+headline "~/Dropbox/Org/someday.org" "Programming")
-         "* TODO %?\n  OPENED: %U")
-        ("e" "Event" entry
-         (file+headline "~/Dropbox/Org/agenda.org" "Divers")
-         "* EVENT %?")
-        ("qu" "Quote" entry
-         (file+headline "~/Dropbox/Org/quotes.org" "")
-         "* %^{description}%?\n  OPENED: %U")
-        ("a" "Anniv" entry
-         (file+headline "~/Dropbox/Org/specialdays.org" "")
-         "* %^{Birthday}t Anniversaire de %^{prompt}!\n")
-        ("b" "Boss" entry
-         (file+headline "~/Dropbox/Org/someday.org" "Boss")
-         "* TODO %?                                                :boss:\n  OPENED: %U")
-        ("f" "Phone calls")
-        ("fr" "Received phone calls" entry
-         (file+headline "~/Dropbox/Org/phonecalls.org" "Received")
-         "* Received phone call:\n  at %U\n  from %?")
-        ("fm" "Made phone calls" entry
-         (file+headline "~/Dropbox/Org/phonecalls.org" "Made")
-         "* Made phone call:\n  at %U\n  to %?")
-        ("l" "Livres empruntés")
-        ("lu" "Bibliothèque Universitaire" entry
-         (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-         "* BORROWED %?\n  BU Universitaire\n  BORROWED: %u\n  DEADLINE: %(deadline-from-now 28 4)")
-        ("ll" "Bibliothèque du labo" entry
-         (file+headline "~/Dropbox/Org/books.org" "Empruntés")
-         "* BORROWED %?\n  BU Labo\n  BORROWED: %u\n  DEADLINE:  %(deadline-from-now 365 4)")))
+      (load-file-to-list "~/Dropbox/Org/org-capture-templates.el"))
 
 (defun add-days (date1 days)
   "Add `days' days to `date'"
