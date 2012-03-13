@@ -1095,6 +1095,9 @@ containing a not hidden git repository."
 ;; fontify src blocks
 (setq org-src-fontify-natively t)
 
+;; restore windows configuration
+(setq org-agenda-restore-windows-after-quit t)
+
 (defun todo-item ()
   "Auto insert link when capturing if point is on a TODO line."
   (or
