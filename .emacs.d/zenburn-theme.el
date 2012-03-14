@@ -102,7 +102,7 @@
    `(fringe ((t (:background ,zenburn-bg-1))))
    '(header-line ((t (:inherit 'zenburn-highlight-damp
                                :box (:color "#2e3330" :line-width 2)))))
-   '(highlight ((t (:weight bold :underline t))))
+   `(highlight ((t (:weight bold :background ,zenburn-bg-1))))
    '(hover-highlight ((t (:underline t :foreground "#f8f893"))))
    '(match ((t (:weight bold))))
    `(menu ((t (:background "#1e2320"))))
