@@ -19,3 +19,6 @@
 [submodule ".emacs.d/vendor/matlab-emacs"]
 	path = .emacs.d/vendor/matlab-emacs
 	url = https://thisirs@github.com/thisirs/matlab-emacs.git
+[submodule ".emacs.d/vendor/emacs-helm"]
+	path = .emacs.d/vendor/emacs-helm
+	url = https://github.com/thierryvolpiatto/emacs-helm.git
