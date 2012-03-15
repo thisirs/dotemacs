@@ -788,6 +788,7 @@ containing a not hidden git repository."
   "Directory to look for pdf files.")
 
 (put 'pdfs-directory 'safe-local-variable 'string-or-null-p)
+(put 'ispell-local-dictionary 'safe-local-variable 'string-or-null-p)
 
 ;; find pdf at a ref which has the same name in `pdfs-directory'
 (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
