@@ -86,41 +86,39 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (require 'el-get)
 
-;;; anything
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/anything-config/extensions"))
+;;; helm
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/emacs-helm"))
 
-(setq anything-command-map-prefix-key "\C-a")
+(setq helm-command-map-prefix-key "C-x C-a")
 
-(require 'anything-config)
-(require 'anything-match-plugin)
-(require 'anything-complete)
-(anything-read-string-mode 1)
-(ac-mode -1)
+(require 'helm-config)
 
-(setq anything-su-or-sudo "sudo")
+;(helm-read-string-mode 1)
+;(ac-mode -1)
 
-(setq anything-c-locate-command "locate -e -b -i -r \"%s\"")
+(setq helm-su-or-sudo "sudo")
+
+(setq helm-c-locate-command "locate -e -b -i -r \"%s\"")
 
 ;; don't save history information to file
-(remove-hook 'kill-emacs-hook 'anything-c-adaptive-save-history)
+(remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
 
-(defun anything-for-files-prefered-list ()
-  `(anything-c-source-ffap-line
-    anything-c-source-ffap-guesser
-    anything-c-source-buffers-list
-    anything-c-source-recentf
-    anything-c-source-bookmarks
-    anything-c-source-file-cache
-    anything-c-source-files-in-current-dir+
-    ,@(if (file-exists-p "/media/THISKEY") '(anything-c-source-locate-thiskey))
-    anything-c-source-locate))
+(defun helm-for-files-prefered-list ()
+  `(helm-c-source-ffap-line
+    helm-c-source-ffap-guesser
+    helm-c-source-buffers-list
+    helm-c-source-recentf
+    helm-c-source-bookmarks
+    helm-c-source-file-cache
+    helm-c-source-files-in-current-dir+
+    ,@(if (file-exists-p "/media/THISKEY") '(helm-c-source-locate-thiskey))
+    helm-c-source-locate))
 
-(defun anything-for-files ()
-  "Preconfigured `anything' for opening files.
+(defun helm-for-files ()
+  "Preconfigured `helm' for opening files.
 ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> locate."
   (interactive)
-  (anything-other-buffer (anything-for-files-prefered-list) "*anything for files*"))
+  (helm-other-buffer (helm-for-files-prefered-list) "*helm for files*"))
 
 (defun update-locate-database ()
   "Update locate databases"
@@ -185,16 +183,16 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 
-(defun anything-c-locate-thiskey-init ()
-  "Initialize async locate process for `anything-c-source-locate'."
+(defun helm-c-locate-thiskey-init ()
+  "Initialize async locate process for `helm-c-source-locate'."
   (start-process-shell-command
    "locate-thiskey-process" nil
    (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
-           anything-pattern)))
+           helm-pattern)))
 
-(defvar anything-c-source-locate-thiskey
+(defvar helm-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
-    (candidates . anything-c-locate-thiskey-init)
+    (candidates . helm-c-locate-thiskey-init)
     (type . file)
     (requires-pattern . 3)
     (delayed))
