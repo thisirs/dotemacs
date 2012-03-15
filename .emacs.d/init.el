@@ -659,7 +659,8 @@ containing a not hidden git repository."
          ("Matlab"
           (or
            (filename . "\\.m$")
-           (name . "^\\*MATLAB\\*$"))))))
+           (name . "^\\*MATLAB\\*$"))))
+        ,@(load-file-to-list "~/Dropbox/conf-files/ibuffer-filter-groups.el")))
 
 ;; Use human readable Size column instead of original one
 (define-ibuffer-column size-h
