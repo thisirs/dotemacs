@@ -156,7 +156,7 @@ ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> l
       (run-with-idle-timer 10 nil
                            (lambda ()
                              (run-hooks 'midnight-hook)))
-      (message "Mounting THISKEY, desktop-read")))
+      (minibuffer-message "Mounting THISKEY, desktop-read")))
 
   (when (fboundp 'dbus-register-signal)
     (dbus-register-signal
@@ -582,7 +582,7 @@ containing a not hidden git repository."
 (run-with-idle-timer 10 nil
                      (lambda () (ibuffer-project-list-write-cache
                                  (ibuffer-project-list-generate))
-                       (message "IBuffer cache written!")))
+                       (minibuffer-message "IBuffer cache written!")))
 
 (defun ibuffer-project-list-generate ()
   "Generate project list by examining `ibuffer-project-alist'."
