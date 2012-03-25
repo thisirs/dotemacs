@@ -462,6 +462,7 @@ when building sentence like blah, blih, bloh and bluh."
   (let ((current-buffer (ibuffer-current-buffer t))
         (list0 list)
         (list1 list)
+        next-buffer
         (ibuffer-buffer-list
          (mapcar #'car
                  (ibuffer-current-state-list))))
