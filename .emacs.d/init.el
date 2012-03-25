@@ -295,6 +295,13 @@ when building sentence like blah, blih, bloh and bluh."
 
 (add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
 
+;; auto byte-compile init.el
+(add-hook 'kill-emacs-hook
+          (lambda () (and (file-newer-than-file-p
+                           "~/.emacs.d/init.el"
+                           "~/.emacs.d/init.elc")
+                          (byte-compile-file "~/.emacs.d/init.el"))))
+
 
 ;; auto-save with non-visiting buffer is too rigid
 (defun save-scratch-buffer ()
