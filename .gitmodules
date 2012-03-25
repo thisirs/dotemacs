@@ -21,4 +21,4 @@
 	url = https://thisirs@github.com/thisirs/matlab-emacs.git
 [submodule ".emacs.d/vendor/emacs-helm"]
 	path = .emacs.d/vendor/emacs-helm
-	url = https://github.com/thierryvolpiatto/emacs-helm.git
+	url = https://github.com/emacs-helm/helm.git
