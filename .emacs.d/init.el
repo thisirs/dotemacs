@@ -1827,8 +1827,8 @@ or version controlled but untracked."
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; hippie-expand
-(global-set-key (kbd "s-SPC") 'hippie-expand)
-(global-set-key (kbd "C-s-SPC") (lambda () (interactive) (hippie-expand -1)))
+(global-set-key (kbd "M-SPC") 'hippie-expand)
+(global-set-key (kbd "C-M-SPC") (lambda () (interactive) (hippie-expand -1)))
 
 (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
@@ -2256,7 +2256,7 @@ shows you how many labels and refs have been replaced."
 (global-auto-complete-mode t)
 
 
-(define-key ac-mode-map (kbd "S-SPC") 'auto-complete)
+(define-key ac-mode-map (kbd "s-SPC") 'auto-complete)
 
 (defun jump-to-org-agenda ()
   (interactive)
