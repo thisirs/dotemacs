@@ -1292,6 +1292,15 @@ containing a not hidden git repository."
 (plist-put org-format-latex-options :scale 1.5)
 
 
+;; `org-capture-context'
+(require 'org-capture-context)
+
+;; setting `org-capture-context-alist'
+(load-file "~/Dropbox/emacs/org-capture-context-settings.el")
+
+;; auto-commit
+(require 'vc-git-commit-all)
+
 ;; Nom français des jours et mois affichés dans le calendrier
 ;; (cf. M-x calendar)
 ;; (setq european-calendar-style t)
