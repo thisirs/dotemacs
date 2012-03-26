@@ -616,7 +616,7 @@ containing a not hidden git repository."
 (setq ibuffer-saved-filter-groups
       `(("default"
          ,@(ibuffer-project-list)
-         ,@(load-file-to-list "~/Dropbox/conf-files/ibuffer-personnal.el")
+         ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-personnal.el")
          ("Org"
           (mode . org-mode))
          ("TeX/LaTeX"
@@ -667,7 +667,8 @@ containing a not hidden git repository."
           (or
            (filename . "\\.m$")
            (name . "^\\*MATLAB\\*$"))))
-        ,@(load-file-to-list "~/Dropbox/conf-files/ibuffer-filter-groups.el")))
+        ;; other filter groups
+        ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-filter-groups.el")))
 
 ;; Use human readable Size column instead of original one
 (define-ibuffer-column size-h
@@ -1683,7 +1684,7 @@ containing a not hidden git repository."
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 
-(load-file "~/Dropbox/scripts/auto-insert.el")
+(load-file "~/Dropbox/emacs/site-lisp/auto-insert.el")
 
 (setq auto-insert-alist
       '(
