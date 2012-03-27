@@ -1296,7 +1296,7 @@ containing a not hidden git repository."
 (require 'org-capture-context)
 
 ;; setting `org-capture-context-alist'
-(load-file "~/Dropbox/emacs/org-capture-context-settings.el")
+(load-file "~/Dropbox/emacs/org-context-settings.el")
 
 ;; auto-commit
 (require 'vc-git-commit-all)
