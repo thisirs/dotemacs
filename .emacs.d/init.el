@@ -1827,8 +1827,8 @@ or version controlled but untracked."
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; hippie-expand
-(global-set-key (kbd "M-SPC") 'hippie-expand)
-(global-set-key (kbd "C-M-SPC") (lambda () (interactive) (hippie-expand -1)))
+(global-set-key (kbd "S-SPC") 'hippie-expand)
+(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
 
 (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
