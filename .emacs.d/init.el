@@ -1293,7 +1293,7 @@ containing a not hidden git repository."
 
 
 ;; `org-capture-context'
-(require 'org-capture-context)
+(require 'org-context)
 
 ;; setting `org-capture-context-alist'
 (load-file "~/Dropbox/emacs/org-context-settings.el")
