@@ -2224,6 +2224,10 @@ shows you how many labels and refs have been replaced."
 (autoload 'enable-paredit-mode "paredit"
   "Turn on pseudo-structural editing of Lisp code."
   t)
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+(add-hook 'lisp-mode-hook 'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 ;; trying expand-region
 (add-to-list 'load-path "~/.emacs.d/vendor/expand-region.el")
