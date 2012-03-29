@@ -1447,6 +1447,7 @@ containing a not hidden git repository."
           (lambda ()
             (when buffer-file-name
               (turn-on-reftex)
+              (setq reftex-plug-into-AUCTeX t)
               (reftex-set-cite-format "~\\cite{%l}"))
             (auto-fill-mode)
             (flyspell-mode)
