@@ -251,6 +251,16 @@ if `boss-window-configuration' is nil."
 (require 'magit)
 (global-set-key "\C-ci" 'magit-status)
 
+;; look at diff when writing a commit message
+(defun magit-log-show-diff ()
+  (interactive)
+  (let ((content (magit-cmd-output "git" '("diff" "--cached"))))
+    (with-electric-help
+     (lambda ()
+       (insert content)))))
+
+(define-key magit-log-edit-mode-map (kbd "C-c C-d") 'magit-log-show-diff)
+
 (defun mapconcatend (func list separator last-separator)
   "Like mapconcat but the last separator can be specified. Useful
 when building sentence like blah, blih, bloh and bluh."
