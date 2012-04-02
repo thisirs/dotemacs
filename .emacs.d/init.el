@@ -307,12 +307,18 @@ when building sentence like blah, blih, bloh and bluh."
 (add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
 
 ;; auto byte-compile init.el
-(add-hook 'kill-emacs-hook
-          (lambda () (and (file-newer-than-file-p
-                           "~/.emacs.d/init.el"
-                           "~/.emacs.d/init.elc")
-                          (byte-compile-file "~/.emacs.d/init.el"))))
-
+(defun byte-compile-init-file ()
+  "Recompile init.el file if newer than its corresponding .elc
+  file. If some errors are found, ask for confirmation. This
+  function is designed to be placed in
+  `kill-emacs-query-functions' hook."
+  (and (file-newer-than-file-p
+         "~/.emacs.d/init.el"
+         "~/.emacs.d/init.elc")
+        (not (byte-compile-file "~/.emacs.d/init.el"))
+        (not (yes-or-no-p "Your init file contains errors; Exit anyway?")))))
+       
+(add-hook 'kill-emacs-query-functions 'byte-compile-init-file)
 
 ;; auto-save with non-visiting buffer is too rigid
 (defun save-scratch-buffer ()
