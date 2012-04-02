@@ -312,11 +312,11 @@ when building sentence like blah, blih, bloh and bluh."
   file. If some errors are found, ask for confirmation. This
   function is designed to be placed in
   `kill-emacs-query-functions' hook."
-  (and (file-newer-than-file-p
-         "~/.emacs.d/init.el"
-         "~/.emacs.d/init.elc")
-        (not (byte-compile-file "~/.emacs.d/init.el"))
-        (not (yes-or-no-p "Your init file contains errors; Exit anyway?")))))
+  (or (not (file-newer-than-file-p
+            "~/.emacs.d/init.el"
+            "~/.emacs.d/init.elc"))
+      (byte-compile-file "~/.emacs.d/init.el")
+      (yes-or-no-p "Your init file contains errors; Exit anyway?")))
        
 (add-hook 'kill-emacs-query-functions 'byte-compile-init-file)
 
