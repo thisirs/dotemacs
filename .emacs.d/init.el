@@ -1939,6 +1939,13 @@ or version controlled but untracked."
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
+;; M-g g but for characters
+(defun interactive-goto-char (point)
+  (interactive "nGoto char: ")
+  (goto-char point))
+
+(global-set-key (kbd "M-g c") 'interactive-goto-char)
+
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
