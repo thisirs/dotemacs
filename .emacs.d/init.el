@@ -817,6 +817,7 @@ containing a not hidden git repository."
 (put 'ispell-local-dictionary 'safe-local-variable 'string-or-null-p)
 
 ;; find pdf at a ref which has the same name in `pdfs-directory'
+(require 'ffap)
 (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
 
 (defun ffap-bib-latex-mode (name)
