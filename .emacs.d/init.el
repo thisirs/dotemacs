@@ -90,7 +90,7 @@
 ;;; helm
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/emacs-helm"))
 
-(setq helm-command-map-prefix-key "C-x C-a")
+(setq helm-command-prefix-key "C-x C-a")
 
 (require 'helm-config)
 
@@ -104,22 +104,22 @@
 ;; don't save history information to file
 (remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
 
-(defun helm-for-files-prefered-list ()
+(defadvice helm-for-files (around update-helm-list activate)
+  (let ((helm-for-files-prefered-list
+         (helm-for-files-update-list)))
+    ad-do-it))
+
+(defun helm-for-files-update-list ()
   `(helm-c-source-ffap-line
     helm-c-source-ffap-guesser
     helm-c-source-buffers-list
     helm-c-source-recentf
     helm-c-source-bookmarks
     helm-c-source-file-cache
-    helm-c-source-files-in-current-dir+
+    helm-c-source-files-in-current-dir
     ,@(if (file-exists-p "/media/THISKEY") '(helm-c-source-locate-thiskey))
     helm-c-source-locate))
 
-(defun helm-for-files ()
-  "Preconfigured `helm' for opening files.
-ffap -> recentf -> buffer -> bookmark -> file-cache -> files-in-current-dir -> locate."
-  (interactive)
-  (helm-other-buffer (helm-for-files-prefered-list) "*helm for files*"))
 
 (defun update-locate-database ()
   "Update locate databases"
