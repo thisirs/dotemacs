@@ -266,50 +266,7 @@ if `boss-window-configuration' is nil."
 
 (define-key magit-log-edit-mode-map (kbd "C-c C-d") 'magit-log-show-diff)
 
-(defun mapconcatend (func list separator last-separator)
-  "Like mapconcat but the last separator can be specified. Useful
-when building sentence like blah, blih, bloh and bluh."
-  (cond
-   ((null list) "")
-   ((cdr (cdr list))
-    (concat (funcall func (car list)) separator
-            (mapconcatend func (cdr list) separator last-separator)))
-   ((cdr list) (concat
-                (funcall func (car list))
-                last-separator
-                (funcall func (cadr list))))
-   (t (funcall func (car list)))))
-
-(defvar magit-check-sections
-  '((".*" (unstaged . "unstaged changes")
-     (unpushed . "unpushed commits"))))
-
-;; warn when untracked files, unpushed commits or changes
-(defun magit-check-unfinished ()
-  (autoload 'remove-if-not "cl-seq")
-  (let ((bl (buffer-list)))
-    (while (and bl
-                (or (not (string-match "^\\*magit: \\(.*\\)\\*$" (buffer-name (car bl))))
-                    (let* ((git-repo-name (match-string 1 (buffer-name (car bl))))
-                           (item-list (assoc-default git-repo-name
-                                                     magit-check-sections
-                                                     'string-match))
-                           (unfinished
-                            (with-current-buffer (car bl)
-                              (remove-if-not
-                               (lambda (section)
-                                 (let ((sec (magit-find-section (list (car section)) magit-top-section)))
-                                   (and sec (> (length (magit-section-children sec)) 0))))
-                               item-list))))
-                      (or (not unfinished)
-                          (yes-or-no-p
-                           (format "You have %s in %s; Exit anyway?"
-                                   (mapconcatend 'cdr unfinished ", " " and ")
-                                   git-repo-name))))))
-      (setq bl (cdr bl)))
-    (null bl)))
-
-(add-to-list 'kill-emacs-query-functions 'magit-check-unfinished)
+(require 'vc-git-check-status)
 
 ;; auto byte-compile init.el
 (defun byte-compile-init-file ()
