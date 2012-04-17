@@ -834,19 +834,6 @@ containing a not hidden git repository."
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
-;; textmate-next-line from textmate.el - github.com/defunkt/textmate.el
-(defun textmate-next-line ()
-  "Go to next line and indent wherever you are in a line"
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
-(global-set-key [C-return] 'textmate-next-line)
-
-;; FIXME: make it for all coding modes
-;; auto-fill-mode uniquement pour les commentaires
-;;(set (make-local-variable 'comment-auto-fill-only-comments) t)
-;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
-
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
 
@@ -2370,3 +2357,8 @@ subdirectory img and filtered by extension."
 
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
+
+(require 'newcomment)
+(setq comment-auto-fill-only-comments 1)
+(setq-default auto-fill-function 'do-auto-fill)
+(global-set-key [C-return] 'comment-indent-new-line)
