@@ -2363,3 +2363,6 @@ subdirectory img and filtered by extension."
 (setq comment-auto-fill-only-comments 1)
 (setq-default auto-fill-function 'do-auto-fill)
 (global-set-key [C-return] 'comment-indent-new-line)
+
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
