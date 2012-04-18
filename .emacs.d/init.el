@@ -1924,15 +1924,12 @@ or version controlled but untracked."
 ;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
-;; This was installed by package-install.el.
-;; This provides support for the package system and
-;; interfacing with ELPA, the package archive.
-;; Move this code earlier if you want to reference
-;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
+
+;; adding packages source
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 
 ;; additional menu
