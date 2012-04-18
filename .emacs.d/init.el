@@ -924,6 +924,10 @@ containing a not hidden git repository."
                 (lambda () (interactive) (find-file (file-truename "~/.emacs.d/init.el"))))
 (global-set-key (kbd "s-s m") ;; messages
                 (lambda () (interactive) (switch-to-buffer "*Messages*")))
+(global-set-key (kbd "s-s t") ;; twittering-mode
+                (lambda () (interactive) (switch-to-buffer ":home")))
+
+
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
