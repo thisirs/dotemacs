@@ -1,4 +1,3 @@
-;;; org-mode
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
 (require 'org)
 
@@ -242,5 +241,21 @@
 (add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
 (setq url-cache-directory "~/.emacs.d/cache")
 (require 'org-google-weather)
+
+;; (setq parse-time-months '(("jan" . 1) ("fev" . 2) ("mar" . 3)
+;;                             ("avr" . 4) ("mai" . 5) ("juin" . 6)
+;;                             ("juil" . 7) ("aout" . 8) ("sep" . 9)
+;;                             ("oct" . 10) ("nov" . 11) ("dec" . 12)
+;;                             ("janvier" . 1) ("février" . 2)
+;;                             ("mars" . 3) ("avril" . 4) ("juin" . 6)
+;;                             ("juillet" . 7) ("aout" . 8)
+;;                             ("septembre" . 9) ("octobre" . 10)
+;;                             ("novembre" . 11) ("décembre" . 12)))
+;; (setq parse-time-weekdays '(("sun" . 0) ("mon" . 1) ("tue" . 2)
+;;                               ("wed" . 3) ("thu" . 4) ("fri" . 5)
+;;                               ("sat" . 6) ("sunday" . 0) ("monday" . 1)
+;;                               ("tuesday" . 2) ("wednesday" . 3)
+;;                               ("thursday" . 4) ("friday" . 5)
+;;                               ("saturday" . 6)))
 
 (provide 'init-org)
