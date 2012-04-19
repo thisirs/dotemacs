@@ -773,12 +773,11 @@ Also returns nil if pid is nil."
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
+(add-to-list 'load-path "~/repositories/auto-insert-multiple")
 (require 'autoinsert)
 (auto-insert-mode t) ; Adds hook to find-files-hook
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
-
-(load-file "~/Dropbox/emacs/site-lisp/auto-insert.el")
 
 (setq auto-insert-alist
       '(
@@ -801,7 +800,6 @@ Also returns nil if pid is nil."
           (progn
             (auto-insert-yasnippet "ll")
             (TeX-normal-mode 1))))))
-
 
 (setq auto-insert 'other)
 
