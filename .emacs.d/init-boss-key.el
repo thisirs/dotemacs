@@ -31,4 +31,4 @@ if `boss-window-configuration' is nil."
 (global-set-key (kbd "C-²") 'boss-save)
 
 
-(provide init-boss-key)
+(provide 'init-boss-key)

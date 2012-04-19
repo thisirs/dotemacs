@@ -3,12 +3,10 @@
 
 (require 'init-dired)
 (require 'init-isearch)
-
 (require 'init-boss-key)
-
 (require 'init-erc)
-
 (require 'init-magit)
+(require 'init-find-file)
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
@@ -43,43 +41,6 @@
     (abort-recursive-edit)))
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
-
-;; ouvre un buffer en sudo via tramp
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (interactive "F")
-  (set-buffer
-   (find-file
-    (concat "/sudo::"
-            (expand-file-name file)))))
-
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (file-exists-p (ad-get-arg 0))
-           (not (file-writable-p (ad-get-arg 0)))
-           (not (file-remote-p (ad-get-arg 0)))
-           (not (file-directory-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
-
-(defadvice find-file (around find-file-other-window activate)
-  (if current-prefix-arg
-      (find-file-other-window (ad-get-arg 0))
-    ad-do-it))
-
-(defun find-temp-file (extension)
-  "quick find file in /tmp"
-  (interactive "sExtension: ")
-  (cond
-   ((equal (length extension) 0) (find-file (make-temp-file "foo")))
-   ((memq ?. (string-to-list extension))
-    (find-file (concat "/tmp/" extension)))
-   (t (find-file (concat (make-temp-file "foo") "." extension)))))
-
-(global-set-key (kbd "C-x C-t") 'find-temp-file)
 
 ;; shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
@@ -481,7 +442,6 @@ Also returns nil if pid is nil."
                 (lambda () (interactive) (switch-to-buffer ":home")))
 
 
-
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 (global-set-key (kbd "C-,") 'other-window)
@@ -687,28 +647,6 @@ Also returns nil if pid is nil."
  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
  bookmark-save-flag 1)                        ;; autosave each change
 
-;; gnome-open file that emacs can't
-(defun gnome-open (filename)
-  (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/gnome-open"
-                   (expand-file-name filename))))
-
-(defadvice find-file (around find-or-launch-file)
-  "Gnome opens file that emacs can't."
-  (cond
-   ((string-match
-     (concat
-      "\\."
-      (regexp-opt '("ods" "odt" "pdf" "doc") t)
-      "$")
-     (ad-get-arg 0))
-    (gnome-open (ad-get-arg 0))
-    (message "Gnome-opening file..."))
-   (t
-    ad-do-it)))
-
-(ad-activate 'find-file)
-
 ;; pour naviguer facilement entre les buffers avec C-x b
 ;; affiche la liste des buffers et l'autocomplétion fait le reste
 ;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
@@ -886,7 +824,6 @@ Also returns nil if pid is nil."
                (lambda ()
                  (define-key ruby-mode-map (kbd "RET")
                    'reindent-then-newline-and-indent)))))
-
 
 
 (autoload 'yaml-mode "yaml-mode")
@@ -1167,10 +1104,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
 
-(add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
-(setq url-cache-directory "~/.emacs.d/cache")
-(require 'org-google-weather)
-
 (defun to-scr (srt)
   "print in scratch buffer"
   (with-current-buffer "*scratch*"
@@ -1209,8 +1142,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
                 (lambda ()
                   (interactive)
                   (kill-line 0)))
-
-
 
 ;; trying auto-complete
 (require 'auto-complete-config)

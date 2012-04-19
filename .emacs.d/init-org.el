@@ -239,4 +239,8 @@
 
 (run-with-idle-timer 900 t 'jump-to-org-agenda)
 
+(add-to-list  'load-path "~/.emacs.d/vendor/google-weather-el")
+(setq url-cache-directory "~/.emacs.d/cache")
+(require 'org-google-weather)
+
 (provide 'init-org)

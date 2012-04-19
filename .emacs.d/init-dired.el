@@ -28,4 +28,4 @@
 
 
 
-(provide init-dired)
+(provide 'init-dired)
