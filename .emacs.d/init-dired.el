@@ -9,7 +9,6 @@
 ;; (require 'dired+)
 
 (defvar dired-sort-map (make-sparse-keymap))
-(define-key dired-mode-map "s" dired-sort-map)
 
 (mapc
  (lambda (elt)
@@ -26,6 +25,8 @@
    ("t" " -t")
    ("d" " --group-directories-first")))
 
+(eval-after-load 'dired
+    '(define-key dired-mode-map "s" dired-sort-map))
 
 
 (provide 'init-dired)
