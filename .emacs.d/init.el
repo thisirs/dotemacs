@@ -1158,12 +1158,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 
 (define-key ac-mode-map (kbd "s-SPC") 'auto-complete)
 
-(add-to-list 'load-path
-             (expand-file-name "~/.emacs.d/el-get/browse-kill-ring/"))
-
-(require 'browse-kill-ring)
-(browse-kill-ring-default-keybindings)
-
 (require 'newcomment)
 (setq comment-auto-fill-only-comments 1)
 (setq-default auto-fill-function 'do-auto-fill)
