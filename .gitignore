@@ -8,3 +8,5 @@
 .emacs.d/bookmarks
 .emacs.d/cache
 .emacs.d/url
+.emacs.d/session.*
+.emacs.d/elpa
