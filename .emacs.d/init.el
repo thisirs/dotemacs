@@ -1,6 +1,15 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp"))
 
+(require 'init-dired)
+(require 'init-isearch)
+
+(require 'init-boss-key)
+
+(require 'init-erc)
+
+(require 'init-magit)
+
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
@@ -87,40 +96,6 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (require 'el-get)
 
-;;; helm
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/emacs-helm"))
-
-(setq helm-command-prefix-key "C-x C-a")
-
-(require 'helm-config)
-
-;(helm-read-string-mode 1)
-;(ac-mode -1)
-
-(setq helm-su-or-sudo "sudo")
-
-(setq helm-c-locate-command "locate -e -b -i -r \"%s\"")
-
-;; don't save history information to file
-(remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
-
-;; make `helm-for-files-prefered-list' dynamic
-(defadvice helm-for-files (before update-helm-list activate)
-  (setq helm-for-files-prefered-list
-        (helm-for-files-update-list)))
-
-(defun helm-for-files-update-list ()
-  `(helm-c-source-ffap-line
-    helm-c-source-ffap-guesser
-    helm-c-source-buffers-list
-    helm-c-source-recentf
-    helm-c-source-bookmarks
-    helm-c-source-file-cache
-    helm-c-source-files-in-current-dir
-    ,@(if (file-exists-p "/media/THISKEY") '(helm-c-source-locate-thiskey))
-    helm-c-source-locate))
-
-
 (defun update-locate-database ()
   "Update locate databases"
   (interactive)
@@ -184,53 +159,7 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 
-(defun helm-c-locate-thiskey-init ()
-  "Initialize async locate process for `helm-c-source-locate'."
-  (start-process-shell-command
-   "locate-thiskey-process" nil
-   (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
-           helm-pattern)))
-
-(defvar helm-c-source-locate-thiskey
-  '((name . "Locate in THISKEY")
-    (candidates . helm-c-locate-thiskey-init)
-    (type . file)
-    (requires-pattern . 3)
-    (delayed))
-  "Find files matching the current input pattern with locate.")
-
-;; boss key!
-
-(defvar boss-window-configuration nil
-  "Window configuration to switch to when the boss comes!")
-
-(defvar my-window-configuration nil
-  "Window configuration to switch back to!")
-
-(defvar boss-mode nil)
-
-(defun boss-save nil
-  "Define current window configuration as boss's one"
-  (interactive)
-  (setq boss-window-configuration (current-window-configuration))
-  (message "Boss window configuration set to current!"))
-
-(defun boss-toggle nil
-  "Toggle boss window configuration. Switch to *scratch* buffer
-if `boss-window-configuration' is nil."
-  (interactive)
-  (if boss-mode
-      (set-window-configuration my-window-configuration)
-    (setq my-window-configuration (current-window-configuration))
-    (if boss-window-configuration
-        (set-window-configuration boss-window-configuration)
-      (delete-other-windows)
-      (switch-to-buffer "*scratch*")))
-  (setq boss-mode (null boss-mode)))
-
-(global-set-key (kbd "²") 'boss-toggle)
-(global-set-key (kbd "C-²") 'boss-save)
-
+(require 'init-helm)
 
 ;; winner-mode
 (winner-mode 1)
@@ -245,26 +174,6 @@ if `boss-window-configuration' is nil."
 
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
-
-;;; magit
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/magit"))
-(require 'magit)
-(global-set-key "\C-ci" 'magit-status)
-
-;; look at diff when writing a commit message
-(defun magit-log-show-diff ()
-  (interactive)
-  (let ((content (magit-cmd-output "git" '("diff" "--cached"))))
-    (set-buffer (get-buffer-create "*vc-diff*"))
-    (let ((buffer-undo-list t)
-          (inhibit-read-only t))
-      (erase-buffer)
-      (insert content))
-    (diff-mode)
-    (setq buffer-read-only t)
-    (pop-to-buffer (current-buffer))))
-
-(define-key magit-log-edit-mode-map (kbd "C-c C-d") 'magit-log-show-diff)
 
 (require 'vc-git-check-status)
 
@@ -316,61 +225,11 @@ if `boss-window-configuration' is nil."
     (setq buffer-file-name nil)))
 
 
-
 ;; suit les liens vers les systèmes de contrôle de versions
 (setq vc-follow-symlinks t)
 
 ;; notify events
 (ignore-errors (require 'notifications nil t))
-
-;;; erc
-;; check channels
-(erc-track-mode t)
-(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                "324" "329" "332" "333" "353" "477"))
-(setq erc-autojoin-channels-alist
-      '(("freenode.net" "#emacs" "#ruby-lang" "#ruby.fr" "#ruby"
-         "#git-fr" "#emacsfr" "#linux-fr" "#debianfr" "#org-mode-fr")))
-
-(erc-match-mode 1)
-(setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
-
-(defun my-notify-erc (match-type nickuserhost message)
-  "Notify when a message is received."
-  (notifications-notify
-   :title (format "%s in %s"
-                  ;; Username of sender
-                  (car (split-string nickuserhost "!"))
-                  ;; Channel
-                  (or (erc-default-target) "#unknown"))
-   :body (cond
-          ((eq match-type 'current-nick)
-           (if (string-match "^[Tt]hisirs" message)
-               "is talking to you!"
-             "is talking about you!"))
-          ((and (eq match-type 'keywords)
-                (string-match "?" message))
-           (and (string-match "?$" message)
-                (concat "is asking a question!\n" message)))
-          (t
-           (replace-regexp-in-string "[\t\n ]+" " " message)))
-   :icon "emacs-snapshot"
-   :timeout -1))
-
-(add-hook 'erc-text-matched-hook 'my-notify-erc)
-
-(setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
-
-(setq erc-join-buffer 'bury)
-
-(defun erc-start-or-switch ()
-  "Connect to ERC, or switch to last active buffer"
-  (interactive)
-  (if (get-buffer "irc.freenode.net:6667") ;; ERC already active?
-      (erc-track-switch-buffer 1) ;; yes: switch to last active
-    (when (y-or-n-p "Start ERC? ") ;; no: maybe start ERC
-      (erc :server "irc.freenode.net" :port 6667 :nick "thisirs"))))
-
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -397,23 +256,7 @@ if `boss-window-configuration' is nil."
         (kill-buffer nil))))
   nil)
 
-
-;;; matlab mode
-;; (autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
-;; (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
-;; (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
-(add-to-list 'load-path "~/.emacs.d/vendor/matlab-emacs")
-(require 'matlab-load)
-(setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
-
-(add-hook 'matlab-mode-hook
-          (lambda ()
-            (setq fill-column 76)                       ; where auto-fill should wrap
-            (turn-on-auto-fill)
-            (setq-default matlab-functions-have-end t)
-            (setq-default matlab-indent-function-body t)
-            (setq matlab-change-current-directory t)
-            (setq-default matlab-indent-function t)))
+(require 'init-matlab)
 
 ;; history navigation
 (eval-after-load "comint"
@@ -422,259 +265,7 @@ if `boss-window-configuration' is nil."
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
 
-;;; IBuffer
-(require 'ibuffer)
-
-(defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
-  (require 'diff)
-  (let ((marked-bufs (ibuffer-get-marked-buffers)))
-    (if (eq (length marked-bufs) 2)
-        (diff (car marked-bufs) (cadr marked-bufs))
-      ad-do-it)))
-
-;; don't show empty groups
-(setq ibuffer-show-empty-filter-groups nil)
-
-(defun ibuffer-next-buffer-aux (list)
-  (if (null list)
-      (error "No buffers!"))
-  (let ((current-buffer (ibuffer-current-buffer t))
-        (list0 list)
-        (list1 list)
-        next-buffer
-        (ibuffer-buffer-list
-         (mapcar #'car
-                 (ibuffer-current-state-list))))
-    (while (not (equal current-buffer (car list0)))
-      (setq list0 (cdr list0)))
-    (setq list0 (cdr list0))
-    (while (and list0 (not (memql (car list0) ibuffer-buffer-list)))
-      (setq list0 (cdr list0)))
-    (if list0 (setq next-buffer (car list0))
-      (while (not (memql (car list1) ibuffer-buffer-list))
-        (setq list1 (cdr list1)))
-      (setq next-buffer (car list1)))
-    (ibuffer-jump-to-buffer (buffer-name next-buffer))))
-
-(defun ibuffer-next-buffer ()
-  "Jump to next buffer in IBuffer according to `(buffer-list)'"
-  (interactive)
-  (ibuffer-next-buffer-aux (buffer-list)))
-
-(defun ibuffer-previous-buffer ()
-  "Jump to previous buffer in IBuffer according to `(buffer-list)'"
-  (interactive)
-  (ibuffer-next-buffer-aux
-   (reverse (buffer-list))))
-
-(define-key ibuffer-mode-map (kbd "C-b") 'ibuffer-next-buffer)
-(define-key ibuffer-mode-map (kbd "C-f") 'ibuffer-previous-buffer)
-
-(defun ibuffer-next-saved-filter-groups-aux (list)
-  (if (null ibuffer-saved-filter-groups)
-      (error "No saved filters"))
-  (let ((next-filter-group) (list0 list))
-    (while (and (null next-filter-group) list0)
-      (if (equal ibuffer-filter-groups (cdr (car list0)))
-          (setq next-filter-group (car (car list0))))
-      (setq list0 (cdr list0)))
-    (setq list0 (or list0 list))
-    (setq ibuffer-filter-groups (cdr (car list0)))
-    (message "Switched to \"%s\" filter group!" (car (car list0))))
-  (setq ibuffer-hidden-filter-groups nil)
-  (ibuffer-update nil t))
-
-(defun ibuffer-next-saved-filter-groups ()
-  (interactive)
-  (ibuffer-next-saved-filter-groups-aux ibuffer-saved-filter-groups))
-
-(defun ibuffer-previous-saved-filter-groups ()
-  (interactive)
-  (ibuffer-next-saved-filter-groups-aux
-   (reverse ibuffer-saved-filter-groups)))
-
-(define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
-(define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
-
-(define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
-
-(defadvice ibuffer (around ibuffer-point-to-most-recent activate)
-  "Open ibuffer with cursour pointed to second most recent buffer
-name"
-  (let ((recent-buffer-name (buffer-name)))
-    ad-do-it
-    (ibuffer-jump-to-buffer recent-buffer-name)
-    (ibuffer-next-buffer)))
-
-(defun find-projects (dir)
-  "Return a list of all directories and sub-directories
-containing a not hidden git repository."
-  (let ((list
-         (and (file-directory-p (concat dir "/.git"))
-              (not (file-exists-p (concat dir "/.hidden")))
-              (cons dir nil))))
-    (apply 'append list
-           (mapcar
-            (lambda (path)
-              (if (file-directory-p path)
-                  (find-projects path)))
-            ;; avoiding . and ..
-            (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
-
-
-(defun make-ibuffer-projects-list (prefix &rest dir-list)
-  "Return a list whose elements are of the form ((`prefix' (filename . `directory')"
-  (mapcar
-   (lambda (dir)
-     (list (concat prefix (file-name-nondirectory dir))
-           `(filename . ,dir)))
-   (apply 'append
-          (mapcar
-           (lambda (dir)
-             (and (file-directory-p dir)
-                  (nreverse (find-projects dir))))
-           dir-list))))
-
-(setq ibuffer-project-alist
-      `(("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
-        ("Project on THISKEY: " . "/media/THISKEY/programming")))
-
-(setq ibuffer-project-list-cache-file
-      "~/.emacs.d/cache/ibuffer-project")
-
-(defun ibuffer-project-list-write-cache (ibuffer-project-list)
-  "Write `ibuffer-project-list' in cache file. Return `ibuffer-project-list'."
-  (with-temp-buffer
-    (print ibuffer-project-list (current-buffer))
-    (write-region (point-min)
-                  (point-max)
-                  ibuffer-project-list-cache-file))
-  ibuffer-project-list)
-
-(defun ibuffer-project-list-read-cache ()
-  "Read the cache file if it exists; otherwise return nil."
-  (if (file-exists-p ibuffer-project-list-cache-file)
-      (with-temp-buffer
-        (insert-file-contents ibuffer-project-list-cache-file)
-        (read (buffer-string)))))
-
-
-(defun ibuffer-project-list ()
-  "Return project list. Generates and caches it if necessary."
-  (or (ibuffer-project-list-read-cache)
-      (ibuffer-project-list-write-cache
-       (ibuffer-project-list-generate))))
-
-;; Generate project list when idle
-(run-with-idle-timer 10 nil
-                     (lambda () (ibuffer-project-list-write-cache
-                                 (ibuffer-project-list-generate))
-                       (minibuffer-message "IBuffer cache written!")))
-
-(defun ibuffer-project-list-generate ()
-  "Generate project list by examining `ibuffer-project-alist'."
-  (mapcan
-   (lambda (e)
-     (make-ibuffer-projects-list (car e) (cdr e)))
-   ibuffer-project-alist))
-
-
-(defun load-file-to-list (file)
-  "Return a list of FORM found in file `file'."
-  (if (and (file-exists-p file)
-           (file-readable-p file))
-      (with-temp-buffer
-        (insert-file-contents file)
-        (let ((marker (copy-marker 0))
-              form-list form)
-          (while (ignore-errors (setq form (read marker)))
-            (setq form-list (cons form form-list)))
-          (reverse form-list)))))
-  
-(setq ibuffer-saved-filter-groups
-      `(("default"
-         ,@(ibuffer-project-list)
-         ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-personnal.el")
-         ("Org"
-          (mode . org-mode))
-         ("TeX/LaTeX"
-          (or
-           (mode . latex-mode)
-           (name . "\\.bib$")
-           (name . "\\.tex$")))
-         ("Mail"
-          (or
-           (mode . message-mode)
-           (mode . mail-mode)
-           ))
-         ("Dired"
-          (mode . dired-mode)
-          )
-         ("THISKEY's programming"
-          (filename . "/media/THISKEY/programming/"))
-         ("Programming"
-          (or
-           (mode . c-mode)
-           (mode . c++-mode)
-           (mode . perl-mode)
-           (mode . python-mode)
-           (mode . emacs-lisp-mode)
-           (mode . ruby-mode)
-           (mode . sh-mode)
-           (mode . matlab-mode)
-           (name . "^\\*scratch\\*$")
-           (name . "^\\*Messages\\*$")
-           ))
-         ("ERC" (mode . erc-mode))
-         ("crap" (name . "^\\*.*\\*$")))
-        ("Elisp-mode"
-         (".el.gz elisp files"
-          (name . "\\.el\\.gz$"))
-         ("Elisp files"
-          (or
-           (mode . emacs-lisp-mode)
-           (name . "^\\*scratch\\*$")
-           (name . "^\\*Messages\\*$"))))
-        ("Ruby-mode"
-         ("Ruby"
-          (or
-           (mode . inf-ruby-mode)
-           (mode . ruby-mode))))
-        ("Matlab-mode"
-         ("Matlab"
-          (or
-           (filename . "\\.m$")
-           (name . "^\\*MATLAB\\*$"))))
-        ;; other filter groups
-        ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-filter-groups.el")))
-
-;; Use human readable Size column instead of original one
-(define-ibuffer-column size-h
-  (:name "Size" :inline t)
-  (cond
-   ((> (buffer-size) (* 1024 1024))
-    (format "%7.1fM" (/ (buffer-size) (* 1024 1024.0))))
-   ((> (buffer-size) 1024)
-    (format "%7.1fk" (/ (buffer-size) 1024.0)))
-   (t (format "%8d" (buffer-size)))))
-
-(setq ibuffer-formats
-      '((mark modified read-only " "
-              (name 18 18 :left :elide)
-              " "
-              (size-h 9 -1 :right)
-              " "
-              (mode 16 16 :left :elide)
-              " " filename-and-process)
-        (mark " "
-              (name 16 -1)
-              " " filename)))
-
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "default")))
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(require 'init-ibuffer)
 
 ;; indenter automatiquement le code collé :
 (mapc
@@ -793,44 +384,6 @@ containing a not hidden git repository."
                      ,@prog)))
 
 
-;; Put the cursor in an intelligent place when searching
-(add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
-(defun custom-goto-match-beginning ()
-  "Use with isearch hook to end search at first char of match"
-  (and isearch-forward
-       (not mark-active)
-       (not isearch-mode-end-hook-quit)
-       (goto-char isearch-other-end)))
-
-;; occur mode
-(define-key isearch-mode-map (kbd "C-o")
-  (lambda ()
-    (interactive)
-    (let ((case-fold-search isearch-case-fold-search))
-      (occur (if isearch-regexp isearch-string
-               (regexp-quote isearch-string))))))
-
-;; staying in isearch mode when typing M-< M-> C-l
-(defun isearch-beginning-of-buffer ()
-  "Move isearch point to the beginning of the buffer."
-  (interactive)
-  (goto-char (point-min))
-  (isearch-repeat-forward))
-
-(define-key isearch-mode-map "\M-<" 'isearch-beginning-of-buffer)
-
-(defun isearch-end-of-buffer ()
-  "Move isearch point to the end of the buffer."
-  (interactive)
-  (goto-char (point-max))
-  (isearch-repeat-backward))
-
-(define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
-
-(define-key isearch-mode-map "\C-l" 'recenter-top-bottom)
-
-(define-key isearch-mode-map (kbd "C-h") 'isearch-mode-help)
-
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
@@ -946,58 +499,9 @@ containing a not hidden git repository."
                   (split-window-vertically)
                   (other-window 1)))
 
-;;; desktop-mode
-;; save a list of open files in ~/.emacs.desktop
+(require 'init-desktop)
 
-;; Save frame from patch
-(if (boundp 'desktop-save-frames)
-    (setq desktop-save-frames t))
-
-(setq desktop-load-locked-desktop t)
-
-;; save the desktop file automatically if it already exists
-(setq desktop-save 'if-exists)
-(desktop-save-mode 1)
-
-;; save a bunch of variables to the desktop file
-;; for lists specify the len of the maximal saved data also
-(setq desktop-globals-to-save
-      '((extended-command-history . 30)
-        (file-name-history        . 100)
-        (grep-history             . 30)
-        (compile-history          . 30)
-        (minibuffer-history       . 50)
-        (query-replace-history    . 60)
-        (read-expression-history  . 60)
-        (regexp-history           . 60)
-        (regexp-search-ring       . 20)
-        (search-ring              . 20)
-        (shell-command-history    . 50)
-        tags-file-name
-        register-alist))
-
-(setq desktop-files-not-to-save
-      "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)\\|\\(.gpg$\\)")
-(setq desktop-buffers-not-to-save
-      (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
-              "\\)$"))
-
-(add-to-list 'desktop-modes-not-to-save 'dired-mode)
-(add-to-list 'desktop-modes-not-to-save 'Info-mode)
-(add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-(add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-(add-to-list 'desktop-modes-not-to-save 'DocView-mode)
-
-;; allow midnight to nuke old buffers though the sessions
-(add-to-list 'desktop-locals-to-save 'buffer-display-time)
-
-(require 'midnight)
-(cancel-timer midnight-timer)
-
-;; nuke old buffer after running emacs
-(run-with-idle-timer 10 nil
-                     (lambda ()
-                       (run-hooks 'midnight-hook)))
+(require 'init-midnight)
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -1009,257 +513,11 @@ containing a not hidden git repository."
 ;; BUG: require is cyan. Loading zenburn-theme.el fixes this
 (load "zenburn-theme")
 
-;; yasnippet
-(add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/global-mode 1)
-(setq yas/triggers-in-field t)
+(require 'init-yasnippet)
 
-;; Inter-field navigation
-(defun yas/goto-end-of-active-field ()
-  (interactive)
-  (let* ((snippet (car (yas/snippets-at-point)))
-         (position (yas/field-end (yas/snippet-active-field snippet))))
-    (goto-char position)))
-
-(defun yas/goto-start-of-active-field ()
-  (interactive)
-  (let* ((snippet (car (yas/snippets-at-point)))
-         (position (yas/field-start (yas/snippet-active-field snippet))))
-    (goto-char position)))
-
-(define-key yas/keymap (kbd "C-e") 'yas/goto-end-of-active-field)
-(define-key yas/keymap (kbd "C-a") 'yas/goto-start-of-active-field)
-
-;; C-k in a field
-(defun yas/clear-current-field ()
-  (interactive)
-  (let ((field (and yas/active-field-overlay
-                    (overlay-buffer yas/active-field-overlay)
-                    (overlay-get yas/active-field-overlay 'yas/field))))
-    (and field (delete-region (point) (yas/field-end field)))))
-
-(define-key yas/keymap (kbd "C-k") 'yas/clear-current-field)
-
-;;; org-mode
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
-(require 'org)
-
-;; workaround to use yassnippet in org-mode
-(defun yas/org-very-safe-expand ()
-  (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            ;; yasnippet (using the new org-cycle hooks)
-            (make-variable-buffer-local 'yas/trigger-key)
-            (setq yas/trigger-key [tab])
-            (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-            (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
-
-(setq org-todo-keywords
-      '("TODO" "|" "CANCELLED" "DONE"))
-
-;; no recursive todo in agenda
-(setq org-agenda-todo-list-sublevels nil)
-
-;; remove tags in agenda
-(setq org-agenda-remove-tags t)
-
-;; special navigation in org mode
-(setq org-special-ctrl-a/e t)
-
-;; fontify src blocks
-(setq org-src-fontify-natively t)
-
-;; restore windows configuration
-(setq org-agenda-restore-windows-after-quit t)
-
-(defun todo-item ()
-  "Auto insert link when capturing if point is on a TODO line."
-  (or
-   (with-current-buffer (org-capture-get :original-buffer)
-     (and (buffer-file-name)
-          (save-excursion
-            (beginning-of-line)
-            (when (looking-at
-                   (concat "[\t ]*"
-                           (regexp-quote (or comment-start ""))
-                           "[\t ]+TODO:?[\t ]+"))
-              (goto-char (match-end 0))
-              (let* ((txt (buffer-substring (point) (line-end-position)))
-                     (search (org-make-org-heading-search-string
-                              (buffer-substring (line-beginning-position)
-                                                (line-end-position))))
-                     (link (concat "file:" (abbreviate-file-name buffer-file-name)
-                                   "::" search)))
-                (org-make-link-string link txt))))))
-   ""))
-
-;; shorter description
-(setq org-link-to-description
-      '(("\\`file:.*/\\([^/:]+\\)" . "\\1")))
-
-(setq org-make-link-description-function
-      (lambda (link description)
-        (let ((found (assoc-default link org-link-to-description 'string-match)))
-          (cond
-           ((stringp found) (match-substitute-replacement found t nil link))))))
-
-;; load templates from personnal location
-(setq org-capture-templates
-      (load-file-to-list "~/Dropbox/Org/org-capture-templates.el"))
-
-(defun add-days (date1 days)
-  "Add `days' days to `date'"
-  (decode-time
-   (time-add
-    (apply 'encode-time (org-parse-time-string date1))
-    (days-to-time days))))
-
-(defun deadline-from-now (days &optional deadline)
-  "Construit la date de retour avec une deadline"
-  (let ((time (format-time-string
-               (car org-time-stamp-formats)
-               (time-add (current-time) (days-to-time days)))))
-    (if (integerp deadline)
-        (concat
-         (substring time 0 -1)
-         " -" (format "%d" deadline) "d>")
-      time)))
-
-(define-key global-map "\C-cc" 'org-capture)
-
-;; custom agenda view
-(setq org-agenda-custom-commands
-      '(("b" "Thesis Work" tags-todo "boss")))
-
-
-;; icons in agenda
-(setq org-agenda-category-icon-alist
-      '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
-        ("Books\\|Magazines" "~/.emacs.d/icons/book.png" nil nil :ascent center)
-        ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
-        ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
-        ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
-        ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
-        ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
-        ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
-        ("" '(space . (:height (16) :width (16))))))
-
-(setq org-agenda-day-face-function
-      (defun jd:org-agenda-day-face-holidays-function (date)
-        "Compute DATE face for holidays."
-        (unless (org-agenda-todayp date)
-          (dolist (file (org-agenda-files nil 'ifmode))
-            (let ((face
-                   (dolist (entry (org-agenda-get-day-entries file date))
-                     (let ((category (with-temp-buffer
-                                       (insert entry)
-                                       (org-get-category (point-min)))))
-                       (when (string= "Vacances" category)
-                         (return 'org-agenda-date-weekend))))))
-              (when face (return face)))))))
-
-;; annoted todo are stared
-(eval-after-load "org-agenda"
-  '(add-to-list 'org-agenda-prefix-format
-                '(todo . " %(annotedp)%i %-12:c")))
-
-(defun annotedp ()
-  (or
-   (and (boundp 'beg) (boundp 'end)
-        (save-excursion
-          (goto-char beg)
-          (if (re-search-forward "- Note taken" end t) "*")))
-   " "))
-
-
-;; logging
-(setq org-log-done 'time)
-
-(setq org-agenda-skip-deadline-if-done t)
-
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-(setq org-agenda-files
-      '("~/Dropbox/Org/agenda.org"
-        "~/Dropbox/Org/someday.org"
-        "~/Dropbox/Org/specialdays.org"
-        "~/Dropbox/Org/books.org"))
-
-(setq calendar-holidays
-      '((holiday-fixed 1 1 "Nouvel an")
-        (holiday-fixed 5 1 "Fête du travail")
-        (holiday-fixed 5 8 "Victoire 1945")
-        (holiday-fixed 7 14 "Fête nationale")
-        (holiday-fixed 8 15 "Assomption")
-        (holiday-fixed 11 11 "Armistice 1918")
-        (holiday-fixed 11 1 "Toussaint")
-        (holiday-fixed 12 25 "Noël")
-        (holiday-float 5 0 -1 "Fête des mères")
-        (holiday-float 6 0 3 "Fête des pères")))
-
-(setq calendar-mark-holidays-flag t)
-
-;; warning with appt and notify
-(setq
- appt-message-warning-time 15 ;; warn 15 min in advance
- appt-display-interval 1
- appt-display-mode-line t     ;; show in the modeline
- appt-display-format 'window) ;; use our func
-
-(appt-activate 1)              ;; active appt (appointment notification)
-(display-time)                 ;; time display is required for this...
-
-;; update appt each time agenda opened
-
-(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
-
-;; our little façade-function for djcb-popup
-(defun appt-display (min-to-app current-time msg)
-  (notifications-notify
-   :title (format "Appointment in %s minute%s" min-to-app
-                  (if (> min-to-app 1) "s" ""))
-   :body msg
-   :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
-   :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
-
-(setq appt-disp-window-function 'appt-display)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (latex . t) ; this is the entry to activate LaTeX
-   (sh . t)
-   (matlab . t)
-   (ruby . t)))
-
-(setq org-babel-sh-command "bash")
-
-;; bib citations in org files
-(defun org-mode-reftex-setup ()
-  (reftex-mode t)
-  (when (and (buffer-file-name)
-             (file-exists-p (buffer-file-name)))
-    (reftex-parse-all)
-    (reftex-set-cite-format "[[note::%l][%l]]")
-    (define-key org-mode-map (kbd "C-c )") 'reftex-citation)))
-
-(add-hook 'org-mode-hook 'org-mode-reftex-setup)
-
-;; open pdf files with acroread
-(and (executable-find "acroread")
-     (push (cons "pdf" "acroread %s") org-file-apps))
+(require 'init-org)
 
 (require 'org-bib-workflow)
-
-;; bigger latex fragment
-(plist-put org-format-latex-options :scale 1.5)
 
 
 ;; `org-capture-context'
@@ -1385,56 +643,7 @@ containing a not hidden git repository."
        (repl (cdr exp) pattern patch))))
    (t exp)))
 
-;;; Auctex
-(add-to-list 'load-path "~/.emacs.d/auctex-cvs")
-(add-to-list 'load-path "~/.emacs.d/auctex-cvs/preview")
-
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
-
-(setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
-(setq TeX-PDF-mode t)
-(setq TeX-save-query nil) ; autosave before compiling
-
-(setq TeX-parse-self t) ; Enable parse on load.
-(setq TeX-auto-save t) ; Enable parse on save.
-
-;; Needed to use external programs such as gnuplot
-(setq LaTeX-command "latex --shell-escape")
-
-;; indentation correcte des items
-(setq LaTeX-item-indent 0)
-
-;; newline and indent in tex files
-(setq TeX-newline-function 'newline-and-indent)
-
-;; disable fill in env
-(eval-after-load "latex"
-  '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
-         '("tikzpicture" "scope" "figure")))
-
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (when buffer-file-name
-              (turn-on-reftex)
-              (setq reftex-plug-into-AUCTeX t)
-              (reftex-set-cite-format "~\\cite{%l}"))
-            (auto-fill-mode)
-            (flyspell-mode)
-            (TeX-source-correlate-mode 1))) ; Source Specials
-;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
-
-;; add styles location, francais.el is not loaded :(
-(eval-after-load "latex"
-  '(add-to-list 'TeX-style-path
-                (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/style")))
-
-;; enable fr dictionary when using package frenchb
-(add-hook 'TeX-language-fr-hook
-          (lambda () (ispell-change-dictionary "fr")))
-
-(setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
-
+(require 'init-auctex)
 
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
@@ -1623,39 +832,6 @@ containing a not hidden git repository."
 ;; filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
 
-;;; dired, dired-x and co
-(add-hook 'dired-load-hook
-          (function (lambda ()
-                      (load "dired-x")
-                      ;; Set global variables here.  For example:
-                      ;; (setq dired-guess-shell-gnutar "gtar")
-                      )))
-(add-hook 'dired-mode-hook
-          (function (lambda ()
-                      ;; Set buffer-local variables here.  For example:
-                      ;; (dired-omit-mode 1)
-                      )))
-
-;; (require 'dired+)
-
-(defvar dired-sort-map (make-sparse-keymap))
-(define-key dired-mode-map "s" dired-sort-map)
-
-(mapc
- (lambda (elt)
-   (define-key dired-sort-map (car elt)
-     `(lambda ()
-        (interactive)
-        (dired-sort-other
-         (concat dired-listing-switches
-                 (unless (string-match "-r" dired-actual-switches)
-                   " -r") ,(cadr elt))))))
- '(("n" "")
-   ("x" " -X")
-   ("s" " -S")
-   ("t" " -t")
-   ("d" " --group-directories-first")))
-
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
@@ -1812,88 +988,7 @@ or version controlled but untracked."
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
 
-;; Customized Emacs Lisp mode
-(require 'eldoc)
-(autoload 'turn-on-eldoc-mode "eldoc" nil t)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-
-(defun eval-region-or-buffer ()
-  (interactive)
-  (let ((debug-on-error t))
-    (cond
-     (mark-active
-      (call-interactively 'eval-region)
-      (message "Region evaluated!")
-      (setq deactivate-mark t))
-     (t
-      (eval-buffer)
-      (message "Buffer evaluated!")))))
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-x E") 'eval-region-or-buffer)))
-
-(defvar electrify-return-match
-  "[\]}\)\"]"
-  "If this regexp matches the text after the cursor, do an \"electric\"
-  return.")
-
-(defun electrify-return-if-match (arg)
-  "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
-  (interactive "P")
-  (let ((case-fold-search nil))
-    (if (looking-at electrify-return-match)
-        (save-excursion (newline-and-indent)))
-    (newline arg)
-    (indent-according-to-mode)))
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "RET") 'electrify-return-if-match)))
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda()
-            (setq mode-name "ELisp")
-            (linum-mode t)
-            (setq lisp-indent-offset nil)
-            ;;(turn-on-auto-fill)
-            (require 'folding nil 'noerror)
-            ;; (set (make-local-variable 'hippie-expand-try-functions-list)
-            ;;      '(yas/hippie-try-expand
-            ;;        try-complete-file-name-partially
-            ;;        try-complete-file-name
-            ;;        try-expand-dabbrev-visible
-            ;;        try-expand-dabbrev
-            ;;        try-complete-lisp-symbol-partially
-            ;;        try-complete-lisp-symbol))
-            ;;marquer les caractères au delà de 80 caractères
-            (font-lock-add-keywords
-             nil
-             '(("^[^;\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face prepend)))
-            (font-lock-add-keywords
-             nil
-             '(("\\<\\(FIXME\\|TODO\\|BUG\\)"
-                1 font-lock-warning-face prepend)))
-            (font-lock-add-keywords
-             nil
-             '(("\\<\\(add-hook\\|setq\\)\\>"
-                1 font-lock-keyword-face prepend)))))
-
-
-(defun eval-and-replace ()
-  "Replace the preceding sexp with its value."
-  (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
-
-(global-set-key (kbd "C-c e") 'eval-and-replace)
+(require 'init-elisp)
 
 ;; enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
@@ -2042,32 +1137,6 @@ Indent each line of the list starting just after point."
 (global-set-key [mouse-3] `imenu)
 
 
-(defun pcomplete-erc-command-name ()
-  "Returns the command name of the first argument."
-  (let ((cmd (pcomplete-arg 'first)))
-    (cond
-     ((member (substring cmd 0 -1)
-              (pcomplete-erc-nicks))
-      "NICKLIST")
-     ((eq (elt cmd 0) ?/)
-      (upcase (substring cmd 1)))
-     (t "SAY"))))
-
-(defun is-nick-p (nick)
-  (member (substring nick 0 -1)
-          (pcomplete-erc-nicks)))
-
-(defun pcomplete/erc-mode/NICKLIST ()
-  (while (and (pcomplete-test 'is-nick-p)
-              (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
-    (let ((start erc-input-marker))
-      (save-excursion
-        (goto-char (pcomplete-begin 0))
-        (while (re-search-backward ": " start t)
-          (replace-match ", "))))
-    (pcomplete-here (pcomplete-erc-nicks ": ")))
-  (while (pcomplete-here (pcomplete-erc-nicks))))
-
 (require 'epa)
 (epa-file-enable)
 
@@ -2123,110 +1192,12 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
         (format "%s: %s" (symbol-name ',srt) ,srt)))))
 
 
-(defun latex-delete-unreferenced-labels ()
-  "Delete all occurences of a label that is not referenced in the
-document."
-  (interactive)
-  (save-excursion
-    (let (labels (count 0))
-      (goto-char (point-min))
-      (while (re-search-forward "\\\\\\(eq\\|page\\|[fvF]\\)?ref{\\([^\n\r%\\{}]+\\)}" nil t)
-        (setq labels (cons (match-string-no-properties 1) labels)))
-      (goto-char (point-min))
-      (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
-        (unless (member (match-string-no-properties 1) labels)
-          (delete-region (match-beginning 0) (match-end 0))
-          (setq count (+ 1 count))))
-      (message "%s label%s deleted!"
-               (if (= count 0) "No" (int-to-string count))
-               (if (>= count 2) "s" "")))))
-
-
-(defun enclosing-braces-at-point ()
-  (and (thing-at-point-looking-at "{\\([^}]*\\)}")
-       (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
-
-(defun latex-refactor-label (label new)
-  "Rename a label and its references in a LaTeX document. Word at
-point is suggested as the default label to replace. A message
-shows you how many labels and refs have been replaced."
-  (interactive
-   (list (let ((tap (or (enclosing-braces-at-point) (thing-at-point 'word))))
-           (read-string
-            (format "Old label%s: " (if tap (concat " (" tap ")") ""))
-            nil nil tap))
-         (read-string "New label: ")))
-  (save-excursion
-    (save-restriction
-      (and mark-active (narrow-to-region (region-beginning) (region-end)))
-      (message
-       (concat "\"%s\" -> \"%s\": "
-               (mapconcat
-                (lambda (args)
-                  (goto-char (point-min))
-                  (let ((n 0))
-                    (while (re-search-forward
-                            (concat "\\\\\\(?:" (car args) "\\){\\("
-                                    (regexp-quote label) "\\)}") nil t)
-                      (setq n (1+ n))
-                      (replace-match new t t nil 1))
-                    (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
-                '(("label" . "label")
-                  ("\\(?:eq\\|page\\|[fvF]\\)?ref" . "reference"))
-                " and ")
-               " replaced in %s!")
-       label new (if mark-active "region" "buffer")))))
-
-(defun latex-occur-ref-wo-tilde ()
-  (interactive)
-  (occur "[^~(](?\\\\\\(eq\\|page\\|[fvF]\\)?ref"))
-
-(defun latex-occur-ref-with-parent ()
-  (interactive)
-  (occur "(\\\\ref{[^{]*})"))
-
-(defun latex-rename-label-after-includegraphics ()
-  "Refactor label when it is preceded by an includegraphics. The
-  filename used in includegraphics becomes the new label. Create
-  a label when non existing."
-  (interactive)
-  (save-excursion
-    (goto-char 1)
-    (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
-      ;; remove extension from filename
-      (let ((newname ((lambda (filename)
-                        (substring filename
-                                   0
-                                   (string-match
-                                    (concat
-                                     (regexp-opt '(".jpeg" ".png" ".pdf"))
-                                     "$")
-                                    filename)))
-                      (match-string-no-properties 2))))
-        (forward-line)
-        ;; skip caption for correct numbering
-        (if (looking-at "[ \t]*\\\\caption") (forward-line))
-        (if (looking-at "[ \t]*\\\\label{\\([^}]+\\)")
-            (unless (equal (match-string-no-properties 1) newname)
-              (latex-refactor-label (match-string-no-properties 1) newname))
-          (open-line 1)
-          (insert (format "\\label{%s}" newname))
-          (indent-for-tab-command))))))
-
+(require 'init-latex)
 
 (global-set-key [(control tab)] 'other-window)
 
 (add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
 (require 'org-drill)
-
-;; trying paredit
-(autoload 'enable-paredit-mode "paredit"
-  "Turn on pseudo-structural editing of Lisp code."
-  t)
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 ;; trying expand-region
 (add-to-list 'load-path "~/.emacs.d/vendor/expand-region.el")
@@ -2261,97 +1232,6 @@ shows you how many labels and refs have been replaced."
 
 
 (define-key ac-mode-map (kbd "s-SPC") 'auto-complete)
-
-(defun jump-to-org-agenda ()
-  (interactive)
-  (let ((buf (get-buffer "*Org Agenda*"))
-        wind)
-    (if buf
-        (if (setq wind (get-buffer-window buf))
-            (select-window wind)
-          (if (called-interactively-p)
-              (progn
-                (select-window (display-buffer buf t t))
-                (org-fit-window-to-buffer)
-                ;; (org-agenda-redo)
-                )
-            (with-selected-window (display-buffer buf)
-              (org-fit-window-to-buffer)
-              ;; (org-agenda-redo)
-              )))
-      (call-interactively 'org-agenda-list)))
-  ;;(let ((buf (get-buffer "*Calendar*")))
-  ;;  (unless (get-buffer-window buf)
-  ;;    (org-agenda-goto-calendar)))
-  )
-
-(run-with-idle-timer 900 t 'jump-to-org-agenda)
-
-
-(defun latex-replace-by-closest ()
-  "Replace filename in all includegraphics by closest filename
-with respect to Levenshtein distance. Candidates are found in the
-subdirectory img and filtered by extension."
-  (interactive)
-  (let ((img-files (directory-files "./img" nil
-                                    (regexp-opt '(".jpg" ".jpeg" ".png")))))
-    (save-excursion
-      (goto-char 1)
-      (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
-        (let* ((old-filename (match-string-no-properties 2))
-               (closest "")
-               (new-filename (dolist (file img-files closest)
-                               (if (> (levenshtein-distance old-filename closest)
-                                      (levenshtein-distance old-filename
-                                                            (file-name-sans-extension file)))
-                                   (setq closest (file-name-sans-extension file))))))
-          (and
-           (> (length new-filename) 0)
-           (not (equal new-filename old-filename))
-           (yes-or-no-p
-            (format "Replace %s by %s? " old-filename new-filename))
-           (replace-match new-filename nil nil nil 2)))))))
-
-;; taken from http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Emacs_Lisp
-(defun levenshtein-distance (str1 str2)
-  "Return the edit distance between strings STR1 and STR2."
-  (if (not (stringp str1))
-      (error "Argument was not a string: %s" str1))
-  (if (not (stringp str2))
-      (error "Argument was not a string: %s" str2))
-  (let* ((make-table (function (lambda (columns rows init)
-                                 (make-vector rows (make-vector columns init)))))
-         (tref (function (lambda (table x y)
-                           (aref (aref table y) x))))
-         (tset (function (lambda (table x y object)
-                           (let ((row (copy-sequence (aref table y))))
-                             (aset row x object)
-                             (aset table y row) object))))
-         (length-str1 (length str1))
-         (length-str2 (length str2))
-         (d (funcall make-table (1+ length-str1) (1+ length-str2) 0)))
-    (let ((i 0) (j 0))
-      (while (<= i length-str1)
-        (funcall tset d i 0 i)
-        (setq i (1+ i)))
-      (while (<= j length-str2)
-        (funcall tset d 0 j j)
-        (setq j (1+ j))))
-    (let ((i 1))
-      (while (<= i length-str1)
-        (let ((j 1))
-          (while (<= j length-str2)
-            (let* ((cost (if (equal (aref str1 (1- i)) (aref str2 (1- j)))
-                             0
-                           1))
-                   (deletion (1+ (funcall tref d (1- i) j)))
-                   (insertion (1+ (funcall tref d i (1- j))))
-                   (substitution (+ (funcall tref d (1- i) (1- j)) cost)))
-              (funcall tset d i j (min insertion deletion substitution)))
-            (setq j (1+ j))))
-        (setq i (1+ i))))
-    (funcall tref d length-str1 length-str2)))
-
 
 (add-to-list 'load-path
              (expand-file-name "~/.emacs.d/el-get/browse-kill-ring/"))
