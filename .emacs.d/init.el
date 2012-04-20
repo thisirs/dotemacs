@@ -354,7 +354,9 @@ Also returns nil if pid is nil."
 (global-set-key (kbd "s-p") 'windmove-up)
 (global-set-key (kbd "s-n") 'windmove-down)
 
-;; Mettre un titre aux fenêtres
+
+;; custom frame title
+(modify-frame-parameters nil '((name . nil)))
 (setq frame-title-format
       '(:eval
         (concat "Emacs: "
