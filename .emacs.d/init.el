@@ -1,6 +1,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp"))
 
+(require 'init-fill)
 (require 'init-dired)
 (require 'init-isearch)
 (require 'init-boss-key)
@@ -1000,33 +1001,6 @@ or version controlled but untracked."
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
-(defun my-fill-paragraph (&optional arg)
-  (interactive "P")
-  (if arg
-      (call-interactively 'unfill-paragraph)
-    (call-interactively 'fill-paragraph)))
-
-(defun unfill-paragraph ()
-  "Replace newline chars in current paragraph by single spaces."
-  (interactive)
-  (let ((fill-column most-positive-fixnum))
-    (fill-paragraph)))
-
-(global-set-key (kbd "M-q") 'my-fill-paragraph)
-
-;; Fonction équivalente à la précédente appliquée à la région sélectionnée et
-;; non plus au paragraphe courant.
-(defun remove-hard-wrap-region (start end)
-  "Replace newline chars in region by single spaces."
-  (interactive "r")
-  (let ((fill-column most-positive-fixnum))
-    (fill-region start end)))
-
-;; TODO tester si une région existe
-;; « M-S-q » (i.e. M-Q) : supprime le formatage du paragraphe courant (la
-;; combinaison « M-q », qui existe par défaut, le formatant)
-(global-set-key (kbd "M-Q") 'remove-hard-wrap-paragraph)
-
 (global-set-key [\C-home] 'beginning-of-buffer)
 (global-set-key [\C-end] 'end-of-buffer)
 
@@ -1161,10 +1135,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
 
 (define-key ac-mode-map (kbd "s-SPC") 'auto-complete)
 
-(require 'newcomment)
-(setq comment-auto-fill-only-comments 1)
-(setq-default auto-fill-function 'do-auto-fill)
-(global-set-key [C-return] 'comment-indent-new-line)
 
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 

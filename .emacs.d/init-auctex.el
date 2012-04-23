@@ -32,7 +32,7 @@
               (turn-on-reftex)
               (setq reftex-plug-into-AUCTeX t)
               (reftex-set-cite-format "~\\cite{%l}"))
-            (auto-fill-mode)
+            (setq comment-auto-fill-only-comments nil)
             (flyspell-mode)
             (TeX-source-correlate-mode 1))) ; Source Specials
 ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
