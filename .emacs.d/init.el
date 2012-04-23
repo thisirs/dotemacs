@@ -73,8 +73,8 @@
                                   "Locate database updated!"
                                 "Updating locate database failed!"))))))
 
-;; update locate database when idle during 10 sec
-(run-with-idle-timer 10 nil 'update-locate-database)
+;; update locate database when idle during 20 sec
+(run-with-idle-timer 20 nil 'update-locate-database)
 
 (ignore-errors
 
@@ -86,8 +86,8 @@
       (let ((desktop-load-locked-desktop t))
         (save-window-excursion
           (desktop-read)))
-      (run-with-idle-timer 10 nil 'update-locate-database)
-      (run-with-idle-timer 10 nil
+      (run-with-idle-timer 20 nil 'update-locate-database)
+      (run-with-idle-timer 20 nil
                            (lambda ()
                              (run-hooks 'midnight-hook)))
       (minibuffer-message "Mounting THISKEY, desktop-read")))
