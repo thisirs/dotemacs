@@ -59,7 +59,8 @@
 (defun helm-manual-get-candidates ()
   "Collect manuals found in paths `helm-c-manual-path'."
   (mapcan (lambda (path)
-            (directory-files path t helm-c-manual-regexp))
+            (and (file-directory-p path)
+                 (directory-files path t helm-c-manual-regexp)))
           helm-c-manual-path))
 
 (defun helm-c-manual-transformer (files sources)
