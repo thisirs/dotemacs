@@ -2,6 +2,7 @@
 
 (setq helm-command-prefix-key "C-x C-a")
 
+(require 'helm)
 (require 'helm-config)
 
 ;; (helm-read-string-mode 1)
