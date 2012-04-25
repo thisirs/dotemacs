@@ -6,6 +6,9 @@
                       ;; (setq dired-guess-shell-gnutar "gtar")
                       )))
 
+;; if dired is not loaded "\C-x\C-j" is not bound to `dired-jump'
+(define-key global-map "\C-x\C-j" 'dired-jump)
+
 ;; (require 'dired+)
 
 (defvar dired-sort-map (make-sparse-keymap))
