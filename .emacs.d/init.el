@@ -157,8 +157,8 @@ Also returns nil if pid is nil."
          (and (buffer-modified-p)
               (write-file 
                (concat (file-name-as-directory
-                        (assoc-default "*scratch*" backup-directory-alist 'string-match)
-                        "scratch-buffer-backup.el")))))))
+                        (assoc-default "*scratch*" backup-directory-alist 'string-match))
+                       "scratch-buffer-backup.el"))))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
