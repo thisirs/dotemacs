@@ -873,9 +873,8 @@ or version controlled but untracked."
   (flet ((process-list ())) ad-do-it))
 
 ;; don't warn when killing running processes
-(setq kill-buffer-query-functions
-      (remq 'process-kill-buffer-query-function
-            kill-buffer-query-functions))
+(delq 'process-kill-buffer-query-function
+      kill-buffer-query-functions)
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
