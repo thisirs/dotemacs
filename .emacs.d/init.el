@@ -155,33 +155,12 @@ Also returns nil if pid is nil."
   (and (get-buffer "*scratch*")
        (with-current-buffer "*scratch*"
          (and (buffer-modified-p)
-              (write-file (let ((alist backup-directory-alist)
-                                elt backup-directory)
-                            (while alist
-                              (setq elt (pop alist))
-                              (if (string-match (car elt) "*scratch*")
-                                  (setq backup-directory (cdr elt)
-                                        alist nil)))
-                            (concat (file-name-as-directory
-                                     backup-directory) "scratch-buffer-backup.el")))))))
+              (write-file 
+               (concat (file-name-as-directory
+                        (assoc-default "*scratch*" backup-directory-alist 'string-match)
+                        "scratch-buffer-backup.el")))))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
-
-(defun backup-scratch-buffer ()
-  (with-current-buffer "*scratch*"
-    (let ((alist backup-directory-alist)
-          elt backup-directory)
-      (while alist
-        (setq elt (pop alist))
-        (if (string-match (car elt) "*scratch*")
-            (setq backup-directory (cdr elt)
-                  alist nil)))
-      (setq buffer-file-name
-            (concat (file-name-as-directory backup-directory)
-                    "*scratch*.el"))
-      (backup-buffer))
-    (setq buffer-file-name nil)))
-
 
 ;; suit les liens vers les systèmes de contrôle de versions
 (setq vc-follow-symlinks t)
