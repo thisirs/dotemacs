@@ -82,13 +82,15 @@ name"
     (ibuffer-jump-to-buffer recent-buffer-name)
     (ibuffer-next-buffer)))
 
+
 (defun find-projects (dir)
   "Return a list of all directories and sub-directories
 containing a not hidden git repository."
-  (let ((list
-         (and (file-directory-p (concat dir "/.git"))
-              (not (file-exists-p (concat dir "/.hidden")))
-              (cons dir nil))))
+  (let* ((dir (file-name-as-directory dir))
+         (list
+          (and (file-exists-p (concat dir "/.git"))
+               (not (file-exists-p (concat dir "/.hidden")))
+               (cons dir nil))))
     (apply 'append list
            (mapcar
             (lambda (path)
@@ -102,7 +104,8 @@ containing a not hidden git repository."
   "Return a list whose elements are of the form ((`prefix' (filename . `directory')"
   (mapcar
    (lambda (dir)
-     (list (concat prefix (file-name-nondirectory dir))
+     (list (concat prefix (file-name-nondirectory
+                           (directory-file-name dir)))
            `(filename . ,dir)))
    (apply 'append
           (mapcar
@@ -112,7 +115,8 @@ containing a not hidden git repository."
            dir-list))))
 
 (setq ibuffer-project-alist
-      `(("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
+      `(("Project: " . ,(concat (getenv "HOME") "/dotemacs/dotemacs"))
+        ("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
         ("Project on THISKEY: " . "/media/THISKEY/programming")))
 
 (setq ibuffer-project-list-cache-file
@@ -134,19 +138,6 @@ containing a not hidden git repository."
         (insert-file-contents ibuffer-project-list-cache-file)
         (read (buffer-string)))))
 
-
-(defun ibuffer-project-list ()
-  "Return project list. Generates and caches it if necessary."
-  (or (ibuffer-project-list-read-cache)
-      (ibuffer-project-list-write-cache
-       (ibuffer-project-list-generate))))
-
-;; Generate project list when idle
-(run-with-idle-timer 10 nil
-                     (lambda () (ibuffer-project-list-write-cache
-                                 (ibuffer-project-list-generate))
-                       (minibuffer-message "IBuffer cache written!")))
-
 (defun ibuffer-project-list-generate ()
   "Generate project list by examining `ibuffer-project-alist'."
   (mapcan
@@ -154,6 +145,20 @@ containing a not hidden git repository."
      (make-ibuffer-projects-list (car e) (cdr e)))
    ibuffer-project-alist))
 
+(defun ibuffer-project-list ()
+  "Return project list. Generates and caches it if necessary."
+  (or (ibuffer-project-list-read-cache)
+      (ibuffer-project-list-write-cache
+       (ibuffer-project-list-generate))))
+
+(defun ibuffer-project-generate-and-cache ()
+  (interactive)
+  (ibuffer-project-list-write-cache
+   (ibuffer-project-list-generate))
+  (minibuffer-message "IBuffer cache written!"))
+
+;; Generate project list when idle
+(run-with-idle-timer 10 nil 'ibuffer-project-generate-and-cache)
 
 (defun load-file-to-list (file)
   "Return a list of FORM found in file `file'."
