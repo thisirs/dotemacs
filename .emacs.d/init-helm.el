@@ -45,4 +45,37 @@
     (delayed))
   "Find files matching the current input pattern with locate.")
 
+
+;; helm for searching manuals
+(defvar helm-c-manual-path
+  '("/media/THISKEY/Documents/Manuals/"
+    "/media/THISKEY/Documents/latex/beamer/"
+    "/media/THISKEY/Documents/latex/tikz/")
+  "List of path to look for manuals.")
+
+(defvar helm-c-manual-regexp "\\.pdf\\'")
+
+(defun helm-manual-get-candidates ()
+  "Collect manuals found in paths `helm-c-manual-path'."
+  (mapcan (lambda (path)
+            (directory-files path t helm-c-manual-regexp))
+          helm-c-manual-path))
+
+(defun helm-c-manual-transformer (files sources)
+  (mapcar 'file-name-nondirectory files))
+
+(defvar helm-c-source-manual
+  `((name ."Manuals")
+    (candidates . helm-manual-get-candidates)
+    (real-to-display . file-name-nondirectory)
+    (type . file)))
+
+(defun helm-manual ()
+  (interactive)
+  (helm :sources 'helm-c-source-manual
+        :buffer "*Helm manuals*"
+        :prompt "Manuals: "))
+
+(define-key helm-command-map (kbd "h m") 'helm-manual)
+
 (provide 'init-helm)
