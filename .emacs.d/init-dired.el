@@ -7,6 +7,7 @@
                       )))
 
 ;; if dired is not loaded "\C-x\C-j" is not bound to `dired-jump'
+(autoload 'dired-jump "dired-x")
 (define-key global-map "\C-x\C-j" 'dired-jump)
 
 ;; (require 'dired+)
