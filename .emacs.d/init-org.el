@@ -62,6 +62,14 @@
           (cond
            ((stringp found) (match-substitute-replacement found t nil link))))))
 
+(defun org-string-to-link (start end file)
+  "Command that make the selected region an org link pointing to
+the selected file."
+  (interactive "r\nfFile: ")
+  (let ((name (delete-and-extract-region start end)))
+    (insert (org-make-link-string file name))))
+
+
 ;; load templates from personnal location
 (setq org-capture-templates
       (load-file-to-list "~/Dropbox/Org/org-capture-templates.el"))
