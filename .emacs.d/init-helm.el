@@ -81,4 +81,14 @@
 
 (define-key helm-command-map (kbd "h m") 'helm-manual)
 
+
+(defvar helm-bib-locations
+  '("/media/THISKEY/Documents/These/bib/bregman"))
+
+(defun helm-search-bib ()
+  (interactive)
+  (let ((helm-c-grep-default-function 'helm-c-pdfgrep-init))
+    (helm-do-pdfgrep-1 helm-bib-locations)))
+
+(define-key helm-command-map (kbd "h b") 'helm-search-bib)
 (provide 'init-helm)
