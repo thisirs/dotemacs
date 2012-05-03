@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
-# name: headertikz
-# key: headertikz
+# name: Standalone TikZ template
+# key: headerTS
 # --
-\documentclass{article}
+\documentclass{standalone}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -22,18 +22,16 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{shadows}
 \usetikzlibrary{plotmarks}
+\usetikzlibrary{positioning}
 
-\usepackage[graphics, tightpage, active]{preview}
-\PreviewEnvironment{tikzpicture}
-\PreviewEnvironment{equation}
-\PreviewEnvironment{equation*}
-\pagestyle{empty}
-\thispagestyle{empty}
-
-% pdftops -eps img.pdf
-% convert -density 300 img.eps img.png
 \begin{document}
 \begin{tikzpicture}
-$0
+
 \end{tikzpicture}
+\end{document}
+
+\ifstandalone
+% Test area not included by input
+
+\fi
 \end{document}

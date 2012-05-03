@@ -768,11 +768,7 @@ Also returns nil if pid is nil."
             (TeX-normal-mode 1)))
          ("Standalone TikZ"
           (progn
-            (auto-insert-yasnippet "headertikz")
-            (TeX-normal-mode 1)))
-         ("Standalone TikZ for my thesis"
-          (progn
-            (auto-insert-yasnippet "latextikzthesis")
+            (auto-insert-yasnippet "headerTS")
             (TeX-normal-mode 1)))
          ("Letter"
           (progn
