@@ -792,10 +792,10 @@ Also returns nil if pid is nil."
 ;;; ruby
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/inf-ruby"))
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-(autoload 'inf-ruby-keys "inf-ruby" "" t)
+(autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
 (eval-after-load 'ruby-mode
   '(progn
-     (add-hook 'ruby-mode-hook 'inf-ruby-keys)
+     (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
      (add-hook 'ruby-mode-hook
                (lambda ()
                  (define-key ruby-mode-map (kbd "RET")
