@@ -19,6 +19,10 @@
 ;; no recursive todo in agenda
 (setq org-agenda-todo-list-sublevels nil)
 
+;; ignore scheduled and deadline
+(setq org-agenda-todo-ignore-scheduled t)
+(setq org-agenda-todo-ignore-deadlines t)
+
 ;; remove tags in agenda
 (setq org-agenda-remove-tags t)
 
