@@ -14,23 +14,23 @@
 (defun ibuffer-next-buffer-aux (list)
   (if (null list)
       (error "No buffers!"))
-  (let ((current-buffer (ibuffer-current-buffer t))
-        (list0 list)
-        (list1 list)
-        next-buffer
-        (ibuffer-buffer-list
-         (mapcar #'car
-                 (ibuffer-current-state-list))))
-    (while (not (equal current-buffer (car list0)))
-      (setq list0 (cdr list0)))
-    (setq list0 (cdr list0))
+  (let* ((current-buffer (ibuffer-current-buffer t))
+         (list1 list)
+         next-buffer
+         (ibuffer-buffer-list
+          (mapcar #'car
+                  (ibuffer-current-state-list)))
+         (list0 (cdr (member current-buffer (buffer-list)))))
     (while (and list0 (not (memql (car list0) ibuffer-buffer-list)))
       (setq list0 (cdr list0)))
-    (if list0 (setq next-buffer (car list0))
-      (while (not (memql (car list1) ibuffer-buffer-list))
-        (setq list1 (cdr list1)))
-      (setq next-buffer (car list1)))
-    (ibuffer-jump-to-buffer (buffer-name next-buffer))))
+    (ibuffer-jump-to-buffer 
+     (buffer-name 
+      (car 
+       (or list0
+           (progn
+             (while (not (memql (car list1) ibuffer-buffer-list))
+               (setq list1 (cdr list1)))
+             list1)))))))
 
 (defun ibuffer-next-buffer ()
   "Jump to next buffer in IBuffer according to `(buffer-list)'"
