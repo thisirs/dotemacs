@@ -152,4 +152,24 @@ subdirectory img and filtered by extension."
         (setq i (1+ i))))
     (funcall tref d length-str1 length-str2)))
 
+(defun latex-occur-newline ()
+  "Find \\\\ newline in latex except those in matrix
+environment."
+  (interactive)
+  (save-excursion
+    (goto-char 0)
+    (while (re-search-forward "\\\\\\\\" nil t)
+      (unless
+          (save-excursion
+            (LaTeX-find-matching-begin)
+            (looking-at
+             (concat
+              "\\\\begin{"
+              (regexp-opt '("pmatrix" "matrix")) "}")))
+        (when (y-or-n-p "Replace \\\\? ")
+          (delete-char -2)
+          (TeX-newline)
+          (unless (looking-at " *\n")
+            (TeX-newline)))))))
+
 (provide 'init-latex)
