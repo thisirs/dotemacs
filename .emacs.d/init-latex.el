@@ -159,17 +159,23 @@ environment."
   (save-excursion
     (goto-char 0)
     (while (re-search-forward "\\\\\\\\" nil t)
-      (unless
-          (save-excursion
-            (LaTeX-find-matching-begin)
-            (looking-at
-             (concat
-              "\\\\begin{"
-              (regexp-opt '("pmatrix" "matrix")) "}")))
-        (when (y-or-n-p "Replace \\\\? ")
-          (delete-char -2)
-          (TeX-newline)
-          (unless (looking-at " *\n")
-            (TeX-newline)))))))
+      (and
+       (not (TeX-in-comment))
+       (not
+        (save-excursion
+          (LaTeX-find-matching-begin)
+          (looking-at
+           (concat
+            "\\\\begin{"
+            (regexp-opt '("pmatrix" "matrix" "array" "eqnarray" "eqnarray*"
+                          "align" "align*" "aligned" "cases" "equation*"
+                          "equation"
+                          )) "}"))))
+       (y-or-n-p "Replace \\\\? ")
+       (progn
+         (delete-char -2)
+         (TeX-newline)
+         (unless (looking-at " *\n")
+           (TeX-newline)))))))
 
 (provide 'init-latex)
