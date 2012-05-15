@@ -76,7 +76,7 @@ the selected file."
 
 ;; load templates from personnal location
 (setq org-capture-templates
-      (load-file-to-list "~/Dropbox/Org/org-capture-templates.el"))
+      (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
 
 (defun add-days (date1 days)
   "Add `days' days to `date'"
