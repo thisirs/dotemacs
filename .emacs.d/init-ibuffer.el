@@ -20,7 +20,7 @@
          (ibuffer-buffer-list
           (mapcar #'car
                   (ibuffer-current-state-list)))
-         (list0 (cdr (member current-buffer (buffer-list)))))
+         (list0 (cdr (member current-buffer list))))
     (while (and list0 (not (memql (car list0) ibuffer-buffer-list)))
       (setq list0 (cdr list0)))
     (ibuffer-jump-to-buffer 
