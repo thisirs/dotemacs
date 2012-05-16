@@ -117,7 +117,8 @@ containing a not hidden git repository."
 (setq ibuffer-project-alist
       `(("Project: " . ,(concat (getenv "HOME") "/dotemacs/dotemacs"))
         ("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
-        ("Project on THISKEY: " . "/media/THISKEY/programming")))
+        ("Project on THISKEY: " . "/media/THISKEY/programming")
+        ( "" . "/media/THISKEY/Documents/These/")))
 
 (setq ibuffer-project-list-cache-file
       "~/.emacs.d/cache/ibuffer-project")
