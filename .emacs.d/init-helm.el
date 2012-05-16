@@ -51,6 +51,7 @@
 ;; helm for searching manuals
 (defvar helm-c-manual-path
   '("/media/THISKEY/Documents/Manuals/"
+    "/media/THISKEY/Documents/latex/package_manuals"
     "/media/THISKEY/Documents/latex/beamer/"
     "/media/THISKEY/Documents/latex/tikz/")
   "List of path to look for manuals.")
