@@ -26,7 +26,7 @@
 
 \begin{document}
 \begin{tikzpicture}
-
+  $0
 \end{tikzpicture}
 \end{document}
 
