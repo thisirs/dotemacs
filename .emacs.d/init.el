@@ -352,9 +352,6 @@ Also returns nil if pid is nil."
 ;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
 
-;; sélection de tout le buffer
-(global-set-key "\C-c\C-a" 'mark-whole-buffer)
-
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
 (setq
