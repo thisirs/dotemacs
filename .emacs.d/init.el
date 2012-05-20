@@ -580,43 +580,6 @@ Also returns nil if pid is nil."
 
 (require 'init-auctex)
 
-(defun latex-escape-or-unescape-accented-characters (&optional escape)
-  "Escapes accented characters when no prefix argument. When
-  escaping, the first element of a list is preferred when there
-  is a list. When any prefix argument, unescape accented
-  characters."
-  (interactive "P")
-  (let ((n 0)
-        (beg (copy-marker
-              (if (region-active-p) (region-beginning) (point-min))))
-        (end (copy-marker
-              (if (region-active-p) (region-end) (point-max)))))
-    (save-excursion
-      (mapc
-       (lambda (e)
-         (let* ((to (if escape (cdr e) (car e)))
-                (to (if (listp to) (car to) to))
-                (from (if escape (car e) (cdr e)))
-                (from (if (listp from) from (list from))))
-           (mapc
-            (lambda (froma)
-              (goto-char beg)
-              (while (search-forward froma end t)
-                (replace-match to nil t)
-                (setq n (+ n 1))))
-            from)))
-       '((("\\'e" "\\'{e}") . "é")
-         (("\\`e" "\\`{e}") . "è")
-         (("\\`a" "\\`{a}") . "à")
-         (("\\`u" "\\`{u}") . "ù")
-         (("\\^e" "\\^{e}") . "ê")
-         (("\\^o" "\\^{o}") . "ô")
-         (("\\^u" "\\^{u}") . "û")
-         (("\\\"i" "\\\"{i}") . "ï")
-         ("\\c{c}" . "ç")
-         (("\\^i" "\\^{i}") . "î"))))
-    (message "Replaced %d occurences" n)))
-
 ;; bookmarks
 (setq
  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
