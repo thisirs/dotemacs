@@ -9,6 +9,8 @@
 (require 'init-magit)
 (require 'init-find-file)
 
+(server-start)
+
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 

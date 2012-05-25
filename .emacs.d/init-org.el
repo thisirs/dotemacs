@@ -298,4 +298,7 @@ the selected file."
                      ("jeudi" . 4) ("vendredi" . 5)
                      ("samedi" . 6))))))
 
+(and (boundp 'server-process)
+     (require 'org-protocol))
+
 (provide 'init-org)
