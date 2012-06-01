@@ -73,6 +73,12 @@ the selected file."
   (let ((name (delete-and-extract-region start end)))
     (insert (org-make-link-string file name))))
 
+;; function to replace the description in a link
+(defun org-replace-name-in-link (link &optional here)
+  (setq here (or here "here"))
+  (if (string-match "\\[\\(\\[.*?\\]\\)\\(\\[.*?\\]\\)?\\]" link)
+      (replace-match (concat "[\\1[" here "]]") nil nil link)
+    link))
 
 ;; load templates from personnal location
 (setq org-capture-templates
