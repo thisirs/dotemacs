@@ -35,26 +35,28 @@
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
-;; gnome-open file that emacs can't
-(defun gnome-open (filename)
-  (let ((process-connection-type nil))
-    (start-process "" nil "/usr/bin/xdg-open"
-                   (expand-file-name filename))))
-
-(defadvice find-file (around find-or-launch-file)
-  "Gnome opens file that emacs can't."
-  (cond
-   ((string-match
-     (concat
-      "\\."
-      (regexp-opt '("ods" "odt" "pdf" "doc") t)
-      "$")
-     (ad-get-arg 0))
-    (gnome-open (ad-get-arg 0))
-    (message "Gnome-opening file..."))
-   (t
-    ad-do-it)))
-
-(ad-activate 'find-file)
+;; looseley based on yes-or-no-p
+(defadvice find-file (around find-or-launch-file activate)
+  "Try to open file externally if not recognized by emacs."
+  (if (assoc-default (ad-get-arg 0) auto-mode-alist 'string-match)
+      ad-do-it
+    (let ((cursor-in-echo-area t) 
+          (key 'recenter)
+          (prompt "Open in emacs or via org? "))
+      (while (let ((cursor-in-echo-area t))
+               (when minibuffer-auto-raise
+                 (raise-frame (window-frame (minibuffer-window))))
+               (setq key (read-key
+                          (propertize
+                           (if (eq key 'recenter)
+                               prompt
+                             (concat "Please answer e or o.  " prompt))
+                                      'face 'minibuffer-prompt)))
+               (not (memq key '(101 111 113 7))))
+        (ding)
+        (discard-input))
+      (cond
+       ((eq key 101) ad-do-it)
+       ((eq key 111) (org-open-file (ad-get-arg 0)))))))
 
 (provide 'init-find-file)
