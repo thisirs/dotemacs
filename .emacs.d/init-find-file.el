@@ -38,11 +38,12 @@
 ;; looseley based on yes-or-no-p
 (defadvice find-file (around find-or-launch-file activate)
   "Try to open file externally if not recognized by emacs."
-  (if (assoc-default (ad-get-arg 0) auto-mode-alist 'string-match)
+  (if (or (assoc-default (ad-get-arg 0) auto-mode-alist 'string-match)
+          (not (file-exists-p (ad-get-arg 0))))
       ad-do-it
     (let ((cursor-in-echo-area t) 
           (key 'recenter)
-          (prompt "Open in emacs or via org? "))
+          (prompt "Open in emacs or via org? (e or o) "))
       (while (let ((cursor-in-echo-area t))
                (when minibuffer-auto-raise
                  (raise-frame (window-frame (minibuffer-window))))
