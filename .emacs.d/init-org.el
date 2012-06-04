@@ -307,4 +307,31 @@ the selected file."
 (and (boundp 'server-process)
      (require 'org-protocol))
 
+;; taken from worg
+(defun dmj/org-remove-redundant-tags ()
+  "Remove redundant tags of headlines in current buffer.
+
+A tag is considered redundant if it is local to a headline and
+inherited by a parent headline."
+  (interactive)
+  (when (eq major-mode 'org-mode)
+    (save-excursion
+      (org-map-entries
+       (lambda ()
+         (let ((alltags (split-string (or (org-entry-get (point) "ALLTAGS") "") ":"))
+               local inherited tag)
+           (dolist (tag alltags)
+             (if (get-text-property 0 'inherited tag)
+                 (push tag inherited) (push tag local)))
+           (dolist (tag local)
+             (if (member tag inherited) (org-toggle-tag tag 'off)))))
+       t nil))))
+
+(add-hook 'before-save-hook
+          '(lambda ()
+             (when (eq major-mode 'org-mode)
+               (dmj/org-remove-redundant-tags)
+               (org-align-all-tags)
+               (org-update-all-dblocks))))
+
 (provide 'init-org)
