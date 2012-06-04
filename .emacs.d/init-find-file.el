@@ -39,7 +39,8 @@
 (defadvice find-file (around find-or-launch-file activate)
   "Try to open file externally if not recognized by emacs."
   (if (or (assoc-default (ad-get-arg 0) auto-mode-alist 'string-match)
-          (not (file-exists-p (ad-get-arg 0))))
+          (not (file-exists-p (ad-get-arg 0)))
+          (file-directory-p (ad-get-arg 0)))
       ad-do-it
     (let ((cursor-in-echo-area t) 
           (key 'recenter)
