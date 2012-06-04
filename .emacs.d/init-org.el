@@ -80,7 +80,7 @@ the selected file."
       (replace-match (concat "[\\1[" here "]]") nil nil link)
     link))
 
-;; load templates from personnal location
+;; load templates from personal location
 (setq org-capture-templates
       (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
 
