@@ -35,30 +35,18 @@
 
 (global-set-key (kbd "C-x C-t") 'find-temp-file)
 
-;; looseley based on yes-or-no-p
 (defadvice find-file (around find-or-launch-file activate)
-  "Try to open file externally if not recognized by emacs."
-  (if (or (assoc-default (ad-get-arg 0) auto-mode-alist 'string-match)
-          (not (file-exists-p (ad-get-arg 0)))
-          (file-directory-p (ad-get-arg 0)))
-      ad-do-it
-    (let ((cursor-in-echo-area t) 
-          (key 'recenter)
-          (prompt "Open in emacs or via org? (e or o) "))
-      (while (let ((cursor-in-echo-area t))
-               (when minibuffer-auto-raise
-                 (raise-frame (window-frame (minibuffer-window))))
-               (setq key (read-key
-                          (propertize
-                           (if (eq key 'recenter)
-                               prompt
-                             (concat "Please answer e or o.  " prompt))
-                                      'face 'minibuffer-prompt)))
-               (not (memq key '(101 111 113 7))))
-        (ding)
-        (discard-input))
-      (cond
-       ((eq key 101) ad-do-it)
-       ((eq key 111) (org-open-file (ad-get-arg 0)))))))
+  "Org open file that emacs can't."
+  (cond
+   ((string-match
+     (concat
+      "\\."
+      (regexp-opt '("ods" "odt" "pdf" "doc") t)
+      "$")
+     (ad-get-arg 0))
+    (org-open-file (ad-get-arg 0) 'system)
+    (message "Opening file..."))
+   (t
+    ad-do-it)))
 
 (provide 'init-find-file)
