@@ -80,6 +80,13 @@ the selected file."
       (replace-match (concat "[\\1[" here "]]") nil nil link)
     link))
 
+
+
+;; return stored link with description "here"
+(defun my-name ()
+  (file-name-nondirectory
+   (or (plist-get org-store-link-plist :link) "")))
+
 ;; load templates from personal location
 (setq org-capture-templates
       (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
