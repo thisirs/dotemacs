@@ -40,4 +40,27 @@
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
+
+(add-to-list 'desktop-locals-to-save 'buffer-display-time-1)
+
+(make-variable-buffer-local 'buffer-display-time-1)
+
+(defun save-buffer-display-time ()
+  (mapc (lambda (buf)
+          (with-current-buffer buf
+            (setq buffer-display-time-1 buffer-display-time)))
+        (buffer-list)))
+
+(add-hook 'desktop-save-hook 'save-buffer-display-time)
+
+(defun set-buffer-display-time ()
+  (mapc (lambda (buf)
+          (with-current-buffer buf
+            (setq buffer-display-time buffer-display-time-1)))
+        (buffer-list)))
+
+
+(add-hook 'desktop-after-read-hook 'set-buffer-display-time)
+
+
 (provide 'init-desktop)
