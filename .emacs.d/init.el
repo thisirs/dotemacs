@@ -135,6 +135,7 @@ Also returns nil if pid is nil."
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
+(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/vc-git-check-status/"))
 (require 'vc-git-check-status)
 
 ;; auto byte-compile init.el
@@ -465,6 +466,7 @@ Also returns nil if pid is nil."
 (load-file "~/Dropbox/emacs/org-context-settings.el")
 
 ;; auto-commit
+(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/vc-git-commit-all/"))
 (require 'vc-git-commit-all)
 
 ;; Nom français des jours et mois affichés dans le calendrier
