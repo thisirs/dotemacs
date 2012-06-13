@@ -54,7 +54,9 @@
   '("/media/THISKEY/Documents/Manuals/"
     "/media/THISKEY/Documents/latex/package_manuals"
     "/media/THISKEY/Documents/latex/beamer/"
-    "/media/THISKEY/Documents/latex/tikz/")
+    "/media/THISKEY/Documents/latex/tikz/"
+    "/media/THISKEY/Documents/latex/tex/"
+    )
   "List of path to look for manuals.")
 
 (defvar helm-c-manual-regexp "\\.pdf\\'")
