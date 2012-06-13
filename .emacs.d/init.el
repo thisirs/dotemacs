@@ -458,6 +458,7 @@ Also returns nil if pid is nil."
 
 
 ;; `org-capture-context'
+(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/org-context/"))
 (require 'org-context)
 
 ;; setting `org-capture-context-alist'
