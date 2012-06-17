@@ -335,10 +335,39 @@ inherited by a parent headline."
        t nil))))
 
 (add-hook 'before-save-hook
-          '(lambda ()
-             (when (eq major-mode 'org-mode)
-               (dmj/org-remove-redundant-tags)
-               (org-align-all-tags)
-               (org-update-all-dblocks))))
+          (lambda ()
+            (when (eq major-mode 'org-mode)
+              (and buffer-file-name
+                   (file-exists-p buffer-file-name)
+                   (dmj/org-remove-redundant-tags))
+              (org-align-all-tags)
+              (org-update-all-dblocks))))
+
+
+(defun org-update-project-cookies (n-done n-not-done)
+  (let ((project (org-entry-get (point) "PROJECT"))
+        todo-file tab n-done n-not-done)
+    (when (setq project (org-entry-get (point) "PROJECT"))
+      (setq todo-file (org-entry-get (point) "TODOFILE"))
+      (when (file-exists-p todo-file)
+        (with-current-buffer (find-file-noselect 
+                              (make-temp-file nil nil ".org"))
+          (insert-file-contents todo-file)
+          (setq tab (org-map-entries
+                     (lambda ()
+                       (when (looking-at org-complex-heading-regexp)
+                         (member (match-string 2) org-done-keywords))))
+                n-done (length (delq nil tab))
+                n-total (length tab))
+          (erase-buffer)
+          (set-buffer-modified-p nil)
+          (kill-buffer))
+        (save-excursion
+          (org-back-to-heading t)
+          (when (looking-at org-complex-heading-regexp)
+            (replace-match (format "[%d/%d] %s" n-done n-total project)
+                           nil nil nil 4)))))))
+
+(add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
 (provide 'init-org)
