@@ -1,6 +1,3 @@
-;; allow midnight to nuke old buffers though the sessions
-(add-to-list 'desktop-locals-to-save 'buffer-display-time)
-
 (require 'midnight)
 (cancel-timer midnight-timer)
 

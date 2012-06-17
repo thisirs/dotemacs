@@ -41,6 +41,7 @@
 (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
 
+;; buffer-display-time is changed when desktop is loaded
 (add-to-list 'desktop-locals-to-save 'buffer-display-time-1)
 
 (make-variable-buffer-local 'buffer-display-time-1)
@@ -58,7 +59,6 @@
           (with-current-buffer buf
             (setq buffer-display-time buffer-display-time-1)))
         (buffer-list)))
-
 
 (add-hook 'desktop-after-read-hook 'set-buffer-display-time)
 
