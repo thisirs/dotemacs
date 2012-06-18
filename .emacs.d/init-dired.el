@@ -30,7 +30,14 @@
    ("d" " --group-directories-first")))
 
 (eval-after-load 'dired
-    '(define-key dired-mode-map "s" dired-sort-map))
+  '(progn
+     (define-key dired-mode-map "s" dired-sort-map)
+     ;; Reload dired after creating a directory
+     (defadvice dired-create-directory (after revert-buffer-after-create activate)
+       (revert-buffer))
+     ;; Delete with C-x C-k to match file buffers and magit
+     (define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)))
+
 
 
 (provide 'init-dired)
