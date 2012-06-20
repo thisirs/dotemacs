@@ -51,15 +51,19 @@
 
 ;; set personnal dictionary automatically based on local dictionary used
 (defvar file-name-dictionary-alist
-  '(("/media/THISKEY/Documents/These/" . "/media/THISKEY/Documents/These/dict_%s.dict")))
+  '(("/media/THISKEY/Documents/These/"
+     ("en" . "/media/THISKEY/Documents/These/dict_en.dict")
+     ("fr" . "/media/THISKEY/Documents/These/dict_fr.dict"))))
 
 (defun find-file-personal-dictionary ()
-  (let ((dict (assoc-default (buffer-file-name) file-name-dictionary-alist 'string-match)))
-    (when (and (stringp dict)
-               (file-name-absolute-p (setq dict (format dict (or ispell-dictionary
-                                                                 ispell-local-dictionary))))
-               (file-exists-p dict))
-      (setq ispell-local-pdict dict))))
+  (let* ((dict-alist (assoc-default (buffer-file-name) 
+                                    file-name-dictionary-alist 
+                                    'string-match))
+         (dict (assoc-default ispell-local-dictionary dict-alist 'string-match)))
+    (and (stringp dict)
+         (file-name-absolute-p dict)
+         (file-exists-p dict)
+         (setq ispell-local-pdict dict))))
 
 (add-hook 'find-file-hook 'find-file-personal-dictionary)
 
