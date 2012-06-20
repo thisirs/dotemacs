@@ -370,4 +370,21 @@ inherited by a parent headline."
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
+;; TODO make it automatic
+(setq org-projects-todos
+      '("/home/srousseau/Dropbox/emacs/site-lisp/org-context/todo.org"
+        "/home/srousseau/Dropbox/emacs/site-lisp/elisp-call-tree/todo.org"
+        "/home/srousseau/Dropbox/emacs/site-lisp/vc-git-check-status/todo.org"
+        "/home/srousseau/Dropbox/emacs/site-lisp/vc-git-commit-all/todo.org"))
+
+;; refile in files without any headlines
+(setq org-refile-targets
+      `((,(append org-agenda-files org-projects-todos) . (:level . 1))))
+
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-use-outline-path 'full-file-path)
+
+(setq org-outline-path-complete-in-steps nil)
+
+
 (provide 'init-org)
