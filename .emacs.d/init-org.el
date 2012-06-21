@@ -352,10 +352,22 @@ inherited by a parent headline."
               (org-align-all-tags)
               (org-update-all-dblocks))))
 
+;; display agenda associated with file via org-context
+(defun org-agenda-from-file (file)
+  (let ((org-agenda-custom-commands
+         (assoc-default (expand-file-name (directory-file-name
+                                           (file-name-directory file)))
+                        org-context-agenda-alist 'string-match)))
+    (and org-agenda-custom-commands
+         (org-agenda nil "c"))))
 
+;; don't warn when a link run `org-agenda-from-file'
+(setq org-confirm-elisp-link-not-regexp "(org-agenda-from-file \".*\")")
+
+;; update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
   (let ((project (org-entry-get (point) "PROJECT"))
-        todo-file tab n-done n-not-done)
+        todo-file tab n-done n-total)
     (when (and project
                (setq todo-file (org-entry-get (point) "TODOFILE"))
                (file-exists-p todo-file))
