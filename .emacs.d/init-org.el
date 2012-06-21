@@ -85,7 +85,16 @@ the selected file."
 ;; return stored link with description "here"
 (defun my-name ()
   (file-name-nondirectory
-   (or (plist-get org-store-link-plist :link) "")))
+   (replace-regexp-in-string
+    "%" "\\%" 
+    (org-link-unescape (or (plist-get org-store-link-plist :link) "")))))
+
+;; fill :initial prop
+(defun initial-prop-filled ()
+  (with-temp-buffer
+    (insert (or (plist-get org-store-link-plist :initial) ""))
+    (fill-region (buffer-end 0) (buffer-end 1))
+    (buffer-string)))
 
 ;; load templates from personal location
 (setq org-capture-templates
