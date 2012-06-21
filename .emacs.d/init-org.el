@@ -386,7 +386,8 @@ inherited by a parent headline."
       (save-excursion
         (org-back-to-heading t)
         (when (looking-at org-complex-heading-regexp)
-          (replace-match (format "[%d/%d] %s" n-done n-total project)
+          (replace-match (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\")][%s]]" 
+                                 n-done n-total todo-file project)
                          nil nil nil 4))))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
