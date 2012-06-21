@@ -56,10 +56,13 @@
      ("fr" . "/media/THISKEY/Documents/These/dict_fr.dict"))))
 
 (defun find-file-personal-dictionary ()
+  (require 'flyspell)
   (let* ((dict-alist (assoc-default (buffer-file-name) 
                                     file-name-dictionary-alist 
                                     'string-match))
-         (dict (assoc-default ispell-local-dictionary dict-alist 'string-match)))
+         (dict (assoc-default (or ispell-local-dictionary
+                                  ispell-dictionary)
+                              dict-alist 'string-match)))
     (and (stringp dict)
          (file-name-absolute-p dict)
          (file-exists-p dict)
