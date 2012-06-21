@@ -44,7 +44,7 @@
       (regexp-opt '("ods" "odt" "pdf" "doc") t)
       "$")
      (ad-get-arg 0))
-    (org-open-file (ad-get-arg 0) 'system)
+    (org-open-file (ad-get-arg 0))
     (message "Opening file..."))
    (t
     ad-do-it)))
