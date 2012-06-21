@@ -392,16 +392,30 @@ inherited by a parent headline."
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
-;; TODO make it automatic
-(setq org-projects-todos
-      '("/home/srousseau/Dropbox/emacs/site-lisp/org-context/todo.org"
-        "/home/srousseau/Dropbox/emacs/site-lisp/elisp-call-tree/todo.org"
-        "/home/srousseau/Dropbox/emacs/site-lisp/vc-git-check-status/todo.org"
-        "/home/srousseau/Dropbox/emacs/site-lisp/vc-git-commit-all/todo.org"))
+(defvar org-projects-refile-targets)
 
-;; refile in files without any headlines
+(find-file "~/Dropbox/Org/someday.org")
+
+(setq org-projects-refile-targets
+      (with-current-buffer "someday.org"
+        (save-excursion
+          (goto-char (point-min))
+          (if (re-search-forward
+               (format org-complex-heading-regexp-format "Projects")
+               nil t)
+              (let (project-files project-file)
+                (org-map-entries
+                 (lambda ()
+                   (setq project-file (org-entry-get (point) "TODOFILE"))
+                   (if (and (stringp project-file)
+                            (file-exists-p project-file))
+                       (setq project-files (cons project-file project-files))))
+                 nil 'tree)
+                project-files)))))
+
+;; to be able to refile to projects files
 (setq org-refile-targets
-      `((,(append org-agenda-files org-projects-todos) . (:level . 1))))
+      `((,(append org-agenda-files org-projects-refile-targets) . (:level . 1))))
 
 (setq org-refile-use-outline-path 'file)
 (setq org-refile-use-outline-path 'full-file-path)
