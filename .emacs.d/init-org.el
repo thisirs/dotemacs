@@ -66,12 +66,15 @@
           (cond
            ((stringp found) (match-substitute-replacement found t nil link))))))
 
-(defun org-string-to-link (start end file)
+(defun org-string-to-link (file)
   "Command that make the selected region an org link pointing to
 the selected file."
-  (interactive "r\nfFile: ")
-  (let ((name (delete-and-extract-region start end)))
-    (insert (org-make-link-string file name))))
+  (interactive "fFile: ")
+  (insert (org-make-link-string 
+           file
+           (if (file-directory-p file)
+               (file-name-as-directory file)
+             (file-name-nondirectory file)))))
 
 ;; function to replace the description in a link
 (defun org-replace-name-in-link (link &optional here)
