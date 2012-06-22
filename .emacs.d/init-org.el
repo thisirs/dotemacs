@@ -367,6 +367,9 @@ inherited by a parent headline."
 ;; don't warn when a link run `org-agenda-from-file'
 (setq org-confirm-elisp-link-not-regexp "(org-agenda-from-file \".*\")")
 
+;; enable sticky agenda to navigate between them
+(org-toggle-sticky-agenda 1)
+
 ;; update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
   (let ((project (org-entry-get (point) "PROJECT"))
