@@ -625,7 +625,7 @@ Also returns nil if pid is nil."
 (defun toggle-transparency ()
   (interactive)
   (if (/=
-       (cadr (find 'alpha (frame-parameters nil) :key #'car))
+       (cadr (assoc 'alpha (frame-parameters nil)))
        100)
       (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
