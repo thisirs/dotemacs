@@ -368,7 +368,8 @@ inherited by a parent headline."
 (setq org-confirm-elisp-link-not-regexp "(org-agenda-from-file \".*\")")
 
 ;; enable sticky agenda to navigate between them
-(org-toggle-sticky-agenda 1)
+(eval-after-load "org-agenda"
+  '(org-toggle-sticky-agenda 1))
 
 ;; update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
