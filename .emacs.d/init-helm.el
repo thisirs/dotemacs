@@ -95,4 +95,26 @@
     (helm-do-pdfgrep-1 helm-bib-locations)))
 
 (define-key helm-command-map (kbd "h b") 'helm-search-bib)
+
+(defun helm-org-store-link (candidate)
+  (setq org-stored-links
+        (cons (list (concat "file:" candidate)) org-stored-links)))
+
+(define-helm-type-attribute 'file
+  `((action
+     ("Find file" . helm-find-many-files)
+     ("Find file as root" . helm-find-file-as-root)
+     ("Store org link of file" . helm-org-store-link)
+     ("Open dired in file's directory" . helm-c-open-dired)
+     ("Open file externally (C-u to choose)" . helm-c-open-file-externally)
+     ("Open file with default tool" . helm-c-open-file-with-default-tool))
+    (persistent-help . "Show this file")
+    (action-transformer helm-c-transform-file-load-el
+                        helm-c-transform-file-browse-url)
+    (candidate-transformer helm-c-highlight-files
+                           helm-c-w32-pathname-transformer
+                           helm-c-skip-boring-files))
+  "File name.")
+
+
 (provide 'init-helm)
