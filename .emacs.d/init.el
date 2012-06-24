@@ -13,7 +13,7 @@
       (add-to-list 'load-path path)))
 
 (add-to-list 'load-path (concat dotfiles-dir "vendor"))
-(dolist (path (directory-files 
+(dolist (path (directory-files
                (concat dotfiles-dir "vendor") t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
   (if (file-directory-p path)
       (add-to-list 'load-path path)))
@@ -338,7 +338,7 @@ Also returns nil if pid is nil."
             "~/.emacs.d/init.elc"))
       (byte-compile-file "~/.emacs.d/init.el")
       (yes-or-no-p "Your init file contains errors; Exit anyway?")))
-       
+
 (add-hook 'kill-emacs-query-functions 'byte-compile-init-file)
 
 ;; auto-save with non-visiting buffer is too rigid
@@ -347,7 +347,7 @@ Also returns nil if pid is nil."
   (and (get-buffer "*scratch*")
        (with-current-buffer "*scratch*"
          (and (buffer-modified-p)
-              (write-file 
+              (write-file
                (concat (file-name-as-directory
                         (assoc-default "*scratch*" backup-directory-alist 'string-match))
                        "scratch-buffer-backup.el"))))))

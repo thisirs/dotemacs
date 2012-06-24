@@ -57,8 +57,8 @@
 
 (defun find-file-personal-dictionary ()
   (require 'flyspell)
-  (let* ((dict-alist (assoc-default (buffer-file-name) 
-                                    file-name-dictionary-alist 
+  (let* ((dict-alist (assoc-default (buffer-file-name)
+                                    file-name-dictionary-alist
                                     'string-match))
          (dict (assoc-default (or ispell-local-dictionary
                                   ispell-dictionary)

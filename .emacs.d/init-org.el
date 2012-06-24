@@ -73,7 +73,7 @@
   "Command that make the selected region an org link pointing to
 the selected file."
   (interactive "fFile: ")
-  (insert (org-make-link-string 
+  (insert (org-make-link-string
            file
            (if (file-directory-p file)
                (file-name-as-directory file)
@@ -92,7 +92,7 @@ the selected file."
 (defun my-name ()
   (file-name-nondirectory
    (replace-regexp-in-string
-    "%" "\\%" 
+    "%" "\\%"
     (org-link-unescape (or (plist-get org-store-link-plist :link) "")))))
 
 ;; fill :initial prop
@@ -317,7 +317,7 @@ the selected file."
                      ("octobre" . 10)
                      ("novembre" . 11)
                      ("décembre" . 12))))
-     (setq parse-time-weekdays 
+     (setq parse-time-weekdays
            (append parse-time-weekdays
                    '(("dim" . 0) ("lun" . 1) ("mar" . 2)
                      ("mer" . 3) ("jeu" . 4) ("ven" . 5)
@@ -381,7 +381,7 @@ inherited by a parent headline."
     (when (and project
                (setq todo-file (org-entry-get (point) "TODOFILE"))
                (file-exists-p todo-file))
-      (with-current-buffer (find-file-noselect 
+      (with-current-buffer (find-file-noselect
                             (make-temp-file nil nil ".org"))
         (insert-file-contents todo-file)
         (setq tab (org-map-entries
@@ -396,7 +396,7 @@ inherited by a parent headline."
       (save-excursion
         (org-back-to-heading t)
         (when (looking-at org-complex-heading-regexp)
-          (replace-match (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\")][%s]]" 
+          (replace-match (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\")][%s]]"
                                  n-done n-total todo-file project)
                          nil nil nil 4))))))
 
