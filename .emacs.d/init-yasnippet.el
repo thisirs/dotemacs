@@ -1,9 +1,11 @@
-;; yasnippet
 (add-to-list 'load-path "~/.emacs.d/vendor/yasnippet")
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
+
+;; Use only own snippets, do not use bundled ones
+(setq yas/snippet-dirs '("~/.emacs.d/snippets"))
+
 (yas/global-mode 1)
+
 (setq yas/triggers-in-field t)
 
 ;; Inter-field navigation
