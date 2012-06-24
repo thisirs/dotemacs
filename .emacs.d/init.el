@@ -48,6 +48,7 @@
 (require 'init-elisp)
 (require 'init-auctex)
 (require 'init-ibuffer)
+(require 'init-bindings)
 
 (load-library "paren")
 (show-paren-mode 1)
@@ -64,12 +65,49 @@
 (global-linum-mode 1)
 (setq linum-format "%5d")
 
+(autoload 'yaml-mode "yaml-mode")
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
+
 ;;; cmake-mode
 (require 'cmake-mode)
 (setq auto-mode-alist
       (append '(("CMakeLists\\.txt\\'" . cmake-mode)
                 ("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
+
+;; markdown
+(autoload 'markdown-mode "markdown-mode")
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+
+;;; ruby
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
+(eval-after-load 'ruby-mode
+  '(progn
+     (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
+     (add-hook 'ruby-mode-hook
+               (lambda ()
+                 (define-key ruby-mode-map (kbd "RET")
+                   'reindent-then-newline-and-indent)))))
+
+;; tidy.el
+(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
+(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
+(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
+(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
+
+;;; shell-toggle
+(autoload 'shell-toggle "shell-toggle"
+  "Toggles between the shell buffer and whatever buffer you are editing."
+  t)
+(autoload 'shell-toggle-cd "shell-toggle"
+  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+
+(setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
+
+(global-set-key [M-f1] 'shell-toggle)
+(global-set-key [C-f1] 'shell-toggle-cd)
 
 (require 'mwheel)
 (mouse-wheel-mode 1)
@@ -248,19 +286,6 @@
     (abort-recursive-edit)))
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
-
-;; shortcut for reverting a buffer
-(global-set-key (kbd "C-x C-r") 'revert-buffer)
-
-(global-set-key (kbd "<C-kp-6>") 'enlarge-window-horizontally)
-(global-set-key (kbd "<C-kp-4>") 'shrink-window-horizontally)
-(global-set-key (kbd "<C-kp-2>") 'enlarge-window)
-(global-set-key (kbd "<C-kp-8>") 'shrink-window)
-
-(global-set-key (kbd "M-p") 'backward-paragraph)
-(global-set-key (kbd "M-n") 'forward-paragraph)
-
-(global-set-key (kbd "C-z") 'shell)
 
 (defun update-locate-database ()
   "Update locate databases"
@@ -482,12 +507,6 @@ Also returns nil if pid is nil."
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
 
-;; move between windows with meta-arrows
-;; (windmove-default-keybindings 'meta)
-(global-set-key (kbd "s-b") 'windmove-left)
-(global-set-key (kbd "s-f") 'windmove-right)
-(global-set-key (kbd "s-p") 'windmove-up)
-(global-set-key (kbd "s-n") 'windmove-down)
 
 
 ;; custom frame title
@@ -555,20 +574,6 @@ Also returns nil if pid is nil."
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; ouverture rapide avec la touche windows
-(global-set-key (kbd "s-s s") ;; scratch
-                (lambda () (interactive) (switch-to-buffer "*scratch*")))
-(global-set-key (kbd "s-s e") ;; .emacs
-                (lambda () (interactive) (find-file (file-truename "~/.emacs.d/init.el"))))
-(global-set-key (kbd "s-s m") ;; messages
-                (lambda () (interactive) (switch-to-buffer "*Messages*")))
-(global-set-key (kbd "s-s t") ;; twittering-mode
-                (lambda () (interactive) (switch-to-buffer ":home")))
-
-
-(global-set-key (kbd "C-x à") 'delete-other-windows)
-(global-set-key (kbd "C-x C-à") 'delete-other-windows)
-(global-set-key (kbd "C-,") 'other-window)
 
 ;; split screen and switch to it!
 (global-set-key (kbd "C-x 3")
@@ -604,8 +609,19 @@ Including indent-buffer, which should not be called automatically on save."
   (indent-buffer)
   (delete-trailing-whitespace))
 
+(defun delete-trailing-whitespace-safe ()
+  "Delete trailing whitespace if file is not version controlled
+or version controlled but untracked."
+  (and
+   (and (buffer-file-name)
+        (or
+         (not (vc-backend (buffer-file-name)))
+         (eq (vc-backend (buffer-file-name)) 'none))
+        (delete-trailing-whitespace))
+   nil))
+
 ;; if indent-tabs-mode is off, untabify before saving
-(defun untabify-non-vc ()
+(defun untabify-safe ()
   "Untabify buffer if it is not VC or untracked in VC and if
 `indent-tabs-mode' is nil."
   (and
@@ -617,10 +633,12 @@ Including indent-buffer, which should not be called automatically on save."
         (untabify (point-min) (point-max)))
    nil))
 
-(add-hook 'write-file-functions 'untabify-non-vc)
+(defun cleanup-buffer-safe ()
+  (interactive)
+  (untabify-safe)
+  (delete-trailing-whitespace-safe))
 
-
-
+(add-hook 'write-file-functions 'cleanup-buffer-safe)
 
 (defun patch (func pattern patch)
   "Patch a function definition by replacing `pattern' by `patch'."
@@ -649,42 +667,9 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun toggle-transparency ()
   (interactive)
-  (if (/=
-       (cadr (assoc 'alpha (frame-parameters nil)))
-       100)
+  (if (/= (cadr (assoc 'alpha (frame-parameters nil))) 100)
       (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
-(global-set-key (kbd "C-c t") 'toggle-transparency)
-
-
-
-;; (defun recentf-interactive-complete ()
-;;   "find a file in the recently open file using ido for completion"
-;;   (interactive)
-;;   (let* ((all-files recentf-list)
-;;           (file-assoc-list (mapcar (lambda (x) (cons (file-name-nondirectory x) x)) all-files))
-;;           (filename-list (remove-duplicates (mapcar 'car file-assoc-list) :test 'string=))
-;;           (ido-make-buffer-list-hook
-;;             (lambda ()
-;;               (setq ido-temp-list filename-list)))
-;;           (filename (ido-read-buffer "Find Recent File: "))
-;;           (result-list (delq nil (mapcar (lambda (x) (if (string= (car x) filename) (cdr x))) file-assoc-list)))
-;;           (result-length (length result-list)))
-;;     (find-file
-;;       (cond
-;;         ((= result-length 0) filename)
-;;         ((= result-length 1) (car result-list))
-;;         ( t
-;;           (let ( (ido-make-buffer-list-hook
-;;                    (lambda ()
-;;                      (setq ido-temp-list result-list))))
-;;             (ido-read-buffer (format "%d matches:" result-length))))
-;;         ))))
-
-
-;; ;; pouvoir ouvrir la liste des fichiers récents au clavier
-;; ;;(global-set-key "\C-x\C-r" 'recentf-open-files-complete)
-;; (global-set-key "\C-x\C-r" 'recentf-interactive-complete)
 
 
 ;; Bind last command to F12
@@ -709,50 +694,11 @@ Including indent-buffer, which should not be called automatically on save."
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-;;; ruby
-(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-(autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
-(eval-after-load 'ruby-mode
-  '(progn
-     (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
-     (add-hook 'ruby-mode-hook
-               (lambda ()
-                 (define-key ruby-mode-map (kbd "RET")
-                   'reindent-then-newline-and-indent)))))
-
-
-(autoload 'yaml-mode "yaml-mode")
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
-
-;;; shell-toggle
-(autoload 'shell-toggle "shell-toggle"
-  "Toggles between the shell buffer and whatever buffer you are editing."
-  t)
-(autoload 'shell-toggle-cd "shell-toggle"
-  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-(global-set-key [M-f1] 'shell-toggle)
-(global-set-key [C-f1] 'shell-toggle-cd)
-
-(setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
-
 ;; minibuffer history
 ;;(savehist-mode t)
 
 ;; Always add a final newline
 (setq require-final-newline t)
-
-(defun delete-trailing-whitespace-non-vc ()
-  "Delete trailing whitespace if file is not version controlled
-or version controlled but untracked."
-  (and
-   (and (buffer-file-name)
-        (or
-         (not (vc-backend (buffer-file-name)))
-         (eq (vc-backend (buffer-file-name)) 'none))
-        (delete-trailing-whitespace))
-   nil))
-
-(add-hook 'write-file-functions 'delete-trailing-whitespace-non-vc)
 
 ;; Afficher l'heure dans la barre d'état (format 24 heures)
 (display-time)
@@ -763,9 +709,6 @@ or version controlled but untracked."
 ;; tradition anglo-saxonne). Il est utile qu'Emacs le sache pour
 ;; formater correctement les textes.
 (setq sentence-end-double-space nil)
-
-;; automatically indent wherever I am
-(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; Drive out the mouse when it's too near to the cursor.
 (mouse-avoidance-mode 'animate)
@@ -786,12 +729,6 @@ or version controlled but untracked."
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
-
-;; tidy.el
-(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
-(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
-(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
-(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;; hippie-expand
 (global-set-key (kbd "S-SPC") 'hippie-expand)
@@ -837,9 +774,6 @@ or version controlled but untracked."
 ;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
-
-;; TESTING
-
 ;; replace-string and replace-regexp need a key binding
 (global-set-key (kbd "C-c s") 'replace-string)
 (global-set-key (kbd "C-c r") 'replace-regexp)
@@ -855,12 +789,6 @@ or version controlled but untracked."
 ;;   découpage horizontal C-x 3).
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
-
-(global-set-key [\C-home] 'beginning-of-buffer)
-(global-set-key [\C-end] 'end-of-buffer)
-
-;; fuck occur and word isearch
-(global-set-key (kbd "M-s") 'backward-kill-word)
 
 (setq Info-default-directory-list
       (append
@@ -879,9 +807,6 @@ or version controlled but untracked."
   (let ((last-nonmenu-event nil)
         (window-system "x"))
     (save-buffers-kill-emacs)))
-
-;; (setq eval-expression-print-length 100)
-;; (setq eval-expression-print-level 10)
 
 ;; This is sweet!  right-click, get a list of functions in the source
 ;; file you are editing
@@ -935,9 +860,6 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
        (or (bolp) (insert "\n"))
        (insert
         (format "%s: %s" (symbol-name ',srt) ,srt)))))
-
-
-(global-set-key [(control tab)] 'other-window)
 
 
 (global-set-key (kbd "C-j")

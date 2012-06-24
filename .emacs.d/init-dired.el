@@ -1,14 +1,11 @@
-;;; dired, dired-x and co
-(add-hook 'dired-load-hook
-          (function (lambda ()
-                      (load "dired-x")
-                      ;; Set global variables here.  For example:
-                      ;; (setq dired-guess-shell-gnutar "gtar")
-                      )))
+(require 'dired-x)
 
-;; if dired is not loaded "\C-x\C-j" is not bound to `dired-jump'
-(autoload 'dired-jump "dired-x")
-(define-key global-map "\C-x\C-j" 'dired-jump)
+;; Make dired less verbose
+(require 'dired-details)
+
+(setq dired-details-hide-link-targets nil)
+
+(dired-details-install)
 
 ;; (require 'dired+)
 
@@ -29,14 +26,14 @@
    ("t" " -t")
    ("d" " --group-directories-first")))
 
-(eval-after-load 'dired
-  '(progn
-     (define-key dired-mode-map "s" dired-sort-map)
-     ;; Reload dired after creating a directory
-     (defadvice dired-create-directory (after revert-buffer-after-create activate)
-       (revert-buffer))
-     ;; Delete with C-x C-k to match file buffers and magit
-     (define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)))
+(define-key dired-mode-map "s" dired-sort-map)
+
+;; Reload dired after creating a directory
+(defadvice dired-create-directory (after revert-buffer-after-create activate)
+  (revert-buffer))
+
+;; Delete with C-x C-k to match file buffers and magit
+(define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)
 
 (defun dired-do-command (command)
   "Run COMMAND on marked files. Any files not already open will be opened.
