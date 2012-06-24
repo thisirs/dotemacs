@@ -1,5 +1,34 @@
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp"))
+;; Set path to .emacs.d
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+(add-to-list 'load-path dotfiles-dir)
+
+;; Set path to dependencies
+(setq site-lisp-dir "~/Dropbox/emacs/site-lisp/")
+(add-to-list 'load-path site-lisp-dir)
+
+;; add all directories in site-lisp
+(dolist (path (directory-files site-lisp-dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
+  (if (file-directory-p path)
+      (add-to-list 'load-path path)))
+
+(add-to-list 'load-path (concat dotfiles-dir "vendor"))
+(dolist (path (directory-files 
+               (concat dotfiles-dir "vendor") t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
+  (if (file-directory-p path)
+      (add-to-list 'load-path path)))
+
+(defun load-file-to-list (file)
+  "Return a list of FORM found in file `file'."
+  (if (and (file-exists-p file)
+           (file-readable-p file))
+      (with-temp-buffer
+        (insert-file-contents file)
+        (let ((marker (copy-marker 0))
+              form-list form)
+          (while (ignore-errors (setq form (read marker)))
+            (setq form-list (cons form form-list)))
+          (reverse form-list)))))
 
 (require 'init-fill)
 (require 'init-dired)
@@ -8,16 +37,191 @@
 (require 'init-erc)
 (require 'init-magit)
 (require 'init-find-file)
+(require 'init-ispell)
+(require 'init-latex)
+(require 'init-desktop)
+(require 'init-midnight)
+(require 'init-helm)
+(require 'init-matlab)
+(require 'init-yasnippet)
+(require 'init-org)
+(require 'init-elisp)
+(require 'init-auctex)
+(require 'init-ibuffer)
 
-(server-start)
+(load-library "paren")
+(show-paren-mode 1)
+
+(require 'epa)
+(epa-file-enable)
+
+(require 'expand-region)
+(global-set-key (kbd "C-à") 'er/expand-region)
+(global-set-key (kbd "C-M-à") 'er/contract-region)
+
+;; Numérotation des lignes dans la marge
+(require 'linum)
+(global-linum-mode 1)
+(setq linum-format "%5d")
+
+;;; cmake-mode
+(require 'cmake-mode)
+(setq auto-mode-alist
+      (append '(("CMakeLists\\.txt\\'" . cmake-mode)
+                ("\\.cmake\\'" . cmake-mode))
+              auto-mode-alist))
+
+(require 'mwheel)
+(mouse-wheel-mode 1)
+
+;; pas de file<2> quand 2 buffers ont le même nom
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets
+      uniquify-after-kill-buffer-p t)
+
+(require 'saveplace)
+(setq save-place-file "~/.emacs.d/.saveplace")
+(setq-default save-place t)
+
+;; retourne au dernier endroit changé dans le buffer
+(require 'goto-last-change)
+(global-set-key (kbd "C-x C-_") 'goto-last-change)
+
+;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-arrange-by-rules-min-items 0
+      recentf-arrange-by-rule-others nil
+      recentf-arrange-rules
+      '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
+        ("Ruby files (%d)" ".\\.rb$")
+        ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
+        ("Java files (%d)" ".\\.java$")
+        ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
+        ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
+        ("Configuration files (%d)" "rc$\\|/\\.")
+        ("Ada files (%d)" ".\\.ad[sb]$")
+        ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
+        ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
+        ("Documentation (%d)" "/doc/")
+        ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
+        ("Lisp files (%d)" ".\\.lisp$"))
+      recentf-max-saved-items 50
+      recentf-max-menu-items 30
+      recentf-menu-path nil
+      recentf-exclude '(".emacs-customize$"
+                        ".newsrc"
+                        ".etags$"
+                        ".emacs.bmk$"
+                        ".bbdb$"
+                        ".log$"
+                        "^/tmp/")
+      recentf-menu-filter 'recentf-arrange-by-rule
+      recentf-menu-title "Recentf")
+
+
+;; winner-mode
+(winner-mode 1)
+(setq winner-boring-buffers
+      '("*Completions*"
+        "*anything for files*"
+        "*anything find-file*"
+        "*anything complete*"
+        "*Ibuffer*"
+        "*Calendar*"
+        "*anything*"))
+
+;; additional menu
+(require 'easymenu)
+(setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
+(easy-menu-define my-encoding-menu my-encoding-map
+  "Encoding Menu."
+  '("Change File Encoding"
+    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
+    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
+    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
+    ["--" nil nil]
+    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
+    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
+    ["--" nil nil]
+    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
+    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
+    ))
+(define-key-after menu-bar-file-menu [my-file-separator]
+  '("--" . nil) 'kill-buffer)
+(define-key-after menu-bar-file-menu [my-encoding-menu]
+  (cons "File Encoding" my-encoding-menu) 'my-file-separator)
+
+;; paste in term
+(require 'term)
+(define-key term-raw-map (kbd "C-y") 'term-paste)
+
+;; adding packages source
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t))
+
+;; notify events
+(when (>= emacs-major-version 24)
+  (require 'notifications))
+
+(require 'ffap)
+(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
+
+;; find pdf at a ref which has the same name in `pdfs-directory'
+(defvar pdfs-directory nil
+  "Directory to look for pdf files.")
+
+(put 'pdfs-directory 'safe-local-variable 'string-or-null-p)
+
+(defun ffap-bib-latex-mode (name)
+  (and pdfs-directory (concat pdfs-directory name ".pdf")))
+
+(defun my-find-thing-at-point ()
+  "Find variable, function or file at point."
+  (interactive)
+  (cond ((not (eq (variable-at-point) 0))
+         (call-interactively 'describe-variable))
+        ((function-called-at-point)
+         (call-interactively 'describe-function))
+        (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
+               (find-file-at-point)
+             (save-excursion
+               (backward-char 2)
+               (find-file-at-point))))))
+
+(global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
+
+;; loading zenburn theme
+(load-theme 'zenburn t)
+
+;; BUG: require is cyan. Loading zenburn-theme.el fixes this
+(load "zenburn-theme")
+
+
+(require 'vc-git-check-status)
+(require 'org-context)
+
+;; load file settings if any
+(ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
+
+(require 'vc-git-commit-all)
+
+(require 'init-autoinsert)
+
+(require 'org-bib-workflow)
+
+(unless (server-running-p)
+  (server-start))
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
-
-;; Font size
-(define-key global-map (kbd "C-+") 'text-scale-increase)
-(define-key global-map (kbd "C--") 'text-scale-decrease)
+;; Highlight current line
+(global-hl-line-mode 1)
 
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
@@ -53,8 +257,10 @@
 (global-set-key (kbd "<C-kp-2>") 'enlarge-window)
 (global-set-key (kbd "<C-kp-8>") 'shrink-window)
 
-;; don't suspend
-(global-unset-key "\C-z")
+(global-set-key (kbd "M-p") 'backward-paragraph)
+(global-set-key (kbd "M-n") 'forward-paragraph)
+
+(global-set-key (kbd "C-z") 'shell)
 
 (defun update-locate-database ()
   "Update locate databases"
@@ -78,30 +284,28 @@
 ;; update locate database when idle during 20 sec
 (run-with-idle-timer 20 nil 'update-locate-database)
 
-(ignore-errors
+(require 'dbus)
 
-  (require 'dbus)
+(defun THISKEY-dbus-signal-handler (service id args)
+  "Resurrect THISKEY opened buffers when it is plugged"
+  (when (string= "THISKEY" (cadr args))
+    (let ((desktop-load-locked-desktop t))
+      (save-window-excursion
+        (desktop-read)))
+    (run-with-idle-timer 20 nil 'update-locate-database)
+    (run-with-idle-timer 20 nil
+                         (lambda ()
+                           (run-hooks 'midnight-hook)))
+    (minibuffer-message "Mounting THISKEY, desktop-read")))
 
-  (defun THISKEY-dbus-signal-handler (service id args)
-    "Resurrect THISKEY opened buffers when it is plugged"
-    (when (string= "THISKEY" (cadr args))
-      (let ((desktop-load-locked-desktop t))
-        (save-window-excursion
-          (desktop-read)))
-      (run-with-idle-timer 20 nil 'update-locate-database)
-      (run-with-idle-timer 20 nil
-                           (lambda ()
-                             (run-hooks 'midnight-hook)))
-      (minibuffer-message "Mounting THISKEY, desktop-read")))
-
-  (when (fboundp 'dbus-register-signal)
-    (dbus-register-signal
-     :session
-     "org.gtk.Private.GduVolumeMonitor"
-     "/org/gtk/Private/RemoteVolumeMonitor"
-     "org.gtk.Private.RemoteVolumeMonitor"
-     "MountAdded"
-     'THISKEY-dbus-signal-handler)))
+(when (fboundp 'dbus-register-signal)
+  (dbus-register-signal
+   :session
+   "org.gtk.Private.GduVolumeMonitor"
+   "/org/gtk/Private/RemoteVolumeMonitor"
+   "org.gtk.Private.RemoteVolumeMonitor"
+   "MountAdded"
+   'THISKEY-dbus-signal-handler))
 
 (defun emacs-process-p (pid)
   "If pid is the process ID of an emacs process, return t, else nil.
@@ -119,24 +323,9 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 
-(require 'init-helm)
-
-;; winner-mode
-(winner-mode 1)
-(setq winner-boring-buffers
-      '("*Completions*"
-        "*anything for files*"
-        "*anything find-file*"
-        "*anything complete*"
-        "*Ibuffer*"
-        "*Calendar*"
-        "*anything*"))
 
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
-
-(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/vc-git-check-status/"))
-(require 'vc-git-check-status)
 
 ;; auto byte-compile init.el
 (defun byte-compile-init-file ()
@@ -168,9 +357,6 @@ Also returns nil if pid is nil."
 ;; suit les liens vers les systèmes de contrôle de versions
 (setq vc-follow-symlinks t)
 
-;; notify events
-(ignore-errors (require 'notifications nil t))
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Laisser le curseur en place lors d'un défilement par pages. Par
@@ -180,9 +366,6 @@ Also returns nil if pid is nil."
 
 ;; sélection avec SHIFT
 ;;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
-
-(load-library "paren")
-(show-paren-mode 1)
 
 (defun rename-current-file-or-buffer ()
   (interactive)
@@ -196,7 +379,6 @@ Also returns nil if pid is nil."
         (kill-buffer nil))))
   nil)
 
-(require 'init-matlab)
 
 ;; history navigation
 (eval-after-load "comint"
@@ -204,8 +386,6 @@ Also returns nil if pid is nil."
      (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
-
-(require 'init-ibuffer)
 
 ;; indenter automatiquement le code collé :
 (mapc
@@ -288,34 +468,6 @@ Also returns nil if pid is nil."
         (select-window (funcall selector)))
       (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
-(defun my-find-thing-at-point ()
-  "Find variable, function or file at point."
-  (interactive)
-  (cond ((not (eq (variable-at-point) 0))
-         (call-interactively 'describe-variable))
-        ((function-called-at-point)
-         (call-interactively 'describe-function))
-        (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
-               (find-file-at-point)
-             (save-excursion
-               (backward-char 2)
-               (find-file-at-point))))))
-
-(global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
-
-(defvar pdfs-directory nil
-  "Directory to look for pdf files.")
-
-(put 'pdfs-directory 'safe-local-variable 'string-or-null-p)
-(put 'ispell-local-dictionary 'safe-local-variable 'string-or-null-p)
-
-;; find pdf at a ref which has the same name in `pdfs-directory'
-(require 'ffap)
-(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
-
-(defun ffap-bib-latex-mode (name)
-  (and pdfs-directory (concat pdfs-directory name ".pdf")))
-
 ;; quick bind to f1 to try out
 (defmacro bind-to-f1 (&rest prog)
   `(global-set-key [f1]
@@ -354,12 +506,6 @@ Also returns nil if pid is nil."
 
 ;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
-
-;; pas de file<2> quand 2 buffers ont le même nom
-(require 'uniquify)
-(setq
- uniquify-buffer-name-style 'post-forward-angle-brackets
- uniquify-after-kill-buffer-p t)
 
 ;;; scratch
 
@@ -437,81 +583,26 @@ Also returns nil if pid is nil."
                   (split-window-vertically)
                   (other-window 1)))
 
-(require 'init-desktop)
-
-(require 'init-midnight)
-
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
-;; loading zenburn theme
-(load-theme 'zenburn t)
-
-;; BUG: require is cyan. Loading zenburn-theme.el fixes this
-(load "zenburn-theme")
-
-(require 'init-yasnippet)
-
-(require 'init-org)
-
-(require 'org-bib-workflow)
-
-
-;; `org-capture-context'
-(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/org-context/"))
-(require 'org-context)
-
-;; setting `org-capture-context-alist'
-(load-file "~/Dropbox/emacs/org-context-settings.el")
-
-;; auto-commit
-(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs/site-lisp/vc-git-commit-all/"))
-(require 'vc-git-commit-all)
-
-;; Nom français des jours et mois affichés dans le calendrier
-;; (cf. M-x calendar)
-;; (setq european-calendar-style t)
-;; (setq calendar-week-start-day 1)
-;; (defvar calendar-day-name-array
-;;   ["dimanche" "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi"])
-;; (defvar calendar-day-abbrev-array
-;;   ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"])
-;; (defvar calendar-month-name-array
-;;   ["janvier" "février" "mars" "avril" "mai" "juin"
-;;     "juillet" "août" "septembre" "octobre" "novembre" "décembre"])
-;; (defvar calendar-month-abbrev-array
-;;   ["jan" "fév" "mar" "avr" "mai" "jun"
-;;     "jul" "aoû" "sep" "oct" "nov" "déc"])
-
-;; (add-hook 'after-init-hook 'org-agenda-list)
-
-
-;; (defun toggle-fullscreen ()
-;;   (interactive)
-;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-;;     '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-;;     '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-;;   )
-;; (add-hook 'after-init-hook 'toggle-fullscreen)
-
-;; se rappelle ou je suis dans un fichier
-(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
-(setq-default save-place t) ;; activate it for all buffers
-(require 'saveplace) ;; get the package
-
-;; retourne au dernier endroit changé dans le buffer
-(require 'goto-last-change)
-(global-set-key (kbd "C-x C-_") 'goto-last-change)
+(defun untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
 
 ;; Indentation du buffer
 (defun indent-buffer ()
-  "indent whole buffer"
   (interactive)
-  (delete-trailing-whitespace)
-  (indent-region (point-min) (point-max) nil)
-  (untabify (point-min) (point-max)))
+  (indent-region (point-min) (point-max)))
+
+(defun cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer.
+Including indent-buffer, which should not be called automatically on save."
+  (interactive)
+  (untabify-buffer)
+  (indent-buffer)
+  (delete-trailing-whitespace))
 
 ;; if indent-tabs-mode is off, untabify before saving
 (defun untabify-non-vc ()
@@ -528,43 +619,7 @@ Also returns nil if pid is nil."
 
 (add-hook 'write-file-functions 'untabify-non-vc)
 
-;; Numérotation des lignes dans la marge
-(require 'linum)
-(global-linum-mode 1)
-(setq linum-format "%5d")
 
-;; Correction orthographique
-(setq ispell-dictionary "fr")
-
-;; save the personal dictionary without confirmation
-(setq ispell-silently-savep t)
-
-(require 'flyspell)
-
-(defun switch-dictionary ()
-  "Switch between en and fr dictionaries."
-  (interactive)
-  (ispell-change-dictionary
-   (if (string=
-        (or ispell-local-dictionary ispell-dictionary)
-        "fr")
-       "en" "fr"))
-  (when flyspell-mode
-    (flyspell-delete-all-overlays)
-    (flyspell-buffer)))
-
-;; flyspell comments and strings in programming modes
-;; (preventing it from finding mistakes in the code)
-(add-hook 'autoconf-mode-hook   'flyspell-prog-mode)
-(add-hook 'autotest-mode-hook   'flyspell-prog-mode)
-(add-hook 'c++-mode-hook        'flyspell-prog-mode)
-(add-hook 'c-mode-hook          'flyspell-prog-mode)
-(add-hook 'cperl-mode-hook      'flyspell-prog-mode)
-(add-hook 'emacs-lisp-mode-hook 'flyspell-prog-mode)
-(add-hook 'makefile-mode-hook   'flyspell-prog-mode)
-(add-hook 'nxml-mode-hook       'flyspell-prog-mode)
-(add-hook 'python-mode-hook     'flyspell-prog-mode)
-(add-hook 'ruby-mode-hook       'flyspell-prog-mode)
 
 
 (defun patch (func pattern patch)
@@ -583,45 +638,15 @@ Also returns nil if pid is nil."
        (repl (cdr exp) pattern patch))))
    (t exp)))
 
-(require 'init-auctex)
-
 ;; bookmarks
 (setq
  bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
  bookmark-save-flag 1)                        ;; autosave each change
 
-;; pour naviguer facilement entre les buffers avec C-x b
-;; affiche la liste des buffers et l'autocomplétion fait le reste
-;; BUG ido-execute command marche pas quand c'est la première chose qu'on fait en entrant dans emacs, si on ouvre un fichier avant alors ça marche
-;; Use C-f during file selection to switch to regular find-file
-;;(require 'ido)
-
-;; (ido-mode t)
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-execute-command-cache nil)
-;; (setq ido-save-directory-list-file "~/.emacs.d/cache/.ido.last")
-
-;; ;; complétion à la ido avec M-x
-;; (defun ido-execute-command ()
-;;   (interactive)
-;;   (call-interactively
-;;     (intern
-;;       (ido-completing-read
-;;         "M-x "
-;;         (progn
-;;           (unless ido-execute-command-cache
-;;             (mapatoms (lambda (s)
-;;                         (when (commandp s)
-;;                           (setq ido-execute-command-cache
-;;                             (cons (format "%S" s) ido-execute-command-cache))))))
-;;           ido-execute-command-cache)))))
-
-;; (global-set-key "\M-x" 'ido-execute-command)
-
 ;; Autoriser la transparence
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
-(eval-when-compile (require 'cl))
+
 (defun toggle-transparency ()
   (interactive)
   (if (/=
@@ -631,38 +656,7 @@ Also returns nil if pid is nil."
     (set-frame-parameter nil 'alpha '(60 60))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
-;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
-(require 'recentf)
-(recentf-mode 1)
 
-(setq recentf-arrange-by-rules-min-items 0
-      recentf-arrange-by-rule-others nil
-      recentf-arrange-rules
-      '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-        ("Ruby files (%d)" ".\\.rb$")
-        ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-        ("Java files (%d)" ".\\.java$")
-        ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-        ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-        ("Configuration files (%d)" "rc$\\|/\\.")
-        ("Ada files (%d)" ".\\.ad[sb]$")
-        ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-        ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-        ("Documentation (%d)" "/doc/")
-        ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-        ("Lisp files (%d)" ".\\.lisp$"))
-      recentf-max-saved-items 50
-      recentf-max-menu-items 30
-      recentf-menu-path nil
-      recentf-exclude '(".emacs-customize$"
-                        ".newsrc"
-                        ".etags$"
-                        ".emacs.bmk$"
-                        ".bbdb$"
-                        ".log$"
-                        "^/tmp/")
-      recentf-menu-filter 'recentf-arrange-by-rule
-      recentf-menu-title "Recentf")
 
 ;; (defun recentf-interactive-complete ()
 ;;   "find a file in the recently open file using ido for completion"
@@ -693,15 +687,6 @@ Also returns nil if pid is nil."
 ;; (global-set-key "\C-x\C-r" 'recentf-interactive-complete)
 
 
-;; Prise en charge de la molette de la souris
-;; Utilisée seule, la rotation de la molette provoque un défilement de
-;; 5 lignes par cran. Combinée à la touche Shift, le défilement est
-;; réduit à une ligne. Combinée à la touche Control, le défilement
-;; s'effectue page (1 hauteur de fenêtre) par page.
-(require 'mwheel)
-(mouse-wheel-mode 1)
-
-
 ;; Bind last command to F12
 (global-set-key [(f12)] 'repeat-complex-command)
 
@@ -716,32 +701,6 @@ Also returns nil if pid is nil."
 ;;; Autoinsert mode
 ;; l'auto-insert permet d'insérer selon l'extension d'un
 ;; fichier un contenu de fichier statique
-(add-to-list 'load-path "~/repositories/auto-insert-multiple")
-(require 'autoinsert)
-(auto-insert-mode t) ; Adds hook to find-files-hook
-(setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
-(setq auto-insert-query nil)
-
-(setq auto-insert-alist
-      '(
-        ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "shebang"))
-        ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "shebang"))
-        ("\\.tex$"
-         ("Latex article"
-          (progn
-            (auto-insert-yasnippet "headerlatex")
-            (TeX-normal-mode 1)))
-         ("Standalone TikZ"
-          (progn
-            (auto-insert-yasnippet "headerTS")
-            (TeX-normal-mode 1)))
-         ("Letter"
-          (progn
-            (auto-insert-yasnippet "ll")
-            (TeX-normal-mode 1))))))
-
-(setq auto-insert 'other)
-
 
 (defun change-to-utf-8 ()
   (interactive)
@@ -751,7 +710,6 @@ Also returns nil if pid is nil."
 (global-set-key [(f2)] 'change-to-utf-8)
 
 ;;; ruby
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/inf-ruby"))
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
 (eval-after-load 'ruby-mode
@@ -766,13 +724,6 @@ Also returns nil if pid is nil."
 (autoload 'yaml-mode "yaml-mode")
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
-;;; cmake-mode
-(require 'cmake-mode)
-(setq auto-mode-alist
-      (append '(("CMakeLists\\.txt\\'" . cmake-mode)
-                ("\\.cmake\\'" . cmake-mode))
-              auto-mode-alist))
-
 ;;; shell-toggle
 (autoload 'shell-toggle "shell-toggle"
   "Toggles between the shell buffer and whatever buffer you are editing."
@@ -783,10 +734,6 @@ Also returns nil if pid is nil."
 (global-set-key [C-f1] 'shell-toggle-cd)
 
 (setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
-
-;; paste in term
-(require 'term)
-(define-key term-raw-map (kbd "C-y") 'term-paste)
 
 ;; minibuffer history
 ;;(savehist-mode t)
@@ -861,8 +808,6 @@ or version controlled but untracked."
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
 
-(require 'init-elisp)
-
 ;; enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
 
@@ -893,35 +838,6 @@ or version controlled but untracked."
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
 
-;; adding packages source
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/") t)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t))
-
-;; additional menu
-(require 'easymenu)
-(setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
-(easy-menu-define my-encoding-menu my-encoding-map
-  "Encoding Menu."
-  '("Change File Encoding"
-    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-    ["--" nil nil]
-    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-    ["--" nil nil]
-    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
-    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
-    ))
-(define-key-after menu-bar-file-menu [my-file-separator]
-  '("--" . nil) 'kill-buffer)
-(define-key-after menu-bar-file-menu [my-encoding-menu]
-  (cons "File Encoding" my-encoding-menu) 'my-file-separator)
-
 ;; TESTING
 
 ;; replace-string and replace-regexp need a key binding
@@ -945,17 +861,6 @@ or version controlled but untracked."
 
 ;; fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
-
-
-(defun my-reindent-then-newline-and-indent-and-indent-sexp ()
-  "Reindent current line, insert newline, then indent the new line.
-Move backward out of one level of parentheses.
-Indent each line of the list starting just after point."
-  (interactive "*")
-  (reindent-then-newline-and-indent)
-  (save-excursion
-    (backward-up-list)
-    (indent-sexp)))
 
 (setq Info-default-directory-list
       (append
@@ -983,9 +888,6 @@ Indent each line of the list starting just after point."
 ;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
 (global-set-key [mouse-3] `imenu)
 
-
-(require 'epa)
-(epa-file-enable)
 
 (defun intelligent-close ()
   "quit a frame the same way no matter what kind of frame you are on.
@@ -1035,45 +937,12 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
         (format "%s: %s" (symbol-name ',srt) ,srt)))))
 
 
-(require 'init-latex)
-
 (global-set-key [(control tab)] 'other-window)
 
-(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
-(require 'org-drill)
-
-;; trying expand-region
-(add-to-list 'load-path "~/.emacs.d/vendor/expand-region.el")
-(require 'expand-region)
-(global-set-key (kbd "C-à") 'er/expand-region)
-(global-set-key (kbd "C-M-à") 'er/contract-region)
 
 (global-set-key (kbd "C-j")
                 (lambda ()
                   (interactive)
                   (kill-line 0)))
 
-;; trying auto-complete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-;;(ac-config-default)
-
-(setq ac-use-menu-map t)
-;; Default settings
-(define-key ac-menu-map "\C-n" 'ac-next)
-(define-key ac-menu-map "\C-p" 'ac-previous)
-
-(setq-default ac-sources
-              '(ac-source-yasnippet
-                ac-source-filename
-                ac-source-words-in-all-buffer))
-
-;;(add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
-(global-auto-complete-mode t)
-
-
-(define-key ac-mode-map (kbd "s-SPC") 'auto-complete)
-
-
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-

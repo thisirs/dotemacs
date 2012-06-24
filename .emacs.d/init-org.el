@@ -1,6 +1,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
 (require 'org)
 
+(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
+(require 'org-drill)
+
 ;; workaround to use yassnippet in org-mode
 (defun yas/org-very-safe-expand ()
   (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))

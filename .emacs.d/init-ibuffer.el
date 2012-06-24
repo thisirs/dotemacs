@@ -161,18 +161,6 @@ containing a not hidden git repository."
 ;; Generate project list when idle
 (run-with-idle-timer 10 nil 'ibuffer-project-generate-and-cache)
 
-(defun load-file-to-list (file)
-  "Return a list of FORM found in file `file'."
-  (if (and (file-exists-p file)
-           (file-readable-p file))
-      (with-temp-buffer
-        (insert-file-contents file)
-        (let ((marker (copy-marker 0))
-              form-list form)
-          (while (ignore-errors (setq form (read marker)))
-            (setq form-list (cons form form-list)))
-          (reverse form-list)))))
-
 (setq ibuffer-saved-filter-groups
       `(("default"
          ,@(ibuffer-project-list)

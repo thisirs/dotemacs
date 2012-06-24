@@ -3,7 +3,7 @@
 .emacs.d/auto-save-list
 .emacs.d/emacs.backups
 .emacs.d/data
-.emacs.d/saveplace
+.emacs.d/.saveplace
 .emacs.d/anything-c-adaptive-history
 .emacs.d/bookmarks
 .emacs.d/cache
