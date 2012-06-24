@@ -44,8 +44,7 @@ After this command has been run, any buffers it's modified will remain
 open and unsaved."
   (interactive "CRun on marked files M-x ")
   (dolist (filename (dired-get-marked-files))
-    (find-file-noselect filename)
-    (with-current-buffer filename
+    (with-current-buffer (find-file-noselect filename)
       (call-interactively command))))
 
 (provide 'init-dired)
