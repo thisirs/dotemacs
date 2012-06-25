@@ -49,6 +49,7 @@
 (require 'init-auctex)
 (require 'init-ibuffer)
 (require 'init-bindings)
+(require 'init-shell-toggle)
 
 (load-library "paren")
 (show-paren-mode 1)

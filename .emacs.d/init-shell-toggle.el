@@ -20,3 +20,5 @@
 
 (global-set-key (kbd "C-z") 'shell-toggle)
 (global-set-key (kbd "C-M-z") 'shell-toggle-cd)
+
+(provide 'init-shell-toggle)
