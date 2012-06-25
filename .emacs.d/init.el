@@ -97,18 +97,6 @@
 (autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
-;;; shell-toggle
-(autoload 'shell-toggle "shell-toggle"
-  "Toggles between the shell buffer and whatever buffer you are editing."
-  t)
-(autoload 'shell-toggle-cd "shell-toggle"
-  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-
-(setq shell-toggle-launch-shell 'shell-toggle-ansi-term)
-
-(global-set-key [M-f1] 'shell-toggle)
-(global-set-key [C-f1] 'shell-toggle-cd)
-
 (require 'mwheel)
 (mouse-wheel-mode 1)
 
