@@ -47,6 +47,24 @@
 
 (global-set-key [(control tab)] 'other-window)
 
+;; split screen and switch to it!
+(global-set-key (kbd "C-x 3")
+                (lambda nil
+                  (interactive)
+                  (split-window-horizontally)
+                  (other-window 1)))
+
+(global-set-key (kbd "C-x 2")
+                (lambda nil
+                  (interactive)
+                  (split-window-vertically)
+                  (other-window 1)))
+
+;; replace-string and replace-regexp need a key binding
+(global-set-key (kbd "C-c s") 'replace-string)
+(global-set-key (kbd "C-c r") 'replace-regexp)
+
+
 (defmacro create-flash-binding (key)
   "Make key `key' boundable to a complex command. Select the
 complex command by typing C-`key'. Useful for example to repeat

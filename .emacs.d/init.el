@@ -57,9 +57,25 @@
 (require 'epa)
 (epa-file-enable)
 
+;;; hippie-expand
+(setq hippie-expand-try-functions-list
+      '(yas/hippie-try-expand
+        try-complete-file-name-partially
+        try-complete-file-name
+        ;;try-expand-list
+        ;;try-expand-line
+        try-expand-dabbrev-visible
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
+
+(global-set-key (kbd "S-SPC") 'hippie-expand)
+(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
+
 (require 'expand-region)
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
+
 
 ;; Numérotation des lignes dans la marge
 (require 'linum)
@@ -376,7 +392,6 @@ Also returns nil if pid is nil."
         (kill-buffer nil))))
   nil)
 
-
 ;; history navigation
 (eval-after-load "comint"
   '(progn
@@ -465,20 +480,12 @@ Also returns nil if pid is nil."
         (select-window (funcall selector)))
       (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
-;; quick bind to f1 to try out
-(defmacro bind-to-f1 (&rest prog)
-  `(global-set-key [f1]
-                   (lambda ()
-                     (interactive)
-                     ,@prog)))
-
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
-
 
 
 ;; custom frame title
@@ -546,19 +553,6 @@ Also returns nil if pid is nil."
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-
-;; split screen and switch to it!
-(global-set-key (kbd "C-x 3")
-                (lambda nil
-                  (interactive)
-                  (split-window-horizontally)
-                  (other-window 1)))
-
-(global-set-key (kbd "C-x 2")
-                (lambda nil
-                  (interactive)
-                  (split-window-vertically)
-                  (other-window 1)))
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -644,9 +638,6 @@ or version controlled but untracked."
     (set-frame-parameter nil 'alpha '(60 60))))
 
 
-;; Bind last command to F12
-(global-set-key [(f12)] 'repeat-complex-command)
-
 ;; pouvoir utiliser la complétion sous emacs en ignorant la
 ;; casse ça évite de passer à côté d'une alternative parce qu'on ne se
 ;; souvenait pas qu'il y avait un caractère en majuscules...
@@ -654,10 +645,6 @@ or version controlled but untracked."
 
 ;; filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
-
-;;; Autoinsert mode
-;; l'auto-insert permet d'insérer selon l'extension d'un
-;; fichier un contenu de fichier statique
 
 (defun change-to-utf-8 ()
   (interactive)
@@ -702,21 +689,6 @@ or version controlled but untracked."
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
-;;; hippie-expand
-(global-set-key (kbd "S-SPC") 'hippie-expand)
-(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
-
-(setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
-        try-complete-file-name-partially
-        try-complete-file-name
-        ;;try-expand-list
-        ;;try-expand-line
-        try-expand-dabbrev-visible
-        try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
-
 ;; enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
 
@@ -745,10 +717,6 @@ or version controlled but untracked."
 
 ;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
-
-;; replace-string and replace-regexp need a key binding
-(global-set-key (kbd "C-c s") 'replace-string)
-(global-set-key (kbd "C-c r") 'replace-regexp)
 
 ;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
 ;; qu'Emacs me l'affiche sur autant de lignes que nécessaire plutôt que de
