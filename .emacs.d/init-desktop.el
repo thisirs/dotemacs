@@ -49,7 +49,8 @@
 (defun save-buffer-display-time ()
   (mapc (lambda (buf)
           (with-current-buffer buf
-            (setq buffer-display-time-1 buffer-display-time)))
+            (setq buffer-display-time-1 
+                  (or buffer-display-time (current-time)))))
         (buffer-list)))
 
 (add-hook 'desktop-save-hook 'save-buffer-display-time)
