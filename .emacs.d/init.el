@@ -247,9 +247,6 @@
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
-;; Highlight current line
-(global-hl-line-mode 1)
-
 ;; Désactivation des boites de dialogue
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
