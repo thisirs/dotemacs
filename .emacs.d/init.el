@@ -338,20 +338,6 @@ Also returns nil if pid is nil."
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
-;; auto byte-compile init.el
-(defun byte-compile-init-file ()
-  "Recompile init.el file if newer than its corresponding .elc
-  file. If some errors are found, ask for confirmation. This
-  function is designed to be placed in
-  `kill-emacs-query-functions' hook."
-  (or (not (file-newer-than-file-p
-            "~/.emacs.d/init.el"
-            "~/.emacs.d/init.elc"))
-      (byte-compile-file "~/.emacs.d/init.el")
-      (yes-or-no-p "Your init file contains errors; Exit anyway?")))
-
-(add-hook 'kill-emacs-query-functions 'byte-compile-init-file)
-
 ;; auto-save with non-visiting buffer is too rigid
 (defun save-scratch-buffer ()
   "Create a backup of scratch buffer"
