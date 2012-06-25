@@ -330,7 +330,7 @@ the selected file."
      (require 'org-protocol))
 
 ;; taken from worg
-(defun dmj/org-remove-redundant-tags ()
+(defun org-remove-redundant-tags ()
   "Remove redundant tags of headlines in current buffer.
 
 A tag is considered redundant if it is local to a headline and
@@ -349,14 +349,15 @@ inherited by a parent headline."
              (if (member tag inherited) (org-toggle-tag tag 'off)))))
        t nil))))
 
-(add-hook 'before-save-hook
-          (lambda ()
-            (when (eq major-mode 'org-mode)
-              (and buffer-file-name
-                   (file-exists-p buffer-file-name)
-                   (dmj/org-remove-redundant-tags))
-              (org-align-all-tags)
-              (org-update-all-dblocks))))
+(defun clean-org-buffer ()
+  (when (eq major-mode 'org-mode)
+    (and buffer-file-name
+         (file-exists-p buffer-file-name)
+         (org-remove-redundant-tags))
+    (org-align-all-tags)
+    (org-update-all-dblocks)))
+
+(add-hook 'before-save-hook 'clean-org-buffer)
 
 ;; display agenda associated with file via org-context
 (defun org-agenda-from-file (file)
