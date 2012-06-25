@@ -626,7 +626,7 @@ or version controlled but untracked."
   (untabify-safe)
   (delete-trailing-whitespace-safe))
 
-(add-hook 'write-file-functions 'cleanup-buffer-safe)
+(add-hook 'before-save-hook 'cleanup-buffer-safe)
 
 (defun patch (func pattern patch)
   "Patch a function definition by replacing `pattern' by `patch'."
