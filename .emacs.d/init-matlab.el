@@ -13,6 +13,7 @@
             (setq-default matlab-functions-have-end t)
             (setq-default matlab-indent-function-body t)
             (setq matlab-change-current-directory t)
+            (local-set-key "\M-;" 'comment-dwim)
             (setq-default matlab-indent-function t)))
 
 
