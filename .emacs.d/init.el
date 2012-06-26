@@ -30,6 +30,10 @@
             (setq form-list (cons form form-list)))
           (reverse form-list)))))
 
+(defun require-maybe (feat)
+  (unless (require feat nil t)
+    (message "Feature `%s' not loaded!" feat)))
+
 (require 'init-fill)
 (require 'init-dired)
 (require 'init-isearch)
@@ -245,19 +249,19 @@
 (load "zenburn-theme")
 
 
-(require 'vc-git-check-status)
-(require 'org-context)
+(require-maybe 'vc-git-check-status)
+(require-maybe 'org-context)
 
 ;; load file settings if any
 (ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
 
-(require 'vc-git-commit-all)
+(require-maybe 'vc-git-commit-all)
 
-(require 'init-autoinsert)
+(require-maybe 'init-autoinsert)
 
-(require 'org-bib-workflow)
+(require-maybe 'org-bib-workflow)
 
-(require 'find-temp-file)
+(require-maybe 'find-temp-file)
 
 (unless (server-running-p)
   (server-start))
