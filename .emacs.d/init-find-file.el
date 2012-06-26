@@ -24,17 +24,6 @@
       (find-file-other-window (ad-get-arg 0))
     ad-do-it))
 
-(defun find-temp-file (extension)
-  "quick find file in /tmp"
-  (interactive "sExtension: ")
-  (cond
-   ((equal (length extension) 0) (find-file (make-temp-file "foo")))
-   ((memq ?. (string-to-list extension))
-    (find-file (concat "/tmp/" extension)))
-   (t (find-file (concat (make-temp-file "foo") "." extension)))))
-
-(global-set-key (kbd "C-x C-t") 'find-temp-file)
-
 (defadvice find-file (around find-or-launch-file activate)
   "Org open file that emacs can't."
   (cond

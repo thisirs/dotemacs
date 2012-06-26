@@ -257,6 +257,8 @@
 
 (require 'org-bib-workflow)
 
+(require 'find-temp-file)
+
 (unless (server-running-p)
   (server-start))
 
