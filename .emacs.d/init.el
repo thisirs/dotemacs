@@ -54,6 +54,7 @@
 (require 'init-ibuffer)
 (require 'init-bindings)
 (require 'init-shell-toggle)
+(require 'init-scratch)
 
 (load-library "paren")
 (show-paren-mode 1)
@@ -378,19 +379,6 @@ Also returns nil if pid is nil."
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
-;; auto-save with non-visiting buffer is too rigid
-(defun save-scratch-buffer ()
-  "Create a backup of scratch buffer"
-  (and (get-buffer "*scratch*")
-       (with-current-buffer "*scratch*"
-         (and (buffer-modified-p)
-              (write-file
-               (concat (file-name-as-directory
-                        (assoc-default "*scratch*" backup-directory-alist 'string-match))
-                       "scratch-buffer-backup.el"))))))
-
-(add-hook 'kill-emacs-hook 'save-scratch-buffer)
-
 ;; suit les liens vers les systèmes de contrôle de versions
 (setq vc-follow-symlinks t)
 
@@ -487,40 +475,6 @@ Also returns nil if pid is nil."
 
 ;; Non au défilement qui accélère
 (setq mouse-wheel-progressive-speed nil)
-
-;;; scratch
-
-;; put something different in the scratch buffer
-(setq initial-scratch-message
-      ";; scratch buffer created -- happy hacking\n\n")
-
-(defun insert-in-scratch-buffer (string)
-  (with-current-buffer (get-buffer-create "*scratch*")
-    (goto-char (point-max))
-    (and (not (bolp)) (insert "\n"))
-    (insert
-     (with-temp-buffer
-       (insert (mapconcat
-                'identity
-                (split-string string "\n+")
-                " "))
-       (let ((fill-colunm 70)
-             (fill-prefix ";; "))
-         (goto-char (point-min))
-         (insert ";; ")
-         (fill-region (point-min) (point-max)))
-       (buffer-string))
-     "\n\n")
-    (set-buffer-modified-p nil)))
-
-(and (executable-find "ruby")
-     (set-process-filter
-      (start-process-shell-command
-       "msg in scratch buffer"
-       nil
-       "ruby ~/Dropbox/scripts/SCMB.rb")
-      (lambda (process string)
-        (insert-in-scratch-buffer string))))
 
 ;; backups
 (setq make-backup-files t ;; do make backups
