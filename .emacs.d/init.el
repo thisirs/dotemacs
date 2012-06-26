@@ -422,75 +422,35 @@ Also returns nil if pid is nil."
      (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
+(defun yank-indented ()
+  (interactive)
+  (let ((start (point)))
+    (yank)
+    (indent-region start (point))))
 
-;; indenter automatiquement le code collé :
-(mapc
- (lambda (func)
-   (eval `(defadvice ,func (after indent-region activate)
-            (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                             lisp-interaction-mode sh-mode
-                                             lisp-mode c-mode c++-mode objc-mode
-                                             latex-mode plain-tex-mode
-                                             python-mode matlab-mode))
-                (indent-region (region-beginning) (region-end) nil)))))
- '(yank yank-pop))
+;; Yank and indent
+(global-set-key (kbd "C-S-y") 'yank-indented)
 
-;; kill-ring-save (M-w) copie la ligne si aucune region active,
-;; copie le groupe si au dessus d'un délimiteur
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive
-   (cond
-    (mark-active (list (region-beginning) (region-end)))
-    ((looking-at "[])}]") (message "group copied!")
-     (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-    ((looking-at "[[({]") (message "group copied!")
-     (list (point) (save-excursion (forward-list))))
-    (t (message "line copied!") (list (line-beginning-position)
-                                      (line-beginning-position 2)))))
-  (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
+(defun kill-region-or-backward ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-line 0)))
 
+(global-set-key (kbd "C-w") 'kill-region-or-backward)
 
-;; kill-region (C-w) coupe la ligne courante si aucune région active
-;; coupe le groupe si au dessus d'un délimiteur
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (cond
-    (mark-active (list (region-beginning) (region-end)))
-    ((looking-at "[])}]")
-     (list (1+ (point)) (save-excursion (forward-char) (backward-list))))
-    ((looking-at "[[({]")
-     (list (point) (save-excursion (forward-list))))
-    (t (list (line-beginning-position)
-             (line-beginning-position 2)))))
-  (setq last-buffer-we-cut-from (or buffer-file-name (buffer-name))))
-
-
-;; la commande kill supprime automatiquement les espaces
-;; d'indentations si besoin
-(defadvice kill-line (before check-position activate)
-  (if (member major-mode '(emacs-lisp-mode
-                           lisp-interaction-mode
-                           scheme-mode lisp-mode
-                           c-mode c++-mode objc-mode
-                           latex-mode plain-tex-mode
-                           ruby-mode python-mode))
-      (if (and (eolp) (not (bolp)))
-          (progn (forward-char 1)
-                 (just-one-space 0)
-                 (backward-char 1)))))
+(global-set-key (kbd "M-j") (lambda () (interactive) (join-line t)))
 
 ;; copy when in read only buffer
 (setq kill-read-only-ok t)
 
-(defun my-beginning-of-line ()
+(defun beginning-of-line-or-text ()
   (interactive)
   (if (bolp)
       (beginning-of-line-text)
     (beginning-of-line)))
 
-(global-set-key (kbd "C-a") 'my-beginning-of-line)
+(global-set-key (kbd "C-a") 'beginning-of-line-or-text)
 
 (defun transpose-buffers (arg)
   "Transpose the buffers shown in two windows."
@@ -510,7 +470,6 @@ Also returns nil if pid is nil."
 
 ;; efface tous les espaces et sauts de ligne avec un seul backspace
 (setq backward-delete-char-untabify-method (quote all))
-
 
 ;; custom frame title
 (modify-frame-parameters nil '((name . nil)))
