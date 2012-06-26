@@ -1,13 +1,16 @@
 ;; auto-save with non-visiting buffer is too rigid
+
 (defun save-scratch-buffer ()
-  "Create a backup of scratch buffer"
+  "Create a backup of scratch buffer."
   (and (get-buffer "*scratch*")
        (with-current-buffer "*scratch*"
-         (and (buffer-modified-p)
-              (write-file
-               (concat (file-name-as-directory
-                        (assoc-default "*scratch*" backup-directory-alist 'string-match))
-                       "scratch-buffer-backup.el"))))))
+         (if (buffer-modified-p)
+             (progn
+               (set-visited-file-name 
+                (concat temporary-file-directory "scratch.el") t)
+               (setq backup-inhibited nil)
+               (save-buffer)
+               (backup-buffer))))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
