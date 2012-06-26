@@ -218,6 +218,12 @@
 (require 'ffap)
 (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
 
+;; find file at point even if it is the wrong user: /home/otheruser/realfile
+(add-to-list 'ffap-alist
+             (cons "\\`\\(/home/[^/]+\\)"
+                   (lambda (name) 
+                     (replace-match "~" nil nil name 1))))
+
 ;; find pdf at a ref which has the same name in `pdfs-directory'
 (defvar pdfs-directory nil
   "Directory to look for pdf files.")
