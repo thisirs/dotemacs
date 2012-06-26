@@ -738,10 +738,4 @@ Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
        (insert
         (format "%s: %s" (symbol-name ',srt) ,srt)))))
 
-
-(global-set-key (kbd "C-j")
-                (lambda ()
-                  (interactive)
-                  (kill-line 0)))
-
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
