@@ -118,6 +118,18 @@
 (autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
+;; Make zooming affect frame instead of buffers
+(require 'zoom-frm)
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+                    (vector (list 'control mouse-wheel-down-event))
+                  [C-mouse-wheel])      ; Emacs 20, 21
+                'zoom-in)
+(when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
+  (global-set-key (vector (list 'control mouse-wheel-up-event))
+                  'zoom-out))
+
+
+
 (require 'mwheel)
 (mouse-wheel-mode 1)
 
