@@ -485,6 +485,11 @@ Also returns nil if pid is nil."
       kept-old-versions 5
       delete-old-versions t)
 
+;; don't backup sudo opened files
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp nil))
+
+
 (setq auto-save-list-file-prefix
       "~/.emacs.d/cache/auto-save-list/.saves-")
 (setq auto-save-file-name-transforms
