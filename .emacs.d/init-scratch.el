@@ -10,7 +10,8 @@
                 (concat temporary-file-directory "scratch.el") t)
                (setq backup-inhibited nil)
                (save-buffer)
-               (backup-buffer))))))
+               (backup-buffer)
+               (kill-buffer))))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
