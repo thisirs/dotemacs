@@ -727,3 +727,21 @@ all cases (even in an emacs -nw session)."
 
 
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
+(defun reb-query-replace-this-regxp (replace)
+  "Uses the regexp built with re-builder to query the target buffer.
+This function must be run from within the re-builder buffer, not the target
+buffer.
+
+Argument REPLACE String used to replace the matched strings in the buffer. 
+ Subexpression references can be used (\1, \2, etc)."
+  (interactive "sReplace with: ")
+  (let ((reg (reb-read-regexp)))
+    (select-window reb-target-window)
+    (save-excursion
+      (beginning-of-buffer)
+      (query-replace-regexp reg replace)))
+  (reb-quit))
+
+(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp)
