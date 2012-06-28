@@ -725,24 +725,5 @@ all cases (even in an emacs -nw session)."
 
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
 
-(defun to-scr (srt)
-  "print in scratch buffer"
-  (with-current-buffer "*scratch*"
-    (save-excursion
-      (goto-char (point-max))
-      (or (bolp) (insert "\n"))
-      (insert
-       (if (stringp srt)
-           srt
-         (prin1-to-string srt))))))
-
-(defmacro to-scr2 (srt)
-  "print in scratch buffer"
-  `(with-current-buffer "*scratch*"
-     (save-excursion
-       (goto-char (point-max))
-       (or (bolp) (insert "\n"))
-       (insert
-        (format "%s: %s" (symbol-name ',srt) ,srt)))))
 
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
