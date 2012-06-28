@@ -427,6 +427,15 @@ Also returns nil if pid is nil."
 
 (global-set-key (kbd "C-w") 'kill-region-or-backward)
 
+(defun save-region-or-current-line ()
+  (interactive)
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (kill-ring-save (line-beginning-position) (line-beginning-position 2))
+    (message "line copied"))))
+
+(global-set-key (kbd "M-w") 'save-region-or-current-line)
+
 (global-set-key (kbd "M-j") (lambda () (interactive) (join-line t)))
 
 ;; copy when in read only buffer
