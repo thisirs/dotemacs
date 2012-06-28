@@ -687,7 +687,7 @@ or version controlled but untracked."
              (expand-file-name "~/dotemacs/dotemacs/.emacs.d/vendor/org-mode/doc"))
        Info-default-directory-list))
 
-
+;; From http://www.emacswiki.org/emacs/EmacsAsDaemon
 (defun shutdown-emacs-server ()
   (interactive)
   (when (not (eq window-system 'x))
@@ -699,12 +699,7 @@ or version controlled but untracked."
         (window-system "x"))
     (save-buffers-kill-emacs)))
 
-;; This is sweet!  right-click, get a list of functions in the source
-;; file you are editing
-;; (http://emacs.wordpress.com/2007/01/24/imenu-with-a-workaround/#comment-51)
-(global-set-key [mouse-3] `imenu)
-
-
+;; From http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html
 (defun intelligent-close ()
   "quit a frame the same way no matter what kind of frame you are on.
 
@@ -716,9 +711,7 @@ time.  Well, it's a pain to remember to do Ctrl-x 5 0 to dispose of a child
 frame, and to remember to do C-x C-x to close the main frame (and if you're
 not careful, doing so will take all the child frames away with it).  This
 is my solution to that: an intelligent close-frame operation that works in
-all cases (even in an emacs -nw session).
-
-Stolen from http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html."
+all cases (even in an emacs -nw session)."
   (interactive)
   (if (eq (car (visible-frame-list)) (selected-frame))
       ;;for parent/master frame...
