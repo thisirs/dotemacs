@@ -1,8 +1,9 @@
 # -*- mode: snippet -*-
-# name: Header for contextual todo list
-# key: htodo
+# name: Header for todo list
+# key: hdr
 # --
 #+TODO: TODO | DONE
 #+TODO: QUESTION ANSWERED(@) | FIXED
+#+TODO: BUG | WONTFIX(@) FIX
 
 $0
