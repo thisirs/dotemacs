@@ -432,7 +432,7 @@ Also returns nil if pid is nil."
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))
-    (message "line copied"))))
+    (message "line copied")))
 
 (global-set-key (kbd "M-w") 'save-region-or-current-line)
 
