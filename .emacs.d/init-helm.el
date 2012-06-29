@@ -6,6 +6,7 @@
 (require 'helm)
 (require 'helm-help)
 (require 'helm-config)
+(require 'helm-files)
 
 ;; (helm-read-string-mode 1)
 ;; (ac-mode -1)
