@@ -90,6 +90,16 @@
 (autoload 'yaml-mode "yaml-mode")
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
+;; Minor mode to resolve diff3 conflicts
+(autoload 'smerge-mode "smerge-mode" nil t)
+
+(defun sm-try-smerge ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hook 'sm-try-smerge t)
+
 ;;; cmake-mode
 (require 'cmake-mode)
 (setq auto-mode-alist
@@ -744,12 +754,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
       (query-replace-regexp reg replace)))
   (reb-quit))
 
-(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp)
+(eval-after-load "re-builder"
+  '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
 
-(autoload 'smerge-mode "smerge-mode" nil t)
-(defun sm-try-smerge ()
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward "^<<<<<<< " nil t)
-      (smerge-mode 1))))
-(add-hook 'find-file-hook 'sm-try-smerge t)
