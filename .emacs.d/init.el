@@ -53,7 +53,6 @@
 (require 'init-auctex)
 (require 'init-ibuffer)
 (require 'init-bindings)
-(require 'init-shell-toggle)
 (require 'init-scratch)
 
 (load-library "paren")
@@ -200,6 +199,13 @@
         "*Ibuffer*"
         "*Calendar*"
         "*anything*"))
+
+;;; sh-toggle
+(require 'sh-toggle)
+(setq shell-toggle-launch-shell 'shell)
+
+(global-set-key (kbd "C-z") 'shell-toggle)
+(global-set-key (kbd "C-M-z") 'shell-toggle-cd)
 
 ;; additional menu
 (require 'easymenu)
