@@ -253,28 +253,36 @@ the selected file."
 ;; bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
+;; BUGGY
+;; (defun jump-to-org-agenda ()
+;;   (interactive)
+;;   (let ((buf (or (get-buffer "*Org Agenda*")
+;;                  (jet-buffer "*Org Agenda(a)*"))))
+;;     (if buf
+;;         (if (called-interactively-p 'any)
+;;             (progn
+;;               (select-window (or (get-buffer-window buf)
+;;                                  (display-buffer buf t t)))
+;;               (org-fit-window-to-buffer))))))
+
+
 (defun jump-to-org-agenda ()
   (interactive)
-  (let ((buf (get-buffer "*Org Agenda*"))
+  (let ((buf (or (get-buffer "*Org Agenda*")
+                 (get-buffer "*Org Agenda(a)*")))
         wind)
     (if buf
         (if (setq wind (get-buffer-window buf))
-            (select-window wind)
-          (if (called-interactively-p)
+            (when (called-interactively-p 'any)
+              (select-window wind)
+              (org-fit-window-to-buffer))
+          (if (called-interactively-p 'any)
               (progn
                 (select-window (display-buffer buf t t))
-                (org-fit-window-to-buffer)
-                ;; (org-agenda-redo)
-                )
+                (org-fit-window-to-buffer))
             (with-selected-window (display-buffer buf)
-              (org-fit-window-to-buffer)
-              ;; (org-agenda-redo)
-              )))
-      (call-interactively 'org-agenda-list)))
-  ;;(let ((buf (get-buffer "*Calendar*")))
-  ;;  (unless (get-buffer-window buf)
-  ;;    (org-agenda-goto-calendar)))
-  )
+              (org-fit-window-to-buffer))))
+      (call-interactively 'org-agenda-list))))
 
 (run-with-idle-timer 900 t 'jump-to-org-agenda)
 
