@@ -477,6 +477,18 @@ Also returns nil if pid is nil."
         (select-window (funcall selector)))
       (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
 
+;; C-d to kill buffer if process is dead.
+(defun comint-delchar-or-eof-or-kill-buffer (arg)
+  (interactive "p")
+  (if (null (get-buffer-process (current-buffer)))
+      (kill-buffer)
+    (comint-delchar-or-maybe-eof arg)))
+
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (define-key shell-mode-map (kbd "C-d") 
+              'comint-delchar-or-eof-or-kill-buffer)))
+
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
