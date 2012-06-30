@@ -510,9 +510,14 @@ Also returns nil if pid is nil."
       kept-old-versions 5
       delete-old-versions t)
 
-;; don't backup sudo opened files
-(add-to-list 'backup-directory-alist
-             (cons tramp-file-name-regexp nil))
+;; don't backup sudo opened files and .recentf
+(defun my-dont-backup-files-p (filename)
+  (unless (or
+           (string-match "\\`/sudo:root@" filename)
+           (string-match "\\.recentf$" filename))
+    (normal-backup-enable-predicate filename)))
+
+(setq backup-enable-predicate 'my-dont-backup-files-p)
 
 
 (setq auto-save-list-file-prefix
