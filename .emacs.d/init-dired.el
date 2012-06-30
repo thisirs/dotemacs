@@ -44,4 +44,15 @@ open and unsaved."
     (with-current-buffer (find-file-noselect filename)
       (call-interactively command))))
 
+(defun dired-do-occur (regexp &optional nlines)
+  "View lines which match REGEXP in all marked buffers.
+Optional argument NLINES says how many lines of context to display: it
+defaults to one."
+  (interactive (occur-read-primary-args))
+  (if (or (not (integerp nlines))
+	  (< nlines 0))
+      (setq nlines 0))
+  (occur-1 regexp nlines
+           (mapcar 'find-file-noselect (dired-get-marked-files))))
+
 (provide 'init-dired)
