@@ -82,7 +82,6 @@ name"
     (ibuffer-jump-to-buffer recent-buffer-name)
     (ibuffer-next-buffer)))
 
-
 (defun find-projects (dir)
   "Return a list of all directories and sub-directories
 containing a not hidden git repository."
@@ -98,7 +97,6 @@ containing a not hidden git repository."
                   (find-projects path)))
             ;; avoiding . and ..
             (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
-
 
 (defun make-ibuffer-projects-list (prefix &rest dir-list)
   "Return a list whose elements are of the form ((`prefix' (filename . `directory')"

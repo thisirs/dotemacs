@@ -48,5 +48,4 @@
 
 (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
-
 (provide 'init-auctex)

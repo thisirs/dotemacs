@@ -28,11 +28,9 @@
 (global-set-key (kbd "s-s t") ;; twittering-mode
                 (lambda () (interactive) (switch-to-buffer ":home")))
 
-
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 (global-set-key (kbd "C-,") 'other-window)
-
 
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
@@ -63,7 +61,6 @@
 ;; replace-string and replace-regexp need a key binding
 (global-set-key (kbd "C-c s") 'replace-string)
 (global-set-key (kbd "C-c r") 'replace-regexp)
-
 
 (defmacro create-flash-binding (key)
   "Make key `key' boundable to a complex command. Select the

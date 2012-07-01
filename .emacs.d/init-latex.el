@@ -53,7 +53,6 @@ document."
                (if (= count 0) "No" (int-to-string count))
                (if (>= count 2) "s" "")))))
 
-
 (defun enclosing-braces-at-point ()
   (and (thing-at-point-looking-at "{\\([^}]*\\)}")
        (buffer-substring-no-properties (match-beginning 1) (match-end 1))))

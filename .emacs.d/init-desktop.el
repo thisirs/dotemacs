@@ -40,7 +40,6 @@
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
-
 ;; buffer-display-time is changed when desktop is loaded
 (add-to-list 'desktop-locals-to-save 'buffer-display-time-1)
 
@@ -62,6 +61,5 @@
         (buffer-list)))
 
 (add-hook 'desktop-after-read-hook 'set-buffer-display-time)
-
 
 (provide 'init-desktop)

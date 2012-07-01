@@ -86,8 +86,6 @@ the selected file."
       (replace-match (concat "[\\1[" here "]]") nil nil link)
     link))
 
-
-
 ;; return stored link with description "here"
 (defun my-name ()
   (file-name-nondirectory
@@ -130,7 +128,6 @@ the selected file."
 (setq org-agenda-custom-commands
       '(("b" "Thesis Work" tags-todo "boss")))
 
-
 ;; icons in agenda
 (setq org-agenda-category-icon-alist
       '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
@@ -169,7 +166,6 @@ the selected file."
           (goto-char beg)
           (if (re-search-forward "- Note taken" end t) "*")))
    " "))
-
 
 ;; logging
 (setq org-log-done 'time)
@@ -264,7 +260,6 @@ the selected file."
 ;;               (select-window (or (get-buffer-window buf)
 ;;                                  (display-buffer buf t t)))
 ;;               (org-fit-window-to-buffer))))))
-
 
 (defun jump-to-org-agenda ()
   (interactive)
@@ -440,6 +435,5 @@ inherited by a parent headline."
 (setq org-refile-use-outline-path 'full-file-path)
 
 (setq org-outline-path-complete-in-steps nil)
-
 
 (provide 'init-org)

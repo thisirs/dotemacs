@@ -68,7 +68,6 @@
              '(("\\<\\(add-hook\\|setq\\)\\>"
                 1 font-lock-keyword-face prepend)))))
 
-
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)

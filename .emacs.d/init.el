@@ -80,7 +80,6 @@
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
 
-
 ;; Numérotation des lignes dans la marge
 (require 'linum)
 (global-linum-mode 1)
@@ -137,8 +136,6 @@
 (when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
   (global-set-key (vector (list 'control mouse-wheel-up-event))
                   'zoom-out))
-
-
 
 (require 'mwheel)
 (mouse-wheel-mode 1)
@@ -295,7 +292,6 @@
 ;; BUG: require is cyan. Loading zenburn-theme.el fixes this
 (load "zenburn-theme")
 
-
 (require-maybe 'vc-git-check-status)
 (require-maybe 'org-context)
 
@@ -403,7 +399,6 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 
-
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
@@ -501,7 +496,6 @@ Also returns nil if pid is nil."
             (define-key shell-mode-map (kbd "C-d") 
               'comint-delchar-or-eof-or-kill-buffer)))
 
-
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
@@ -543,12 +537,10 @@ Also returns nil if pid is nil."
 
 (setq backup-enable-predicate 'my-dont-backup-files-p)
 
-
 (setq auto-save-list-file-prefix
       "~/.emacs.d/cache/auto-save-list/.saves-")
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-
 
 ;; don't let Customize mess with my .emacs
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -633,7 +625,6 @@ or version controlled but untracked."
       (set-frame-parameter nil 'alpha '(100 100))
     (set-frame-parameter nil 'alpha '(60 60))))
 
-
 ;; pouvoir utiliser la complétion sous emacs en ignorant la
 ;; casse ça évite de passer à côté d'une alternative parce qu'on ne se
 ;; souvenait pas qu'il y avait un caractère en majuscules...
@@ -645,7 +636,6 @@ or version controlled but untracked."
 (defun change-to-utf-8 ()
   (interactive)
   (set-buffer-file-coding-system 'utf-8-unix))
-
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
@@ -667,7 +657,6 @@ or version controlled but untracked."
 
 ;; Drive out the mouse when it's too near to the cursor.
 (mouse-avoidance-mode 'animate)
-
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
       interprogram-paste-function            ; ...with...
@@ -769,7 +758,6 @@ all cases (even in an emacs -nw session)."
     (delete-frame (selected-frame))))
 
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
-
 
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 

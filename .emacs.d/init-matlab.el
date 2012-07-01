@@ -16,5 +16,4 @@
             (local-set-key "\M-;" 'comment-dwim)
             (setq-default matlab-indent-function t)))
 
-
 (provide 'init-matlab)

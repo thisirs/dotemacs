@@ -49,7 +49,6 @@
     (delayed))
   "Find files matching the current input pattern with locate.")
 
-
 ;; helm for searching manuals
 (defvar helm-c-manual-path
   '("/media/THISKEY/Documents/Manuals/"
@@ -86,7 +85,6 @@
 
 (define-key helm-command-map (kbd "h m") 'helm-manual)
 
-
 (defvar helm-bib-locations
   '("/media/THISKEY/Documents/These/bib/bregman"))
 
@@ -116,6 +114,5 @@
                            helm-c-w32-pathname-transformer
                            helm-c-skip-boring-files))
   "File name.")
-
 
 (provide 'init-helm)
