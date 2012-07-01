@@ -770,11 +770,14 @@ buffer.
 Argument REPLACE String used to replace the matched strings in the buffer. 
  Subexpression references can be used (\1, \2, etc)."
   (interactive "sReplace with: ")
-  (let ((reg (reb-read-regexp)))
+  (let* ((reg (reb-read-regexp))
+         (newcmd (list 'query-replace-regexp reg replace)))
     (select-window reb-target-window)
     (save-excursion
-      (beginning-of-buffer)
-      (query-replace-regexp reg replace)))
+      (goto-char (point-min))
+      (or (equal newcmd (car command-history))
+          (setq command-history (cons newcmd command-history)))
+      (eval newcmd)))
   (reb-quit))
 
 (eval-after-load "re-builder"
