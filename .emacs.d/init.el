@@ -433,14 +433,17 @@ Also returns nil if pid is nil."
      (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
-(defun yank-indented ()
-  (interactive)
-  (let ((start (point)))
-    (yank)
-    (indent-region start (point))))
-
-;; Yank and indent
-(global-set-key (kbd "C-S-y") 'yank-indented)
+;; auto-indent pasted code
+(mapc
+ (lambda (func)
+   (eval `(defadvice ,func (after indent-region activate)
+            (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
+                                             lisp-interaction-mode sh-mode
+                                             lisp-mode c-mode c++-mode objc-mode
+                                             latex-mode plain-tex-mode
+                                             python-mode matlab-mode))
+                (indent-region (region-beginning) (region-end) nil)))))
+ '(yank yank-pop))
 
 (defun kill-region-or-backward ()
   (interactive)
