@@ -83,7 +83,7 @@ shows you how many labels and refs have been replaced."
                       (replace-match new t t nil 1))
                     (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
                 '(("label" . "label")
-                  ("\\(?:eq\\|page\\|[fvF]\\)?ref" . "reference"))
+                  ("\\(?:eq\\|page\\|sub\\|[fvF]\\)?ref" . "reference"))
                 " and ")
                " replaced in %s!")
        label new (if mark-active "region" "buffer")))))
@@ -97,9 +97,10 @@ shows you how many labels and refs have been replaced."
   (occur "(\\\\ref{[^{]*})"))
 
 (defun latex-rename-label-after-includegraphics ()
-  "Refactor label when it is preceded by an includegraphics. The
-  filename used in includegraphics becomes the new label. Create
-  a label when non existing."
+  "Refactor labels following an \\includegraphics. 
+
+The new label is the file-name used in \\includegraphics. A label
+is created when it doesn't exist."
   (interactive)
   (save-excursion
     (goto-char 1)
