@@ -434,16 +434,26 @@ Also returns nil if pid is nil."
      (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
 
 ;; auto-indent pasted code
-(mapc
- (lambda (func)
-   (eval `(defadvice ,func (after indent-region activate)
-            (if (memq major-mode '(ruby-mode emacs-lisp-mode scheme-mode
-                                             lisp-interaction-mode sh-mode
-                                             lisp-mode c-mode c++-mode objc-mode
-                                             latex-mode plain-tex-mode
-                                             python-mode matlab-mode))
-                (indent-region (region-beginning) (region-end) nil)))))
- '(yank yank-pop))
+(dolist (func '(yank yank-pop))
+  (ad-add-advice
+   func
+   `(,(intern (format "%s-advice" func)) nil t
+     (advice . (lambda () 
+                 "Auto indent on paste"
+                 (maybe-indent-on-paste))))
+   'after
+   'last)
+  (ad-activate func))
+
+(defun maybe-indent-on-paste ()
+  (if (or (derived-mode-p 'prog-mode)
+          (memq major-mode '(ruby-mode
+                             emacs-lisp-mode scheme-mode
+                             lisp-interaction-mode sh-mode
+                             lisp-mode c-mode c++-mode objc-mode
+                             latex-mode plain-tex-mode
+                             python-mode matlab-mode)))
+      (indent-region (region-beginning) (region-end))))
 
 (defun kill-region-or-backward ()
   (interactive)
