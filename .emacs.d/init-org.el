@@ -249,18 +249,6 @@ the selected file."
 ;; bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
-;; BUGGY
-;; (defun jump-to-org-agenda ()
-;;   (interactive)
-;;   (let ((buf (or (get-buffer "*Org Agenda*")
-;;                  (jet-buffer "*Org Agenda(a)*"))))
-;;     (if buf
-;;         (if (called-interactively-p 'any)
-;;             (progn
-;;               (select-window (or (get-buffer-window buf)
-;;                                  (display-buffer buf t t)))
-;;               (org-fit-window-to-buffer))))))
-
 (defun jump-to-org-agenda ()
   (interactive)
   (let ((buf (or (get-buffer "*Org Agenda*")
