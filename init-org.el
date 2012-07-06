@@ -1,7 +1,7 @@
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/org-mode/lisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/org-mode/lisp"))
 (require 'org)
 
-(add-to-list 'load-path "~/.emacs.d/vendor/org-mode/contrib/lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/org-mode/contrib/lisp")
 (require 'org-drill)
 
 ;; workaround to use yassnippet in org-mode
