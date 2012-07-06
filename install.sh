@@ -13,5 +13,5 @@ git submodule update
 [ -e "$HOME/.emacs.d" ] && { echo "Moving existing ~/.emacs.d to ~/.emacs.d-$(date +%s).old"; mv $HOME/.emacs.d{,-$(date +%s).old}; }
 
 # Create soft link
-ln -s -t ~/ $SCRIPT_PATH
+ln -s $SCRIPT_PATH ~/.emacs.d
 

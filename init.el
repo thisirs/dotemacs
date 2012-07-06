@@ -12,9 +12,9 @@
   (if (file-directory-p path)
       (add-to-list 'load-path path)))
 
-(add-to-list 'load-path (concat dotfiles-dir "vendor"))
+(add-to-list 'load-path (concat dotfiles-dir "site-lisp"))
 (dolist (path (directory-files
-               (concat dotfiles-dir "vendor") t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
+               (concat dotfiles-dir "site-lisp") t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
   (if (file-directory-p path)
       (add-to-list 'load-path path)))
 
@@ -731,7 +731,7 @@ or version controlled but untracked."
 (setq Info-default-directory-list
       (append
        (list (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc")
-             (expand-file-name "~/dotemacs/dotemacs/.emacs.d/vendor/org-mode/doc"))
+             (expand-file-name "~/dotemacs/dotemacs/.emacs.d/site-lisp/org-mode/doc"))
        Info-default-directory-list))
 
 ;; From http://www.emacswiki.org/emacs/EmacsAsDaemon
