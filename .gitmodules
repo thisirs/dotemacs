@@ -1,21 +1,21 @@
-[submodule ".emacs.d/vendor/org-mode"]
-        path = .emacs.d/vendor/org-mode
-        url = git://repo.or.cz/org-mode.git
-[submodule ".emacs.d/vendor/magit"]
-        path = .emacs.d/vendor/magit
-        url = git://github.com/philjackson/magit.git
-[submodule ".emacs.d/vendor/expand-region.el"]
-	path = .emacs.d/vendor/expand-region.el
+[submodule "site-lisp/expand-region.el"]
+	path = site-lisp/expand-region.el
 	url = https://thisirs@github.com/thisirs/expand-region.el.git
-[submodule ".emacs.d/vendor/yasnippet"]
-	path = .emacs.d/vendor/yasnippet
+[submodule "site-lisp/magit"]
+	path = site-lisp/magit
+	url = git://github.com/philjackson/magit.git
+[submodule "site-lisp/org-mode"]
+	path = site-lisp/org-mode
+	url = git://repo.or.cz/org-mode.git
+[submodule "site-lisp/yasnippet"]
+	path = site-lisp/yasnippet
 	url = https://thisirs@github.com/thisirs/yasnippet.git
-[submodule ".emacs.d/vendor/inf-ruby"]
-	path = .emacs.d/vendor/inf-ruby
+[submodule "site-lisp/inf-ruby"]
+	path = site-lisp/inf-ruby
 	url = https://thisirs@github.com/thisirs/inf-ruby.git
-[submodule ".emacs.d/vendor/matlab-emacs"]
-	path = .emacs.d/vendor/matlab-emacs
+[submodule "site-lisp/matlab-emacs"]
+	path = site-lisp/matlab-emacs
 	url = https://thisirs@github.com/thisirs/matlab-emacs.git
-[submodule ".emacs.d/vendor/emacs-helm"]
-	path = .emacs.d/vendor/emacs-helm
+[submodule "site-lisp/emacs-helm"]
+	path = site-lisp/emacs-helm
 	url = https://github.com/emacs-helm/helm.git
