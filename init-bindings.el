@@ -107,4 +107,16 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 (create-flash-binding "<f11>")
 (create-flash-binding "<f12>")
 
+;; From https://github.com/magnars/.emacs.d.git
+(defmacro create-simple-keybinding-command (name key)
+  `(defmacro ,name (&rest fns)
+     (list 'global-set-key (kbd ,key) `(lambda ()
+                                         (interactive)
+                                         ,@fns))))
+
+(create-simple-keybinding-command f9 "<f9>")
+(create-simple-keybinding-command f10 "<f10>")
+(create-simple-keybinding-command f11 "<f11>")
+(create-simple-keybinding-command f12 "<f12>")
+
 (provide 'init-bindings)
