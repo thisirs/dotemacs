@@ -113,8 +113,7 @@ containing a not hidden git repository."
            dir-list))))
 
 (setq ibuffer-project-alist
-      `(("Project: " . ,(concat (getenv "HOME") "/dotemacs/dotemacs"))
-        ("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
+      `(("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
         ("Project on THISKEY: " . "/media/THISKEY/programming")
         ( "" . "/media/THISKEY/Documents/These/")))
 
