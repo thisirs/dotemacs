@@ -61,7 +61,8 @@
 
 ;; shorter description
 (setq org-link-to-description
-      '(("\\`file:.*/\\([^/:]+\\)" . "\\1")))
+      '(("\\`file:.*/\\([^/:]+\\)\\(::.*\\)" . "\\1")
+        ("\\`file:.*/\\([^/:]+\\)" . "\\1")))
 
 (setq org-make-link-description-function
       (lambda (link description)
