@@ -247,6 +247,9 @@ the selected file."
 (and (executable-find "acroread")
      (push (cons "pdf" "acroread %s") org-file-apps))
 
+;; open ods files with libreoffice
+(add-to-list 'org-file-apps '("\\.ods\\'" . default))
+
 ;; bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
