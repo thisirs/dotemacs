@@ -624,9 +624,11 @@ or version controlled but untracked."
    (t exp)))
 
 ;; bookmarks
-(setq
- bookmark-default-file "~/.emacs.d/bookmarks" ;; keep my ~/ clean
- bookmark-save-flag 1)                        ;; autosave each change
+(setq bookmark-default-file
+      (if (file-exists-p "~/Dropbox/emacs/.bookmarks")
+          "~/Dropbox/emacs/.bookmarks"
+        "~/.emacs.d/bookmarks"))
+(setq bookmark-save-flag 1)
 
 ;; Autoriser la transparence
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
