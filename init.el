@@ -127,6 +127,10 @@
 (autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
+;; undo-tree
+(require 'undo-tree)
+(global-undo-tree-mode)
+
 ;; Make zooming affect frame instead of buffers
 (require 'zoom-frm)
 (global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+

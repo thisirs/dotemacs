@@ -19,3 +19,6 @@
 [submodule "site-lisp/emacs-helm"]
 	path = site-lisp/emacs-helm
 	url = https://github.com/emacs-helm/helm.git
+[submodule "site-lisp/undo-tree"]
+	path = site-lisp/undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git
