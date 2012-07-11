@@ -40,6 +40,23 @@
           (lambda ()
             (local-set-key (kbd "RET") 'electrify-return-if-match)))
 
+;; custom name for bookmark when in a defun
+(defun emacs-lisp-custom-record-function ()
+  (set (make-local-variable 'bookmark-make-record-function)
+       (lambda (&optional no-file no-context posn)
+         (let (defun record)
+           (setq record (bookmark-make-record-default no-file no-context posn))
+           (ignore-errors
+             (save-excursion
+               (end-of-defun)
+               (beginning-of-defun)
+               (setq defun (read (current-buffer)))))
+           (if (eq (car defun) 'defun)
+               (setcar record (format "%s" (cadr defun))))
+           record))))
+
+(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-record-function)
+
 (add-hook 'emacs-lisp-mode-hook
           (lambda()
             (setq mode-name "ELisp")
