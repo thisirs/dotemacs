@@ -127,6 +127,11 @@
 (autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
+;; ace-jump-mode
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(set-face-foreground 'ace-jump-face-foreground "yellow")
+
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode)
@@ -777,8 +782,6 @@ all cases (even in an emacs -nw session)."
     (delete-frame (selected-frame))))
 
 (global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
-
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
 (defun reb-query-replace-this-regxp (replace)
