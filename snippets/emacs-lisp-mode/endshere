@@ -1,0 +1,4 @@
+# key: eh
+# name: endshere
+# --
+;;; `(file-name-nondirectory (buffer-file-name))` ends here

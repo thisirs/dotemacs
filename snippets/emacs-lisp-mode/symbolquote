@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: back quote, quote
+# name: backquote, quote
 # key: kw
 # condition: 'force-in-comment
 # --
-`$0'
+`$0' $1
