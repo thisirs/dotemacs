@@ -173,9 +173,10 @@ the selected file."
 
 (setq org-agenda-skip-deadline-if-done t)
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c L") 'org-insert-link-global)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
 
 (setq org-agenda-files
       '("~/Dropbox/Org/agenda.org"
