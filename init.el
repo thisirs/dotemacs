@@ -55,6 +55,12 @@
 (require 'init-bindings)
 (require 'init-scratch)
 
+;; whitespace mode
+(require 'whitespace)
+
+(setq whitespace-style
+      '(face trailing tabs))
+
 (load-library "paren")
 (show-paren-mode 1)
 
