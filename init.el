@@ -268,7 +268,7 @@
 ;; find file at point even if it is the wrong user: /home/otheruser/realfile
 (add-to-list 'ffap-alist
              (cons "\\`\\(/home/[^/]+\\)"
-                   (lambda (name) 
+                   (lambda (name)
                      (replace-match "~" nil nil name 1))))
 
 ;; find pdf at a ref which has the same name in `pdfs-directory'
@@ -447,7 +447,7 @@ Also returns nil if pid is nil."
   (ad-add-advice
    func
    `(,(intern (format "%s-advice" func)) nil t
-     (advice . (lambda () 
+     (advice . (lambda ()
                  "Auto indent on paste"
                  (maybe-indent-on-paste))))
    'after
@@ -515,7 +515,7 @@ Also returns nil if pid is nil."
 
 (add-hook 'shell-mode-hook
           (lambda ()
-            (define-key shell-mode-map (kbd "C-d") 
+            (define-key shell-mode-map (kbd "C-d")
               'comint-delchar-or-eof-or-kill-buffer)))
 
 ;; echo keystrokes quickly
@@ -789,7 +789,7 @@ all cases (even in an emacs -nw session)."
 This function must be run from within the re-builder buffer, not the target
 buffer.
 
-Argument REPLACE String used to replace the matched strings in the buffer. 
+Argument REPLACE String used to replace the matched strings in the buffer.
  Subexpression references can be used (\1, \2, etc)."
   (interactive "sReplace with: ")
   (let* ((reg (reb-read-regexp))
@@ -804,4 +804,3 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (eval-after-load "re-builder"
   '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
-

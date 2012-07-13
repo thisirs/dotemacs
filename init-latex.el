@@ -97,7 +97,7 @@ shows you how many labels and refs have been replaced."
   (occur "(\\\\ref{[^{]*})"))
 
 (defun latex-rename-label-after-includegraphics ()
-  "Refactor labels following an \\includegraphics. 
+  "Refactor labels following an \\includegraphics.
 
 The new label is the file-name used in \\includegraphics. A label
 is created when it doesn't exist."

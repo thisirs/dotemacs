@@ -48,7 +48,7 @@
 (defun save-buffer-display-time ()
   (mapc (lambda (buf)
           (with-current-buffer buf
-            (setq buffer-display-time-1 
+            (setq buffer-display-time-1
                   (or buffer-display-time (current-time)))))
         (buffer-list)))
 

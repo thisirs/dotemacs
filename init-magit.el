@@ -20,8 +20,8 @@
 (define-key magit-log-edit-mode-map (kbd "C-c C-d") 'magit-log-show-diff)
 
 (add-hook 'magit-log-edit-mode-hook
-              #'(lambda ()
-                  (set-fill-column 72)
-                  (flyspell-mode)))
+          #'(lambda ()
+              (set-fill-column 72)
+              (flyspell-mode)))
 
 (provide 'init-magit)

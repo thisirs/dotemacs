@@ -6,7 +6,7 @@
        (with-current-buffer "*scratch*"
          (if (buffer-modified-p)
              (progn
-               (set-visited-file-name 
+               (set-visited-file-name
                 (concat temporary-file-directory "scratch.el") t)
                (setq backup-inhibited nil)
                (save-buffer)
