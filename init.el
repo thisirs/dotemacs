@@ -142,6 +142,9 @@
 (require 'undo-tree)
 (global-undo-tree-mode)
 
+(require 'mwheel)
+(mouse-wheel-mode 1)
+
 ;; Make zooming affect frame instead of buffers
 (require 'zoom-frm)
 (global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
@@ -151,9 +154,6 @@
 (when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
   (global-set-key (vector (list 'control mouse-wheel-up-event))
                   'zoom-out))
-
-(require 'mwheel)
-(mouse-wheel-mode 1)
 
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
