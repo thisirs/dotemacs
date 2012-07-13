@@ -155,6 +155,9 @@
   (global-set-key (vector (list 'control mouse-wheel-up-event))
                   'zoom-out))
 
+;; wtf for acronym lookup
+(autoload 'wtf-is "wtf.el")
+
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets
