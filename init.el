@@ -596,27 +596,30 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun delete-trailing-whitespace-safe ()
   "Delete trailing whitespace if file is not version controlled
-or version controlled but untracked."
-  (and
-   (and (buffer-file-name)
-        (or
-         (not (vc-backend (buffer-file-name)))
-         (eq (vc-backend (buffer-file-name)) 'none))
-        (delete-trailing-whitespace))
-   nil))
+or version controlled but untracked. Make sure to return `nil' in
+case it is used in hooks."
+  (and (buffer-file-name)
+       (or
+        (memq (vc-backend (buffer-file-name)) '(nil none))
+        ;; git backend and autocommitted repo
+        (and (eq (vc-backend (buffer-file-name)) 'Git)
+             (vc-git-auto-committed-repo-p)))
+       (delete-trailing-whitespace)
+       nil))
 
 ;; if indent-tabs-mode is off, untabify before saving
 (defun untabify-safe ()
   "Untabify buffer if it is not VC or untracked in VC and if
 `indent-tabs-mode' is nil."
-  (and
-   (and (buffer-file-name)
-        (or
-         (not (vc-backend (buffer-file-name)))
-         (eq (vc-backend (buffer-file-name)) 'none))
+  (and (buffer-file-name)
+       (or
         (not indent-tabs-mode)
-        (untabify (point-min) (point-max)))
-   nil))
+        (memq (vc-backend (buffer-file-name)) '(nil none))
+        ;; git backend and autocommitted repo
+        (and (eq (vc-backend (buffer-file-name)) 'Git)
+             (vc-git-auto-committed-repo-p)))
+       (untabify (point-min) (point-max))
+       nil))
 
 (defun cleanup-buffer-safe ()
   (interactive)
