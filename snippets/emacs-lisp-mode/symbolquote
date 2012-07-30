@@ -3,4 +3,4 @@
 # key: kw
 # condition: 'force-in-comment
 # --
-`$0' $1
+`$1' $0

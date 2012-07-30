@@ -7,8 +7,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-% micro-typographic extensions, options to avoid clash with : in tikz
-% domain option or $ in coordinate calculation
 \usepackage[babel=true, kerning=true]{microtype}
 
 \usepackage{tikz}
@@ -28,7 +26,6 @@
 \begin{tikzpicture}
   $0
 \end{tikzpicture}
-\end{document}
 
 \ifstandalone
 % Test area not included by input
