@@ -156,7 +156,7 @@
                   'zoom-out))
 
 ;; wtf for acronym lookup
-(autoload 'wtf-is "wtf.el")
+(require 'wtf)
 
 ;; pas de file<2> quand 2 buffers ont le même nom
 (require 'uniquify)
