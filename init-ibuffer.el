@@ -74,6 +74,10 @@
 
 (define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
 
+(setq ido-mode 'buffer)
+(ido-mode 1)
+(define-key ibuffer-mode-map (kbd "C-s") 'ido-switch-buffer)
+
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
   "Open ibuffer with cursour pointed to second most recent buffer
 name"
