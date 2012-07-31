@@ -26,6 +26,9 @@
 (setq org-agenda-todo-ignore-scheduled t)
 (setq org-agenda-todo-ignore-deadlines t)
 
+;; set org id locations
+(setq org-id-locations-file "~/Dropbox/Org/.org-id-locations")
+
 ;; remove tags in agenda
 (setq org-agenda-remove-tags t)
 
