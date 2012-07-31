@@ -127,6 +127,10 @@
                  (define-key ruby-mode-map (kbd "RET")
                    'reindent-then-newline-and-indent)))))
 
+;; flymake for shell scripts
+(require 'flymake-shell)
+(add-hook 'sh-set-shell-hook 'flymake-shell-load)
+
 ;; tidy.el
 (autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
