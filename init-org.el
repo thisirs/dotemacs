@@ -244,9 +244,11 @@ the selected file."
 
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
-;; open pdf files with acroread
+;; open pdf files with acroread or evince (fuck gv)
 (and (executable-find "acroread")
      (push (cons "pdf" "acroread %s") org-file-apps))
+(and (executable-find "evince")
+     (push (cons "pdf" "evince %s") org-file-apps))
 
 ;; open ods files with libreoffice
 (add-to-list 'org-file-apps '("\\.ods\\'" . default))
