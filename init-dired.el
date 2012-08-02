@@ -35,6 +35,17 @@
 ;; Delete with C-x C-k to match file buffers and magit
 (define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)
 
+;; Quick jump to root or user dir
+(define-key dired-mode-map (kbd "/")
+  (lambda ()
+    (interactive)
+    (dired "/")))
+
+(define-key dired-mode-map (kbd "~")
+  (lambda ()
+    (interactive)
+    (dired (getenv "HOME"))))
+
 (defun dired-do-command (command)
   "Run COMMAND on marked files. Any files not already open will be opened.
 After this command has been run, any buffers it's modified will remain
