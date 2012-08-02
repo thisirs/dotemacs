@@ -86,6 +86,10 @@
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
 
+(when (require 'diminish nil 'noerror)
+  (eval-after-load "undo-tree"
+    '(diminish 'undo-tree-mode "")))
+
 ;; Numérotation des lignes dans la marge
 (require 'linum)
 (global-linum-mode 1)
