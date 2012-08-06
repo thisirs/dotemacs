@@ -283,8 +283,6 @@
   (require 'notifications))
 
 (require 'ffap)
-(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
-
 ;; find file at point even if it is the wrong user: /home/otheruser/realfile
 (add-to-list 'ffap-alist
              (cons "\\`\\(/home/[^/]+\\)"
@@ -299,6 +297,9 @@
 
 (defun ffap-bib-latex-mode (name)
   (and pdfs-directory (concat pdfs-directory name ".pdf")))
+
+(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
+(add-to-list 'ffap-alist '(org-mode . ffap-bib-latex-mode))
 
 (defun my-find-thing-at-point ()
   "Find variable, function or file at point."
