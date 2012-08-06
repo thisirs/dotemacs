@@ -92,6 +92,7 @@
 
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
+(setq browse-kill-ring-quit-action 'save-and-restore)
 
 ;; Numérotation des lignes dans la marge
 (require 'linum)
