@@ -90,6 +90,9 @@
   (eval-after-load "undo-tree"
     '(diminish 'undo-tree-mode "")))
 
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+
 ;; Numérotation des lignes dans la marge
 (require 'linum)
 (global-linum-mode 1)
