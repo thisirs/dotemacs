@@ -472,6 +472,7 @@ inherited by a parent headline."
 
 (defvar org-projects-refile-targets)
 
+;; Add all todo.org files from Projects headline in someday.org as targets
 (find-file "~/Dropbox/Org/someday.org")
 
 (setq org-projects-refile-targets
@@ -491,11 +492,10 @@ inherited by a parent headline."
                  nil 'tree)
                 project-files)))))
 
-;; to be able to refile to projects files
 (setq org-refile-targets
-      `((,(append org-agenda-files org-projects-refile-targets) . (:level . 1))))
+      `((,org-agenda-files . (:level . 1))
+        (,org-projects-refile-targets . (:level . 0))))
 
-(setq org-refile-use-outline-path 'file)
 (setq org-refile-use-outline-path 'full-file-path)
 
 (setq org-outline-path-complete-in-steps nil)
