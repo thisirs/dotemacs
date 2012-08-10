@@ -238,7 +238,7 @@ the selected file."
                       (t
                        (format "in %s minutes" min))))
       :body msg
-      :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+      :app-icon "~/.emacs.d/icons/appointment-soon.png"
       :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
    mins msgs))
 
