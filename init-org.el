@@ -229,8 +229,14 @@ the selected file."
   (mapcar*
    (lambda (min msg)
      (notifications-notify
-      :title (format "Appointment in %s minute%s" min
-                     (if (> (string-to-number min) 1) "s" ""))
+      :title (concat "Appointment "
+                     (cond 
+                      ((equal min "0")
+                       "now!")
+                      ((equal min "1")
+                       "in 1 minute!")
+                      (t
+                       (format "in %s minutes" min))))
       :body msg
       :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
       :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
