@@ -219,7 +219,7 @@ the selected file."
 (defun appt-display (min-to-app current-time msg)
   (notifications-notify
    :title (format "Appointment in %s minute%s" min-to-app
-                  (if (> min-to-app 1) "s" ""))
+                  (if (> (string-to-number min-to-app) 1) "s" ""))
    :body msg
    :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
    :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
