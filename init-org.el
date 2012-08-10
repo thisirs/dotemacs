@@ -240,7 +240,8 @@ the selected file."
       :body msg
       :app-icon "~/.emacs.d/icons/appointment-soon.png"
       :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
-   mins msgs))
+   (if (listp mins) mins (list mins))
+   (if (listp msgs) msgs (list msgs))))
 
 (setq appt-disp-window-function 'appt-display)
 
