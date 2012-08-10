@@ -222,17 +222,19 @@ the selected file."
 (display-time)                 ;; time display is required for this...
 
 ;; update appt each time agenda opened
-
 (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
 
 ;; our little façade-function for djcb-popup
-(defun appt-display (min-to-app current-time msg)
-  (notifications-notify
-   :title (format "Appointment in %s minute%s" min-to-app
-                  (if (> (string-to-number min-to-app) 1) "s" ""))
-   :body msg
-   :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
-   :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+(defun appt-display (mins current-time msgs)
+  (mapcar*
+   (lambda (min msg)
+     (notifications-notify
+      :title (format "Appointment in %s minute%s" min
+                     (if (> (string-to-number min) 1) "s" ""))
+      :body msg
+      :app-icon "/usr/share/icons/gnome/32x32/status/appointment-soon.png"
+      :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
+   mins msgs))
 
 (setq appt-disp-window-function 'appt-display)
 
