@@ -187,19 +187,29 @@ the selected file."
         "~/Dropbox/Org/specialdays.org"
         "~/Dropbox/Org/books.org"))
 
-(setq calendar-holidays
-      '((holiday-fixed 1 1 "Nouvel an")
+(setq french-holiday
+      '((holiday-fixed 1 1 "Jour de l'an")
         (holiday-fixed 5 1 "Fête du travail")
-        (holiday-fixed 5 8 "Victoire 1945")
+        (holiday-fixed 5 8 "Victoire 45")
         (holiday-fixed 7 14 "Fête nationale")
         (holiday-fixed 8 15 "Assomption")
-        (holiday-fixed 11 11 "Armistice 1918")
         (holiday-fixed 11 1 "Toussaint")
+        (holiday-fixed 11 11 "Armistice 18")
         (holiday-fixed 12 25 "Noël")
-        (holiday-float 5 0 -1 "Fête des mères")
-        (holiday-float 6 0 3 "Fête des pères")))
+        (holiday-easter-etc 1 "Lundi de Pâques")
+        (holiday-easter-etc 39 "Ascension")
+        (holiday-easter-etc -47 "Mardi gras")
+        (holiday-easter-etc 50 "Lundi de Pentecôte")))
 
-(setq calendar-mark-holidays-flag t)
+
+;; (holiday-float 6 0 3 "Fête des pères")
+;; (if (equal (holiday-float 5 0 -1 "") (holiday-easter-etc 49 ""))
+;;     (holiday-float 6 0 1 "Fête des mères!!")
+;;   (holiday-float 5 0 -1 "Fête des mères!!"))
+
+(setq calendar-date-style 'european
+      calendar-holidays french-holiday
+      calendar-mark-holidays-flag t)
 
 ;; warning with appt and notify
 (setq
@@ -350,30 +360,6 @@ the selected file."
     (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
 
 ;; Jours fériés et fêtes
-(defun paques-feries ()
-  (let ((abs-easter (abs-easter)))
-    (or
-     (and (calendar-date-equal
-           date
-           (calendar-gregorian-from-absolute abs-easter))
-          "Pâques")
-     (and (calendar-date-equal
-           date
-           (calendar-gregorian-from-absolute (+ abs-easter 1)))
-          "Lundi de Pâques")
-     (and (calendar-date-equal
-           date
-           (calendar-gregorian-from-absolute (+ abs-easter 39)))
-          "Ascension")
-     (and (calendar-date-equal
-           date
-           (calendar-gregorian-from-absolute (+ abs-easter 49)))
-          "Pentecôte")
-     (and (calendar-date-equal
-           date
-           (calendar-gregorian-from-absolute (+ abs-easter 50)))
-          "Lundi de Pentecôte"))))
-
 (defun paques-fetes ()
   (let ((abs-easter (abs-easter)))
     (and (calendar-date-equal
