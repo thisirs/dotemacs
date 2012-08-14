@@ -34,6 +34,25 @@
   (unless (require feat nil t)
     (message "Feature `%s' not loaded!" feat)))
 
+;; adding packages source
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+  (package-initialize)
+
+  (setq my-packages '(auctex yari twittering-mode diminish))
+
+  (when (memq nil (mapcar 'package-installed-p my-packages))
+    (message "Refreshing packages database...")
+    (package-refresh-contents)
+    (dolist (p my-packages)
+      (when (not (package-installed-p p))
+        (package-install p)))))
+
 (require 'init-fill)
 (require 'init-dired)
 (require 'init-isearch)
@@ -270,14 +289,6 @@
 ;; paste in term
 (require 'term)
 (define-key term-raw-map (kbd "C-y") 'term-paste)
-
-;; adding packages source
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/") t)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t))
 
 ;; notify events
 (when (>= emacs-major-version 24)

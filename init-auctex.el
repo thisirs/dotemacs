@@ -1,9 +1,4 @@
-;;; Auctex
-(add-to-list 'load-path "~/.emacs.d/auctex-cvs")
-(add-to-list 'load-path "~/.emacs.d/auctex-cvs/preview")
-
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
+(load "preview.el" nil t t)
 
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
 (setq TeX-PDF-mode t)
