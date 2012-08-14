@@ -80,6 +80,8 @@
 (setq whitespace-style
       '(face trailing tabs))
 
+(global-whitespace-mode)
+
 (load-library "paren")
 (show-paren-mode 1)
 
