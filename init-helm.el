@@ -18,10 +18,11 @@
 ;; don't save history information to file
 (remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
 
-;; make `helm-for-files-prefered-list' dynamic
-(defadvice helm-for-files (before update-helm-list activate)
-  (setq helm-for-files-prefered-list
-        (helm-for-files-update-list)))
+;; make `helm-for-files-preferred-list' dynamic
+(defadvice helm-for-files (around update-helm-list activate)
+  (let ((helm-for-files-preferred-list
+          (helm-for-files-update-list)))
+    ad-do-it))
 
 (defun helm-for-files-update-list ()
   `(helm-c-source-ffap-line
