@@ -31,8 +31,9 @@
           (reverse form-list)))))
 
 (defun require-maybe (feat)
-  (unless (require feat nil t)
-    (message "Feature `%s' not loaded!" feat)))
+  "Like `require' but display a message instead of signaling an error."
+  (or (require feat nil t)
+      (not (message "Feature `%s' not loaded!" feat))))
 
 ;; adding packages source
 (when (>= emacs-major-version 24)
