@@ -783,6 +783,16 @@ case it is used in hooks."
              (expand-file-name "~/dotemacs/dotemacs/.emacs.d/site-lisp/org-mode/doc"))
        Info-default-directory-list))
 
+;; From twittering-mode.el
+(defmacro debug-print (obj)
+  (let ((obsym (gensym)))
+    `(let ((,obsym ,obj))
+       (with-current-buffer (get-buffer-create "*debug*")
+         (insert "[debug] " (prin1-to-string ,obsym))
+         (newline)
+         ,obsym)
+       ,obsym)))
+
 ;; From http://www.emacswiki.org/emacs/EmacsAsDaemon
 (defun shutdown-emacs-server ()
   (interactive)
