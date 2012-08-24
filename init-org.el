@@ -431,7 +431,7 @@ inherited by a parent headline."
          (org-agenda nil "c"))))
 
 ;; don't warn when a link run `org-agenda-from-file'
-(setq org-confirm-elisp-link-not-regexp "(org-agenda-from-file \".*\")")
+(setq org-confirm-elisp-link-not-regexp "\\`(org-agenda-from-file \".*\")\\'")
 
 ;; enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
