@@ -1,3 +1,6 @@
+;; Using modified version of autoinsert to allow multiple autoinsert
+;; https://github.com/thisirs/auto-insert-multiple.git
+
 (require 'autoinsert)
 
 ;; Adds hook to find-files-hook
