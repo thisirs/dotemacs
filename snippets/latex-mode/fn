@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Footnote anglais
+# key: fn
+# --
+\footnote{\textit{$1} en anglais.}$0
