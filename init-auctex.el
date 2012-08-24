@@ -1,7 +1,9 @@
 (load "preview.el" nil t t)
 
 (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist))
-(setq TeX-PDF-mode t)
+
+(TeX-global-PDF-mode 1)
+
 (setq TeX-save-query nil) ; autosave before compiling
 
 (setq TeX-parse-self t) ; Enable parse on load.
