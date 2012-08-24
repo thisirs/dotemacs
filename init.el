@@ -74,6 +74,7 @@
 (require 'init-ibuffer)
 (require 'init-bindings)
 (require 'init-scratch)
+(require 'init-twittering)
 
 ;; whitespace mode
 (require 'whitespace)
