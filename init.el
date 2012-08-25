@@ -789,6 +789,8 @@ case it is used in hooks."
   (let ((obsym (gensym)))
     `(let ((,obsym ,obj))
        (with-current-buffer (get-buffer-create "*debug*")
+         (goto-char (point-max))
+         (or (bolp) (newline))
          (insert (format "[%s] %s" (current-time-string)
                          (pp-to-string ,obsym)))
          ,obsym))))
