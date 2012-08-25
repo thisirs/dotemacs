@@ -2,7 +2,7 @@
 # name: Header for todo list
 # key: hdr
 # --
-#+TODO: TODO | DONE
+#+TODO: TODO | DONE CANCELLED
 #+TODO: QUESTION ANSWERED(@) | FIXED
 #+TODO: BUG | WONTFIX(@) FIX
 
