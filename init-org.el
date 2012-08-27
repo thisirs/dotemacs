@@ -422,13 +422,16 @@ inherited by a parent headline."
 (add-hook 'before-save-hook 'clean-org-buffer)
 
 ;; display agenda associated with file via org-context
-(defun org-agenda-from-file (file)
-  (let ((org-agenda-custom-commands
-         (assoc-default (expand-file-name (directory-file-name
-                                           (file-name-directory file)))
-                        org-context-agenda-alist 'string-match)))
+(defun org-agenda-from-file (file key)
+  (let* ((directory (directory-file-name
+                     (file-name-directory file)))
+         (org-agenda-custom-commands
+          (org-context-agenda-expand
+           (assoc-default (expand-file-name directory)
+                          org-context-agenda-alist 'string-match)
+           directory)))
     (and org-agenda-custom-commands
-         (org-agenda nil "c"))))
+         (org-agenda nil key))))
 
 ;; don't warn when a link run `org-agenda-from-file'
 (setq org-confirm-elisp-link-not-regexp
