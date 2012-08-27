@@ -431,7 +431,8 @@ inherited by a parent headline."
          (org-agenda nil "c"))))
 
 ;; don't warn when a link run `org-agenda-from-file'
-(setq org-confirm-elisp-link-not-regexp "\\`(org-agenda-from-file \".*\")\\'")
+(setq org-confirm-elisp-link-not-regexp
+      "\\`(org-agenda-from-file \".*\" \"[a-zA-Z]+\")\\'")
 
 ;; enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
@@ -440,9 +441,10 @@ inherited by a parent headline."
 ;; update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
   (let ((project (org-entry-get (point) "PROJECT"))
-        todo-file tab n-done n-total)
+        todo-file key tab n-done n-total)
     (when (and project
                (setq todo-file (org-entry-get (point) "TODOFILE"))
+               (setq key (org-entry-get (point) "KEY"))
                (file-exists-p todo-file))
       (with-current-buffer (find-file-noselect
                             (make-temp-file nil nil ".org"))
@@ -459,8 +461,9 @@ inherited by a parent headline."
       (save-excursion
         (org-back-to-heading t)
         (when (looking-at org-complex-heading-regexp)
-          (replace-match (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\")][%s]]"
-                                 n-done n-total todo-file project)
+          (replace-match
+           (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\" \"%s\")][%s]]"
+                                 n-done n-total todo-file key project)
                          nil nil nil 4))))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
