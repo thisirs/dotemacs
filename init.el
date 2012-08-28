@@ -340,6 +340,7 @@
 
 (require-maybe 'vc-git-check-status)
 (require-maybe 'org-context)
+(require-maybe 'commit-message)
 
 ;; load file settings if any
 (ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
