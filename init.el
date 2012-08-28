@@ -28,7 +28,7 @@
               form-list form)
           (while (ignore-errors (setq form (read marker)))
             (setq form-list (cons form form-list)))
-          (reverse form-list)))))
+          (nreverse form-list)))))
 
 (defun require-maybe (feat)
   "Like `require' but display a message instead of signaling an error."
