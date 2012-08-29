@@ -75,6 +75,7 @@
 (require 'init-bindings)
 (require 'init-scratch)
 (require 'init-twittering)
+(require 'init-hippie-expand)
 
 ;; whitespace mode
 (require 'whitespace)
@@ -89,21 +90,6 @@
 
 (require 'epa)
 (epa-file-enable)
-
-;;; hippie-expand
-(setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
-        try-complete-file-name-partially
-        try-complete-file-name
-        ;;try-expand-list
-        ;;try-expand-line
-        try-expand-dabbrev-visible
-        try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
-
-(global-set-key (kbd "S-SPC") 'hippie-expand)
-(global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
 
 (require 'expand-region)
 (global-set-key (kbd "C-à") 'er/expand-region)
