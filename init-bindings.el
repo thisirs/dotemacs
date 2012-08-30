@@ -97,7 +97,7 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
                (kbd ,key)
                (lambda ()
                  (interactive)
-                 (eval newcmd))))
+                 (message "%s" (eval newcmd)))))
           (if command-history
               (error "Argument %d is beyond length of command history" 0)
             (error "There are no previous complex commands to repeat")))))))
@@ -110,9 +110,12 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 ;; From https://github.com/magnars/.emacs.d.git
 (defmacro create-simple-keybinding-command (name key)
   `(defmacro ,name (&rest fns)
-     (list 'global-set-key (kbd ,key) `(lambda ()
-                                         (interactive)
-                                         ,@fns))))
+     (list 'global-set-key (kbd ,key)
+           `(lambda ()
+              (interactive)
+              (message "%s"
+                       (progn
+                         ,@fns))))))
 
 (create-simple-keybinding-command f9 "<f9>")
 (create-simple-keybinding-command f10 "<f10>")
