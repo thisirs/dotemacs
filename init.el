@@ -773,7 +773,7 @@ case it is used in hooks."
        Info-default-directory-list))
 
 (defmacro debug-print (obj)
-  (let ((obsym (gensym)))
+  (let ((obsym (make-symbol "object")))
     `(let ((,obsym ,obj))
        (with-current-buffer (get-buffer-create "*debug*")
          (goto-char (point-max))
