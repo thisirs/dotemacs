@@ -56,9 +56,25 @@
     "/media/THISKEY/Documents/latex/package_manuals"
     "/media/THISKEY/Documents/latex/beamer/"
     "/media/THISKEY/Documents/latex/tikz/"
-    "/media/THISKEY/Documents/latex/tex/"
-    )
+    "/media/THISKEY/Documents/latex/tex/")
   "List of path to look for manuals.")
+
+(defun helm-c-manual-path ()
+  (cond
+   ((file-exists-p "/media/THISKEY/")
+     (setq helm-c-manual-path
+           '("/media/THISKEY/Documents/Manuals/"
+             "/media/THISKEY/Documents/latex/package_manuals"
+             "/media/THISKEY/Documents/latex/beamer/"
+             "/media/THISKEY/Documents/latex/tikz/"
+             "/media/THISKEY/Documents/latex/tex/")))
+   ((file-exists-p "~/.backup/THISKEY/")
+    (setq helm-c-manual-path
+          '("~/.backup/THISKEY/Documents/Manuals/"
+            "~/.backup/THISKEY/Documents/latex/package_manuals"
+            "~/.backup/THISKEY/Documents/latex/beamer/"
+            "~/.backup/THISKEY/Documents/latex/tikz/"
+            "~/.backup/THISKEY/Documents/latex/tex/")))))
 
 (defvar helm-c-manual-regexp "\\.pdf\\'")
 
@@ -67,7 +83,7 @@
   (mapcan (lambda (path)
             (and (file-directory-p path)
                  (directory-files path t helm-c-manual-regexp)))
-          helm-c-manual-path))
+          (helm-c-manual-path)))
 
 (defun helm-c-manual-transformer (files sources)
   (mapcar 'file-name-nondirectory files))
