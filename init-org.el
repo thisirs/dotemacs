@@ -476,6 +476,11 @@ inherited by a parent headline."
 ;; Add all todo.org files from Projects headline in someday.org as targets
 (find-file "~/Dropbox/Org/someday.org")
 
+;; helm completion enabled in my patched org
+(if (boundp org-completion-handler)
+    (setq org-completion-handler 'helm))
+
+
 (setq org-projects-refile-targets
       (with-current-buffer "someday.org"
         (save-excursion
