@@ -44,7 +44,8 @@
         try-expand-dabbrev-visible
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
+        try-expand-dabbrev-from-kill
+        try-complete-flyspell))
 
 (global-set-key (kbd "S-SPC") 'hippie-expand)
 (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
