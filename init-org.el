@@ -221,8 +221,10 @@ the selected file."
 (appt-activate 1)              ;; active appt (appointment notification)
 (display-time)                 ;; time display is required for this...
 
-;; update appt each time agenda opened
-(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+;; update appt each time agenda is opened, force a refresh to cancel
+;; deleted appt
+(add-hook 'org-finalize-agenda-hook
+          (lambda () (org-agenda-to-appt 1)))
 
 ;; our little façade-function for djcb-popup
 (defun appt-display (mins current-time msgs)
