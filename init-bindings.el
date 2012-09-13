@@ -32,7 +32,7 @@
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 (global-set-key (kbd "C-,") 'other-window)
 
-(global-set-key (kbd "C-c t") 'toggle-transparency)
+(global-set-key (kbd "C-c C-t") 'ring-transparency)
 
 ;; automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)

@@ -670,11 +670,15 @@ case it is used in hooks."
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
-(defun toggle-transparency ()
-  (interactive)
-  (if (/= (cadr (assoc 'alpha (frame-parameters nil))) 100)
-      (set-frame-parameter nil 'alpha '(100 100))
-    (set-frame-parameter nil 'alpha '(60 60))))
+(defun ring-transparency (arg)
+  (interactive "P")
+  (let* ((ring '(100 50 25 0))
+         (current (frame-parameter nil 'alpha))
+         (last (car (last ring)))
+         (next (if arg
+                   (if (equal current (car ring)) last (car ring))
+                 (or (cadr (member current ring)) (car ring)))))
+    (set-frame-parameter nil 'alpha next)))
 
 ;; pouvoir utiliser la complétion sous emacs en ignorant la
 ;; casse ça évite de passer à côté d'une alternative parce qu'on ne se
