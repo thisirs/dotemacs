@@ -484,7 +484,7 @@ inherited by a parent headline."
 (find-file "~/Dropbox/Org/someday.org")
 
 ;; helm completion enabled in my patched org
-(if (boundp org-completion-handler)
+(if (boundp 'org-completion-handler)
     (setq org-completion-handler 'helm))
 
 
