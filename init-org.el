@@ -446,7 +446,9 @@ inherited by a parent headline."
 ;; update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
   (let ((project (org-entry-get (point) "PROJECT"))
-        todo-file key tab n-done n-total)
+        (n-done 0)
+        (n-todo 0)
+        todo-file key)
     (when (and project
                (setq todo-file (org-entry-get (point) "TODOFILE"))
                (setq key (org-entry-get (point) "KEY"))
@@ -454,12 +456,15 @@ inherited by a parent headline."
       (with-current-buffer (find-file-noselect
                             (make-temp-file nil nil ".org"))
         (insert-file-contents todo-file)
-        (setq tab (org-map-entries
-                   (lambda ()
-                     (when (looking-at org-complex-heading-regexp)
-                       (member (match-string 2) org-done-keywords))))
-              n-total (length tab)
-              n-done (length (delq nil tab)))
+        (org-map-entries
+         (lambda ()
+           (when (looking-at org-complex-heading-regexp)
+             (cond ((member (match-string-no-properties 2)
+                            org-done-keywords)
+                    (setq n-done (1+ n-done)))
+                   ((member (match-string-no-properties 2)
+                            org-todo-keywords)
+                    (setq n-todo (1+ n-todo)))))))
         (erase-buffer)
         (set-buffer-modified-p nil)
         (kill-buffer))
@@ -468,7 +473,7 @@ inherited by a parent headline."
         (when (looking-at org-complex-heading-regexp)
           (replace-match
            (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\" \"%s\")][%s]]"
-                                 n-done n-total todo-file key project)
+                   n-done (+ n-done n-todo) todo-file key project)
                          nil nil nil 4))))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
