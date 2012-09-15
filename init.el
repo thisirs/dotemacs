@@ -671,9 +671,11 @@ case it is used in hooks."
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
 (defun ring-transparency (arg)
+  "Selects next transparency setting. When used with
+\\[universal-argument] jumps between first and last setting."
   (interactive "P")
   (let* ((ring '(100 50 25 0))
-         (current (frame-parameter nil 'alpha))
+         (current (or (frame-parameter nil 'alpha) (car ring)))
          (last (car (last ring)))
          (next (if arg
                    (if (equal current (car ring)) last (car ring))
