@@ -187,6 +187,9 @@ the selected file."
         "~/Dropbox/Org/specialdays.org"
         "~/Dropbox/Org/books.org"))
 
+;; don't wait for agenda to be opened to update appt
+(org-agenda-to-appt 1)
+
 (setq french-holiday
       '((holiday-fixed 1 1 "Jour de l'an")
         (holiday-fixed 5 1 "Fête du travail")
