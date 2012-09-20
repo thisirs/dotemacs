@@ -45,7 +45,7 @@
 
   (package-initialize)
 
-  (setq my-packages '(auctex yari twittering-mode diminish))
+  (setq my-packages '(auctex yari twittering-mode diminish elisp-slime-nav))
 
   (when (memq nil (mapcar 'package-installed-p my-packages))
     (message "Refreshing packages database...")
@@ -95,9 +95,16 @@
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
 
-(when (require 'diminish nil 'noerror)
+;; fast navigation from symbol to definition
+(when (require-maybe 'elisp-slime-nav)
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda () (elisp-slime-nav-mode t))))
+
+(when (require-maybe 'diminish)
   (eval-after-load "undo-tree"
-    '(diminish 'undo-tree-mode "")))
+    '(diminish 'undo-tree-mode))
+  (eval-after-load 'elisp-slime-nav
+    '(diminish 'elisp-slime-nav-mode)))
 
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
