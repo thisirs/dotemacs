@@ -125,9 +125,11 @@ containing a not hidden git repository."
       "~/.emacs.d/cache/ibuffer-project")
 
 (defun ibuffer-project-list-write-cache (ibuffer-project-list)
-  "Write `ibuffer-project-list' in cache file. Return `ibuffer-project-list'."
+  "Write `ibuffer-project-list' in cache file. Return
+`ibuffer-project-list'."
+  (make-directory (file-name-directory ibuffer-project-list-cache-file) t)
   (with-temp-buffer
-    (print ibuffer-project-list (current-buffer))
+    (pp ibuffer-project-list (current-buffer))
     (write-region (point-min)
                   (point-max)
                   ibuffer-project-list-cache-file))
