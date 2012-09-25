@@ -235,7 +235,7 @@ the selected file."
    (lambda (min msg)
      (notifications-notify
       :title (concat "Appointment "
-                     (cond 
+                     (cond
                       ((equal min "0")
                        "now!")
                       ((equal min "1")
@@ -477,7 +477,7 @@ inherited by a parent headline."
           (replace-match
            (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\" \"%s\")][%s]]"
                    n-done (+ n-done n-todo) todo-file key project)
-                         nil nil nil 4))))))
+           nil nil nil 4))))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 

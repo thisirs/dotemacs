@@ -21,7 +21,7 @@
 ;; make `helm-for-files-preferred-list' dynamic
 (defadvice helm-for-files (around update-helm-list activate)
   (let ((helm-for-files-preferred-list
-          (helm-for-files-update-list)))
+         (helm-for-files-update-list)))
     ad-do-it))
 
 (defun helm-for-files-update-list ()
@@ -62,12 +62,12 @@
 (defun helm-c-manual-path ()
   (cond
    ((file-exists-p "/media/THISKEY/")
-     (setq helm-c-manual-path
-           '("/media/THISKEY/Documents/Manuals/"
-             "/media/THISKEY/Documents/latex/package_manuals"
-             "/media/THISKEY/Documents/latex/beamer/"
-             "/media/THISKEY/Documents/latex/tikz/"
-             "/media/THISKEY/Documents/latex/tex/")))
+    (setq helm-c-manual-path
+          '("/media/THISKEY/Documents/Manuals/"
+            "/media/THISKEY/Documents/latex/package_manuals"
+            "/media/THISKEY/Documents/latex/beamer/"
+            "/media/THISKEY/Documents/latex/tikz/"
+            "/media/THISKEY/Documents/latex/tex/")))
    ((file-exists-p "~/.backup/THISKEY/")
     (setq helm-c-manual-path
           '("~/.backup/THISKEY/Documents/Manuals/"
