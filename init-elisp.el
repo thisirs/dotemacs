@@ -104,34 +104,41 @@
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
+;; Enable paredit in minibuffer when evaluating
+(defadvice read-from-minibuffer (around paredit-in-minibuffer activate)
+  (if (null (string= (ad-get-arg 0) "Eval: "))
+      ad-do-it
+    (let ((minibuffer-setup-hook (cons 'enable-paredit-mode minibuffer-setup-hook)))
+      ad-do-it)))
+
 (require 'paredit-ext)
 
 (define-key paredit-mode-map (kbd "C-)")
   (lambda (arg)
     (interactive "P")
     (if arg
-        (paredit-slurp-all-the-way-forward) 
+        (paredit-slurp-all-the-way-forward)
       (paredit-forward-slurp-sexp))))
 
 (define-key paredit-mode-map (kbd "C-(")
   (lambda (arg)
     (interactive "P")
     (if arg
-        (paredit-slurp-all-the-way-backward) 
+        (paredit-slurp-all-the-way-backward)
       (paredit-backward-slurp-sexp))))
 
 (define-key paredit-mode-map (kbd "C-c C-)")
   (lambda (arg)
     (interactive "P")
     (if arg
-        (paredit-barf-all-the-way-forward) 
+        (paredit-barf-all-the-way-forward)
       (paredit-forward-barf-sexp))))
 
 (define-key paredit-mode-map (kbd "C-c C-(")
   (lambda (arg)
     (interactive "P")
     (if arg
-        (paredit-barf-all-the-way-backward) 
+        (paredit-barf-all-the-way-backward)
       (paredit-backward-barf-sexp))))
 
 
