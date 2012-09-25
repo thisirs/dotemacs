@@ -130,7 +130,8 @@ the selected file."
 
 ;; custom agenda view
 (setq org-agenda-custom-commands
-      '(("b" "Thesis Work" tags-todo "boss")))
+      '(("b" "Thesis Work" tags-todo "boss")
+        ("t" "All TODO" alltodo "")))
 
 ;; icons in agenda
 (setq org-agenda-category-icon-alist
