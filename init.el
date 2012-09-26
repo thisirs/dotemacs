@@ -673,9 +673,6 @@ case it is used in hooks."
         "~/.emacs.d/bookmarks"))
 (setq bookmark-save-flag 1)
 
-(set-frame-parameter (selected-frame) 'alpha '(100 100))
-(add-to-list 'default-frame-alist '(alpha 100 100))
-
 (defun ring-transparency (arg)
   "Selects next transparency setting. When used with
 \\[universal-argument] jumps between first and last setting."
