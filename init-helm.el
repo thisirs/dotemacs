@@ -11,6 +11,8 @@
 ;; (helm-read-string-mode 1)
 ;; (ac-mode -1)
 
+(global-set-key (kbd "C-x r b") 'helm-bookmarks)
+
 (setq helm-su-or-sudo "sudo")
 
 (setq helm-c-locate-command "locate -e -b -i -r \"%s\"")
