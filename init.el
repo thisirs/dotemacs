@@ -110,7 +110,7 @@
 (browse-kill-ring-default-keybindings)
 (setq browse-kill-ring-quit-action 'save-and-restore)
 
-;; Numérotation des lignes dans la marge
+;; line numbering
 (require 'linum)
 (global-linum-mode 1)
 (setq linum-format "%5d")
@@ -186,7 +186,7 @@
 ;; wtf for acronym lookup
 (require 'wtf)
 
-;; pas de file<2> quand 2 buffers ont le même nom
+;; buffers can't have the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets
       uniquify-after-kill-buffer-p t)
@@ -195,11 +195,10 @@
 (setq save-place-file "~/.emacs.d/.saveplace")
 (setq-default save-place t)
 
-;; retourne au dernier endroit changé dans le buffer
+;; goto last changed place in buffer
 (require 'goto-last-change)
 (global-set-key (kbd "C-x C-_") 'goto-last-change)
 
-;; Ouverture des fichiers récents (menu en plus dans la barre de menu)
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-arrange-by-rules-min-items 0
@@ -352,11 +351,14 @@
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
-;; Désactivation des boites de dialogue
+;; disable dialog box, tool bar...
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t)
+
+;; UTF-8 as default encoding
+(set-language-environment "UTF-8")
 
 ;; unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
@@ -370,7 +372,7 @@
 ;; no fringe in minibuffer
 (set-window-fringes (minibuffer-window) 0 0)
 
-;; abandonne le minibuffer quand on le quitte
+;; quit minibuffer if there is a click on another buffer
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
   (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
@@ -447,12 +449,10 @@ Also returns nil if pid is nil."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; Laisser le curseur en place lors d'un défilement par pages. Par
-;; défaut, Emacs place le curseur en début ou fin d'écran selon le
-;; sens du défilement.
+;; leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
 
-;; sélection avec SHIFT
+;; SHIFT selection
 ;;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
 
 (defun rename-current-file-or-buffer ()
@@ -552,8 +552,8 @@ Also returns nil if pid is nil."
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
-;; efface tous les espaces et sauts de ligne avec un seul backspace
-(setq backward-delete-char-untabify-method (quote all))
+;; delete all whitespace when deleting backward
+(setq backward-delete-char-untabify-method 'all)
 
 ;; custom frame title
 (modify-frame-parameters nil '((name . nil)))
@@ -569,7 +569,7 @@ Also returns nil if pid is nil."
                          dired-directory)))
                  (buffer-name)))))
 
-;; Non au défilement qui accélère
+;; no fast scrolling
 (setq mouse-wheel-progressive-speed nil)
 
 ;; backups
@@ -673,7 +673,6 @@ case it is used in hooks."
         "~/.emacs.d/bookmarks"))
 (setq bookmark-save-flag 1)
 
-;; Autoriser la transparence
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
@@ -689,9 +688,7 @@ case it is used in hooks."
                  (or (cadr (member current ring)) (car ring)))))
     (set-frame-parameter nil 'alpha next)))
 
-;; pouvoir utiliser la complétion sous emacs en ignorant la
-;; casse ça évite de passer à côté d'une alternative parce qu'on ne se
-;; souvenait pas qu'il y avait un caractère en majuscules...
+;; ignore case when completing
 (setq completion-ignore-case t)
 
 ;; filenames too, to browse with dired for example...
@@ -709,14 +706,10 @@ case it is used in hooks."
 ;; Always add a final newline
 (setq require-final-newline t)
 
-;; Afficher l'heure dans la barre d'état (format 24 heures)
+;; Display time in modeline
 (display-time)
 (setq display-time-24hr-format 1)
 
-;; Selon les règles typographiques françaises, le point final d'une
-;; phrase n'est suivi que d'un seul espace (contre deux dans la
-;; tradition anglo-saxonne). Il est utile qu'Emacs le sache pour
-;; formater correctement les textes.
 (setq sentence-end-double-space nil)
 
 ;; Drive out the mouse when it's too near to the cursor.
@@ -767,15 +760,6 @@ case it is used in hooks."
 ;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
-;; Lorsqu'une ligne est plus large que la fenêtre d'affichage, je veux
-;; qu'Emacs me l'affiche sur autant de lignes que nécessaire plutôt que de
-;; masquer la partie qui dépasse à droite de l'écran. Pour que ce comportement
-;; vaille en toute circonstance, il est nécessaire de fixer deux variables :
-;; - truncate-lines : comportement dans un tampon occupant toute la largeur de
-;;   la fenêtre
-;; - truncate-partial-width-windows : comportement dans un tampon n'occupant
-;;   qu'une fraction de la largeur de la fenêtre (par exemple, après un
-;;   découpage horizontal C-x 3).
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
