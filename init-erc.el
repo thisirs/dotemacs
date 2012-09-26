@@ -19,6 +19,10 @@
 (erc-match-mode 1)
 (setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
 
+;; custom prompt
+(setq erc-prompt
+      (lambda () (concat (buffer-name) ">")))
+
 (defun my-notify-erc (match-type nickuserhost message)
   "Notify when a message is received."
   (notifications-notify
