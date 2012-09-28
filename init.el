@@ -763,12 +763,6 @@ case it is used in hooks."
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
-(setq Info-default-directory-list
-      (append
-       (list (expand-file-name "~/dotemacs/dotemacs/.emacs.d/auctex-11.86/doc")
-             (expand-file-name "~/dotemacs/dotemacs/.emacs.d/site-lisp/org-mode/doc"))
-       Info-default-directory-list))
-
 (defmacro debug-print (obj)
   (let ((obsym (make-symbol "object")))
     `(let ((,obsym ,obj))
