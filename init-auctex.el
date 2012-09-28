@@ -45,4 +45,27 @@
 
 (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
+;; hook function to use in `TeX-command-list' list
+(defun TeX-run-Make-or-TeX (name command file)
+  (let* ((master (TeX-master-directory)))
+    (if (file-exists-p (concat master "Makefile"))
+        (TeX-run-command name "make" file)
+      (TeX-run-TeX name command file))))
+
+(defadvice TeX-command-query (before check-make activate)
+  (let ((default-directory (TeX-master-directory)))
+    (unless (eq 0 (call-process "make" nil nil nil "-q"))
+      (TeX-process-set-variable (ad-get-arg 0)
+                                'TeX-command-next
+                                TeX-command-default))))
+
+(eval-after-load "latex"
+  '(progn
+     (setcar (nthcdr 2 (assoc "LaTeX" TeX-command-list))
+             'TeX-run-Make-or-TeX)))
+
+;; make it the default command because if no makefile LaTeX command is used
+(add-hook 'LaTeX-mode-hook
+          (lambda () (setq TeX-command-default "Make-or-Latex")))
+
 (provide 'init-auctex)
