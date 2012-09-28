@@ -48,9 +48,15 @@
 ;; hook function to use in `TeX-command-list' list
 (defun TeX-run-Make-or-TeX (name command file)
   (let* ((master (TeX-master-directory)))
-    (if (file-exists-p (concat master "Makefile"))
-        (TeX-run-command name "make" file)
-      (TeX-run-TeX name command file))))
+    (cond
+     ((and (file-exists-p (concat master "Makefile"))
+           (executable-find "make"))
+      (TeX-run-command name "make" file))
+     ((and (file-exists-p (concat master "Rakefile"))
+           (executable-find "rake"))
+      (TeX-run-command name "rake" file))
+     (t
+      (TeX-run-TeX name command file)))))
 
 (defadvice TeX-command-query (before check-make activate)
   (let ((default-directory (TeX-master-directory)))
