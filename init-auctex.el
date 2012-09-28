@@ -65,13 +65,10 @@
                                 'TeX-command-next
                                 TeX-command-default))))
 
+;; replace TeX-run-TeX by TeX-run-Make-or-TeX
 (eval-after-load "latex"
   '(progn
      (setcar (nthcdr 2 (assoc "LaTeX" TeX-command-list))
              'TeX-run-Make-or-TeX)))
-
-;; make it the default command because if no makefile LaTeX command is used
-(add-hook 'LaTeX-mode-hook
-          (lambda () (setq TeX-command-default "Make-or-Latex")))
 
 (provide 'init-auctex)
