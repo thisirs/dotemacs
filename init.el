@@ -625,7 +625,7 @@ case it is used in hooks."
         (memq (vc-backend (buffer-file-name)) '(nil none))
         ;; git backend and autocommitted repo
         (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-             (vc-git-auto-committed-repo-p)))
+             (vc-git-auto-committed-p)))
        (delete-trailing-whitespace)
        nil))
 
@@ -638,7 +638,7 @@ case it is used in hooks."
         (memq (vc-backend (buffer-file-name)) '(nil none))
         (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
              (and (fboundp 'vc-git-auto-committed-repo-p)
-                  (vc-git-auto-committed-repo-p))))
+                  (vc-git-auto-committed-p))))
        (not indent-tabs-mode)
        (untabify (point-min) (point-max))
        nil))
