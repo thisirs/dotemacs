@@ -198,7 +198,7 @@ the selected file."
         (holiday-fixed 7 14 "Fête nationale")
         (holiday-fixed 8 15 "Assomption")
         (holiday-fixed 11 1 "Toussaint")
-        (holiday-fixed 11 11 "Armistice 18")
+        (holiday-fixed 11 11 "Armistice 1918")
         (holiday-fixed 12 25 "Noël")
         (holiday-easter-etc 1 "Lundi de Pâques")
         (holiday-easter-etc 39 "Ascension")
