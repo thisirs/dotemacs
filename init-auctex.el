@@ -58,17 +58,19 @@
      (t
       (TeX-run-TeX name command file)))))
 
+(eval-after-load "latex"
+    '(add-to-list 'TeX-command-list
+                  '("Make" "%`%l%(mode)%' %t"
+                    TeX-run-Make-or-TeX nil
+                    (latex-mode doctex-mode)
+                    :help "Run Make or LaTeX if no Makefile")))
+
+;; needs to be extended to handle rake
 (defadvice TeX-command-query (before check-make activate)
   (let ((default-directory (TeX-master-directory)))
     (unless (eq 0 (call-process "make" nil nil nil "-q"))
       (TeX-process-set-variable (ad-get-arg 0)
                                 'TeX-command-next
                                 TeX-command-default))))
-
-;; replace TeX-run-TeX by TeX-run-Make-or-TeX
-(eval-after-load "latex"
-  '(progn
-     (setcar (nthcdr 2 (assoc "LaTeX" TeX-command-list))
-             'TeX-run-Make-or-TeX)))
 
 (provide 'init-auctex)
