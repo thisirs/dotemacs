@@ -259,7 +259,7 @@
 
 ;;; sh-toggle
 (require 'sh-toggle)
-(setq shell-toggle-launch-shell 'shell)
+(setq shell-toggle-shell 'ansi-term)
 
 (global-set-key (kbd "C-z") 'shell-toggle)
 (global-set-key (kbd "C-M-z") 'shell-toggle-cd)
@@ -285,9 +285,27 @@
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
 
+;; loading zenburn theme
+(load-theme 'zenburn t)
+
+;; BUG: require is cyan. Loading zenburn-theme.el fixes this
+(load "zenburn-theme")
+
 ;; paste in term
 (require 'term)
-(define-key term-raw-map (kbd "C-y") 'term-paste)
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+            (make-local-variable 'mouse-yank-at-point)
+            (make-local-variable 'transient-mark-mode)
+            (setq mouse-yank-at-point t)
+            (setq transient-mark-mode nil)
+            (auto-fill-mode -1)
+            (setq tab-width 8)
+            (setq truncate-lines t)
+            (define-key term-raw-map (kbd "C-y") 'term-paste)
+            (define-key term-raw-map (kbd "C-z") 'shell-toggle)))
 
 ;; notify events
 (when (>= emacs-major-version 24)
@@ -326,12 +344,6 @@
                (find-file-at-point))))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
-
-;; loading zenburn theme
-(load-theme 'zenburn t)
-
-;; BUG: require is cyan. Loading zenburn-theme.el fixes this
-(load "zenburn-theme")
 
 (require-maybe 'vc-git-check-status)
 (require-maybe 'org-context)

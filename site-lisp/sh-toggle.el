@@ -1,8 +1,8 @@
 ;;; sh-toggle --- toggle to and from the *shell* buffer
 
-;; Copyright (C) 1997, 1998, 2000, 2001 Mikael Sjödin (mic@docs.uu.se)
+;; Copyright (C) 1997, 1998, 2000, 2001 Mikael SjÃ¶din (mic@docs.uu.se)
 
-;; Author: Mikael Sjödin <mic@docs.uu.se>
+;; Author: Mikael SjÃ¶din <mic@docs.uu.se>
 ;;         John Wiegley <johnw@gnu.org>
 ;; Created: 19 Nov 1998
 ;; Version: 2.0
@@ -69,6 +69,14 @@ If nil `shell-toggle-cd' will only insert the \"cd\" command in the
 shell-buffer.  Leaving it to the user to press RET to send the
 command to the shell.")
 
+(defvar shell-toggle-shell 'ansi-term
+  "*The command to run to launch a shell.
+
+This must be a elisp function returning a buffer. (The newly created
+shell buffer)
+
+Currently supported are 'shell and 'ansi-term, and 'eshell")
+
 ;;; User Functions:
 
 ;;;###autoload
@@ -79,7 +87,7 @@ See the command `shell-toggle'"
   (shell-toggle t))
 
 ;;;###autoload
-(defun shell-toggle (make-cd)
+(defun shell-toggle (&optional make-cd)
   "Toggles between the *shell* buffer and the current buffer.
 With a prefix ARG also insert a \"cd DIR\" command into the shell,
 where DIR is the directory of the current buffer.
@@ -98,7 +106,7 @@ Options: `shell-toggle-goto-eob'"
   ;;    windows
   ;; 3. If in shell-buffer and not called twice in a row, return to
   ;;    state before going to the shell-buffer
-  (if (eq major-mode 'shell-mode)
+  (if (memq major-mode '(shell-mode term-mode eshell-mode))
       (if (and (or (eq last-command 'shell-toggle)
 		   (eq last-command 'shell-toggle-cd))
 	       (not (eq (count-windows) 1)))
@@ -118,7 +126,7 @@ If no configuration has been stored, just bury the *shell* buffer."
       (progn
 	(set-window-configuration shell-toggle-pre-shell-win-conf)
 	(setq shell-toggle-pre-shell-win-conf nil)
-	(bury-buffer (get-buffer "*shell*")))
+	(bury-buffer (get-buffer (format "*%s*" shell-toggle-shell))))
     (bury-buffer)))
 
 (defun shell-toggle-buffer-goto-shell (make-cd)
@@ -129,17 +137,19 @@ command into the shell, where DIR is the directory of the current
 buffer.
 Stores the window cofiguration before creating and/or switching window."
   (setq shell-toggle-pre-shell-win-conf (current-window-configuration))
-  (let ((shell-buffer (get-buffer "*shell*"))
+  (let ((shell-buffer (get-buffer (format "*%s*" shell-toggle-shell)))
 	(cd-command
 	 ;; Find out which directory we are in (the method differs for
 	 ;; different buffers)
 	 (or (and make-cd
 		  (buffer-file-name)
 		  (file-name-directory (buffer-file-name))
-		  (concat "cd " (file-name-directory (buffer-file-name))))
+		  (concat "cd " (shell-quote-argument
+                                 (file-name-directory (buffer-file-name)))))
 	     (and make-cd
 		  list-buffers-directory
-		  (concat "cd " list-buffers-directory)))))
+		  (concat "cd " (shell-quote-argument
+                                 list-buffers-directory))))))
     ;; Switch to an existin shell if one exists, otherwise switch to
     ;; another window and start a new shell
     (if shell-buffer
@@ -149,16 +159,31 @@ Stores the window cofiguration before creating and/or switching window."
       ;; to do with my shell-mode-hook which inserts text into the
       ;; newly created shell-buffer and thats not allways a good
       ;; idea).
+
       (condition-case the-error
-	  (shell)
-	(error (switch-to-buffer "*shell*"))))
+          (cond
+           ((eq shell-toggle-shell 'shell)
+            (shell))
+           ((eq shell-toggle-shell 'ansi-term)
+            (ansi-term (getenv "SHELL")))
+           ((eq shell-toggle-shell 'eshell)
+            (eshell))
+           (t (error "Shell not recognized")))
+        (error (switch-to-buffer (format "*%s*" shell-toggle-shell)))))
+
     (if (or cd-command shell-toggle-goto-eob)
 	(goto-char (point-max)))
-    (if cd-command
-	(progn
-	  (insert cd-command)
-	  (if shell-toggle-automatic-cd
-	      (comint-send-input))))))
+    (when cd-command
+      (insert cd-command)
+      (if shell-toggle-automatic-cd
+          (cond
+           ((eq shell-toggle-shell 'shell)
+            (comint-send-input))
+           ((eq shell-toggle-shell 'ansi-term)
+            (term-send-input))
+           ((eq shell-toggle-shell 'eshell)
+            (eshell-send-input))
+           (t (error "Shell not recognized")))))))
 
 (defun shell-toggle-buffer-switch-to-other-window ()
   "Switches to other window.
