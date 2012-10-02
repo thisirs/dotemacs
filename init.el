@@ -470,6 +470,17 @@ Also returns nil if pid is nil."
 ;; SHIFT selection
 ;;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
 
+;; .dir-locals.el helper
+(defun dir-locals-get-directory (file)
+  "Return the directory containing the directory local file that
+is read by the file FILE.
+Useful if you want to set parameters depending on the location of
+that directory local file."
+  (let ((dir (dir-locals-find-file file)))
+    (if (listp dir)
+        (car dir)
+      (file-name-directory dir))))
+
 (defun rename-current-file-or-buffer ()
   (interactive)
   (if (not (buffer-file-name))

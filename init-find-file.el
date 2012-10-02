@@ -38,25 +38,4 @@
    (t
     ad-do-it)))
 
-;; set personnal dictionary automatically based on local dictionary used
-(defvar file-name-dictionary-alist
-  '(("/media/THISKEY/Documents/These/"
-     ("en" . "/media/THISKEY/Documents/These/dict_en.dict")
-     ("fr" . "/media/THISKEY/Documents/These/dict_fr.dict"))))
-
-(defun find-file-personal-dictionary ()
-  (require 'flyspell)
-  (let* ((dict-alist (assoc-default (buffer-file-name)
-                                    file-name-dictionary-alist
-                                    'string-match))
-         (dict (assoc-default (or ispell-local-dictionary
-                                  ispell-dictionary)
-                              dict-alist 'string-match)))
-    (and (stringp dict)
-         (file-name-absolute-p dict)
-         (file-exists-p dict)
-         (setq ispell-local-pdict dict))))
-
-(add-hook 'find-file-hook 'find-file-personal-dictionary)
-
 (provide 'init-find-file)
