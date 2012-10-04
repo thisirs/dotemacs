@@ -109,13 +109,19 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 
 ;; From https://github.com/magnars/.emacs.d.git
 (defmacro create-simple-keybinding-command (name key)
-  `(defmacro ,name (&rest fns)
-     (list 'global-set-key (kbd ,key)
-           `(lambda ()
-              (interactive)
-              (message "%s"
-                       (progn
-                         ,@fns))))))
+  `(progn (defmacro ,name (&rest fns)
+            (list 'global-set-key (kbd ,key)
+                  `(lambda ()
+                     (interactive)
+                     ,@fns)))
+
+          (defmacro ,(intern (concat (symbol-name name) "e")) (&rest fns)
+            (list 'global-set-key (kbd ,key)
+                  `(lambda ()
+                     (interactive)
+                     (message "%s"
+                              (progn
+                                ,@fns)))))))
 
 (create-simple-keybinding-command f9 "<f9>")
 (create-simple-keybinding-command f10 "<f10>")
