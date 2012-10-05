@@ -15,7 +15,7 @@
 
 (setq helm-su-or-sudo "sudo")
 
-(setq helm-c-locate-command "locate -e -b -i -r \"%s\"")
+(setq helm-c-locate-command "locate -e -b %s -r \"%s\"")
 
 ;; don't save history information to file
 (remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
