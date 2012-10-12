@@ -778,6 +778,13 @@ case it is used in hooks."
 
 (global-set-key (kbd "M-g c") 'interactive-goto-char)
 
+;; activate automatic timestamp
+(setq
+ time-stamp-active t
+ time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+
+(add-hook 'before-save-hook 'time-stamp)
+
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
