@@ -73,4 +73,25 @@
                                 'TeX-command-next
                                 TeX-command-default))))
 
+
+(setq LaTeX-includegraphics-read-file
+      'LaTeX-includegraphics-read-file-relative-helm)
+
+(defun LaTeX-includegraphics-read-file-relative-helm ()
+  "Function to read an image file. Disable
+`TeX-search-files-kpathsea' and allow helm completion."
+  (require 'helm)
+  (file-relative-name
+   (helm-completing-read-default-1
+    "Image file: "
+    (mapcar 'list
+            (flet ((TeX-search-files-kpathsea (extensions nodir strip) ()))
+              (TeX-search-files (list (concat (TeX-master-directory) "img"))
+                                LaTeX-includegraphics-extensions t)))
+    nil nil nil nil nil nil
+    "Image file"
+    nil)
+   (TeX-master-directory)))
+
+
 (provide 'init-auctex)
