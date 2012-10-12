@@ -76,6 +76,7 @@
 (require 'init-scratch)
 (require 'init-twittering)
 (require 'init-hippie-expand)
+(require 'init-vanilla)
 
 ;; whitespace mode
 (require 'whitespace)
