@@ -623,7 +623,7 @@ that directory local file."
       `((".*" ,temporary-file-directory t)))
 
 ;; don't let Customize mess with my .emacs
-(setq custom-file (concat user-emacs-directory "custom.el"))
+(setq custom-file (concat site-lisp-dir "custom.el"))
 (load custom-file 'noerror)
 
 (defun untabify-buffer ()
