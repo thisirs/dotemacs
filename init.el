@@ -783,6 +783,10 @@ case it is used in hooks."
  time-stamp-active t
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
 
+(defun time-stamp-insert ()
+  (interactive)
+  (insert comment-start " Time-stamp: <>"))
+
 (add-hook 'before-save-hook 'time-stamp)
 
 ;; Make scripts executable on save
