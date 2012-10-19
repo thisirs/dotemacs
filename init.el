@@ -385,6 +385,15 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-screen t)
 
+(defun .>= (v1 v2)
+  "Compare V1 and V2. V1 and V1 are version strings (ie \"24.3.2.1\")."
+  (let* ((lv1 (mapcar 'string-to-number (split-string v1 "\\.")))
+         (lv2 (mapcar 'string-to-number (split-string v2 "\\.")))
+         (tmp (car (delq 0 (mapcar* '- lv1 lv2)))))
+    (if tmp
+        (>= tmp 0)
+      (>= (length v1) (length v2)))))
+
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 
