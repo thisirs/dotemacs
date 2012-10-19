@@ -394,6 +394,10 @@
         (>= tmp 0)
       (>= (length v1) (length v2)))))
 
+;; no lockfiles
+(when (.>= emacs-version "24.2")
+  (setq create-lockfiles nil))
+
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 
