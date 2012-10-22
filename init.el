@@ -35,8 +35,27 @@
   (or (require feat nil t)
       (not (message "Feature `%s' not loaded!" feat))))
 
+(defmacro with-emacs-newer (version &rest body)
+  (let ((lv1 (mapcar 'string-to-number (split-string emacs-version "\\.")))
+        (lv2 (mapcar 'string-to-number (split-string version "\\.")))
+        result)
+    (while
+        (eq 0
+            (setq result
+                  (cond ((eq (car lv1) (car lv2))
+                         (if (not (car lv1))
+                             t
+                           (setq lv1 (cdr lv1)
+                                 lv2 (cdr lv2))
+                           0))
+                        ((null (car lv1)))
+                        ((null (car lv2)) t)
+                        (t (>= (car lv1) (car lv2)))))))
+    (if result
+        `(progn ,@body))))
+
 ;; adding packages source
-(when (>= emacs-major-version 24)
+(with-emacs-newer "24"
   (require 'package)
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -320,7 +339,7 @@
             (define-key term-raw-map (kbd "C-z") 'shell-toggle)))
 
 ;; notify events
-(when (>= emacs-major-version 24)
+(with-emacs-newer "24"
   (require 'notifications))
 
 (require 'ffap)
@@ -384,13 +403,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq inhibit-startup-screen t)
-
-(defmacro with-emacs-newer (version &rest body)
-  (let* ((lv1 (mapcar 'string-to-number (split-string emacs-version "\\.")))
-         (lv2 (mapcar 'string-to-number (split-string version "\\.")))
-         (tmp (car (delq 0 (mapcar* '- lv1 lv2)))))
-    (if (if tmp  (>= tmp 0) (>= (length lv1) (length lv2)))
-        `(progn ,@body))))
 
 ;; no lockfiles
 (with-emacs-newer "24.2"
