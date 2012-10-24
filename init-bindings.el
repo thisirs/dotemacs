@@ -18,15 +18,34 @@
 (global-set-key (kbd "s-p") 'windmove-up)
 (global-set-key (kbd "s-n") 'windmove-down)
 
-;; ouverture rapide avec la touche windows
-(global-set-key (kbd "s-s s") ;; scratch
-                (lambda () (interactive) (switch-to-buffer "*scratch*")))
-(global-set-key (kbd "s-s e") ;; .emacs
-                (lambda () (interactive) (find-file (file-truename "~/.emacs.d/init.el"))))
-(global-set-key (kbd "s-s m") ;; messages
-                (lambda () (interactive) (switch-to-buffer "*Messages*")))
-(global-set-key (kbd "s-s t") ;; twittering-mode
-                (lambda () (interactive) (switch-to-buffer ":home")))
+;; quick jump to useful buffers
+(defmacro shortcut (keybinding buffer-file)
+  (declare (debug defun))
+  `(global-set-key (kbd ,keybinding)
+                   (lambda ()
+                     (interactive)
+                     (let* ((buf (get-buffer ,buffer-file))
+                            (file (and (stringp ,buffer-file)
+                                       (file-name-absolute-p ,buffer-file)
+                                       (file-truename ,buffer-file)))
+                            (current (if buf (current-buffer)
+                                       (file-truename
+                                        (expand-file-name
+                                         buffer-file-name))))
+                            (target (or buf file
+                                        (error "Non-existent target!"))))
+                       (if (equal target current)
+                           (jump-to-register ?x)
+                         (window-configuration-to-register ?x)
+                         (if buf
+                             (switch-to-buffer buf)
+                           (find-file (file-truename file))))))))
+
+(shortcut "s-s s" "*scratch*")
+(shortcut "s-s e" "~/.emacs.d/init.el")
+(shortcut "s-s m" "*Messages*")
+(shortcut "s-s t" ":home")
+(shortcut "s-s g" "*Group*")
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
