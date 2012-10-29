@@ -29,9 +29,10 @@
                                        (file-name-absolute-p ,buffer-file)
                                        (file-truename ,buffer-file)))
                             (current (if buf (current-buffer)
-                                       (file-truename
-                                        (expand-file-name
-                                         buffer-file-name))))
+                                       (if buffer-file-name
+                                           (file-truename
+                                            (expand-file-name
+                                             buffer-file-name)))))
                             (target (or buf file
                                         (error "Non-existent target!"))))
                        (if (equal target current)
