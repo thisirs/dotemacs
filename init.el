@@ -111,6 +111,8 @@
 (require 'webjump)
 (global-set-key "\C-cj" 'webjump)
 
+(require 'wgrep)
+
 (require 'epa)
 (epa-file-enable)
 

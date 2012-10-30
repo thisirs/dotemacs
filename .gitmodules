@@ -28,3 +28,6 @@
 [submodule "site-lisp/gnus"]
 	path = site-lisp/gnus
 	url = http://git.gnus.org/gnus.git
+[submodule "site-lisp/Emacs-wgrep"]
+	path = site-lisp/Emacs-wgrep
+	url = https://github.com/mhayashi1120/Emacs-wgrep.git
