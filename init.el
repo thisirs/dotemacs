@@ -108,6 +108,9 @@
 (load-library "paren")
 (show-paren-mode 1)
 
+(require 'webjump)
+(global-set-key "\C-cj" 'webjump)
+
 (require 'epa)
 (epa-file-enable)
 
