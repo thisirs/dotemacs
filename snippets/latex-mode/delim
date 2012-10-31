@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# key: lr
+# group: math
+# name: delim
+# --
+\\left${1:$$(yas/maybe-escape text)}\\right${1:$(yas/corresponding-delim yas/text)}$0
