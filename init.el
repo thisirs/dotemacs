@@ -113,6 +113,9 @@
 
 (require 'wgrep)
 
+(add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
+(require 'gnus-load)
+
 (require 'epa)
 (epa-file-enable)
 
