@@ -556,14 +556,17 @@ that directory local file."
   (ad-activate func))
 
 (defun maybe-indent-on-paste ()
-  (if (or (derived-mode-p 'prog-mode)
-          (memq major-mode '(ruby-mode
-                             emacs-lisp-mode scheme-mode
-                             lisp-interaction-mode sh-mode
-                             lisp-mode c-mode c++-mode objc-mode
-                             latex-mode plain-tex-mode
-                             python-mode matlab-mode)))
-      (indent-region (region-beginning) (region-end))))
+  "Indent the region when in prog mode. Make an undo boundary to
+cancel the indentation if needed."
+  (when (or (derived-mode-p 'prog-mode)
+            (memq major-mode '(ruby-mode
+                               emacs-lisp-mode scheme-mode
+                               lisp-interaction-mode sh-mode
+                               lisp-mode c-mode c++-mode objc-mode
+                               latex-mode plain-tex-mode
+                               python-mode matlab-mode)))
+    (undo-boundary)
+    (indent-region (region-beginning) (region-end))))
 
 (defun kill-region-or-backward ()
   (interactive)
