@@ -114,7 +114,11 @@
 (require 'wgrep)
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 (require 'gnus-load)
+
+;; BUG gnus-timer--function undefined
+(require 'gnus-util)
 
 (require 'epa)
 (epa-file-enable)
