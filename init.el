@@ -36,23 +36,14 @@
       (not (message "Feature `%s' not loaded!" feat))))
 
 (defmacro with-emacs-newer (version &rest body)
-  (let ((lv1 (mapcar 'string-to-number (split-string emacs-version "\\.")))
-        (lv2 (mapcar 'string-to-number (split-string version "\\.")))
-        result)
-    (while
-        (eq 0
-            (setq result
-                  (cond ((eq (car lv1) (car lv2))
-                         (if (not (car lv1))
-                             t
-                           (setq lv1 (cdr lv1)
-                                 lv2 (cdr lv2))
-                           0))
-                        ((null (car lv1)))
-                        ((null (car lv2)) t)
-                        (t (>= (car lv1) (car lv2)))))))
-    (if result
-        `(progn ,@body))))
+  (declare (indent 1) (debug t))
+  (let ((major (progn (string-match "^[0-9]+" version)
+                      (string-to-number (match-string 0 version))))
+        (minor (progn (string-match "^[0-9]+\\.\\([0-9]+\\)" version)
+                      (string-to-number (or (match-string 1 version) "-1")))))
+    (or (< major emacs-major-version)
+        (and (= major emacs-major-version)
+             (<= minor emacs-minor-version)))))
 
 ;; adding packages source
 (with-emacs-newer "24"
