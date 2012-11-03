@@ -54,11 +54,11 @@
       (TeX-run-TeX name command file)))))
 
 (eval-after-load "latex"
-    '(add-to-list 'TeX-command-list
-                  '("Make" "%`%l%(mode)%' %t"
-                    TeX-run-Make-or-TeX nil
-                    (latex-mode doctex-mode)
-                    :help "Run Make or LaTeX if no Makefile")))
+  '(add-to-list 'TeX-command-list
+                '("Make" "%`%l%(mode)%' %t"
+                  TeX-run-Make-or-TeX nil
+                  (latex-mode doctex-mode)
+                  :help "Run Make or LaTeX if no Makefile")))
 
 ;; needs to be extended to handle rake
 (defadvice TeX-command-query (before check-make activate)

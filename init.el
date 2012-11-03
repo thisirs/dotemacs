@@ -42,9 +42,9 @@
         (minor (progn (string-match "^[0-9]+\\.\\([0-9]+\\)" version)
                       (string-to-number (or (match-string 1 version) "-1")))))
     (if (or (< major emacs-major-version)
-	    (and (= major emacs-major-version)
-		 (<= minor emacs-minor-version)))
-	`(progn ,@body))))
+            (and (= major emacs-major-version)
+                 (<= minor emacs-minor-version)))
+        `(progn ,@body))))
 
 ;; adding packages source
 (with-emacs-newer "24"

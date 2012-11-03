@@ -62,6 +62,3 @@ settings are described by the macro `new-vanilla'."
   (global-set-key (kbd "C-=") 'er/expand-region))
 
 (provide 'init-vanilla)
-
-
-
