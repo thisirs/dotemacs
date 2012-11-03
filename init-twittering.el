@@ -20,13 +20,13 @@
 
 (add-hook 'twittering-new-tweets-hook
           (lambda ()
-            (let ((n twittering-new-tweets-count)))
-            (when (and (> n 10)
-                       (require 'notifications nil t))
-              (notifications-notify
-               :title
-               (twittering-timeline-spec-to-string twittering-new-tweets-spec)
-               :body
-               (format "You have %d new tweet%s" n (if (> n 1) "s" ""))))))
+            (let ((n twittering-new-tweets-count))
+              (when (and (> n 10)
+                         (require 'notifications nil t))
+                (notifications-notify
+                 :title
+                 (twittering-timeline-spec-to-string twittering-new-tweets-spec)
+                 :body
+                 (format "You have %d new tweet%s" n (if (> n 1) "s" "")))))))
 
 (provide 'init-twittering)
