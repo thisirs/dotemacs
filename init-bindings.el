@@ -19,34 +19,43 @@
 (global-set-key (kbd "s-n") 'windmove-down)
 
 ;; quick jump to useful buffers
-(defmacro shortcut (keybinding buffer-file)
+(defmacro shortcut (keybinding buffer-file &rest body)
+  "Make KEYBINDING open buffer or file BUFFER-FILE. If that
+buffer or file does not exist, ask confirmation before executing
+BODY if it is non nil."
   (declare (debug defun))
-  `(global-set-key (kbd ,keybinding)
-                   (lambda ()
-                     (interactive)
-                     (let* ((buf (get-buffer ,buffer-file))
-                            (file (and (stringp ,buffer-file)
-                                       (file-name-absolute-p ,buffer-file)
-                                       (file-truename ,buffer-file)))
-                            (current (if buf (current-buffer)
-                                       (if buffer-file-name
-                                           (file-truename
-                                            (expand-file-name
-                                             buffer-file-name)))))
-                            (target (or buf file
-                                        (error "Non-existent target!"))))
-                       (if (equal target current)
-                           (jump-to-register ?x)
-                         (window-configuration-to-register ?x)
-                         (if buf
-                             (switch-to-buffer buf)
-                           (find-file (file-truename file))))))))
+  `(global-set-key
+    (kbd ,keybinding)
+    (lambda ()
+      (interactive)
+      (let* ((buf (get-buffer ,buffer-file))
+             (file (and (stringp ,buffer-file)
+                        (file-name-absolute-p ,buffer-file)
+                        (file-truename ,buffer-file)))
+             (current (if buf (current-buffer)
+                        (if buffer-file-name
+                            (file-truename
+                             (expand-file-name
+                              buffer-file-name)))))
+             (target (or buf file)))
+        (cond
+         ((not target)
+          (if (not (and ',body (yes-or-no-p "Non-existent target. Execute form? ")))
+              (error "Non-existent target")
+            ,@body))
+         ((equal target current)
+          (jump-to-register ?x))
+         (t
+          (window-configuration-to-register ?x)
+          (if buf
+              (switch-to-buffer buf)
+            (find-file (file-truename file)))))))))
 
 (shortcut "s-s s" "*scratch*")
 (shortcut "s-s e" "~/.emacs.d/init.el")
 (shortcut "s-s m" "*Messages*")
-(shortcut "s-s t" ":home")
-(shortcut "s-s g" "*Group*")
+(shortcut "s-s t" ":home" (twit))
+(shortcut "s-s g" "*Group*" (gnus))
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
