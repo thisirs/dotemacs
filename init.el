@@ -177,14 +177,13 @@
     (insert "{}")
     (backward-char 1)))
 
-(eval-after-load 'ruby-mode
-  '(progn
-     (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
-     (add-hook 'ruby-mode-hook
-               (lambda ()
-                 (define-key ruby-mode-map (kbd "RET")
-                   'reindent-then-newline-and-indent)))
-     (define-key ruby-mode-map (kbd "#") 'ruby-interpolate)))
+
+(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (define-key ruby-mode-map (kbd "RET")
+              'reindent-then-newline-and-indent)
+            (define-key ruby-mode-map (kbd "#") 'ruby-interpolate)))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
