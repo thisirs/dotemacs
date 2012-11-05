@@ -61,4 +61,9 @@ settings are described by the macro `new-vanilla'."
   (require 'expand-region)
   (global-set-key (kbd "C-=") 'er/expand-region))
 
+(new-vanilla auctex
+  (add-to-list 'load-path "~/repositories/dotemacs/elpa/auctex-11.86/")
+  (load "preview.el" nil t t)
+  (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist)))
+
 (provide 'init-vanilla)
