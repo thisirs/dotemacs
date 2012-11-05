@@ -75,7 +75,7 @@
 (defun LaTeX-includegraphics-read-file-relative-helm ()
   "Function to read an image file. Disable
 `TeX-search-files-kpathsea' and allow helm completion."
-  (require 'helm)
+  (require 'helm-mode)
   (file-relative-name
    (helm-completing-read-default-1
     "Image file: "
