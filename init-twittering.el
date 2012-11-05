@@ -3,12 +3,14 @@
 
 (defun twittering-enter-next-uri ()
   (interactive)
-  (let ((p (point))
-        (bound (point-at-eol)))
-    (twittering-goto-next-uri)
-    (when (and (not (eq (point) p))
-               (< (point) bound))
-      (twittering-enter))
+  (let* ((p (point))
+         (end (field-end p t)))
+    (goto-char (field-beginning p t))
+    (if (and (twittering-goto-next-uri)
+             (< (point) end))
+        (twittering-enter)
+      (goto-char p)
+      (error "No uri in this tweet"))
     (goto-char p)))
 
 (add-hook
