@@ -215,4 +215,34 @@ environment."
          (unless (looking-at " *\n")
            (TeX-newline)))))))
 
+(defun latex-update-or-insert-label ()
+  "Replace or update label when in a figure environment. The new
+label name is the same as the included file."
+  (let ((curr-env (LaTeX-current-environment)))
+    (if (not (string-match "\\(sub\\)?figure" curr-env))
+        (error "Not in a figure environment")
+      (save-excursion
+        (LaTeX-find-matching-begin)
+        (when (re-search-forward
+               "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)"
+               nil (save-excursion (LaTeX-find-matching-end)))
+          (let ((newname ((lambda (filename)
+                            (substring filename
+                                       0
+                                       (string-match
+                                        (concat
+                                         (regexp-opt '(".jpeg" ".png" ".pdf"))
+                                         "$")
+                                        filename)))
+                          (match-string-no-properties 2))))
+            (forward-line)
+            ;; skip caption for correct numbering
+            (if (looking-at "[ \t]*\\\\caption") (forward-line))
+            (if (looking-at "[ \t]*\\\\label{\\([^}]+\\)")
+                (unless (equal (match-string-no-properties 1) newname)
+                  (replace-match newname nil nil nil 1))
+              (open-line 1)
+              (insert (format "\\label{%s}" newname))
+              (indent-for-tab-command))))))))
+
 (provide 'init-latex)
