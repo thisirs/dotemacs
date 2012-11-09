@@ -35,6 +35,12 @@
   (or (require feat nil t)
       (not (message "Feature `%s' not loaded!" feat))))
 
+(defmacro with-after-load (s &rest body)
+  "Like `eval-after-load' but no progn or quote."
+  (declare (debug t) (indent 1))
+  `(eval-after-load ,s
+     '(progn ,@body)))
+
 (defmacro with-emacs-newer (version &rest body)
   (declare (indent 1) (debug t))
   (let ((major (progn (string-match "^[0-9]+" version)
@@ -535,10 +541,9 @@ that directory local file."
   nil)
 
 ;; history navigation
-(eval-after-load "comint"
-  '(progn
-     (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
-     (define-key comint-mode-map [(control ?n)] 'comint-next-input)))
+(with-after-load "comint"
+  (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
+  (define-key comint-mode-map [(control ?n)] 'comint-next-input))
 
 ;; auto-indent pasted code
 (dolist (func '(yank yank-pop))
