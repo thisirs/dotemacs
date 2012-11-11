@@ -81,7 +81,8 @@
     "Image file: "
     (delete-dups
      (mapcar 'list
-             (cl-flet ((TeX-search-files-kpathsea (extensions nodir strip) ()))
+             (letf (((symbol-function 'TeX-search-files-kpathsea)
+                     (lambda (extensions nodir strip))))
                (TeX-search-files (list (concat (TeX-master-directory) "img"))
                                  LaTeX-includegraphics-extensions t))))
     nil nil nil nil nil nil
