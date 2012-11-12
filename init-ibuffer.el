@@ -169,7 +169,8 @@ containing a not hidden git repository."
          ,@(ibuffer-project-list)
          ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-personnal.el")
          ("Org"
-          (mode . org-mode))
+          (or (mode . org-mode)
+              (mode . org-agenda-mode)))
          ("TeX/LaTeX"
           (or
            (mode . latex-mode)
