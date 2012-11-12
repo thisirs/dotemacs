@@ -12,8 +12,10 @@
      '(progn ,@body)))
 
 (defun vanilla-emacs (arg &rest features)
-  "Run a new emacs with loaded features FEATURES. Features'
-settings are described by the macro `new-vanilla'."
+  "Run a vanilla emacs with loaded features FEATURES. If ARG is
+non-nil, the features are not loaded but just inserted in the
+scratch buffer. The settings of a feature are described by the
+macro `new-vanilla'."
   (interactive
    (cons current-prefix-arg
          (mapcar 'intern (split-string (read-string "Features: ")))))
