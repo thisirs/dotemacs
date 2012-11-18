@@ -61,7 +61,9 @@ macro `new-vanilla'."
   (add-to-list 'load-path
                (expand-file-name "~/.emacs.d/site-lisp/expand-region.el"))
   (require 'expand-region)
-  (global-set-key (kbd "C-=") 'er/expand-region))
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  (setq expand-region-fast-keys-enabled nil)
+  (setq er--show-expansion-message t))
 
 (new-vanilla auctex
   (require 'package)
