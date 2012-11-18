@@ -115,6 +115,9 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 (require 'gnus-load)
 
+(require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
+(bbdb-initialize 'gnus)
+
 ;; BUG gnus-timer--function undefined
 (require 'gnus-util)
 
