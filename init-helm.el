@@ -62,21 +62,32 @@
   "List of path to look for manuals.")
 
 (defun helm-c-manual-path ()
-  (cond
-   ((file-exists-p "/media/THISKEY/")
-    (setq helm-c-manual-path
-          '("/media/THISKEY/Documents/Manuals/"
-            "/media/THISKEY/Documents/latex/package_manuals"
-            "/media/THISKEY/Documents/latex/beamer/"
-            "/media/THISKEY/Documents/latex/tikz/"
-            "/media/THISKEY/Documents/latex/tex/")))
-   ((file-exists-p "~/.backup/THISKEY/")
-    (setq helm-c-manual-path
-          '("~/.backup/THISKEY/Documents/Manuals/"
-            "~/.backup/THISKEY/Documents/latex/package_manuals"
-            "~/.backup/THISKEY/Documents/latex/beamer/"
-            "~/.backup/THISKEY/Documents/latex/tikz/"
-            "~/.backup/THISKEY/Documents/latex/tex/")))))
+  (let (helm-c-manual-path)
+    (if (file-exists-p "/media/THISKEY/")
+        (setq helm-c-manual-path
+              (append helm-c-manual-path
+                      '("/media/THISKEY/Documents/Manuals/"
+                        "/media/THISKEY/Documents/latex/package_manuals"
+                        "/media/THISKEY/Documents/latex/beamer/"
+                        "/media/THISKEY/Documents/latex/tikz/"
+                        "/media/THISKEY/Documents/latex/tex/")))
+      (if (file-exists-p "~/.backup/THISKEY/")
+          (setq helm-c-manual-path
+                (append helm-c-manual-path
+                        '("~/.backup/THISKEY/Documents/Manuals/"
+                          "~/.backup/THISKEY/Documents/latex/package_manuals"
+                          "~/.backup/THISKEY/Documents/latex/beamer/"
+                          "~/.backup/THISKEY/Documents/latex/tikz/"
+                          "~/.backup/THISKEY/Documents/latex/tex/")))))
+    (if (file-exists-p "/media/KROKEY/")
+        (setq helm-c-manual-path
+              (append helm-c-manual-path
+                      '("/media/KROKEY/LYCEE/Ressources/TiKz/")))
+      (if (file-exists-p "~/.backup/KROKEY/")
+          (setq helm-c-manual-path
+                (append helm-c-manual-path
+                        '("~/.backup/KROKEY/LYCEE/Ressources/TiKz/")))))
+    helm-c-manual-path))
 
 (defvar helm-c-manual-regexp "\\.pdf\\'")
 
