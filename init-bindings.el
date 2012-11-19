@@ -81,7 +81,7 @@ configuration saved the first time the target was showed."
           (erc-track-switch-buffer 1)
           (erc-start-or-switch 1)
           (memq (current-buffer)
-                erc-buffer-list))
+                (erc-buffer-list)))
 
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
