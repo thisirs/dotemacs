@@ -4,13 +4,14 @@
 (add-to-list 'load-path dotfiles-dir)
 
 ;; Set path to dependencies
-(setq site-lisp-dir "~/Dropbox/emacs/site-lisp/")
-(add-to-list 'load-path site-lisp-dir)
+(when (file-exists-p "~/Dropbox/emacs/site-lisp/")
+  (setq site-lisp-dir "~/Dropbox/emacs/site-lisp/")
+  (add-to-list 'load-path site-lisp-dir)
 
-;; add all directories in site-lisp
-(dolist (path (directory-files site-lisp-dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
-  (if (file-directory-p path)
-      (add-to-list 'load-path path)))
+  ;; add all directories in site-lisp
+  (dolist (path (directory-files site-lisp-dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
+    (if (file-directory-p path)
+        (add-to-list 'load-path path))))
 
 (add-to-list 'load-path (concat dotfiles-dir "site-lisp"))
 (dolist (path (directory-files
