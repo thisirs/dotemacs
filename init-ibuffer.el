@@ -176,11 +176,14 @@ containing a not hidden git repository."
            (mode . latex-mode)
            (name . "\\.bib$")
            (name . "\\.tex$")))
-         ("Mail"
+         ("Gnus"
           (or
            (mode . message-mode)
            (mode . mail-mode)
-           ))
+           (mode . gnus-group-mode)
+           (mode . bbdb-mode)
+           (mode . gnus-summary-mode)
+           (mode . gnus-article-mode)))
          ("Dired"
           (mode . dired-mode)
           )
