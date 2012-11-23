@@ -118,6 +118,7 @@
 
 (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
 (bbdb-initialize 'gnus)
+(setq bbdb-mua-auto-update-init 'gnus)
 
 ;; BUG gnus-timer--function undefined
 (require 'gnus-util)
