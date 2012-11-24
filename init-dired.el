@@ -35,7 +35,12 @@
 ;; Delete with C-x C-k to match file buffers and magit
 (define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)
 
-;; Quick jump to root or user dir
+;; Quick jump to root, user dir or /tmp
+(define-key dired-mode-map (kbd "@")
+  (lambda ()
+    (interactive)
+    (dired "/tmp")))
+
 (define-key dired-mode-map (kbd "/")
   (lambda ()
     (interactive)
