@@ -83,8 +83,14 @@ macro `new-vanilla'."
     (dolist (p my-packages)
       (when (not (package-installed-p p))
         (package-install p))))
-  
+
   ;;(load "preview.el" nil t t)
   (setq auto-mode-alist (cons '("\\.tex$" . LaTeX-mode) auto-mode-alist)))
+
+(new-vanilla magit
+  (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/magit/"))
+  (require 'magit)
+  (global-set-key "\C-ci" 'magit-status))
+
 
 (provide 'init-vanilla)
