@@ -22,6 +22,10 @@
           (progn
             (auto-insert-yasnippet "headerTS")
             (TeX-normal-mode 1)))
+         ("Minimal LaTeX snippet"
+          (progn
+            (auto-insert-yasnippet "minimal")
+            (TeX-normal-mode 1)))
          ("Letter"
           (progn
             (auto-insert-yasnippet "ll")
