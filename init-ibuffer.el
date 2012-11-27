@@ -91,7 +91,8 @@ name"
 containing a not hidden git repository."
   (let* ((dir (file-name-as-directory dir))
          (list
-          (and (file-exists-p (concat dir "/.git"))
+          (and (or (file-exists-p (concat dir ".git"))
+                   (file-exists-p (concat dir ".ibuffer")))
                (not (file-exists-p (concat dir "/.hidden")))
                (cons dir nil))))
     (apply 'append list
