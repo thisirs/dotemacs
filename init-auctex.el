@@ -90,5 +90,11 @@
     nil)
    (TeX-master-directory)))
 
+(defun LateX-insert-image-path ()
+  (interactive)
+  (insert (LaTeX-includegraphics-read-file-relative-helm)))
+
+(eval-after-load "latex"
+  '(define-key LaTeX-mode-map (kbd "C-c C-i") 'LateX-insert-image-path))
 
 (provide 'init-auctex)
