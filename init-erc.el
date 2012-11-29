@@ -59,30 +59,6 @@
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
       (erc :server "irc.freenode.net" :port 6667 :nick "thisirs"))))
 
-(defun pcomplete-erc-command-name ()
-  "Returns the command name of the first argument."
-  (let ((cmd (pcomplete-arg 'first)))
-    (cond
-     ((member (substring cmd 0 -1)
-              (pcomplete-erc-nicks))
-      "NICKLIST")
-     ((eq (elt cmd 0) ?/)
-      (upcase (substring cmd 1)))
-     (t "SAY"))))
-
-(defun is-nick-p (nick)
-  (member (substring nick 0 -1)
-          (pcomplete-erc-nicks)))
-
-(defun pcomplete/erc-mode/NICKLIST ()
-  (while (and (pcomplete-test 'is-nick-p)
-              (or (= pcomplete-index pcomplete-last) (pcomplete-test 'is-nick-p 0)))
-    (let ((start erc-input-marker))
-      (save-excursion
-        (goto-char (pcomplete-begin 0))
-        (while (re-search-backward ": " start t)
-          (replace-match ", "))))
-    (pcomplete-here (pcomplete-erc-nicks ": ")))
-  (while (pcomplete-here (pcomplete-erc-nicks))))
+(setq  erc-pcomplete-order-nickname-completions t)
 
 (provide 'init-erc)
