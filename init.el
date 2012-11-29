@@ -846,6 +846,8 @@ case it is used in hooks."
   (interactive)
   (insert comment-start " Time-stamp: <>"))
 
+(defalias 'insert-time-stamp 'time-stamp-insert)
+
 (add-hook 'before-save-hook 'time-stamp)
 
 ;; Make scripts executable on save
