@@ -104,7 +104,7 @@ is created when it doesn't exist."
   (interactive)
   (save-excursion
     (goto-char 1)
-    (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
+    (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}" nil t)
       ;; remove extension from filename
       (let ((newname ((lambda (filename)
                         (substring filename
@@ -115,10 +115,9 @@ is created when it doesn't exist."
                                      "$")
                                     filename)))
                       (match-string-no-properties 2))))
-        (forward-line)
         ;; skip caption for correct numbering
-        (if (looking-at "[ \t]*\\\\caption") (forward-line))
-        (if (looking-at "[ \t]*\\\\label{\\([^}]+\\)")
+        (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
+        (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
             (unless (equal (match-string-no-properties 1) newname)
               (latex-refactor-label (match-string-no-properties 1) newname))
           (open-line 1)
@@ -223,8 +222,9 @@ label name is the same as the included file."
         (error "Not in a figure environment")
       (save-excursion
         (LaTeX-find-matching-begin)
-        (when (re-search-forward
-               "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)"
+        (forward-char 1)
+        (while (re-search-forward
+               "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}"
                nil (save-excursion (LaTeX-find-matching-end)))
           (let ((newname ((lambda (filename)
                             (substring filename
@@ -235,10 +235,9 @@ label name is the same as the included file."
                                          "$")
                                         filename)))
                           (match-string-no-properties 2))))
-            (forward-line)
             ;; skip caption for correct numbering
-            (if (looking-at "[ \t]*\\\\caption") (forward-line))
-            (if (looking-at "[ \t]*\\\\label{\\([^}]+\\)")
+            (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
+            (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
                 (unless (equal (match-string-no-properties 1) newname)
                   (replace-match newname nil nil nil 1))
               (open-line 1)
