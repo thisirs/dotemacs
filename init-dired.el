@@ -51,6 +51,9 @@
     (interactive)
     (dired (getenv "HOME"))))
 
+(define-key dired-mode-map (kbd "W")
+  (lambda () (interactive) (dired-copy-filename-as-kill 0)))
+
 (eval-after-load "dired-aux"
   '(add-to-list 'dired-compress-file-suffixes
                 '("\\.zip\\'" ".zip" "unzip")))
