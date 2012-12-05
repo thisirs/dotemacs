@@ -54,6 +54,8 @@
 (define-key dired-mode-map (kbd "W")
   (lambda () (interactive) (dired-copy-filename-as-kill 0)))
 
+(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+
 (eval-after-load "dired-aux"
   '(add-to-list 'dired-compress-file-suffixes
                 '("\\.zip\\'" ".zip" "unzip")))
