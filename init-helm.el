@@ -87,7 +87,7 @@
           (setq helm-c-manual-path
                 (append helm-c-manual-path
                         '("~/.backup/KROKEY/LYCEE/Ressources/TiKz/")))))
-    helm-c-manual-path))
+    (delete-dups helm-c-manual-path)))
 
 (defvar helm-c-manual-regexp "\\.pdf\\'")
 
