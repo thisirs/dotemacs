@@ -10,6 +10,8 @@
          "#ruby.fr"
          "#ruby"
          "#git-fr"
+         "#archlinux"
+         "#archlinux-fr"
          "#emacsfr"
          "#linux-fr"
          "#debianfr"
