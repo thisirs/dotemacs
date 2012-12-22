@@ -452,18 +452,22 @@ Only major and minor versions are supported in VERSION."
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
-(defun update-locate-database ()
+(defun update-locate-database (directory)
   "Update locate databases"
   (interactive)
-  (and (file-exists-p "/media/THISKEY")
+  (and (file-exists-p directory)
        (set-process-sentinel
         (start-process-shell-command
          "updatedb process" nil
          (mapconcat
           'identity
-          '("updatedb -l 0"
-            "-U /media/THISKEY/"
-            "--add-prunepaths \"/media/THISKEY/.Trash-1000 /media/THISKEY/.Trash-1001\""
+          `("updatedb -l 0"
+            "-U"
+            ,directory
+            "--add-prunepaths \""
+            ,(concat directory ".Trash-1000")
+            ,(concat directory ".Trash-1001")
+            "\""
             "-o $HOME/.locate.db")
           " "))
         (lambda (process event)
@@ -471,8 +475,15 @@ Only major and minor versions are supported in VERSION."
                                   "Locate database updated!"
                                 "Updating locate database failed!"))))))
 
+(defun update-locate-database-THISKEY ()
+  (cond
+   ((file-exists-p "/media/THISKEY")
+    (update-locate-database "/media/THISKEY/"))
+   ((file-exists-p "/run/media/sylvain/THISKEY/")
+    (update-locate-database "/run/media/sylvain/THISKEY/"))))
+
 ;; update locate database when idle during 20 sec
-(run-with-idle-timer 20 nil 'update-locate-database)
+(run-with-idle-timer 20 nil 'update-locate-database-THISKEY)
 
 (require 'dbus)
 
@@ -482,7 +493,7 @@ Only major and minor versions are supported in VERSION."
     (let ((desktop-load-locked-desktop t))
       (save-window-excursion
         (desktop-read)))
-    (run-with-idle-timer 20 nil 'update-locate-database)
+    (run-with-idle-timer 20 nil 'update-locate-database-THISKEY)
     (run-with-idle-timer 20 nil
                          (lambda ()
                            (run-hooks 'midnight-hook)))

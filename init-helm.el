@@ -34,7 +34,9 @@
     helm-c-source-bookmarks
     helm-c-source-file-cache
     helm-c-source-files-in-current-dir
-    ,@(if (file-exists-p "/media/THISKEY") '(helm-c-source-locate-thiskey))
+    ,@(if (or (file-exists-p "/media/THISKEY")
+              (file-exists-p "/run/media/sylvain/THISKEY"))
+          '(helm-c-source-locate-thiskey))
     helm-c-source-locate))
 
 (defun helm-c-locate-thiskey-init ()
