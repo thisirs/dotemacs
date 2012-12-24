@@ -65,7 +65,8 @@ Only major and minor versions are supported in VERSION."
 
   (package-initialize)
 
-  (setq my-packages '(auctex yari twittering-mode diminish elisp-slime-nav))
+  (setq my-packages '(auctex yari twittering-mode diminish
+                             elisp-slime-nav lua-mode))
 
   (when (memq nil (mapcar 'package-installed-p my-packages))
     (message "Refreshing packages database...")
@@ -133,6 +134,10 @@ Only major and minor versions are supported in VERSION."
 (require 'expand-region)
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
+
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; fast navigation from symbol to definition
 (when (require-maybe 'elisp-slime-nav)
