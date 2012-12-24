@@ -54,8 +54,8 @@ configuration saved the first time the target was showed."
      (lambda ()
        (interactive)
        (if (ignore-errors ,return)
-           (jump-to-register ?x)
-         (window-configuration-to-register ?x)
+           (jump-to-register :shortcut)
+         (window-configuration-to-register :shortcut)
          (unless ,target
            (error "Non-existent target"))))))
    (t
@@ -64,8 +64,8 @@ configuration saved the first time the target was showed."
       (lambda ()
         (interactive)
         (if (ignore-errors ,return)
-            (jump-to-register ?x)
-          (window-configuration-to-register ?x)
+            (jump-to-register :shortcut)
+          (window-configuration-to-register :shortcut)
           (unless ,target
             (if ',launch
                 (if (yes-or-no-p "Non-existent target. Execute form? ")
