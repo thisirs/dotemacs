@@ -8,12 +8,7 @@
        (goto-char isearch-other-end)))
 
 ;; occur mode
-(define-key isearch-mode-map (kbd "C-o")
-  (lambda ()
-    (interactive)
-    (let ((case-fold-search isearch-case-fold-search))
-      (occur (if isearch-regexp isearch-string
-               (regexp-quote isearch-string))))))
+(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
 
 ;; Staying in isearch mode when typing M-< M-> C-l
 (defun isearch-beginning-of-buffer ()
