@@ -279,7 +279,7 @@ the selected file."
      (push (cons "pdf" "evince %s") org-file-apps))
 
 ;; open ods files with libreoffice
-(add-to-list 'org-file-apps '("\\.ods\\'" . default))
+(add-to-list 'org-file-apps '("\\.od[st]\\'" . "soffice %s"))
 
 ;; bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
