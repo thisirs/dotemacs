@@ -113,6 +113,8 @@ configuration saved the first time the target was showed."
                   (split-window-vertically)
                   (other-window 1)))
 
+(global-set-key (kbd "C-x C-v") 'find-file-other-window)
+
 ;; replace-string and replace-regexp need a key binding
 (global-set-key (kbd "C-c s") 'replace-string)
 (global-set-key (kbd "C-c r") 'replace-regexp)

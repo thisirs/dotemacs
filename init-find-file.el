@@ -19,11 +19,6 @@
       (th-find-file-sudo (ad-get-arg 0))
     ad-do-it))
 
-(defadvice find-file (around find-file-other-window activate)
-  (if current-prefix-arg
-      (find-file-other-window (ad-get-arg 0))
-    ad-do-it))
-
 (defadvice find-file (around find-or-launch-file activate)
   "Org open file that emacs can't."
   (cond
