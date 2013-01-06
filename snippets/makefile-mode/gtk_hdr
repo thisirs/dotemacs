@@ -1,0 +1,50 @@
+# -*- mode: snippet -*-
+# name: GTK sample makefile
+# key: hdr
+# --
+#
+# Variables:
+#
+CC = gcc
+BIN = nom_prog
+SRC = main.c
+OBJ = main.o
+
+
+#
+# Flags d'erreurs:
+#
+ERROR_CFLAGS = -Wall -W -pedantic
+
+
+#
+# Flags pour le compilateur:
+#
+GTK_CFLAGS = $$(pkg-config --cflags gtk+-2.0)
+
+CFLAGS = $(ERROR_FLAGS) $(GTK_CFLAGS)
+
+
+#
+# Flags pour l'editeur de liens:
+#
+GTK_LDFLAGS = $$(pkg-config --libs gtk+-2.0)
+
+LDFLAGS = $(ERROR_FLAGS) $(GTK_LDFLAGS)
+
+
+#
+# Construction du programme:
+#
+all: $(BIN)
+
+$(BIN): $(SRC)
+	$(CC) $(CFLAGS) -c $(SRC)
+	$(CC) $(LDFLAGS) -o $(BIN) $(OBJ)
+
+
+#
+# Nettoyage:
+#
+clean:
+	rm -f *.o *~ core $(BIN)
