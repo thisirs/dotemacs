@@ -118,7 +118,13 @@
 (define-key helm-command-map (kbd "h m") 'helm-manual)
 
 (defvar helm-bib-locations
-  '("/media/THISKEY/Documents/These/bib/bregman"))
+  '("/media/THISKEY/Documents/These/bib/bregman"
+    "~/Dropbox/These/bib/bregman"))
+
+;; open files with evince instead of xpdf
+(setq helm-c-pdfgrep-default-read-command "evince -p %p \"%f\"")
+
+(setq helm-c-pdfgrep-default-command "pdfgrep -C 300 --color never -niH %s %s")
 
 (defun helm-search-bib ()
   (interactive)
