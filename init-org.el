@@ -517,4 +517,23 @@ inherited by a parent headline."
 
 (setq org-outline-path-complete-in-steps nil)
 
+;; custom export from tsv to timestamp to be placed in agenda
+(defun orgtbl-to-agenda (table params)
+  (let ((table-strip
+         (delq nil
+               (mapcar (lambda (row)
+                         (if (listp row)
+                             (list (nth 1 row) (nth 2 row) (nth 5 row))))
+                       table))))
+    (mapconcat
+     (lambda (row)
+       (format "*** %s %s %s"
+               (format-time-string
+                (car org-time-stamp-formats)
+                (apply 'encode-time  0 0 0
+                       (mapcar 'string-to-number (split-string (nth 0 row) "/"))))
+               (nth 2 row) (nth 1 row)))
+     table-strip
+     "\n")))
+
 (provide 'init-org)
