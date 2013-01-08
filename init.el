@@ -43,17 +43,10 @@
      '(progn ,@body)))
 
 (defmacro with-emacs-newer (version &rest body)
-  "Expand to BODY if current emacs version is newer than VERSION.
-Only major and minor versions are supported in VERSION."
+  "Expand to BODY if current emacs version is newer than VERSION."
   (declare (indent 1) (debug t))
-  (let ((major (progn (string-match "^[0-9]+" version)
-                      (string-to-number (match-string 0 version))))
-        (minor (progn (string-match "^[0-9]+\\.\\([0-9]+\\)" version)
-                      (string-to-number (or (match-string 1 version) "-1")))))
-    (if (or (< major emacs-major-version)
-            (and (= major emacs-major-version)
-                 (<= minor emacs-minor-version)))
-        `(progn ,@body))))
+  (when ( version<= version emacs-version)
+    `(progn ,@body)))
 
 ;; adding packages source
 (with-emacs-newer "24"
