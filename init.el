@@ -48,6 +48,12 @@
   (when ( version<= version emacs-version)
     `(progn ,@body)))
 
+(defmacro define-on-macro (sys)
+  "Macro that defines a machine-specific macro."
+  `(defmacro ,(intern (concat "on-" sys)) (&rest body)
+     (when (string-prefix-p ,sys system-name)
+       `(progn ,@body))))
+
 ;; adding packages source
 (with-emacs-newer "24"
   (require 'package)
