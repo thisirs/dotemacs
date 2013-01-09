@@ -731,6 +731,10 @@ case it is used in hooks."
                  (or (cadr (member current ring)) (car ring)))))
     (set-frame-parameter nil 'alpha next)))
 
+(autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+(global-set-key (kbd "M-Z") 'zap-to-char)
+
 ;; ignore case when completing
 (setq completion-ignore-case t)
 
