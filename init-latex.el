@@ -221,27 +221,27 @@ label name is the same as the included file."
     (if (not (string-match "\\(sub\\)?figure" curr-env))
         (error "Not in a figure environment")
       (save-excursion
-        (LaTeX-find-matching-begin)
-        (forward-char 1)
-        (while (re-search-forward
-               "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}"
-               nil (save-excursion (LaTeX-find-matching-end)))
-          (let ((newname ((lambda (filename)
-                            (substring filename
-                                       0
-                                       (string-match
-                                        (concat
-                                         (regexp-opt '(".jpeg" ".png" ".pdf"))
-                                         "$")
-                                        filename)))
-                          (match-string-no-properties 2))))
-            ;; skip caption for correct numbering
-            (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
-            (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
-                (unless (equal (match-string-no-properties 1) newname)
-                  (replace-match newname nil nil nil 1))
-              (open-line 1)
-              (insert (format "\\label{%s}" newname))
-              (indent-for-tab-command))))))))
+        (save-restriction
+          (LaTeX-mark-environment)
+          (narrow-to-region (region-beginning) (region-end))
+          (while (re-search-forward
+                  "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}" nil t)
+            (let ((newname ((lambda (filename)
+                              (substring filename
+                                         0
+                                         (string-match
+                                          (concat
+                                           (regexp-opt '(".jpeg" ".png" ".pdf"))
+                                           "$")
+                                          filename)))
+                            (match-string-no-properties 2))))
+              ;; skip caption for correct numbering
+              (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
+              (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
+                  (unless (equal (match-string-no-properties 1) newname)
+                    (replace-match newname nil nil nil 1))
+                (open-line 1)
+                (insert (format "\\label{%s}" newname))
+                (indent-for-tab-command)))))))))
 
 (provide 'init-latex)
