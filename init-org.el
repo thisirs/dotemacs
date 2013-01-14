@@ -536,4 +536,17 @@ inherited by a parent headline."
      table-strip
      "\n")))
 
+;; Taken from http://sachachua.com/blog/2013/01/emacs-org-task-related-keyboard-shortcuts-agenda/
+(defun org-agenda-mark-done-and-add-followup ()
+  "Mark the current TODO as done and add another task after it.
+Creates it at the same level as the previous task, so it's better to use
+this with to-do items than with projects or headings."
+  (interactive)
+  (org-agenda-todo "DONE")
+  (org-agenda-switch-to)
+  (org-capture 0 "t"))
+
+;; Override the key definition
+(define-key org-agenda-mode-map "X" 'org-agenda-mark-done-and-add-followup)
+
 (provide 'init-org)
