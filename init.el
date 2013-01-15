@@ -306,9 +306,9 @@
 (winner-mode 1)
 (setq winner-boring-buffers
       '("*Completions*"
-        "*anything for files*"
-        "*anything find-file*"
-        "*anything complete*"
+        "*helm for files*"
+        "*helm find-file*"
+        "*helm complete*"
         "*Ibuffer*"
         "*Calendar*"
         "*anything*"))
