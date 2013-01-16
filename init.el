@@ -457,6 +457,12 @@
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
+;; no fast scrolling
+(setq mouse-wheel-progressive-speed nil)
+
+;; Drive out the mouse when it's too near to the cursor.
+(mouse-avoidance-mode 'animate)
+
 (defun update-locate-database (directory)
   "Update locate databases"
   (interactive)
@@ -615,9 +621,6 @@ that directory local file."
                          dired-directory)))
                  (buffer-name)))))
 
-;; no fast scrolling
-(setq mouse-wheel-progressive-speed nil)
-
 ;; backups
 (setq make-backup-files t ;; do make backups
       ;;  backup-by-copying t     ;; and copy them here
@@ -759,9 +762,6 @@ case it is used in hooks."
 (setq display-time-24hr-format 1)
 
 (setq sentence-end-double-space nil)
-
-;; Drive out the mouse when it's too near to the cursor.
-(mouse-avoidance-mode 'animate)
 
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
       interprogram-paste-function            ; ...with...
