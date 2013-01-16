@@ -311,7 +311,7 @@
         "*helm complete*"
         "*Ibuffer*"
         "*Calendar*"
-        "*anything*"))
+        "*helm*"))
 
 ;;; sh-toggle
 (require 'sh-toggle)
