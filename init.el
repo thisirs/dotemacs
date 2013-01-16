@@ -631,7 +631,8 @@ that directory local file."
 (defun my-dont-backup-files-p (filename)
   (unless (or
            (string-match "\\`/sudo:root@" filename)
-           (string-match "\\.recentf$" filename))
+           (string-match "\\.recentf$" filename)
+           (string-match "\\.gpg$" filename))
     (normal-backup-enable-predicate filename)))
 
 (setq backup-enable-predicate 'my-dont-backup-files-p)
