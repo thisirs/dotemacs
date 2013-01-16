@@ -124,7 +124,7 @@
 ;; open files with evince instead of xpdf
 (setq helm-c-pdfgrep-default-read-command "evince -p %p \"%f\"")
 
-(setq helm-c-pdfgrep-default-command "pdfgrep -C 300 --color never -niH %s %s")
+(setq helm-c-pdfgrep-default-command "pdfgrep -C 300 --color never -niH \"%s\" %s")
 
 (defun helm-search-bib ()
   (interactive)
