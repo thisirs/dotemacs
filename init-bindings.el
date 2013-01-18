@@ -9,6 +9,8 @@
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 
+(global-set-key (kbd "M-g c") 'goto-char)
+
 (global-set-key (kbd "C-z") 'shell)
 
 ;; move between windows with meta-arrows

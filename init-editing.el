@@ -1,5 +1,3 @@
-(global-set-key (kbd "M-g c") 'goto-char)
-
 ;; auto-indent pasted code
 (dolist (func '(yank yank-pop))
   (ad-add-advice
