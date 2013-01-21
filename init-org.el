@@ -143,6 +143,7 @@ the selected file."
         ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
         ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
         ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
+        ("Series" "~/.emacs.d/icons/tv.png" nil nil :ascent center)
         ("" '(space . (:height (16) :width (16))))))
 
 (setq org-agenda-day-face-function
