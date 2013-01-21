@@ -416,6 +416,9 @@
 
 (require-maybe 'find-temp-file)
 
+(require-maybe 'state)
+(state-install-bindings)
+
 (unless (server-running-p)
   (server-start))
 
