@@ -186,7 +186,9 @@ the selected file."
       '("~/Dropbox/Org/agenda.org"
         "~/Dropbox/Org/someday.org"
         "~/Dropbox/Org/specialdays.org"
-        "~/Dropbox/Org/books.org"))
+        "~/Dropbox/Org/books.org"
+        "~/Dropbox/Org/series.org"
+        ))
 
 ;; don't wait for agenda to be opened to update appt
 (org-agenda-to-appt 1)
