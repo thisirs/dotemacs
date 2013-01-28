@@ -1,4 +1,4 @@
-(setq ispell-dictionary-base-alist nil)
+;; (setq ispell-dictionary-base-alist nil)
 
 ;; english spell checking by default
 (ignore-errors
@@ -8,6 +8,14 @@
 
 ;; save the personal dictionary without confirmation
 (setq ispell-silently-savep t)
+
+(when (and (executable-find "hunspell")
+           (file-exists-p "~/.dictionary/fr-toutesvariantes"))
+  (setq ispell-program-name "hunspell")
+  (setq ispell-local-dictionary-alist
+        '(("francais"
+           "[A-Za-zçéêèóôòæøåÇÉÊÈÓÔÒÆØÅ]" "[^A-Za-zçéêèóôòæøåÇÉÊÈÓÔÒÆØÅ]" "[\"]"
+           nil ("-d" "~/.dictionary/fr-toutesvariantes") nil utf-8))))
 
 (require 'flyspell)
 
