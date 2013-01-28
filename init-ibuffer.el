@@ -93,7 +93,7 @@ containing a not hidden git repository."
          (list
           (and (or (file-exists-p (concat dir ".git"))
                    (file-exists-p (concat dir ".ibuffer")))
-               (not (file-exists-p (concat dir "/.hidden")))
+               (not (file-exists-p (concat dir ".hidden")))
                (cons dir nil))))
     (apply 'append list
            (mapcar
@@ -103,7 +103,7 @@ containing a not hidden git repository."
             ;; avoiding . and ..
             (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
 
-(defun make-ibuffer-projects-list (prefix &rest dir-list)
+(defun make-ibuffer-projects-list (prefix dir-list)
   "Return a list whose elements are of the form ((`prefix' (filename . `directory')"
   (mapcar
    (lambda (dir)
@@ -115,12 +115,16 @@ containing a not hidden git repository."
            (lambda (dir)
              (and (file-directory-p dir)
                   (nreverse (find-projects dir))))
-           dir-list))))
+           (if (listp dir-list)
+               dir-list
+             (list dir-list))))))
 
 (setq ibuffer-project-alist
-      `(("Project: " . ,(concat (getenv "HOME") "/repositories/dotemacs"))
-        ("Project on THISKEY: " . "/media/THISKEY/programming")
-        ( "" . "/media/THISKEY/Documents/These/")))
+      `(("Project: " . ,(list
+                         (concat (getenv "HOME") "/Dropbox/emacs/site-lisp")
+                         (concat (getenv "HOME") "/repositories")
+                         (concat (getenv "HOME") "/Dropbox/programming")))
+        ( "Boss: " . "~/Dropbox/These/")))
 
 (setq ibuffer-project-list-cache-file
       "~/.emacs.d/cache/ibuffer-project")
