@@ -104,12 +104,20 @@
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
-;; Enable paredit in minibuffer when evaluating
-(defadvice read-from-minibuffer (around paredit-in-minibuffer activate)
-  (if (null (string= (ad-get-arg 0) "Eval: "))
-      ad-do-it
-    (let ((minibuffer-setup-hook (cons 'enable-paredit-mode minibuffer-setup-hook)))
-      ad-do-it)))
+;; From https://github.com/purcell/emacs.d.git
+;; Use paredit in the minibuffer
+(add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+
+(defvar paredit-minibuffer-commands '(eval-expression
+                                      pp-eval-expression
+                                      ibuffer-do-eval
+                                      ibuffer-do-view-and-eval)
+  "Interactive commands for which paredit should be enabled in the minibuffer.")
+
+(defun conditionally-enable-paredit-mode ()
+  "Enable paredit during lisp-related minibuffer commands."
+  (if (memq this-command paredit-minibuffer-commands)
+      (enable-paredit-mode)))
 
 (require 'paredit-ext)
 
