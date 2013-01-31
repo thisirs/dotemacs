@@ -96,8 +96,6 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
               (error "Argument %d is beyond length of command history" 0)
             (error "There are no previous complex commands to repeat")))))))
 
-(create-flash-binding "<f9>")
-(create-flash-binding "<f10>")
 (create-flash-binding "<f11>")
 (create-flash-binding "<f12>")
 
@@ -119,7 +117,5 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 
 (create-simple-keybinding-command f9 "<f9>")
 (create-simple-keybinding-command f10 "<f10>")
-(create-simple-keybinding-command f11 "<f11>")
-(create-simple-keybinding-command f12 "<f12>")
 
 (provide 'init-bindings)
