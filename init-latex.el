@@ -217,6 +217,7 @@ environment."
 (defun latex-update-or-insert-label ()
   "Replace or update label when in a figure environment. The new
 label name is the same as the included file."
+  (interactive)
   (let ((curr-env (LaTeX-current-environment)))
     (if (not (string-match "\\(sub\\)?figure" curr-env))
         (error "Not in a figure environment")
