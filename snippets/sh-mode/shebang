@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: shebang
-# key: shebang
+# name: Insert a bash shebang
+# key: sb
 # --
 #! /bin/bash -
 

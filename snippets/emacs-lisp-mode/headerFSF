@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: FSF header for Elisp files
-# key: header
+# key: hdr
 # --
 ;;; `(file-name-nondirectory (buffer-file-name))` ---
 

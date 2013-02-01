@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
-# name: provide
+# name: provide feature
 # key: pro
 # --
-(provide '`(if (buffer-file-name) (file-name-nondirectory (file-name-sans-extension (buffer-file-name))) (buffer-name))`)$0
+(provide '`(if (buffer-file-name) (file-name-nondirectory (file-name-sans-extension (buffer-file-name))) (buffer-name))`)
+$0

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: headerlatex
-# key: headerlatex
+# name: Classic latex preamble
+# key: hdr
 # --
 \documentclass{article}%           autres choix : report, book
 

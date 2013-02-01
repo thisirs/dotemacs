@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Language dependent s.t.
+# key: st
+# --
+\\quad\\text{`(if (equal (or ispell-local-dictionary ispell-dictionary) "en") "s.t." "tel que")`}\\quad

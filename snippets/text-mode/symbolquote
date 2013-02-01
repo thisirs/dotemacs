@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: backquote, quote
+# name: `...'
 # key: kw
 # condition: 'force-in-comment
 # --

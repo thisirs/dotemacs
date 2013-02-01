@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: guillemet
+# name: <<~...~>>
 # key: gui
 # --
 <<~$1~>> $0

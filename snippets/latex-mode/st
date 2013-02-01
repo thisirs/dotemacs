@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: st
-# key: st
-# --
-\\quad\\text{`(if (equal ispell-local-dictionary "en") "s.t." "tel que")`}\\quad

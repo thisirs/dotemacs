@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Test if program exists
+# key: ci
+# --
+hash $1 > /dev/null 2>&1 \
+    || { echo >&2 "${2:$1} not installed. Aborting."; exit 1; }
+
+$0

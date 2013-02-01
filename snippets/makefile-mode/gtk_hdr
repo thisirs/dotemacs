@@ -10,12 +10,10 @@ BIN = nom_prog
 SRC = main.c
 OBJ = main.o
 
-
 #
 # Flags d'erreurs:
 #
 ERROR_CFLAGS = -Wall -W -pedantic
-
 
 #
 # Flags pour le compilateur:
@@ -23,7 +21,6 @@ ERROR_CFLAGS = -Wall -W -pedantic
 GTK_CFLAGS = $$(pkg-config --cflags gtk+-2.0)
 
 CFLAGS = $(ERROR_FLAGS) $(GTK_CFLAGS)
-
 
 #
 # Flags pour l'editeur de liens:

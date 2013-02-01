@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Standalone TikZ template
-# key: headerTS
+# key: hdrt
 # --
 \documentclass{standalone}
 

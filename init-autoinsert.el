@@ -11,24 +11,24 @@
 
 (setq auto-insert-alist
       '(
-        ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "shebang"))
-        ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "shebang"))
+        ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "sb"))
+        ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "sb"))
         ("\\.tex$"
          ("Latex article"
           (progn
-            (auto-insert-yasnippet "headerlatex")
+            (auto-insert-yasnippet "hdr")
             (TeX-normal-mode 1)))
          ("Standalone TikZ"
           (progn
-            (auto-insert-yasnippet "headerTS")
+            (auto-insert-yasnippet "hdrt")
             (TeX-normal-mode 1)))
          ("Minimal LaTeX snippet"
           (progn
-            (auto-insert-yasnippet "minimal")
+            (auto-insert-yasnippet "hdrm")
             (TeX-normal-mode 1)))
          ("Letter"
           (progn
-            (auto-insert-yasnippet "ll")
+            (auto-insert-yasnippet "hdrl")
             (TeX-normal-mode 1))))))
 
 (setq auto-insert 'other)
