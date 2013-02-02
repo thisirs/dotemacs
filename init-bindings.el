@@ -1,10 +1,11 @@
 ;; shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(global-set-key (kbd "<C-kp-6>") 'enlarge-window-horizontally)
-(global-set-key (kbd "<C-kp-4>") 'shrink-window-horizontally)
-(global-set-key (kbd "<C-kp-2>") 'enlarge-window)
-(global-set-key (kbd "<C-kp-8>") 'shrink-window)
+(global-set-key (kbd "<C-kp-4>") 'enlarge-window-horizontally)
+(global-set-key (kbd "<C-kp-6>") 'shrink-window-horizontally)
+(global-set-key (kbd "<C-kp-8>") 'enlarge-window)
+(global-set-key (kbd "<C-kp-2>") 'shrink-window)
+(global-set-key (kbd "<C-kp-0>") 'transpose-buffers)
 
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
