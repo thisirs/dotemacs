@@ -25,9 +25,7 @@
     ad-do-it))
 
 (defun helm-for-files-update-list ()
-  `(helm-c-source-ffap-line
-    helm-c-source-ffap-guesser
-    helm-c-source-buffers-list
+  `(helm-c-source-buffers-list
     helm-c-source-recentf
     helm-c-source-bookmarks
     helm-c-source-file-cache
