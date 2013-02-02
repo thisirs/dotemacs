@@ -431,7 +431,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq inhibit-startup-screen t)
-(setq ring-bell-function (lambda ()))
+(setq ring-bell-function 'ignore)
 
 ;; no lockfiles
 (with-emacs-newer "24.2"
