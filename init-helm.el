@@ -1,5 +1,3 @@
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/emacs-helm"))
-
 (setq helm-command-prefix-key "C-x C-a")
 (setq helm-ff-transformer-show-only-basename nil)
 
