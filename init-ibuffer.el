@@ -123,7 +123,8 @@ containing a not hidden git repository."
       `(("Project: " . ,(list
                          (concat (getenv "HOME") "/Dropbox/emacs/site-lisp")
                          (concat (getenv "HOME") "/repositories")
-                         (concat (getenv "HOME") "/Dropbox/programming")))
+                         (concat (getenv "HOME") "/Dropbox/programming")
+                         (concat (getenv "HOME") "/.emacs.d")))
         ( "Boss: " . "~/Dropbox/These/")))
 
 (setq ibuffer-project-list-cache-file
