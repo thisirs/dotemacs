@@ -205,7 +205,7 @@ the selected file."
         (holiday-fixed 12 25 "Noël")
         (holiday-easter-etc 1 "Lundi de Pâques")
         (holiday-easter-etc 39 "Ascension")
-        (holiday-easter-etc -47 "Mardi gras")
+;;        (holiday-easter-etc -47 "Mardi gras")
         (holiday-easter-etc 50 "Lundi de Pentecôte")))
 
 
@@ -378,12 +378,11 @@ the selected file."
     (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
 
 ;; Jours fériés et fêtes
-(defun paques-fetes ()
+(defun mardi-gras ()
   (let ((abs-easter (abs-easter)))
     (and (calendar-date-equal
           date
-          (calendar-gregorian-from-absolute (+ abs-easter -47)))
-         "Mardi gras")))
+          (calendar-gregorian-from-absolute (+ abs-easter -47))))))
 
 (defun fete-meres ()
   (let ((abs-easter (abs-easter)))
