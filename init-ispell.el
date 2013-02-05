@@ -10,12 +10,12 @@
 (setq ispell-silently-savep t)
 
 (when (and (executable-find "hunspell")
-           (file-exists-p "~/.dictionary/fr-toutesvariantes"))
+           (file-exists-p "~/.dictionary/fr-toutesvariantes.dic"))
   (setq ispell-program-name "hunspell")
   (setq ispell-local-dictionary-alist
-        '(("francais"
+        `(("francais"
            "[A-Za-zçéêèóôòæøåÇÉÊÈÓÔÒÆØÅ]" "[^A-Za-zçéêèóôòæøåÇÉÊÈÓÔÒÆØÅ]" "[\"]"
-           nil ("-d" "~/.dictionary/fr-toutesvariantes") nil utf-8))))
+           nil ("-d" ,(concat (getenv "HOME") "/.dictionary/fr-toutesvariantes")) nil utf-8))))
 
 (require 'flyspell)
 
