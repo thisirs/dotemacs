@@ -191,6 +191,47 @@ the selected file."
         "~/Dropbox/Org/series.org"
         ))
 
+;; Calcul de Pâques (from holidays.el)
+(defun abs-easter ()
+  (let* ((displayed-year (caddr date))
+         (century (1+ (/ displayed-year 100)))
+         (shifted-epact ;; Age of moon for April 5...
+          (% (+ 14 (* 11 (% displayed-year 19)) ;;     ...by Nicaean rule
+                (- ;; ...corrected for the Gregorian century rule
+                 (/ (* 3 century) 4))
+                (/ ;; ...corrected for Metonic cycle inaccuracy.
+                 (+ 5 (* 8 century)) 25)
+                (* 30 century)) ;;              Keeps value positive.
+             30))
+         (adjusted-epact ;;  Adjust for 29.5 day month.
+          (if (or (= shifted-epact 0)
+                  (and (= shifted-epact 1) (< 10 (% displayed-year 19))))
+              (1+ shifted-epact)
+            shifted-epact))
+         (paschal-moon ;; Day after the full moon on or after March 21.
+          (- (calendar-absolute-from-gregorian (list 4 19 displayed-year))
+             adjusted-epact)))
+    (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
+
+;; Jours fériés et fêtes
+(defun mardi-gras ()
+  (let ((abs-easter (abs-easter)))
+    (and (calendar-date-equal
+          date
+          (calendar-gregorian-from-absolute (+ abs-easter -47))))))
+
+(defun fete-meres ()
+  (let ((abs-easter (abs-easter)))
+    (or (and (diary-float 5 0 -1)
+             (not
+              (calendar-date-equal
+               date
+               (calendar-gregorian-from-absolute (+ (abs-easter) 49)))))
+        (and (diary-float 6 0 1)
+             (calendar-date-equal
+              date
+              (calendar-gregorian-from-absolute (+ (abs-easter) 56)))))))
+
 ;; don't wait for agenda to be opened to update appt
 (org-agenda-to-appt 1)
 
@@ -354,47 +395,6 @@ the selected file."
                      ("mardi" . 2) ("mercredi" . 3)
                      ("jeudi" . 4) ("vendredi" . 5)
                      ("samedi" . 6))))))
-
-;; Calcul de Pâques (from holidays.el)
-(defun abs-easter ()
-  (let* ((displayed-year (caddr date))
-         (century (1+ (/ displayed-year 100)))
-         (shifted-epact ;; Age of moon for April 5...
-          (% (+ 14 (* 11 (% displayed-year 19)) ;;     ...by Nicaean rule
-                (- ;; ...corrected for the Gregorian century rule
-                 (/ (* 3 century) 4))
-                (/ ;; ...corrected for Metonic cycle inaccuracy.
-                 (+ 5 (* 8 century)) 25)
-                (* 30 century)) ;;              Keeps value positive.
-             30))
-         (adjusted-epact ;;  Adjust for 29.5 day month.
-          (if (or (= shifted-epact 0)
-                  (and (= shifted-epact 1) (< 10 (% displayed-year 19))))
-              (1+ shifted-epact)
-            shifted-epact))
-         (paschal-moon ;; Day after the full moon on or after March 21.
-          (- (calendar-absolute-from-gregorian (list 4 19 displayed-year))
-             adjusted-epact)))
-    (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
-
-;; Jours fériés et fêtes
-(defun mardi-gras ()
-  (let ((abs-easter (abs-easter)))
-    (and (calendar-date-equal
-          date
-          (calendar-gregorian-from-absolute (+ abs-easter -47))))))
-
-(defun fete-meres ()
-  (let ((abs-easter (abs-easter)))
-    (or (and (diary-float 5 0 -1)
-             (not
-              (calendar-date-equal
-               date
-               (calendar-gregorian-from-absolute (+ (abs-easter) 49)))))
-        (and (diary-float 6 0 1)
-             (calendar-date-equal
-              date
-              (calendar-gregorian-from-absolute (+ (abs-easter) 56)))))))
 
 (and (boundp 'server-process)
      (require 'org-protocol))
