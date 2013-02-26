@@ -214,9 +214,9 @@ environment."
          (unless (looking-at " *\n")
            (TeX-newline)))))))
 
-(defun latex-update-or-insert-label ()
-  "Replace or update label when in a figure environment. The new
-label name is the same as the included file."
+(defun latex-update-label-current-environment ()
+  "Insert or replace labels in the enclosing figure environment.
+The new label is the name of the included file."
   (interactive)
   (let ((curr-env (LaTeX-current-environment)))
     (if (not (string-match "\\(sub\\)?figure" curr-env))
@@ -237,7 +237,9 @@ label name is the same as the included file."
                                           filename)))
                             (match-string-no-properties 2))))
               ;; skip caption for correct numbering
-              (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
+              (skip-chars-forward " \n\t")
+              (if (looking-at "\\\\caption") (forward-sexp 2))
+              (skip-chars-forward " \n\t")
               (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
                   (unless (equal (match-string-no-properties 1) newname)
                     (replace-match newname nil nil nil 1))
