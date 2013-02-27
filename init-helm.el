@@ -44,7 +44,7 @@
 
 (defvar helm-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
-    (candidates . helm-c-locate-thiskey-init)
+    (candidates-process . helm-c-locate-thiskey-init)
     (type . file)
     (requires-pattern . 3)
     (delayed))
