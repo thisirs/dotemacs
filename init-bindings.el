@@ -7,6 +7,8 @@
 (global-set-key (kbd "<C-kp-2>") 'shrink-window)
 (global-set-key (kbd "<C-kp-0>") 'transpose-buffers)
 
+(global-set-key (kbd "<C-kp-multiply>") 'transpose-frame)
+
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 

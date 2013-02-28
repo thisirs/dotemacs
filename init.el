@@ -242,6 +242,8 @@
   (global-set-key (vector (list 'control mouse-wheel-up-event))
                   'zoom-out))
 
+(require 'transpose-frame)
+
 ;; wtf for acronym lookup
 (require 'wtf)
 
