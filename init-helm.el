@@ -15,10 +15,10 @@
 
 (setq helm-c-locate-command "locate -e -b %s -r \"%s\"")
 
-;; don't save history information to file
+;; Don't save history information to file
 (remove-hook 'kill-emacs-hook 'helm-c-adaptive-save-history)
 
-;; make `helm-for-files-preferred-list' dynamic
+;; Make `helm-for-files-preferred-list' dynamic
 (defadvice helm-for-files (around update-helm-list activate)
   (let ((helm-for-files-preferred-list
          (helm-for-files-update-list)))
@@ -39,53 +39,54 @@
   "Initialize async locate process for `helm-c-source-locate'."
   (start-process-shell-command
    "locate-thiskey-process" nil
-   (format (concat "locate -e -b -d " (expand-file-name "~/.locate.db") " -i -r \"%s\"")
+   (format helm-c-locate-command
+           (concat "-d " (expand-file-name "~/.locate.db") " -i")
            helm-pattern)))
 
 (defvar helm-c-source-locate-thiskey
   '((name . "Locate in THISKEY")
+    (init . helm-locate-set-command)
     (candidates-process . helm-c-locate-thiskey-init)
     (type . file)
     (requires-pattern . 3)
+    (history . ,'helm-file-name-history)
+    (keymap . ,helm-generic-files-map)
+    (help-message . helm-generic-file-help-message)
+    (candidate-number-limit . 9999)
+    (mode-line . helm-generic-file-mode-line-string)
     (delayed))
   "Find files matching the current input pattern with locate.")
 
 ;; helm for searching manuals
 (defvar helm-c-manual-path
-  '("/media/THISKEY/Documents/Manuals/"
-    "/media/THISKEY/Documents/latex/package_manuals"
-    "/media/THISKEY/Documents/latex/beamer/"
-    "/media/THISKEY/Documents/latex/tikz/"
-    "/media/THISKEY/Documents/latex/tex/")
-  "List of path to look for manuals.")
+  '("~/Documents/manuals/"
+    ("/media/THISKEY/Documents/Manuals/"
+     "~/.backup/THISKEY/Documents/Manuals/")
+    ("/media/THISKEY/Documents/latex/package_manuals"
+     "~/.backup/THISKEY/Documents/latex/package_manuals")
+    ("/media/THISKEY/Documents/latex/beamer/"
+     "~/.backup/THISKEY/Documents/latex/beamer/")
+    ("/media/THISKEY/Documents/latex/tikz/"
+     "~/.backup/THISKEY/Documents/latex/tikz/")
+    ("/media/THISKEY/Documents/latex/tex/"
+     "~/.backup/THISKEY/Documents/latex/tex/")
+    ("/media/KROKEY/LYCEE/Ressources/TiKz/"
+     "~/.backup/KROKEY/LYCEE/Ressources/TiKz/"))
+  "List of path to look for manuals. Each element is either a
+  string or a list of string containing fallback directories.")
+
 
 (defun helm-c-manual-path ()
-  (let (helm-c-manual-path)
-    (if (file-exists-p "/media/THISKEY/")
-        (setq helm-c-manual-path
-              (append helm-c-manual-path
-                      '("/media/THISKEY/Documents/Manuals/"
-                        "/media/THISKEY/Documents/latex/package_manuals"
-                        "/media/THISKEY/Documents/latex/beamer/"
-                        "/media/THISKEY/Documents/latex/tikz/"
-                        "/media/THISKEY/Documents/latex/tex/")))
-      (if (file-exists-p "~/.backup/THISKEY/")
-          (setq helm-c-manual-path
-                (append helm-c-manual-path
-                        '("~/.backup/THISKEY/Documents/Manuals/"
-                          "~/.backup/THISKEY/Documents/latex/package_manuals"
-                          "~/.backup/THISKEY/Documents/latex/beamer/"
-                          "~/.backup/THISKEY/Documents/latex/tikz/"
-                          "~/.backup/THISKEY/Documents/latex/tex/")))))
-    (if (file-exists-p "/media/KROKEY/")
-        (setq helm-c-manual-path
-              (append helm-c-manual-path
-                      '("/media/KROKEY/LYCEE/Ressources/TiKz/")))
-      (if (file-exists-p "~/.backup/KROKEY/")
-          (setq helm-c-manual-path
-                (append helm-c-manual-path
-                        '("~/.backup/KROKEY/LYCEE/Ressources/TiKz/")))))
-    (delete-dups helm-c-manual-path)))
+  "Returns all existing directories containing manuals."
+  (delq nil
+        (mapcar
+         (lambda (paths)
+           (let ((paths (if (listp paths) paths (list paths))) path found)
+             (while (and (not found) paths)
+               (setq path (pop paths))
+               (setq found (file-exists-p path)))
+             (and found path)))
+         helm-c-manual-path)))
 
 (defvar helm-c-manual-regexp "\\.pdf\\'")
 
