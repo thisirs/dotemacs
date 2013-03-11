@@ -552,4 +552,26 @@ this with to-do items than with projects or headings."
 ;; Override the key definition
 (define-key org-agenda-mode-map "X" 'org-agenda-mark-done-and-add-followup)
 
+
+;; Custom headline export
+(defun org-latex-format-headline-checkbox-function
+  (todo todo-type priority text tags)
+  (replace-regexp-in-string
+   "\\[[ X-]\\]"
+   (lambda (match)
+     (cond
+      ((string= match "[X]") "$\\\\boxtimes$ ")
+      ((string= match "[ ]") "$\\\\Box$ ")
+      ((string= match "[-]") "$\\\\boxminus$ ")))
+   (concat
+    (and todo (format "{\\bfseries\\sffamily %s} " todo))
+    (and priority (format "\\framebox{\\#%c} " priority))
+    text
+    (and tags
+         (format "\\hfill{}\\textsc{%s}" (mapconcat 'identity tags ":"))))))
+
+(setq org-latex-format-headline-function
+      'org-latex-format-headline-checkbox-function)
+
+
 (provide 'init-org)
