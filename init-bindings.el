@@ -12,7 +12,8 @@
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 
-(global-set-key (kbd "M-g c") 'goto-char)
+(with-emacs-version< "24.3"
+  (global-set-key (kbd "M-g c") 'goto-char))
 
 (global-set-key (kbd "C-z") 'shell)
 

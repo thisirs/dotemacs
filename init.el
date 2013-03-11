@@ -42,10 +42,28 @@
   `(eval-after-load ,s
      '(progn ,@body)))
 
-(defmacro with-emacs-newer (version &rest body)
+(defmacro with-emacs-version>= (version &rest body)
   "Expand to BODY if current emacs version is newer than VERSION."
   (declare (indent 1) (debug t))
   (when ( version<= version emacs-version)
+    `(progn ,@body)))
+
+(defmacro with-emacs-version> (version &rest body)
+  "Expand to BODY if current emacs version is newer than VERSION."
+  (declare (indent 1) (debug t))
+  (when ( version< version emacs-version)
+    `(progn ,@body)))
+
+(defmacro with-emacs-version<= (version &rest body)
+  "Expand to BODY if current emacs version is newer than VERSION."
+  (declare (indent 1) (debug t))
+  (when ( version<= emacs-version version)
+    `(progn ,@body)))
+
+(defmacro with-emacs-version< (version &rest body)
+  "Expand to BODY if current emacs version is newer than VERSION."
+  (declare (indent 1) (debug t))
+  (when ( version< emacs-version version)
     `(progn ,@body)))
 
 (defmacro define-on-macro (sys)
@@ -55,7 +73,7 @@
        `(progn ,@body))))
 
 ;; adding packages source
-(with-emacs-newer "24"
+(with-emacs-version>= "24"
   (require 'package)
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -366,7 +384,7 @@
             (define-key term-raw-map (kbd "C-z") 'shell-toggle)))
 
 ;; notify events
-(with-emacs-newer "24"
+(with-emacs-version>= "24"
   (require 'notifications))
 
 (require 'ffap)
@@ -436,7 +454,7 @@
 (setq ring-bell-function 'ignore)
 
 ;; no lockfiles
-(with-emacs-newer "24.2"
+(with-emacs-version>= "24.2"
   (setq create-lockfiles nil))
 
 ;; UTF-8 as default encoding
