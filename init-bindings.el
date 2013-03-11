@@ -1,4 +1,4 @@
-;; shortcut for reverting a buffer
+;; Shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
 (global-set-key (kbd "<C-kp-4>") 'enlarge-window-horizontally)
@@ -16,7 +16,7 @@
 
 (global-set-key (kbd "C-z") 'shell)
 
-;; move between windows with meta-arrows
+;; Move between windows with meta-arrows
 ;; (windmove-default-keybindings 'meta)
 (global-set-key (kbd "s-b") 'windmove-left)
 (global-set-key (kbd "s-f") 'windmove-right)
@@ -29,18 +29,18 @@
 
 (global-set-key (kbd "C-c C-t") 'ring-transparency)
 
-;; automatically indent wherever I am
+;; Automatically indent wherever I am
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 (global-set-key [\C-home] 'beginning-of-buffer)
 (global-set-key [\C-end] 'end-of-buffer)
 
-;; fuck occur and word isearch
+;; Fuck occur and word isearch
 (global-set-key (kbd "M-s") 'backward-kill-word)
 
 (global-set-key [(control tab)] 'other-window)
 
-;; split screen and switch to it!
+;; Split window and switch to newly created one
 (global-set-key (kbd "C-x 3")
                 (lambda nil
                   (interactive)
@@ -55,7 +55,7 @@
 
 (global-set-key (kbd "C-x C-v") 'find-file-other-window)
 
-;; replace-string and replace-regexp need a key binding
+;; Binding for `replace-string' and `replace-regexp'
 (global-set-key (kbd "C-c s") 'replace-string)
 (global-set-key (kbd "C-c r") 'replace-regexp)
 
