@@ -8,7 +8,7 @@
   (setq site-lisp-dir "~/Dropbox/emacs/site-lisp/")
   (add-to-list 'load-path site-lisp-dir)
 
-  ;; add all directories in site-lisp
+  ;; Add all directories in site-lisp
   (dolist (path (directory-files site-lisp-dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
     (if (file-directory-p path)
         (add-to-list 'load-path path))))
@@ -72,7 +72,7 @@
      (when (string-prefix-p ,sys system-name)
        `(progn ,@body))))
 
-;; adding packages source
+;; Adding packages source
 (with-emacs-version>= "24"
   (require 'package)
   (add-to-list 'package-archives
@@ -117,7 +117,7 @@
 (require 'init-vanilla)
 (require 'init-editing)
 
-;; whitespace mode
+;; Whitespace mode
 (require 'whitespace)
 
 (setq whitespace-style
@@ -157,7 +157,7 @@
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-;; fast navigation from symbol to definition
+;; Fast navigation from symbol to definition
 (when (require-maybe 'elisp-slime-nav)
   (add-hook 'emacs-lisp-mode-hook
             (lambda () (elisp-slime-nav-mode t))))
@@ -172,7 +172,7 @@
 (browse-kill-ring-default-keybindings)
 (setq browse-kill-ring-quit-action 'save-and-restore)
 
-;; line numbering
+;; Line numbering
 (require 'linum)
 (global-linum-mode 1)
 (setq linum-format "%5d")
@@ -202,7 +202,7 @@
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
-;;; ruby
+;;; Ruby
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
 
@@ -226,7 +226,7 @@
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
-;; flymake for shell scripts
+;; Flymake for shell scripts
 (require 'flymake-shell)
 (add-hook 'sh-set-shell-hook 'flymake-shell-load)
 
@@ -265,7 +265,7 @@
 ;; wtf for acronym lookup
 (require 'wtf)
 
-;; buffers can't have the same name
+;; Buffers can't have the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets
       uniquify-after-kill-buffer-p t)
@@ -274,7 +274,7 @@
 (setq save-place-file "~/.emacs.d/.saveplace")
 (setq-default save-place t)
 
-;; goto last changed place in buffer
+;; Goto last changed place in buffer
 (require 'goto-last-change)
 (global-set-key (kbd "C-x C-_") 'goto-last-change)
 
@@ -340,7 +340,7 @@
 (global-set-key (kbd "C-z") 'shell-toggle)
 (global-set-key (kbd "C-M-z") 'shell-toggle-cd)
 
-;; additional menu
+;; Additional menu
 (require 'easymenu)
 (setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
 (easy-menu-define my-encoding-menu my-encoding-map
@@ -361,13 +361,13 @@
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
 
-;; loading zenburn theme
+;; Loading zenburn theme
 (load-theme 'zenburn t)
 
 ;; BUG: require is cyan. Loading zenburn-theme.el fixes this
 (load "zenburn-theme")
 
-;; paste in term
+;; Paste in term
 (require 'term)
 
 (add-hook 'term-mode-hook
@@ -383,18 +383,18 @@
             (define-key term-raw-map (kbd "C-y") 'term-paste)
             (define-key term-raw-map (kbd "C-z") 'shell-toggle)))
 
-;; notify events
+;; Notify events
 (with-emacs-version>= "24"
   (require 'notifications))
 
 (require 'ffap)
-;; find file at point even if it is the wrong user: /home/otheruser/realfile
+;; Find file at point even if it is the wrong user: /home/otheruser/realfile
 (add-to-list 'ffap-alist
              (cons "\\`\\(/home/[^/]+\\)"
                    (lambda (name)
                      (replace-match "~" nil nil name 1))))
 
-;; find pdf at a ref which has the same name in `pdfs-directory'
+;; Find pdf at a ref which has the same name in `pdfs-directory'
 (defvar pdfs-directory nil
   "Directory to look for pdf files.")
 
@@ -425,7 +425,7 @@
 (require-maybe 'org-context)
 (require-maybe 'commit-message)
 
-;; load file settings if any
+;; Load file settings if any
 (ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
 
 (require-maybe 'vc-git-commit-all)
@@ -445,7 +445,7 @@
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
 
-;; disable dialog box, tool bar...
+;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 (tool-bar-mode -1)
@@ -453,26 +453,26 @@
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 
-;; no lockfiles
+;; No lockfiles
 (with-emacs-version>= "24.2"
   (setq create-lockfiles nil))
 
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 
-;; unified diff format and no whitespace when using `diff'
+;; Unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
 
-;; no limit on how many lines to keep in *Messages* buffer
+;; No limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
 
-;; no fringe on the right
+;; No fringe on the right
 (set-fringe-mode '(8 . 0))
 
-;; no fringe in minibuffer
+;; No fringe in minibuffer
 (set-window-fringes (minibuffer-window) 0 0)
 
-;; quit minibuffer if there is a click on another buffer
+;; Quit minibuffer if there is a click on another buffer
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
   (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
@@ -480,7 +480,7 @@
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
-;; no fast scrolling
+;; No fast scrolling
 (setq mouse-wheel-progressive-speed nil)
 
 ;; Drive out the mouse when it's too near to the cursor.
@@ -516,7 +516,7 @@
    ((file-exists-p "/run/media/sylvain/THISKEY/")
     (update-locate-database "/run/media/sylvain/THISKEY/"))))
 
-;; update locate database when idle during 20 sec
+;; Update locate database when idle during 20 sec
 (run-with-idle-timer 20 nil 'update-locate-database-THISKEY)
 
 (require 'dbus)
@@ -561,12 +561,12 @@ Also returns nil if pid is nil."
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
-;; suit les liens vers les systèmes de contrôle de versions
+;; Follow links to version-controlled files
 (setq vc-follow-symlinks t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; leave point at center of the screen when scrolling
+;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
 
 ;; SHIFT selection
@@ -595,7 +595,7 @@ that directory local file."
         (kill-buffer nil))))
   nil)
 
-;; history navigation
+;; History navigation
 (with-after-load "comint"
   (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
   (define-key comint-mode-map [(control ?n)] 'comint-next-input))
@@ -627,10 +627,10 @@ that directory local file."
 ;; echo keystrokes quickly
 (setq echo-keystrokes 0.1)
 
-;; delete all whitespace when deleting backward
+;; Delete all whitespace when deleting backward
 (setq backward-delete-char-untabify-method 'all)
 
-;; custom frame title
+;; Custom frame title
 (modify-frame-parameters nil '((name . nil)))
 (setq frame-title-format
       '(:eval
@@ -644,7 +644,7 @@ that directory local file."
                          dired-directory)))
                  (buffer-name)))))
 
-;; backups
+;; Backups
 (setq make-backup-files t ;; do make backups
       ;;  backup-by-copying t     ;; and copy them here
       backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
@@ -653,7 +653,7 @@ that directory local file."
       kept-old-versions 5
       delete-old-versions t)
 
-;; don't backup sudo opened files and .recentf
+;; Don't backup sudo opened files and .recentf
 (defun my-dont-backup-files-p (filename)
   (unless (or
            (string-match "\\`/sudo:root@" filename)
@@ -668,7 +668,7 @@ that directory local file."
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; don't let Customize mess with my .emacs
+;; Don't let Customize mess with my .emacs
 (setq custom-file (concat site-lisp-dir "custom.el"))
 (load custom-file 'noerror)
 
@@ -702,7 +702,7 @@ case it is used in hooks."
        (delete-trailing-whitespace)
        nil))
 
-;; if indent-tabs-mode is off, untabify before saving
+;; If indent-tabs-mode is off, untabify before saving
 (defun untabify-safe ()
   "Untabify buffer if it is not VC or untracked in VC and if
 `indent-tabs-mode' is nil."
@@ -739,7 +739,7 @@ case it is used in hooks."
        (repl (cdr exp) pattern patch))))
    (t exp)))
 
-;; bookmarks
+;; Bookmarks
 (setq bookmark-default-file
       (if (file-exists-p "~/Dropbox/emacs/.bookmarks")
           "~/Dropbox/emacs/.bookmarks"
@@ -762,10 +762,10 @@ case it is used in hooks."
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
 
-;; ignore case when completing
+;; Ignore case when completing
 (setq completion-ignore-case t)
 
-;; filenames too, to browse with dired for example...
+;; Filenames too, to browse with dired for example...
 (setq read-file-name-completion-ignore-case t)
 
 (defun change-to-utf-8 ()
@@ -774,7 +774,7 @@ case it is used in hooks."
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-;; minibuffer history
+;; Minibuffer history
 ;;(savehist-mode t)
 
 ;; Always add a final newline
@@ -790,20 +790,20 @@ case it is used in hooks."
       interprogram-paste-function            ; ...with...
       'x-cut-buffer-or-selection-value)      ; ...other X clients
 
-;; don't warn when quitting emacs with running processes
+;; Don't warn when quitting emacs with running processes
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
   (letf (((symbol-function 'process-list)
           (lambda ()))) ad-do-it))
 
-;; don't warn when killing running processes
+;; Don't warn when killing running processes
 (delq 'process-kill-buffer-query-function
       kill-buffer-query-functions)
 
 ;; Make URLs in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
-;; enable narrow-to-region binding
+;; Enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
 
 ;; Delete the selected region when something is typed or with DEL
@@ -812,14 +812,14 @@ case it is used in hooks."
 ;; Text selection highlighted by default on Emacs 23
 ;;(transient-mark-mode t)
 
-;; non interactive function in apropos
+;; Non interactive function in apropos
 ;; Make C-h a act as C-u C-h a
 (setq apropos-do-all t)
 
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
-;; activate automatic timestamp
+;; Activate automatic timestamp
 (setq
  time-stamp-active t
  time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
@@ -835,7 +835,7 @@ case it is used in hooks."
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;; open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
+;; Open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
 (setq truncate-lines nil)
