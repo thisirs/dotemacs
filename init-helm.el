@@ -9,6 +9,8 @@
 ;; (helm-read-string-mode 1)
 ;; (ac-mode -1)
 
+(global-set-key (kbd "C-x C-m") 'helm-M-x)
+
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
 (setq helm-su-or-sudo "sudo")
