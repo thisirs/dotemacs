@@ -974,3 +974,8 @@ wants to replace FROM with TO."
 		 (message "Note: `\\t' here doesn't match a tab; to do that, just type TAB")))
 	       (sit-for 2)))
 	from))))
+
+;; Trying keyfreq
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
