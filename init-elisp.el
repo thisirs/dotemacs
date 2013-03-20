@@ -4,6 +4,10 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+(setq eval-expression-print-length nil)
+(setq eval-expression-print-level nil)
+
+
 (defun eval-region-or-buffer ()
   (interactive)
   (let ((debug-on-error t))
