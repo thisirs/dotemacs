@@ -472,6 +472,9 @@
 ;; No fringe in minibuffer
 (set-window-fringes (minibuffer-window) 0 0)
 
+;; Don't automatically split vertically
+(setq split-height-threshold nil)
+
 ;; Quit minibuffer if there is a click on another buffer
 (defun stop-using-minibuffer ()
   "kill the minibuffer"
