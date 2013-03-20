@@ -1,5 +1,5 @@
 ;;; erc
-;; check channels
+;; Check channels
 (erc-track-mode t)
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                 "324" "329" "332" "333" "353" "477"))
@@ -21,7 +21,7 @@
 (erc-match-mode 1)
 (setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
 
-;; custom prompt
+;; Custom prompt
 (setq erc-prompt
       (lambda () (concat (buffer-name) ">")))
 

@@ -44,7 +44,7 @@
           (lambda ()
             (local-set-key (kbd "RET") 'electrify-return-if-match)))
 
-;; custom name for bookmark when in a defun
+;; Custom name for bookmark when in a defun
 (defun emacs-lisp-custom-record-function ()
   (set (make-local-variable 'bookmark-make-record-function)
        (lambda (&optional no-file no-context posn)

@@ -2,7 +2,7 @@
 
 (global-set-key "\C-ci" 'magit-status)
 
-;; look at diff when writing a commit message
+;; Look at diff when writing a commit message
 (defun magit-log-show-diff ()
   (interactive)
   (let ((content (magit-cmd-output "git" '("diff" "--cached" "-U5"))))

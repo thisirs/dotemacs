@@ -8,7 +8,7 @@
         (diff (car marked-bufs) (cadr marked-bufs))
       ad-do-it)))
 
-;; don't show empty groups
+;; Don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
 
 (defun ibuffer-next-buffer-aux (list)

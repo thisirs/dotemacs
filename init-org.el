@@ -4,7 +4,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/org-mode/contrib/lisp")
 (require 'org-drill)
 
-;; workaround to use yassnippet in org-mode
+;; Workaround to use yasnippet in org-mode
 (defun yas/org-very-safe-expand ()
   (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
 
@@ -19,26 +19,26 @@
 (setq org-todo-keywords
       '("TODO" "|" "CANCELLED" "DONE"))
 
-;; no recursive todo in agenda
+;; No recursive todo in agenda
 (setq org-agenda-todo-list-sublevels nil)
 
-;; ignore scheduled and deadline
+;; Ignore scheduled and deadline
 (setq org-agenda-todo-ignore-scheduled t)
 (setq org-agenda-todo-ignore-deadlines t)
 
-;; set org id locations
+;; Set org id locations
 (setq org-id-locations-file "~/Dropbox/Org/.org-id-locations")
 
-;; remove tags in agenda
+;; Remove tags in agenda
 (setq org-agenda-remove-tags t)
 
-;; special navigation in org mode
+;; Special navigation in org mode
 (setq org-special-ctrl-a/e t)
 
-;; fontify src blocks
+;; Fontify src blocks
 (setq org-src-fontify-natively t)
 
-;; restore windows configuration
+;; Restore windows configuration
 (setq org-agenda-restore-windows-after-quit t)
 
 (defun todo-item ()
@@ -62,7 +62,7 @@
                 (org-make-link-string link txt))))))
    ""))
 
-;; shorter description
+;; Shorter description
 (setq org-link-to-description
       '(("\\`file:.*/\\([^/:]+\\)\\(::.*\\)" . "\\1")
         ("\\`file:.*/\\([^/:]+\\)" . "\\1")))
@@ -83,28 +83,28 @@ the selected file."
                (file-name-as-directory file)
              (file-name-nondirectory file)))))
 
-;; function to replace the description in a link
+;; Function to replace the description in a link
 (defun org-replace-name-in-link (link &optional here)
   (setq here (or here "here"))
   (if (string-match "\\[\\(\\[.*?\\]\\)\\(\\[.*?\\]\\)?\\]" link)
       (replace-match (concat "[\\1[" here "]]") nil nil link)
     link))
 
-;; return stored link with description "here"
+;; Return stored link with description "here"
 (defun my-name ()
   (file-name-nondirectory
    (replace-regexp-in-string
     "%" "\\%"
     (org-link-unescape (or (plist-get org-store-link-plist :link) "")))))
 
-;; fill :initial prop
+;; Fill :initial prop
 (defun initial-prop-filled ()
   (with-temp-buffer
     (insert (or (plist-get org-store-link-plist :initial) ""))
     (fill-region (buffer-end 0) (buffer-end 1))
     (buffer-string)))
 
-;; load templates from personal location
+;; Load templates from personal location
 (setq org-capture-templates
       (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
 
@@ -128,12 +128,12 @@ the selected file."
 
 (define-key global-map "\C-cc" 'org-capture)
 
-;; custom agenda view
+;; Custom agenda view
 (setq org-agenda-custom-commands
       '(("b" "Thesis Work" tags-todo "boss")
         ("t" "All TODO" alltodo "")))
 
-;; icons in agenda
+;; Icons in agenda
 (setq org-agenda-category-icon-alist
       '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
         ("Books\\|Magazines" "~/.emacs.d/icons/book.png" nil nil :ascent center)
@@ -160,7 +160,7 @@ the selected file."
                          (return 'org-agenda-date-weekend))))))
               (when face (return face)))))))
 
-;; annoted todo are stared
+;; Annoted todo are stared
 (eval-after-load "org-agenda"
   '(add-to-list 'org-agenda-prefix-format
                 '(todo . " %(annotedp)%i %-12:c")))
@@ -173,7 +173,7 @@ the selected file."
           (if (re-search-forward "- Note taken" end t) "*")))
    " "))
 
-;; logging
+;; Logging
 (setq org-log-done 'time)
 
 (setq org-agenda-skip-deadline-if-done t)
@@ -232,7 +232,7 @@ the selected file."
               date
               (calendar-gregorian-from-absolute (+ (abs-easter) 56)))))))
 
-;; don't wait for agenda to be opened to update appt
+;; Don't wait for agenda to be opened to update appt
 (org-agenda-to-appt 1)
 
 (setq french-holiday
@@ -259,7 +259,7 @@ the selected file."
       calendar-holidays french-holiday
       calendar-mark-holidays-flag t)
 
-;; warning with appt and notify
+;; Warning with appt and notify
 (setq
  appt-message-warning-time 15 ;; warn 15 min in advance
  appt-display-interval 3
@@ -269,12 +269,12 @@ the selected file."
 (appt-activate 1)              ;; active appt (appointment notification)
 (display-time)                 ;; time display is required for this...
 
-;; update appt each time agenda is opened, force a refresh to cancel
-;; deleted appt
+;; Update appt each time agenda is opened, force a refresh to cancel
+;; Deleted appt
 (add-hook 'org-finalize-agenda-hook
           (lambda () (org-agenda-to-appt 1)))
 
-;; our little façade-function for djcb-popup
+;; Our little façade-function for djcb-popup
 (defun appt-display (mins current-time msgs)
   (mapcar*
    (lambda (min msg)
@@ -305,7 +305,7 @@ the selected file."
 
 (setq org-babel-sh-command "bash")
 
-;; bib citations in org files
+;; Bib citations in org files
 (defun org-mode-reftex-setup ()
   (reftex-mode t)
   (when (and (buffer-file-name)
@@ -316,17 +316,17 @@ the selected file."
 
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
-;; open pdf files with acroread or evince (fuck gv)
+;; Open pdf files with acroread or evince (fuck gv)
 (and (executable-find "acroread")
      (push (cons "pdf" "acroread %s") org-file-apps))
 (and (executable-find "evince")
      (push (cons "pdf" "evince %s") org-file-apps))
 
-;; open ods files with libreoffice
+;; Open ods files with libreoffice
 (add-to-list 'org-file-apps '("\\.od[st]\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.docx?\\'" . "soffice %s"))
 
-;; bigger latex fragment
+;; Bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
 (defun jump-to-org-agenda ()
@@ -400,7 +400,7 @@ the selected file."
 (and (boundp 'server-process)
      (require 'org-protocol))
 
-;; taken from worg
+;; Taken from worg
 (defun org-remove-redundant-tags ()
   "Remove redundant tags of headlines in current buffer.
 
@@ -430,7 +430,7 @@ inherited by a parent headline."
 
 (add-hook 'before-save-hook 'clean-org-buffer)
 
-;; display agenda associated with file via org-context
+;; Display agenda associated with file via org-context
 (defun org-agenda-from-file (file key)
   (let* ((directory (directory-file-name
                      (file-name-directory file)))
@@ -442,15 +442,15 @@ inherited by a parent headline."
     (and org-agenda-custom-commands
          (org-agenda nil key))))
 
-;; don't warn when a link run `org-agenda-from-file'
+;; Don't warn when a link run `org-agenda-from-file'
 (setq org-confirm-elisp-link-not-regexp
       "\\`(org-agenda-from-file \".*\" \"[a-zA-Z]+\")\\'")
 
-;; enable sticky agenda to navigate between them
+;; Enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
   '(org-toggle-sticky-agenda 1))
 
-;; update project cookie and look at specified org file
+;; Update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
   (let ((project (org-entry-get (point) "PROJECT"))
         (n-done 0)
@@ -490,7 +490,7 @@ inherited by a parent headline."
 ;; Add all todo.org files from Projects headline in someday.org as targets
 (find-file "~/Dropbox/Org/someday.org")
 
-;; helm completion enabled in my patched org
+;; Helm completion enabled in my patched org
 (if (boundp 'org-completion-handler)
     (setq org-completion-handler 'helm))
 
@@ -520,7 +520,7 @@ inherited by a parent headline."
 
 (setq org-outline-path-complete-in-steps nil)
 
-;; custom export from tsv to timestamp to be placed in agenda
+;; Custom export from tsv to timestamp to be placed in agenda
 (defun orgtbl-to-agenda (table params)
   (let ((table-strip
          (delq nil

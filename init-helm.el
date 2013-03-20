@@ -59,7 +59,7 @@
     (delayed))
   "Find files matching the current input pattern with locate.")
 
-;; helm for searching manuals
+;; Helm for searching manuals
 (defvar helm-c-manual-path
   '("~/Documents/manuals/"
     ("/media/THISKEY/Documents/Manuals/"
@@ -120,7 +120,7 @@
   '("/media/THISKEY/Documents/These/bib/bregman"
     "~/Dropbox/These/bib/bregman"))
 
-;; open files with evince instead of xpdf
+;; Open files with evince instead of xpdf
 (setq helm-c-pdfgrep-default-read-command "evince -p %p \"%f\"")
 
 (setq helm-c-pdfgrep-default-command "pdfgrep -C 300 --color never -niH \"%s\" %s")

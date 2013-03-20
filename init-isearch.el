@@ -7,7 +7,7 @@
        (not isearch-mode-end-hook-quit)
        (goto-char isearch-other-end)))
 
-;; occur mode
+;; occur-mode
 (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
 
 ;; Staying in isearch mode when typing M-< M-> C-l

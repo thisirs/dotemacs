@@ -197,7 +197,7 @@
                 ("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
 
-;; markdown
+;; Markdown
 (autoload 'markdown-mode "markdown-mode")
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
@@ -230,7 +230,7 @@
 (require 'flymake-shell)
 (add-hook 'sh-set-shell-hook 'flymake-shell-load)
 
-;; tidy.el
+;; Tidy
 (autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
 (autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)

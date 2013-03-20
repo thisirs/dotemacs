@@ -148,7 +148,7 @@ subdirectory img and filtered by extension."
             (format "Replace %s by %s? " old-filename new-filename))
            (replace-match new-filename nil nil nil 2)))))))
 
-;; taken from http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Emacs_Lisp
+;; Taken from http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Emacs_Lisp
 (defun levenshtein-distance (str1 str2)
   "Return the edit distance between strings STR1 and STR2."
   (if (not (stringp str1))
