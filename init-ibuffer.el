@@ -167,69 +167,84 @@ containing a not hidden git repository."
    (ibuffer-project-list-generate))
   (minibuffer-message "IBuffer cache written!"))
 
-;; Generate project list when idle
-(run-with-idle-timer 10 nil 'ibuffer-project-generate-and-cache)
+;; Generate project list asynchronously
+(unless (bound-and-true-p async-in-child-emacs)
+  (if (require 'async)
+      (async-start
+       (lambda ()
+         ;; Load everything needed in child emacs
+         (fset 'load-file-to-list 'ignore)
+         (require 'cl)
+         (load-file "~/.emacs.d/init-ibuffer.el")
+         (ibuffer-project-generate-and-cache))
+       (lambda (result)
+         (minibuffer-message "IBuffer cache written!")
+         (setq ibuffer-saved-filter-groups
+               (ibuffer-saved-filter-groups-function))
+         (with-current-buffer "*Ibuffer*"
+           (ibuffer-update nil t))))
+    (run-with-idle-timer 10 nil 'ibuffer-project-generate-and-cache)))
 
-(setq ibuffer-saved-filter-groups
-      `(("default"
-         ,@(ibuffer-project-list)
-         ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-personnal.el")
-         ("Org"
-          (or (mode . org-mode)
-              (mode . org-agenda-mode)))
-         ("TeX/LaTeX"
-          (or
-           (mode . latex-mode)
-           (name . "\\.bib$")
-           (name . "\\.tex$")))
-         ("Gnus"
-          (or
-           (mode . message-mode)
-           (mode . mail-mode)
-           (mode . gnus-group-mode)
-           (mode . bbdb-mode)
-           (mode . gnus-summary-mode)
-           (mode . gnus-article-mode)))
-         ("Dired"
-          (mode . dired-mode)
-          )
-         ("THISKEY's programming"
-          (filename . "/media/THISKEY/programming/"))
-         ("Programming"
-          (or
-           (mode . c-mode)
-           (mode . c++-mode)
-           (mode . perl-mode)
-           (mode . python-mode)
-           (mode . emacs-lisp-mode)
-           (mode . ruby-mode)
-           (mode . sh-mode)
-           (mode . matlab-mode)
-           (name . "^\\*scratch\\*$")
-           (name . "^\\*Messages\\*$")
-           ))
-         ("ERC" (mode . erc-mode))
-         ("crap" (name . "^\\*.*\\*$")))
-        ("Elisp-mode"
-         (".el.gz elisp files"
-          (name . "\\.el\\.gz$"))
-         ("Elisp files"
-          (or
-           (mode . emacs-lisp-mode)
-           (name . "^\\*scratch\\*$")
-           (name . "^\\*Messages\\*$"))))
-        ("Ruby-mode"
-         ("Ruby"
-          (or
-           (mode . inf-ruby-mode)
-           (mode . ruby-mode))))
-        ("Matlab-mode"
-         ("Matlab"
-          (or
-           (filename . "\\.m$")
-           (name . "^\\*MATLAB\\*$"))))
-        ;; other filter groups
-        ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-filter-groups.el")))
+(defun ibuffer-saved-filter-groups-function ()
+  `(("default"
+     ,@(ibuffer-project-list)
+     ("Org"
+      (or (mode . org-mode)
+          (mode . org-agenda-mode)))
+     ("TeX/LaTeX"
+      (or
+       (mode . latex-mode)
+       (name . "\\.bib$")
+       (name . "\\.tex$")))
+     ("Gnus"
+      (or
+       (mode . message-mode)
+       (mode . mail-mode)
+       (mode . gnus-group-mode)
+       (mode . bbdb-mode)
+       (mode . gnus-summary-mode)
+       (mode . gnus-article-mode)))
+     ("Dired"
+      (mode . dired-mode))
+     ("THISKEY's programming"
+      (filename . "/media/THISKEY/programming/"))
+     ("Programming"
+      (or
+       (mode . c-mode)
+       (mode . c++-mode)
+       (mode . perl-mode)
+       (mode . python-mode)
+       (mode . emacs-lisp-mode)
+       (mode . ruby-mode)
+       (mode . sh-mode)
+       (mode . matlab-mode)
+       (name . "^\\*scratch\\*$")
+       (name . "^\\*Messages\\*$")
+       ))
+     ("ERC" (mode . erc-mode))
+     ("crap" (name . "^\\*.*\\*$")))
+    ("Elisp-mode"
+     (".el.gz elisp files"
+      (name . "\\.el\\.gz$"))
+     ("Elisp files"
+      (or
+       (mode . emacs-lisp-mode)
+       (name . "^\\*scratch\\*$")
+       (name . "^\\*Messages\\*$"))))
+    ("Ruby-mode"
+     ("Ruby"
+      (or
+       (mode . inf-ruby-mode)
+       (mode . ruby-mode))))
+    ("Matlab-mode"
+     ("Matlab"
+      (or
+       (filename . "\\.m$")
+       (name . "^\\*MATLAB\\*$"))))
+    ;; other filter groups
+    ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-filter-groups.el")))
+
+(setq ibuffer-saved-filter-groups (ibuffer-saved-filter-groups-function))
 
 ;; Use human readable Size column instead of original one
 (define-ibuffer-column size-h
