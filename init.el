@@ -92,6 +92,12 @@
       (when (not (package-installed-p p))
         (package-install p)))))
 
+;; Set path as if emacs were run in a terminal
+(let ((path (shell-command-to-string "bash -i -c 'echo $PATH' 2> /dev/null")))
+  (setenv "PATH" path)
+  (setq exec-path (split-string path "[:\n]" t)))
+
+
 (require 'init-fill)
 (require 'init-dired)
 (require 'init-isearch)
