@@ -10,6 +10,8 @@
 
 (add-hook 'org-mode-hook
           (lambda ()
+            ;; linum-mode makes org really slow
+            (linum-mode -1)
             ;; yasnippet (using the new org-cycle hooks)
             (make-variable-buffer-local 'yas/trigger-key)
             (setq yas/trigger-key [tab])
