@@ -169,7 +169,7 @@ containing a not hidden git repository."
 
 ;; Generate project list asynchronously
 (unless (bound-and-true-p async-in-child-emacs)
-  (if (require 'async)
+  (if (require 'async nil t)
       (async-start
        (lambda ()
          ;; Load everything needed in child emacs
