@@ -66,11 +66,13 @@
   (when ( version< emacs-version version)
     `(progn ,@body)))
 
-(defmacro define-on-macro (sys)
+(defmacro define-on-macro (sys &optional name)
   "Macro that defines a machine-specific macro."
-  `(defmacro ,(intern (concat "on-" sys)) (&rest body)
+  `(defmacro ,(intern (concat "on-" (or name sys))) (&rest body)
      (when (string-prefix-p ,sys system-name)
        `(progn ,@body))))
+
+(define-on-macro "knuth")
 
 ;; Adding packages source
 (with-emacs-version>= "24"
