@@ -85,7 +85,7 @@
   (package-initialize)
 
   (setq my-packages '(auctex yari twittering-mode diminish
-                             elisp-slime-nav lua-mode key-chord async))
+                             elisp-slime-nav lua-mode key-chord async offlineimap))
 
   (when (memq nil (mapcar 'package-installed-p my-packages))
     (message "Refreshing packages database...")
@@ -144,6 +144,9 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 (require 'gnus-load)
+
+(require 'offlineimap)
+(add-hook 'gnus-before-startup-hook 'offlineimap)
 
 (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
 (bbdb-initialize 'gnus)
