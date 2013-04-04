@@ -24,25 +24,25 @@
           (lambda ()
             (local-set-key (kbd "C-x E") 'eval-region-or-buffer)))
 
-(defvar electrify-return-match
-  "[\]}\)\"]"
-  "If this regexp matches the text after the cursor, do an \"electric\"
-  return.")
+;; (defvar electrify-return-match
+;;   "[\]}\)\"]"
+;;   "If this regexp matches the text after the cursor, do an \"electric\"
+;;   return.")
 
-(defun electrify-return-if-match (arg)
-  "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
-  (interactive "P")
-  (let ((case-fold-search nil))
-    (if (looking-at electrify-return-match)
-        (save-excursion (newline-and-indent)))
-    (newline arg)
-    (indent-according-to-mode)))
+;; (defun electrify-return-if-match (arg)
+;;   "If the text after the cursor matches `electrify-return-match' then
+;;   open and indent an empty line between the cursor and the text.  Move the
+;;   cursor to the new line."
+;;   (interactive "P")
+;;   (let ((case-fold-search nil))
+;;     (if (looking-at electrify-return-match)
+;;         (save-excursion (newline-and-indent)))
+;;     (newline arg)
+;;     (indent-according-to-mode)))
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "RET") 'electrify-return-if-match)))
+;; (add-hook 'emacs-lisp-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "RET") 'electrify-return-if-match)))
 
 ;; Custom name for bookmark when in a defun
 (defun emacs-lisp-custom-record-function ()
