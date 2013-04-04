@@ -451,6 +451,27 @@ inherited by a parent headline."
 (setq org-confirm-elisp-link-not-regexp
       "\\`(org-agenda-from-file \".*\" \"[a-zA-Z]+\")\\'")
 
+(defun org-context-capture-find-headline ()
+  "Used in a template as a locating function. Capture under a
+headline that is the name of the file."
+  (goto-char (point-min))
+  (let* ((file (org-capture-get :original-file))
+         (script (org-capture-get :original-file-nondirectory))
+         (hd (concat (file-name-as-directory ".")
+                     (file-relative-name
+                      file
+                      (dir-locals-get-directory file)))))
+    (if (re-search-forward
+         (format org-complex-heading-regexp-format
+                 (regexp-quote (org-make-link-string hd script)))
+         nil t)
+        (progn
+          (org-end-of-subtree t nil)
+          (or (bolp) (insert "\n")))
+      (goto-char (point-max))
+      (or (bolp) (insert "\n"))
+      (insert "* " (org-make-link-string hd script) "\n"))))
+
 ;; Enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
   '(org-toggle-sticky-agenda 1))
