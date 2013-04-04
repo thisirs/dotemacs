@@ -145,6 +145,9 @@
 (load-library "paren")
 (show-paren-mode 1)
 
+(with-emacs-version>= "24.1"
+  (electric-indent-mode 1))
+
 (require 'webjump)
 (global-set-key "\C-cj" 'webjump)
 

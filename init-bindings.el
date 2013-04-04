@@ -30,8 +30,9 @@
 
 (global-set-key (kbd "C-c C-t") 'ring-transparency)
 
-;; Automatically indent wherever I am
-(global-set-key (kbd "RET") 'newline-and-indent)
+;; If electric-indent-mode is not available
+(with-emacs-version< "24.1"
+  (global-set-key (kbd "RET") 'newline-and-indent))
 
 (global-set-key [\C-home] 'beginning-of-buffer)
 (global-set-key [\C-end] 'end-of-buffer)
