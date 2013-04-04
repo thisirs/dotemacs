@@ -746,6 +746,15 @@ case it is used in hooks."
 
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
 
+(defun indent-json (&optional begin end)
+  "Run Python's JSON indenter on the buffer"
+  (interactive "r")
+  (save-excursion
+    (shell-command-on-region
+     (or begin (point-min)) (or end (point-max)) "python2 -m json.tool"
+     (current-buffer)
+     t)))
+
 (defun patch (func pattern patch)
   "Patch a function definition by replacing `pattern' by `patch'."
   (and (byte-code-function-p (symbol-function func))
