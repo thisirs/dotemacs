@@ -84,8 +84,17 @@
 
   (package-initialize)
 
-  (setq my-packages '(auctex yari twittering-mode diminish
-                             elisp-slime-nav lua-mode key-chord async offlineimap))
+  (setq my-packages '(auctex
+                      yari
+                      twittering-mode
+                      diminish
+                      elisp-slime-nav
+                      lua-mode
+                      key-chord
+                      async
+                      offlineimap
+                      multiple-cursors
+                      multi-term))
 
   (when (memq nil (mapcar 'package-installed-p my-packages))
     (message "Refreshing packages database...")
