@@ -867,6 +867,11 @@ case it is used in hooks."
 
 (add-hook 'before-save-hook 'time-stamp)
 
+(defun insert-euro ()
+  "Insert a Euro currency symbol in utf-8."
+  (interactive)
+  (ucs-insert #x20ac))
+
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
