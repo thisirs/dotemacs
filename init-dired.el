@@ -86,15 +86,42 @@ open and unsaved."
           (call-interactively command)
         (eval command)))))
 
+(defmacro with-current-value (variable buffers &rest body)
+  "Execute the forms in BODY with VARIABLE temporarily set to
+current in all the buffers BUFFERS. The value returned is the
+value of the last form in BODY."
+  (declare (indent 2))
+  (let ((current-variable (make-symbol "current-variable"))
+        (saved-variables (make-symbol "saved-variables")))
+    `(let* ((,current-variable ,variable)
+            (,saved-variables
+             (mapcar (lambda (buf)
+                       (list buf (local-variable-p ',variable buf)
+                             (buffer-local-value ',variable buf)))
+                     ,buffers)))
+       (mapc (lambda (buf)
+               (with-current-buffer buf
+                 (setq ,variable ,current-variable)))
+             ,buffers)
+       (prog1 (progn,@body)
+         ;; restore variable value
+         (mapc (lambda (e)
+                 (with-current-buffer (car e)
+                   (if (cadr e)
+                       (setq ,variable (caddr e))
+                     (kill-local-variable ',variable))))
+               ,saved-variables)))))
+
 (defun dired-do-occur (regexp &optional nlines)
   "View lines which match REGEXP in all marked buffers.
 Optional argument NLINES says how many lines of context to display: it
-defaults to one."
+defaults to one. "
   (interactive (occur-read-primary-args))
   (if (or (not (integerp nlines))
           (< nlines 0))
       (setq nlines 0))
-  (occur-1 regexp nlines
-           (mapcar 'find-file-noselect (dired-get-marked-files))))
+  (let ((marked-buffers (mapcar 'find-file-noselect (dired-get-marked-files))))
+    (with-current-value case-fold-search marked-buffers
+      (occur-1 regexp nlines marked-buffers))))
 
 (provide 'init-dired)
