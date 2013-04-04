@@ -63,4 +63,10 @@
 
 (setq  erc-pcomplete-order-nickname-completions t)
 
+(defun my-erc-mode-hook ()
+  (set (make-local-variable 'scroll-conservatively) 101)
+  (set (make-local-variable 'scroll-step) 1))
+
+(add-hook 'erc-mode-hook 'my-erc-mode-hook)
+
 (provide 'init-erc)
