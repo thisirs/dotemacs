@@ -599,5 +599,40 @@ this with to-do items than with projects or headings."
 (setq org-latex-format-headline-function
       'org-latex-format-headline-checkbox-function)
 
+;; Inspired from https://github.com/jwiegley/dot-emacs
+(defvar org-my-archive-expiry-days 2
+  "The number of days after which a completed task should be auto-archived.
+This can be 0 for immediate, or a floating point value.")
+
+(defun org-my-closing-time ()
+  (let* ((regexp "CLOSED:\\s-*\\[\\([^]\n]+\\)\\]")
+         (end (save-excursion
+                (outline-next-heading)
+                (point)))
+         end-time)
+    (goto-char (line-beginning-position))
+    (if (re-search-forward regexp end t)
+        (org-parse-time-string (match-string 1)))))
+
+(defun org-archive-closed-tasks ()
+  (when (and (eq major-mode 'org-mode)
+             (equal (expand-file-name (buffer-file-name))
+                    (expand-file-name "~/Dropbox/Org/someday.org")))
+    (message "Auto-archiving...")
+    (save-excursion
+      (goto-char (point-min))
+      (let ((done-regexp
+             (concat "^\\*+ \\(" (regexp-opt org-done-keywords) "\\) ")))
+        (while (re-search-forward done-regexp nil t)
+          (let ((closing-time (org-my-closing-time)))
+            (if (and closing-time
+                     (>= (time-to-number-of-days
+                          (time-subtract (current-time)
+                                         (apply #'encode-time closing-time)))
+                         org-my-archive-expiry-days))
+                (org-archive-subtree))))))
+    (message "Auto-archiving...done")))
+
+(add-hook 'before-save-hook 'org-archive-closed-tasks)
 
 (provide 'init-org)
