@@ -7,7 +7,6 @@
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
 
-
 (defun eval-region-or-buffer ()
   (interactive)
   (let ((debug-on-error t))
@@ -100,58 +99,5 @@
            (insert (current-kill 0)))))
 
 (global-set-key (kbd "C-c e") 'eval-and-replace)
-
-(require 'paredit)
-
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'lisp-mode-hook 'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-
-;; From https://github.com/purcell/emacs.d.git
-;; Use paredit in the minibuffer
-(add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
-
-(defvar paredit-minibuffer-commands '(eval-expression
-                                      pp-eval-expression
-                                      ibuffer-do-eval
-                                      ibuffer-do-view-and-eval)
-  "Interactive commands for which paredit should be enabled in the minibuffer.")
-
-(defun conditionally-enable-paredit-mode ()
-  "Enable paredit during lisp-related minibuffer commands."
-  (if (memq this-command paredit-minibuffer-commands)
-      (enable-paredit-mode)))
-
-(require 'paredit-ext)
-
-(define-key paredit-mode-map (kbd "C-)")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-slurp-all-the-way-forward)
-      (paredit-forward-slurp-sexp))))
-
-(define-key paredit-mode-map (kbd "C-(")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-slurp-all-the-way-backward)
-      (paredit-backward-slurp-sexp))))
-
-(define-key paredit-mode-map (kbd "C-c C-)")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-barf-all-the-way-forward)
-      (paredit-forward-barf-sexp))))
-
-(define-key paredit-mode-map (kbd "C-c C-(")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-barf-all-the-way-backward)
-      (paredit-backward-barf-sexp))))
-
 
 (provide 'init-elisp)
