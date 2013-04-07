@@ -717,6 +717,7 @@ Including indent-buffer, which should not be called automatically on save."
   (untabify-buffer)
   (indent-buffer)
   (delete-trailing-whitespace))
+(defalias 'clean-buffer 'cleanup-buffer)
 
 (defun delete-trailing-whitespace-safe ()
   "Delete trailing whitespaces if file is not version controlled
