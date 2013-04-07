@@ -133,6 +133,7 @@
 (require 'init-hippie-expand)
 (require 'init-vanilla)
 (require 'init-editing)
+(require 'init-paredit)
 
 ;; Whitespace mode
 (require 'whitespace)
