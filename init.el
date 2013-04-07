@@ -3,13 +3,15 @@
                     (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path dotfiles-dir)
 
+(defvar site-lisp-directory "~/Dropbox/emacs/site-lisp/")
+
 ;; Set path to dependencies
-(when (file-exists-p "~/Dropbox/emacs/site-lisp/")
-  (setq site-lisp-dir "~/Dropbox/emacs/site-lisp/")
-  (add-to-list 'load-path site-lisp-dir)
+(when (file-exists-p site-lisp-directory)
+  (add-to-list 'load-path site-lisp-directory)
 
   ;; Add all directories in site-lisp
-  (dolist (path (directory-files site-lisp-dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
+  (dolist (path (directory-files site-lisp-directory
+                                 t "[^\\.]\\|\\(\\.\\{3,\\}\\)"))
     (if (file-directory-p path)
         (add-to-list 'load-path path))))
 
@@ -698,7 +700,7 @@ that directory local file."
       `((".*" ,temporary-file-directory t)))
 
 ;; Don't let Customize mess with my .emacs
-(setq custom-file (concat site-lisp-dir "custom.el"))
+(setq custom-file (concat site-lisp-directory "custom.el"))
 (load custom-file 'noerror)
 
 (defun untabify-buffer ()
