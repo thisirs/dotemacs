@@ -43,7 +43,8 @@
      '(progn ,@body)))
 
 (defmacro with-emacs-version>= (version &rest body)
-  "Expand to BODY if current emacs version is newer than VERSION."
+  "Expand to BODY if current emacs version is newer or equal to
+VERSION."
   (declare (indent 1) (debug t))
   (when ( version<= version emacs-version)
     `(progn ,@body)))
@@ -55,13 +56,14 @@
     `(progn ,@body)))
 
 (defmacro with-emacs-version<= (version &rest body)
-  "Expand to BODY if current emacs version is newer than VERSION."
+  "Expand to BODY if current emacs version is older or equal to
+VERSION."
   (declare (indent 1) (debug t))
   (when ( version<= emacs-version version)
     `(progn ,@body)))
 
 (defmacro with-emacs-version< (version &rest body)
-  "Expand to BODY if current emacs version is newer than VERSION."
+  "Expand to BODY if current emacs version is older than VERSION."
   (declare (indent 1) (debug t))
   (when ( version< emacs-version version)
     `(progn ,@body)))
