@@ -1,5 +1,69 @@
 ;;; IBuffer
+
 (require 'ibuffer)
+
+(setq ibuffer-saved-filter-groups
+      '(("default"
+         ("Org"
+          (or (mode . org-mode)
+              (mode . org-agenda-mode)))
+         ("TeX/LaTeX"
+          (or
+           (mode . latex-mode)
+           (name . "\\.bib$")
+           (name . "\\.tex$")))
+         ("Gnus"
+          (or
+           (mode . message-mode)
+           (mode . mail-mode)
+           (mode . gnus-group-mode)
+           (mode . bbdb-mode)
+           (mode . gnus-summary-mode)
+           (mode . gnus-article-mode)))
+         ("Dired"
+          (mode . dired-mode))
+         ("THISKEY's programming"
+          (filename . "/media/THISKEY/programming/"))
+         ("Programming"
+          (or
+           (mode . c-mode)
+           (mode . c++-mode)
+           (mode . perl-mode)
+           (mode . python-mode)
+           (mode . emacs-lisp-mode)
+           (mode . ruby-mode)
+           (mode . sh-mode)
+           (mode . matlab-mode)
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$")
+           ))
+         ("ERC" (mode . erc-mode))
+         ("crap" (name . "^\\*.*\\*$")))
+        ("Elisp-mode"
+         (".el.gz elisp files"
+          (name . "\\.el\\.gz$"))
+         ("Elisp files"
+          (or
+           (mode . emacs-lisp-mode)
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$"))))
+        ("Ruby-mode"
+         ("Ruby"
+          (or
+           (mode . inf-ruby-mode)
+           (mode . ruby-mode))))
+        ("Matlab-mode"
+         ("Matlab"
+          (or
+           (filename . "\\.m$")
+           (name . "^\\*MATLAB\\*$"))))))
+
+;; Add a place-holder symbol for ibuffer-project right after "default"
+(if (require 'ibuffer-project nil t)
+    (let ((filter (assoc "default" ibuffer-saved-filter-groups)))
+      (when filter
+        (setcdr filter (cons 'place-holder (cdr filter)))
+        (ibuffer-project-replace))))
 
 (defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
   (require 'diff)
@@ -85,166 +149,6 @@ name"
     ad-do-it
     (ibuffer-jump-to-buffer recent-buffer-name)
     (ibuffer-next-buffer)))
-
-(defun find-projects (dir)
-  "Return a list of all directories and sub-directories
-containing a not hidden git repository."
-  (let* ((dir (file-name-as-directory dir))
-         (list
-          (and (or (file-exists-p (concat dir ".git"))
-                   (file-exists-p (concat dir ".ibuffer")))
-               (not (file-exists-p (concat dir ".hidden")))
-               (cons dir nil))))
-    (apply 'append list
-           (mapcar
-            (lambda (path)
-              (if (file-directory-p path)
-                  (find-projects path)))
-            ;; avoiding . and ..
-            (directory-files dir t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))))
-
-(defun make-ibuffer-projects-list (prefix dir-list)
-  "Return a list whose elements are of the form ((`prefix' (filename . `directory')"
-  (mapcar
-   (lambda (dir)
-     (list (concat prefix (file-name-nondirectory
-                           (directory-file-name dir)))
-           `(filename . ,dir)))
-   (apply 'append
-          (mapcar
-           (lambda (dir)
-             (and (file-directory-p dir)
-                  (nreverse (find-projects dir))))
-           (if (listp dir-list)
-               dir-list
-             (list dir-list))))))
-
-(setq ibuffer-project-alist
-      `(("Project: " . ,(list
-                         (concat (getenv "HOME") "/Dropbox/emacs/site-lisp")
-                         (concat (getenv "HOME") "/repositories")
-                         (concat (getenv "HOME") "/Dropbox/programming")
-                         (concat (getenv "HOME") "/.emacs.d")))
-        ( "Boss: " . "~/Dropbox/These/")))
-
-(setq ibuffer-project-list-cache-file
-      "~/.emacs.d/cache/ibuffer-project")
-
-(defun ibuffer-project-list-write-cache (ibuffer-project-list)
-  "Write `ibuffer-project-list' in cache file. Return
-`ibuffer-project-list'."
-  (make-directory (file-name-directory ibuffer-project-list-cache-file) t)
-  (with-temp-buffer
-    (pp ibuffer-project-list (current-buffer))
-    (write-region (point-min)
-                  (point-max)
-                  ibuffer-project-list-cache-file))
-  ibuffer-project-list)
-
-(defun ibuffer-project-list-read-cache ()
-  "Read the cache file if it exists; otherwise return nil."
-  (if (file-exists-p ibuffer-project-list-cache-file)
-      (with-temp-buffer
-        (insert-file-contents ibuffer-project-list-cache-file)
-        (read (buffer-string)))))
-
-(defun ibuffer-project-list-generate ()
-  "Generate project list by examining `ibuffer-project-alist'."
-  (mapcan
-   (lambda (e)
-     (make-ibuffer-projects-list (car e) (cdr e)))
-   ibuffer-project-alist))
-
-(defun ibuffer-project-list ()
-  "Return project list. Generates and caches it if necessary."
-  (or (ibuffer-project-list-read-cache)
-      (ibuffer-project-list-write-cache
-       (ibuffer-project-list-generate))))
-
-(defun ibuffer-project-generate-and-cache ()
-  (interactive)
-  (ibuffer-project-list-write-cache
-   (ibuffer-project-list-generate))
-  (minibuffer-message "IBuffer cache written!"))
-
-;; Generate project list asynchronously
-(unless (bound-and-true-p async-in-child-emacs)
-  (if (require 'async nil t)
-      (async-start
-       (lambda ()
-         ;; Load everything needed in child emacs
-         (fset 'load-file-to-list 'ignore)
-         (require 'cl)
-         (load-file "~/.emacs.d/init-ibuffer.el")
-         (ibuffer-project-generate-and-cache))
-       (lambda (result)
-         (minibuffer-message "IBuffer cache written!")
-         (setq ibuffer-saved-filter-groups
-               (ibuffer-saved-filter-groups-function))
-         (with-current-buffer "*Ibuffer*"
-           (ibuffer-update nil t))))
-    (run-with-idle-timer 10 nil 'ibuffer-project-generate-and-cache)))
-
-(defun ibuffer-saved-filter-groups-function ()
-  `(("default"
-     ,@(ibuffer-project-list)
-     ("Org"
-      (or (mode . org-mode)
-          (mode . org-agenda-mode)))
-     ("TeX/LaTeX"
-      (or
-       (mode . latex-mode)
-       (name . "\\.bib$")
-       (name . "\\.tex$")))
-     ("Gnus"
-      (or
-       (mode . message-mode)
-       (mode . mail-mode)
-       (mode . gnus-group-mode)
-       (mode . bbdb-mode)
-       (mode . gnus-summary-mode)
-       (mode . gnus-article-mode)))
-     ("Dired"
-      (mode . dired-mode))
-     ("THISKEY's programming"
-      (filename . "/media/THISKEY/programming/"))
-     ("Programming"
-      (or
-       (mode . c-mode)
-       (mode . c++-mode)
-       (mode . perl-mode)
-       (mode . python-mode)
-       (mode . emacs-lisp-mode)
-       (mode . ruby-mode)
-       (mode . sh-mode)
-       (mode . matlab-mode)
-       (name . "^\\*scratch\\*$")
-       (name . "^\\*Messages\\*$")
-       ))
-     ("ERC" (mode . erc-mode))
-     ("crap" (name . "^\\*.*\\*$")))
-    ("Elisp-mode"
-     (".el.gz elisp files"
-      (name . "\\.el\\.gz$"))
-     ("Elisp files"
-      (or
-       (mode . emacs-lisp-mode)
-       (name . "^\\*scratch\\*$")
-       (name . "^\\*Messages\\*$"))))
-    ("Ruby-mode"
-     ("Ruby"
-      (or
-       (mode . inf-ruby-mode)
-       (mode . ruby-mode))))
-    ("Matlab-mode"
-     ("Matlab"
-      (or
-       (filename . "\\.m$")
-       (name . "^\\*MATLAB\\*$"))))
-    ;; other filter groups
-    ,@(load-file-to-list "~/Dropbox/emacs/ibuffer-filter-groups.el")))
-
-(setq ibuffer-saved-filter-groups (ibuffer-saved-filter-groups-function))
 
 ;; Use human readable Size column instead of original one
 (define-ibuffer-column size-h
