@@ -330,6 +330,7 @@ the selected file."
 ;; Open ods files with libreoffice
 (add-to-list 'org-file-apps '("\\.od[st]\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.docx?\\'" . "soffice %s"))
+(add-to-list 'org-file-apps '("\\.xls\\'" . "soffice %s"))
 
 ;; Bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
