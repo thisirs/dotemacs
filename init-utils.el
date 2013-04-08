@@ -12,7 +12,7 @@
         (insert-file-contents file)
         (let ((marker (copy-marker 0))
               form-list form)
-          (while (with-demoted-errors (setq form (read marker)))
+          (while (ignore-errors (setq form (read marker)))
             (setq form-list (cons form form-list)))
           (nreverse form-list)))))
 
