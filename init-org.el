@@ -453,8 +453,9 @@ inherited by a parent headline."
       "\\`(org-agenda-from-file \".*\" \"[a-zA-Z]+\")\\'")
 
 (defun org-context-capture-find-headline ()
-  "Used in a template as a locating function. Capture under a
-headline that is the name of the file."
+  "Used with `org-context' in a capture template as a locating
+function. Capture under a headline whose name is the file we
+captured from."
   (goto-char (point-min))
   (let* ((file (org-capture-get :original-file))
          (script (org-capture-get :original-file-nondirectory))
@@ -512,17 +513,19 @@ headline that is the name of the file."
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
-(defvar org-projects-refile-targets)
-
-;; Add all todo.org files from Projects headline in someday.org as targets
-(find-file "~/Dropbox/Org/someday.org")
-
 ;; Helm completion enabled in my patched org
 (if (boundp 'org-completion-handler)
     (setq org-completion-handler 'helm))
 
+(defvar org-other-files nil
+  "List of org files other than agenda files destined to be
+refile targets.")
 
-(setq org-projects-refile-targets
+;; First open someday.org and look for org files to add to
+;; org-other-files in "Projects" headline.
+(find-file "~/Dropbox/Org/someday.org")
+
+(setq org-other-files
       (with-current-buffer "someday.org"
         (save-excursion
           (goto-char (point-min))
@@ -541,7 +544,7 @@ headline that is the name of the file."
 
 (setq org-refile-targets
       `((,org-agenda-files . (:level . 1))
-        (,org-projects-refile-targets . (:level . 0))))
+        (,org-other-files . (:level . 0))))
 
 (setq org-refile-use-outline-path 'full-file-path)
 
@@ -579,8 +582,11 @@ this with to-do items than with projects or headings."
 ;; Override the key definition
 (define-key org-agenda-mode-map "X" 'org-agenda-mark-done-and-add-followup)
 
-
-;; Custom headline export
+;; Custom headline export for checklists, allow fake checkboxes in
+;; headlines to be exported as well as those in lists. This can be
+;; used with
+;; #+LaTeX_HEADER: \renewcommand\labelitemi{}
+;; to remove the bullets.
 (defun org-latex-format-headline-checkbox-function
   (todo todo-type priority text tags)
   (replace-regexp-in-string
@@ -606,6 +612,7 @@ this with to-do items than with projects or headings."
 This can be 0 for immediate, or a floating point value.")
 
 (defun org-my-closing-time ()
+  "Return closing time in current subtree."
   (let* ((regexp "CLOSED:\\s-*\\[\\([^]\n]+\\)\\]")
          (end (save-excursion
                 (outline-next-heading)
@@ -615,10 +622,14 @@ This can be 0 for immediate, or a floating point value.")
     (if (re-search-forward regexp end t)
         (org-parse-time-string (match-string 1)))))
 
+(defun org-auto-archive-p ()
+  "Return true if the current buffer should auto-archive its tasks."
+  (and (eq major-mode 'org-mode)
+       (equal (expand-file-name (buffer-file-name))
+              (expand-file-name "~/Dropbox/Org/someday.org"))))
+
 (defun org-archive-closed-tasks ()
-  (when (and (eq major-mode 'org-mode)
-             (equal (expand-file-name (buffer-file-name))
-                    (expand-file-name "~/Dropbox/Org/someday.org")))
+  (when (funcall 'org-auto-archive-p)
     (message "Auto-archiving...")
     (save-excursion
       (goto-char (point-min))
