@@ -930,3 +930,5 @@ wants to replace FROM with TO."
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
+
+(setq set-mark-command-repeat-pop t)
