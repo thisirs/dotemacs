@@ -654,4 +654,11 @@ This can be 0 for immediate, or a floating point value.")
               (set (make-local-variable 'electric-indent-functions)
                    (list (lambda (arg) 'no-indent))))))
 
+(define-key org-mode-map (kbd "C-c SPC")
+  (lambda ()
+    (interactive)
+    (if (org-table-check-inside-data-field 'noerror)
+        (org-table-blank-field)
+      (call-interactively 'ace-jump-mode))))
+
 (provide 'init-org)
