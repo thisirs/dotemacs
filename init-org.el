@@ -647,4 +647,11 @@ This can be 0 for immediate, or a floating point value.")
 
 (add-hook 'before-save-hook 'org-archive-closed-tasks)
 
+;; electric-indent-mode doesn't play well with org
+(with-emacs-version>= "24.1"
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (set (make-local-variable 'electric-indent-functions)
+                   (list (lambda (arg) 'no-indent))))))
+
 (provide 'init-org)
