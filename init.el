@@ -102,8 +102,9 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 (require 'gnus-load)
 
-(require 'offlineimap)
-(add-hook 'gnus-before-startup-hook 'offlineimap)
+(on-knuth
+ (require 'offlineimap)
+ (add-hook 'gnus-before-startup-hook 'offlineimap))
 
 (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
 (bbdb-initialize 'gnus)
