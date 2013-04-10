@@ -6,13 +6,37 @@
 # origin repo and a upstream repo for those that are clones of forks
 # in github.
 
-# Checking out master in all submodule
-git submodule foreach git checkout master
+TMPFILE=$(mktemp)
+trap 'rm -f $TMPFILE' EXIT
 
-# Fetching all remote repos and upstream if it exists
-git submodule foreach git fetch
-git submodule foreach "git fetch upstream || true"
+cat << 'EOF' > $TMPFILE
+echo "Repository: $(basename $(pwd))"
 
-# Merging from upstream/master if it exists and then pushing to
-# origin. Otherwise rebasing from origin/master
-git submodule foreach "git merge upstream/master && git push origin || git rebase origin/master"
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo "Current branch is $BRANCH"
+
+if [ "xHEAD" == "x$BRANCH" ]; then
+  git checkout master
+fi
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo "Current branch is now $BRANCH"
+
+echo "Fetching origin"
+git fetch origin > /dev/null 2>&1
+
+if $(git fetch upstream > /dev/null 2>&1); then
+  echo "Upstream branch detected"
+  git rebase origin/$BRANCH
+  git push origin $BRANCH
+
+  git merge upstream/master
+  git push origin $BRANCH
+else
+  echo "No upstream branch"
+  git rebase origin/$BRANCH
+fi
+EOF
+
+git submodule foreach "bash $TMPFILE"
+
