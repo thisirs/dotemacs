@@ -35,6 +35,7 @@
                                       key-chord
                                       async
                                       offlineimap
+                                      legalese
                                       multiple-cursors
                                       multi-term)
     "List of required packages")
