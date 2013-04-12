@@ -24,6 +24,12 @@
 (global-set-key (kbd "s-p") 'windmove-up)
 (global-set-key (kbd "s-n") 'windmove-down)
 
+;; Move more quickly
+(global-set-key (kbd "C-S-n") (lambda () (interactive) (next-line 5)))
+(global-set-key (kbd "C-S-p") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "C-S-f") (lambda () (interactive) (forward-char 5)))
+(global-set-key (kbd "C-S-b") (lambda () (interactive) (backward-char 5)))
+
 (global-set-key (kbd "C-x à") 'delete-other-windows)
 (global-set-key (kbd "C-x C-à") 'delete-other-windows)
 (global-set-key (kbd "C-,") 'other-window)
