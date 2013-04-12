@@ -18,6 +18,9 @@
 ;; newline and indent in tex files
 (setq TeX-newline-function 'newline-and-indent)
 
+;; Don't prompt for choosing ref label style
+(setq reftex-ref-macro-prompt nil)
+
 ;; disable fill in env
 (eval-after-load "latex"
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
