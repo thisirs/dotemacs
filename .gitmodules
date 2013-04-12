@@ -3,7 +3,7 @@
 	url = https://thisirs@github.com/thisirs/expand-region.el.git
 [submodule "site-lisp/magit"]
 	path = site-lisp/magit
-	url = git://github.com/philjackson/magit.git
+        url = https://github.com/thisirs/magit.git
 [submodule "site-lisp/org-mode"]
 	path = site-lisp/org-mode
 	url = git@github.com:thisirs/org-mode.git
