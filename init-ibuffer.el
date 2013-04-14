@@ -58,12 +58,16 @@
            (filename . "\\.m$")
            (name . "^\\*MATLAB\\*$"))))))
 
-;; Add a place-holder symbol for ibuffer-project right after "default"
-(if (require 'ibuffer-project nil t)
-    (let ((filter (assoc "default" ibuffer-saved-filter-groups)))
-      (when filter
-        (setcdr filter (cons 'place-holder (cdr filter)))
-        (ibuffer-project-replace))))
+
+(when (require 'ibuffer-project nil t)
+  (setq ibuffer-project-alist
+        '(("Project: %S"
+           "~/Dropbox/emacs/site-lisp"
+           "~/repositories"
+           "~/.emacs.d"
+           "~/Dropbox/programming")
+          ("Boss: %D" "~/Dropbox/These/")))
+  (ibuffer-project-refresh t))
 
 (defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
   (require 'diff)
