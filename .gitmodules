@@ -34,3 +34,6 @@
 [submodule "site-lisp/bbdb"]
 	path = site-lisp/bbdb
 	url = git://git.savannah.nongnu.org/bbdb.git
+[submodule "site-lisp/flycheck"]
+	path = site-lisp/flycheck
+	url = https://github.com/thisirs/flycheck.git

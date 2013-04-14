@@ -935,3 +935,7 @@ wants to replace FROM with TO."
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
 
 (setq set-mark-command-repeat-pop t)
+;; Trying flycheck
+(require 'flycheck)
+(global-flycheck-mode 1)
+
