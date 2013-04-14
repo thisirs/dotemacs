@@ -935,6 +935,14 @@ wants to replace FROM with TO."
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
 
 (setq set-mark-command-repeat-pop t)
+
+(require 'key-chord)
+(key-chord-mode 1)
+(key-chord-define-global "xo" 'other-window)
+(key-chord-define-global "xi" 'delete-other-windows)
+(key-chord-define-global "x0" 'delete-window)
+(key-chord-define-global "xs" 'save-buffer)
+
 ;; Trying flycheck
 (require 'flycheck)
 (global-flycheck-mode 1)
