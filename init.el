@@ -37,7 +37,8 @@
                                       offlineimap
                                       legalese
                                       multiple-cursors
-                                      multi-term)
+                                      multi-term
+                                      zenburn-theme)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
