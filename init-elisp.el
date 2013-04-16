@@ -63,7 +63,7 @@
 (add-hook 'emacs-lisp-mode-hook
           (lambda()
             (setq mode-name "ELisp")
-            (linum-mode t)
+            ;; (linum-mode t)
             (setq lisp-indent-offset nil)
             ;;(turn-on-auto-fill)
             (require 'folding nil 'noerror)
