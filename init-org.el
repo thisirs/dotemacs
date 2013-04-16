@@ -44,28 +44,8 @@
 (setq org-src-fontify-natively t)
 
 ;; Restore windows configuration
-(setq org-agenda-restore-windows-after-quit t)
-
-(defun todo-item ()
-  "Auto insert link when capturing if point is on a TODO line."
-  (or
-   (with-current-buffer (org-capture-get :original-buffer)
-     (and (buffer-file-name)
-          (save-excursion
-            (beginning-of-line)
-            (when (looking-at
-                   (concat "[\t ]*"
-                           (regexp-quote (or comment-start ""))
-                           "[\t ]+TODO:?[\t ]+"))
-              (goto-char (match-end 0))
-              (let* ((txt (buffer-substring (point) (line-end-position)))
-                     (search (org-make-org-heading-search-string
-                              (buffer-substring (line-beginning-position)
-                                                (line-end-position))))
-                     (link (concat "file:" (abbreviate-file-name buffer-file-name)
-                                   "::" search)))
-                (org-make-link-string link txt))))))
-   ""))
+;; (setq org-agenda-restore-windows-after-quit t)
+(setq org-agenda-window-setup 'other-window)
 
 ;; Shorter description
 (setq org-link-to-description
@@ -95,41 +75,13 @@ the selected file."
       (replace-match (concat "[\\1[" here "]]") nil nil link)
     link))
 
-;; Return stored link with description "here"
-(defun my-name ()
-  (file-name-nondirectory
-   (replace-regexp-in-string
-    "%" "\\%"
-    (org-link-unescape (or (plist-get org-store-link-plist :link) "")))))
 
-;; Fill :initial prop
-(defun initial-prop-filled ()
-  (with-temp-buffer
-    (insert (or (plist-get org-store-link-plist :initial) ""))
-    (fill-region (buffer-end 0) (buffer-end 1))
-    (buffer-string)))
+(require 'init-org-capture-helpers)
 
 ;; Load templates from personal location
 (setq org-capture-templates
       (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
 
-(defun add-days (date1 days)
-  "Add `days' days to `date'"
-  (decode-time
-   (time-add
-    (apply 'encode-time (org-parse-time-string date1))
-    (days-to-time days))))
-
-(defun deadline-from-now (days &optional deadline)
-  "Construit la date de retour avec une deadline"
-  (let ((time (format-time-string
-               (car org-time-stamp-formats)
-               (time-add (current-time) (days-to-time days)))))
-    (if (integerp deadline)
-        (concat
-         (substring time 0 -1)
-         " -" (format "%d" deadline) "d>")
-      time)))
 
 (define-key global-map "\C-cc" 'org-capture)
 
@@ -169,6 +121,22 @@ the selected file."
 (eval-after-load "org-agenda"
   '(add-to-list 'org-agenda-prefix-format
                 '(todo . " %(annotedp)%i %-12:c")))
+
+;; Testing
+(defun annotedp ()
+  (save-excursion
+    (let* ((marker (or (org-get-at-bol 'org-marker)
+                       (org-agenda-error)))
+           (buffer (marker-buffer marker))
+           (pos (marker-position marker))
+           (inhibit-read-only t))
+      (with-current-buffer buffer
+        (widen)
+        (goto-char pos)
+        (let ((end (save-excursion (outline-next-heading) (point))))
+          (if (re-search-forward "- Note taken" end t)
+              "*"
+            " "))))))
 
 (defun annotedp ()
   (or
