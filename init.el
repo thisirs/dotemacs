@@ -141,6 +141,10 @@
   (eval-after-load 'elisp-slime-nav
     '(diminish 'elisp-slime-nav-mode)))
 
+;; Autoload rainbow-mode
+(autoload 'rainbow-mode "rainbow-mode"
+  "rainbow-mode autoload" t)
+
 (require 'browse-kill-ring)
 (browse-kill-ring-default-keybindings)
 (setq browse-kill-ring-quit-action 'save-and-restore)
