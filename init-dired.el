@@ -1,36 +1,40 @@
 (require 'dired-x)
 
-;; Make dired less verbose
-(require 'dired-details)
+;; Auto-revert mode
+(add-hook 'dired-mode-hook 'turn-on-auto-revert-mode)
+(setq auto-revert-verbose nil)
 
-(setq dired-details-hide-link-targets nil)
-
-(dired-details-install)
-
-;; (require 'dired+)
-
-(defvar dired-sort-map (make-sparse-keymap))
-
-(mapc
- (lambda (elt)
-   (define-key dired-sort-map (car elt)
-     `(lambda ()
-        (interactive)
-        (dired-sort-other
-         (concat dired-listing-switches
-                 (unless (string-match "-r" dired-actual-switches)
-                   " -r") ,(cadr elt))))))
- '(("n" "")
-   ("x" " -X")
-   ("s" " -S")
-   ("t" " -t")
-   ("d" " --group-directories-first")))
-
-(define-key dired-mode-map "s" dired-sort-map)
+;; Auto-revert dired buffer on revisiting
+(setq dired-auto-revert-buffer t)
 
 ;; Reload dired after creating a directory
 (defadvice dired-create-directory (after revert-buffer-after-create activate)
   (revert-buffer))
+
+;; Make dired less verbose
+(require 'dired-details)
+(setq dired-details-hide-link-targets nil)
+(dired-details-install)
+
+(defvar dired-sort-map
+  (let ((map (make-sparse-keymap)))
+    (mapc
+     (lambda (elt)
+       (define-key map (car elt)
+         `(lambda ()
+            (interactive)
+            (dired-sort-other
+             (concat dired-listing-switches
+                     (unless (string-match "-r" dired-actual-switches)
+                       " -r") ,(cadr elt))))))
+     '(("n" "")
+       ("x" " -X")
+       ("s" " -S")
+       ("t" " -t")
+       ("d" " --group-directories-first")))
+    map))
+
+(define-key dired-mode-map "s" dired-sort-map)
 
 ;; Delete with C-x C-k to match file buffers and magit
 (define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)
@@ -51,9 +55,11 @@
     (interactive)
     (dired (getenv "HOME"))))
 
+;; Copy full file-path in kill-ring
 (define-key dired-mode-map (kbd "W")
   (lambda () (interactive) (dired-copy-filename-as-kill 0)))
 
+;; C-c C-m C-a jumps to gnus with current file attached
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
 (eval-after-load "dired-aux"
