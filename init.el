@@ -149,11 +149,6 @@
 (browse-kill-ring-default-keybindings)
 (setq browse-kill-ring-quit-action 'save-and-restore)
 
-;; Line numbering
-;; (require 'linum)
-;; (global-linum-mode 1)
-;; (setq linum-format "%5d")
-
 (autoload 'yaml-mode "yaml-mode")
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 

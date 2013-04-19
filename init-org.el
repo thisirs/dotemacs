@@ -16,11 +16,6 @@
             (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
             (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 
-;; Disable linum-mode which slows org down
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             (linum-mode -1)))
-
 (setq org-todo-keywords
       '("TODO" "|" "CANCELLED" "DONE"))
 
