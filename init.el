@@ -946,7 +946,8 @@ wants to replace FROM with TO."
 ;; Trying flycheck
 (require 'flycheck)
 (global-flycheck-mode 1)
-(setq flycheck-checkers (delq 'emacs-lisp flycheck-checkers))
-(setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
+(mapc (lambda (checker)
+        (delq checker flycheck-checkers))
+      '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
 
 ;;; init.el ends here
