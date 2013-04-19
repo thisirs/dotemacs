@@ -54,6 +54,8 @@
   (setenv "PATH" path)
   (setq exec-path (split-string path "[:\n]" t)))
 
+;; Loading zenburn theme
+(load-theme 'zenburn t)
 
 (require 'init-fill)
 (require 'init-dired)
@@ -331,12 +333,6 @@
   '("--" . nil) 'kill-buffer)
 (define-key-after menu-bar-file-menu [my-encoding-menu]
   (cons "File Encoding" my-encoding-menu) 'my-file-separator)
-
-;; Loading zenburn theme
-(load-theme 'zenburn t)
-
-;; BUG: require is cyan. Loading zenburn-theme.el fixes this
-(load "zenburn-theme")
 
 ;; Paste in term
 (require 'term)
