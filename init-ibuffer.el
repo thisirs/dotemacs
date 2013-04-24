@@ -69,6 +69,10 @@
           ("Boss: %D" "~/Dropbox/These/")))
   (ibuffer-project-refresh t))
 
+;; Files that are part of the same project might be in different
+;; filter group.
+(setq find-file-visit-truename t)
+
 (defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
   (require 'diff)
   (let ((marked-bufs (ibuffer-get-marked-buffers)))
