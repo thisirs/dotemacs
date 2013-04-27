@@ -810,31 +810,19 @@ case it is used in hooks."
         (window-system "x"))
     (save-buffers-kill-emacs)))
 
-;; From http://www.dotemacs.de/dotfiles/BenjaminRutt.emacs.html
-(defun intelligent-close ()
-  "quit a frame the same way no matter what kind of frame you are on.
-
-This method, when bound to C-x C-c, allows you to close an emacs frame the
-same way, whether it's the sole window you have open, or whether it's
-a \"child\" frame of a \"parent\" frame.  If you're like me, and use emacs in
-a windowing environment, you probably have lots of frames open at any given
-time.  Well, it's a pain to remember to do Ctrl-x 5 0 to dispose of a child
-frame, and to remember to do C-x C-x to close the main frame (and if you're
-not careful, doing so will take all the child frames away with it).  This
-is my solution to that: an intelligent close-frame operation that works in
-all cases (even in an emacs -nw session)."
-  (interactive)
-  (if (eq (car (visible-frame-list)) (selected-frame))
-      ;;for parent/master frame...
-      (if (> (length (visible-frame-list)) 1)
-          ;;close a parent with children present
-          (delete-frame (selected-frame))
-        ;;close a parent with no children present
+(defun kill-emacs-or-frame (arg)
+  (interactive "P")
+  (if (not server-buffer-clients)
+      (if (and (not arg) (> (length (visible-frame-list)) 1))
+          (delete-frame)
         (save-buffers-kill-emacs))
-    ;;close a child frame
-    (delete-frame (selected-frame))))
+    (save-buffer)
+    (server-buffer-done (current-buffer))))
 
-(global-set-key "\C-x\C-c" 'intelligent-close) ;forward reference
+(global-set-key "\C-x\C-c" 'kill-emacs-or-frame)
+
+;; Iconify emacs when done editing
+(add-hook 'server-done-hook 'iconify-frame)
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
 (defun reb-query-replace-this-regxp (replace)
