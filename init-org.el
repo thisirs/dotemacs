@@ -460,8 +460,22 @@ captured from."
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
 ;; Helm completion enabled in my patched org
-(if (boundp 'org-completion-handler)
-    (setq org-completion-handler 'helm))
+
+(when (and (boundp 'org-completion-handler)
+           (require 'helm nil t))
+  (defun org-helm-completion-handler
+    (prompt collection &optional predicate require-match
+            initial-input hist def inherit-input-method)
+    (helm-comp-read (car args)
+                    (if (consp (car (nth 1 args)))
+                        (mapcar 'substring-no-properties
+                                (mapcar 'car (nth 1 args)))
+                      (nth 1 args))
+                    :test (nth 2 args)
+                    :must-match (nth 3 args)
+                    :initial-input (nth 4 args)))
+  
+  (setq org-completion-handler 'org-helm-completion-handler))
 
 (defvar org-other-files nil
   "List of org files other than agenda files destined to be
