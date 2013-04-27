@@ -117,29 +117,12 @@ the selected file."
   '(add-to-list 'org-agenda-prefix-format
                 '(todo . " %(annotedp)%i %-12:c")))
 
-;; Testing
 (defun annotedp ()
-  (save-excursion
-    (let* ((marker (or (org-get-at-bol 'org-marker)
-                       (org-agenda-error)))
-           (buffer (marker-buffer marker))
-           (pos (marker-position marker))
-           (inhibit-read-only t))
-      (with-current-buffer buffer
-        (widen)
-        (goto-char pos)
-        (let ((end (save-excursion (outline-next-heading) (point))))
-          (if (re-search-forward "- Note taken" end t)
-              "*"
-            " "))))))
-
-(defun annotedp ()
-  (or
-   (and (boundp 'beg) (boundp 'end)
-        (save-excursion
-          (goto-char beg)
-          (if (re-search-forward "- Note taken" end t) "*")))
-   " "))
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (let ((end (save-excursion (outline-next-heading) (point))))
+        (if (re-search-forward "- Note taken" end t)
+            "*" " ")))))
 
 ;; Logging
 (setq org-log-done 'time)
