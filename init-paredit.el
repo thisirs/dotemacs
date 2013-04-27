@@ -23,32 +23,12 @@
 (require 'paredit-ext)
 
 (define-key paredit-mode-map (kbd "C-)")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-slurp-all-the-way-forward)
-      (paredit-forward-slurp-sexp))))
-
-(define-key paredit-mode-map (kbd "C-(")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-slurp-all-the-way-backward)
-      (paredit-backward-slurp-sexp))))
-
-(define-key paredit-mode-map (kbd "C-c C-)")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-barf-all-the-way-forward)
-      (paredit-forward-barf-sexp))))
-
-(define-key paredit-mode-map (kbd "C-c C-(")
-  (lambda (arg)
-    (interactive "P")
-    (if arg
-        (paredit-barf-all-the-way-backward)
-      (paredit-backward-barf-sexp))))
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-f") 'paredit-forward-slurp-sexp)
+    (define-key map (kbd "C-b") 'paredit-forward-barf-sexp)
+    (define-key map (kbd "C-a") 'paredit-barf-all-the-way-forward)
+    (define-key map (kbd "C-e") 'paredit-slurp-all-the-way-forward)
+    map))
 
 ;; Same as raise but do not kill
 (defun paredit-extract-sexp (&optional argument)
