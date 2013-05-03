@@ -22,6 +22,20 @@
 (setq reftex-ref-macro-prompt nil)
 
 ;; disable fill in env
+;; Derive a label name for figure and table environments as well
+(setq reftex-insert-label-flags '("sft" "sft"))
+
+;; Add reftex support for my custom environment
+(add-to-list 'reftex-label-alist
+             '("prop" ?m "prop:" "~\\ref{%s}" nil ("proposition") nil))
+
+(add-to-list 'reftex-label-alist
+             '("thm" ?m "thm:" "~\\ref{%s}" nil ("theorem" "théorème") nil))
+
+(add-to-list'reftex-label-alist
+ '("table" 116 "tab:" "~\\ref{%s}" caption
+   (regexp "tables?" "tab\\." "Tabellen?")))
+
 (eval-after-load "latex"
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
          '("tikzpicture" "scope" "figure")))
