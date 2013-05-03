@@ -69,4 +69,6 @@
 
 (add-hook 'erc-mode-hook 'my-erc-mode-hook)
 
+(setq erc-format-nick-function 'erc-format-@nick)
+
 (provide 'init-erc)
