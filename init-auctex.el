@@ -12,16 +12,15 @@
 ;; Needed to use external programs such as gnuplot
 (setq LaTeX-command "latex --shell-escape")
 
-;; indentation correcte des items
+;; Correct indentation
 (setq LaTeX-item-indent 0)
 
-;; newline and indent in tex files
+;; Newline and indent in tex files
 (setq TeX-newline-function 'newline-and-indent)
 
 ;; Don't prompt for choosing ref label style
 (setq reftex-ref-macro-prompt nil)
 
-;; disable fill in env
 ;; Derive a label name for figure and table environments as well
 (setq reftex-insert-label-flags '("sft" "sft"))
 
@@ -36,6 +35,7 @@
  '("table" 116 "tab:" "~\\ref{%s}" caption
    (regexp "tables?" "tab\\." "Tabellen?")))
 
+;; Disable fill in env
 (eval-after-load "latex"
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
          '("tikzpicture" "scope" "figure")))
@@ -51,7 +51,7 @@
             (TeX-source-correlate-mode 1))) ; Source Specials
 ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
-;; enable fr dictionary when using package frenchb
+;; Enable fr dictionary when using package frenchb
 (add-hook 'TeX-language-fr-hook
           (lambda () (ispell-change-dictionary "fr")))
 
