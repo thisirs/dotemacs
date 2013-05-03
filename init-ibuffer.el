@@ -22,8 +22,6 @@
            (mode . gnus-article-mode)))
          ("Dired"
           (mode . dired-mode))
-         ("THISKEY's programming"
-          (filename . "/media/THISKEY/programming/"))
          ("Programming"
           (or
            (mode . c-mode)
