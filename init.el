@@ -38,7 +38,8 @@
                                       legalese
                                       multiple-cursors
                                       multi-term
-                                      zenburn-theme)
+                                      zenburn-theme
+                                      macrostep)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
