@@ -382,22 +382,6 @@ inherited by a parent headline."
 
 (add-hook 'before-save-hook 'clean-org-buffer)
 
-;; Display agenda associated with file via org-context
-(defun org-agenda-from-file (file key)
-  (let* ((directory (directory-file-name
-                     (file-name-directory file)))
-         (org-agenda-custom-commands
-          (org-context-agenda-expand
-           (assoc-default (expand-file-name directory)
-                          org-context-agenda-alist 'string-match)
-           directory)))
-    (and org-agenda-custom-commands
-         (org-agenda nil key))))
-
-;; Don't warn when a link run `org-agenda-from-file'
-(setq org-confirm-elisp-link-not-regexp
-      "\\`(org-agenda-from-file \".*\" \"[a-zA-Z]+\")\\'")
-
 (defun org-context-capture-find-headline ()
   "Used with `org-context' in a capture template as a locating
 function. Capture under a headline whose name is the file we
