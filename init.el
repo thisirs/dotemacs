@@ -164,6 +164,13 @@
       (smerge-mode 1))))
 (add-hook 'find-file-hook 'sm-try-smerge t)
 
+;; On-the-fly checker
+(require 'flycheck)
+(global-flycheck-mode 1)
+(mapc (lambda (checker)
+        (delq checker flycheck-checkers))
+      '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+
 ;;; cmake-mode
 (require 'cmake-mode)
 (setq auto-mode-alist
@@ -928,12 +935,7 @@ wants to replace FROM with TO."
 (key-chord-define-global "x0" 'delete-window)
 (key-chord-define-global "xs" 'save-buffer)
 
-;; Trying flycheck
-(require 'flycheck)
-(global-flycheck-mode 1)
-(mapc (lambda (checker)
-        (delq checker flycheck-checkers))
-      '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+
 (require 'helm-descbinds)
 (helm-descbinds-mode)
 
