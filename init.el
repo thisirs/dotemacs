@@ -39,7 +39,8 @@
                                       multiple-cursors
                                       multi-term
                                       zenburn-theme
-                                      macrostep)
+                                      macrostep
+                                      helm-descbinds)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
@@ -933,5 +934,8 @@ wants to replace FROM with TO."
 (mapc (lambda (checker)
         (delq checker flycheck-checkers))
       '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+(require 'helm-descbinds)
+(helm-descbinds-mode)
+
 
 ;;; init.el ends here
