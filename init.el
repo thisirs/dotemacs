@@ -939,5 +939,9 @@ wants to replace FROM with TO."
 (require 'helm-descbinds)
 (helm-descbinds-mode)
 
+(defadvice open-line (around fix-electric activate)
+  "Fix open-line bug when `electric-indent-mode' is on."
+  (let (electric-indent-mode)
+    ad-do-it))
 
 ;;; init.el ends here
