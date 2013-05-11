@@ -398,6 +398,8 @@
 
 (require-maybe 'vc-git-check-status)
 (require-maybe 'org-context)
+(org-context-activate)
+
 (require-maybe 'commit-message)
 
 ;; Load file settings if any
