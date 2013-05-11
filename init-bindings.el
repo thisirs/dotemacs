@@ -1,6 +1,8 @@
 ;; Shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
+(global-set-key (kbd "C-x C-k") 'kill-region)
+
 (global-set-key (kbd "<C-kp-4>") 'enlarge-window-horizontally)
 (global-set-key (kbd "<C-kp-6>") 'shrink-window-horizontally)
 (global-set-key (kbd "<C-kp-8>") 'enlarge-window)
