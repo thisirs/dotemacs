@@ -645,8 +645,8 @@ Also returns nil if pid is nil."
   (interactive)
   (untabify (point-min) (point-max)))
 
-;; Indentation du buffer
 (defun indent-buffer ()
+  "Indent the current buffer."
   (interactive)
   (indent-region (point-min) (point-max)))
 

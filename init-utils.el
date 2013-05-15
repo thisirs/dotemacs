@@ -1,4 +1,5 @@
 (defun add-subdirs-to-load-path (directory)
+  "Add all sub-directories of DIRECTORY to the load path."
   (mapc (lambda (subdir)
           (if (file-directory-p subdir)
               (add-to-list 'load-path (file-name-as-directory subdir))))
