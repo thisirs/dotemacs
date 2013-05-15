@@ -40,7 +40,9 @@
                                       multi-term
                                       zenburn-theme
                                       macrostep
-                                      helm-descbinds)
+                                      helm-descbinds
+                                      dash
+                                      s)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
