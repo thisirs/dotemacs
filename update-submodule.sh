@@ -15,7 +15,7 @@ echo "Repository: $(basename $(pwd))"
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "Current branch is $BRANCH"
 
-if [ "xHEAD" == "x$BRANCH" ]; then
+if [ ! "xmaster" == "x$BRANCH" ]; then
   git checkout master
 fi
 
