@@ -929,6 +929,7 @@ wants to replace FROM with TO."
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
+(setq mc/list-file "~/Dropbox/emacs/.mc-lists.el")
 
 (setq set-mark-command-repeat-pop t)
 
