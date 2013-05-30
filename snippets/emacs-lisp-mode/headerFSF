@@ -4,7 +4,7 @@
 # --
 ;;; `(file-name-nondirectory (buffer-file-name))` ---
 
-;; Copyright (C) 2012 Sylvain Rousseau <thisirs at gmail dot com>
+;; Copyright (C) `(format-time-string "%Y" (current-time))` `user-full-name` <`(yas/wordify user-mail-address)`>
 
 ;; Author: Sylvain Rousseau <thisirs at gmail dot com>
 ;; Keywords:
