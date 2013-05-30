@@ -16,6 +16,14 @@
 
 (define-on-macro "knuth")
 
+;; Disable dialog box, tool bar...
+(setq use-file-dialog nil)
+(setq use-dialog-box nil)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq inhibit-startup-screen t)
+(setq ring-bell-function 'ignore)
+
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
@@ -399,13 +407,14 @@
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
 (require-maybe 'vc-git-check-status)
+
 (require-maybe 'org-context)
 (org-context-activate)
 
-(require-maybe 'commit-message)
-
 ;; Load file settings if any
 (ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
+
+(require-maybe 'commit-message)
 
 (require-maybe 'vc-git-commit-all)
 
@@ -423,14 +432,6 @@
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
-
-;; Disable dialog box, tool bar...
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-startup-screen t)
-(setq ring-bell-function 'ignore)
 
 ;; No lockfiles
 (with-emacs-version>= "24.2"
