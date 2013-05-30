@@ -425,6 +425,42 @@
 (require-maybe 'find-temp-file)
 
 (when (require-maybe 'state)
+  (setq state-alist
+        '((shell
+           (key . "z")
+           (switch . (unless (get-buffer "*eshell*")
+                       (eshell)))
+           (state-p . (equal (buffer-name) "*eshell*")))
+          (emacs
+           (key . "e")
+           (switch . "~/.emacs.d/init.el"))
+          (gnus
+           (key . "g")
+           (state-p . (memq major-mode
+                            '(message-mode
+                              gnus-group-mode
+                              gnus-summary-mode
+                              gnus-article-mode)))
+           (switch . (wconf-fullscreen 'gnus (gnus))))
+          (erc
+           (key . "i")
+           (state-p . (memq (current-buffer)
+                            (erc-buffer-list)))
+           (switch . (erc-start-or-switch 1)))
+          (message
+           (key . "m")
+           (switch . "*Messages*"))
+          (scratch
+           (key . "s")
+           (switch . "*scratch*"))
+          (twit
+           (key . "t")
+           (state-p . (and (fboundp 'twittering-mode) (twittering-buffer-p)))
+           (switch . (wconf-fullscreen 'twit (twit))))
+          (org
+           (key . "a")
+           (state-p . (string= "*Org Agenda(t)" (or (buffer-name) "")))
+           (switch . (wconf-fullscreen 'org (org-agenda nil "t"))))))
   (state-install-bindings))
 
 (unless (server-running-p)
