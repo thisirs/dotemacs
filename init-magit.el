@@ -19,7 +19,6 @@
 
 (add-hook 'magit-log-edit-mode-hook
           #'(lambda ()
-              (set-fill-column 72)
-              (flyspell-mode)))
+              (set-fill-column 72)))
 
 (provide 'init-magit)

@@ -50,7 +50,8 @@
                                       macrostep
                                       helm-descbinds
                                       dash
-                                      s)
+                                      s
+                                      wcheck)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
@@ -76,7 +77,6 @@
 (require 'init-erc)
 (require 'init-magit)
 (require 'init-find-file)
-(require 'init-ispell)
 (require 'init-latex)
 (require 'init-desktop)
 (require 'init-midnight)
@@ -105,6 +105,22 @@
 
 (load-library "paren")
 (show-paren-mode 1)
+
+;; wcheck-mode
+(setq wcheck-language-data
+      '(("French"
+         (program . "/usr/bin/enchant")
+         (args "-l" "-d" "fr_FR")
+         (action-program . "/usr/bin/enchant")
+         (action-args "-a" "-d" "fr_FR")
+         (action-parser . enchant-suggestions-menu))
+        ("British English"
+         (program . "/usr/bin/enchant")
+         (args "-l" "-d" "en_GB")
+         (action-program . "/usr/bin/enchant")
+         (action-args "-a" "-d" "en_GB")
+         (action-parser . enchant-suggestions-menu))))
+
 
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
