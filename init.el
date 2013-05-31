@@ -475,7 +475,7 @@
            (switch . (wconf-fullscreen 'twit (twit))))
           (org
            (key . "a")
-           (state-p . (string= "*Org Agenda(t)" (or (buffer-name) "")))
+           (state-p . (string= "*Org Agenda(t)*" (or (buffer-name) "")))
            (switch . (wconf-fullscreen 'org (org-agenda nil "t"))))))
   (state-install-bindings))
 
