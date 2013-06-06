@@ -11,7 +11,9 @@
 (defvar paredit-minibuffer-commands '(eval-expression
                                       pp-eval-expression
                                       ibuffer-do-eval
-                                      ibuffer-do-view-and-eval)
+                                      ibuffer-do-view-and-eval
+                                      edebug-eval-expression
+                                      edebug-set-conditional-breakpoint)
   "Interactive commands for which paredit should be enabled in the minibuffer.")
 
 (defun conditionally-enable-paredit-mode ()
