@@ -251,7 +251,7 @@
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode)
-(define-key undo-tree-visualizer-map (kbd "RET")
+(define-key undo-tree-visualizer-mode-map (kbd "RET")
   'undo-tree-visualizer-quit)
 
 (require 'mwheel)
