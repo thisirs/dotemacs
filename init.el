@@ -51,7 +51,7 @@
                                       helm-descbinds
                                       dash
                                       s
-                                      wcheck)
+                                      wcheck-mode)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
