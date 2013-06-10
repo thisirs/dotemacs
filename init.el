@@ -94,6 +94,7 @@
 (require 'init-vanilla)
 (require 'init-editing)
 (require 'init-paredit)
+(require 'init-wcheck)
 
 ;; Whitespace mode
 (require 'whitespace)
@@ -105,22 +106,6 @@
 
 (load-library "paren")
 (show-paren-mode 1)
-
-;; wcheck-mode
-(setq wcheck-language-data
-      '(("French"
-         (program . "/usr/bin/enchant")
-         (args "-l" "-d" "fr_FR")
-         (action-program . "/usr/bin/enchant")
-         (action-args "-a" "-d" "fr_FR")
-         (action-parser . enchant-suggestions-menu))
-        ("British English"
-         (program . "/usr/bin/enchant")
-         (args "-l" "-d" "en_GB")
-         (action-program . "/usr/bin/enchant")
-         (action-args "-a" "-d" "en_GB")
-         (action-parser . enchant-suggestions-menu))))
-
 
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
