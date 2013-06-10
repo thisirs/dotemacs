@@ -332,6 +332,15 @@
 (global-set-key (kbd "C-z") 'shell-toggle)
 (global-set-key (kbd "C-M-z") 'shell-toggle-cd)
 
+(defun summon-tmux ()
+  (interactive)
+  (let ((command
+         "urxvt -T my-tmux -e bash -c \"tmux -q has-session && exec tmux attach-session -d || exec tmux new-session -n$USER -s$USER@$HOSTNAME\"; sleep 0.5; wmctrl -a my-tmux &"))
+    (start-process "Shell" nil "bash" "-c" command)))
+
+(global-set-key (kbd "C-z") 'summon-tmux)
+
+
 ;; Additional menu
 (require 'easymenu)
 (setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
