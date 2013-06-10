@@ -1,6 +1,9 @@
 (setq twittering-use-master-password t)
 (setq twittering-icon-mode t)
 
+;; Cache icons
+(setq twittering-use-icon-storage t)
+
 (defun twittering-enter-next-uri ()
   (interactive)
   (let* ((p (point))
