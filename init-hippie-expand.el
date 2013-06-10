@@ -1,3 +1,29 @@
+(defun try-complete-wcheck (old)
+  (when (not old)
+    (let ((marked-text (or (wcheck-marked-text-at (point))
+                           (wcheck-marked-text-at (1- (point))))))
+      (if (not marked-text)
+          (setq he-expand-list nil)
+        (he-init-string (aref marked-text 1) (aref marked-text 2))
+        (aset marked-text )
+        (setq he-next-expand 0
+              he-expand-list
+              (mapcar #'cdr
+                      (wcheck-get-actions marked-text))))))
+
+  (while (and he-expand-list
+              (or (not (car he-expand-list))
+                  (he-string-member (car he-expand-list) he-tried-table t)))
+    (setq he-expand-list (cdr he-expand-list)))
+  (if (null he-expand-list)
+      (progn
+        (if old (he-reset-string))
+        ())
+    (progn
+      (he-substitute-string (car he-expand-list) t)
+      (setq he-expand-list (cdr he-expand-list))
+      t)))
+
 (defun try-complete-flyspell (old)
   (when (not old)
     ;; use the correct dictionary
@@ -119,7 +145,7 @@ string). It returns t if a new expansion is found, nil otherwise."
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
-        try-complete-flyspell))
+        try-complete-wcheck))
 
 (global-set-key (kbd "S-SPC") 'hippie-expand)
 (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
