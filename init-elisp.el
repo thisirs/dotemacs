@@ -78,5 +78,15 @@
 
 (global-set-key (kbd "C-c e") 'eval-and-replace)
 
+(defun auto-byte-recompile ()
+  "If the current buffer is in emacs-lisp-mode and there already exists an `.elc'
+file corresponding to the current buffer file, then recompile the file."
+  (interactive)
+  (when (and (eq major-mode 'emacs-lisp-mode)
+             (file-exists-p (byte-compile-dest-file buffer-file-name)))
+    (byte-compile-file buffer-file-name)))
+
+(add-hook 'after-save-hook 'auto-byte-recompile)
+
 (provide 'init-elisp)
 
