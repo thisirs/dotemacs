@@ -607,4 +607,26 @@ This can be 0 for immediate, or a floating point value.")
         (org-table-blank-field)
       (call-interactively 'ace-jump-mode))))
 
+(require 'ox-koma-letter)
+
+;; email is specified is lco file
+(setq org-koma-letter-email nil)
+
+;; no backaddress by default
+(setq org-koma-letter-use-backaddress nil)
+
+;; no foldmarks by default
+(setq org-koma-letter-use-foldmarks nil)
+
+(add-to-list 'org-latex-classes
+             '("my-letter"
+               "\\documentclass\{scrlttr2\}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+\\usepackage[frenchb]{babel}
+\[NO-DEFAULT-PACKAGES]
+\[NO-PACKAGES]
+\[EXTRA]"))
+
+
 (provide 'init-org)
