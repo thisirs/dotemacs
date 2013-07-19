@@ -473,6 +473,8 @@
            (switch . (wconf-fullscreen 'org (org-agenda nil "t"))))))
   (state-install-bindings))
 
+(require-maybe 'helm-bib)
+
 (unless (server-running-p)
   (server-start))
 
