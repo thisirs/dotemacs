@@ -79,6 +79,7 @@
 (require 'init-desktop)
 (require 'init-midnight)
 (require 'init-helm)
+(require 'init-octave)
 (require 'init-matlab)
 (require 'init-yasnippet)
 (require 'init-org)
