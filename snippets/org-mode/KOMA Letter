@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: KOMA Letter
+# key: koma1
+# --
+:PROPERTIES:
+:EXPORT_LATEX_CLASS: my-letter
+:EXPORT_TITLE: $1
+:EXPORT_OPENING: $2
+:EXPORT_CLOSING: $3
+:EXPORT_LANGUAGE: fr
+:EXPORT_TO_ADDRESS: $4
+:EXPORT_LCO: LCOs/sylvain
+:END:
+$0
