@@ -129,7 +129,7 @@
   (let ((helm-c-grep-default-function 'helm-c-pdfgrep-init))
     (helm-do-pdfgrep-1 helm-bib-locations)))
 
-(define-key helm-command-map (kbd "h b") 'helm-search-bib)
+(define-key helm-command-map (kbd "h p") 'helm-search-bib)
 
 (defun helm-org-store-link (candidate)
   (setq org-stored-links
