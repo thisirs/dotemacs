@@ -46,13 +46,19 @@
   '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
          '("tikzpicture" "scope" "figure")))
 
+(defun latex-auto-fill-everywhere ()
+  (when comment-auto-fill-only-comments
+    (set (make-local-variable 'comment-auto-fill-only-comments)
+         nil)))
+
+(add-hook 'LaTeX-mode-hook 'latex-auto-fill-everywhere)
+
 (add-hook 'LaTeX-mode-hook
           (lambda ()
             (when buffer-file-name
               (turn-on-reftex)
               (setq reftex-plug-into-AUCTeX t)
               (reftex-set-cite-format "~\\cite{%l}"))
-            (setq comment-auto-fill-only-comments nil)
             (TeX-source-correlate-mode 1))) ; Source Specials
 ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 

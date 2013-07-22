@@ -1,9 +1,6 @@
 ;; auto-fill
 (setq comment-auto-fill-only-comments t)
 
-;; auto-fill everywhere in latex mode
-(make-variable-buffer-local 'comment-auto-fill-only-comments)
-
 ;; Turns on auto-fill everywhere...
 (setq-default auto-fill-function 'do-auto-fill)
 
