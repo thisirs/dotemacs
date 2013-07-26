@@ -64,6 +64,7 @@
            "~/repositories"
            "~/.emacs.d"
            "~/Dropbox/programming")
+          ("%D" "~/Dropbox/scripts")
           ("Boss: %D" "~/Dropbox/These/")))
   (ibuffer-project-refresh t))
 
