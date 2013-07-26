@@ -416,7 +416,15 @@
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
-(require-maybe 'vc-git-check-status)
+(require-maybe 'vc-check-status)
+
+(add-to-list 'vc-check-cancel-hook
+             (lambda ()
+               (and
+                (fboundp 'vc-git-auto-committed-repo-p)
+                (vc-git-auto-committed-repo-p))))
+
+(vc-check-status-activate)
 
 (require-maybe 'org-context)
 (org-context-activate)
