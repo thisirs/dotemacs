@@ -26,6 +26,10 @@
 (setq org-agenda-todo-ignore-scheduled t)
 (setq org-agenda-todo-ignore-deadlines t)
 
+;; Allow property inheritance for org-context agenda in my scripts
+;; directory
+(setq org-use-property-inheritance t)
+
 ;; Set org id locations
 (setq org-id-locations-file "~/Dropbox/Org/.org-id-locations")
 
