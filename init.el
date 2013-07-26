@@ -444,7 +444,10 @@
 
 (when (require-maybe 'state)
   (setq state-alist
-        '((shell
+        '((debug
+           (key . "d")
+           (switch . "*debug*"))
+          (shell
            (key . "z")
            (switch . (unless (get-buffer "*eshell*")
                        (eshell)))
