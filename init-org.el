@@ -407,7 +407,25 @@ captured from."
           (or (bolp) (insert "\n")))
       (goto-char (point-max))
       (or (bolp) (insert "\n"))
-      (insert "* " (org-make-link-string hd script) "\n"))))
+      (insert "* " (org-make-link-string hd script) "\n")
+      (org-id-get nil 'create))))
+
+(defun org-context-agenda-blocks (filev)
+  (with-current-buffer (find-file-noselect filev)
+    (save-excursion
+      (goto-char (point-min))
+      (list "t" "Scripts TODO"
+            (delq nil
+                  (org-map-entries
+                   (lambda ()
+                     (when (looking-at org-heading-regexp)
+                       (when (= (length (match-string-no-properties 1)) 1)
+                         (let ((header (match-string-no-properties 2))
+                               (id (org-id-get)))
+                           `(tags-todo ,(format "ID=\"%s\"" id)
+                                       ((org-agenda-files (quote (,filev)))
+                                        (org-agenda-overriding-header ,header)))))))))
+            '((org-agenda-buffer-name "Projects TODO"))))))
 
 ;; Enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
