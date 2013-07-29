@@ -440,7 +440,10 @@
 
 (require-maybe 'org-bib-workflow)
 
-(require-maybe 'find-temp-file)
+(when (require-maybe 'find-temp-file)
+  (setq find-temp-file-directory "~/deathrow/drafts/")
+  (setq find-temp-template-default "%M/%N-%S.%E")
+  (global-set-key (kbd "C-x C-t") 'find-temp-file))
 
 (when (require-maybe 'state)
   (setq state-alist
