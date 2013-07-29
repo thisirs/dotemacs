@@ -16,11 +16,12 @@
              (let ((path (vc-call-backend backend 'responsible-p default-directory)))
                (if path (throw 'found backend)))))))
     (if backend
-        (concat ";; URL: "
-                (cond
-                 ((eq 'Git backend)
-                  (with-temp-buffer
-                    (vc-git-command t nil nil "config" "--get" "remote.origin.url")
-                    (buffer-string)))
-                 (t "")))
+        (let ((url (cond
+                    ((eq 'Git backend)
+                     (with-temp-buffer
+                       (vc-git-command t nil nil "config" "--get" "remote.origin.url")
+                       (if (> (buffer-size) 0) (buffer-string))))
+                    (t nil))))
+          (when url
+            (concat ";; URL: " url)))
       "")))
