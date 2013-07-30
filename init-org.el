@@ -560,7 +560,7 @@ this with to-do items than with projects or headings."
    "\\[[ X-]\\]"
    (lambda (match)
      (cond
-      ((string= match "[X]") "$\\\\boxtimes$ ")
+      ((string= match "[X]") "$\\\\blacksquare$ ")
       ((string= match "[ ]") "$\\\\Box$ ")
       ((string= match "[-]") "$\\\\boxminus$ ")))
    (concat
