@@ -558,19 +558,33 @@ this with to-do items than with projects or headings."
 ;; to remove the bullets.
 (defun org-latex-format-headline-checkbox-function
   (todo todo-type priority text tags)
-  (replace-regexp-in-string
-   "\\[[ X-]\\]"
-   (lambda (match)
-     (cond
-      ((string= match "[X]") "$\\\\blacksquare$ ")
-      ((string= match "[ ]") "$\\\\Box$ ")
-      ((string= match "[-]") "$\\\\boxminus$ ")))
-   (concat
-    (and todo (format "{\\bfseries\\sffamily %s} " todo))
-    (and priority (format "\\framebox{\\#%c} " priority))
-    text
-    (and tags
-         (format "\\hfill{}\\textsc{%s}" (mapconcat 'identity tags ":"))))))
+  "Add a checkbox in front of headline depending of the states of
+child checkboxes."
+  (let ((checkbox ""))
+    (when (boundp 'headline)
+      (let ((all-checked t) (all-unchecked t) with-checkbox)
+        (org-element-map headline 'item
+          (lambda (element)
+            (let ((state (plist-get (cadr element) :checkbox)))
+              (if state
+                  (setq with-checkbox t))
+              (if (eq state 'on)
+                  (setq all-unchecked nil))
+              (if (or (eq state 'off) (eq state 'trans))
+                  (setq all-checked nil)))))
+        (if with-checkbox
+            (setq checkbox
+                  (cond
+                   (all-checked "$\\blacksquare$ ")
+                   (all-unchecked "$\\Box$ ")
+                   (t "$\\boxminus$ "))))))
+    (concat
+     (and todo (format "{\\bfseries\\sffamily %s} " todo))
+     (and priority (format "\\framebox{\\#%c} " priority))
+     checkbox
+     text
+     (and tags
+          (format "\\hfill{}\\textsc{%s}" (mapconcat 'identity tags ":"))))))
 
 (setq org-latex-format-headline-function
       'org-latex-format-headline-checkbox-function)
