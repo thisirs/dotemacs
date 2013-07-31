@@ -17,10 +17,10 @@
             (setq form-list (cons form form-list)))
           (nreverse form-list)))))
 
-(defun require-maybe (feat)
+(defun require-maybe (feat &optional filename)
   "Like `require' but display a message instead of signaling an
 error."
-  (or (require feat nil t)
+  (or (require feat filename t)
       (not (message "Feature `%s' not loaded!" feat))))
 
 (defmacro with-after-load (s &rest body)
