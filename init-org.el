@@ -411,6 +411,8 @@ captured from."
       (org-id-get nil 'create))))
 
 (defun org-context-agenda-blocks (filev)
+  "Construct a block agenda command where each block takes its
+entry from each headline of FILEV."
   (with-current-buffer (find-file-noselect filev)
     (save-excursion
       (goto-char (point-min))
