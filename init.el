@@ -434,7 +434,8 @@
 
 (require-maybe 'commit-message)
 
-(require-maybe 'vc-git-commit-all)
+(when (require-maybe 'vc-git-commit-all)
+  (global-set-key (kbd "C-x v C") 'vc-git-commit-all))
 
 (require-maybe 'init-autoinsert)
 
