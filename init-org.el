@@ -139,6 +139,22 @@ the selected file."
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'org-iswitchb)
 
+;; Support for links in twittering-mode
+(defun org-twittering-store-link ()
+  (when (eq major-mode 'twittering-mode)
+    (let ((uri (or (get-text-property (point) 'uri)
+                   (if (get-text-property (point) 'field)
+                       (let ((id (or (get-text-property (point) 'retweeted-id)
+                                     (get-text-property (point) 'id)))
+                             (username (get-text-property (point) 'username)))
+                         (twittering-get-status-url username id))
+                     nil))))
+      (and (stringp uri)
+           (org-store-link-props :type "http" :link uri)
+           t))))
+
+(add-to-list 'org-store-link-functions 'org-twittering-store-link)
+
 (setq org-agenda-files
       '("~/Dropbox/Org/agenda.org"
         "~/Dropbox/Org/someday.org"
