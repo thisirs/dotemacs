@@ -478,7 +478,7 @@ entry from each headline of FILEV."
         (org-back-to-heading t)
         (when (looking-at org-complex-heading-regexp)
           (replace-match
-           (format "[%d/%d] [[elisp:(org-agenda-from-file \"%s\" \"%s\")][%s]]"
+           (format "[%d/%d] [[elisp:(org-context-agenda-from \"%s\" \"%s\")][%s]]"
                    n-done (+ n-done n-todo) todo-file key project)
            nil nil nil 4))))))
 
