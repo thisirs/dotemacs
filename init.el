@@ -49,7 +49,8 @@
                                       helm-descbinds
                                       dash
                                       s
-                                      wcheck-mode)
+                                      wcheck-mode
+                                      google-translate)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
@@ -188,6 +189,11 @@
       (append '(("CMakeLists\\.txt\\'" . cmake-mode)
                 ("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
+
+;;; google translate
+(require 'google-translate)
+(global-set-key "\C-ct" 'google-translate-at-point)
+(global-set-key "\C-cT" 'google-translate-query-translate)
 
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode")
