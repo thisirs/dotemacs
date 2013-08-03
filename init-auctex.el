@@ -16,7 +16,8 @@
 (setq TeX-auto-save t) ; Enable parse on save.
 
 ;; Needed to use external programs such as gnuplot
-(setq LaTeX-command "latex --shell-escape")
+;; Fix bug where errors are not correctly parsed
+(setq LaTeX-command "latex -shell-escape -file-line-error")
 
 ;; Correct indentation
 (setq LaTeX-item-indent 0)
