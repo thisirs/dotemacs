@@ -224,10 +224,6 @@
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
-;; Flymake for shell scripts
-;; (require 'flymake-shell)
-;; (add-hook 'sh-set-shell-hook 'flymake-shell-load)
-
 ;; Tidy
 (autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
