@@ -7,6 +7,13 @@
 
 (setq yas/triggers-in-field t)
 
+(if (boundp 'yas-new-snippet-default)
+    (setq yas-new-snippet-default "\
+# -*- mode: snippet -*-
+# name: $1
+# --
+$0"))
+
 ;; Inter-field navigation
 (defun yas/goto-end-of-active-field ()
   (interactive)
