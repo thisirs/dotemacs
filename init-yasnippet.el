@@ -33,4 +33,8 @@
 
 (define-key yas/keymap (kbd "C-k") 'yas/clear-current-field)
 
+(global-set-key (kbd "C-c y n") 'yas-new-snippet)
+(global-set-key (kbd "C-c y r") 'yas-reload-all)
+(global-set-key (kbd "C-c y v") 'yas-visit-snippet-file)
+
 (provide 'init-yasnippet)
