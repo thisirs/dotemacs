@@ -4,10 +4,10 @@
 # --
 ;;; `(file-name-nondirectory (buffer-file-name))` ---
 
-;; Copyright (C) `(format-time-string "%Y" (current-time))` `user-full-name` <`(yas/wordify user-mail-address)`>
+;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
 
-;; Author: Sylvain Rousseau <thisirs at gmail dot com>
-;; Maintainer: Sylvain Rousseau <thisirs at gmail dot com>
+;; Author: `user-full-name` <`(yas/wordify user-mail-address)`>
+;; Maintainer: `user-full-name` <`(yas/wordify user-mail-address)`>
 `(yas/insert-url-maybe)`;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -28,5 +28,7 @@
 ;;; Code
 
 $0
+
+(provide '`(file-name-sans-extension (file-name-nondirectory buffer-file-name))`)
 
 ;;; `(file-name-nondirectory (buffer-file-name))` ends here
