@@ -170,10 +170,12 @@
 (autoload 'smerge-mode "smerge-mode" nil t)
 
 (defun sm-try-smerge ()
-  (save-excursion
+  (let ((old-point (point)))
     (goto-char (point-min))
-    (when (re-search-forward "^<<<<<<< " nil t)
-      (smerge-mode 1))))
+    (if (re-search-forward "^<<<<<<< " nil t)
+        (smerge-mode 1)
+      (goto-char old-point))))
+
 (add-hook 'find-file-hook 'sm-try-smerge t)
 
 ;; On-the-fly checker
