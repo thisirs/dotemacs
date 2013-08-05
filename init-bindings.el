@@ -129,4 +129,9 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 (create-simple-keybinding-command f9 "<f9>")
 (create-simple-keybinding-command f10 "<f10>")
 
+(global-set-key (kbd "C-c e b") 'eval-buffer)
+(global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
+(global-set-key (kbd "C-c e l") 'find-library)
+(global-set-key (kbd "C-c e r") 'eval-region)
+
 (provide 'init-bindings)
