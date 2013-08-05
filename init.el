@@ -254,7 +254,7 @@
       uniquify-after-kill-buffer-p t)
 
 (require 'saveplace)
-(setq save-place-file "~/.emacs.d/.saveplace")
+(setq save-place-file "~/.emacs.d/cache/.saveplace")
 (setq-default save-place t)
 
 ;; Goto last changed place in buffer
