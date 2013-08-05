@@ -204,22 +204,11 @@
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
 
-;; Adapted from http://blog.senny.ch/blog/2012/10/06/emacs-tidbits-for-ruby-developers/
-(defun ruby-interpolate ()
-  "In a double quoted string, interpolate."
-  (interactive)
-  (insert "#")
-  (when (eq (nth 3 (syntax-ppss)) ?\")
-    (insert "{}")
-    (backward-char 1)))
-
-
 (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
 (add-hook 'ruby-mode-hook
           (lambda ()
             (define-key ruby-mode-map (kbd "RET")
-              'reindent-then-newline-and-indent)
-            (define-key ruby-mode-map (kbd "#") 'ruby-interpolate)))
+              'reindent-then-newline-and-indent)))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
