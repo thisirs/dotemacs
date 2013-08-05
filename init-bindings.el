@@ -15,6 +15,8 @@
 (with-emacs-version< "24.3"
   (global-set-key (kbd "M-g c") 'goto-char))
 
+(global-set-key (kbd "M-g f") 'find-grep)
+
 (global-set-key (kbd "C-z") 'shell)
 
 ;; Move between windows with meta-arrows
