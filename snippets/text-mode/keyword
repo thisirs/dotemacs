@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: `...'
+# binding: C-c y q
+# condition: 'force-in-comment
+# --
+\``yas-selected-text`$0'
