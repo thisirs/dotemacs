@@ -210,6 +210,11 @@
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
 
+(defun ri-bind-key ()
+  (local-set-key [f1] 'yari-helm))
+
+(add-hook 'ruby-mode-hook 'ri-bind-key)
+
 (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
 (add-hook 'ruby-mode-hook
           (lambda ()
