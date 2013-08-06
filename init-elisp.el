@@ -63,21 +63,6 @@
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-add-keywords)
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-hippie-expand)
 
-(defun eval-and-replace ()
-  "Replace the preceding sexp with its value."
-  (interactive)
-  (let ((opoint (point)) form)
-    (forward-sexp -1)
-    (condition-case error
-        (progn
-          (setq form (eval (read (buffer-substring (point) opoint))))
-          (delete-region (point) opoint)
-          (prin1 form (current-buffer)))
-      (error (goto-char opoint)
-             (message "eval-and-replace: %s" error)))))
-
-(global-set-key (kbd "C-c e") 'eval-and-replace)
-
 (defun auto-byte-recompile ()
   "If the current buffer is in emacs-lisp-mode and there already exists an `.elc'
 file corresponding to the current buffer file, then recompile the file."
