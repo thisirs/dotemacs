@@ -266,6 +266,7 @@ the selected file."
    (if (listp msgs) msgs (list msgs))))
 
 (setq appt-disp-window-function 'appt-display)
+(setq appt-delete-window-function 'ignore)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
