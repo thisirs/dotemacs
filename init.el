@@ -425,8 +425,8 @@
 (add-to-list 'vc-check-cancel-hook
              (lambda ()
                (and
-                (fboundp 'vc-git-auto-committed-repo-p)
-                (vc-git-auto-committed-repo-p))))
+                (fboundp 'vc-auto-commit-backend)
+                (vc-auto-commit-backend))))
 
 (vc-check-status-activate)
 
