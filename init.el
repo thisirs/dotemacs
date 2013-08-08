@@ -438,8 +438,8 @@
 
 (require-maybe 'commit-message)
 
-(when (require-maybe 'vc-git-commit-all)
-  (global-set-key (kbd "C-x v C") 'vc-git-commit-all))
+(when (require-maybe 'vc-auto-commit)
+  (global-set-key (kbd "C-x v C") 'vc-auto-commit))
 
 (require-maybe 'init-autoinsert)
 
@@ -738,7 +738,8 @@ case it is used in hooks."
         (memq (vc-backend (buffer-file-name)) '(nil none))
         ;; git backend and autocommitted repo
         (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-             (vc-git-auto-committed-p)))
+             (fboundp 'vc-auto-commit-backend)
+             (vc-auto-commit-backend)))
        (delete-trailing-whitespace)
        nil))
 
