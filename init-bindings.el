@@ -137,9 +137,14 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 (global-set-key (kbd "C-c e r") 'eval-region)
 (global-set-key (kbd "C-c e q") 'toggle-debug-on-quit)
 (global-set-key (kbd "C-c e m") 'macrostep-expand)
+(global-set-key (kbd "C-c e L") 'elint-current-buffer)
+(global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
 
 (global-set-key (kbd "C-c d k") 'describe-key)
+(global-set-key (kbd "C-c d v") 'describe-variable)
+(global-set-key (kbd "C-c d f") 'describe-function)
+(global-set-key (kbd "C-c d a") 'helm-apropos)
 
-(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "C-h") (kbd "DEL"))
 
 (provide 'init-bindings)
