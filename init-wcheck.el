@@ -18,6 +18,8 @@
          (action-args "-a" "-d" "us_US")
          (action-parser . enchant-suggestions-menu))))
 
+(put 'wcheck-language 'safe-local-variable 'stringp)
+
 (defun enchant-suggestions-menu (marked-text)
   (cons (cons "[Add to dictionary]" 'enchant-add-to-dictionary)
         (wcheck-parser-ispell-suggestions)))
