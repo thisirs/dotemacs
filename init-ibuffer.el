@@ -152,7 +152,7 @@
 (define-key ibuffer-mode-map (kbd "C-s") 'ido-switch-buffer)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
-  "Open ibuffer with cursour pointed to second most recent buffer
+  "Open ibuffer with cursor pointed to second most recent buffer
 name"
   (let ((recent-buffer-name (buffer-name)))
     ad-do-it
