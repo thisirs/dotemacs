@@ -328,6 +328,9 @@
         "*Ibuffer*"
         "*Calendar*"
         "*helm*"))
+(global-set-key (kbd "M-N") 'winner-redo)
+(global-set-key (kbd "M-P") 'winner-undo)
+
 
 ;;; sh-toggle
 (require 'sh-toggle)
