@@ -436,9 +436,6 @@
 (require-maybe 'org-context)
 (org-context-activate)
 
-;; Load file settings if any
-(ignore-errors (load-file "~/Dropbox/emacs/org-context-settings.el"))
-
 (require-maybe 'commit-message)
 
 (when (require-maybe 'vc-auto-commit)
