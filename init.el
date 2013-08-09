@@ -1009,10 +1009,6 @@ wants to replace FROM with TO."
 (key-chord-define-global "x0" 'delete-window)
 (key-chord-define-global "xs" 'save-buffer)
 
-
-(require 'helm-descbinds)
-(helm-descbinds-mode)
-
 (defadvice open-line (around fix-electric activate)
   "Fix open-line bug when `electric-indent-mode' is on."
   (let (electric-indent-mode)
