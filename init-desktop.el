@@ -5,7 +5,7 @@
 (if (boundp 'desktop-save-frames)
     (setq desktop-save-frames t))
 
-(setq desktop-load-locked-desktop t)
+(setq desktop-load-locked-desktop nil)
 
 ;; save the desktop file automatically if it already exists
 (setq desktop-save 'if-exists)
