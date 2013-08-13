@@ -147,8 +147,11 @@
 
 (define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
 
+(require 'ido)
+(ido-mode t)
 (setq ido-mode 'buffer)
-(ido-mode 1)
+(setq ido-auto-merge-work-directories-length -1)
+
 (define-key ibuffer-mode-map (kbd "C-s") 'ido-switch-buffer)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
