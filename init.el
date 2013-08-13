@@ -202,6 +202,26 @@
 (setq google-translate-default-source-language "en")
 (setq google-translate-default-target-language "fr")
 
+;; Projectile
+(eval-after-load 'projectile
+  '(progn
+     (defun projectile-find-file-other-window (arg)
+       "Jump to a project's file using completion.
+
+With a prefix ARG invalidates the cache first."
+       (interactive "P")
+       (when arg
+         (projectile-invalidate-cache nil))
+       (let ((file (projectile-completing-read "Find file: "
+                                               (projectile-current-project-files)))
+             (root (projectile-project-root)))
+         (other-window 1)
+         (find-file (expand-file-name file root))
+         (run-hooks 'projectile-find-file-hook)))
+
+     (define-key projectile-mode-map
+       (concat projectile-keymap-prefix (kbd "v"))
+       'projectile-find-file-other-window)))
 
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode")
