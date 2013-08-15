@@ -771,8 +771,8 @@ case it is used in hooks."
        (or
         (memq (vc-backend (buffer-file-name)) '(nil none))
         (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-             (and (fboundp 'vc-git-auto-committed-repo-p)
-                  (vc-git-auto-committed-p))))
+             (and (fboundp 'vc-auto-commit-backend)
+                  (vc-auto-commit-backend))))
        (not indent-tabs-mode)
        (untabify (point-min) (point-max))
        nil))
