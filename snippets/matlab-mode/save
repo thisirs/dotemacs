@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: save
+# --
+save('$1.${2:raw}', '$1', '-ASCII');
+$0

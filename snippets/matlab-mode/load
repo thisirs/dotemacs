@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: load
+# --
+$1 = load('$1.${2:raw}', '-ASCII');
+$0
