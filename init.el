@@ -459,6 +459,7 @@ With a prefix ARG invalidates the cache first."
 (require-maybe 'commit-message)
 
 (when (require-maybe 'vc-auto-commit)
+  (vc-auto-commit-activate)
   (global-set-key (kbd "C-x v C") 'vc-auto-commit))
 
 (require-maybe 'init-autoinsert)
