@@ -1,15 +1,13 @@
 (defun try-complete-wcheck (old)
-  (when (not old)
-    (let ((marked-text (or (wcheck-marked-text-at (point))
-                           (wcheck-marked-text-at (1- (point))))))
-      (if (not marked-text)
-          (setq he-expand-list nil)
-        (he-init-string (aref marked-text 1) (aref marked-text 2))
-        (aset marked-text )
+  (when wcheck-mode
+    (when (not old)
+      (he-init-string (he-dabbrev-beg) (point))
+      (let ((marked-text
+             (vector he-search-string (he-dabbrev-beg) (point) nil "fr")))
         (setq he-next-expand 0
               he-expand-list
-              (mapcar #'cdr
-                      (wcheck-get-actions marked-text))))))
+              (cdr (mapcar #'cdr
+                           (wcheck-get-actions marked-text)))))))
 
   (while (and he-expand-list
               (or (not (car he-expand-list))
@@ -47,6 +45,38 @@
         (setq he-expand-list (ispell-parse-output (car ispell-filter))
               he-expand-list (if (consp he-expand-list)
                                  (nth 2 (ispell-parse-output (car ispell-filter)))))))
+  (while (and he-expand-list
+              (or (not (car he-expand-list))
+                  (he-string-member (car he-expand-list) he-tried-table t)))
+    (setq he-expand-list (cdr he-expand-list)))
+  (if (null he-expand-list)
+      (progn
+        (if old (he-reset-string))
+        ())
+    (progn
+      (he-substitute-string (car he-expand-list) t)
+      (setq he-expand-list (cdr he-expand-list))
+      t)))
+
+(defun try-complete-ispell (old)
+  (when (not old)
+    (he-init-string (he-dabbrev-beg) (point))
+    (ispell-set-spellchecker-params)    ; Initialize variables and dicts alists
+    (ispell-accept-buffer-local-defs)	; use the correct dictionary
+    (ispell-send-string "%\n")	; put in verbose mode
+    (ispell-send-string (concat "^" he-search-string "\n"))
+    (while (progn
+             (ispell-accept-output)
+             (not (string= "" (car ispell-filter)))))
+    (setq ispell-filter (cdr ispell-filter)) ; remove extra \n
+
+    (or ispell-filter
+        (setq ispell-filter '(*)))
+    (if (consp ispell-filter)
+        (setq he-expand-list (ispell-parse-output (car ispell-filter))
+              he-expand-list (if (consp he-expand-list)
+                                 (nth 2 (ispell-parse-output (car ispell-filter)))))))
+
   (while (and he-expand-list
               (or (not (car he-expand-list))
                   (he-string-member (car he-expand-list) he-tried-table t)))
@@ -145,7 +175,7 @@ string). It returns t if a new expansion is found, nil otherwise."
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
-        try-complete-wcheck))
+        try-complete-ispell))
 
 (global-set-key (kbd "S-SPC") 'hippie-expand)
 (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
