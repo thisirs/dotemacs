@@ -448,7 +448,7 @@ entry from each headline of FILEV."
 
 ;; Enable sticky agenda to navigate between them
 (eval-after-load "org-agenda"
-  '(org-toggle-sticky-agenda 1))
+  '(org-toggle-sticky-agenda -1))
 
 ;; Update project cookie and look at specified org file
 (defun org-update-project-cookies (n-done n-not-done)
