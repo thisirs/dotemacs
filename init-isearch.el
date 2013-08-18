@@ -25,6 +25,9 @@
   (goto-char (point-max))
   (isearch-repeat-backward))
 
+;; Add newline to lax isearch
+(setq search-whitespace-regexp "[[:space:]\n]+")
+
 (define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
 
 (define-key isearch-mode-map (kbd "C-c") 'isearch-toggle-case-fold)
