@@ -57,7 +57,7 @@
          try-expand-dabbrev
          try-expand-dabbrev-all-buffers
          try-expand-dabbrev-from-kill
-         try-complete-flyspell)))
+         try-complete-ispell)))
 
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-record-function)
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-add-keywords)
