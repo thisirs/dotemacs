@@ -65,6 +65,7 @@
            "~/.emacs.d"
            "~/Dropbox/programming")
           ("%D" "~/Dropbox/scripts")
+          ("%D" "~/Dropbox/conf-files/")
           ("Boss: %D" "~/Dropbox/These/")))
   (setq ibuffer-project-cache-file
         (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
