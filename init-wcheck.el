@@ -19,6 +19,7 @@
          (action-parser . enchant-suggestions-menu))))
 
 (put 'wcheck-language 'safe-local-variable 'stringp)
+(setq wcheck-language "en")
 
 (defun enchant-suggestions-menu (marked-text)
   (cons (cons "[Add to dictionary]" 'enchant-add-to-dictionary)
@@ -41,5 +42,27 @@
         (append-to-file (point-min) (point-max) file)
         (message "Added word \"%s\" to the %s dictionary"
                  word language)))))
+
+(defun wcheck-enable (&optional lang)
+  (interactive "s")
+  (if (stringp lang)
+      (wcheck-change-language (or lang wcheck-language)))
+  (unless wcheck-mode
+    (call-interactively 'wcheck-mode)))
+
+(global-set-key (kbd "C-c w w")
+                (lambda ()
+                  (interactive)
+                  (call-interactively 'wcheck-mode)))
+
+(global-set-key (kbd "C-c w f")
+                (lambda ()
+                  (interactive)
+                  (wcheck-enable "fr")))
+
+(global-set-key (kbd "C-c w e")
+                (lambda ()
+                  (interactive)
+                  (wcheck-enable "en")))
 
 (provide 'init-wcheck)
