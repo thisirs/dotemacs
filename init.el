@@ -656,7 +656,7 @@ Also returns nil if pid is nil."
   nil)
 
 ;; History navigation
-(with-after-load "comint"
+(with-eval-after-load "comint"
   (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
   (define-key comint-mode-map [(control ?n)] 'comint-next-input))
 

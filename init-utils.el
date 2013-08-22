@@ -23,12 +23,6 @@ error."
   (or (require feat filename t)
       (not (message "Feature `%s' not loaded!" feat))))
 
-(defmacro with-after-load (s &rest body)
-  "Like `eval-after-load' but no progn or quote."
-  (declare (debug t) (indent 1))
-  `(eval-after-load ,s
-     '(progn ,@body)))
-
 (defmacro with-emacs-version>= (version &rest body)
   "Expand to BODY if current emacs version is newer or equal to
 VERSION."
