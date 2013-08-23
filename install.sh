@@ -9,10 +9,16 @@ git submodule init
 git submodule update
 
 # Backup existing .emacs and .emacs.d
-[ -e "$HOME/.emacs" ] && { echo "Moving existing ~/.emacs to ~/.emacs-$(date +%s).old"; mv $HOME/.emacs{,-$(date +%s).old}; }
-[ -e "$HOME/.emacs.d" ] && { echo "Moving existing ~/.emacs.d to ~/.emacs.d-$(date +%s).old"; mv $HOME/.emacs.d{,-$(date +%s).old}; }
+if [ -e "$HOME/.emacs" ]; then
+    echo "Moving existing ~/.emacs to ~/.emacs-$(date +%s).old"
+    mv $HOME/.emacs{,-$(date +%s).old}
+fi
+
+if [ -e "$HOME/.emacs.d" ]; then
+    echo "Moving existing ~/.emacs.d to ~/.emacs.d-$(date +%s).old"
+    mv $HOME/.emacs.d{,-$(date +%s).old}
+fi
 
 # Create soft link
-echo "Creating soft link"
-ln -s $SCRIPT_PATH ~/.emacs.d
+ln -sv $SCRIPT_PATH ~/.emacs.d
 
