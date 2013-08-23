@@ -1,4 +1,4 @@
-;; Ouvre un buffer en sudo via tramp
+;; Open a buffer with sudo via tramp
 (defun th-find-file-sudo (file)
   "Opens FILE with root privileges."
   (interactive "F")
