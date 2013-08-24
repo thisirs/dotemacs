@@ -60,6 +60,7 @@
 
 (defun try-complete-ispell (old)
   (when (not old)
+    (require 'ispell)
     (he-init-string (he-dabbrev-beg) (point))
     (ispell-set-spellchecker-params)    ; Initialize variables and dicts alists
     (ispell-accept-buffer-local-defs)	; use the correct dictionary
