@@ -456,6 +456,9 @@ With a prefix ARG invalidates the cache first."
 (require-maybe 'org-context)
 (org-context-activate)
 
+(require 'scratch-message)
+(scratch-message-toggle 1)
+
 (require-maybe 'commit-message)
 
 (when (require-maybe 'vc-auto-commit)
