@@ -1026,7 +1026,6 @@ wants to replace FROM with TO."
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define-global "xo" 'other-window)
-(key-chord-define-global "xi" 'delete-other-windows)
 (key-chord-define-global "x0" 'delete-window)
 (key-chord-define-global "xs" 'save-buffer)
 
