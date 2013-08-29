@@ -26,6 +26,30 @@
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 
+;; Backups
+(setq make-backup-files t ;; do make backups
+      ;;  backup-by-copying t     ;; and copy them here
+      backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
+      version-control t
+      kept-new-versions 2
+      kept-old-versions 5
+      delete-old-versions t)
+
+;; Don't backup sudo opened files and .recentf
+(defun my-dont-backup-files-p (filename)
+  (unless (or
+           (string-match "\\`/sudo:root@" filename)
+           (string-match "\\.recentf$" filename)
+           (string-match "\\.gpg$" filename))
+    (normal-backup-enable-predicate filename)))
+
+(setq backup-enable-predicate 'my-dont-backup-files-p)
+
+(setq auto-save-list-file-prefix
+      "~/.emacs.d/cache/auto-save-list/.saves-")
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
@@ -716,30 +740,6 @@ Also returns nil if pid is nil."
                            (car dired-directory)
                          dired-directory)))
                  (buffer-name)))))
-
-;; Backups
-(setq make-backup-files t ;; do make backups
-      ;;  backup-by-copying t     ;; and copy them here
-      backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
-      version-control t
-      kept-new-versions 2
-      kept-old-versions 5
-      delete-old-versions t)
-
-;; Don't backup sudo opened files and .recentf
-(defun my-dont-backup-files-p (filename)
-  (unless (or
-           (string-match "\\`/sudo:root@" filename)
-           (string-match "\\.recentf$" filename)
-           (string-match "\\.gpg$" filename))
-    (normal-backup-enable-predicate filename)))
-
-(setq backup-enable-predicate 'my-dont-backup-files-p)
-
-(setq auto-save-list-file-prefix
-      "~/.emacs.d/cache/auto-save-list/.saves-")
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 ;; Don't let Customize mess with my .emacs
 (setq custom-file (concat site-lisp-directory "custom.el"))
