@@ -488,8 +488,7 @@ With a prefix ARG invalidates the cache first."
   (fortune-in-buffer t "~/.conky/contrepétries")
   (scratch-message-insert
    (with-current-buffer fortune-buffer-name
-     (buffer-string))
-   'fill))
+     (buffer-string))))
 
 (setq scratch-message-function 'scratch-message-fortune)
 
