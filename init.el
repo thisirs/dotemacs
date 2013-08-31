@@ -490,7 +490,7 @@ With a prefix ARG invalidates the cache first."
    (with-current-buffer fortune-buffer-name
      (buffer-string))))
 
-(setq scratch-message-function 'scratch-message-fortune)
+(setq scratch-message-function 'scratch-message-contrepet)
 
 (require-maybe 'commit-message)
 
