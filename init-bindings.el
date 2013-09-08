@@ -112,24 +112,34 @@ an eval from M-:. Reuses the code from `repeat-complex-command'."
 (create-flash-binding "<f11>")
 (create-flash-binding "<f12>")
 
-;; From https://github.com/magnars/.emacs.d.git
-(defmacro create-simple-keybinding-command (name key)
-  `(progn (defmacro ,name (&rest fns)
-            (list 'global-set-key (kbd ,key)
-                  `(lambda ()
-                     (interactive)
-                     ,@fns)))
+(defmacro create-simple-keybinding-command (name &optional key)
+  "Define two macros `<NAME>' and `<NAME>e' that bind KEY to the
+body passed in argument."
+  (unless key (setq key `[,name]))
+  `(progn
+     (defmacro ,name (&rest fns)
+       ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively." name)
+       (let ((command (if (and (eq (length fns) 1)
+                               (commandp (car fns) t))
+                          (list 'quote (car fns))
+                        `(lambda ()
+                           (interactive)
+                           ,@fns))))
+         `(global-set-key ,,key ,command)))
+     (defmacro ,(intern (concat (symbol-name name) "e")) (&rest fns)
+       ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively. Show the result in minibuffer." name)
+       (let ((command (if (and (eq (length fns) 1)
+                               (commandp (car fns) t))
+                          (list 'quote (car fns))
+                        `(lambda ()
+                           (interactive)
+                           (message "%s"
+                                    (progn
+                                      ,@fns))))))
+         `(global-set-key ,,key ,command)))))
 
-          (defmacro ,(intern (concat (symbol-name name) "e")) (&rest fns)
-            (list 'global-set-key (kbd ,key)
-                  `(lambda ()
-                     (interactive)
-                     (message "%s"
-                              (progn
-                                ,@fns)))))))
-
-(create-simple-keybinding-command f9 "<f9>")
-(create-simple-keybinding-command f10 "<f10>")
+(create-simple-keybinding-command f9)
+(create-simple-keybinding-command f10)
 
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
