@@ -95,6 +95,7 @@ the selected file."
         ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
         ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
         ("Series" "~/.emacs.d/icons/tv.png" nil nil :ascent center)
+        ("Movie" "~/.emacs.d/icons/film.png" nil nil :ascent center)
         ("Bébé" "~/.emacs.d/icons/baby.png" nil nil :ascent center)
         ("" '(space . (:height (16) :width (16))))))
 
