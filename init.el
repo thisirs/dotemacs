@@ -587,6 +587,28 @@ With a prefix ARG invalidates the cache first."
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
+
+;; C-v when reading a file name in minibuffer go to root
+(defun vc-responsible-backend-root (file)
+  "Return ROOT if file is under a version controlled system. If
+not, return nil."
+  (catch 'found
+    (dolist (backend vc-handled-backends)
+      (let ((path (vc-call-backend backend 'responsible-p file)))
+        (if path (throw 'found path))))))
+
+(defun minibuffer--goto-root ()
+  (interactive)
+  (let* ((path (vc-responsible-backend-root
+                (buffer-substring (field-beginning)
+                                  (field-end)))))
+    (when path
+      (delete-minibuffer-contents)
+      (insert path))))
+
+(define-key minibuffer-local-filename-completion-map (kbd "C-v")
+  'minibuffer--goto-root)
+
 ;; No fast scrolling
 (setq mouse-wheel-progressive-speed nil)
 
