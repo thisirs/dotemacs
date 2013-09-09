@@ -56,8 +56,19 @@
     (dired (getenv "HOME"))))
 
 ;; Copy full file-path in kill-ring
-(define-key dired-mode-map (kbd "W")
-  (lambda () (interactive) (dired-copy-filename-as-kill 0)))
+(defun dired-copy-path-as-kill (&optional arg)
+  "Copy full path of marked or current file. If ARG is non-nil,
+ask for a base directory and return path relative to this
+directory."
+  (interactive "P")
+  (if arg
+      (let ((default-directory default-directory))
+        (if (called-interactively-p 'interactive)
+            (setq default-directory (read-file-name "Base directory: ")))
+        (dired-copy-filename-as-kill '(4)))
+    (dired-copy-filename-as-kill 0)))
+
+(define-key dired-mode-map (kbd "W") 'dired-copy-path-as-kill)
 
 ;; C-c C-m C-a jumps to gnus with current file attached
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
