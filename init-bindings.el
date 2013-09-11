@@ -121,7 +121,7 @@ body passed in argument."
        ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively." name)
        (let ((command (if (and (eq (length fns) 1)
                                (commandp (car fns) t))
-                          (list 'quote (car fns))
+                          `',(car fns)
                         `(lambda ()
                            (interactive)
                            ,@fns))))
@@ -130,7 +130,7 @@ body passed in argument."
        ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively. Show the result in minibuffer." name)
        (let ((command (if (and (eq (length fns) 1)
                                (commandp (car fns) t))
-                          (list 'quote (car fns))
+                          `',(car fns)
                         `(lambda ()
                            (interactive)
                            (message "%s"
