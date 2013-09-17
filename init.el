@@ -121,6 +121,7 @@
 (require 'init-editing)
 (require 'init-paredit)
 (require 'init-wcheck)
+(require 'init-ruby)
 
 ;; Whitespace mode
 (require 'whitespace)
