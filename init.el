@@ -58,8 +58,7 @@
 
   (package-initialize)
 
-  (defvar package-required-packages '(auctex
-                                      yari
+  (defvar package-required-packages '(yari
                                       twittering-mode
                                       diminish
                                       elisp-slime-nav
