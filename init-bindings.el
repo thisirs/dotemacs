@@ -141,6 +141,8 @@ body passed in argument."
 (create-simple-keybinding-command f9)
 (create-simple-keybinding-command f10)
 
+;; Align your code in a pretty way.
+(global-set-key (kbd "C-x /") 'align-regexp)
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 (global-set-key (kbd "C-c e l") 'find-library)
