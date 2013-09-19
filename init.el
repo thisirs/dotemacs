@@ -251,7 +251,7 @@ With a prefix ARG invalidates the cache first."
        'projectile-find-file-other-window)))
 
 ;; Markdown
-(autoload 'markdown-mode "markdown-mode")
+(autoload 'markdown-mode "markdown-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
