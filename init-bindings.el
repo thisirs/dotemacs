@@ -143,6 +143,9 @@ body passed in argument."
 
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x /") 'align-regexp)
+
+
+(global-set-key (kbd "C-c e k") 'find-function-on-key)
 (global-set-key (kbd "C-c e b") 'eval-buffer)
 (global-set-key (kbd "C-c e d") 'toggle-debug-on-error)
 (global-set-key (kbd "C-c e l") 'find-library)
