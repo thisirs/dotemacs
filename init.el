@@ -230,6 +230,7 @@
 (setq google-translate-default-target-language "fr")
 
 ;; Projectile
+(projectile-global-mode)
 (eval-after-load 'projectile
   '(progn
      (defun projectile-find-file-other-window (arg)
