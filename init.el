@@ -161,8 +161,9 @@
 ;; BUG gnus-timer--function undefined
 (require 'gnus-util)
 
-(require 'epa)
-(epa-file-enable)
+(with-emacs-version< "24"
+  (require 'epa)
+  (epa-file-enable))
 
 (require 'expand-region)
 (global-set-key (kbd "C-à") 'er/expand-region)
