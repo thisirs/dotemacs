@@ -669,15 +669,8 @@ This can be 0 for immediate, or a floating point value.")
 ;; no foldmarks by default
 (setq org-koma-letter-use-foldmarks nil)
 
-(add-to-list 'org-latex-classes
-             '("my-letter"
-               "\\documentclass\{scrlttr2\}
-\\usepackage[utf8]{inputenc}
-\\usepackage[T1]{fontenc}
-\\usepackage[frenchb]{babel}
-\[NO-DEFAULT-PACKAGES]
-\[NO-PACKAGES]
-\[EXTRA]"))
-
+;; Don't warn when a link run `org-agenda-from-file'
+(setq org-confirm-elisp-link-not-regexp
+      "\\`(org-context-agenda-from \".*\" \"[a-zA-Z]+\")\\'")
 
 (provide 'init-org)
