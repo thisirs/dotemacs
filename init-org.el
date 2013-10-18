@@ -37,6 +37,8 @@
 ;; Fontify src blocks
 (setq org-src-fontify-natively t)
 
+(setq org-src-tab-acts-natively t)
+
 ;; Restore windows configuration
 ;; (setq org-agenda-restore-windows-after-quit t)
 (setq org-agenda-window-setup 'other-window)
