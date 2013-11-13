@@ -16,6 +16,9 @@
 
 (with-global-set-key-recorded
 
+ (global-set-key [C-M-S-up] 'move-text-up)
+ (global-set-key [C-M-S-down] 'move-text-down)
+
  ;; Shortcut for reverting a buffer
  (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
