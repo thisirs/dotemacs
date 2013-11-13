@@ -496,7 +496,10 @@ With a prefix ARG invalidates the cache first."
 
 (when (require-maybe 'state)
   (setq state-alist
-        '((debug
+        '((personnal
+           (key . "p")
+           (switch . "~/Dropbox/Org/personnel.org.gpg"))
+          (debug
            (key . "d")
            (switch . "*debug*"))
           (shell
