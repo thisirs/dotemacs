@@ -62,21 +62,12 @@
 ;; Helm for searching manuals
 (defvar helm-manual-path
   '("~/Documents/manuals/"
-    ("/media/THISKEY/Documents/Manuals/"
-     "~/.backup/THISKEY/Documents/Manuals/")
-    ("/media/THISKEY/Documents/latex/package_manuals"
-     "~/.backup/THISKEY/Documents/latex/package_manuals")
-    ("/media/THISKEY/Documents/latex/beamer/"
-     "~/.backup/THISKEY/Documents/latex/beamer/")
-    ("/media/THISKEY/Documents/latex/tikz/"
-     "~/.backup/THISKEY/Documents/latex/tikz/")
-    ("/media/THISKEY/Documents/latex/tex/"
-     "~/.backup/THISKEY/Documents/latex/tex/")
-    ("/media/KROKEY/LYCEE/Ressources/TiKz/"
-     "~/.backup/KROKEY/LYCEE/Ressources/TiKz/"))
+    "~/Documents/manuals/beamer/"
+    "~/Documents/manuals/latex/"
+    "~/Documents/manuals/pgf-tikz/"
+    "~/Documents/manuals/refcards/")
   "List of path to look for manuals. Each element is either a
   string or a list of string containing fallback directories.")
-
 
 (defun helm-manual-path ()
   "Returns all existing directories containing manuals."
