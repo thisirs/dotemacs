@@ -905,7 +905,10 @@ case it is used in hooks."
 
 (defun time-stamp-insert ()
   (interactive)
-  (insert comment-start " Time-stamp: <>"))
+  (insert (if comment-start
+              (concat comment-start "")
+            "")
+          "Time-stamp: <>"))
 
 (defalias 'insert-time-stamp 'time-stamp-insert)
 
