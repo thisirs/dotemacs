@@ -247,4 +247,17 @@ The new label is the name of the included file."
                 (insert (format "\\label{%s}" newname))
                 (indent-for-tab-command)))))))))
 
+(defun multilang (beg end)
+  (interactive "r")
+  (let ((curr-text (delete-and-extract-region beg end)))
+    (if (and (not (string-match "\n" curr-text))
+             (< (+ (current-column) 9 (* 2 (length curr-text)))
+                80))
+        (insert (format "\\lang{%s}{%s}" curr-text curr-text))
+        (insert (format "\
+\\lang{%%
+%s}{%%
+%s}" curr-text curr-text))))
+  (indent-region beg (point)))
+
 (provide 'init-latex)
