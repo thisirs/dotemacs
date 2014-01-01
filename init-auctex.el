@@ -38,7 +38,7 @@
 (add-to-list 'reftex-label-alist
              '("thm" ?m "thm:" "~\\ref{%s}" nil ("theorem" "théorème") nil))
 
-(add-to-list'reftex-label-alist
+(add-to-list 'reftex-label-alist
  '("table" 116 "tab:" "~\\ref{%s}" caption
    (regexp "tables?" "tab\\." "Tabellen?")))
 
