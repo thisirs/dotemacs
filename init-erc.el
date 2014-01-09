@@ -45,6 +45,9 @@
           (t
            (replace-regexp-in-string "[\t\n ]+" " " message)))
    :icon "emacs-snapshot"
+   :urgency (if (eq match-type 'current-nick)
+                'critical
+              'normal)
    :timeout -1))
 
 (add-hook 'erc-text-matched-hook 'my-notify-erc)
