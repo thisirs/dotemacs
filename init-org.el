@@ -72,7 +72,7 @@ the selected file."
     link))
 
 
-(require 'init-org-capture-helpers)
+(require 'init-org-capture-helpers (expand-file-name "init-org-capture-helpers.el" user-emacs-directory))
 
 ;; Load templates from personal location
 (setq org-capture-templates

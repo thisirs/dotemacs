@@ -1,8 +1,6 @@
 (load "~/Dropbox/emacs/personnal.el" :noerror)
 
-(add-to-list 'load-path user-emacs-directory)
-
-(require 'init-utils)
+(require 'init-utils (expand-file-name "init-utils" user-emacs-directory))
 
 ;; Add personnal site-lisp to load-path
 (defvar site-lisp-directory "~/Dropbox/emacs/site-lisp/")
@@ -97,33 +95,33 @@
 ;; Loading zenburn theme
 (load-theme 'zenburn t)
 
-(require 'init-fill)
-(require 'init-dired)
-(require 'init-isearch)
-(require 'init-boss-key)
-(require 'init-erc)
-(require 'init-magit)
-(require 'init-find-file)
-(require 'init-latex)
-(require 'init-desktop)
-(require 'init-midnight)
-(require 'init-helm)
-(require 'init-octave)
-(require 'init-matlab)
-(require 'init-yasnippet)
-(require 'init-org)
-(require 'init-elisp)
-(require 'init-auctex)
-(require 'init-ibuffer)
-(require 'init-bindings)
-(require 'init-scratch)
-(require 'init-twittering)
-(require 'init-hippie-expand)
-(require 'init-vanilla)
-(require 'init-editing)
-(require 'init-paredit)
-(require 'init-wcheck)
-(require 'init-ruby)
+(require 'init-fill (expand-file-name "init-fill" user-emacs-directory))
+(require 'init-dired (expand-file-name "init-dired" user-emacs-directory))
+(require 'init-isearch (expand-file-name "init-isearch" user-emacs-directory))
+(require 'init-boss-key (expand-file-name "init-boss-key" user-emacs-directory))
+(require 'init-erc (expand-file-name "init-erc" user-emacs-directory))
+(require 'init-magit (expand-file-name "init-magit" user-emacs-directory))
+(require 'init-find-file (expand-file-name "init-find-file" user-emacs-directory))
+(require 'init-latex (expand-file-name "init-latex" user-emacs-directory))
+(require 'init-desktop (expand-file-name "init-desktop" user-emacs-directory))
+(require 'init-midnight (expand-file-name "init-midnight" user-emacs-directory))
+(require 'init-helm (expand-file-name "init-helm" user-emacs-directory))
+(require 'init-octave (expand-file-name "init-octave" user-emacs-directory))
+(require 'init-matlab (expand-file-name "init-matlab" user-emacs-directory))
+(require 'init-yasnippet (expand-file-name "init-yasnippet" user-emacs-directory))
+(require 'init-org (expand-file-name "init-org" user-emacs-directory))
+(require 'init-elisp (expand-file-name "init-elisp" user-emacs-directory))
+(require 'init-auctex (expand-file-name "init-auctex" user-emacs-directory))
+(require 'init-ibuffer (expand-file-name "init-ibuffer" user-emacs-directory))
+(require 'init-bindings (expand-file-name "init-bindings" user-emacs-directory))
+(require 'init-scratch (expand-file-name "init-scratch" user-emacs-directory))
+(require 'init-twittering (expand-file-name "init-twittering" user-emacs-directory))
+(require 'init-hippie-expand (expand-file-name "init-hippie-expand" user-emacs-directory))
+(require 'init-vanilla (expand-file-name "init-vanilla" user-emacs-directory))
+(require 'init-editing (expand-file-name "init-editing" user-emacs-directory))
+(require 'init-paredit (expand-file-name "init-paredit" user-emacs-directory))
+(require 'init-wcheck (expand-file-name "init-wcheck" user-emacs-directory))
+(require 'init-ruby (expand-file-name "init-ruby" user-emacs-directory))
 
 ;; Whitespace mode
 (require 'whitespace)
@@ -485,7 +483,39 @@ With a prefix ARG invalidates the cache first."
   (vc-auto-commit-activate)
   (global-set-key (kbd "C-x v C") 'vc-auto-commit))
 
-(require-maybe 'init-autoinsert)
+(when (require-maybe 'autoinsert)
+  ;; Using modified version of autoinsert to allow multiple autoinsert
+  ;; https://github.com/thisirs/auto-insert-multiple.git
+
+  ;; Adds hook to find-files-hook
+  (auto-insert-mode t)
+
+  (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
+  (setq auto-insert-query nil)
+
+  (setq auto-insert-alist
+        '(
+          ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "sb"))
+          ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "sb"))
+          ("\\.tex$"
+           ("Latex article"
+            (progn
+              (auto-insert-yasnippet "hdr")
+              (TeX-normal-mode 1)))
+           ("Standalone TikZ"
+            (progn
+              (auto-insert-yasnippet "hdrt")
+              (TeX-normal-mode 1)))
+           ("Minimal LaTeX snippet"
+            (progn
+              (auto-insert-yasnippet "hdrm")
+              (TeX-normal-mode 1)))
+           ("Letter"
+            (progn
+              (auto-insert-yasnippet "hdrl")
+              (TeX-normal-mode 1))))))
+
+  (setq auto-insert 'other))
 
 (require-maybe 'org-bib-workflow)
 
