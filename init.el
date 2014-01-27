@@ -529,6 +529,10 @@ With a prefix ARG invalidates the cache first."
         '((personnal
            (key . "p")
            (switch . "~/Dropbox/Org/personnel.org.gpg"))
+          (boss
+           (key . "b")
+           (state-p . (project-file-in-frame-p "~/Dropbox/These/"))
+           (switch . (wconf-fullscreen 'boss (dired "~/Dropbox/These/"))))
           (debug
            (key . "d")
            (switch . "*debug*"))
