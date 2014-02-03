@@ -19,6 +19,12 @@
 ;; Fix bug where errors are not correctly parsed
 (setq LaTeX-command "latex -shell-escape -file-line-error")
 
+(setq TeX-engine-alist
+      '((xetex_sh "XeTeX shell escape"
+                  "xetex --file-line-error --shell-escape"
+                  "xelatex --file-line-error --shell-escape"
+                  "xetex")))
+
 ;; Correct indentation
 (setq LaTeX-item-indent 0)
 
