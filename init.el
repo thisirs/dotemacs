@@ -1075,8 +1075,8 @@ wants to replace FROM with TO."
 (keyfreq-autosave-mode 1)
 
 ;; Trying multi-term
-(require 'multi-term)
-(setq multi-term-program "/bin/zsh")
+;; (require 'multi-term)
+;; (setq multi-term-program "/bin/zsh")
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
