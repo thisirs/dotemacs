@@ -940,7 +940,7 @@ case it is used in hooks."
 (defun time-stamp-insert ()
   (interactive)
   (insert (if comment-start
-              (concat comment-start "")
+              (concat comment-start " ")
             "")
           "Time-stamp: <>"))
 
