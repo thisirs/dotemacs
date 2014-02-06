@@ -63,6 +63,13 @@
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-add-keywords)
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-hippie-expand)
 
+;; C-u C-u C-x C-e does eval and replace
+(defadvice eval-last-sexp (around eval-and-replace activate)
+  (if (and (listp current-prefix-arg)
+           (eq 16 (car current-prefix-arg)))
+      (call-interactively 'eval-and-replace)
+    ad-do-it))
+
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
@@ -75,8 +82,6 @@
           (prin1 form (current-buffer)))
       (error (goto-char opoint)
              (message "eval-and-replace: %s" error)))))
-
-(global-set-key (kbd "C-c e") 'eval-and-replace)
 
 (defun auto-byte-recompile ()
   "If the current buffer is in emacs-lisp-mode and there already exists an `.elc'
