@@ -531,8 +531,8 @@ With a prefix ARG invalidates the cache first."
            (switch . "~/Dropbox/Org/personnel.org.gpg"))
           (boss
            (key . "b")
-           (state-p . (project-file-in-frame-p "~/Dropbox/These/"))
-           (switch . (wconf-fullscreen 'boss (dired "~/Dropbox/These/"))))
+           (state-p . (string= "TAGS boss" (or org-agenda-name "")))
+           (switch . (wconf-fullscreen 'org (org-agenda nil "b"))))
           (debug
            (key . "d")
            (switch . "*debug*"))
