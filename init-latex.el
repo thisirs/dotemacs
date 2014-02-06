@@ -35,58 +35,9 @@
          (("\\^i" "\\^{i}") . "î"))))
     (message "Replaced %d occurences" n)))
 
-(defun latex-delete-unreferenced-labels ()
-  "Delete all occurences of a label that is not referenced in the
-document."
-  (interactive)
-  (save-excursion
-    (let (labels (count 0))
-      (goto-char (point-min))
-      (while (re-search-forward "\\\\\\(eq\\|page\\|[fvF]\\)?ref{\\([^\n\r%\\{}]+\\)}" nil t)
-        (setq labels (cons (match-string-no-properties 1) labels)))
-      (goto-char (point-min))
-      (while (re-search-forward "\\\\label{\\([^\n\r%\\{}]+\\)}" nil t)
-        (unless (member (match-string-no-properties 1) labels)
-          (delete-region (match-beginning 0) (match-end 0))
-          (setq count (+ 1 count))))
-      (message "%s label%s deleted!"
-               (if (= count 0) "No" (int-to-string count))
-               (if (>= count 2) "s" "")))))
-
 (defun enclosing-braces-at-point ()
   (and (thing-at-point-looking-at "{\\([^}]*\\)}")
        (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
-
-(defun latex-refactor-label (label new)
-  "Rename a label and its references in a LaTeX document. Word at
-point is suggested as the default label to replace. A message
-shows you how many labels and refs have been replaced."
-  (interactive
-   (list (let ((tap (or (enclosing-braces-at-point) (thing-at-point 'word))))
-           (read-string
-            (format "Old label%s: " (if tap (concat " (" tap ")") ""))
-            nil nil tap))
-         (read-string "New label: ")))
-  (save-excursion
-    (save-restriction
-      (and mark-active (narrow-to-region (region-beginning) (region-end)))
-      (message
-       (concat "\"%s\" -> \"%s\": "
-               (mapconcat
-                (lambda (args)
-                  (goto-char (point-min))
-                  (let ((n 0))
-                    (while (re-search-forward
-                            (concat "\\\\\\(?:" (car args) "\\){\\("
-                                    (regexp-quote label) "\\)}") nil t)
-                      (setq n (1+ n))
-                      (replace-match new t t nil 1))
-                    (format "%d %s%s" n (cdr args) (if (> n 1) "s" ""))))
-                '(("label" . "label")
-                  ("\\(?:eq\\|page\\|sub\\|[fvF]\\)?ref" . "reference"))
-                " and ")
-               " replaced in %s!")
-       label new (if mark-active "region" "buffer")))))
 
 (defun latex-occur-ref-wo-tilde ()
   (interactive)
@@ -96,57 +47,59 @@ shows you how many labels and refs have been replaced."
   (interactive)
   (occur "(\\\\ref{[^{]*})"))
 
-(defun latex-rename-label-after-includegraphics ()
+(defun latex-rename-figure-label ()
   "Refactor labels following an \\includegraphics.
 
 The new label is the file-name used in \\includegraphics. A label
 is created when it doesn't exist."
   (interactive)
   (save-excursion
-    (goto-char 1)
-    (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}" nil t)
-      ;; remove extension from filename
-      (let ((newname ((lambda (filename)
-                        (substring filename
-                                   0
-                                   (string-match
-                                    (concat
-                                     (regexp-opt '(".jpeg" ".png" ".pdf"))
-                                     "$")
-                                    filename)))
-                      (match-string-no-properties 2))))
-        ;; skip caption for correct numbering
-        (if (looking-at "[ \t\n]*\\\\caption") (forward-sexp 2))
-        (if (looking-at "[ \t\n]*\\\\label{\\([^}]+\\)")
-            (unless (equal (match-string-no-properties 1) newname)
-              (latex-refactor-label (match-string-no-properties 1) newname))
-          (open-line 1)
-          (insert (format "\\label{%s}" newname))
-          (indent-for-tab-command))))))
+    (let ((bound (condition-case nil
+                     (save-excursion (LaTeX-find-matching-end) (point))
+                   (error (prog1
+                              (point-max)
+                            (goto-char (point-min)))))))
+      (while (re-search-forward
+              "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}" bound t)
+        (let ((label (match-string-no-properties 2))
+              (end (save-excursion
+                     (re-search-forward "\\\\end{\\(sub\\)figure}" nil t)
+                     (point))))
+          (if (re-search-forward "\\\\label{\\([^}]+\\)" end t)
+              (unless (equal label (match-string-no-properties 1))
+                (save-window-excursion
+                  (save-current-buffer
+                    (condition-case nil
+                        (reftex-query-replace-document
+                         (concat "{" (regexp-quote (match-string-no-properties 1)) "}")
+                         (format "{%s}" label))
+                      (user-error nil)))))
+            (goto-char end)
+            (backward-sexp 2)
+            (insert (format "\\label{%s}" label))))))))
 
-(defun latex-replace-by-closest ()
+(defun latex-replace-by-closest (path)
   "Replace filename in all includegraphics by closest filename
 with respect to Levenshtein distance. Candidates are found in the
 subdirectory img and filtered by extension."
-  (interactive)
-  (let ((img-files (directory-files "./img" nil
-                                    (regexp-opt '(".jpg" ".jpeg" ".png")))))
+  (interactive "D")
+  (let ((img-files (directory-files path nil)))
     (save-excursion
-      (goto-char 1)
+      (goto-char (point-min))
       (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
-        (let* ((old-filename (match-string-no-properties 2))
+        (let* ((old (match-string-no-properties 2))
                (closest "")
-               (new-filename (dolist (file img-files closest)
-                               (if (> (levenshtein-distance old-filename closest)
-                                      (levenshtein-distance old-filename
-                                                            (file-name-sans-extension file)))
-                                   (setq closest (file-name-sans-extension file))))))
-          (and
-           (> (length new-filename) 0)
-           (not (equal new-filename old-filename))
-           (yes-or-no-p
-            (format "Replace %s by %s? " old-filename new-filename))
-           (replace-match new-filename nil nil nil 2)))))))
+               (new
+                (dolist (file img-files closest)
+                  (if (> (levenshtein-distance old closest)
+                         (levenshtein-distance old (file-name-sans-extension file)))
+                      (setq closest (file-name-sans-extension file))))))
+          (when (and
+                 (> (length new-filename) 0)
+                 (not (equal new-filename old-filename))
+                 (yes-or-no-p
+                  (format "Replace %s by %s? " old-filename new-filename))
+                 (replace-match new-filename nil nil nil 2))))))))
 
 ;; Taken from http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Emacs_Lisp
 (defun levenshtein-distance (str1 str2)
@@ -188,31 +141,23 @@ subdirectory img and filtered by extension."
         (setq i (1+ i))))
     (funcall tref d length-str1 length-str2)))
 
-(defun latex-occur-newline ()
-  "Find \\\\ newline in latex except those in matrix
-environment."
+(defun latex-replace-newline ()
+  "Find latex newline commands `\\\\' and replace them by a double
+newline. The matrix environment are skipped."
   (interactive)
   (save-excursion
-    (goto-char 0)
+    (goto-char (point-min))
     (while (re-search-forward "\\\\\\\\" nil t)
-      (and
-       (not (TeX-in-comment))
-       (not
-        (save-excursion
-          (LaTeX-find-matching-begin)
-          (looking-at
-           (concat
-            "\\\\begin{"
-            (regexp-opt '("pmatrix" "matrix" "array" "eqnarray" "eqnarray*"
-                          "align" "align*" "aligned" "cases" "equation*"
-                          "equation"
-                          )) "}"))))
-       (y-or-n-p "Replace \\\\? ")
-       (progn
-         (delete-char -2)
-         (TeX-newline)
-         (unless (looking-at " *\n")
-           (TeX-newline)))))))
+      (when (and (not (TeX-in-comment))
+                 (not (member (LaTeX-current-environment)
+                              '("pmatrix" "matrix" "array" "eqnarray" "eqnarray*"
+                                "align" "align*" "aligned" "cases" "equation*"
+                                "equation")))
+                 (y-or-n-p "Replace \\\\? "))
+        (delete-char -2)
+        (TeX-newline)
+        (unless (looking-at " *\n")
+          (TeX-newline))))))
 
 (defun latex-update-label-current-environment ()
   "Insert or replace labels in the enclosing figure environment.
