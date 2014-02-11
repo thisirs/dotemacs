@@ -205,4 +205,19 @@ The new label is the name of the included file."
 %s}" curr-text curr-text))))
   (indent-region beg (point)))
 
+(defun replace-delimiters (l r nl nr force)
+  "Replace delimiters with new ones on the same line."
+  (interactive "sLeft delimiter: \nsRight delimiter: \nsNew left delimiter :\nsNew right delimiter :\nP")
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward (regexp-quote l) nil t)
+      (let ((beg (match-beginning 0))
+            (end (match-end 0)))
+        (when (and (re-search-forward (regexp-quote r) (point-at-eol) t)
+                   (or force (y-or-n-p "Perform replacement?")))
+          (replace-match nr)
+          (delete-region beg end)
+          (goto-char beg)
+          (insert nl))))))
+
 (provide 'init-latex)
