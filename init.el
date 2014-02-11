@@ -186,11 +186,6 @@
 (autoload 'rainbow-mode "rainbow-mode"
   "rainbow-mode autoload" t)
 
-;; (require 'browse-kill-ring)
-;; (browse-kill-ring-default-keybindings)
-;; (setq browse-kill-ring-quit-action 'save-and-restore)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-
 (autoload 'yaml-mode "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
