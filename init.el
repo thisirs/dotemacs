@@ -1084,11 +1084,6 @@ wants to replace FROM with TO."
 
 (setq set-mark-command-repeat-pop t)
 
-(require 'key-chord)
-(key-chord-mode 1)
-(key-chord-define-global "xo" 'other-window)
-(key-chord-define-global "x0" 'delete-window)
-(key-chord-define-global "xs" 'save-buffer)
 
 (defadvice open-line (around fix-electric activate)
   "Fix open-line bug when `electric-indent-mode' is on."
