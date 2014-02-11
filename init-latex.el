@@ -47,12 +47,12 @@
   (interactive)
   (occur "(\\\\ref{[^{]*})"))
 
-(defun latex-rename-figure-label ()
-  "Refactor labels following an \\includegraphics.
+(defun latex-rename-figure-label (&optional force)
+  "Rename or insert label name following an includegraphics command.
 
-The new label is the file-name used in \\includegraphics. A label
-is created when it doesn't exist."
-  (interactive)
+The new label is the file-name used in includegraphics. If
+FORCE is non-nil, a label is always created."
+  (interactive "P")
   (save-excursion
     (let ((bound (condition-case nil
                      (save-excursion (LaTeX-find-matching-end) (point))
@@ -63,7 +63,7 @@ is created when it doesn't exist."
               "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)}" bound t)
         (let ((label (match-string-no-properties 2))
               (end (save-excursion
-                     (re-search-forward "\\\\end{\\(sub\\)figure}" nil t)
+                     (re-search-forward "\\\\end{\\(sub\\)?figure}" nil t)
                      (point))))
           (if (re-search-forward "\\\\label{\\([^}]+\\)" end t)
               (unless (equal label (match-string-no-properties 1))
@@ -74,9 +74,10 @@ is created when it doesn't exist."
                          (concat "{" (regexp-quote (match-string-no-properties 1)) "}")
                          (format "{%s}" label))
                       (user-error nil)))))
-            (goto-char end)
-            (backward-sexp 2)
-            (insert (format "\\label{%s}" label))))))))
+            (when force
+              (goto-char end)
+              (backward-sexp 2)
+              (insert (format "\\label{%s}\n" label)))))))))
 
 (defun latex-replace-by-closest (path)
   "Replace filename in all includegraphics by closest filename
