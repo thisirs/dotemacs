@@ -7,14 +7,12 @@
 ;; Auto-revert dired buffer on revisiting
 (setq dired-auto-revert-buffer t)
 
+;; Make dired less verbose
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+
 ;; Reload dired after creating a directory
 (defadvice dired-create-directory (after revert-buffer-after-create activate)
   (revert-buffer))
-
-;; Make dired less verbose
-(require 'dired-details)
-(setq dired-details-hide-link-targets nil)
-(dired-details-install)
 
 (defvar dired-sort-map
   (let ((map (make-sparse-keymap)))
