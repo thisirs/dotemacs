@@ -16,6 +16,8 @@
 
 (global-set-key (kbd "C-x r b") 'helm-bookmarks)
 
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
 (setq helm-su-or-sudo "sudo")
 
 (setq helm-locate-command "locate -e -b %s -r %s")
