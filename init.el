@@ -1086,4 +1086,12 @@ wants to replace FROM with TO."
 (setq set-mark-command-repeat-pop t)
 
 
+(defun collect (regex)
+  "Collect all matched string by REGEX and store it in the kill ring."
+  (interactive (list (read-regexp "Collect regexp: ")))
+  (let (acc)
+    (while (re-search-forward regex nil t)
+      (push (match-string 0) acc))
+    (kill-new (mapconcat 'identity (nreverse acc) "\n"))))
+
 ;;; init.el ends here
