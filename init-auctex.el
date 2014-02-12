@@ -37,6 +37,17 @@
 ;; Derive a label name for figure and table environments as well
 (setq reftex-insert-label-flags '("sft" "sft"))
 
+;; Setup entry in reftex-label-alist, using all defaults for equations
+(setq reftex-label-alist '((detect-multiple-label ?e nil nil nil nil)))
+
+(defun detect-multiple-label (bound)
+  "Reftex custom label detection. When using conditionnal
+compilation in latex with, for example, \\ifCLASSOPTIONonecolumn
+labels might have to be defined multiple times. We factor out
+that definition with \\def\onelabel{\\label{eq:22}} and use it
+mutiple times."
+  (if (re-search-backward "label\\{label\\{" bound t) (point)))
+
 ;; Add reftex support for my custom environment
 (add-to-list 'reftex-label-alist
              '("prop" ?m "prop:" "~\\ref{%s}" nil ("proposition") nil))
