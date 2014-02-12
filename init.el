@@ -142,9 +142,9 @@
 
 (require 'wgrep)
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
-(require 'gnus-load)
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
+;; (require 'gnus-load)
 
 (on-knuth
  (require 'offlineimap)
