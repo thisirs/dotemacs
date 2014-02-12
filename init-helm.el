@@ -22,6 +22,10 @@
 
 (setq helm-locate-command "locate -e -b %s -r %s")
 
+(setq helm-quick-update t
+      helm-idle-delay 0.01
+      helm-input-idle-delay 0.01)
+
 ;; Don't save history information to file
 (remove-hook 'kill-emacs-hook 'helm-adaptive-save-history)
 
