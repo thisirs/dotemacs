@@ -3,4 +3,4 @@
 # group: math
 # name: delim
 # --
-\\left${1:$$(yas/maybe-escape text)}\\right${1:$(yas/corresponding-delim yas/text)}$0
+\\left${1:$$(yas/maybe-escape yas-text)}$2\\right${1:$(yas/corresponding-delim yas/text)}$0
