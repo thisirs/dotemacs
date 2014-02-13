@@ -46,7 +46,7 @@ compilation in latex with, for example, \\ifCLASSOPTIONonecolumn
 labels might have to be defined multiple times. We factor out
 that definition with \\def\onelabel{\\label{eq:22}} and use it
 mutiple times."
-  (if (re-search-backward "label\\{label\\{" bound t) (point)))
+  (if (re-search-backward "label{\\\\label{" bound t) (point)))
 
 ;; Add reftex support for my custom environment
 (add-to-list 'reftex-label-alist
