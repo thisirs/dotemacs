@@ -63,7 +63,6 @@
                                       diminish
                                       elisp-slime-nav
                                       lua-mode
-                                      key-chord
                                       async
                                       offlineimap
                                       legalese
