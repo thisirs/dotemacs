@@ -39,8 +39,45 @@ $0")
 
 (define-key yas-keymap (kbd "C-k") 'yas-clear-current-field)
 
-(global-set-key (kbd "C-c y n") 'yas-new-snippet)
-(global-set-key (kbd "C-c y r") 'yas-reload-all)
-(global-set-key (kbd "C-c y v") 'yas-visit-snippet-file)
+(defvar yas-prefix-key "C-c y"
+  "The key `yas-command-prefix' is bound to in the global map.")
+
+(defvar yas-snippet-chars
+  '("1" "2" "C-v" "<f1>")
+  "Keystroke to st")
+
+(defvar yas-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "n" 'yas-new-snippet)
+    (define-key map "r" 'yas-reload-all)
+    (define-key map "v" 'yas-visit-snippet-file)
+    (define-key map [t] 'yas-create-or-expand)
+    map)
+  "Yasnippet's global keymap")
+
+(define-prefix-command 'yas-command-prefix)
+(fset 'yas-command-prefix yas-map)
+(setq  yas-command-prefix yas-map)
+(global-set-key (kbd yas-prefix-key) yas-command-prefix)
+
+(defun yas-create-or-expand ()
+  "Expand the snippet recorded in a register or record the
+currently selected region as new one."
+  (interactive)
+  (let* ((e (member (vector last-input-event)
+                    (mapcar (lambda (key)
+                              (read-kbd-macro key 'vect))
+                            yas-snippet-chars)))
+         (index (if e (- (length yas-snippet-chars) (length e)))))
+    (if index
+        (if (use-region-p)
+            (let ((snippet (substring-no-properties
+                            (delete-and-extract-region (region-beginning) (region-end)))))
+              (aset yas-disposable-snippets index snippet)
+              (message "Snippet stored in register %s"
+                       (key-description (vector last-input-event))))
+          (yas-expand-snippet (aref yas-disposable-snippets index)))
+      (undefined))))
+
 
 (provide 'init-yasnippet)
