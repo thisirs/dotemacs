@@ -46,6 +46,9 @@ $0")
   '("1" "2" "C-v" "<f1>")
   "Keystroke to st")
 
+(defvar yas-disposable-snippets
+  (make-vector (length yas-snippet-chars) nil))
+
 (defvar yas-map
   (let ((map (make-sparse-keymap)))
     (define-key map "n" 'yas-new-snippet)
