@@ -147,18 +147,18 @@
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 ;; (require 'gnus-load)
 
-(on-knuth
- (require 'offlineimap)
- (add-hook 'gnus-before-startup-hook 'offlineimap))
+;; (on-knuth
+;;  (require 'offlineimap)
+;;  (add-hook 'gnus-before-startup-hook 'offlineimap))
 
-(require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
-(bbdb-initialize 'gnus)
-(setq bbdb-mua-auto-update-init 'gnus)
-(setq bbdb-file "~/Dropbox/emacs/.bbdb")
-(setq bbdb-message-all-addresses t)
+;; (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
+;; (bbdb-initialize 'gnus)
+;; (setq bbdb-mua-auto-update-init 'gnus)
+;; (setq bbdb-file "~/Dropbox/emacs/.bbdb")
+;; (setq bbdb-message-all-addresses t)
 
-;; BUG gnus-timer--function undefined
-(require 'gnus-util)
+;; ;; BUG gnus-timer--function undefined
+;; (require 'gnus-util)
 
 (with-emacs-version< "24"
   (require 'epa)
