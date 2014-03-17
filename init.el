@@ -58,24 +58,26 @@
 
   (package-initialize)
 
-  (defvar package-required-packages '(yari
-                                      twittering-mode
-                                      diminish
-                                      elisp-slime-nav
-                                      lua-mode
-                                      async
-                                      offlineimap
-                                      legalese
-                                      multiple-cursors
-                                      multi-term
-                                      zenburn-theme
-                                      macrostep
-                                      helm-descbinds
-                                      dash
-                                      s
-                                      wcheck-mode
-                                      google-translate
-                                      projectile)
+  (defvar package-required-packages
+    '(async
+      dash
+      diminish
+      elisp-slime-nav
+      google-translate
+      helm-descbinds
+      legalese
+      lua-mode
+      macrostep
+      multi-term
+      multiple-cursors
+      offlineimap
+      projectile
+      s
+      twittering-mode
+      wcheck-mode
+      yaml-mode
+      yari
+      zenburn-theme)
     "List of required packages")
 
   (when (memq nil (mapcar 'package-installed-p package-required-packages))
