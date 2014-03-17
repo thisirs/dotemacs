@@ -13,6 +13,7 @@
          "#archlinux"
          "#archlinux-fr"
          "#emacsfr"
+         "#flexget"
          "#linux-fr"
          "#debianfr"
          "#TikZ"
