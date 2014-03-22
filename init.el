@@ -60,6 +60,7 @@
 
   (defvar package-required-packages
     '(async
+      auctex
       dash
       diminish
       elisp-slime-nav
