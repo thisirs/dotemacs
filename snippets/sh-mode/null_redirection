@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: /dev/null
-# key: dn
+# key: sink
 # --
-/dev/null 2>&1
+> /dev/null 2>&1
