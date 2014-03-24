@@ -106,4 +106,15 @@ cancel the indentation if needed."
   (interactive "*p")
   (move-text-internal (- arg)))
 
+(defun replace-string-swap (swap1 swap2)
+  "Swap SWAP1 and SWAP2 in current buffer."
+  (interactive "sString A: \nsString B: ")
+  (replace-regexp (format "\\(%s\\)\\|\\(%s\\)"
+                          (regexp-quote swap1)
+                          (regexp-quote swap2))
+                  `(replace-eval-replacement . (if (match-string 1) swap2 swap1))
+                  nil
+                  (if (region-active-p) (region-beginning))
+                  (if (region-active-p) (region-end))))
+
 (provide 'init-editing)
