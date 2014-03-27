@@ -1082,26 +1082,25 @@ wants to replace FROM with TO."
 
 (setq set-mark-command-repeat-pop t)
 
+;; (defalias 'read-regexp-old 'read-regexp)
+;; (defun read-regexp (prompt &optional defaults history)
+;;   "Replace `read-regexp' to run `re-builder'."
+;;   (save-window-excursion
+;;     (save-excursion
+;;       (save-restriction
+;;         (re-builder)
+;;         (recursive-edit)
+;;         (let ((re (with-output-to-string
+;;                     (print
+;;                      (reb-target-binding
+;;                       (prog1
+;;                           reb-regexp
+;;                         (reb-quit)))))))
+;;           (substring re 2 (1- ( 1- (length re)))))))))
 
-(defalias 'read-regexp-old 'read-regexp)
-(defun read-regexp (prompt &optional defaults history)
-  "Replace `read-regexp' to run `re-builder'."
-  (save-window-excursion
-    (save-excursion
-      (save-restriction
-        (re-builder)
-        (recursive-edit)
-        (let ((re (with-output-to-string
-                    (print
-                     (reb-target-binding
-                      (prog1
-                          reb-regexp
-                        (reb-quit)))))))
-          (substring re 2 (1- ( 1- (length re)))))))))
-
-(defadvice reb-quit (after recursive-quit activate)
-  (if (> (recursion-depth) 0)
-      (exit-recursive-edit)))
+;; (defadvice reb-quit (after recursive-quit activate)
+;;   (if (> (recursion-depth) 0)
+;;       (exit-recursive-edit)))
 
 (defun collect (regex)
   "Collect all matched string by REGEX and store it in the kill ring."
