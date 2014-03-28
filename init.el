@@ -81,13 +81,17 @@
       zenburn-theme)
     "List of required packages")
 
-  (when (memq nil (mapcar 'package-installed-p package-required-packages))
-    (message "Refreshing packages database...")
-    (package-refresh-contents)
-    (mapc (lambda (p)
-            (when (not (package-installed-p p))
-              (package-install p)))
-          package-required-packages)))
+  (catch 'timeout
+    (when (memq nil (mapcar 'package-installed-p package-required-packages))
+      (message "Refreshing packages database...")
+      (with-timeout (10 (message "Timeout, cancelling...")
+                        (sit-for 2)
+                        (throw 'timeout nil))
+        (package-refresh-contents))
+      (mapc (lambda (p)
+              (when (not (package-installed-p p))
+                (package-install p)))
+            package-required-packages))))
 
 ;; Set path as if emacs were run in a terminal
 (let ((path (shell-command-to-string "bash -i -c 'echo $PATH' 2> /dev/null")))
