@@ -1087,6 +1087,8 @@ wants to replace FROM with TO."
 
 (setq set-mark-command-repeat-pop t)
 
+(setq ada-prj-default-gnatmake-opt "-g -gnatW8")
+
 ;; (defalias 'read-regexp-old 'read-regexp)
 ;; (defun read-regexp (prompt &optional defaults history)
 ;;   "Replace `read-regexp' to run `re-builder'."
