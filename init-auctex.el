@@ -51,6 +51,9 @@ mutiple times."
              '("thm" ?m "thm:" "~\\ref{%s}" nil ("theorem" "théorème") nil))
 
 (add-to-list 'reftex-label-alist
+             '("subnumcases" 101 nil "~\\eqref{%s}" eqnarray-like))
+
+(add-to-list 'reftex-label-alist
  '("table" 116 "tab:" "~\\ref{%s}" caption
    (regexp "tables?" "tab\\." "Tabellen?")))
 
