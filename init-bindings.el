@@ -48,6 +48,9 @@
 
  (global-set-key (kbd "M-g f") 'find-grep)
 
+ (global-set-key (kbd "M-g r") 'recompile)
+ (global-set-key (kbd "M-g c") 'compile)
+
  (global-set-key (kbd "C-z") 'shell)
 
  (global-set-key (kbd "C-c h") help-map)
