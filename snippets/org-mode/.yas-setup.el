@@ -1,3 +1,4 @@
+;; Copy of org-outline-level except that we look at visible headlines
 (defun org-outline-level-visible ()
   "Compute the outline level of the heading at point.
 If this is called at a normal headline, the level is the number of stars.
