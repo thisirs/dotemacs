@@ -594,6 +594,8 @@ With a prefix ARG invalidates the cache first."
 ;; Unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 ;; No limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
 
