@@ -25,7 +25,7 @@
    ((string-match
      (concat
       "\\."
-      (regexp-opt '("ods" "odt" "pdf" "doc" "xls") t)
+      (regexp-opt '("ods" "odt" "pdf" "docx" "doc" "xls") t)
       "$")
      (ad-get-arg 0))
     (org-open-file (ad-get-arg 0))
