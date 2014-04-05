@@ -8,8 +8,9 @@
 (setq dired-auto-revert-buffer t)
 
 ;; Make dired less verbose
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(setq dired-hide-details-hide-symlink-targets nil)
+(with-emacs-version> "24.3"
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (setq dired-hide-details-hide-symlink-targets nil))
 
 ;; Reload dired after creating a directory
 (defadvice dired-create-directory (after revert-buffer-after-create activate)
