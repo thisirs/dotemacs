@@ -272,7 +272,8 @@ the selected file."
    (latex . t) ; this is the entry to activate LaTeX
    (sh . t)
    (matlab . t)
-   (ruby . t)))
+   (ruby . t)
+   (python . t)))
 
 (setq org-babel-sh-command "bash")
 
