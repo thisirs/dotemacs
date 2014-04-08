@@ -667,39 +667,6 @@ not, return nil."
                                   "Locate database updated!"
                                 "Updating locate database failed!"))))))
 
-(defun update-locate-database-THISKEY ()
-  (cond
-   ((file-exists-p "/media/THISKEY")
-    (update-locate-database "/media/THISKEY/"))
-   ((file-exists-p "/run/media/sylvain/THISKEY/")
-    (update-locate-database "/run/media/sylvain/THISKEY/"))))
-
-;; Update locate database when idle during 20 sec
-(run-with-idle-timer 20 nil 'update-locate-database-THISKEY)
-
-(require 'dbus)
-
-(defun THISKEY-dbus-signal-handler (service id args)
-  "Resurrect THISKEY opened buffers when it is plugged"
-  (when (string= "THISKEY" (cadr args))
-    (let ((desktop-load-locked-desktop t))
-      (save-window-excursion
-        (desktop-read)))
-    (run-with-idle-timer 20 nil 'update-locate-database-THISKEY)
-    (run-with-idle-timer 20 nil
-                         (lambda ()
-                           (run-hooks 'midnight-hook)))
-    (minibuffer-message "Mounting THISKEY, desktop-read")))
-
-(when (fboundp 'dbus-register-signal)
-  (dbus-register-signal
-   :session
-   "org.gtk.Private.GduVolumeMonitor"
-   "/org/gtk/Private/RemoteVolumeMonitor"
-   "org.gtk.Private.RemoteVolumeMonitor"
-   "MountAdded"
-   'THISKEY-dbus-signal-handler))
-
 (defun emacs-process-p (pid)
   "If pid is the process ID of an emacs process, return t, else nil.
 Also returns nil if pid is nil."
