@@ -473,7 +473,7 @@ With a prefix ARG invalidates the cache first."
 (defun scratch-message-contrepet ()
   (require 'fortune)
   (with-demoted-errors "Error: %S"
-      (fortune-in-buffer t "~/.conky/contrepétries")
+    (fortune-in-buffer t "~/.conky/contrepétries")
     (scratch-message-insert
      (with-current-buffer fortune-buffer-name
        (buffer-string)))))

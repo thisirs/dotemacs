@@ -216,7 +216,7 @@ the selected file."
         (holiday-fixed 12 25 "Noël")
         (holiday-easter-etc 1 "Lundi de Pâques")
         (holiday-easter-etc 39 "Ascension")
-;;        (holiday-easter-etc -47 "Mardi gras")
+        ;;        (holiday-easter-etc -47 "Mardi gras")
         (holiday-easter-etc 50 "Lundi de Pentecôte")))
 
 
@@ -489,8 +489,8 @@ entry from each headline of FILEV."
 (when (and (boundp 'org-completion-handler)
            (require 'helm nil t))
   (defun org-helm-completion-handler
-    (prompt collection &optional predicate require-match
-            initial-input hist def inherit-input-method)
+      (prompt collection &optional predicate require-match
+              initial-input hist def inherit-input-method)
     (helm-comp-read (car args)
                     (if (consp (car (nth 1 args)))
                         (mapcar 'substring-no-properties
@@ -499,7 +499,7 @@ entry from each headline of FILEV."
                     :test (nth 2 args)
                     :must-match (nth 3 args)
                     :initial-input (nth 4 args)))
-  
+
   (setq org-completion-handler 'org-helm-completion-handler))
 
 (defvar org-other-files nil
@@ -554,7 +554,7 @@ this with to-do items than with projects or headings."
 ;; #+LaTeX_HEADER: \renewcommand\labelitemi{}
 ;; to remove the bullets.
 (defun org-latex-format-headline-checkbox-function
-  (todo todo-type priority text tags)
+    (todo todo-type priority text tags)
   "Add a checkbox in front of headline depending of the states of
 child checkboxes."
   (let ((checkbox ""))

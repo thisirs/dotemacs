@@ -54,8 +54,8 @@ mutiple times."
              '("subnumcases" 101 nil "~\\eqref{%s}" eqnarray-like))
 
 (add-to-list 'reftex-label-alist
- '("table" 116 "tab:" "~\\ref{%s}" caption
-   (regexp "tables?" "tab\\." "Tabellen?")))
+             '("table" 116 "tab:" "~\\ref{%s}" caption
+               (regexp "tables?" "tab\\." "Tabellen?")))
 
 ;; Disable fill in env
 (eval-after-load "latex"

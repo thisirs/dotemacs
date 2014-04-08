@@ -200,7 +200,7 @@ The new label is the name of the included file."
              (< (+ (current-column) 9 (* 2 (length curr-text)))
                 80))
         (insert (format "\\lang{%s}{%s}" curr-text curr-text))
-        (insert (format "\
+      (insert (format "\
 \\lang{%%
 %s}{%%
 %s}" curr-text curr-text))))

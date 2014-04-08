@@ -63,8 +63,8 @@
     (require 'ispell)
     (he-init-string (he-dabbrev-beg) (point))
     (ispell-set-spellchecker-params)    ; Initialize variables and dicts alists
-    (ispell-accept-buffer-local-defs)	; use the correct dictionary
-    (ispell-send-string "%\n")	; put in verbose mode
+    (ispell-accept-buffer-local-defs)   ; use the correct dictionary
+    (ispell-send-string "%\n")  ; put in verbose mode
     (ispell-send-string (concat "^" he-search-string "\n"))
     (while (progn
              (ispell-accept-output)

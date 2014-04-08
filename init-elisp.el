@@ -94,4 +94,3 @@ file corresponding to the current buffer file, then recompile the file."
 (add-hook 'after-save-hook 'auto-byte-recompile)
 
 (provide 'init-elisp)
-
