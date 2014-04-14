@@ -234,8 +234,10 @@
 (projectile-global-mode)
 (eval-after-load 'projectile
   '(progn
-     (setq projectile-known-projects-file (expand-file-name "cache" user-emacs-directory))
-     (setq projectile-cache-file (expand-file-name "cache/projectile.cache" user-emacs-directory))
+     (setq projectile-known-projects-file
+           (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
+     (setq projectile-cache-file
+           (expand-file-name "cache/projectile.cache" user-emacs-directory))
      (defun projectile-find-file-other-window (arg)
        "Jump to a project's file using completion.
 
