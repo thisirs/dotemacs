@@ -1080,12 +1080,18 @@ wants to replace FROM with TO."
 ;;   (if (> (recursion-depth) 0)
 ;;       (exit-recursive-edit)))
 
-(defun collect (regex)
-  "Collect all matched string by REGEX and store it in the kill ring."
-  (interactive (list (read-regexp "Collect regexp: ")))
-  (let (acc)
-    (while (re-search-forward regex nil t)
-      (push (match-string 0) acc))
-    (kill-new (mapconcat 'identity (nreverse acc) "\n"))))
+(defun collect-regexp (regexp &optional beg end)
+  "Collect all string matched by REGEXP and store it in the kill
+ring."
+  (interactive (list (read-regexp "Collect regexp: ")
+                     (or (region-beginning) (point))
+                     (region-end)))
+  (save-excursion
+    (goto-char beg)
+    (let (acc)
+      (while (re-search-forward regexp end t)
+        (push (match-string 0) acc))
+      (message "Kill-ring: %s" acc)
+      (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
 
 ;;; init.el ends here
