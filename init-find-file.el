@@ -33,4 +33,15 @@
    (t
     ad-do-it)))
 
+(defun revert-all ()
+  "Revert all buffers without asking."
+  (interactive)
+  (let ((bl (buffer-list)) buf)
+    (while (setq buf (pop bl))
+      (condition-case nil
+          (with-current-buffer buf
+            (let ((revert-without-query "."))
+              (revert-buffer)))
+        (error)))))
+
 (provide 'init-find-file)
