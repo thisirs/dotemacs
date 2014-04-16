@@ -26,9 +26,9 @@
  (global-set-key (kbd "<C-kp-6>") 'shrink-window-horizontally)
  (global-set-key (kbd "<C-kp-8>") 'enlarge-window)
  (global-set-key (kbd "<C-kp-2>") 'shrink-window)
- (global-set-key (kbd "<C-kp-0>") 'transpose-buffers)
 
- (global-set-key (kbd "<C-kp-multiply>") 'transpose-frame)
+ (global-set-key (kbd "<C-kp-divide>") 'transpose-buffers)
+ (global-set-key (kbd "<C-kp-multiply>") 'rotate-frame-anticlockwise)
 
  (global-set-key (kbd "M-p") 'backward-paragraph)
  (global-set-key (kbd "M-n") 'forward-paragraph)
