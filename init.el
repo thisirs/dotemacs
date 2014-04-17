@@ -533,7 +533,10 @@ With a prefix ARG invalidates the cache first."
 
 (when (require-maybe 'state)
   (setq state-alist
-        '((personnal
+        '((programming_samples
+           (key . "r")
+           (switch . "~/Dropbox/Org/programming_samples.org"))
+          (personnal
            (key . "p")
            (switch . "~/Dropbox/Org/personnel.org.gpg"))
           (boss
