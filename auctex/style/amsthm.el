@@ -1,7 +1,7 @@
 (defvar TeX-newthm-regexp
   '("\\\\newtheorem{\\([a-zA-Z]+\\)}"
     1 TeX-auto-multi)
-   "Matches \newtheorem definitions.")
+  "Matches \newtheorem definitions.")
 
 (defvar TeX-auto-multi nil
   "Temporary for parsing \\newmacro definitions.")
