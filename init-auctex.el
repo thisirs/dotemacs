@@ -57,8 +57,15 @@ mutiple times."
 
 ;; Disable fill in env
 (eval-after-load "latex"
-  '(mapc (lambda (env) (add-to-list 'LaTeX-indent-environment-list (list env)))
-         '("tikzpicture" "scope" "figure")))
+  '(mapc (lambda (env)
+           (add-to-list 'LaTeX-indent-environment-list
+                        (if (listp env)
+                            env
+                          (list env))))
+         '("tikzpicture"
+           "scope"
+           "figure"
+           ("minted" current-indentation))))
 
 (defun latex-auto-fill-everywhere ()
   (when comment-auto-fill-only-comments
