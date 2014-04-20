@@ -460,6 +460,9 @@ With a prefix ARG invalidates the cache first."
 
 (require-maybe 'vc-check-status)
 
+;; Only look for unpushed commits on master
+(push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
+
 (add-to-list 'vc-check-cancel-hook
              (lambda ()
                (and
