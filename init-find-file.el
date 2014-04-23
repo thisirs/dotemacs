@@ -40,8 +40,7 @@
     (while (setq buf (pop bl))
       (condition-case nil
           (with-current-buffer buf
-            (let ((revert-without-query "."))
-              (revert-buffer)))
-        (error)))))
+            (let ((revert-without-query '(".")))
+              (revert-buffer t)))))))
 
 (provide 'init-find-file)
