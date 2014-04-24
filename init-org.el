@@ -410,24 +410,34 @@ inherited by a parent headline."
   "Used with `org-context' in a capture template as a locating
 function. Capture under a headline whose name is the file we
 captured from."
-  (goto-char (point-min))
   (let* ((file (org-capture-get :original-file))
-         (script (org-capture-get :original-file-nondirectory))
-         (hd (concat (file-name-as-directory ".")
-                     (file-relative-name
-                      file
-                      (dir-locals-get-directory file)))))
+         (base-dir (dir-locals-get-directory file))
+         (rel (file-relative-name file base-dir))
+         (name (if (string-match "^[^/]+" rel)
+                   (match-string 0 rel)
+                 (error "Unable to get name"))))
+    (goto-char (point-min))
     (if (re-search-forward
          (format org-complex-heading-regexp-format
-                 (regexp-quote (org-make-link-string hd script)))
-         nil t)
+                 (regexp-quote (org-make-link-string (format "file:%s" name) name))) nil t)
         (progn
           (org-end-of-subtree t nil)
           (or (bolp) (insert "\n")))
       (goto-char (point-max))
       (or (bolp) (insert "\n"))
-      (insert "* " (org-make-link-string hd script) "\n")
+      (insert (format "\
+* %s %s
+  OPENED: %s
+"
+                      "ONPROGRESS"
+                      (org-make-link-string (format "file:%s" name) name)
+                      (format-time-string
+                       "[%Y-%m-%d %a %H:%M:%S]"
+                       (nth 6 (file-attributes (expand-file-name name base-dir))))))
       (org-id-get nil 'create))))
+
+;; Compact the block agenda view
+(setq org-agenda-compact-blocks t)
 
 (defun org-context-agenda-blocks (filev)
   "Construct a block agenda command where each block takes its
@@ -439,13 +449,15 @@ entry from each headline of FILEV."
             (delq nil
                   (org-map-entries
                    (lambda ()
-                     (when (looking-at org-heading-regexp)
+                     (when (looking-at org-complex-heading-regexp)
                        (when (= (length (match-string-no-properties 1)) 1)
-                         (let ((header (match-string-no-properties 2))
+                         (let ((header (match-string-no-properties 4))
+                               (todo (match-string-no-properties 2))
                                (id (org-id-get)))
-                           `(tags-todo ,(format "ID=\"%s\"" id)
-                                       ((org-agenda-files (quote (,filev)))
-                                        (org-agenda-overriding-header ,header)))))))))
+                           (if (member todo '("ONPROGRESS" "TODO" "NOTWORKING"))
+                               `(tags-todo ,(format "ID=\"%s\"" id)
+                                           ((org-agenda-files (quote (,filev)))
+                                            (org-agenda-overriding-header ,header))))))))))
             '((org-agenda-buffer-name "Projects TODO"))))))
 
 ;; Enable sticky agenda to navigate between them
