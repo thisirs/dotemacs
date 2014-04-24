@@ -299,6 +299,9 @@ the selected file."
 (add-to-list 'org-file-apps '("\\.docx?\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.xls\\'" . "soffice %s"))
 
+;; Open directories with dired
+(add-to-list 'org-file-apps '(directory . emacs))
+
 ;; Bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
