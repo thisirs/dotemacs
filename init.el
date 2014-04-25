@@ -449,11 +449,10 @@ With a prefix ARG invalidates the cache first."
          (call-interactively 'describe-variable))
         ((function-called-at-point)
          (call-interactively 'describe-function))
-        (t (if (ffap-file-at-point)         ;trick to ffap when point is at the end of a link
-               (find-file-at-point)
-             (save-excursion
-               (backward-char 2)
-               (find-file-at-point))))))
+        ((and (thing-at-point 'filename) (file-exists-p (thing-at-point 'filename)))
+         (find-file (thing-at-point 'filename)))
+        ((ffap-file-at-point)
+         (find-file-at-point (ffap-file-at-point)))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
