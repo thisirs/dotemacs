@@ -12,6 +12,13 @@
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (setq dired-hide-details-hide-symlink-targets nil))
 
+(defun dired-bury-all (&optional kill)
+  "Bury dired buffer as they appear. It keeps you from pressing
+repeatedly q."
+  (interactive "P")
+  (while (eq major-mode 'dired-mode)
+    (quit-window kill)))
+
 ;; Reload dired after creating a directory
 (defadvice dired-create-directory (after revert-buffer-after-create activate)
   (revert-buffer))
@@ -33,6 +40,8 @@
        ("t" " -t")
        ("d" " --group-directories-first")))
     map))
+
+(define-key dired-mode-map (kbd "Q") 'dired-bury-all)
 
 (define-key dired-mode-map "s" dired-sort-map)
 
