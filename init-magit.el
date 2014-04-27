@@ -21,4 +21,10 @@
           #'(lambda ()
               (set-fill-column 72)))
 
+(define-key magit-mode-map (kbd "C-o")
+  (lambda ()
+    (interactive)
+    (let ((current-prefix-arg 4))
+      (magit-visit-item 'other-window))))
+
 (provide 'init-magit)
