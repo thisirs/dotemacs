@@ -1094,15 +1094,16 @@ wants to replace FROM with TO."
 (defun collect-regexp (regexp &optional beg end)
   "Collect all string matched by REGEXP and store it in the kill
 ring."
-  (interactive (list (read-regexp "Collect regexp: ")
-                     (or (region-beginning) (point))
-                     (region-end)))
+  (interactive (cons (read-regexp "Collect regexp: ")
+                     (if (use-region-p)
+                         (list (region-beginning) (region-end))
+                       (list (point) nil))))
   (save-excursion
     (goto-char beg)
     (let (acc)
       (while (re-search-forward regexp end t)
         (push (match-string 0) acc))
-      (message "Kill-ring: %s" acc)
+      (message "Kill-ring: %s" (substring acc 0 20))
       (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
 
 ;;; init.el ends here
