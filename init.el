@@ -1103,7 +1103,8 @@ ring."
     (let (acc)
       (while (re-search-forward regexp end t)
         (push (match-string 0) acc))
-      (message "Kill-ring: %s" (substring acc 0 20))
+      (let ((print-length 10))
+        (message "Kill-ring: %s" acc))
       (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
 
 ;;; init.el ends here
