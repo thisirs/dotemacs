@@ -325,9 +325,6 @@ the selected file."
 
 (run-with-idle-timer 900 t 'jump-to-org-agenda)
 
-;; (add-to-list  'load-path "~/.emacs.d/site-lisp/google-weather-el")
-;; (setq url-cache-directory "~/.emacs.d/cache")
-;; (require 'org-google-weather)
 
 (eval-after-load 'parse-time
   '(progn
