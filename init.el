@@ -1071,25 +1071,21 @@ wants to replace FROM with TO."
 
 (setq ada-prj-default-gnatmake-opt "-g -gnatW8")
 
-;; (defalias 'read-regexp-old 'read-regexp)
-;; (defun read-regexp (prompt &optional defaults history)
-;;   "Replace `read-regexp' to run `re-builder'."
-;;   (save-window-excursion
-;;     (save-excursion
-;;       (save-restriction
-;;         (re-builder)
-;;         (recursive-edit)
-;;         (let ((re (with-output-to-string
-;;                     (print
-;;                      (reb-target-binding
-;;                       (prog1
-;;                           reb-regexp
-;;                         (reb-quit)))))))
-;;           (substring re 2 (1- ( 1- (length re)))))))))
+(defalias 'read-regexp-old 'read-regexp)
+(defun read-regexp (prompt &optional defaults history)
+  "Replace `read-regexp' to run `re-builder'."
+  (let ((reb-re-syntax 'string))
+    (re-builder)
+    (recursive-edit))
+  (let ((re (with-output-to-string
+              (print (reb-target-binding
+                      (prog1 reb-regexp
+                        (reb-quit)))))))
+    (read re)))
 
-;; (defadvice reb-quit (after recursive-quit activate)
-;;   (if (> (recursion-depth) 0)
-;;       (exit-recursive-edit)))
+(defadvice reb-quit (after recursive-quit activate)
+  (if (> (recursion-depth) 0)
+      (exit-recursive-edit)))
 
 (defun collect-regexp (regexp &optional beg end)
   "Collect all string matched by REGEXP and store it in the kill
