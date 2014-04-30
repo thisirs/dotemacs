@@ -195,7 +195,9 @@ body passed in argument."
  (global-set-key (kbd "C-c d k") 'describe-key)
  (global-set-key (kbd "C-c d v") 'describe-variable)
  (global-set-key (kbd "C-c d f") 'describe-function)
+
  (global-set-key (kbd "C-c d a") 'helm-apropos)
+ (global-set-key [remap execute-extended-command] 'helm-M-x)
 
  (global-set-key (kbd "C-h") (kbd "DEL")))
 
