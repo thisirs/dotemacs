@@ -1077,9 +1077,8 @@ wants to replace FROM with TO."
 
 (setq ada-prj-default-gnatmake-opt "-g -gnatW8")
 
-(defalias 'read-regexp-old 'read-regexp)
-(defun read-regexp (prompt &optional defaults history)
-  "Replace `read-regexp' to run `re-builder'."
+(defun reb-read-regexp (prompt &optional defaults history)
+  "Like `read-regexp' but with `re-builder' feedback."
   (let ((reb-re-syntax 'string))
     (re-builder)
     (recursive-edit))
@@ -1096,7 +1095,7 @@ wants to replace FROM with TO."
 (defun collect-regexp (regexp &optional beg end)
   "Collect all string matched by REGEXP and store it in the kill
 ring."
-  (interactive (cons (read-regexp "Collect regexp: ")
+  (interactive (cons (reb-read-regexp "Collect regexp: ")
                      (if (use-region-p)
                          (list (region-beginning) (region-end))
                        (list (point) nil))))
