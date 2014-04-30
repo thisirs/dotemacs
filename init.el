@@ -76,6 +76,7 @@
       projectile
       s
       twittering-mode
+      visual-regexp
       wcheck-mode
       yaml-mode
       yari
@@ -254,6 +255,11 @@ With a prefix ARG invalidates the cache first."
      (define-key projectile-mode-map
        (concat projectile-keymap-prefix (kbd "v"))
        'projectile-find-file-other-window)))
+
+;; Visual regexp
+(require 'visual-regexp)
+(global-set-key (kbd "C-c r") 'vr/replace)
+(global-set-key (kbd "C-c q") 'vr/query-replace)
 
 ;; Markdown
 (autoload 'markdown-mode "markdown-mode" nil t)
