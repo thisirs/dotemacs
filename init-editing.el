@@ -31,10 +31,18 @@ cancel the indentation if needed."
 
 (global-set-key (kbd "C-w") 'kill-region-or-backward)
 
+;; Taken from https://github.com/skeeto/.emacs.d/blob/master/lisp/extras.el
+(defun flash-region (start end &optional timeout)
+  "Temporarily highlight region from START to END."
+  (let ((overlay (make-overlay start end)))
+    (overlay-put overlay 'face 'secondary-selection)
+    (run-with-timer (or timeout 0.2) nil 'delete-overlay overlay)))
+
 (defun save-region-or-current-line ()
   (interactive)
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
+    (flash-region (line-beginning-position) (line-beginning-position 2))
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))
     (message "line copied")))
 
