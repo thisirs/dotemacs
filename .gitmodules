@@ -22,9 +22,6 @@
 [submodule "site-lisp/undo-tree"]
 	path = site-lisp/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
-[submodule "site-lisp/ace-jump-mode"]
-	path = site-lisp/ace-jump-mode
-	url = https://github.com/winterTTr/ace-jump-mode.git
 [submodule "site-lisp/gnus"]
 	path = site-lisp/gnus
 	url = http://git.gnus.org/gnus.git
