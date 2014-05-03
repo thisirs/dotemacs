@@ -933,17 +933,19 @@ case it is used in hooks."
 ;; Use system trash (for emacs 23)
 (setq delete-by-moving-to-trash t)
 
-;; Activate automatic timestamp
-(setq
- time-stamp-active t
- time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+;; Activate automatic update of in-file timestamp
+(setq time-stamp-active t)
+
+;; Time-stamp format like this: <2014-05-03 18:44:06 (thisirs)>
+(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
 
 (defun time-stamp-insert ()
+  "Insert a commented out time-stamp line."
   (interactive)
   (insert (if comment-start
               (concat comment-start " ")
             "")
-          "Time-stamp: <>"))
+          (format "Time-stamp: <%s>" (time-stamp-string))))
 
 (defalias 'insert-time-stamp 'time-stamp-insert)
 
