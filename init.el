@@ -60,7 +60,8 @@
   (package-initialize)
 
   (defvar package-required-packages
-    '(async
+    '(ack-and-a-half
+      async
       auctex
       dash
       diminish
@@ -78,6 +79,8 @@
       twittering-mode
       visual-regexp
       wcheck-mode
+      wgrep
+      wgrep-ack
       yaml-mode
       yari
       zenburn-theme)
