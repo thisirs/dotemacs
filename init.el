@@ -896,9 +896,13 @@ case it is used in hooks."
 
 (setq sentence-end-double-space nil)
 
-(setq x-select-enable-clipboard t        ; copy-paste should work ...
-      interprogram-paste-function            ; ...with...
-      'x-cut-buffer-or-selection-value)      ; ...other X clients
+(setq x-select-enable-clipboard t)
+
+;; Default in 24.4
+;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+
+;; Save clipboard strings into kill ring before replacing them
+(setq save-interprogram-paste-before-kill t)
 
 ;; Don't warn when quitting emacs with running processes
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
