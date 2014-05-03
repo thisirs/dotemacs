@@ -67,6 +67,7 @@
       dash
       diminish
       elisp-slime-nav
+      cmake-mode
       google-translate
       helm-descbinds
       legalese
@@ -77,6 +78,7 @@
       multiple-cursors
       offlineimap
       projectile
+      rainbow-mode
       s
       tidy
       twittering-mode
@@ -84,6 +86,7 @@
       wcheck-mode
       wgrep
       wgrep-ack
+      undo-tree
       uniquify
       yaml-mode
       yari

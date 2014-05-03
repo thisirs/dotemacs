@@ -19,15 +19,9 @@
 [submodule "site-lisp/emacs-helm"]
 	path = site-lisp/emacs-helm
 	url = https://github.com/emacs-helm/helm.git
-[submodule "site-lisp/undo-tree"]
-	path = site-lisp/undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
 [submodule "site-lisp/gnus"]
 	path = site-lisp/gnus
 	url = http://git.gnus.org/gnus.git
-[submodule "site-lisp/Emacs-wgrep"]
-	path = site-lisp/Emacs-wgrep
-	url = https://github.com/mhayashi1120/Emacs-wgrep.git
 [submodule "site-lisp/bbdb"]
 	path = site-lisp/bbdb
 	url = git://git.savannah.nongnu.org/bbdb.git
