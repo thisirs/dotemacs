@@ -18,6 +18,7 @@
     (message "Buffer evaluated!"))))
 
 (define-key emacs-lisp-mode-map (kbd "C-x E") 'eval-region-or-buffer)
+(define-key lisp-interaction-mode-map (kbd "C-x E") 'eval-region-or-buffer)
 
 ;; Custom name for bookmark when in a defun
 (defun emacs-lisp-custom-record-function ()
