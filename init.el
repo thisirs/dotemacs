@@ -60,7 +60,8 @@
   (package-initialize)
 
   (defvar package-required-packages
-    '(ack-and-a-half
+    '(ace-jump-mode
+      ack-and-a-half
       async
       auctex
       dash
@@ -71,16 +72,19 @@
       legalese
       lua-mode
       macrostep
+      markdown-mode
       multi-term
       multiple-cursors
       offlineimap
       projectile
       s
+      tidy
       twittering-mode
       visual-regexp
       wcheck-mode
       wgrep
       wgrep-ack
+      uniquify
       yaml-mode
       yari
       zenburn-theme)
@@ -183,15 +187,13 @@
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Fast navigation from symbol to definition
-(when (require-maybe 'elisp-slime-nav)
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda () (elisp-slime-nav-mode t))))
+(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
 
-(when (require-maybe 'diminish)
-  (eval-after-load "undo-tree"
-    '(diminish 'undo-tree-mode))
-  (eval-after-load 'elisp-slime-nav
-    '(diminish 'elisp-slime-nav-mode)))
+;; Diminish
+(eval-after-load "undo-tree"
+  '(diminish 'undo-tree-mode))
+(eval-after-load 'elisp-slime-nav
+  '(diminish 'elisp-slime-nav-mode))
 
 ;; Autoload rainbow-mode
 (autoload 'rainbow-mode "rainbow-mode"
@@ -227,11 +229,10 @@
               auto-mode-alist))
 
 ;;; google translate
-(require 'google-translate)
-(global-set-key "\C-ct" 'google-translate-smooth-translate)
-
-(setq google-translate-translation-directions-alist
-      '(("en" . "fr") ("fr" . "en")))
+(eval-after-load 'google-translate
+  (setq google-translate-translation-directions-alist
+        '(("en" . "fr") ("fr" . "en"))))
+(global-set-key (kbd "C-c t") 'google-translate-smooth-translate)
 
 ;; Projectile
 (projectile-global-mode)
@@ -259,26 +260,10 @@ With a prefix ARG invalidates the cache first."
        (concat projectile-keymap-prefix (kbd "v"))
        'projectile-find-file-other-window)))
 
-;; Visual regexp
-(require 'visual-regexp)
-(global-set-key (kbd "C-c r") 'vr/replace)
-(global-set-key (kbd "C-c q") 'vr/query-replace)
-
-;; Markdown
-(autoload 'markdown-mode "markdown-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-
-;; Tidy
-(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
-(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
-(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
-(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
-
 ;; ace-jump-mode
-(require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-(set-face-foreground 'ace-jump-face-foreground "yellow")
+(with-eval-after-load 'ace-jump-mode
+  (set-face-foreground 'ace-jump-face-foreground "yellow"))
 
 ;; undo-tree
 (require 'undo-tree)
@@ -305,9 +290,9 @@ With a prefix ARG invalidates the cache first."
 (require 'wtf)
 
 ;; Buffers can't have the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets
-      uniquify-after-kill-buffer-p t)
+(with-eval-after-load 'uniquify
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (setq uniquify-after-kill-buffer-p t))
 
 (require 'saveplace)
 (setq save-place-file "~/.emacs.d/cache/.saveplace")

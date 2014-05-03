@@ -201,4 +201,8 @@ body passed in argument."
 
  (global-set-key (kbd "C-h") (kbd "DEL")))
 
+;; Visual regexp bindings
+(global-set-key (kbd "C-c r") 'vr/replace)
+(global-set-key (kbd "C-c q") 'vr/query-replace)
+
 (provide 'init-bindings)
