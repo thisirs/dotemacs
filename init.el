@@ -847,6 +847,8 @@ case it is used in hooks."
       (if (file-exists-p "~/Dropbox/emacs/.bookmarks")
           "~/Dropbox/emacs/.bookmarks"
         "~/.emacs.d/bookmarks"))
+
+;; Save bookmarks every time
 (setq bookmark-save-flag 1)
 
 (defun ring-transparency (arg)
