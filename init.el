@@ -885,9 +885,14 @@ case it is used in hooks."
 ;; Always add a final newline
 (setq require-final-newline t)
 
-;; Display time in modeline
-(display-time)
-(setq display-time-24hr-format 1)
+;; Display time in the modeline
+(display-time-mode t)
+
+;; Do not display the load
+(setq display-time-default-load-average nil)
+
+;; Display time in 24 hours format
+(setq display-time-24hr-format t)
 
 (setq sentence-end-double-space nil)
 
