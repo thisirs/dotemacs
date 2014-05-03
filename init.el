@@ -992,8 +992,8 @@ case it is used in hooks."
 
 (global-set-key "\C-x\C-c" 'kill-emacs-or-frame)
 
-;; Iconify emacs when done editing
-(add-hook 'server-done-hook 'iconify-frame)
+;; Lower emacs frame when done editing
+(add-hook 'server-done-hook 'lower-frame)
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
 (defun reb-query-replace-this-regxp (replace)
