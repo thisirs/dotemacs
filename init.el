@@ -87,7 +87,6 @@
       wgrep
       wgrep-ack
       undo-tree
-      uniquify
       yaml-mode
       yari
       zenburn-theme)
