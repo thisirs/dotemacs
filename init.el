@@ -238,6 +238,7 @@
 (projectile-global-mode)
 (eval-after-load 'projectile
   '(progn
+     (setq projectile-mode-line-lighter " ")
      (setq projectile-known-projects-file
            (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
      (setq projectile-cache-file
