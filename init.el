@@ -590,7 +590,7 @@ With a prefix ARG invalidates the cache first."
            (switch . (wconf-fullscreen 'twit (twit))))
           (org
            (key . "a")
-           (state-p . (string= "*Org Agenda(t)*" (or (buffer-name) "")))
+           (state-p . (eq major-mode 'org-agenda-mode))
            (switch . (wconf-fullscreen 'org (org-agenda nil "t"))))))
   (state-install-bindings))
 
