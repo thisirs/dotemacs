@@ -157,8 +157,6 @@
 (require 'webjump)
 (global-set-key "\C-cj" 'webjump)
 
-(require 'wgrep)
-
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
 ;; (require 'gnus-load)
@@ -184,10 +182,6 @@
 (global-set-key (kbd "C-à") 'er/expand-region)
 (global-set-key (kbd "C-M-à") 'er/contract-region)
 
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-
 ;; Fast navigation from symbol to definition
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
 
@@ -196,13 +190,6 @@
   '(diminish 'undo-tree-mode))
 (eval-after-load 'elisp-slime-nav
   '(diminish 'elisp-slime-nav-mode))
-
-;; Autoload rainbow-mode
-(autoload 'rainbow-mode "rainbow-mode"
-  "rainbow-mode autoload" t)
-
-(autoload 'yaml-mode "yaml-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;; Minor mode to resolve diff3 conflicts
 (autoload 'smerge-mode "smerge-mode" nil t)
@@ -222,13 +209,6 @@
 (mapc (lambda (checker)
         (delq checker flycheck-checkers))
       '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
-
-;;; cmake-mode
-(require 'cmake-mode)
-(setq auto-mode-alist
-      (append '(("CMakeLists\\.txt\\'" . cmake-mode)
-                ("\\.cmake\\'" . cmake-mode))
-              auto-mode-alist))
 
 ;;; google translate
 (eval-after-load 'google-translate
@@ -1073,9 +1053,9 @@ wants to replace FROM with TO."
 ;; (require 'multi-term)
 ;; (setq multi-term-program "/bin/zsh")
 
-(require 'multiple-cursors)
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
-(setq mc/list-file "~/Dropbox/emacs/.mc-lists.el")
+(with-eval-after-load 'multiple-cursors
+  (setq mc/list-file "~/Dropbox/emacs/.mc-lists.el"))
 
 (setq set-mark-command-repeat-pop t)
 
