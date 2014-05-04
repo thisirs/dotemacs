@@ -139,4 +139,22 @@ cancel the indentation if needed."
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
+(defun indent-as-in (mode beg end)
+  "Indent selected region according to MODE.
+
+Useful in Org code blocks or in minted and lstlistings
+environments in LaTeX."
+  (interactive "SMode: \nr")
+  (let ((txt (delete-and-extract-region beg end)))
+    (condition-case e
+        (insert
+         (with-temp-buffer
+           (insert txt)
+           (funcall (intern (format "%s-mode" mode)))
+           (indent-region (point-min) (point-max))
+           (buffer-string)))
+      (error
+       (insert txt)
+       (message "Mode `%s' fails with: %S" (format "%s-mode" mode) (nth 1 e))))))
+
 (provide 'init-editing)
