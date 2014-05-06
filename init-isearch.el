@@ -25,6 +25,26 @@
   (goto-char (point-max))
   (isearch-repeat-backward))
 
+;; Taken from https://github.com/magnars/.emacs.d.git
+(defun isearch-forward-use-region ()
+  (interactive)
+  (when (region-active-p)
+    (add-to-history 'search-ring (buffer-substring (region-beginning)
+                                                   (region-end)))
+    (deactivate-mark))
+  (call-interactively 'isearch-forward))
+
+(defun isearch-backward-use-region ()
+  (interactive)
+  (when (region-active-p)
+    (add-to-history 'search-ring (buffer-substring (region-beginning)
+                                                   (region-end)))
+    (deactivate-mark))
+  (call-interactively 'isearch-backward))
+
+(global-set-key [remap isearch-forward] 'isearch-forward-use-region)
+(global-set-key [remap isearch-backward] 'isearch-backward-use-region)
+
 ;; Add newline to lax isearch
 (setq search-whitespace-regexp "[[:space:]\n]+")
 
