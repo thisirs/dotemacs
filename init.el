@@ -514,9 +514,14 @@ With a prefix ARG invalidates the cache first."
            (switch . "*debug*"))
           (shell
            (key . "z")
-           (switch . (unless (get-buffer "*eshell*")
-                       (eshell)))
-           (state-p . (equal (buffer-name) "*eshell*")))
+           (switch . (if (get-buffer "*ansi-term*")
+                         (if (get-buffer-window "*ansi-term*")
+                             (select-window (get-buffer-window "*ansi-term*"))
+                           (if current-prefix-arg
+                               (switch-to-buffer-other-window "*ansi-term*")
+                             (switch-to-buffer "*ansi-term*")))
+                       (ansi-term "/bin/zsh")))
+           (state-p . (equal (buffer-name) "*ansi-term*")))
           (emacs
            (key . "e")
            (switch . "~/.emacs.d/init.el"))
