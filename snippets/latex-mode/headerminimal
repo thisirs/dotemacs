@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Minimal LaTeX header
-# key: hdrm
+# key: hdr
 # --
 \documentclass{minimal}
 

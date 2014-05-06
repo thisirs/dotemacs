@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: latex letter
-# key: hdrl
+# key: hdr
 # --
 \documentclass[11pt]{lettre}
 

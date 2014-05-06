@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Standalone TikZ template
-# key: hdrt
+# key: hdr
 # --
 \documentclass{standalone}
 

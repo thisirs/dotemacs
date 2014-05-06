@@ -481,11 +481,13 @@ With a prefix ARG invalidates the cache first."
   (setq auto-insert-alist
         `(
           ("\\.rb$" "Ruby shebang" (auto-insert-yasnippet "sb"))
+          ;; normal-mode to adjust major-mode
           ("\\.sh$" "Bash shebang" (progn
                                      (auto-insert-yasnippet "sb")
                                      (normal-mode)))
           ("\\.tex$"
-           @,(auto-insert-yasnippet-list latex-mode "hdr" (TeX-normal-mode 1)))))
+           ,@(macroexpand
+              '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
 
   (setq auto-insert 'other))
 
