@@ -479,26 +479,13 @@ With a prefix ARG invalidates the cache first."
   (setq auto-insert-query nil)
 
   (setq auto-insert-alist
-        '(
-          ("\\.rb$"  "Ruby shebang" (auto-insert-yasnippet "sb"))
-          ("\\.sh$" "Bash shebang" (auto-insert-yasnippet "sb"))
+        `(
+          ("\\.rb$" "Ruby shebang" (auto-insert-yasnippet "sb"))
+          ("\\.sh$" "Bash shebang" (progn
+                                     (auto-insert-yasnippet "sb")
+                                     (normal-mode)))
           ("\\.tex$"
-           ("Latex article"
-            (progn
-              (auto-insert-yasnippet "hdr")
-              (TeX-normal-mode 1)))
-           ("Standalone TikZ"
-            (progn
-              (auto-insert-yasnippet "hdrt")
-              (TeX-normal-mode 1)))
-           ("Minimal LaTeX snippet"
-            (progn
-              (auto-insert-yasnippet "hdrm")
-              (TeX-normal-mode 1)))
-           ("Letter"
-            (progn
-              (auto-insert-yasnippet "hdrl")
-              (TeX-normal-mode 1))))))
+           @,(auto-insert-yasnippet-list latex-mode "hdr" (TeX-normal-mode 1)))))
 
   (setq auto-insert 'other))
 
