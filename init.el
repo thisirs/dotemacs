@@ -482,28 +482,29 @@ With a prefix ARG invalidates the cache first."
   (vc-auto-commit-activate)
   (global-set-key (kbd "C-x v C") 'vc-auto-commit))
 
-(when (require-maybe 'autoinsert)
-  ;; Using modified version of autoinsert to allow multiple autoinsert
-  ;; https://github.com/thisirs/auto-insert-multiple.git
 
-  ;; Adds hook to find-files-hook
-  (auto-insert-mode t)
 
-  (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
-  (setq auto-insert-query nil)
+;; Using modified version of autoinsert to allow multiple autoinsert
+;; https://github.com/thisirs/auto-insert-multiple.git
+(require 'autoinsert)
+(auto-insert-mode t)
 
-  (setq auto-insert-alist
-        `(
-          ("\\.rb$" "Ruby shebang" (auto-insert-yasnippet "sb"))
-          ;; normal-mode to adjust major-mode
-          ("\\.sh$" "Bash shebang" (progn
-                                     (auto-insert-yasnippet "sb")
-                                     (normal-mode)))
-          ("\\.tex$"
-           ,@(macroexpand
-              '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
+(setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
+(setq auto-insert-query nil)
 
-  (setq auto-insert 'other))
+;; Might be slow due to yasnippet
+(setq auto-insert-alist
+      `(
+        ("\\.rb$" "Ruby shebang" (auto-insert-yasnippet "sb"))
+        ;; normal-mode to adjust major-mode
+        ("\\.sh$" "Bash shebang" (progn
+                                   (auto-insert-yasnippet "sb")
+                                   (normal-mode)))
+        ("\\.tex$"
+         ,@(macroexpand
+            '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
+
+(setq auto-insert 'other)
 
 (require-maybe 'org-bib-workflow)
 
