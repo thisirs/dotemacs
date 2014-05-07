@@ -8,8 +8,8 @@
 (setq yas-triggers-in-field t)
 
 (setq yas-new-snippet-default "\
-# -*- mode: snippet -*-
-# name: $1
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: $1
 # --
 $0")
 
