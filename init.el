@@ -220,7 +220,21 @@
 (projectile-global-mode)
 (eval-after-load 'projectile
   '(progn
+     ;; Reduce mode-line
+     (setq-default projectile-mode-line " Pj")
      (setq projectile-mode-line-lighter " ")
+     (defun projectile-update-mode-line ()
+       "Report project in mode-line."
+       (let* ((project-name (projectile-project-name))
+              (project-name-mode-line (if (> (length project-name) 12)
+                                          (substring project-name 0 8)
+                                        project-name))
+              (message (format "%s[%s]"
+                               projectile-mode-line-lighter
+                               project-name-mode-line)))
+         (setq projectile-mode-line message))
+       (force-mode-line-update))
+
      (setq projectile-known-projects-file
            (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
      (setq projectile-cache-file
