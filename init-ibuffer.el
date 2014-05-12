@@ -36,6 +36,8 @@
            (name . "^\\*Messages\\*$")
            ))
          ("ERC" (mode . erc-mode))
+         ("Info" (or (mode . Man-mode)
+                     (mode . woman-mode)))
          ("crap" (name . "^\\*.*\\*$")))
         ("Elisp-mode"
          (".el.gz elisp files"
