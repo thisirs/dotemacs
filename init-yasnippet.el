@@ -82,5 +82,9 @@ currently selected region as new one."
           (yas-expand-snippet (aref yas-disposable-snippets index)))
       (undefined))))
 
+;; Don't use yasnippet with terminal
+(add-hook 'term-mode-hook
+          (lambda ()
+            (yas-minor-mode -1)))
 
 (provide 'init-yasnippet)
