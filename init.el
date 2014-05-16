@@ -356,20 +356,11 @@ With a prefix ARG invalidates the cache first."
 (global-set-key (kbd "M-N") 'winner-redo)
 (global-set-key (kbd "M-P") 'winner-undo)
 
-
-;;; sh-toggle
-(require 'sh-toggle)
-(setq shell-toggle-shell 'ansi-term)
-
-(global-set-key (kbd "C-z") 'shell-toggle)
-(global-set-key (kbd "C-M-z") 'shell-toggle-cd)
-
 (defun summon-tmux ()
   (interactive)
   (let ((command
          "urxvt -T my-tmux -e bash -c \"tmux -q has-session && exec tmux attach-session -d || exec tmux new-session -n$USER -s$USER@$HOSTNAME\"; sleep 0.5; wmctrl -a my-tmux &"))
     (start-process "Shell" nil "bash" "-c" command)))
-
 (global-set-key (kbd "C-z") 'summon-tmux)
 
 
@@ -408,7 +399,6 @@ With a prefix ARG invalidates the cache first."
             (setq tab-width 8)
             (setq truncate-lines t)
             (define-key term-raw-map (kbd "C-y") 'term-paste)
-            (define-key term-raw-map (kbd "C-z") 'shell-toggle)))
 
 ;; Notify events
 (with-emacs-version>= "24"
