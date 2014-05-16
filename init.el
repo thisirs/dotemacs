@@ -397,8 +397,10 @@ With a prefix ARG invalidates the cache first."
             (setq transient-mark-mode nil)
             (auto-fill-mode -1)
             (setq tab-width 8)
-            (setq truncate-lines t)
-            (define-key term-raw-map (kbd "C-y") 'term-paste)
+            (setq truncate-lines t)))
+
+(define-key term-raw-map (kbd "C-y") 'term-paste)
+
 
 ;; Notify events
 (with-emacs-version>= "24"
