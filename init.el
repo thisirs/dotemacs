@@ -506,62 +506,87 @@ With a prefix ARG invalidates the cache first."
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%S.%E"))
   (global-set-key (kbd "C-x C-t") 'find-temp-file))
 
-(when (require-maybe 'state)
-  (setq state-alist
-        '((programming_samples
-           (key . "r")
-           (switch . "~/Dropbox/Org/programming_samples.org"))
-          (personnal
-           (key . "p")
-           (switch . "~/Dropbox/Org/personnel.org.gpg"))
-          (boss
-           (key . "b")
-           (state-p . (string= "TAGS boss" (or org-agenda-name "")))
-           (switch . (wconf-fullscreen 'org (org-agenda nil "b"))))
-          (debug
-           (key . "d")
-           (switch . "*debug*"))
-          (shell
-           (key . "z")
-           (switch . (if (get-buffer "*ansi-term*")
-                         (if (get-buffer-window "*ansi-term*")
-                             (select-window (get-buffer-window "*ansi-term*"))
-                           (if current-prefix-arg
-                               (switch-to-buffer-other-window "*ansi-term*")
-                             (switch-to-buffer "*ansi-term*")))
-                       (ansi-term "/bin/zsh")))
-           (state-p . (equal (buffer-name) "*ansi-term*")))
-          (emacs
-           (key . "e")
-           (switch . "~/.emacs.d/init.el"))
-          (gnus
-           (key . "g")
-           (state-p . (memq major-mode
-                            '(message-mode
-                              gnus-group-mode
-                              gnus-summary-mode
-                              gnus-article-mode)))
-           (switch . (wconf-fullscreen 'gnus (gnus))))
-          (erc
-           (key . "i")
-           (state-p . (memq (current-buffer)
-                            (erc-buffer-list)))
-           (switch . (erc-start-or-switch 1)))
-          (message
-           (key . "m")
-           (switch . "*Messages*"))
-          (scratch
-           (key . "s")
-           (switch . "*scratch*"))
-          (twit
-           (key . "t")
-           (state-p . (and (fboundp 'twittering-mode) (twittering-buffer-p)))
-           (switch . (wconf-fullscreen 'twit (twit))))
-          (org
-           (key . "a")
-           (state-p . (eq major-mode 'org-agenda-mode))
-           (switch . (wconf-fullscreen 'org (org-agenda nil "t"))))))
-  (state-install-bindings))
+
+(require 'state)
+
+(state-define-state
+ debug
+ :key "d"
+ :switch "*debug*")
+
+(state-define-state
+ gnus
+ :key "g"
+ :in (memq major-mode
+           '(message-mode
+             gnus-group-mode
+             gnus-summary-mode
+             gnus-article-mode))
+ :create gnus)
+
+(state-define-state
+ erc
+ :key "i"
+ :in (memq (current-buffer)
+           (erc-buffer-list))
+ :switch (erc-start-or-switch 1))
+
+(state-define-state
+ message
+ :key "m"
+ :switch "*Messages*")
+
+(state-define-state
+ scratch
+ :key "s"
+ :switch "*scratch*")
+
+(state-define-state
+ twit
+ :key "t"
+ :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
+ :switch twit)
+
+(state-define-state
+ personnal
+ :key "p"
+ :switch "~/Dropbox/Org/programming_samples.org")
+
+(state-define-state
+ programming_samples
+ :key "r"
+ :switch "~/Dropbox/Org/personnel.org.gpg")
+
+(state-define-state
+ emacs
+ :key "e"
+ :in "~/.emacs.d/init"
+ :create (find-file "~/.emacs.d/init.el"))
+
+;; Bound state: only accessible from emacs state
+(state-define-state
+ emacs-term
+ :key "z"
+ :bound emacs
+ :exist (get-buffer "*ansi-term (dotemacs)*")
+ :in (equal (buffer-name) "*ansi-term (dotemacs)*")
+ :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
+             (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
+           (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
+ :create (ansi-term "/bin/zsh" "ansi-term (dotemacs)"))
+
+;; Not bound state with same key
+(state-define-state
+ term
+ :key "z"
+ :exist (get-buffer "*ansi-term*")
+ :in (equal (buffer-name) "*ansi-term*")
+ :switch (if (get-buffer-window "*ansi-term*")
+             (select-window (get-buffer-window "*ansi-term*"))
+           (switch-to-buffer-other-window "*ansi-term*"))
+ :create (ansi-term "/bin/zsh"))
+
+(state-global-mode 1)
 
 (require-maybe 'helm-bib)
 
