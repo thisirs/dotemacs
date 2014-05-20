@@ -163,4 +163,21 @@ indentation."
        (insert txt)
        (message "Mode `%s' fails with: %S" (format "%s-mode" mode) (nth 1 e))))))
 
+
+(defun fix-programming-punctuation (arg)
+  "Fix common punctuation programming errors.
+
+If ARG is non-nil, ask for confirmation on each match."
+  (interactive "P")
+  (mapc (lambda (entry)
+          (when (or (not arg) (yes-or-no-p (apply 'format "Query replace %s with %s ? " entry)))
+            (goto-char (point-min))
+            (if arg
+                (query-replace-regexp (car entry) (cadr entry))
+              (while (re-search-forward (car entry) nil t)
+                (replace-match (cadr entry))))))
+        '((" *\\(=+\\) *" " \\1 ")
+          (" *\\(,\\) *" ", ")
+          (" *\\(+\\) *" " + "))))
+
 (provide 'init-editing)
