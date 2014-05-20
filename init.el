@@ -549,12 +549,12 @@ With a prefix ARG invalidates the cache first."
 
 (state-define-state
  personnal
- :key "p"
+ :key "r"
  :switch "~/Dropbox/Org/programming_samples.org")
 
 (state-define-state
  programming_samples
- :key "r"
+ :key "p"
  :switch "~/Dropbox/Org/personnel.org.gpg")
 
 (state-define-state
