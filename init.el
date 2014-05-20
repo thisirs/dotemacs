@@ -486,12 +486,12 @@ With a prefix ARG invalidates the cache first."
 
 ;; Might be slow due to yasnippet
 (setq auto-insert-alist
-      `(
-        ("\\.rb$" "Ruby shebang" (auto-insert-yasnippet "sb"))
+      `(("\\.rb$" ,@(macroexpand
+                     '(auto-insert-yasnippet ruby-mode "sb")))
         ;; normal-mode to adjust major-mode
-        ("\\.sh$" "Bash shebang" (progn
-                                   (auto-insert-yasnippet "sb")
-                                   (normal-mode)))
+        ("\\.sh$" ,@(macroexpand
+                     '(auto-insert-yasnippet sh-mode "sb" (normal-mode))))
+        ;; TeX-normal-mode to run styles
         ("\\.tex$"
          ,@(macroexpand
             '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
