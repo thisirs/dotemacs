@@ -455,18 +455,6 @@ With a prefix ARG invalidates the cache first."
 (require-maybe 'org-context)
 (org-context-activate)
 
-;; (require 'scratch-message)
-;; (scratch-message-toggle-activate 1)
-
-;; (defun scratch-message-contrepet ()
-;;   (require 'fortune)
-;;   (with-demoted-errors "Error: %S"
-;;       (fortune-in-buffer t "~/.conky/contrepétries")
-;;     (scratch-message-insert
-;;      (with-current-buffer fortune-buffer-name
-;;        (buffer-string)))))
-
-;; (setq scratch-message-function 'scratch-message-contrepet)
 
 (require-maybe 'commit-message)
 
