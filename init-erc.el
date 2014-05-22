@@ -19,6 +19,16 @@
          "#TikZ"
          "#org-mode-fr")))
 
+;; Flyspell input line with different dictionaries
+(erc-spelling-mode 1)
+(mapc (lambda (chan)
+        (mapc (lambda (name)
+                (if (string-match "fr$" name)
+                    (push (list name "fr") erc-spelling-dictionaries)
+                  (push (list name "en") erc-spelling-dictionaries)))
+              (cdr chan)))
+      erc-autojoin-channels-alist)
+
 (erc-match-mode 1)
 (setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
 
