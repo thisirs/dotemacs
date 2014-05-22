@@ -73,9 +73,12 @@
   (if (get-buffer "irc.freenode.net:6667") ;; ERC already active?
       (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
-      (erc :server "irc.freenode.net" :port 6667 :nick "thisirs"))))
+      (erc :server "irc.freenode.net"
+           :port 6667
+           :nick "thisirs"
+           :password (secrets-get-secret "Default" "NickServ")))))
 
-(setq  erc-pcomplete-order-nickname-completions t)
+(setq erc-pcomplete-order-nickname-completions t)
 
 (defun my-erc-mode-hook ()
   (set (make-local-variable 'scroll-conservatively) 101)
