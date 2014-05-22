@@ -4,6 +4,9 @@
 ;; Cache icons
 (setq twittering-use-icon-storage t)
 
+;; Fetch more tweets as twitter limits the number of requests
+(setq twittering-number-of-tweets-on-retrieval 50)
+
 (defun twittering-enter-next-uri ()
   (interactive)
   (let* ((p (point))
