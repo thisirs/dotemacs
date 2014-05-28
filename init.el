@@ -1106,4 +1106,26 @@ ring."
         (message "Kill-ring: %s" acc))
       (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
 
+(defun dwim-location (path fun)
+  "Call FUN on each buffer visiting a file contained in PATH."
+  (mapc (lambda (buf)
+          (if (and (buffer-file-name buf)
+                   (string-prefix-p
+                    (file-truename (abbreviate-file-name path))
+                    (file-truename (abbreviate-file-name (buffer-file-name buf)))))
+              (funcall fun buf)))
+        (buffer-list)))
+
+(defun kill-location (path)
+  "Kill all buffers visiting a file contained in PATH."
+  (interactive "f")
+  (dwim-location path 'kill-buffer))
+
+(defun revert-location (path)
+  "Revert all buffers visiting a file contained in PATH."
+  (interactive "f")
+  (dwim-location path (lambda (buf)
+                        (with-current-buffer buf
+                          (revert-buffer nil t)))))
+
 ;;; init.el ends here
