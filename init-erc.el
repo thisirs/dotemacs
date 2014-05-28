@@ -30,38 +30,36 @@
       erc-autojoin-channels-alist)
 
 (erc-match-mode 1)
-(setq erc-keywords '("magit" "koans" "rubywarrior" " org" "?"))
+(setq erc-keywords '("magit" "koans" "rubywarrior" "org"))
 
 ;; Custom prompt
 (setq erc-prompt
       (lambda () (concat (buffer-name) ">")))
 
-(defun my-notify-erc (match-type nickuserhost message)
-  "Notify when a message is received."
-  (notifications-notify
-   :title (format "%s in %s"
-                  ;; Username of sender
-                  (car (split-string nickuserhost "!"))
-                  ;; Channel
-                  (or (erc-default-target) "#unknown"))
-   :body (cond
-          ((eq match-type 'current-nick)
-           (if (string-match "^[Tt]hisirs" message)
-               "is talking to you!"
-             "is talking about you!"))
-          ((and (eq match-type 'keywords)
-                (string-match "?" message))
-           (and (string-match "?$" message)
-                (concat "is asking a question!\n" message)))
-          (t
-           (replace-regexp-in-string "[\t\n ]+" " " message)))
-   :icon "emacs-snapshot"
-   :urgency (if (eq match-type 'current-nick)
-                'critical
-              'normal)
-   :timeout -1))
+(defvar erc-notifications-ring-size 5
+  "Maximum number of simultaneous notifications.")
 
-(add-hook 'erc-text-matched-hook 'my-notify-erc)
+(defvar erc-notifications-ring (make-ring (1+ erc-notifications-ring-size))
+  "Ring of notifications id.")
+
+(with-eval-after-load 'erc-desktop-notifications
+  (setq erc-notifications-icon "emacs-snapshot")
+  (defun erc-notifications-notify-on-match (match-type nickuserhost msg)
+    (let ((nick (nth 0 (erc-parse-user nickuserhost))))
+      (unless (or (string-match-p "^Server:" nick)
+                  (when (boundp 'erc-track-exclude)
+                    (member nick erc-track-exclude)))
+        (dbus-ignore-errors
+          (ring-insert erc-notifications-ring
+                (notifications-notify
+                 :title (xml-escape-string nick)
+                 :body (xml-escape-string msg)
+                 :replaces-id (if (equal (ring-length erc-notifications-ring)
+                                         erc-notifications-ring-size)
+                                  (ring-remove erc-notifications-ring))
+                 :app-icon erc-notifications-icon)))))))
+
+(erc-notifications-mode t)
 
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
