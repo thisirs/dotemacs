@@ -108,4 +108,16 @@ inline."
              (set-window-point (get-buffer-window "*debug*") (point))))
        ,obsym)))
 
+(defun generate-password (&optional length)
+  (setq length (or length 10))
+  (random t)
+  (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+        (exclude "io0O1l") c result)
+    (dotimes (i length result)
+      (while (progn
+               (setq c (aref (string-to-vector range) (random (length range))))
+               (memq c (string-to-list exclude))))
+      (setq result (cons c result)))
+    (concat result)))
+
 (provide 'init-utils)
