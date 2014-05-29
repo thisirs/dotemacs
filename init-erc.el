@@ -3,6 +3,8 @@
 (erc-track-mode t)
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                 "324" "329" "332" "333" "353" "477"))
+
+;; List of channels to join at startup
 (setq erc-autojoin-channels-alist
       '(("freenode.net"
          "#emacs"
@@ -29,12 +31,12 @@
               (cdr chan)))
       erc-autojoin-channels-alist)
 
-(erc-match-mode 1)
-(setq erc-keywords '("magit" "koans" "rubywarrior" "org"))
-
 ;; Custom prompt
 (setq erc-prompt
       (lambda () (concat (buffer-name) ">")))
+
+(erc-match-mode 1)
+(setq erc-keywords '("magit" "koans" "rubywarrior" "org"))
 
 (defvar erc-notifications-ring-size 5
   "Maximum number of simultaneous notifications.")
