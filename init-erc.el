@@ -86,4 +86,81 @@
 
 (setq erc-format-nick-function 'erc-format-@nick)
 
+;; Same color message
+(require 'ring)
+
+(define-erc-module colorize nil
+  "This module highlights messages of a user with the same face."
+  ((add-hook 'erc-insert-modify-hook 'erc-colorize-message 'append)
+   (add-hook 'erc-mode-hook 'erc-colorize-setup)
+   (erc-buffer-list #'erc-colorize-setup))
+  ((remove-hook 'erc-insert-modify-hook 'erc-colorize-message)
+   (remove-hook 'erc-mode-hook 'erc-colorize-setup)))
+
+(defun erc-colorize-setup ()
+  "Initialize nickname vs face ring."
+  (setq erc-colorize-ring (make-ring (length erc-colorize-faces))))
+
+(defvar erc-colorize-faces
+  '(org-level-1
+    org-level-2
+    org-level-3
+    org-level-4
+    org-level-5
+    org-level-6
+    org-level-7
+    org-level-8)
+  "List of faces to apply to users' messages.")
+
+(defvar erc-colorize-ring nil "Ring of conses of the form (NICK . FACE).")
+(make-variable-buffer-local 'erc-colorize-ring)
+
+(defun ring-assoc (ring nickname)
+  "Return index of conses in RING whose car is NICKNAME, else nil."
+  (catch 'found
+    (dotimes (ind (ring-length ring) nil)
+      (when (equal nickname (car (ring-ref ring ind)))
+        (throw 'found ind)))))
+
+(defun erc-colorize-color (nickname)
+  "Return the face used for NICKNAME.
+
+First look up `erc-colorize-ring' if there is already an
+association. If not, pick the first face in `erc-colorize-faces'
+that is not already used. If none, take the face of the least
+active user."
+  (let ((ind (ring-assoc erc-colorize-ring nickname)))
+    (if ind
+        (progn
+          (let ((last (ring-remove erc-colorize-ring ind)))
+            (ring-insert erc-colorize-ring last))
+          (cdr (ring-ref erc-colorize-ring 0)))
+      (let* ((used (mapcar #'cdr (ring-elements erc-colorize-ring)))
+             (face (catch 'found
+                     (dolist (f erc-colorize-faces)
+                       (unless (member f used)
+                         (throw 'found f))))))
+        (if face
+            (progn
+              (ring-insert erc-colorize-ring (cons nickname face))
+              face)
+          (let ((older (ring-remove erc-colorize-ring)))
+            (ring-insert erc-colorize-ring (cons nickname (cdr older)))
+            (cdr older)))))))
+
+(defun erc-colorize-message ()
+  "Function used in `erc-insert-modify-hook' to apply the same face to a
+message coming from a user."
+  (let* ((vector (erc-get-parsed-vector (point-min)))
+         (nickuserhost (erc-get-parsed-vector-nick vector))
+         (nickname (and nickuserhost
+                        (nth 0 (erc-parse-user nickuserhost))))
+         (match-face (erc-colorize-color nickname)))
+    (erc-put-text-property
+     (point-min) (point-max)
+     'font-lock-face match-face)))
+
+(erc-readonly-mode -1)
+(erc-colorize-mode 1)
+
 (provide 'init-erc)
