@@ -560,7 +560,9 @@ With a prefix ARG invalidates the cache first."
  :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
              (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
            (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
- :create (ansi-term "/bin/zsh" "ansi-term (dotemacs)"))
+ :create (progn
+           (switch-to-buffer-other-window (current-buffer))
+           (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
 
 ;; Not bound state with same key
 (state-define-state
@@ -571,7 +573,9 @@ With a prefix ARG invalidates the cache first."
  :switch (if (get-buffer-window "*ansi-term*")
              (select-window (get-buffer-window "*ansi-term*"))
            (switch-to-buffer-other-window "*ansi-term*"))
- :create (ansi-term "/bin/zsh"))
+ :create (progn
+           (switch-to-buffer-other-window (current-buffer))
+           (ansi-term "/bin/zsh")))
 
 (state-global-mode 1)
 
