@@ -115,7 +115,6 @@
 (require 'init-fill (expand-file-name "init-fill" user-emacs-directory))
 (require 'init-dired (expand-file-name "init-dired" user-emacs-directory))
 (require 'init-isearch (expand-file-name "init-isearch" user-emacs-directory))
-(require 'init-boss-key (expand-file-name "init-boss-key" user-emacs-directory))
 (require 'init-erc (expand-file-name "init-erc" user-emacs-directory))
 (require 'init-magit (expand-file-name "init-magit" user-emacs-directory))
 (require 'init-find-file (expand-file-name "init-find-file" user-emacs-directory))
