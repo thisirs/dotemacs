@@ -70,7 +70,8 @@
 (defun erc-start-or-switch (arg)
   "Connect to ERC, or switch to last active buffer"
   (interactive "P")
-  (if (get-buffer "irc.freenode.net:6667") ;; ERC already active?
+  (if (and (get-buffer "irc.freenode.net:6667")
+           (erc-server-process-alive (get-buffer "irc.freenode.net:6667")))
       (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
       (erc :server "irc.freenode.net"
