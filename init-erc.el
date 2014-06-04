@@ -105,15 +105,44 @@
   "Initialize nickname vs face ring."
   (setq erc-colorize-ring (make-ring (length erc-colorize-faces))))
 
+(defface erc-distinct-1-face '((t :foreground "#00538A"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-2-face '((t :foreground "#FF7A5C"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-3-face '((t :foreground "#007D34"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-4-face '((t :foreground "#FF8E00"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-5-face '((t :foreground "#F4C800"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-6-face '((t :foreground "#93AA00"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
+(defface erc-distinct-7-face '((t :foreground "#F13A13"))
+  "ERC face for distinguishing messages."
+  :group 'erc-faces)
+
 (defvar erc-colorize-faces
-  '(org-level-1
-    org-level-2
-    org-level-3
-    org-level-4
-    org-level-5
-    org-level-6
-    org-level-7
-    org-level-8)
+  '(
+    erc-distinct-1-face
+    erc-distinct-2-face
+    erc-distinct-3-face
+    erc-distinct-4-face
+    erc-distinct-5-face
+    erc-distinct-6-face
+    erc-distinct-7-face
+    )
   "List of faces to apply to users' messages.")
 
 (defvar erc-colorize-ring nil "Ring of conses of the form (NICK . FACE).")
