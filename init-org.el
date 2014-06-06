@@ -502,14 +502,15 @@ entry from each headline of FILEV."
   (defun org-helm-completion-handler
       (prompt collection &optional predicate require-match
               initial-input hist def inherit-input-method)
-    (helm-comp-read (car args)
-                    (if (consp (car (nth 1 args)))
-                        (mapcar 'substring-no-properties
-                                (mapcar 'car (nth 1 args)))
-                      (nth 1 args))
-                    :test (nth 2 args)
-                    :must-match (nth 3 args)
-                    :initial-input (nth 4 args)))
+    (helm-comp-read prompt
+                    collection
+                    ;; the character \ is filtered out by default ;(
+                    :fc-transformer nil
+                    :test predicate
+                    :must-match require-match
+                    :initial-input initial-input
+                    :history hist
+                    :default def))
 
   (setq org-completion-handler 'org-helm-completion-handler))
 
