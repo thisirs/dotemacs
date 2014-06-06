@@ -163,7 +163,6 @@ indentation."
        (insert txt)
        (message "Mode `%s' fails with: %S" (format "%s-mode" mode) (nth 1 e))))))
 
-
 (defun fix-programming-punctuation (arg)
   "Fix common punctuation programming errors.
 
@@ -179,5 +178,6 @@ If ARG is non-nil, ask for confirmation on each match."
         '((" *\\(=+\\) *" " \\1 ")
           (" *\\(,\\) *" ", ")
           (" *\\(+\\) *" " + "))))
+
 
 (provide 'init-editing)

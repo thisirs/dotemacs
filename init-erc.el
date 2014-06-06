@@ -52,14 +52,15 @@
                   (when (boundp 'erc-track-exclude)
                     (member nick erc-track-exclude)))
         (dbus-ignore-errors
-          (ring-insert erc-notifications-ring
-                (notifications-notify
-                 :title (xml-escape-string (concat nick " on " (or (erc-default-target) "#unknown")))
-                 :body (xml-escape-string (replace-regexp-in-string "[\t\n ]+" " " msg))
-                 :replaces-id (if (equal (ring-length erc-notifications-ring)
-                                         erc-notifications-ring-size)
-                                  (ring-remove erc-notifications-ring))
-                 :app-icon erc-notifications-icon)))))))
+          (ring-insert
+           erc-notifications-ring
+           (notifications-notify
+            :title (xml-escape-string (concat nick " on " (or (erc-default-target) "#unknown")))
+            :body (xml-escape-string (replace-regexp-in-string "[\t\n ]+" " " msg))
+            :replaces-id (if (equal (ring-length erc-notifications-ring)
+                                    erc-notifications-ring-size)
+                             (ring-remove erc-notifications-ring))
+            :app-icon erc-notifications-icon)))))))
 
 (erc-notifications-mode t)
 
