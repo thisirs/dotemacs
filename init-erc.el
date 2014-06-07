@@ -54,8 +54,8 @@
         (dbus-ignore-errors
           (ring-insert erc-notifications-ring
                 (notifications-notify
-                 :title (xml-escape-string nick)
-                 :body (xml-escape-string msg)
+                 :title (xml-escape-string (concat nick " on " (or (erc-default-target) "#unknown")))
+                 :body (xml-escape-string (replace-regexp-in-string "[\t\n ]+" " " msg))
                  :replaces-id (if (equal (ring-length erc-notifications-ring)
                                          erc-notifications-ring-size)
                                   (ring-remove erc-notifications-ring))
