@@ -11,3 +11,4 @@ session.*
 elpa
 history
 tramp
+.cask
