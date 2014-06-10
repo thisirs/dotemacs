@@ -672,9 +672,8 @@ not, return nil."
                                 "Updating locate database failed!"))))))
 
 (defun emacs-process-p (pid)
-  "If pid is the process ID of an emacs process, return t, else nil.
-Also returns nil if pid is nil."
-  (when pid
+  "Return non-nil if PID is the process id of an emacs process, else return nil."
+  (when (integerp pid)
     (let* ((cmdline-file (concat "/proc/" (int-to-string pid) "/cmdline")))
       (when (file-exists-p cmdline-file)
         (with-temp-buffer
