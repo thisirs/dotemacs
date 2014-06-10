@@ -901,7 +901,7 @@ case it is used in hooks."
       kill-buffer-query-functions)
 
 ;; Make URLs in comments/strings clickable
-(add-hook 'find-file-hooks 'goto-address-prog-mode)
+(add-hook 'find-file-hook 'goto-address-prog-mode)
 
 ;; Enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
