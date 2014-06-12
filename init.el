@@ -433,8 +433,8 @@ With a prefix ARG invalidates the cache first."
          (call-interactively 'describe-function))
         ((and (thing-at-point 'filename) (file-exists-p (thing-at-point 'filename)))
          (find-file (thing-at-point 'filename)))
-        ((ffap-file-at-point)
-         (find-file-at-point (ffap-file-at-point)))))
+        ((thing-at-point 'url)
+         (browse-url (thing-at-point 'url)))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
