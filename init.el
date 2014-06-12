@@ -438,30 +438,29 @@ With a prefix ARG invalidates the cache first."
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
-(require-maybe 'vc-check-status)
+;; Warn you when quitting emacs and leaving repo dirty
+(require 'vc-check-status)
 
-;; Only look for unpushed commits on master
-(push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
-
+;; Don't check on auto-committed repo
 (add-to-list 'vc-check-cancel-hook
              (lambda ()
                (and
                 (fboundp 'vc-auto-commit-backend)
                 (vc-auto-commit-backend))))
 
+;; Only look for unpushed commits on master
+(push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
 (vc-check-status-activate)
 
-(require-maybe 'org-context)
+;; Contextual capture and agenda commands for Org-mode
+(require 'org-context)
 (org-context-activate)
-
 
 (require-maybe 'commit-message)
 
 (when (require-maybe 'vc-auto-commit)
   (vc-auto-commit-activate)
   (global-set-key (kbd "C-x v C") 'vc-auto-commit))
-
-
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
