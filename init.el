@@ -77,12 +77,14 @@
       multi-term
       multiple-cursors
       offlineimap
+      org-context
       projectile
       rainbow-mode
       s
       tidy
       twittering-mode
       visual-regexp
+      vc-check-status
       wcheck-mode
       wgrep
       wgrep-ack
