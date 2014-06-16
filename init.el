@@ -495,91 +495,91 @@ With a prefix ARG invalidates the cache first."
   (global-set-key (kbd "C-x C-t") 'find-temp-file))
 
 
-(require 'state)
+(when (require-maybe 'state)
 
-(state-define-state
- debug
- :key "d"
- :switch "*debug*")
+  (state-define-state
+   debug
+   :key "d"
+   :switch "*debug*")
 
-(state-define-state
- gnus
- :key "g"
- :in (memq major-mode
-           '(message-mode
-             gnus-group-mode
-             gnus-summary-mode
-             gnus-article-mode))
- :create gnus)
+  (state-define-state
+   gnus
+   :key "g"
+   :in (memq major-mode
+             '(message-mode
+               gnus-group-mode
+               gnus-summary-mode
+               gnus-article-mode))
+   :create gnus)
 
-(state-define-state
- erc
- :key "i"
- :in (memq (current-buffer)
-           (erc-buffer-list))
- :switch (erc-start-or-switch 1)
- :keep (erc-track-switch-buffer 0))
+  (state-define-state
+   erc
+   :key "i"
+   :in (memq (current-buffer)
+             (erc-buffer-list))
+   :switch (erc-start-or-switch 1)
+   :keep (erc-track-switch-buffer 0))
 
-(state-define-state
- message
- :key "m"
- :switch "*Messages*")
+  (state-define-state
+   message
+   :key "m"
+   :switch "*Messages*")
 
-(state-define-state
- scratch
- :key "s"
- :switch "*scratch*")
+  (state-define-state
+   scratch
+   :key "s"
+   :switch "*scratch*")
 
-(state-define-state
- twit
- :key "t"
- :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
- :switch twit)
+  (state-define-state
+   twit
+   :key "t"
+   :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
+   :switch twit)
 
-(state-define-state
- personnal
- :key "r"
- :switch "~/Dropbox/Org/programming_samples.org")
+  (state-define-state
+   personnal
+   :key "r"
+   :switch "~/Dropbox/Org/programming_samples.org")
 
-(state-define-state
- programming_samples
- :key "p"
- :switch "~/Dropbox/Org/personnel.org.gpg")
+  (state-define-state
+   programming_samples
+   :key "p"
+   :switch "~/Dropbox/Org/personnel.org.gpg")
 
-(state-define-state
- emacs
- :key "e"
- :in "~/.emacs.d/init"
- :create (find-file "~/.emacs.d/init.el"))
+  (state-define-state
+   emacs
+   :key "e"
+   :in "~/.emacs.d/init"
+   :create (find-file "~/.emacs.d/init.el"))
 
-;; Bound state: only accessible from emacs state
-(state-define-state
- emacs-term
- :key "z"
- :bound emacs
- :exist (get-buffer "*ansi-term (dotemacs)*")
- :in (equal (buffer-name) "*ansi-term (dotemacs)*")
- :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
-             (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
-           (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
- :create (progn
-           (switch-to-buffer-other-window (current-buffer))
-           (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
+  ;; Bound state: only accessible from emacs state
+  (state-define-state
+   emacs-term
+   :key "z"
+   :bound emacs
+   :exist (get-buffer "*ansi-term (dotemacs)*")
+   :in (equal (buffer-name) "*ansi-term (dotemacs)*")
+   :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
+               (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
+             (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
+   :create (progn
+             (switch-to-buffer-other-window (current-buffer))
+             (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
 
-;; Not bound state with same key
-(state-define-state
- term
- :key "z"
- :exist (get-buffer "*ansi-term*")
- :in (equal (buffer-name) "*ansi-term*")
- :switch (if (get-buffer-window "*ansi-term*")
-             (select-window (get-buffer-window "*ansi-term*"))
-           (switch-to-buffer-other-window "*ansi-term*"))
- :create (progn
-           (switch-to-buffer-other-window (current-buffer))
-           (ansi-term "/bin/zsh")))
+  ;; Not bound state with same key
+  (state-define-state
+   term
+   :key "z"
+   :exist (get-buffer "*ansi-term*")
+   :in (equal (buffer-name) "*ansi-term*")
+   :switch (if (get-buffer-window "*ansi-term*")
+               (select-window (get-buffer-window "*ansi-term*"))
+             (switch-to-buffer-other-window "*ansi-term*"))
+   :create (progn
+             (switch-to-buffer-other-window (current-buffer))
+             (ansi-term "/bin/zsh")))
 
-(state-global-mode 1)
+  (state-global-mode 1))
 
 (require-maybe 'helm-bib)
 
