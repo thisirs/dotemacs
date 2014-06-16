@@ -163,7 +163,9 @@ the selected file."
         (org-timestamp-change 5 'hour))))
   (save-buffer))
 
-(setq org-agenda-files
+(mapc (lambda (file)
+        (if (file-exists-p file)
+            (add-to-list 'org-agenda-files file)))
       '("~/Dropbox/Org/agenda.org"
         "~/Dropbox/Org/someday.org"
         "~/Dropbox/Org/specialdays.org"
