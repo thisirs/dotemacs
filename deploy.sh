@@ -28,5 +28,5 @@ fi
 git clone $DOTEMACS_REPO $HOME/.emacs.d
 
 cd $HOME/.emacs.d
-
+git submodule init
 git submodule update
