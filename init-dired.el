@@ -8,7 +8,7 @@
 (setq dired-auto-revert-buffer t)
 
 ;; Make dired less verbose
-(with-emacs-version> "24.3"
+(with-emacs-version> "24.3.90"
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (setq dired-hide-details-hide-symlink-targets nil))
 
