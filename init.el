@@ -1,6 +1,6 @@
-(load "~/Dropbox/emacs/personnal.el" :noerror)
-
 (require 'init-utils (expand-file-name "init-utils" user-emacs-directory))
+
+(load "~/Dropbox/emacs/personnal.el" :noerror)
 
 ;; Add personnal site-lisp to load-path
 (defvar site-lisp-directory "~/Dropbox/emacs/site-lisp/")
