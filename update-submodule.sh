@@ -10,7 +10,7 @@ TMPFILE=$(mktemp)
 trap 'rm -f $TMPFILE' EXIT
 
 cat << 'EOF' > $TMPFILE
-echo "Repository: $(basename $(pwd))"
+echo -e "\e[31mRepository:\e[0m $(basename $(pwd))"
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "Current branch is $BRANCH"
@@ -27,15 +27,29 @@ git fetch origin > /dev/null 2>&1
 
 if $(git fetch upstream > /dev/null 2>&1); then
   echo "Upstream branch detected"
+
+  # Make origin and local in sync
   git rebase origin/$BRANCH
   git push origin $BRANCH
 
-  git merge upstream/master
-  git push origin $BRANCH
+  # Save commits id before destroying them with a rebase
+  git branch --force $BRANCH-before-rebase
+
+  # Rebase local changes onto up-to-date upstream
+  if ! git rebase upstream/master; then
+    git rebase --abort
+  fi
+
+  # Push
+  git push -f origin $BRANCH
+  git push -f origin $BRANCH-before-rebase
 else
   echo "No upstream branch"
   git rebase origin/$BRANCH
 fi
+
+# For git submodule foreach not to fail
+exit
 EOF
 
 git submodule foreach "bash $TMPFILE"
