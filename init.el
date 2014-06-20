@@ -67,6 +67,7 @@
       dash
       diminish
       elisp-slime-nav
+      f ; for some reason, not installed by flycheck
       cmake-mode
       google-translate
       helm-descbinds
