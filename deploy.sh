@@ -30,3 +30,7 @@ git clone $DOTEMACS_REPO $HOME/.emacs.d
 cd $HOME/.emacs.d
 git submodule init
 git submodule update
+
+# org-mode needs its autoloads
+cd site-lisp/org-mode/
+make autoloads
