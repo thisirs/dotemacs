@@ -94,7 +94,6 @@
 (erc-readonly-mode -1)
 
 ;; Per user message colorization
-(when (require-maybe 'erc-colorize)
-  (erc-colorize-mode 1))
+(erc-colorize-mode 1)
 
 (provide 'init-erc)
