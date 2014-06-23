@@ -19,7 +19,7 @@
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
 
-(when (require-maybe 'scratch-message nil :noerror)
+(when (require-maybe 'scratch-message)
 
   (defun scratch-message-random ()
     (pcase (random 3)
