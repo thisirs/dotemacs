@@ -1,14 +1,10 @@
 *.elc
 
+eshell
+var
 auto-save-list
 emacs.backups
-data
-anything-c-adaptive-history
-bookmarks
 cache
 url
-session.*
 elpa
-history
 tramp
-.cask
