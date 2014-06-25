@@ -519,8 +519,8 @@ With a prefix ARG invalidates the cache first."
 (state-define-state
  erc
  :key "i"
- :in (memq (current-buffer)
-           (erc-buffer-list))
+ :in (and (fboundp 'erc-buffer-list)
+          (memq (current-buffer) (erc-buffer-list)))
  :switch (erc-start-or-switch 1)
  :keep (erc-track-switch-buffer 0))
 
