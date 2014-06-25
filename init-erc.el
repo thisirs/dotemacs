@@ -69,7 +69,9 @@
 (setq erc-join-buffer 'bury)
 
 (defun erc-start-or-switch (arg)
-  "Connect to ERC, or switch to last active buffer"
+  "Switch to the last ERC active buffer.
+Start ERC if it is not running and ask for confirmation if ARG is
+nil."
   (interactive "P")
   (if (and (get-buffer "irc.freenode.net:6667")
            (erc-server-process-alive (get-buffer "irc.freenode.net:6667")))
@@ -78,7 +80,8 @@
       (erc :server "irc.freenode.net"
            :port 6667
            :nick "thisirs"
-           :password (secrets-get-secret "Default" "NickServ")))))
+           :password (secrets-get-secret "Default" "NickServ"))
+      (erc-track-switch-buffer 1))))
 
 (setq erc-pcomplete-order-nickname-completions t)
 
