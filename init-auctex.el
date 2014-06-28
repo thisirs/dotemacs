@@ -9,8 +9,7 @@
 (setq TeX-auto-save t) ; Enable parse on save.
 
 ;; Needed to use external programs such as gnuplot
-;; Fix bug where errors are not correctly parsed
-(setq LaTeX-command "latex -shell-escape -file-line-error")
+(setq LaTeX-command "latex -shell-escape")
 
 (setq TeX-engine-alist
       '((xetex_sh "XeTeX shell escape"
