@@ -154,15 +154,16 @@ the selected file."
 
 (add-to-list 'org-store-link-functions 'org-twittering-store-link)
 
-(with-current-buffer (find-file-noselect "~/Dropbox/Org/world-cup-2014.org")
-  (url-insert-file-contents "https://raw.github.com/ruediger/org-world-cup2014/master/world-cup-2014.org"
-                            nil nil nil t)
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "[[<]" nil t)
-      (when (org-at-timestamp-p t)
-        (org-timestamp-change 5 'hour))))
-  (save-buffer))
+(ignore-errors
+  (with-current-buffer (find-file-noselect "~/Dropbox/Org/world-cup-2014.org")
+    (url-insert-file-contents "https://raw.github.com/ruediger/org-world-cup2014/master/world-cup-2014.org"
+                              nil nil nil t)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "[[<]" nil t)
+        (when (org-at-timestamp-p t)
+          (org-timestamp-change 5 'hour))))
+    (save-buffer)))
 
 (mapc (lambda (file)
         (if (file-exists-p file)
