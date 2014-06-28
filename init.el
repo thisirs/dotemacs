@@ -81,6 +81,7 @@
       multiple-cursors
       offlineimap
       org-context
+      pcache
       projectile
       rainbow-mode
       s
