@@ -73,6 +73,7 @@
       find-temp-file
       google-translate
       helm-descbinds
+      info+
       legalese
       lua-mode
       macrostep
