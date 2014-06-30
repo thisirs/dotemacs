@@ -8,8 +8,10 @@
 (setq TeX-parse-self t) ; Enable parse on load.
 (setq TeX-auto-save t) ; Enable parse on save.
 
-;; Needed to use external programs such as gnuplot
-(setq LaTeX-command "latex -shell-escape")
+;; shell-escape needed to use external programs such as gnuplot
+;; file-line-error fixes bug where errors were not correctly parsed
+(setq LaTeX-command-style
+      '(("" "%(PDF)%(latex) -file-line-error -shell-escape %S%(PDFout)")))
 
 (setq TeX-engine-alist
       '((xetex_sh "XeTeX shell escape"
