@@ -989,8 +989,14 @@ case it is used in hooks."
 
 (global-set-key "\C-x\C-c" 'kill-emacs-or-frame)
 
-;; Lower emacs frame when done editing
-(add-hook 'server-done-hook 'lower-frame)
+;; Lower emacs frame when done editing; make an exception for commit
+;; messages as magit "calls himself" to edit commit messages.
+(add-hook 'server-done-hook 'lower-frame-unless-commit)
+
+(defun lower-frame-unless-commit ()
+  (unless (eq major-mode 'git-commit-mode)
+    (lower-frame)))
+
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
 (defun reb-query-replace-this-regxp (replace)
