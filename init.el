@@ -595,8 +595,7 @@ With a prefix ARG invalidates the cache first."
 
 (require-maybe 'helm-bib)
 
-(unless (server-running-p)
-  (server-start))
+(server-start nil t)
 
 (add-to-list 'default-frame-alist
              '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
