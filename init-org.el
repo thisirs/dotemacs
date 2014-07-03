@@ -94,6 +94,7 @@ the selected file."
         ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
         ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
         ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
+        ("Argent" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
         ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
         ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
         ("Series" "~/.emacs.d/icons/tv.png" nil nil :ascent center)
