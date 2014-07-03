@@ -69,19 +69,24 @@
       diminish
       elisp-slime-nav
       erc-colorize
-      f ; for some reason, not installed by flycheck
+      expand-region
       find-temp-file
+      flycheck
       google-translate
+      helm
       helm-descbinds
+      inf-ruby
       info+
       legalese
       lua-mode
       macrostep
+      magit
       markdown-mode
       multi-term
       multiple-cursors
       offlineimap
       org-context
+      paredit
       pcache
       projectile
       rainbow-mode
@@ -98,6 +103,7 @@
       wgrep-ack
       yaml-mode
       yari
+      yasnippet
       zenburn-theme)
     "List of required packages")
 

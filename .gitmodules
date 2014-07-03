@@ -1,30 +1,6 @@
-[submodule "site-lisp/expand-region.el"]
-	path = site-lisp/expand-region.el
-	url = https://github.com/thisirs/expand-region.el.git
-[submodule "site-lisp/magit"]
-	path = site-lisp/magit
-        url = https://github.com/thisirs/magit.git
 [submodule "site-lisp/org-mode"]
 	path = site-lisp/org-mode
 	url = https://github.com/thisirs/org-mode.git
-[submodule "site-lisp/yasnippet"]
-	path = site-lisp/yasnippet
-	url = https://github.com/thisirs/yasnippet.git
-[submodule "site-lisp/inf-ruby"]
-	path = site-lisp/inf-ruby
-	url = https://github.com/thisirs/inf-ruby.git
 [submodule "site-lisp/matlab-emacs"]
 	path = site-lisp/matlab-emacs
 	url = https://github.com/thisirs/matlab-emacs.git
-[submodule "site-lisp/emacs-helm"]
-	path = site-lisp/emacs-helm
-	url = https://github.com/emacs-helm/helm.git
-[submodule "site-lisp/gnus"]
-	path = site-lisp/gnus
-	url = http://git.gnus.org/gnus.git
-[submodule "site-lisp/bbdb"]
-	path = site-lisp/bbdb
-	url = git://git.savannah.nongnu.org/bbdb.git
-[submodule "site-lisp/flycheck"]
-	path = site-lisp/flycheck
-	url = https://github.com/thisirs/flycheck.git
