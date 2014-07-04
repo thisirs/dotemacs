@@ -591,6 +591,32 @@ With a prefix ARG invalidates the cache first."
            (switch-to-buffer-other-window (current-buffer))
            (ansi-term "/bin/zsh")))
 
+(state-define-state
+ elisp-repl
+ :bound (eq major-mode 'emacs-lisp-mode)
+ :key "j"
+ :exist (get-buffer "*ielm*")
+ :in (equal (buffer-name) "*ielm*")
+ :switch (if (get-buffer-window "*ielm*")
+             (select-window (get-buffer-window "*ielm*"))
+           (switch-to-buffer-other-window "*ielm*"))
+ :create (progn
+           (switch-to-buffer-other-window (current-buffer))
+           (ielm)))
+
+(state-define-state
+ matlab-repl
+ :key "j"
+ :bound (eq major-mode 'matlab-mode)
+ :exist (get-buffer "*MATLAB*")
+ :in (equal (buffer-name) "*MATLAB*")
+ :switch (if (get-buffer-window "*MATLAB*")
+             (select-window (get-buffer-window "*MATLAB*"))
+           (switch-to-buffer-other-window "*MATLAB*"))
+ :create (progn
+           (switch-to-buffer-other-window (current-buffer))
+           (matlab-shell)))
+
 (state-global-mode 1)
 
 (require-maybe 'helm-bib)
