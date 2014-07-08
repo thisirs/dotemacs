@@ -54,7 +54,9 @@
  emacs
  :key "e"
  :in "~/.emacs.d/init"
- :create (find-file "~/.emacs.d/init.el"))
+ :create (find-file "~/.emacs.d/init.el")
+ :keep (unless (eq (current-buffer) (find-buffer-visiting "~/.emacs.d/init.el"))
+         (find-file "~/.emacs.d/init.el")))
 
 ;; Bound state: only accessible from emacs state
 (state-define-state
