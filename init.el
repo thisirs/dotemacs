@@ -465,6 +465,9 @@ With a prefix ARG invalidates the cache first."
                 (fboundp 'vc-auto-commit-backend)
                 (vc-auto-commit-backend))))
 
+;; Be sure to leave my packages' repo on master
+(push '("~/Dropbox/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+
 ;; Only look for unpushed commits on master
 (push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
 (vc-check-status-activate)
