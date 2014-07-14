@@ -512,8 +512,9 @@ With a prefix ARG invalidates the cache first."
 
 (server-start nil t)
 
-(add-to-list 'default-frame-alist
-             '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
+(when (member "Inconsolata" (font-family-list))
+  (add-to-list 'default-frame-alist
+               '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1")))
 
 ;; No lockfiles
 (with-emacs-version>= "24.2"
