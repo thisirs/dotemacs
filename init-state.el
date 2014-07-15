@@ -102,7 +102,7 @@
 
 (state-define-repl elisp-repl "j" "*ielm*" (eq major-mode 'emacs-lisp-mode) (ielm))
 (state-define-repl matlab-repl "j" "*MATLAB*" (eq major-mode 'matlab-mode) (matlab-shell))
-(state-define-repl python-repl "j" "*Python*" (eq major-mode 'python-mode) (run-python))
+(state-define-repl python-repl "j" "*Python*" (eq major-mode 'python-mode) (run-python "/usr/bin/python2.7"))
 (state-define-repl ruby-repl "j" "*ruby*" (eq major-mode 'ruby-mode) (inf-ruby))
 
 (state-global-mode 1)
