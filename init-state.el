@@ -1,5 +1,6 @@
 ;; Quick navigation between workspaces
-(require 'state)
+;; (require 'state)
+(load-file "~/Dropbox/emacs/site-lisp/state/state.el")
 
 (state-define-state
  debug
