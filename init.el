@@ -1062,12 +1062,12 @@ ring."
 
 (defun kill-location (path)
   "Kill all buffers visiting a file contained in PATH."
-  (interactive "f")
+  (interactive "fLocation: ")
   (dwim-location path 'kill-buffer))
 
 (defun revert-location (path)
   "Revert all buffers visiting a file contained in PATH."
-  (interactive "f")
+  (interactive "fLocation: ")
   (dwim-location path (lambda (buf)
                         (with-current-buffer buf
                           (revert-buffer nil t)))))
