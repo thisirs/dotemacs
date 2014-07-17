@@ -26,7 +26,7 @@
 (setq org-use-property-inheritance t)
 
 ;; Set org id locations
-(setq org-id-locations-file "~/Dropbox/Org/.org-id-locations")
+(setq org-id-locations-file "~/ownCloud/Org/.org-id-locations")
 
 ;; Remove tags in agenda
 (setq org-agenda-remove-tags t)
@@ -76,7 +76,7 @@ the selected file."
 
 ;; Load templates from personal location
 (setq org-capture-templates
-      (load-file-to-list "~/Dropbox/emacs/org-capture-templates.el"))
+      (load-file-to-list "~/ownCloud/emacs/org-capture-templates.el"))
 
 
 (define-key global-map "\C-cc" 'org-capture)
@@ -158,11 +158,11 @@ the selected file."
 (mapc (lambda (file)
         (if (file-exists-p file)
             (add-to-list 'org-agenda-files file)))
-      '("~/Dropbox/Org/agenda.org"
-        "~/Dropbox/Org/someday.org"
-        "~/Dropbox/Org/specialdays.org"
-        "~/Dropbox/Org/books.org"
-        "~/Dropbox/Org/series.org"
+      '("~/ownCloud/Org/agenda.org"
+        "~/ownCloud/Org/someday.org"
+        "~/ownCloud/Org/specialdays.org"
+        "~/ownCloud/Org/books.org"
+        "~/ownCloud/Org/series.org"
         ))
 
 ;; Calcul de Pâques (from holidays.el)
@@ -524,7 +524,7 @@ refile targets.")
 
 ;; First open someday.org and look for org files to add to
 ;; org-other-files in "Projects" headline.
-(find-file "~/Dropbox/Org/someday.org")
+(find-file "~/ownCloud/Org/someday.org")
 
 (setq org-other-files
       (with-current-buffer "someday.org"
@@ -622,7 +622,7 @@ This can be 0 for immediate, or a floating point value.")
   "Return true if the current buffer should auto-archive its tasks."
   (and (eq major-mode 'org-mode)
        (equal (expand-file-name (buffer-file-name))
-              (expand-file-name "~/Dropbox/Org/someday.org"))))
+              (expand-file-name "~/ownCloud/Org/someday.org"))))
 
 (defun org-archive-closed-tasks ()
   (when (funcall 'org-auto-archive-p)

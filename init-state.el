@@ -1,6 +1,6 @@
 ;; Quick navigation between workspaces
 ;; (require 'state)
-(load-file "~/Dropbox/emacs/site-lisp/state/state.el")
+(load-file "~/ownCloud/emacs/site-lisp/state/state.el")
 
 (state-define-state
  debug
@@ -44,12 +44,12 @@
 (state-define-state
  personnal
  :key "r"
- :switch "~/Dropbox/Org/programming_samples.org")
+ :switch "~/ownCloud/Org/programming_samples.org")
 
 (state-define-state
  programming_samples
  :key "p"
- :switch "~/Dropbox/Org/personnel.org.gpg")
+ :switch "~/ownCloud/Org/personnel.org.gpg")
 
 (state-define-state
  emacs

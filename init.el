@@ -1,9 +1,9 @@
 (require 'init-utils (expand-file-name "init-utils" user-emacs-directory))
 
-(load "~/Dropbox/emacs/personnal.el" :noerror)
+(load "~/ownCloud/emacs/personnal.el" :noerror)
 
 ;; Add personnal site-lisp to load-path
-(defvar site-lisp-directory "~/Dropbox/emacs/site-lisp/")
+(defvar site-lisp-directory "~/ownCloud/emacs/site-lisp/")
 
 (when (file-exists-p site-lisp-directory)
   (add-to-list 'load-path site-lisp-directory)
@@ -184,7 +184,7 @@
 ;; (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
 ;; (bbdb-initialize 'gnus)
 ;; (setq bbdb-mua-auto-update-init 'gnus)
-;; (setq bbdb-file "~/Dropbox/emacs/.bbdb")
+;; (setq bbdb-file "~/ownCloud/emacs/.bbdb")
 ;; (setq bbdb-message-all-addresses t)
 
 ;; ;; BUG gnus-timer--function undefined
@@ -470,7 +470,7 @@ With a prefix ARG invalidates the cache first."
                 (vc-auto-commit-backend))))
 
 ;; Be sure to leave my packages' repo on master
-(push '("~/Dropbox/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+(push '("~/ownCloud/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
 
 ;; Only look for unpushed commits on master
 (push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
@@ -764,8 +764,8 @@ case it is used in hooks."
 
 ;; Bookmarks
 (setq bookmark-default-file
-      (if (file-exists-p "~/Dropbox/emacs/.bookmarks")
-          "~/Dropbox/emacs/.bookmarks"
+      (if (file-exists-p "~/ownCloud/emacs/.bookmarks")
+          "~/ownCloud/emacs/.bookmarks"
         "~/.emacs.d/bookmarks"))
 
 ;; Save bookmarks every time
@@ -1013,7 +1013,7 @@ wants to replace FROM with TO."
 
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
 (with-eval-after-load 'multiple-cursors
-  (setq mc/list-file "~/Dropbox/emacs/.mc-lists.el"))
+  (setq mc/list-file "~/ownCloud/emacs/.mc-lists.el"))
 
 (setq set-mark-command-repeat-pop t)
 

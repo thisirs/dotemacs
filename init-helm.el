@@ -114,7 +114,7 @@
 (define-key helm-command-map (kbd "h m") 'helm-manual)
 
 (defvar helm-bib-locations
-  '("~/Dropbox/These/bib/bregman"))
+  '("~/ownCloud/These/bib/bregman"))
 
 ;; Open files with evince instead of xpdf
 (setq helm-pdfgrep-default-read-command "evince -p %p \"%f\"")

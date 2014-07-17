@@ -62,14 +62,14 @@
 (when (require 'ibuffer-project nil t)
   (setq ibuffer-project-alist
         '(("Project: %S"
-           "~/Dropbox/emacs/site-lisp"
+           "~/ownCloud/emacs/site-lisp"
            "~/repositories"
            "~/.emacs.d"
-           "~/Dropbox/programming")
-          ("%D" "~/Dropbox/scripts")
-          ("%D" "~/Dropbox/projects/")
-          ("%D" "~/Dropbox/conf-files/")
-          ("Boss: %D" "~/Dropbox/These/")))
+           "~/ownCloud/programming")
+          ("%D" "~/ownCloud/scripts")
+          ("%D" "~/ownCloud/projects/")
+          ("%D" "~/ownCloud/conf-files/")
+          ("Boss: %D" "~/ownCloud/These/")))
   (setq ibuffer-project-cache-file
         (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
   (ibuffer-project-refresh t))
