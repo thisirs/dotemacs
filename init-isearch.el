@@ -28,7 +28,7 @@
 ;; Taken from https://github.com/magnars/.emacs.d.git
 (defun isearch-forward-use-region ()
   (interactive)
-  (when (region-active-p)
+  (when (and (region-active-p) (not (eq (point) (mark))))
     (add-to-history 'search-ring (buffer-substring (region-beginning)
                                                    (region-end)))
     (deactivate-mark))
@@ -36,7 +36,7 @@
 
 (defun isearch-backward-use-region ()
   (interactive)
-  (when (region-active-p)
+  (when (and (region-active-p) (not (eq (point) (mark))))
     (add-to-history 'search-ring (buffer-substring (region-beginning)
                                                    (region-end)))
     (deactivate-mark))
