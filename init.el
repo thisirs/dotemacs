@@ -227,7 +227,11 @@
       '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
 
 ;;; google translate
-(eval-after-load 'google-translate
+(load-file "~/repositories/google-translate/google-translate.el")
+(load-file "~/repositories/google-translate/google-translate-smooth-ui.el")
+(load-file "~/repositories/google-translate/google-translate-core-ui.el")
+
+(with-eval-after-load 'google-translate
   (setq google-translate-translation-directions-alist
         '(("en" . "fr") ("fr" . "en"))))
 (global-set-key (kbd "C-c t") 'google-translate-smooth-translate)
