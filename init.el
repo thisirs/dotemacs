@@ -370,6 +370,7 @@ With a prefix ARG invalidates the cache first."
         "*helm for files*"
         "*helm find-file*"
         "*helm complete*"
+        "*helm M-x*"
         "*Ibuffer*"
         "*Calendar*"
         "*helm*"))
