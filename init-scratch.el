@@ -4,14 +4,12 @@
   "Create a backup of scratch buffer."
   (and (get-buffer "*scratch*")
        (with-current-buffer "*scratch*"
-         (if (buffer-modified-p)
-             (progn
-               (set-visited-file-name
-                (concat temporary-file-directory "scratch.el") t)
-               (setq backup-inhibited nil)
-               (save-buffer)
-               (backup-buffer)
-               (kill-buffer))))))
+         (when (buffer-modified-p)
+           (set-visited-file-name (expand-file-name "scratch.el" temporary-file-directory) t)
+           (setq backup-inhibited nil)
+           (save-buffer)
+           (backup-buffer)
+           (kill-buffer)))))
 
 (add-hook 'kill-emacs-hook 'save-scratch-buffer)
 
