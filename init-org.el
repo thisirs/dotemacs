@@ -602,46 +602,25 @@ child checkboxes."
 (setq org-latex-format-headline-function
       'org-latex-format-headline-checkbox-function)
 
-;; Inspired from https://github.com/jwiegley/dot-emacs
-(defvar org-my-archive-expiry-days 2
-  "The number of days after which a completed task should be auto-archived.
-This can be 0 for immediate, or a floating point value.")
+(add-to-list 'load-path "~/ownCloud/emacs/site-lisp/org-expiry")
+(require 'org-expiry)
 
-(defun org-my-closing-time ()
-  "Return closing time in current subtree."
-  (let* ((regexp "CLOSED:\\s-*\\[\\([^]\n]+\\)\\]")
-         (end (save-excursion
-                (outline-next-heading)
-                (point)))
-         end-time)
-    (goto-char (line-beginning-position))
-    (if (re-search-forward regexp end t)
-        (org-parse-time-string (match-string 1)))))
+(setq org-expiry-handler-function 'org-archive-subtree)
+(setq org-expiry-confirm-flag nil)
 
-(defun org-auto-archive-p ()
-  "Return true if the current buffer should auto-archive its tasks."
-  (and (eq major-mode 'org-mode)
-       (equal (expand-file-name (buffer-file-name))
-              (expand-file-name "~/ownCloud/Org/someday.org"))))
+(defun org-auto-archive ()
+  (message "Auto-archiving...")
+  (mapcar
+   (lambda (file)
+     (let ((buf (find-buffer-visiting file)))
+       (when buf
+         (with-current-buffer buf
+           (org-expiry-process-entries nil nil t)))))
+   '("~/ownCloud/Org/someday.org"
+     "~/ownCloud/Org/agenda.org"))
+  (message "Auto-archiving...done"))
 
-(defun org-archive-closed-tasks ()
-  (when (funcall 'org-auto-archive-p)
-    (message "Auto-archiving...")
-    (save-excursion
-      (goto-char (point-min))
-      (let ((done-regexp
-             (concat "^\\*+ \\(" (regexp-opt org-done-keywords) "\\) ")))
-        (while (re-search-forward done-regexp nil t)
-          (let ((closing-time (org-my-closing-time)))
-            (if (and closing-time
-                     (>= (time-to-number-of-days
-                          (time-subtract (current-time)
-                                         (apply #'encode-time closing-time)))
-                         org-my-archive-expiry-days))
-                (org-archive-subtree))))))
-    (message "Auto-archiving...done")))
-
-(add-hook 'before-save-hook 'org-archive-closed-tasks)
+;; (add-hook 'kill-emacs-hook 'org-auto-archive)
 
 ;; electric-indent-mode doesn't play well with org
 (with-emacs-version>= "24.1"
