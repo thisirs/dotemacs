@@ -85,6 +85,7 @@
       multi-term
       multiple-cursors
       offlineimap
+      org-caldav
       org-context
       paredit
       pcache
