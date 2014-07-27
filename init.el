@@ -1,7 +1,5 @@
 (require 'init-utils (expand-file-name "init-utils" user-emacs-directory))
 
-(load "~/ownCloud/emacs/personnal.el" :noerror)
-
 ;; Add personnal site-lisp to load-path
 (defvar site-lisp-directory "~/ownCloud/emacs/site-lisp/")
 
@@ -119,6 +117,8 @@
               (when (not (package-installed-p p))
                 (package-install p)))
             package-required-packages))))
+
+(load "~/ownCloud/emacs/personnal.el" :noerror)
 
 ;; Set path as if emacs were run in a terminal
 (let ((path (shell-command-to-string "bash -i -c 'echo $PATH' 2> /dev/null")))
