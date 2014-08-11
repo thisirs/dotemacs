@@ -17,4 +17,7 @@
 ;; (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
 ;; (add-hook 'ruby-mode-hook 'ruby-setup)
 
+(push 'company-robe company-backends)
+(add-hook 'ruby-mode-hook 'robe-mode)
+
 (provide 'init-ruby)

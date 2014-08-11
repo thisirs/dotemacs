@@ -93,6 +93,7 @@
       pcache
       projectile
       rainbow-mode
+      robe
       s
       smart-mode-line
       state
