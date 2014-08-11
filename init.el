@@ -63,6 +63,7 @@
       async
       auctex
       cmake-mode
+      company
       dash
       diminish
       elisp-slime-nav
@@ -1115,5 +1116,8 @@ The object paths of the found items are returned as list."
       (mapcar
        (lambda (item-path) (secrets-get-item-property item-path "Label"))
        result))))
+
+;; Trying company
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;;; init.el ends here
