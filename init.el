@@ -57,6 +57,12 @@
 
   (package-initialize)
 
+  (if (require 'quelpa nil t)
+      (quelpa-self-upgrade)
+    (with-temp-buffer
+      (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+      (eval-buffer)))
+
   (defvar package-required-packages
     '(ace-jump-mode
       ack-and-a-half
@@ -92,6 +98,7 @@
       paredit
       pcache
       projectile
+      quelpa
       rainbow-mode
       robe
       s
