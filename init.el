@@ -94,6 +94,7 @@
       projectile
       rainbow-mode
       s
+      smart-mode-line
       state
       tidy
       twittering-mode
@@ -1123,5 +1124,10 @@ The object paths of the found items are returned as list."
 
 ;; Trying company
 (add-hook 'after-init-hook 'global-company-mode)
+
+;; Trying sml
+(setq sml/vc-mode-show-backend t)
+(sml/setup)
+(sml/apply-theme 'respectful)
 
 ;;; init.el ends here
