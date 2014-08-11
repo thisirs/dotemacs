@@ -72,15 +72,18 @@
       find-temp-file
       flycheck
       google-translate
+      goto-last-change
       helm
       helm-descbinds
       inf-ruby
       info+
+      keyfreq
       legalese
       lua-mode
       macrostep
       magit
       markdown-mode
+      move-text
       multi-term
       multiple-cursors
       offlineimap
@@ -104,7 +107,8 @@
       yaml-mode
       yari
       yasnippet
-      zenburn-theme)
+      zenburn-theme
+      zoom-frm)
     "List of required packages")
 
   (catch 'timeout
