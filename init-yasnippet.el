@@ -10,6 +10,7 @@
 (setq yas-new-snippet-default "\
 # -*- mode: snippet -*-
 # name: $1
+# key: $2
 # --
 $0")
 
