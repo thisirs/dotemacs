@@ -620,7 +620,7 @@ child checkboxes."
      "~/ownCloud/Org/agenda.org"))
   (message "Auto-archiving...done"))
 
-;; (add-hook 'kill-emacs-hook 'org-auto-archive)
+(add-hook 'kill-emacs-hook 'org-auto-archive)
 
 ;; electric-indent-mode doesn't play well with org
 (with-emacs-version>= "24.1"
