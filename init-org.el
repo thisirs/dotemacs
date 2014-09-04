@@ -602,25 +602,27 @@ child checkboxes."
 (setq org-latex-format-headline-function
       'org-latex-format-headline-checkbox-function)
 
-(add-to-list 'load-path "~/ownCloud/emacs/site-lisp/org-expiry")
-(require 'org-expiry)
+(when (file-exists-p "~/ownCloud/emacs/site-lisp/org-expiry")
 
-(setq org-expiry-handler-function 'org-archive-subtree)
-(setq org-expiry-confirm-flag nil)
+  (add-to-list 'load-path "~/ownCloud/emacs/site-lisp/org-expiry")
+  (require 'org-expiry)
 
-(defun org-auto-archive ()
-  (message "Auto-archiving...")
-  (mapcar
-   (lambda (file)
-     (let ((buf (find-buffer-visiting file)))
-       (when buf
-         (with-current-buffer buf
-           (org-expiry-process-entries nil nil t)))))
-   '("~/ownCloud/Org/someday.org"
-     "~/ownCloud/Org/agenda.org"))
-  (message "Auto-archiving...done"))
+  (setq org-expiry-handler-function 'org-archive-subtree)
+  (setq org-expiry-confirm-flag nil)
 
-(add-hook 'kill-emacs-hook 'org-auto-archive)
+  (defun org-auto-archive ()
+    (message "Auto-archiving...")
+    (mapcar
+     (lambda (file)
+       (let ((buf (find-buffer-visiting file)))
+	 (when buf
+	   (with-current-buffer buf
+	     (org-expiry-process-entries nil nil t)))))
+     '("~/ownCloud/Org/someday.org"
+       "~/ownCloud/Org/agenda.org"))
+    (message "Auto-archiving...done"))
+
+  (add-hook 'kill-emacs-hook 'org-auto-archive))
 
 ;; electric-indent-mode doesn't play well with org
 (with-emacs-version>= "24.1"

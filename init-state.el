@@ -1,6 +1,7 @@
 ;; Quick navigation between workspaces
-;; (require 'state)
-(load-file "~/ownCloud/emacs/site-lisp/state/state.el")
+(if (file-exists-p "~/ownCloud/emacs/site-lisp/state/state.el")
+    (load-file "~/ownCloud/emacs/site-lisp/state/state.el")
+  (require 'state))
 
 (state-define-state
  debug
