@@ -58,24 +58,23 @@
 
 
 ;; multi-isearch through all my init files
-(setq multi-isearch-next-buffer-function
-      'search-next-init-buffer-maybe)
+;; (setq multi-isearch-next-buffer-function
+;;       'search-next-init-buffer-maybe)
 
-(defun search-next-init-buffer-maybe (&optional buffer wrap)
-  (if (string-match "/init\\(-\\w+\\)*\\.el\\'"
-                    (or (buffer-file-name buffer) ""))
-      (let* ((name (file-name-nondirectory (buffer-file-name buffer)))
-             (files (sort (file-expand-wildcards "~/.emacs.d/init*.el")
-                          (lambda (a b)
-                            (or (string-suffix-p "init.el" a)
-                                (string-lessp a b)))))
-             (files (if isearch-forward files (reverse files))))
-        (find-file-noselect
-         (if wrap
-             (car files)
-           (cadr (member (abbreviate-file-name
-                          (buffer-file-name buffer))
-                         files)))))
-    buffer))
+;; (defun search-next-init-buffer-maybe (&optional buffer wrap)
+;;   (if (string-match "/init\\(-\\w+\\)*\\.el\\'"
+;;                     (or (buffer-file-name buffer) ""))
+;;       (let* ((name (file-name-nondirectory (buffer-file-name buffer)))
+;;              (files (sort (file-expand-wildcards "~/.emacs.d/init*.el")
+;;                           (lambda (a b)
+;;                             (or (string-suffix-p "init.el" a)
+;;                                 (string-lessp a b)))))
+;;              (files (if isearch-forward files (reverse files))))
+;;         (find-file-noselect
+;;          (if wrap
+;;              (car files)
+;;            (cadr (member (abbreviate-file-name
+;;                           (buffer-file-name buffer))
+;;                          files)))))))
 
 (provide 'init-isearch)
