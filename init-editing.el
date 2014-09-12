@@ -128,16 +128,18 @@ indentation."
 
 If ARG is non-nil, ask for confirmation on each match."
   (interactive "P")
-  (mapc (lambda (entry)
-          (when (or (not arg) (yes-or-no-p (apply 'format "Query replace %s with %s ? " entry)))
-            (goto-char (point-min))
-            (if arg
-                (query-replace-regexp (car entry) (cadr entry))
-              (while (re-search-forward (car entry) nil t)
-                (replace-match (cadr entry))))))
-        '((" *\\(=+\\) *" " \\1 ")
-          (" *\\(,\\) *" ", ")
-          (" *\\(+\\) *" " + "))))
+  (save-excursion
+    (mapc (lambda (entry)
+            (when (or (not arg) (yes-or-no-p (apply 'format "Query replace %s with %s ? " entry)))
+              (goto-char (point-min))
+              (if arg
+                  (query-replace-regexp (car entry) (cadr entry))
+                (while (re-search-forward (car entry) nil t)
+                  (replace-match (cadr entry))))))
+          '((" *\\(=+\\) *" " \\1 ")
+            (" *\\(,\\) *" ", ")
+            (" *\\(+\\) *" " + ")
+            (" *\\(\\*\\) *" " * ")))))
 
 
 (provide 'init-editing)
