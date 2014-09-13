@@ -150,4 +150,25 @@ defaults to one. "
     (with-current-value case-fold-search marked-buffers
       (occur-1 regexp nlines marked-buffers))))
 
+;; Adapted from http://stackoverflow.com/a/19112313/1299368
+(defun ediff-marked-files ()
+  "Run ediff-files on a pair of files marked in dired buffer"
+  (interactive)
+  (let* ((marked-files (dired-get-marked-files))
+         (other-win (get-window-with-predicate
+                     (lambda (window)
+                       (with-current-buffer (window-buffer window)
+                         (and (not (eq window (selected-window)))
+                              (eq major-mode 'dired-mode))))))
+         (other-marked-files (and other-win
+                                  (with-current-buffer (window-buffer other-win)
+                                    (dired-get-marked-files nil)))))
+    (cond ((= (length marked-files) 2)
+           (apply 'ediff-files marked-files))
+          ((and (= (length marked-files) 1)
+                (= (length other-marked-files) 1))
+           (ediff-files (car marked-files)
+                        (car other-marked-files)))
+          (t (error "mark exactly 2 files, at least 1 locally")))))
+
 (provide 'init-dired)
