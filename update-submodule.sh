@@ -32,12 +32,14 @@ if $(git fetch upstream > /dev/null 2>&1); then
   git rebase origin/$BRANCH
   git push origin $BRANCH
 
-  # Save commits id before destroying them with a rebase
+  # Save commits before destroying them with a rebase
   git branch --force $BRANCH-before-rebase
 
   # Rebase local changes onto up-to-date upstream
   if ! git rebase upstream/master; then
     git rebase --abort
+    echo "ERROR on rebasing: please resolve and rerun"
+    exit
   fi
 
   # Push
