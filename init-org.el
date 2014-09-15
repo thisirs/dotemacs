@@ -615,9 +615,9 @@ child checkboxes."
     (mapcar
      (lambda (file)
        (let ((buf (find-buffer-visiting file)))
-	 (when buf
-	   (with-current-buffer buf
-	     (org-expiry-process-entries nil nil t)))))
+         (when buf
+           (with-current-buffer buf
+             (org-expiry-process-entries nil nil t)))))
      '("~/ownCloud/Org/someday.org"
        "~/ownCloud/Org/agenda.org"))
     (message "Auto-archiving...done"))

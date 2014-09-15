@@ -243,7 +243,7 @@
 
   (with-eval-after-load 'google-translate
     (setq google-translate-translation-directions-alist
-	  '(("en" . "fr") ("fr" . "en"))))
+          '(("en" . "fr") ("fr" . "en"))))
   (global-set-key (kbd "C-c t") 'google-translate-smooth-translate))
 
 ;; Projectile
