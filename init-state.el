@@ -43,12 +43,12 @@
  :switch twit)
 
 (state-define-state
- personnal
+ programming_samples
  :key "r"
  :switch "~/ownCloud/Org/programming_samples.org")
 
 (state-define-state
- programming_samples
+ personnal
  :key "p"
  :switch "~/ownCloud/Org/personnel.org.gpg")
 
