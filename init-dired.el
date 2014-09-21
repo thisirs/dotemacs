@@ -151,7 +151,7 @@ defaults to one. "
       (occur-1 regexp nlines marked-buffers))))
 
 ;; Adapted from http://stackoverflow.com/a/19112313/1299368
-(defun ediff-marked-files ()
+(defun dired-ediff-marked-files ()
   "Run ediff-files on a pair of files marked in dired buffer"
   (interactive)
   (let* ((marked-files (dired-get-marked-files))
