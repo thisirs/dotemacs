@@ -1133,4 +1133,7 @@ The object paths of the found items are returned as list."
 (sml/setup)
 (sml/apply-theme 'respectful)
 
+(when (file-exists-p "/home/sylvain/repositories/org-reveal/ox-reveal.el")
+  (load-file "/home/sylvain/repositories/org-reveal/ox-reveal.el"))
+
 ;;; init.el ends here
