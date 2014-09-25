@@ -69,7 +69,7 @@
           ("%D" "~/ownCloud/scripts")
           ("%D" "~/ownCloud/projects/")
           ("%D" "~/ownCloud/conf-files/")
-          ("Boss: %D" "~/ownCloud/These/")))
+          ("Boss: %D" "~/ownCloud/recherche/")))
   (setq ibuffer-project-cache-file
         (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
   (ibuffer-project-refresh t))
