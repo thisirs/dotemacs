@@ -78,7 +78,7 @@ nil."
       (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
       (erc :server "irc.freenode.net"
-           :port 6667
+           :port "6667"
            :nick "thisirs"
            :password (secrets-get-secret "Default" "NickServ"))
       (erc-track-switch-buffer 1))))
