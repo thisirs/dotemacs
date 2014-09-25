@@ -32,5 +32,4 @@ git submodule init
 git submodule update
 
 # org-mode needs its autoloads
-cd site-lisp/org-mode/
-make autoloads
+(cd site-lisp/org-mode/; make autoloads)
