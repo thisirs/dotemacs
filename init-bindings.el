@@ -14,15 +14,17 @@
          (progn ,@body)
        (ad-disable-advice 'define-key 'before 'record-advice))))
 
-(defmacro shell-bind (key cmd)
+(defmacro shell-bind (key cmd &optional msg)
   `(global-set-key (kbd ,key)
                    (lambda ()
                      (interactive)
-                     (shell-command ,cmd))))
+                     (shell-command ,cmd)
+                     ,@(if msg `((minibuffer-message ,msg))))))
 
-(shell-bind "<f4>" "dbus-spotify.sh playpause")
-(shell-bind "<f5>" "dbus-spotify.sh previous")
-(shell-bind "<f6>" "dbus-spotify.sh next")
+(shell-bind "<f4>" "dbus-spotify.sh playpause" "play/paused")
+(shell-bind "<f5>" "dbus-spotify.sh previous" "previous")
+(shell-bind "<f6>" "dbus-spotify.sh next" "next")
+(shell-bind "<f7>" "dbus-spotify.sh playstatus" "status")
 
 (with-global-set-key-recorded
 
