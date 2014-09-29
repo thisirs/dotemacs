@@ -1083,48 +1083,6 @@ ring."
                         (with-current-buffer buf
                           (revert-buffer nil t)))))
 
-;; Workaround to make it work: there is no list of two lists but only
-;; a list on my system...
-(require 'secrets)
-(defun secrets-search-items (collection &rest attributes)
-  "Search items in COLLECTION with ATTRIBUTES.
-ATTRIBUTES are key-value pairs.  The keys are keyword symbols,
-starting with a colon.  Example:
-
-  \(secrets-create-item \"Tramp collection\" \"item\" \"geheim\"
-   :method \"sudo\" :user \"joe\" :host \"remote-host\"\)
-
-The object paths of the found items are returned as list."
-  (let ((collection-path (secrets-unlock-collection collection))
-        result props)
-    (unless (secrets-empty-path collection-path)
-      ;; Create attributes list.
-      (while (consp (cdr attributes))
-        (unless (keywordp (car attributes))
-          (error 'wrong-type-argument (car attributes)))
-        (unless (stringp (cadr attributes))
-          (error 'wrong-type-argument (cadr attributes)))
-        (setq props (add-to-list
-                     'props
-                     (list :dict-entry
-                           (substring (symbol-name (car attributes)) 1)
-                           (cadr attributes))
-                     'append)
-              attributes (cddr attributes)))
-      ;; Search.  The result is a list of two lists, the object paths
-      ;; of the unlocked and the locked items.
-      (setq result
-            (dbus-call-method
-             :session secrets-service collection-path
-             secrets-interface-collection "SearchItems"
-             (if props
-                 (cons :array props)
-               '(:array :signature "{ss}"))))
-      ;; Return the found items.
-      (mapcar
-       (lambda (item-path) (secrets-get-item-property item-path "Label"))
-       result))))
-
 ;; Trying company
 (add-hook 'after-init-hook 'global-company-mode)
 
