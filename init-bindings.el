@@ -24,7 +24,6 @@
 (shell-bind "<f4>" "dbus-spotify.sh playpause" "play/paused")
 (shell-bind "<f5>" "dbus-spotify.sh previous" "previous")
 (shell-bind "<f6>" "dbus-spotify.sh next" "next")
-(shell-bind "<f7>" "dbus-spotify.sh playstatus" "status")
 
 (with-global-set-key-recorded
 
