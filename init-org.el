@@ -617,7 +617,10 @@ child checkboxes."
        (let ((buf (find-buffer-visiting file)))
          (when buf
            (with-current-buffer buf
-             (org-expiry-process-entries nil nil t)))))
+             (org-expiry-process-entries nil nil t)
+             ;; save buffer as it is not save if org-auto-archive is
+             ;; called from kill-emacs-hook
+             (save-buffer)))))
      '("~/ownCloud/Org/someday.org"
        "~/ownCloud/Org/agenda.org"))
     (message "Auto-archiving...done"))
