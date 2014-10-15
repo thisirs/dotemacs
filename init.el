@@ -484,7 +484,7 @@ With a prefix ARG invalidates the cache first."
 (push '("~/ownCloud/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
 
 ;; Only look for unpushed commits on master
-(push '("~/repositories/dotemacs/" (unpushed "master") changes) vc-check-alist)
+(push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
 (vc-check-status-activate)
 
 ;; Contextual capture and agenda commands for Org-mode
