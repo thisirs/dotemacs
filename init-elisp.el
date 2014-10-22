@@ -7,6 +7,9 @@
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
 
+;; Load newest file
+(setq load-prefer-newer t)
+
 (defun eval-region-or-buffer ()
   (interactive)
   (cond
