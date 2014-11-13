@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Python2 shebang header
+# key: hdr
+# --
+#! /usr/bin/env python2
+
+$0
