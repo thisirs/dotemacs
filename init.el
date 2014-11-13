@@ -452,8 +452,14 @@ With a prefix ARG invalidates the cache first."
 
 (put 'pdfs-directory 'safe-local-variable 'string-or-null-p)
 
-(defun ffap-bib-latex-mode (name)
-  (and pdfs-directory (concat pdfs-directory name ".pdf")))
+(defun ffap-bib-latex-mode (bib_id)
+  "Infer a filename from BIB_ID."
+  (when (eq major-mode 'latex-mode)
+    (if (and pdfs-directory (file-exists-p (concat pdfs-directory bib_id ".pdf")))
+        (concat pdfs-directory name ".pdf")
+      (condition-case nil
+          (concat (file-name-directory (car (reftex-get-bibfile-list))) bib_id ".pdf")
+        (error nil)))))
 
 (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
 (add-to-list 'ffap-alist '(org-mode . ffap-bib-latex-mode))
