@@ -440,7 +440,7 @@ With a prefix ARG invalidates the cache first."
   (require 'notifications))
 
 (require 'ffap)
-;; Find file at point even if it is the wrong user: /home/otheruser/realfile
+;; Find file at point even if it is the wrong user: /home/otheruser/.bashrc
 (add-to-list 'ffap-alist
              (cons "\\`\\(/home/[^/]+\\)"
                    (lambda (name)
