@@ -468,7 +468,9 @@ With a prefix ARG invalidates the cache first."
         ((and (thing-at-point 'filename) (file-exists-p (thing-at-point 'filename)))
          (find-file (thing-at-point 'filename)))
         ((thing-at-point 'url)
-         (browse-url (thing-at-point 'url)))))
+         (browse-url (thing-at-point 'url)))
+        (t
+         (find-file-at-point))))
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
