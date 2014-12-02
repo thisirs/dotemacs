@@ -964,65 +964,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (eval-after-load "re-builder"
   '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
 
-
-;; Redefine `query-replace-read-from' to add a custom keymap when
-;; replacing strings. Now, C-u ENTER does the reverse suggested
-;; replacement.
-(defvar query-replace-keymap
-  (let ((map (make-sparse-keymap)))
-    (set-keymap-parent map minibuffer-local-map)
-    (define-key map [remap exit-minibuffer]
-      (lambda ()
-        (interactive)
-        (if (and current-prefix-arg query-replace-defaults)
-            (setq query-replace-defaults
-                  (cons
-                   (cdr query-replace-defaults)
-                   (car query-replace-defaults))))
-        (exit-minibuffer)))
-    map))
-
-(defun query-replace-read-from (prompt regexp-flag)
-  "Query and return the `from' argument of a query-replace operation.
-The return value can also be a pair (FROM . TO) indicating that the user
-wants to replace FROM with TO."
-  (if query-replace-interactive
-      (car (if regexp-flag regexp-search-ring search-ring))
-    (let* ((history-add-new-input nil)
-           (query-replace-defaults query-replace-defaults)
-           (prompt
-            (if query-replace-defaults
-                (format "%s (default %s -> %s): " prompt
-                        (query-replace-descr (car query-replace-defaults))
-                        (query-replace-descr (cdr query-replace-defaults)))
-              (format "%s: " prompt)))
-           (from
-            ;; The save-excursion here is in case the user marks and copies
-            ;; a region in order to specify the minibuffer input.
-            ;; That should not clobber the region for the query-replace itself.
-            (save-excursion
-              (if regexp-flag
-                  (read-regexp prompt nil query-replace-from-history-variable)
-                (read-from-minibuffer
-                 prompt nil query-replace-keymap nil query-replace-from-history-variable
-                 (car (if regexp-flag regexp-search-ring search-ring)) t)))))
-      (if (and (zerop (length from)) query-replace-defaults)
-          (cons (car query-replace-defaults)
-                (query-replace-compile-replacement
-                 (cdr query-replace-defaults) regexp-flag))
-        (add-to-history query-replace-from-history-variable from nil t)
-        ;; Warn if user types \n or \t, but don't reject the input.
-        (and regexp-flag
-             (string-match "\\(\\`\\|[^\\]\\)\\(\\\\\\\\\\)*\\(\\\\[nt]\\)" from)
-             (let ((match (match-string 3 from)))
-               (cond
-                ((string= match "\\n")
-                 (message "Note: `\\n' here doesn't match a newline; to do that, type C-q C-j instead"))
-                ((string= match "\\t")
-                 (message "Note: `\\t' here doesn't match a tab; to do that, just type TAB")))
-               (sit-for 2)))
-        from))))
-
 ;; Trying keyfreq
 (require 'keyfreq)
 (keyfreq-mode 1)
