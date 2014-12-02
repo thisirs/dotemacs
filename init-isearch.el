@@ -50,7 +50,8 @@
 
 (define-key isearch-mode-map "\M->" 'isearch-end-of-buffer)
 
-(define-key isearch-mode-map (kbd "C-c") 'isearch-toggle-case-fold)
+;; Clashes with eshell
+;; (define-key isearch-mode-map (kbd "C-c") 'isearch-toggle-case-fold)
 
 (define-key isearch-mode-map "\C-l" 'recenter-top-bottom)
 
