@@ -25,6 +25,10 @@
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 
+;; Tramp env to properly display dired
+(with-eval-after-load "tramp"
+    (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append))
+
 ;; Backups
 (setq make-backup-files t ;; do make backups
       ;;  backup-by-copying t     ;; and copy them here
