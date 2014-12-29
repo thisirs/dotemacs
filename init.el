@@ -1019,11 +1019,14 @@ ring."
 (defun dwim-location (path fun)
   "Call FUN on each buffer visiting a file contained in PATH."
   (mapc (lambda (buf)
-          (if (and (buffer-file-name buf)
-                   (string-prefix-p
-                    (file-truename (abbreviate-file-name path))
-                    (file-truename (abbreviate-file-name (buffer-file-name buf)))))
-              (funcall fun buf)))
+          (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
+                              (buffer-local-value 'default-directory buf)
+                            (buffer-file-name buf))))
+            (and (stringp location)
+                 (string-prefix-p
+                  (file-truename (abbreviate-file-name path))
+                  (file-truename (abbreviate-file-name location)))
+                 (funcall fun buf))))
         (buffer-list)))
 
 (defun kill-location (path)
