@@ -93,7 +93,7 @@ macro `new-vanilla'."
   (global-set-key "\C-ci" 'magit-status))
 
 (new-vanilla state
-  (add-to-list 'load-path "~/ownCloud/emacs/site-lisp/state/")
+  (add-to-list 'load-path "~/CloudStation/Sylvain/emacs/site-lisp/state/")
   (require 'state)
   (load "/home/sylvain/repositories/dotemacs/init-state.el"))
 

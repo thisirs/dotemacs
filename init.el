@@ -1,7 +1,7 @@
 (require 'init-utils (expand-file-name "init-utils" user-emacs-directory))
 
 ;; Add personnal site-lisp to load-path
-(defvar site-lisp-directory "~/ownCloud/emacs/site-lisp/")
+(defvar site-lisp-directory "~/CloudStation/Sylvain/emacs/site-lisp/")
 
 (when (file-exists-p site-lisp-directory)
   (add-to-list 'load-path site-lisp-directory)
@@ -131,7 +131,7 @@
                 (package-install p)))
             package-required-packages))))
 
-(load "~/ownCloud/emacs/personnal.el" :noerror)
+(load "~/CloudStation/Sylvain/emacs/personnal.el" :noerror)
 
 ;; Set path as if emacs were run in a terminal
 (let ((path (shell-command-to-string "bash -i -c 'echo $PATH' 2> /dev/null")))
@@ -198,7 +198,7 @@
 ;; (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
 ;; (bbdb-initialize 'gnus)
 ;; (setq bbdb-mua-auto-update-init 'gnus)
-;; (setq bbdb-file "~/ownCloud/emacs/.bbdb")
+;; (setq bbdb-file "~/CloudStation/emacs/.bbdb")
 ;; (setq bbdb-message-all-addresses t)
 
 ;; ;; BUG gnus-timer--function undefined
@@ -495,7 +495,7 @@ With a prefix ARG invalidates the cache first."
                 (vc-auto-commit-backend))))
 
 ;; Be sure to leave my packages' repo on master
-(push '("~/ownCloud/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+(push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
 
 ;; Only look for unpushed commits on master
 (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
@@ -789,8 +789,8 @@ case it is used in hooks."
 
 ;; Bookmarks
 (setq bookmark-default-file
-      (if (file-exists-p "~/ownCloud/emacs/.bookmarks")
-          "~/ownCloud/emacs/.bookmarks"
+      (if (file-exists-p "~/CloudStation/Sylvain/emacs/.bookmarks")
+          "~/CloudStation/Sylvain/emacs/.bookmarks"
         "~/.emacs.d/bookmarks"))
 
 ;; Save bookmarks every time
@@ -979,7 +979,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
 (with-eval-after-load 'multiple-cursors
-  (setq mc/list-file "~/ownCloud/emacs/.mc-lists.el"))
+  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el"))
 
 (setq set-mark-command-repeat-pop t)
 

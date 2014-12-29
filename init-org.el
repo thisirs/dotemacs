@@ -26,7 +26,7 @@
 (setq org-use-property-inheritance t)
 
 ;; Set org id locations
-(setq org-id-locations-file "~/ownCloud/Org/.org-id-locations")
+(setq org-id-locations-file "~/CloudStation/Sylvain/Org/.org-id-locations")
 
 ;; Remove tags in agenda
 (setq org-agenda-remove-tags t)
@@ -76,7 +76,7 @@ the selected file."
 
 ;; Load templates from personal location
 (setq org-capture-templates
-      (load-file-to-list "~/ownCloud/emacs/org-capture-templates.el"))
+      (load-file-to-list "~/CloudStation/Sylvain/emacs/org-capture-templates.el"))
 
 
 (define-key global-map "\C-cc" 'org-capture)
@@ -158,11 +158,11 @@ the selected file."
 (mapc (lambda (file)
         (if (file-exists-p file)
             (add-to-list 'org-agenda-files file)))
-      '("~/ownCloud/Org/agenda.org"
-        "~/ownCloud/Org/someday.org"
-        "~/ownCloud/Org/specialdays.org"
-        "~/ownCloud/Org/books.org"
-        "~/ownCloud/Org/series.org"
+      '("~/CloudStation/Sylvain/Org/agenda.org"
+        "~/CloudStation/Sylvain/Org/someday.org"
+        "~/CloudStation/Sylvain/Org/specialdays.org"
+        "~/CloudStation/Sylvain/Org/books.org"
+        "~/CloudStation/Sylvain/Org/series.org"
         ))
 
 ;; Calcul de Pâques (from holidays.el)
@@ -524,7 +524,7 @@ refile targets.")
 
 ;; First open someday.org and look for org files to add to
 ;; org-other-files in "Projects" headline.
-(find-file "~/ownCloud/Org/someday.org")
+(find-file "~/CloudStation/Sylvain/Org/someday.org")
 
 (setq org-other-files
       (with-current-buffer "someday.org"
@@ -602,9 +602,10 @@ child checkboxes."
 (setq org-latex-format-headline-function
       'org-latex-format-headline-checkbox-function)
 
-(when (file-exists-p "~/ownCloud/emacs/site-lisp/org-expiry")
+;; Automatic expire mechanism
+(when (file-exists-p "~/CloudStation/Sylvain/emacs/site-lisp/org-expiry")
 
-  (add-to-list 'load-path "~/ownCloud/emacs/site-lisp/org-expiry")
+  (add-to-list 'load-path "~/CloudStation/Sylvain/emacs/site-lisp/org-expiry")
   (require 'org-expiry)
 
   (setq org-expiry-handler-function 'org-archive-subtree)
@@ -621,8 +622,8 @@ child checkboxes."
              ;; save buffer as it is not save if org-auto-archive is
              ;; called from kill-emacs-hook
              (save-buffer)))))
-     '("~/ownCloud/Org/someday.org"
-       "~/ownCloud/Org/agenda.org"))
+     '("~/CloudStation/Sylvain/Org/someday.org"
+       "~/CloudStation/Sylvain/Org/agenda.org"))
     (message "Auto-archiving...done"))
 
   (add-hook 'kill-emacs-hook 'org-auto-archive))

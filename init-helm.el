@@ -114,8 +114,8 @@
 (define-key helm-command-map (kbd "h m") 'helm-manual)
 
 (defvar helm-bib-locations
-  '("~/ownCloud/recherche/biblio/"
-    "~/ownCloud/recherche/biblio/tracking/"))
+  '("~/CloudStation/Sylvain/recherche/biblio/"
+    "~/CloudStation/Sylvain/recherche/biblio/tracking/"))
 
 ;; Open files with evince instead of xpdf
 (setq helm-pdfgrep-default-read-command "evince -p %p \"%f\"")

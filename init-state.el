@@ -1,6 +1,6 @@
 ;; Quick navigation between workspaces
-(if (file-exists-p "~/ownCloud/emacs/site-lisp/state/state.el")
-    (load-file "~/ownCloud/emacs/site-lisp/state/state.el")
+(if (file-exists-p "~/CloudStation/Sylvain/emacs/site-lisp/state/state.el")
+    (load-file "~/CloudStation/Sylvain/emacs/site-lisp/state/state.el")
   (require 'state))
 
 (state-define-state
@@ -45,12 +45,12 @@
 (state-define-state
  programming_samples
  :key "r"
- :switch "~/ownCloud/Org/programming_samples.org")
+ :switch "~/CloudStation/Sylvain/Org/programming_samples.org")
 
 (state-define-state
  personnal
  :key "p"
- :switch "~/ownCloud/Org/personnel.org.gpg")
+ :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg")
 
 (state-define-state
  emacs

@@ -46,7 +46,7 @@
                (message-buffer (or (get-buffer message-buffer-name)
                                    (generate-new-buffer message-buffer-name)))
                (proc (start-process "SCMB" message-buffer-name "ruby"
-                                    "/home/sylvain/ownCloud/scripts/SCMB.rb")))
+                                    "/home/sylvain/CloudStation/Sylvain/scripts/SCMB.rb")))
           (with-current-buffer message-buffer-name
             (let ((inhibit-read-only t))
               (erase-buffer)))
