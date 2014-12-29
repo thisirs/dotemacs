@@ -149,7 +149,7 @@
 (define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
 (define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
 
-(define-key ibuffer-mode-map (kbd "C-g") 'ibuffer-quit)
+(define-key ibuffer-mode-map (kbd "C-g") 'quit-window)
 
 (require 'ido)
 (ido-mode t)
