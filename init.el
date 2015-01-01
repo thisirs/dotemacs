@@ -788,10 +788,7 @@ case it is used in hooks."
      t)))
 
 ;; Bookmarks
-(setq bookmark-default-file
-      (if (file-exists-p "~/CloudStation/Sylvain/emacs/.bookmarks")
-          "~/CloudStation/Sylvain/emacs/.bookmarks"
-        "~/.emacs.d/bookmarks"))
+(setq bookmark-default-file "~/CloudStation/Sylvain/emacs/.bookmarks")
 
 ;; Save bookmarks every time
 (setq bookmark-save-flag 1)
