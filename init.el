@@ -393,11 +393,16 @@ With a prefix ARG invalidates the cache first."
 (global-set-key (kbd "M-N") 'winner-redo)
 (global-set-key (kbd "M-P") 'winner-undo)
 
-(defun summon-tmux ()
-  (interactive)
-  (let ((command
-         "urxvt -T my-tmux -e bash -c \"tmux -q has-session && exec tmux attach-session -d || exec tmux new-session -n$USER -s$USER@$HOSTNAME\"; sleep 0.5; wmctrl -a my-tmux &"))
-    (start-process "Shell" nil "bash" "-c" command)))
+(defun summon-tmux (&optional arg)
+  "Switch to tmux and change current directory to current
+`default-directory' if ARG is non-nil."
+  (interactive "P")
+  (if (eq 0 (shell-command "tmux -q has-session"))
+      (start-process "Attach" nil "urxvt" "-e" "tmux" "attach-session" "-d")
+    (start-process "Start" nil "urxvt" "-e" "tmux" "new-session"))
+  (if arg (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
+                                 (file-truename default-directory)))))
+
 (global-set-key (kbd "C-z") 'summon-tmux)
 
 
