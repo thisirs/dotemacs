@@ -567,6 +567,15 @@ With a prefix ARG invalidates the cache first."
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-diff-options "-w")
 
+;; Restore window configuration after quit
+(add-hook 'ediff-before-setup-hook
+          (lambda ()
+            (window-configuration-to-register 'ediff)))
+
+(add-hook 'ediff-quit-hook
+          (lambda ()
+            (jump-to-register 'ediff)))
+
 ;; No limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
 
