@@ -393,7 +393,14 @@ With a prefix ARG invalidates the cache first."
 (global-set-key (kbd "M-N") 'winner-redo)
 (global-set-key (kbd "M-P") 'winner-undo)
 
-(defun summon-tmux (&optional arg)
+(defun switch-to-external-terminal (&optional arg)
+  "Switch to an external terminal. Change directory if ARG is non-nil."
+  (interactive "P")
+  (if (display-graphic-p)
+      (switch-to-tmux arg)
+    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
+
+(defun switch-to-tmux (&optional arg)
   "Switch to tmux and change current directory to current
 `default-directory' if ARG is non-nil."
   (interactive "P")
@@ -403,7 +410,7 @@ With a prefix ARG invalidates the cache first."
   (if arg (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
                                  (file-truename default-directory)))))
 
-(global-set-key (kbd "C-z") 'summon-tmux)
+(global-set-key (kbd "C-z") 'switch-to-external-terminal)
 
 
 ;; Additional menu
