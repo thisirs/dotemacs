@@ -12,8 +12,8 @@
       (setq-default matlab-change-current-directory t))
 
   (setq-default matlab-functions-have-end t)
-  (setq-default matlab-indent-function-body t)
-  (setq-default matlab-indent-function t)
+  (setq-default matlab-indent-function-body 'guess)
+  (setq-default matlab-indent-function nil)
 
   (defun matlab-mode-preferences ()
     (local-set-key "\M-;" 'comment-dwim)
