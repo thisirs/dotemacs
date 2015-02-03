@@ -16,6 +16,7 @@
   (setq-default matlab-indent-function nil)
 
   (defun matlab-mode-preferences ()
+    (local-set-key "\M-j" #'join-to-next-line)
     (local-set-key "\M-;" 'comment-dwim)
     (auto-fill-mode -1))
 
