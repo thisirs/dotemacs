@@ -48,7 +48,11 @@ cancel the indentation if needed."
 
 (global-set-key (kbd "M-w") 'save-region-or-current-line)
 
-(global-set-key (kbd "M-j") (lambda () (interactive) (join-line t)))
+(defun join-to-next-line ()
+  (interactive)
+  (join-line t))
+
+(global-set-key (kbd "M-j") #'join-to-next-line)
 
 ;; copy when in read only buffer
 (setq kill-read-only-ok t)
