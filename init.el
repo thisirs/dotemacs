@@ -237,7 +237,7 @@
 (require 'flycheck)
 (global-flycheck-mode 1)
 (mapc (lambda (checker)
-        (delq checker flycheck-checkers))
+        (add-to-list 'flycheck-disabled-checkers checker))
       '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
 
 ;;; google translate
