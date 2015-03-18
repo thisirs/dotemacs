@@ -298,6 +298,12 @@ With a prefix ARG invalidates the cache first."
 (with-eval-after-load 'ace-jump-mode
   (set-face-foreground 'ace-jump-face-foreground "yellow"))
 
+;; Taken from http://www.reddit.com/r/emacs/comments/2x3mke/making_acejump_play_nice_with_dired/
+(defun ace-jump-to-filenames ()
+  (setq-local ace-jump-search-filter
+              (lambda () (get-text-property (point) 'dired-filename))))
+(add-hook 'dired-mode-hook #'ace-jump-to-filenames)
+
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode)
