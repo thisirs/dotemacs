@@ -236,9 +236,7 @@
 ;; On-the-fly checker
 (require 'flycheck)
 (global-flycheck-mode 1)
-(mapc (lambda (checker)
-        (add-to-list 'flycheck-disabled-checkers checker))
-      '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
 
 ;;; google translate
 (if (file-exists-p "~/repositories/google-translate/")
