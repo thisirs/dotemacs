@@ -143,6 +143,7 @@
 (load-theme 'zenburn t)
 
 (require 'init-fill)
+(require 'init-org)
 (require 'init-dired)
 (require 'init-isearch)
 (require 'init-erc)
@@ -155,7 +156,6 @@
 (require 'init-octave)
 (require 'init-matlab)
 (require 'init-yasnippet)
-(require 'init-org)
 (require 'init-elisp)
 (require 'init-auctex)
 (require 'init-ibuffer)
