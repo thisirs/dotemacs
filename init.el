@@ -58,8 +58,6 @@
 (with-emacs-version>= "24"
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives
                '("melpa" . "http://melpa.org/packages/") t)
 
   (package-initialize)
