@@ -79,6 +79,7 @@
       google-translate
       goto-last-change
       helm
+      helm-bibtex
       helm-descbinds
       inf-ruby
       info+
@@ -167,6 +168,11 @@
 (require 'init-wcheck)
 (require 'init-ruby)
 (require 'init-state)
+
+(with-eval-after-load "helm-bibtex"
+  (setq helm-bibtex-bibliography "~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib")
+  (setq helm-bibtex-library-path "~/CloudStation/Sylvain/recherche/biblio/tracking")
+  (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
 ;; Whitespace mode
 (require 'whitespace)
