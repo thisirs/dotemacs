@@ -90,6 +90,7 @@
         :prompt "Manuals: "))
 
 (define-key helm-command-map (kbd "h m") 'helm-manual)
+(define-key helm-command-map (kbd "f") 'helm-for-files)
 
 (defvar helm-bib-locations
   '("~/CloudStation/Sylvain/recherche/biblio/"
