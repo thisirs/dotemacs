@@ -43,28 +43,6 @@
     helm-source-files-in-current-dir
     helm-source-locate))
 
-(defun helm-locate-thiskey-init ()
-  "Initialize async locate process for `helm-source-locate'."
-  (start-process-shell-command
-   "locate-thiskey-process" nil
-   (format helm-locate-command
-           (concat "-d " (expand-file-name "~/.locate.db") " -i")
-           helm-pattern)))
-
-(defvar helm-source-locate-thiskey
-  '((name . "Locate in THISKEY")
-    (init . helm-locate-set-command)
-    (candidates-process . helm-locate-thiskey-init)
-    (type . file)
-    (requires-pattern . 3)
-    (history . ,'helm-file-name-history)
-    (keymap . ,helm-generic-files-map)
-    (help-message . helm-generic-file-help-message)
-    (candidate-number-limit . 9999)
-    (mode-line . helm-generic-file-mode-line-string)
-    (delayed))
-  "Find files matching the current input pattern with locate.")
-
 ;; Helm for searching manuals
 (defvar helm-manual-path
   '("~/Documents/manuals/"
