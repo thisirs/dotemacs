@@ -111,7 +111,7 @@ inline."
 (defun generate-password (&optional length)
   (setq length (or length 10))
   (random t)
-  (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+  (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$@_+,?[].-")
         (exclude "io0O1l") c result)
     (dotimes (i length result)
       (while (progn
