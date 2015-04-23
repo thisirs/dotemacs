@@ -120,4 +120,9 @@ inline."
       (setq result (cons c result)))
     (concat result)))
 
+(defun generate-passphrase (&optional wordlist number)
+  (if (executable-find "shuf")
+      (mapconcat 'identity (split-string (shell-command-to-string (format "shuf -n %d %s" number wordlist))) " ")
+    (error "Unable to find program `shuf'")))
+
 (provide 'init-utils)
