@@ -45,11 +45,11 @@
 
 ;; Helm for searching manuals
 (defvar helm-manual-path
-  '("~/Documents/manuals/"
-    "~/Documents/manuals/beamer/"
-    "~/Documents/manuals/latex/"
-    "~/Documents/manuals/pgf-tikz/"
-    "~/Documents/manuals/refcards/")
+  '("~/CloudStation/Sylvain/manuals/"
+    "~/CloudStation/Sylvain/manuals/beamer/"
+    "~/CloudStation/Sylvain/manuals/latex/"
+    "~/CloudStation/Sylvain/manuals/pgf-tikz/"
+    "~/CloudStation/Sylvain/manuals/refcards/")
   "List of path to look for manuals. Each element is either a
   string or a list of string containing fallback directories.")
 
