@@ -9,8 +9,7 @@
 (require 'helm-descbinds)
 (helm-descbinds-mode)
 
-;; (helm-read-string-mode 1)
-;; (ac-mode -1)
+(helm-mode)
 
 (global-set-key (kbd "C-x C-m") 'helm-M-x)
 
