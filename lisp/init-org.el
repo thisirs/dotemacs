@@ -499,25 +499,6 @@ entry from each headline of FILEV."
 
 (add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
 
-;; Helm completion enabled in my patched org
-
-(when (and (boundp 'org-completion-handler)
-           (require 'helm nil t))
-  (defun org-helm-completion-handler
-      (prompt collection &optional predicate require-match
-              initial-input hist def inherit-input-method)
-    (helm-comp-read prompt
-                    collection
-                    ;; the character \ is filtered out by default ;(
-                    :fc-transformer nil
-                    :test predicate
-                    :must-match require-match
-                    :initial-input initial-input
-                    :history hist
-                    :default def))
-
-  (setq org-completion-handler 'org-helm-completion-handler))
-
 (defvar org-other-files nil
   "List of org files other than agenda files destined to be
 refile targets.")
