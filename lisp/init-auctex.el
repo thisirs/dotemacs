@@ -133,7 +133,8 @@ mutiple times."
      (mapcar 'list
              (letf (((symbol-function 'TeX-search-files-kpathsea)
                      (lambda (extensions nodir strip))))
-               (TeX-search-files (list (concat (TeX-master-directory) "img/"))
+               (TeX-search-files (list "~/CloudStation/Sylvain/recherche/data"
+                                  (concat (TeX-master-directory) "img/"))
                                  LaTeX-includegraphics-extensions t))))
     nil nil nil nil nil nil
     "Image file"
