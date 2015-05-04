@@ -37,8 +37,7 @@ if $(git fetch upstream > /dev/null 2>&1); then
 
   # Rebase local changes onto up-to-date upstream
   if ! git rebase upstream/master; then
-    git rebase --abort
-    echo "ERROR on rebasing: please resolve and rerun"
+    echo "ERROR on rebasing: do it manually or git rebase --abort"
     exit
   fi
 
