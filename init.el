@@ -106,6 +106,7 @@
       tidy
       twittering-mode
       undo-tree
+      use-package
       vc-auto-commit
       vc-check-status
       visual-regexp
@@ -141,6 +142,11 @@
 ;; Loading zenburn theme
 (load-theme 'zenburn t)
 
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
 (require 'init-fill)
 (require 'init-org)
 (require 'init-dired)
@@ -169,9 +175,21 @@
 (require 'init-ruby)
 (require 'init-state)
 
-(with-eval-after-load "helm-bibtex"
-  (setq helm-bibtex-bibliography "~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib")
-  (setq helm-bibtex-library-path "~/CloudStation/Sylvain/recherche/biblio/tracking")
+(use-package helm-bibtex
+  :load-path "~/repositories/helm-bibtex/"
+  :defer t
+  :config
+  (setq helm-bibtex-bibliography
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
+          "~/CloudStation/Sylvain/recherche/biblio/refs.bib"
+          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"))
+  (setq helm-bibtex-library-path
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking"
+          "~/CloudStation/Sylvain/recherche/biblio/"))
+
+  ;; Inconsolata is not mono with some symbols
+  (setq helm-bibtex-pdf-symbol "p")
+  (setq helm-bibtex-notes-symbol "n")
   (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
 ;; Whitespace mode
@@ -188,8 +206,8 @@
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
 
-(require 'webjump)
-(global-set-key "\C-cj" 'webjump)
+(use-package webjump
+  :bind ("C-c j" . webjump))
 
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
@@ -212,9 +230,9 @@
   (require 'epa)
   (epa-file-enable))
 
-(require 'expand-region)
-(global-set-key (kbd "C-à") 'er/expand-region)
-(global-set-key (kbd "C-M-à") 'er/contract-region)
+(use-package expand-region
+  :bind (("C-à" . er/expand-region)
+         ("C-M-à" . er/contract-region)))
 
 ;; Fast navigation from symbol to definition
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
@@ -238,67 +256,43 @@
 (add-hook 'find-file-hook 'sm-try-smerge t)
 
 ;; On-the-fly checker
-(require 'flycheck)
-(global-flycheck-mode 1)
-(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+(use-package flycheck
+  :commands global-flycheck-mode
+  :defer 10
+  :config
+  (progn
+    (global-flycheck-mode 1)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))))
 
 ;;; google translate
-(if (file-exists-p "~/repositories/google-translate/")
-    (progn
-      (load-file "~/repositories/google-translate/google-translate.el")
-      (load-file "~/repositories/google-translate/google-translate-smooth-ui.el")
-      (load-file "~/repositories/google-translate/google-translate-core-ui.el"))
-
-  (with-eval-after-load 'google-translate
-    (setq google-translate-translation-directions-alist
-          '(("en" . "fr") ("fr" . "en"))))
-  (global-set-key (kbd "C-c t") 'google-translate-smooth-translate))
+(use-package google-translate
+  :load-path "~/repositories/google-translate/"
+  :config (setq google-translate-translation-directions-alist
+                '(("en" . "fr") ("fr" . "en")))
+  :bind ("C-c t" . google-translate-smooth-translate))
 
 ;; Projectile
-(projectile-global-mode)
-(eval-after-load 'projectile
-  '(progn
-     ;; Reduce mode-line
-     (setq-default projectile-mode-line " Pj")
-     (setq projectile-mode-line-lighter " ")
-     (defun projectile-update-mode-line ()
-       "Report project in mode-line."
-       (let* ((project-name (projectile-project-name))
-              (project-name-mode-line (if (> (length project-name) 12)
-                                          (substring project-name 0 8)
-                                        project-name))
-              (message (format "%s[%s]"
-                               projectile-mode-line-lighter
-                               project-name-mode-line)))
-         (setq projectile-mode-line message))
-       (force-mode-line-update))
-
-     (setq projectile-known-projects-file
-           (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
-     (setq projectile-cache-file
-           (expand-file-name "cache/projectile.cache" user-emacs-directory))
-     (defun projectile-find-file-other-window (arg)
-       "Jump to a project's file using completion.
-
-With a prefix ARG invalidates the cache first."
-       (interactive "P")
-       (when arg
-         (projectile-invalidate-cache nil))
-       (let ((file (projectile-completing-read "Find file: "
-                                               (projectile-current-project-files)))
-             (root (projectile-project-root)))
-         (other-window 1)
-         (find-file (expand-file-name file root))
-         (run-hooks 'projectile-find-file-hook)))
-
-     (define-key projectile-mode-map
-       (concat projectile-keymap-prefix (kbd "v"))
-       'projectile-find-file-other-window)))
+(use-package projectile
+  :config
+  (progn
+    (setq-default projectile-mode-line
+                  '(:eval (if (projectile-project-p)
+                              (let* ((project-name (projectile-project-name))
+                                     (project-name-mode-line (if (> (length project-name) 12)
+                                                                 (substring project-name 0 8)
+                                                               project-name)))
+                                (format " Pj[%s]" project-name-mode-line))
+                            "")))
+    (setq projectile-known-projects-file
+          (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
+    (setq projectile-cache-file
+          (expand-file-name "cache/projectile.cache" user-emacs-directory))
+    (projectile-global-mode)))
 
 ;; ace-jump-mode
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-(with-eval-after-load 'ace-jump-mode
-  (set-face-foreground 'ace-jump-face-foreground "yellow"))
+(use-package ace-jump-mode
+  :config (set-face-foreground 'ace-jump-face-foreground "yellow")
+  :bind ("C-c SPC" . ace-jump-mode))
 
 ;; Taken from http://www.reddit.com/r/emacs/comments/2x3mke/making_acejump_play_nice_with_dired/
 (defun ace-jump-to-filenames ()
