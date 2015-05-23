@@ -232,6 +232,7 @@
   (epa-file-enable))
 
 (use-package expand-region
+  :load-path "~/repositories/expand-region.el/" ; Use local version
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
