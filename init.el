@@ -409,8 +409,10 @@
 `default-directory' if ARG is non-nil."
   (interactive "P")
   (if (eq 0 (shell-command "tmux -q has-session"))
-      (start-process "Attach" nil "urxvt" "-e" "tmux" "attach-session" "-d")
-    (start-process "Start" nil "urxvt" "-e" "tmux" "new-session"))
+      (start-process "Attach" nil "urxvt" "-T" "my-tmux" "-e" "tmux" "attach-session" "-d")
+    (start-process "Start" nil "urxvt" "-T" "my-tmux" "-e" "tmux" "new-session"))
+  (and (executable-find "wmctrl")
+       (shell-command "wmctrl -a my-tmux"))
   (if arg (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
                                  (file-truename default-directory)))))
 
