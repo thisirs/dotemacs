@@ -64,10 +64,10 @@
   (package-initialize)
 
   (defvar package-required-packages
-    '(ace-jump-mode
-      ack-and-a-half
+    '(ack-and-a-half
       async
       auctex
+      avy
       cmake-mode
       company
       dash
@@ -291,10 +291,11 @@
           (expand-file-name "cache/projectile.cache" user-emacs-directory))
     (projectile-global-mode)))
 
-;; ace-jump-mode
-(use-package ace-jump-mode
-  :config (set-face-foreground 'ace-jump-face-foreground "yellow")
-  :bind ("C-c SPC" . ace-jump-mode))
+(use-package avy
+  :config (progn
+            (setq avy-style 'at)
+            (setq avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
+  :bind ("C-c SPC" . avy-goto-char))
 
 ;; Taken from http://www.reddit.com/r/emacs/comments/2x3mke/making_acejump_play_nice_with_dired/
 (defun ace-jump-to-filenames ()
