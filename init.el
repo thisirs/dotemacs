@@ -284,6 +284,7 @@
                                                                project-name)))
                                 (format " Pj[%s]" project-name-mode-line))
                             "")))
+    (setq projectile-completion-system 'helm)
     (setq projectile-known-projects-file
           (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
     (setq projectile-cache-file
