@@ -3,13 +3,13 @@
   "Visit the current branch's PR on Github."
   (interactive)
   (browse-url
-   (format "https://github.com/%s/compare/%s"
+   (format "https://github.com/%s/pull/new/%s"
            (replace-regexp-in-string
             "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
             (magit-get "remote"
-                       (magit-get-current-remote)
+                       (magit-get-remote)
                        "url"))
-           (magit-get-current-branch))))
+           (cdr (magit-get-remote-branch)))))
 
 (eval-after-load 'magit
   '(define-key magit-mode-map "V"
@@ -17,14 +17,12 @@
 
 (require 'magit)
 
-(setq magit-last-seen-setup-instructions "1.4.0")
-
 (global-set-key "\C-ci" 'magit-status)
 
 (define-key magit-mode-map (kbd "C-o")
   (lambda ()
     (interactive)
-    (let ((current-prefix-arg 4))
-      (magit-visit-item 'other-window))))
+    (let ((current-prefix-arg t))
+      (call-interactively 'magit-diff-visit-file))))
 
 (provide 'init-magit)
