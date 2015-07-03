@@ -23,11 +23,10 @@
                         (overlay-get yas--active-field-overlay 'yas--field))))
         (and field (delete-region (point) (yas--field-end field))))))
 
-
   :config
   (progn
     ;; Suppress excessive log messages
-    ;; (setq yas-verbosity 1)
+    (setq yas-verbosity 1)
 
     ;; Use only own snippets, do not use bundled ones
     (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
@@ -41,9 +40,9 @@
 # --
 $0")
 
-    (define-key yas-keymap (kbd "C-e") 'yas-goto-end-of-active-field)
-    (define-key yas-keymap (kbd "C-a") 'yas-goto-start-of-active-field)
-    (define-key yas-keymap (kbd "C-k") 'yas-clear-current-field)
+    ;; (define-key yas-keymap (kbd "C-e") 'yas-goto-start-of-active-field)
+    ;; (define-key yas-keymap (kbd "C-a") 'yas-goto-start-of-active-field)
+    ;; (define-key yas-keymap (kbd "C-k") 'yas-clear-current-field)
 
     ;; Don't use yasnippet with terminal
     (add-hook 'term-mode-hook
@@ -52,9 +51,9 @@ $0")
 
     (bind-keys
      :map yas-keymap
-     ("C-a" yas-goto-start-of-active-field)
-     ("C-e" yas-goto-end-of-active-field)
-     ("C-k" yas-clear-current-field))
+     ("C-a" . yas-goto-start-of-active-field)
+     ("C-e" . yas-goto-end-of-active-field)
+     ("C-k" . yas-clear-current-field))
 
     (yas-global-mode 1)
 
@@ -82,12 +81,22 @@ currently selected region as new one."
                   (message "Snippet stored in register %s"
                            (key-description (vector last-input-event))))
               (yas-expand-snippet (aref yas-disposable-snippets index)))
-          (undefined))))
-
-    (global-set-key (kbd "C-c y [t]") 'yas-create-or-expand))
+          (undefined)))))
   :bind (("C-c y TAB" . yas-expand)
          ("C-c y r" . yas-reload-all)
          ("C-c y n" . yas-new-snippet)
          ("C-c y v" . yas-visit-snippet-file)))
+
+
+(defvar yas-snippet-chars
+  '("1" "2" "3")
+  "Keystroke to st")
+
+(defun yas-flash-bind-flash-keys ()
+  (mapc (lambda (key)
+          (define-key global-map (kbd (concat "C-c y " key)) #'yas-create-or-expand))
+        yas-snippet-chars))
+
+(yas-flash-bind-flash-keys)
 
 (provide 'init-yasnippet)
