@@ -294,8 +294,11 @@
 (use-package avy
   :config (progn
             (setq avy-style 'at)
-            (setq avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
-  :bind ("C-c SPC" . avy-goto-char))
+            (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
+                                ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
+                                ?w ?x ?c ?v ?b ?n))
+            (setq avy-background t))
+  :bind ("C-c SPC" . avy-goto-subword-1))
 
 ;; Taken from http://www.reddit.com/r/emacs/comments/2x3mke/making_acejump_play_nice_with_dired/
 (defun ace-jump-to-filenames ()
