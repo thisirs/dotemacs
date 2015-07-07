@@ -102,6 +102,7 @@
       rainbow-mode
       robe
       s
+      skeletor
       smart-mode-line
       state
       tidy
