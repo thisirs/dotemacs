@@ -41,8 +41,8 @@
  (global-set-key (kbd "<C-kp-divide>") 'transpose-buffers)
  (global-set-key (kbd "<C-kp-multiply>") 'rotate-frame-anticlockwise)
 
- (global-set-key (kbd "M-p") 'backward-paragraph)
- (global-set-key (kbd "M-n") 'forward-paragraph)
+ (global-set-key (kbd "M-p") 'scroll-down-command)
+ (global-set-key (kbd "M-n") 'scroll-up-command)
 
  ;; A complementary binding to the apropos-command (C-h a)
  (define-key 'help-command "A" 'apropos)
