@@ -174,6 +174,7 @@
 (require 'init-paredit)
 (require 'init-wcheck)
 (require 'init-ruby)
+(require 'init-python)
 (require 'init-state)
 
 (use-package helm-bibtex
