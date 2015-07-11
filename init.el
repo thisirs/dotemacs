@@ -64,8 +64,7 @@
   (package-initialize)
 
   (defvar package-required-packages
-    '(ack-and-a-half
-      async
+    '(async
       auctex
       avy
       cmake-mode
