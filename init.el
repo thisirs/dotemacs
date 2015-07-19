@@ -279,16 +279,19 @@
 
 ;; Projectile
 (use-package projectile
+  :init
+  (defun projectile-custom-mode-line ()
+    (if (projectile-project-p)
+        (let* ((project-name (projectile-project-name))
+               (project-name-mode-line (if (> (length project-name) 12)
+                                           (substring project-name 0 8)
+                                         project-name)))
+          (format " Pj[%s]" project-name-mode-line))
+      ""))
+  :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (progn
-    (setq-default projectile-mode-line
-                  '(:eval (if (projectile-project-p)
-                              (let* ((project-name (projectile-project-name))
-                                     (project-name-mode-line (if (> (length project-name) 12)
-                                                                 (substring project-name 0 8)
-                                                               project-name)))
-                                (format " Pj[%s]" project-name-mode-line))
-                            "")))
+    (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
     (setq projectile-completion-system 'helm)
     (setq projectile-known-projects-file
           (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
