@@ -177,6 +177,9 @@
 (require 'init-python)
 (require 'init-state)
 
+(use-package macrostep
+  :bind ("C-c e m" . macrostep-expand))
+
 (use-package helm-bibtex
   :load-path "~/repositories/helm-bibtex/"
   :defer t

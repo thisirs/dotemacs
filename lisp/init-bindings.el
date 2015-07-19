@@ -199,7 +199,6 @@ body passed in argument."
  (global-set-key (kbd "C-c e r") 'eval-region)
  (global-set-key (kbd "C-c e q") 'toggle-debug-on-quit)
  (global-set-key (kbd "C-c e g") 'toggle-debug-on-quit)
- (global-set-key (kbd "C-c e m") 'macrostep-expand)
  (global-set-key (kbd "C-c e L") 'elint-current-buffer)
  (global-set-key (kbd "C-c e t") 'ert-run-tests-interactively)
 
