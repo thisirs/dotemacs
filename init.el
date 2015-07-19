@@ -249,16 +249,17 @@
   '(diminish 'elisp-slime-nav-mode))
 
 ;; Minor mode to resolve diff3 conflicts
-(autoload 'smerge-mode "smerge-mode" nil t)
-
-(defun sm-try-smerge ()
-  (let ((old-point (point)))
-    (goto-char (point-min))
-    (if (re-search-forward "^<<<<<<< " nil t)
-        (smerge-mode 1)
-      (goto-char old-point))))
-
-(add-hook 'find-file-hook 'sm-try-smerge t)
+(use-package smerge-mode
+  :commands smerge-mode
+  :config
+  (progn
+    (defun sm-try-smerge ()
+      (let ((old-point (point)))
+        (goto-char (point-min))
+        (if (re-search-forward "^<<<<<<< " nil t)
+            (smerge-mode 1)
+          (goto-char old-point))))
+    (add-hook 'find-file-hook 'sm-try-smerge t)))
 
 ;; On-the-fly checker
 (use-package flycheck
