@@ -998,8 +998,9 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 ;; (require 'multi-term)
 ;; (setq multi-term-program "/bin/zsh")
 
-(global-set-key (kbd "C-ç") 'mc/mark-next-like-this)
-(with-eval-after-load 'multiple-cursors
+(use-package multiple-cursors
+  :bind ("C-ç" . mc/mark-next-like-this)
+  :config
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el"))
 
 (setq set-mark-command-repeat-pop t)
