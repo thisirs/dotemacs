@@ -351,49 +351,26 @@
 (require 'goto-last-change)
 (global-set-key (kbd "C-x C-_") 'goto-last-change)
 
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-arrange-by-rules-min-items 0
-      recentf-arrange-by-rule-others nil
-      recentf-arrange-rules
-      '(("Elisp files (%d)" ".\\.el\\(.gz\\)?$" "^\\.?emacs-")
-        ("Ruby files (%d)" ".\\.rb$")
-        ("Scilab files (%d)" ".\\.\\(sci\\|sce\\)$")
-        ("Java files (%d)" ".\\.java$")
-        ("C/C++ files (%d)" ".\\.c\\(pp\\)?$")
-        ("PHP files (%d)" ".\\.\\(php\\|php3\\)$")
-        ("Configuration files (%d)" "rc$\\|/\\.")
-        ("Ada files (%d)" ".\\.ad[sb]$")
-        ("TeX/LaTeX files (%d)" ".\\.\\(tex\\|bib\\|sty\\)$")
-        ("Scripts (%d)" ".\\.\\(sh\\|pl\\)$")
-        ("Documentation (%d)" "/doc/")
-        ("Po files (%d)" "\\.po\\'\\|\\.po\\.")
-        ("Lisp files (%d)" ".\\.lisp$"))
-      recentf-max-saved-items 50
-      recentf-max-menu-items 30
-      recentf-menu-path nil
-      recentf-exclude '(".emacs-customize$"
-                        ".newsrc"
-                        ".etags$"
-                        ".emacs.bmk$"
-                        ".bbdb$"
-                        ".log$"
-                        "^/tmp/")
-      recentf-menu-filter 'recentf-arrange-by-rule
-      recentf-menu-title "Recentf")
-
 ;; From https://github.com/jwiegley/dot-emacs
-(defun recentf-add-dired-directory ()
-  (if (and dired-directory
-           (file-directory-p dired-directory)
-           (not (string= "/" dired-directory)))
-      (let ((last-idx (1- (length dired-directory))))
-        (recentf-add-file
-         (if (= ?/ (aref dired-directory last-idx))
-             (substring dired-directory 0 last-idx)
-           dired-directory)))))
-
-(add-hook 'dired-mode-hook 'recentf-add-dired-directory)
+(use-package recentf
+  :defer 10
+  :commands (recentf-mode
+             recentf-add-file
+             recentf-apply-filename-handlers)
+  :preface
+  (defun recentf-add-dired-directory ()
+    (if (and dired-directory
+             (file-directory-p dired-directory)
+             (not (string= "/" dired-directory)))
+        (let ((last-idx (1- (length dired-directory))))
+          (recentf-add-file
+           (if (= ?/ (aref dired-directory last-idx))
+               (substring dired-directory 0 last-idx)
+             dired-directory)))))
+  :init
+  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
+  :config
+  (recentf-mode 1))
 
 ;; winner-mode
 (winner-mode 1)
