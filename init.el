@@ -373,18 +373,23 @@
   (recentf-mode 1))
 
 ;; winner-mode
-(winner-mode 1)
-(setq winner-boring-buffers
-      '("*Completions*"
-        "*helm for files*"
-        "*helm find-file*"
-        "*helm complete*"
-        "*helm M-x*"
-        "*Ibuffer*"
-        "*Calendar*"
-        "*helm*"))
-(global-set-key (kbd "M-N") 'winner-redo)
-(global-set-key (kbd "M-P") 'winner-undo)
+(use-package winner
+  :if (not noninteractive)
+  :defer 5
+  :bind (("M-N" . winner-redo)
+         ("M-P" . winner-undo))
+  :config
+  (progn
+    (setq winner-boring-buffers
+          '("*Completions*"
+            "*helm for files*"
+            "*helm find-file*"
+            "*helm complete*"
+            "*helm M-x*"
+            "*Ibuffer*"
+            "*Calendar*"
+            "*helm*"))
+    (winner-mode 1)))
 
 (defun switch-to-external-terminal (&optional arg)
   "Switch to an external terminal. Change directory if ARG is non-nil."
