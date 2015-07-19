@@ -48,7 +48,8 @@
     "~/CloudStation/Sylvain/manuals/beamer/"
     "~/CloudStation/Sylvain/manuals/latex/"
     "~/CloudStation/Sylvain/manuals/pgf-tikz/"
-    "~/CloudStation/Sylvain/manuals/refcards/")
+    "~/CloudStation/Sylvain/manuals/refcards/"
+    "~/CloudStation/Sylvain/books/")
   "List of path to look for manuals. Each element is either a
   string or a list of string containing fallback directories.")
 
