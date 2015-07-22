@@ -69,7 +69,8 @@
           ("%D" "~/CloudStation/Sylvain/scripts")
           ("%D" "~/CloudStation/Sylvain/projects/")
           ("%D" "~/CloudStation/Sylvain/conf-files/")
-          ("Boss: %D" "~/CloudStation/Sylvain/recherche/")))
+          ("Boss: %D" "~/CloudStation/Sylvain/recherche/publications/")
+          ("Boss: %D" "~/CloudStation/Sylvain/recherche/projects/")))
   (setq ibuffer-project-cache-file
         (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
   (ibuffer-project-refresh t))
