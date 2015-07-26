@@ -181,8 +181,7 @@
   :bind ("C-c e m" . macrostep-expand))
 
 (use-package helm-bibtex
-  :load-path "~/repositories/helm-bibtex/"
-  :defer t
+  :defer 5
   :config
   (setq helm-bibtex-bibliography
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
@@ -497,29 +496,35 @@
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
 ;; Warn you when quitting emacs and leaving repo dirty
-(require 'vc-check-status)
+(use-package vc-check-status
+  :defer 5
+  :config
+  (progn
+    ;; Be sure to leave my packages' repo on master
+    (push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
 
-;; Don't check on auto-committed repo
-(add-to-list 'vc-check-cancel-hook
-             (lambda ()
-               (and
-                (fboundp 'vc-auto-commit-backend)
-                (vc-auto-commit-backend))))
+    ;; Only look for unpushed commits on master
+    (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
 
-;; Be sure to leave my packages' repo on master
-(push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+    ;; Don't check on auto-committed repo
+    (add-to-list 'vc-check-cancel-hook
+                 (lambda ()
+                   (and
+                    (fboundp 'vc-auto-commit-backend)
+                    (vc-auto-commit-backend))))
 
-;; Only look for unpushed commits on master
-(push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
-(vc-check-status-activate)
+    (vc-check-status-activate)))
 
 ;; Contextual capture and agenda commands for Org-mode
 (org-context-activate)
 
 (require-maybe 'commit-message)
 
-(vc-auto-commit-activate)
-(global-set-key (kbd "C-x v C") 'vc-auto-commit)
+(use-package vc-auto-commit
+  :defer 5
+  :commands (vc-auto-commit-backend)
+  :bind ("C-x v C" . vc-auto-commit)
+  :config (vc-auto-commit-activate))
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
@@ -546,11 +551,13 @@
 (require-maybe 'org-bib-workflow)
 
 ;; Open quickly a temporary file
-(require 'find-temp-file)
-(setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
-(setq find-temp-template-default "%M/%D/%N-%T.%E")
-(add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E"))
-(global-set-key (kbd "C-x C-t") 'find-temp-file)
+(use-package find-temp-file
+  :bind ("C-x C-t" . find-temp-file)
+  :config
+  (progn
+    (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
+    (setq find-temp-template-default "%M/%D/%N-%T.%E")
+    (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E"))))
 
 (require-maybe 'helm-bib)
 
