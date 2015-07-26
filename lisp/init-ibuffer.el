@@ -157,7 +157,7 @@
 (setq ido-mode 'buffer)
 (setq ido-auto-merge-work-directories-length -1)
 
-(define-key ibuffer-mode-map (kbd "C-s") 'ido-switch-buffer)
+(define-key ibuffer-mode-map (kbd "C-s") 'helm-buffers-list)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
   "Open ibuffer with cursor pointed to second most recent buffer
