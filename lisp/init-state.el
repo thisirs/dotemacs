@@ -48,7 +48,8 @@
     (state-define-state
      personnal
      :key "p"
-     :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg")
+     :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg"
+     :keep (org-password-manager-get-password t))
 
     (state-define-state
      emacs
