@@ -78,6 +78,7 @@
       flycheck
       google-translate
       goto-last-change
+      guide-key
       helm
       helm-bibtex
       helm-descbinds
@@ -179,6 +180,18 @@
 (require 'init-python)
 (require 'init-state)
 (require 'init-yasnippet)
+
+(use-package guide-key
+  :diminish guide-key-mode
+  :commands guide-key-mode
+  :defer 10
+  :config
+  (setq guide-key/guide-key-sequence
+        '("C-c p"
+          "C-x r"
+          "C-x 4"
+          "C-x 5"))
+  (guide-key-mode 1))
 
 (use-package org-password-manager
   :load-path "~/repositories/org-password-manager/"
