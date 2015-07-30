@@ -95,6 +95,7 @@
       offlineimap
       org-caldav
       org-context
+      org-password-manager
       paredit
       pcache
       projectile
@@ -174,7 +175,17 @@
 (require 'init-twittering)
 (require 'init-vanilla)
 (require 'init-wcheck)
+(require 'init-ruby)
+(require 'init-python)
+(require 'init-state)
 (require 'init-yasnippet)
+
+(use-package org-password-manager
+  :load-path "~/repositories/org-password-manager/"
+  :config (setq org-password-manager-scope 'file))
+
+(use-package macrostep
+  :bind ("C-c e m" . macrostep-expand))
 
 (use-package avy
   :config
