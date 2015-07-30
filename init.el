@@ -249,7 +249,8 @@
   :defer 10
   :config
   (global-flycheck-mode 1)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck)))
+  (setq-default flycheck-disabled-checkers
+                '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck)))
 
 (use-package google-translate
   :load-path "~/repositories/google-translate/"
