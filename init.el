@@ -998,7 +998,7 @@ case it is used in hooks."
 
 (setq sentence-end-double-space nil)
 
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 
 ;; Default in 24.4
 ;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
