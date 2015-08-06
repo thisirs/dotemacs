@@ -148,70 +148,48 @@
 (require 'diminish)
 (require 'bind-key)
 
+(require 'init-bindings)
+(require 'init-editing)
 (require 'init-fill)
-(require 'init-org)
-(require 'init-dired)
-(require 'init-isearch)
-(require 'init-erc)
-(require 'init-magit)
 (require 'init-find-file)
 (require 'init-latex)
-(require 'init-desktop)
-(require 'init-midnight)
-(require 'init-helm)
-(require 'init-octave)
-(require 'init-matlab)
-(require 'init-yasnippet)
-(require 'init-elisp)
+
 (require 'init-auctex)
+(require 'init-desktop)
+(require 'init-dired)
+(require 'init-elisp)
+(require 'init-erc)
+(require 'init-helm)
+(require 'init-hippie-expand)
 (require 'init-ibuffer)
-(require 'init-bindings)
+(require 'init-isearch)
+(require 'init-matlab)
+(require 'init-midnight)
+(require 'init-octave)
+(require 'init-org)
+(require 'init-paredit)
+(require 'init-python)
+(require 'init-ruby)
 (require 'init-scratch)
 (require 'init-twittering)
-(require 'init-hippie-expand)
 (require 'init-vanilla)
-(require 'init-editing)
-(require 'init-paredit)
 (require 'init-wcheck)
-(require 'init-ruby)
-(require 'init-python)
-(require 'init-state)
+(require 'init-yasnippet)
 
-(use-package macrostep
-  :bind ("C-c e m" . macrostep-expand))
-
-(use-package helm-bibtex
-  :defer 5
+(use-package avy
   :config
-  (setq helm-bibtex-bibliography
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/refs.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"))
-  (setq helm-bibtex-library-path
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking"
-          "~/CloudStation/Sylvain/recherche/biblio/"))
-
-  ;; Inconsolata is not mono with some symbols
-  (setq helm-bibtex-pdf-symbol "p")
-  (setq helm-bibtex-notes-symbol "n")
-  (define-key helm-command-map (kbd "h b") 'helm-bibtex))
-
-;; Whitespace mode
-(require 'whitespace)
-
-(setq whitespace-style
-      '(face trailing tabs))
-
-(global-whitespace-mode)
+  (setq avy-style 'at)
+  (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
+                      ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
+                      ?w ?x ?c ?v ?b ?n))
+  (setq avy-background t)
+  :bind ("C-c SPC" . avy-goto-subword-1))
 
 (load-library "paren")
 (show-paren-mode 1)
 
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
-
-(use-package webjump
-  :bind ("C-c j" . webjump))
 
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
@@ -238,6 +216,14 @@
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
+;; Open quickly a temporary file
+(use-package find-temp-file
+  :bind ("C-x C-t" . find-temp-file)
+  :config
+  (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
+  (setq find-temp-template-default "%M/%D/%N-%T.%E")
+  (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
+
 ;; Fast navigation from symbol to definition
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
 
@@ -247,34 +233,34 @@
 (eval-after-load 'elisp-slime-nav
   '(diminish 'elisp-slime-nav-mode))
 
-;; Minor mode to resolve diff3 conflicts
-(use-package smerge-mode
-  :commands smerge-mode
-  :config
-  (progn
-    (defun sm-try-smerge ()
-      (let ((old-point (point)))
-        (goto-char (point-min))
-        (if (re-search-forward "^<<<<<<< " nil t)
-            (smerge-mode 1)
-          (goto-char old-point))))
-    (add-hook 'find-file-hook 'sm-try-smerge t)))
-
-;; On-the-fly checker
 (use-package flycheck
   :commands global-flycheck-mode
   :defer 10
   :config
-  (progn
-    (global-flycheck-mode 1)
-    (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))))
+  (global-flycheck-mode 1)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck)))
 
-;;; google translate
 (use-package google-translate
   :load-path "~/repositories/google-translate/"
   :config (setq google-translate-translation-directions-alist
                 '(("en" . "fr") ("fr" . "en")))
   :bind ("C-c t" . google-translate-smooth-translate))
+
+(use-package helm-bibtex
+  :defer 5
+  :config
+  (setq helm-bibtex-bibliography
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
+          "~/CloudStation/Sylvain/recherche/biblio/refs.bib"
+          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"))
+  (setq helm-bibtex-library-path
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking"
+          "~/CloudStation/Sylvain/recherche/biblio/"))
+
+  ;; Inconsolata is not mono with some symbols
+  (setq helm-bibtex-pdf-symbol "p")
+  (setq helm-bibtex-notes-symbol "n")
+  (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
 (use-package magit
   :bind ("C-c i" . magit-status)
@@ -298,6 +284,19 @@
       (let ((current-prefix-arg t))
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
+
+(use-package macrostep
+  :bind ("C-c e m" . macrostep-expand))
+
+(use-package multiple-cursors
+  :bind ("C-ç" . mc/mark-next-like-this)
+  :config
+  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el"))
+
+;; Contextual capture and agenda commands for Org-mode
+(use-package org-context
+  :config (org-context-activate))
+
 ;; Projectile
 (use-package projectile
   :init
@@ -311,36 +310,15 @@
       ""))
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
-  (progn
-    (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
-    (setq projectile-completion-system 'helm)
-    (setq projectile-known-projects-file
-          (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
-    (setq projectile-cache-file
-          (expand-file-name "cache/projectile.cache" user-emacs-directory))
-    (projectile-global-mode)))
-
-(use-package avy
-  :config (progn
-            (setq avy-style 'at)
-            (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
-                                ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
-                                ?w ?x ?c ?v ?b ?n))
-            (setq avy-background t))
-  :bind ("C-c SPC" . avy-goto-subword-1))
-
-;; Taken from http://www.reddit.com/r/emacs/comments/2x3mke/making_acejump_play_nice_with_dired/
-(defun ace-jump-to-filenames ()
-  (setq-local ace-jump-search-filter
-              (lambda () (get-text-property (point) 'dired-filename))))
-(add-hook 'dired-mode-hook #'ace-jump-to-filenames)
+  (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
+  (setq projectile-completion-system 'helm)
+  (setq projectile-known-projects-file
+        (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
+  (setq projectile-cache-file
+        (expand-file-name "cache/projectile.cache" user-emacs-directory))
+  (projectile-global-mode))
 
 ;; undo-tree
-(require 'undo-tree)
-(global-undo-tree-mode)
-(define-key undo-tree-visualizer-mode-map (kbd "RET")
-  'undo-tree-visualizer-quit)
-
 (require 'mwheel)
 (mouse-wheel-mode 1)
 
@@ -356,9 +334,6 @@
 
 (require 'transpose-frame)
 
-;; wtf for acronym lookup
-(require 'wtf)
-
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -367,10 +342,6 @@
 (require 'saveplace)
 (setq save-place-file "~/.emacs.d/cache/.saveplace")
 (setq-default save-place t)
-
-;; Goto last changed place in buffer
-(require 'goto-last-change)
-(global-set-key (kbd "C-x C-_") 'goto-last-change)
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
@@ -393,7 +364,18 @@
   :config
   (recentf-mode 1))
 
-;; winner-mode
+;; Minor mode to resolve diff3 conflicts
+(use-package smerge-mode
+  :commands smerge-mode
+  :config
+  (defun sm-try-smerge ()
+    (let ((old-point (point)))
+      (goto-char (point-min))
+      (if (re-search-forward "^<<<<<<< " nil t)
+          (smerge-mode 1)
+        (goto-char old-point))))
+  (add-hook 'find-file-hook 'sm-try-smerge t))
+
 ;; Quick navigation between workspaces
 (use-package state
   :load-path "~/CloudStation/Sylvain/emacs/site-lisp/state"
@@ -502,23 +484,66 @@
   (state-define-repl ruby-repl "j" "*ruby*" (eq major-mode 'ruby-mode) (inf-ruby))
 
   (state-global-mode 1))
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  (define-key undo-tree-visualizer-mode-map (kbd "RET")
+    'undo-tree-visualizer-quit))
+
+;; Warn you when quitting emacs and leaving repo dirty
+(use-package vc-check-status
+  :defer 5
+  :config
+  ;; Be sure to leave my packages' repo on master
+  (push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+
+  ;; Only look for unpushed commits on master
+  (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
+
+  ;; Don't check on auto-committed repo
+  (add-to-list 'vc-check-cancel-hook
+               (lambda ()
+                 (and
+                  (fboundp 'vc-auto-commit-backend)
+                  (vc-auto-commit-backend))))
+
+  (vc-check-status-activate))
+
+(use-package vc-auto-commit
+  :defer 5
+  :commands (vc-auto-commit-backend)
+  :bind ("C-x v C" . vc-auto-commit)
+  :config (vc-auto-commit-activate))
+
+(use-package webjump
+  :bind ("C-c j" . webjump))
+
+(use-package whitespace
+  :config
+  (setq whitespace-style
+        '(face trailing tabs))
+  (global-whitespace-mode))
+
 (use-package winner
   :if (not noninteractive)
   :defer 5
   :bind (("M-N" . winner-redo)
          ("M-P" . winner-undo))
   :config
-  (progn
-    (setq winner-boring-buffers
-          '("*Completions*"
-            "*helm for files*"
-            "*helm find-file*"
-            "*helm complete*"
-            "*helm M-x*"
-            "*Ibuffer*"
-            "*Calendar*"
-            "*helm*"))
-    (winner-mode 1)))
+  (setq winner-boring-buffers
+        '("*Completions*"
+          "*helm for files*"
+          "*helm find-file*"
+          "*helm complete*"
+          "*helm M-x*"
+          "*Ibuffer*"
+          "*Calendar*"
+          "*helm*"))
+  (winner-mode 1))
+
+;; wtf for acronym lookup
+(use-package wtf :commands wtf-is)
 
 (defun switch-to-external-terminal (&optional arg)
   "Switch to an external terminal. Change directory if ARG is non-nil."
@@ -540,7 +565,6 @@
                                  (file-truename default-directory)))))
 
 (global-set-key (kbd "C-z") 'switch-to-external-terminal)
-
 
 ;; Additional menu
 (require 'easymenu)
@@ -578,7 +602,6 @@
             (setq truncate-lines t)))
 
 (define-key term-raw-map (kbd "C-y") 'term-paste)
-
 
 ;; Notify events
 (with-emacs-version>= "24"
@@ -625,36 +648,7 @@
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
-;; Warn you when quitting emacs and leaving repo dirty
-(use-package vc-check-status
-  :defer 5
-  :config
-  (progn
-    ;; Be sure to leave my packages' repo on master
-    (push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
-
-    ;; Only look for unpushed commits on master
-    (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
-
-    ;; Don't check on auto-committed repo
-    (add-to-list 'vc-check-cancel-hook
-                 (lambda ()
-                   (and
-                    (fboundp 'vc-auto-commit-backend)
-                    (vc-auto-commit-backend))))
-
-    (vc-check-status-activate)))
-
-;; Contextual capture and agenda commands for Org-mode
-(org-context-activate)
-
 (require-maybe 'commit-message)
-
-(use-package vc-auto-commit
-  :defer 5
-  :commands (vc-auto-commit-backend)
-  :bind ("C-x v C" . vc-auto-commit)
-  :config (vc-auto-commit-activate))
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
@@ -677,19 +671,6 @@
             '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
 
 (setq auto-insert 'other)
-
-(require-maybe 'org-bib-workflow)
-
-;; Open quickly a temporary file
-(use-package find-temp-file
-  :bind ("C-x C-t" . find-temp-file)
-  :config
-  (progn
-    (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
-    (setq find-temp-template-default "%M/%D/%N-%T.%E")
-    (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E"))))
-
-(require-maybe 'helm-bib)
 
 (server-start nil t)
 
@@ -1134,11 +1115,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 ;; Trying multi-term
 ;; (require 'multi-term)
 ;; (setq multi-term-program "/bin/zsh")
-
-(use-package multiple-cursors
-  :bind ("C-ç" . mc/mark-next-like-this)
-  :config
-  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el"))
 
 (setq set-mark-command-repeat-pop t)
 
