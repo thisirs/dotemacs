@@ -85,19 +85,7 @@ cancel the indentation if needed."
                   (if (region-active-p) (region-beginning))
                   (if (region-active-p) (region-end))))
 
-;; Taken from Emacswiki
-(defun uniquify-region-lines (beg end)
-  "Remove duplicate adjacent lines in region."
-  (interactive "*r")
-  (save-excursion
-    (goto-char beg)
-    (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
-      (replace-match "\\1"))))
-
-(defun uniquify-buffer-lines ()
-  "Remove duplicate adjacent lines in the current buffer."
-  (interactive)
-  (uniquify-region-lines (point-min) (point-max)))
+(defalias 'remove-duplicate-lines 'delete-duplicate-lines)
 
 (defun indent-as-in (mode beg end &optional arg)
   "Indent selected region according to MODE.
