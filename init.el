@@ -189,7 +189,9 @@
         '("C-c p"
           "C-x r"
           "C-x 4"
-          "C-x 5"))
+          "C-x 5"
+          (org-mode "C-c C-x")
+          (smerge-mode "C-c ^")))
   (guide-key-mode 1))
 
 (use-package org-password-manager
