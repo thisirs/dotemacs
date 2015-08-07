@@ -178,7 +178,6 @@
 (require 'init-wcheck)
 (require 'init-ruby)
 (require 'init-python)
-(require 'init-state)
 (require 'init-yasnippet)
 
 (use-package guide-key
