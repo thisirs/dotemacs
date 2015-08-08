@@ -1095,7 +1095,7 @@ case it is used in hooks."
 (add-hook 'server-done-hook 'lower-frame-unless-commit)
 
 (defun lower-frame-unless-commit ()
-  (unless (and (boundp 'git-commit-mode) git-commit-mode)
+  (unless (and (boundp 'global-git-commit-mode) global-git-commit-mode)
     (lower-frame)))
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
