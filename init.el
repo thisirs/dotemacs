@@ -1137,13 +1137,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
-;; Trying multi-term
-;; (require 'multi-term)
-;; (setq multi-term-program "/bin/zsh")
-
 (setq set-mark-command-repeat-pop t)
-
-(setq ada-prj-default-gnatmake-opt "-g -gnatW8")
 
 (defun reb-read-regexp (prompt &optional defaults history)
   "Like `read-regexp' but with `re-builder' feedback."
@@ -1201,15 +1195,9 @@ ring."
                         (with-current-buffer buf
                           (revert-buffer nil t)))))
 
-;; Trying company
-(add-hook 'after-init-hook 'global-company-mode)
-
 ;; Trying sml
 (setq sml/vc-mode-show-backend t)
 (sml/setup)
-(sml/apply-theme 'respectful)
-
-(when (file-exists-p "/home/sylvain/repositories/org-reveal/ox-reveal.el")
-  (load-file "/home/sylvain/repositories/org-reveal/ox-reveal.el"))
+(sml/apply-theme 'automatic)
 
 ;;; init.el ends here
