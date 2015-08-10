@@ -181,27 +181,6 @@
 (require 'init-python)
 (require 'init-yasnippet)
 
-(use-package guide-key
-  :diminish guide-key-mode
-  :commands guide-key-mode
-  :defer 10
-  :config
-  (setq guide-key/guide-key-sequence
-        '("C-c p"
-          "C-x r"
-          "C-x 4"
-          "C-x 5"
-          (org-mode "C-c C-x")
-          (smerge-mode "C-c ^")))
-  (guide-key-mode 1))
-
-(use-package org-password-manager
-  :load-path "~/repositories/org-password-manager/"
-  :config (setq org-password-manager-scope 'file))
-
-(use-package macrostep
-  :bind ("C-c e m" . macrostep-expand))
-
 (use-package avy
   :config
   (setq avy-style 'at)
@@ -273,6 +252,20 @@
                 '(("en" . "fr") ("fr" . "en")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
+(use-package guide-key
+  :diminish guide-key-mode
+  :commands guide-key-mode
+  :defer 10
+  :config
+  (setq guide-key/guide-key-sequence
+        '("C-c p"
+          "C-x r"
+          "C-x 4"
+          "C-x 5"
+          (org-mode "C-c C-x")
+          (smerge-mode "C-c ^")))
+  (guide-key-mode 1))
+
 (use-package helm-bibtex
   :defer 5
   :config
@@ -323,6 +316,11 @@
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context
   :config (org-context-activate))
+
+(use-package org-password-manager
+  :load-path "~/repositories/org-password-manager/"
+  :config (setq org-password-manager-scope 'file
+                org-password-manager-default-password-wait-time nil))
 
 ;; Projectile
 (use-package projectile
