@@ -392,6 +392,7 @@
   :commands smerge-mode
   :config
   (defun sm-try-smerge ()
+    "Turn on smerge-mode if there is a diff marker."
     (let ((old-point (point)))
       (goto-char (point-min))
       (if (re-search-forward "^<<<<<<< " nil t)
