@@ -107,6 +107,7 @@
       smart-mode-line
       state
       tidy
+      transpose-frame
       twittering-mode
       undo-tree
       use-package
@@ -357,8 +358,6 @@
 (when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
   (global-set-key (vector (list 'control mouse-wheel-up-event))
                   'zoom-out))
-
-(require 'transpose-frame)
 
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
