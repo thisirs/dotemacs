@@ -55,6 +55,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+(show-paren-mode 1)
+
+(mouse-wheel-mode 1)
+
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
@@ -190,8 +194,6 @@
   (setq avy-background t)
   :bind ("C-c SPC" . avy-goto-subword-1))
 
-(load-library "paren")
-(show-paren-mode 1)
 
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
@@ -342,10 +344,6 @@
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
   (projectile-global-mode))
-
-;; undo-tree
-(require 'mwheel)
-(mouse-wheel-mode 1)
 
 ;; Make zooming affect frame instead of buffers
 (require 'zoom-frm)
