@@ -72,7 +72,6 @@
       auctex
       avy
       cmake-mode
-      company
       dash
       diminish
       elisp-slime-nav
@@ -81,7 +80,6 @@
       find-temp-file
       flycheck
       google-translate
-      goto-last-change
       guide-key
       helm
       helm-bibtex
@@ -89,15 +87,12 @@
       inf-ruby
       info+
       keyfreq
-      legalese
       lua-mode
       macrostep
       magit
       markdown-mode
       move-text
-      multi-term
       multiple-cursors
-      offlineimap
       org-caldav
       org-context
       org-password-manager
@@ -105,7 +100,6 @@
       pcache
       projectile
       rainbow-mode
-      robe
       s
       skeletor
       smart-mode-line
@@ -120,9 +114,7 @@
       visual-regexp
       wcheck-mode
       wgrep
-      wgrep-ack
       yaml-mode
-      yari
       yasnippet
       zenburn-theme
       zoom-frm)
