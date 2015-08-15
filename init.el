@@ -379,6 +379,7 @@
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
+  :defer 10
   :commands smerge-mode
   :config
   (defun sm-try-smerge ()
