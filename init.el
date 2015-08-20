@@ -1123,7 +1123,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 ;; Trying keyfreq
 (require 'keyfreq)
-(setq keyfreq-file "~/CloudStation/Sylvain/emacs/.emacs.keyfreq")
+(setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" system-name))
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
