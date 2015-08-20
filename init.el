@@ -292,6 +292,7 @@
                          "url"))
              (cdr (magit-get-remote-branch)))))
   :config
+  (setq magit-push-always-verify nil)
   (define-key magit-mode-map (kbd "C-o")
     (lambda ()
       (interactive)
