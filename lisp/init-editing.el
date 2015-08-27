@@ -80,7 +80,7 @@ cancel the indentation if needed."
   (replace-regexp (format "\\(%s\\)\\|\\(%s\\)"
                           (regexp-quote swap1)
                           (regexp-quote swap2))
-                  `(replace-eval-replacement . (if (match-string 1) swap2 swap1))
+                  `(replace-eval-replacement . (if (match-string 1) ,swap2 ,swap1))
                   nil
                   (if (region-active-p) (region-beginning))
                   (if (region-active-p) (region-end))))
