@@ -86,7 +86,7 @@ mutiple times."
 
 ;; Enable fr dictionary when using package frenchb
 (add-hook 'TeX-language-fr-hook
-          (lambda () (ispell-change-dictionary "fr")))
+          (lambda () (with-demoted-errors (ispell-change-dictionary "fr"))))
 
 ;; (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
