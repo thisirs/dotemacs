@@ -14,7 +14,7 @@
 (add-subdirs-to-load-path (concat user-emacs-directory "site-lisp"))
 
 (define-on-macro "knuth")
-(define-on-macro "HPORTSYSCOMLNX")
+(define-on-macro "zbook")
 
 ;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)

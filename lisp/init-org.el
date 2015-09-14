@@ -607,7 +607,7 @@ child checkboxes."
        "~/CloudStation/Sylvain/Org/agenda.org"))
     (message "Auto-archiving...done"))
 
-  (on-HPORTSYSCOMLNX
+  (on-zbook
    (add-hook 'kill-emacs-hook 'org-auto-archive)))
 
 ;; electric-indent-mode doesn't play well with org
