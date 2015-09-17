@@ -21,9 +21,9 @@
                      (shell-command ,cmd)
                      ,@(if msg `((minibuffer-message ,msg))))))
 
-(shell-bind "<f4>" "dbus-spotify.sh playpause" "play/paused")
-(shell-bind "<f5>" "dbus-spotify.sh previous" "previous")
-(shell-bind "<f6>" "dbus-spotify.sh next" "next")
+(shell-bind "<f4>" "dbus-spotify playpause" "play/paused")
+(shell-bind "<f5>" "dbus-spotify previous" "previous")
+(shell-bind "<f6>" "dbus-spotify next" "next")
 
 (with-global-set-key-recorded
 
