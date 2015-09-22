@@ -176,6 +176,7 @@
 (require 'init-ruby)
 (require 'init-python)
 (require 'init-yasnippet)
+(require 'init-ess)
 
 (use-package avy
   :config
