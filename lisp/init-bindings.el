@@ -215,4 +215,6 @@ body passed in argument."
 (global-set-key (kbd "C-c r") 'vr/replace)
 (global-set-key (kbd "C-c q") 'vr/query-replace)
 
+(global-set-key (kbd "C-x C-k C-r") (lambda () (interactive) (kmacro-set-counter 0)))
+
 (provide 'init-bindings)
