@@ -23,6 +23,10 @@ error."
   (or (require feat filename t)
       (not (message "Feature `%s' not loaded!" feat))))
 
+(defmacro sexp-or-progn (&optional first &rest body)
+  "Surround with `progn' if more than one sexp."
+  (if body `(progn ,first ,@body) first))
+
 (defmacro with-eval-after-load (file &rest body)
   "Execute BODY after FILE is loaded.
 FILE is normally a feature name, but it can also be a file name,
@@ -34,33 +38,33 @@ in case that file does not provide any feature."
   "Expand to BODY if current emacs version is newer or equal to
 VERSION."
   (declare (indent 1) (debug t))
-  (when ( version<= version emacs-version)
-    `(progn ,@body)))
+  (when (version<= version emacs-version)
+    `(sexp-or-progn ,@body)))
 
 (defmacro with-emacs-version> (version &rest body)
   "Expand to BODY if current emacs version is newer than VERSION."
   (declare (indent 1) (debug t))
-  (when ( version< version emacs-version)
-    `(progn ,@body)))
+  (when (version< version emacs-version)
+    `(sexp-or-progn ,@body)))
 
 (defmacro with-emacs-version<= (version &rest body)
   "Expand to BODY if current emacs version is older or equal to
 VERSION."
   (declare (indent 1) (debug t))
-  (when ( version<= emacs-version version)
-    `(progn ,@body)))
+  (when (version<= emacs-version version)
+    `(sexp-or-progn ,@body)))
 
 (defmacro with-emacs-version< (version &rest body)
   "Expand to BODY if current emacs version is older than VERSION."
   (declare (indent 1) (debug t))
-  (when ( version< emacs-version version)
-    `(progn ,@body)))
+  (when (version< emacs-version version)
+    `(sexp-or-progn ,@body)))
 
 (defmacro define-on-macro (sys &optional name)
   "Macro that defines a machine-specific macro."
   `(defmacro ,(intern (concat "on-" (or name sys))) (&rest body)
      (when (string-prefix-p ,sys system-name)
-       `(progn ,@body))))
+       `(sexp-or-progn ,@body))))
 
 ;; .dir-locals.el helper
 (defun dir-locals-get-directory (file)
