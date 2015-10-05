@@ -13,7 +13,7 @@
 (defun maybe-indent-on-paste ()
   "Indent the region when in prog mode. Make an undo boundary to
 cancel the indentation if needed."
-  (when (or (and (not (derived-mode-p 'make-mode 'python-mode))
+  (when (or (and (not (derived-mode-p 'makefile-mode 'python-mode))
                  (derived-mode-p 'prog-mode))
             (memq major-mode '(latex-mode plain-tex-mode matlab-mode)))
     (undo-boundary)
