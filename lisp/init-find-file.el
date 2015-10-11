@@ -1,37 +1,23 @@
 ;; Open a buffer with sudo via tramp
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (interactive "F")
-  (set-buffer
-   (find-file
-    (concat "/sudo::"
-            (expand-file-name file)))))
+(defun find-file-sudo (oldfun filename &optional wildcards)
+  (if (and (file-exists-p filename)
+           (not (file-writable-p filename))
+           (not (file-remote-p filename))
+           (not (file-directory-p filename))
+           (y-or-n-p (format "File %s is read-only.  Open it as root? " filename)))
+      (find-file (concat "/sudo::" (expand-file-name filename)))
+    (funcall oldfun filename wildcards)))
 
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (file-exists-p (ad-get-arg 0))
-           (not (file-writable-p (ad-get-arg 0)))
-           (not (file-remote-p (ad-get-arg 0)))
-           (not (file-directory-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
+(advice-add 'find-file :around #'find-file-sudo)
 
-(defadvice find-file (around find-or-launch-file activate)
-  "Org open file that emacs can't."
-  (cond
-   ((string-match
-     (concat
-      "\\."
-      (regexp-opt '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4") t)
-      "$")
-     (ad-get-arg 0))
-    (org-open-file (ad-get-arg 0))
-    (message "Opening file..."))
-   (t
-    ad-do-it)))
+(defun find-file-org-open (oldfun filename &optional wildcards)
+  (let ((ex-list '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4")))
+    (if (not (string-match (concat "\\." (regexp-opt ex-list t) "$") filename))
+        (funcall oldfun filename wildcards)
+      (org-open-file filename)
+      (message "Opening file..."))))
+
+(advice-add 'find-file :around #'find-file-org-open)
 
 (defun revert-all ()
   "Revert all buffers without asking."
