@@ -887,6 +887,7 @@ not, return nil."
 (setq custom-file (concat site-lisp-directory "custom.el"))
 (load custom-file 'noerror)
 
+;;; Conditional untabify, delete trailing whitespaces
 (defun untabify-buffer ()
   (interactive)
   (untabify (point-min) (point-max)))
@@ -898,47 +899,69 @@ not, return nil."
 
 (defun cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
-Including indent-buffer, which should not be called automatically on save."
+Including indent-buffer, which should not be called automatically
+on save."
   (interactive)
   (untabify-buffer)
   (indent-buffer)
   (delete-trailing-whitespace))
 (defalias 'clean-buffer 'cleanup-buffer)
 
-(defun delete-trailing-whitespace-safe ()
-  "Delete trailing whitespaces if file is not version controlled
-or version controlled but untracked. Make sure to return `nil' in
-case it is used in hooks."
-  (and (buffer-file-name)
-       (or
-        (memq (vc-backend (buffer-file-name)) '(nil none))
-        ;; git backend and autocommitted repo
-        (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-             (fboundp 'vc-auto-commit-backend)
-             (vc-auto-commit-backend)))
-       (delete-trailing-whitespace)
-       nil))
+(defvar delete-trailing-whitespace-hook nil
+  "Hook to cancel deleting trailing whitespaces.")
 
-;; If indent-tabs-mode is off, untabify before saving
-(defun untabify-safe ()
-  "Untabify buffer if it is not VC or untracked in VC and if
-`indent-tabs-mode' is nil."
-  (and (buffer-file-name)
-       (or
-        (memq (vc-backend (buffer-file-name)) '(nil none))
-        (and (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-             (and (fboundp 'vc-auto-commit-backend)
-                  (vc-auto-commit-backend))))
-       (not indent-tabs-mode)
-       (untabify (point-min) (point-max))
-       nil))
+(defvar untabify-hook nil
+  "Hook to cancel untabifying.")
 
-(defun cleanup-buffer-safe ()
+(defun delete-trailing-whitespace-maybe ()
+  "If all the hook functions return nil, delete trailing whitespaces."
+  (unless (run-hook-with-args-until-success 'delete-trailing-whitespace-hook)
+    (delete-trailing-whitespace)))
+
+(defun shared-on-vc ()
+  "Return non-nil if current buffer is editing an already checked
+in file in a non-autocommitted repository."
+  (and (buffer-file-name)
+       (memq (vc-backend (buffer-file-name)) vc-handled-backends)
+       (not (and (fboundp 'vc-auto-commit-backend)
+                 (vc-auto-commit-backend)))))
+
+(defun shared-on-ownCloud ()
+  "Return non-nil if current buffer is editing a shared file."
+  (and (buffer-file-name)
+       (string-prefix-p "~/ownCloud/Shared"
+                        (abbreviate-file-name (buffer-file-name)))))
+
+;; Don't delete trailing whitespaces on checked in vc-controlled files
+;; that are not auto-committed and on shared files through ownCloud
+(add-hook 'delete-trailing-whitespace-hook #'shared-on-vc)
+(add-hook 'delete-trailing-whitespace-hook #'shared-on-ownCloud)
+
+(defun untabify-vc ()
+  "Return non-nil if tabs should remain."
+  (or indent-tabs-mode (shared-on-vc)))
+
+(defun untabify-shared ()
+  (or indent-tabs-mode (shared-on-ownCloud)))
+
+;; Don't untabify (1) vc-controlled checked in files that are not
+;; auto-committed, (2) shared files through ownCloud and (3) buffer
+;; where `indent-tabs-mode' is on.
+(add-hook 'untabify-hook #'untabify-vc)
+(add-hook 'untabify-hook #'untabify-shared)
+
+(defun untabify-maybe ()
+  "Untabify the current buffer but give `untabify-hook' a chance
+to cancel it."
+  (unless (run-hook-with-args-until-success 'untabify-hook)
+    (untabify-buffer)))
+
+(defun cleanup-buffer-maybe ()
   (interactive)
-  (untabify-safe)
-  (delete-trailing-whitespace-safe))
+  (untabify-maybe)
+  (delete-trailing-whitespace-maybe))
 
-(add-hook 'before-save-hook 'cleanup-buffer-safe)
+(add-hook 'before-save-hook 'cleanup-buffer-maybe)
 
 (defun indent-json (&optional begin end)
   "Run Python's JSON indenter on the buffer"
