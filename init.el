@@ -212,6 +212,10 @@
   (require 'epa)
   (epa-file-enable))
 
+(use-package move-text
+  :bind (([C-M-S-up] . move-text-up)
+         ([C-M-S-down] . move-text-down)))
+
 (use-package expand-region
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
