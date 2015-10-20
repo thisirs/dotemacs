@@ -1,5 +1,6 @@
 (use-package matlab
   :mode ("\\.m$" . matlab-mode)
+  :commands (matlab-shell)
   :config
   (setq matlab-shell-command "matlab")
   (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
