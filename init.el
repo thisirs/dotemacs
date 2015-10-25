@@ -455,10 +455,18 @@
    :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg"
    :keep (org-password-manager-get-password t))
 
+  ;; Switch to init.el or any already open lisp/init-*.el files
   (state-define-state
    emacs
    :key "e"
-   :in "~/.emacs.d/init"
+   :in (or (state--in-in-file "~/.emacs.d/init.el")
+           (state--in-in-file "~/.emacs.d/lisp/init"))
+   :exist (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
+              (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init"))
+   :switch (let ((buffer (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
+                             (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init")
+                             (error "Unable to switch to `%s' state" name))))
+             (state--switch-switch-buffer buffer))
    :create (find-file "~/.emacs.d/init.el")
    :keep (unless (eq (current-buffer) (find-buffer-visiting "~/.emacs.d/init.el"))
            (find-file "~/.emacs.d/init.el")))
