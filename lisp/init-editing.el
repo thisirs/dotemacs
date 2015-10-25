@@ -17,7 +17,7 @@ cancel the indentation if needed."
       (kill-region (region-beginning) (region-end))
     (kill-line 0)))
 
-(global-set-key (kbd "C-w") 'kill-region-or-backward)
+(global-set-key (kbd "C-w") #'kill-region-or-backward)
 
 ;; Taken from https://github.com/skeeto/.emacs.d/blob/master/lisp/extras.el
 (defun flash-region (start end &optional timeout)
@@ -34,7 +34,7 @@ cancel the indentation if needed."
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))
     (message "line copied")))
 
-(global-set-key (kbd "M-w") 'save-region-or-current-line)
+(global-set-key (kbd "M-w") #'save-region-or-current-line)
 
 (defun join-to-next-line ()
   (interactive)
@@ -51,7 +51,7 @@ cancel the indentation if needed."
       (beginning-of-line-text)
     (beginning-of-line)))
 
-(global-set-key (kbd "C-a") 'beginning-of-line-or-text)
+(global-set-key (kbd "C-a") #'move-beginning-of-line-or-text)
 
 ;; From https://github.com/purcell/emacs.d
 (defun sort-lines-random (beg end)

@@ -22,9 +22,9 @@
 (add-hook
  'twittering-mode-hook
  (lambda ()
-   (define-key twittering-mode-map (kbd "C-c C-o") 'twittering-enter-next-uri)
-   (define-key twittering-mode-map (kbd "C-c C-q") 'twittering-kill-buffer)
-   (define-key twittering-mode-map (kbd "q") 'bury-buffer)))
+   (define-key twittering-mode-map (kbd "C-c C-o") #'twittering-enter-next-uri)
+   (define-key twittering-mode-map (kbd "C-c C-q") #'twittering-kill-buffer)
+   (define-key twittering-mode-map (kbd "q") #'bury-buffer)))
 
 (add-hook 'twittering-new-tweets-hook
           (lambda ()

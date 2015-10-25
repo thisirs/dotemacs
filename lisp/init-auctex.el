@@ -146,7 +146,7 @@ mutiple times."
   (insert (LaTeX-includegraphics-read-file-relative-helm)))
 
 (eval-after-load "latex"
-  '(define-key LaTeX-mode-map (kbd "C-c C-i") 'LateX-insert-image-path))
+  '(define-key LaTeX-mode-map (kbd "C-c C-i") #'LateX-insert-image-path))
 
 ;;; Taken from http://emacs.stackexchange.com/questions/3083/how-to-indent-items-in-latex-auctex-itemize-environments
 (defun LaTeX-indent-item ()

@@ -49,13 +49,13 @@ macro `new-vanilla'."
                (expand-file-name "~/.emacs.d/site-lisp/emacs-helm"))
   (require 'helm-config)
   (helm-mode 1)
-  (define-key global-map [remap find-file] 'helm-find-files)
-  (define-key global-map [remap occur] 'helm-occur)
-  (define-key global-map [remap list-buffers] 'helm-buffers-list)
+  (define-key global-map [remap find-file] #'helm-find-files)
+  (define-key global-map [remap occur] #'helm-occur)
+  (define-key global-map [remap list-buffers] #'helm-buffers-list)
   (define-key lisp-interaction-mode-map
-    [remap indent-for-tab-command] 'helm-lisp-completion-at-point-or-indent)
+    [remap indent-for-tab-command] #'helm-lisp-completion-at-point-or-indent)
   (define-key emacs-lisp-mode-map
-    [remap indent-for-tab-command] 'helm-lisp-completion-at-point-or-indent))
+    [remap indent-for-tab-command] #'helm-lisp-completion-at-point-or-indent))
 
 (new-vanilla expand-region
   (add-to-list 'load-path

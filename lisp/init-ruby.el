@@ -6,13 +6,13 @@
 ;; (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
 
-;; (define-key 'help-command (kbd "R") 'yari-helm)
+;; (define-key 'help-command (kbd "R") #'yari-helm)
 
 ;; (defun ruby-setup ()
 ;;   ;; turn off the annoying input echo in irb
 ;;   (setq comint-process-echoes t)
 
-;;   (define-key ruby-mode-map (kbd "RET") 'reindent-then-newline-and-indent))
+;;   (define-key ruby-mode-map (kbd "RET") #'reindent-then-newline-and-indent))
 
 ;; (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
 ;; (add-hook 'ruby-mode-hook 'ruby-setup)

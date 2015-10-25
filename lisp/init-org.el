@@ -79,7 +79,7 @@ the selected file."
       (load-file-to-list "~/CloudStation/Sylvain/emacs/org-capture-templates.el"))
 
 
-(define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-cc" #'org-capture)
 
 ;; Custom agenda view
 (setq org-agenda-custom-commands
@@ -134,10 +134,10 @@ the selected file."
 
 (setq org-agenda-skip-deadline-if-done t)
 
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c L") 'org-insert-link-global)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c L") #'org-insert-link-global)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c b") #'org-iswitchb)
 
 ;; Support for links in twittering-mode
 (defun org-twittering-store-link ()
@@ -288,7 +288,7 @@ the selected file."
              (file-exists-p (buffer-file-name)))
     (reftex-parse-all)
     (reftex-set-cite-format "[[note::%l][%l]]")
-    (define-key org-mode-map (kbd "C-c )") 'reftex-citation)))
+    (define-key org-mode-map (kbd "C-c )") #'reftex-citation)))
 
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
@@ -545,7 +545,7 @@ this with to-do items than with projects or headings."
   (org-capture 0 "t"))
 
 ;; Override the key definition
-(define-key org-agenda-mode-map "X" 'org-agenda-mark-done-and-add-followup)
+(define-key org-agenda-mode-map "X" #'org-agenda-mark-done-and-add-followup)
 
 ;; Custom headline export for checklists, allow fake checkboxes in
 ;; headlines to be exported as well as those in lists. This can be

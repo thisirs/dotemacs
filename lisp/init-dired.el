@@ -41,12 +41,12 @@ repeatedly q."
        ("d" " --group-directories-first")))
     map))
 
-(define-key dired-mode-map (kbd "Q") 'dired-bury-all)
+(define-key dired-mode-map (kbd "Q") #'dired-bury-all)
 
 (define-key dired-mode-map "s" dired-sort-map)
 
 ;; Delete with C-x C-k to match file buffers and magit
-(define-key dired-mode-map (kbd "C-x C-k") 'dired-do-delete)
+(define-key dired-mode-map (kbd "C-x C-k") #'dired-do-delete)
 
 ;; Quick jump to root, user dir or /tmp
 (define-key dired-mode-map (kbd "@")
@@ -77,7 +77,7 @@ directory."
         (dired-copy-filename-as-kill '(4)))
     (dired-copy-filename-as-kill 0)))
 
-(define-key dired-mode-map (kbd "W") 'dired-copy-path-as-kill)
+(define-key dired-mode-map (kbd "W") #'dired-copy-path-as-kill)
 
 ;; C-c C-m C-a jumps to gnus with current file attached
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)

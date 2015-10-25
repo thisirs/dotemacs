@@ -121,8 +121,8 @@
   (ibuffer-next-buffer-aux
    (reverse (buffer-list))))
 
-(define-key ibuffer-mode-map (kbd "C-b") 'ibuffer-next-buffer)
-(define-key ibuffer-mode-map (kbd "C-f") 'ibuffer-previous-buffer)
+(define-key ibuffer-mode-map (kbd "C-b") #'ibuffer-next-buffer)
+(define-key ibuffer-mode-map (kbd "C-f") #'ibuffer-previous-buffer)
 
 (defun ibuffer-next-saved-filter-groups-aux (list)
   (if (null ibuffer-saved-filter-groups)
@@ -147,17 +147,17 @@
   (ibuffer-next-saved-filter-groups-aux
    (reverse ibuffer-saved-filter-groups)))
 
-(define-key ibuffer-mode-map (kbd "C-M-n") 'ibuffer-next-saved-filter-groups)
-(define-key ibuffer-mode-map (kbd "C-M-p") 'ibuffer-previous-saved-filter-groups)
+(define-key ibuffer-mode-map (kbd "C-M-n") #'ibuffer-next-saved-filter-groups)
+(define-key ibuffer-mode-map (kbd "C-M-p") #'ibuffer-previous-saved-filter-groups)
 
-(define-key ibuffer-mode-map (kbd "C-g") 'quit-window)
+(define-key ibuffer-mode-map (kbd "C-g") #'quit-window)
 
 (require 'ido)
 (ido-mode t)
 (setq ido-mode 'buffer)
 (setq ido-auto-merge-work-directories-length -1)
 
-(define-key ibuffer-mode-map (kbd "C-s") 'helm-buffers-list)
+(define-key ibuffer-mode-map (kbd "C-s") #'helm-buffers-list)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
   "Open ibuffer with cursor pointed to second most recent buffer
@@ -193,6 +193,6 @@ name"
           (lambda ()
             (ibuffer-switch-to-saved-filter-groups "default")))
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-b") #'ibuffer)
 
 (provide 'init-ibuffer)

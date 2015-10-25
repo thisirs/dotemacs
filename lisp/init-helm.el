@@ -11,11 +11,11 @@
 
 (helm-mode)
 
-(global-set-key (kbd "C-x C-m") 'helm-M-x)
+(global-set-key (kbd "C-x C-m") #'helm-M-x)
 
-(global-set-key (kbd "C-x r b") 'helm-bookmarks)
+(global-set-key (kbd "C-x r b") #'helm-bookmarks)
 
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "M-y") #'helm-show-kill-ring)
 
 (setq helm-su-or-sudo "sudo")
 
@@ -89,8 +89,8 @@
         :buffer "*Helm manuals*"
         :prompt "Manuals: "))
 
-(define-key helm-command-map (kbd "h m") 'helm-manual)
-(define-key helm-command-map (kbd "f") 'helm-for-files)
+(define-key helm-command-map (kbd "h m") #'helm-manual)
+(define-key helm-command-map (kbd "f") #'helm-for-files)
 
 (defvar helm-bib-locations
   '("~/CloudStation/Sylvain/recherche/biblio/"
@@ -106,7 +106,7 @@
   (let ((helm-grep-default-function 'helm-pdfgrep-init))
     (helm-do-pdfgrep-1 helm-bib-locations)))
 
-(define-key helm-command-map (kbd "h p") 'helm-search-bib)
+(define-key helm-command-map (kbd "h p") #'helm-search-bib)
 
 (defun helm-org-store-link (candidate)
   (setq org-stored-links

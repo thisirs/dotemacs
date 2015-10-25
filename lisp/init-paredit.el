@@ -27,10 +27,10 @@
 
 (define-key paredit-mode-map (kbd "C-)")
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-f") 'paredit-forward-slurp-sexp)
-    (define-key map (kbd "C-b") 'paredit-forward-barf-sexp)
-    (define-key map (kbd "C-a") 'paredit-barf-all-the-way-forward)
-    (define-key map (kbd "C-e") 'paredit-slurp-all-the-way-forward)
+    (define-key map (kbd "C-f") #'paredit-forward-slurp-sexp)
+    (define-key map (kbd "C-b") #'paredit-forward-barf-sexp)
+    (define-key map (kbd "C-a") #'paredit-barf-all-the-way-forward)
+    (define-key map (kbd "C-e") #'paredit-slurp-all-the-way-forward)
     map))
 
 ;; Same as raise but do not kill
@@ -53,6 +53,6 @@
     (save-excursion
       (indent-region (point) (+ 1 end)))))
 
-(define-key paredit-mode-map (kbd "M-R") 'paredit-extract-sexp)
+(define-key paredit-mode-map (kbd "M-R") #'paredit-extract-sexp)
 
 (provide 'init-paredit)
