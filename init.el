@@ -178,6 +178,12 @@
 (require 'init-yasnippet)
 (require 'init-ess)
 
+;; Activate Hunspell
+(when (executable-find "hunspell")
+  (setq-default ispell-program-name (executable-find "hunspell"))
+  (setq ispell-really-hunspell t))
+(ignore-errors (ispell-change-dictionary "fr-reforme1990"))
+
 (use-package avy
   :config
   (setq avy-style 'at)
