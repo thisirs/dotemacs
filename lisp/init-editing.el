@@ -1,16 +1,5 @@
-;; auto-indent pasted code
-(dolist (func '(yank yank-pop))
-  (ad-add-advice
-   func
-   `(,(intern (format "%s-advice" func)) nil t
-     (advice . (lambda ()
-                 "Auto indent on paste"
-                 (maybe-indent-on-paste))))
-   'after
-   'last)
-  (ad-activate func))
-
-(defun maybe-indent-on-paste ()
+;; Auto-indent pasted code
+(defun maybe-indent-on-paste (&optional arg)
   "Indent the region when in prog mode. Make an undo boundary to
 cancel the indentation if needed."
   (when (or (and (not (derived-mode-p 'makefile-mode 'python-mode))
@@ -18,6 +7,9 @@ cancel the indentation if needed."
             (memq major-mode '(latex-mode plain-tex-mode matlab-mode)))
     (undo-boundary)
     (indent-region (region-beginning) (region-end))))
+
+(advice-add 'yank :after #'maybe-indent-on-paste)
+(advice-add 'yank-pop :after #'maybe-indent-on-paste)
 
 (defun kill-region-or-backward ()
   (interactive)

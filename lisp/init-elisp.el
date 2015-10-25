@@ -69,11 +69,11 @@
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-hippie-expand)
 
 ;; C-u C-u C-x C-e does eval and replace
-(defadvice eval-last-sexp (around eval-and-replace activate)
-  (if (and (listp current-prefix-arg)
-           (eq 16 (car current-prefix-arg)))
+(defun eval-last-sexp-replace (oldfun eval-last-sexp-arg-internal)
+  (if (eq 16 (car eval-last-sexp-arg-internal))
       (call-interactively 'eval-and-replace)
-    ad-do-it))
+    (funcall oldfun eval-last-sexp-arg-internal)))
+(advice-add 'eval-last-sexp :around #'eval-last-sexp-replace)
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
