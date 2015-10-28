@@ -301,7 +301,7 @@ the selected file."
 ;; Open ods files with libreoffice
 (add-to-list 'org-file-apps '("\\.od[st]\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.docx?\\'" . "soffice %s"))
-(add-to-list 'org-file-apps '("\\.xls\\'" . "soffice %s"))
+(add-to-list 'org-file-apps '("\\.xlsx?\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.mp4\\'" . "vlc %s"))
 (add-to-list 'org-file-apps '("\\.avi\\'" . "vlc %s"))
 
