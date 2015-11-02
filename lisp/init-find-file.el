@@ -18,6 +18,7 @@
       (message "Opening file..."))))
 
 (advice-add 'find-file :around #'find-file-org-open)
+(advice-add 'find-file-other-window :around #'find-file-org-open)
 
 (defun revert-all ()
   "Revert all buffers without asking."
