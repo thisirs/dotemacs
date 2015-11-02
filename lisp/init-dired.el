@@ -16,8 +16,10 @@
   "Bury dired buffer as they appear. It keeps you from pressing
 repeatedly q."
   (interactive "P")
-  (while (eq major-mode 'dired-mode)
-    (quit-window kill)))
+  (while (or (and (eq major-mode 'dired-mode)
+                  (or (quit-window kill) t))
+             (and (eq major-mode 'help-mode)
+                  (or (quit-window kill) t)))))
 
 ;; Reload dired after creating a directory
 (defadvice dired-create-directory (after revert-buffer-after-create activate)
