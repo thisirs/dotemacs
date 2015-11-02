@@ -42,54 +42,6 @@
     helm-source-files-in-current-dir
     helm-source-locate))
 
-;; Helm for searching manuals
-(defvar helm-manual-path
-  '("~/CloudStation/Sylvain/manuals/"
-    "~/CloudStation/Sylvain/manuals/beamer/"
-    "~/CloudStation/Sylvain/manuals/latex/"
-    "~/CloudStation/Sylvain/manuals/pgf-tikz/"
-    "~/CloudStation/Sylvain/manuals/refcards/"
-    "~/CloudStation/Sylvain/books/")
-  "List of path to look for manuals. Each element is either a
-  string or a list of string containing fallback directories.")
-
-(defun helm-manual-path ()
-  "Returns all existing directories containing manuals."
-  (delq nil
-        (mapcar
-         (lambda (paths)
-           (let ((paths (if (listp paths) paths (list paths))) path found)
-             (while (and (not found) paths)
-               (setq path (pop paths))
-               (setq found (file-exists-p path)))
-             (and found path)))
-         helm-manual-path)))
-
-(defvar helm-manual-regexp "\\.pdf\\'")
-
-(defun helm-manual-get-candidates ()
-  "Collect manuals found in paths `helm-manual-path'."
-  (mapcan (lambda (path)
-            (and (file-directory-p path)
-                 (directory-files path t helm-manual-regexp)))
-          (helm-manual-path)))
-
-(defun helm-manual-transformer (files sources)
-  (mapcar 'file-name-nondirectory files))
-
-(defvar helm-source-manual
-  `((name ."Manuals")
-    (candidates . helm-manual-get-candidates)
-    (real-to-display . file-name-nondirectory)
-    (type . file)))
-
-(defun helm-manual ()
-  (interactive)
-  (helm :sources 'helm-source-manual
-        :buffer "*Helm manuals*"
-        :prompt "Manuals: "))
-
-(define-key helm-command-map (kbd "h m") #'helm-manual)
 (define-key helm-command-map (kbd "f") #'helm-for-files)
 
 (defvar helm-bib-locations
@@ -127,5 +79,34 @@
                            helm-w32-pathname-transformer
                            helm-skip-boring-files))
   "File name.")
+
+(defvar helm-ebooks-path
+  '("~/Downloads/Scientific_Ebooks/"
+    "~/Downloads/Books/"
+    "~/CloudStation/Sylvain/manuals/"
+    "~/CloudStation/Sylvain/books/"))
+
+(defun helm-find-ebooks ()
+  (interactive)
+  (helm :sources
+        (mapcar (lambda (dir)
+                  (helm-build-async-source "Find"
+                    :header-name `(lambda (name)
+                                    (concat name " in [" ,dir "]"))
+                    :candidates-process `(lambda ()
+                                           (let ((default-directory ,dir))
+                                             (funcall 'helm-find-shell-command-fn)))
+                    :filtered-candidate-transformer 'helm-findutils-transformer
+                    :action-transformer 'helm-transform-file-load-el
+                    :action 'helm-type-file-actions
+                    :keymap helm-generic-files-map
+                    :candidate-number-limit 9999
+                    :requires-pattern 3))
+                helm-ebooks-path)
+        :buffer "*helm find ebooks*"
+        :ff-transformer-show-only-basename t
+        :case-fold-search helm-file-name-case-fold-search))
+
+(define-key helm-command-map (kbd "h m") #'helm-find-ebooks)
 
 (provide 'init-helm)
