@@ -42,14 +42,14 @@ cancel the indentation if needed."
 
 (global-set-key (kbd "M-j") #'join-to-next-line)
 
-;; copy when in read only buffer
+;; Copy when in read only buffer
 (setq kill-read-only-ok t)
 
-(defun beginning-of-line-or-text ()
+(defun move-beginning-of-line-or-text (&optional N)
   (interactive)
   (if (bolp)
-      (beginning-of-line-text)
-    (beginning-of-line)))
+      (beginning-of-line-text N)
+    (move-beginning-of-line N)))
 
 (global-set-key (kbd "C-a") #'move-beginning-of-line-or-text)
 
