@@ -19,8 +19,6 @@
 
 (setq helm-su-or-sudo "sudo")
 
-(setq helm-locate-command "locate -e -b %s -r %s")
-
 (setq helm-quick-update t
       helm-idle-delay 0.01
       helm-input-idle-delay 0.01)
