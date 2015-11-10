@@ -418,6 +418,7 @@
    gnus
    :key "g"
    :in (memq major-mode '(message-mode gnus-group-mode gnus-summary-mode gnus-article-mode))
+   :exist gnus-alive-p
    :create gnus)
 
   (state-define-state
