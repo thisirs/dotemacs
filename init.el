@@ -121,17 +121,18 @@
       zoom-frm)
     "List of required packages")
 
-  (catch 'timeout
-    (when (memq nil (mapcar 'package-installed-p package-required-packages))
-      (message "Refreshing packages database...")
-      (with-timeout (10 (message "Timeout, cancelling...")
-                        (sit-for 2)
-                        (throw 'timeout nil))
-        (package-refresh-contents))
-      (mapc (lambda (p)
-              (when (not (package-installed-p p))
-                (package-install p)))
-            package-required-packages))))
+  (ignore-errors
+    (catch 'timeout
+      (when (memq nil (mapcar 'package-installed-p package-required-packages))
+	(message "Refreshing packages database...")
+	(with-timeout (10 (message "Timeout, cancelling...")
+			  (sit-for 2)
+			  (throw 'timeout nil))
+	  (package-refresh-contents))
+	(mapc (lambda (p)
+		(when (not (package-installed-p p))
+		  (package-install p)))
+	      package-required-packages)))))
 
 (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
 
