@@ -113,6 +113,7 @@
       vc-check-status
       visual-regexp
       wcheck-mode
+      webjump
       wgrep
       yaml-mode
       yasnippet
