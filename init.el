@@ -76,6 +76,7 @@
       diminish
       elisp-slime-nav
       erc-colorize
+      ess
       expand-region
       find-temp-file
       flycheck
