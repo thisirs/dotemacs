@@ -3,10 +3,21 @@
 
 (TeX-global-PDF-mode 1)
 
-(setq TeX-save-query nil) ; autosave before compiling
+;; Autosave before compiling
+(setq TeX-save-query nil)
 
-(setq TeX-parse-self t) ; Enable parse on load.
-(setq TeX-auto-save t) ; Enable parse on save.
+;; Enable parse on load
+(setq TeX-parse-self t)
+
+;; Enable parse on save
+(setq TeX-auto-save t)
+
+;; Avoid auto/ directory when shared
+(defun disable-automatic-parsing ()
+  (when (string-prefix-p "~/ownCloud/Shared/" (abbreviate-file-name (buffer-file-name)))
+    (set (make-local-variable 'TeX-parse-self) nil)
+    (set (make-local-variable 'TeX-auto-save) nil)))
+(add-hook 'LaTeX-mode-hook 'disable-automatic-parsing)
 
 ;; shell-escape needed to use external programs such as gnuplot
 ;; file-line-error fixes bug where errors were not correctly parsed
