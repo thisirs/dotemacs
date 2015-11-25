@@ -43,4 +43,22 @@ if a TODO cookie is present on the line."
         (concat (substring time 0 -1) " -" (format "%d" before) "d>")
       time)))
 
+(defun org-capture-read-date ()
+  "To be used in a capture template as %(org-capture-read-date). It reads"
+  (let ((obuf (org-capture-get :original-buffer)) ts time)
+    (when (bufferp obuf)
+      (with-current-buffer obuf
+        (when (eq major-mode 'org-agenda-mode)
+          (when-let ((day (org-get-at-bol 'day))
+                     (mdy (calendar-gregorian-from-absolute day)))
+            (setq time (org-get-at-bol 'time-of-day))
+            (setq ts (encode-time
+                      0
+                      (if time (mod time 100) 0)
+                      (if time (floor (/ time 100)) 0)
+                      (nth 1 mdy)
+                      (nth 0 mdy)
+                      (nth 2 mdy)))))))
+    (org-insert-time-stamp (org-read-date (not (null time)) nil nil nil ts))))
+
 (provide 'init-org-capture-helpers)
