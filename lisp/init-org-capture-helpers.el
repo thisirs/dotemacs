@@ -59,6 +59,7 @@ if a TODO cookie is present on the line."
                       (nth 1 mdy)
                       (nth 0 mdy)
                       (nth 2 mdy)))))))
-    (org-insert-time-stamp (org-read-date (not (null time)) nil nil nil ts))))
+    (org-insert-time-stamp (org-read-date (not (null time)) t nil nil ts)
+                           (not (null time)))))
 
 (provide 'init-org-capture-helpers)
