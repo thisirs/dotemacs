@@ -306,6 +306,9 @@
                          "url"))
              (cdr (magit-get-remote-branch)))))
   :config
+  ;; Let auth-source handle the passwords for me
+  (setq magit-process-find-password-functions '(magit-process-password-auth-source))
+
   (setq magit-push-always-verify nil)
   (define-key magit-mode-map (kbd "C-o")
     (lambda ()
