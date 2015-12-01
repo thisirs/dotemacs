@@ -425,7 +425,25 @@
   (state-define-state
    gnus
    :key "g"
-   :in (memq major-mode '(message-mode gnus-group-mode gnus-summary-mode gnus-article-mode))
+   :in (memq major-mode '(gnus-article-edit-mode
+                          gnus-article-mode
+                          gnus-bookmark-bmenu-mode
+                          gnus-browse-mode
+                          gnus-category-mode
+                          gnus-custom-mode
+                          gnus-edit-form-mode
+                          gnus-group-mode
+                          gnus-kill-file-mode
+                          gnus-score-mode
+                          gnus-server-mode
+                          gnus-sticky-article-mode
+                          gnus-summary-mode
+                          gnus-tree-mode
+                          message-mode
+                          plstore-mode
+                          sieve-manage-mode
+                          sieve-mode
+                          smime-mode))
    :exist gnus-alive-p
    :create gnus)
 
