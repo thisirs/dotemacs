@@ -412,6 +412,11 @@
   :bind-keymap ("s-s" . state-prefix-map)
   :defer 5
   :config
+  (state-define-state agenda
+    :key "a"
+    :in (eq major-mode 'org-agenda-mode)
+    :switch org-agenda-list)
+
   (state-define-state
    debug
    :key "d"
