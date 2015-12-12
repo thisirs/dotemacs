@@ -24,4 +24,7 @@
   (let ((swv-cmds '("Knit" "LaTeXKnit")))
     (unless (member (car x) swv-cmds) x)))
 
+;; No special behaviour of comments starting with #, ## or ###
+(setq ess-fancy-comments nil)
+
 (provide 'init-ess)
