@@ -1,5 +1,7 @@
 (require 'dired-x)
 
+(setq dired-dwim-target t)
+
 ;; Auto-revert mode
 (add-hook 'dired-mode-hook 'turn-on-auto-revert-mode)
 (setq auto-revert-verbose nil)
