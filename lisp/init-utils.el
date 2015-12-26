@@ -116,7 +116,7 @@ inline."
   (interactive "sLength of password (10): ")
   (setq length (cond ((numberp length) length)
                      ((and (stringp length) (> (length length) 0))
-                      (number-to-string length))
+                      (string-to-int length))
                      (t 10)))
   (random t)
   (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$@_+,?[].-")
