@@ -68,6 +68,8 @@
 (with-emacs-version< "24.1"
   (global-set-key (kbd "RET") #'newline-and-indent))
 
+(global-set-key (kbd "C-x TAB") #'indent-region-or-buffer)
+
 (global-set-key [\C-home] #'beginning-of-buffer)
 (global-set-key [\C-end] #'end-of-buffer)
 

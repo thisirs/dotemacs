@@ -121,5 +121,11 @@ If ARG is non-nil, ask for confirmation on each match."
             (" *\\(+\\) *" " + ")
             (" *\\(\\*\\) *" " * ")))))
 
+(defun indent-region-or-buffer ()
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (indent-region (region-beginning) (region-end))
+      (indent-buffer))))
 
 (provide 'init-editing)
