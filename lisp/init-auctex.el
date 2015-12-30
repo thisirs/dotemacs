@@ -14,7 +14,8 @@
 
 ;; Avoid auto/ directory when shared
 (defun disable-automatic-parsing ()
-  (when (string-prefix-p "~/ownCloud/Shared/" (abbreviate-file-name (buffer-file-name)))
+  (when (and (buffer-file-name)
+             (string-prefix-p "~/ownCloud/Shared/" (abbreviate-file-name (buffer-file-name))))
     (set (make-local-variable 'TeX-parse-self) nil)
     (set (make-local-variable 'TeX-auto-save) nil)))
 (add-hook 'LaTeX-mode-hook 'disable-automatic-parsing)
