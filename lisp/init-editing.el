@@ -79,6 +79,13 @@ cancel the indentation if needed."
 
 (defalias 'remove-duplicate-lines 'delete-duplicate-lines)
 
+(defun remove-empty-lines ()
+  (interactive)
+  (flush-lines "^$"))
+
+(defalias 'flush-empty-lines 'remove-empty-lines)
+(defalias 'delete-empty-lines 'remove-empty-lines)
+
 (defun indent-as-in (mode beg end &optional arg)
   "Indent selected region according to MODE.
 
