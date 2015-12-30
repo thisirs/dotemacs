@@ -92,13 +92,21 @@ cancel the indentation if needed."
 Useful in Org code blocks or in minted and lstlistings
 environments in LaTeX. With prefix argument, keep first line
 indentation."
-  (interactive "SMode: \nr\nP")
+  (interactive (list (completing-read
+                      "Mode: "
+                      (let (sym-list)
+                        (mapatoms (lambda (sym)
+                                    (if (string-match "-mode$" (symbol-name sym))
+                                        (setq sym-list (cons sym sym-list)))))
+                        sym-list))
+                     (region-beginning)
+                     (region-end)))
   (let ((txt (delete-and-extract-region beg end)))
-    (condition-case e
+    (condition-case-unless-debug e
         (insert
          (with-temp-buffer
            (insert txt)
-           (funcall (intern (format "%s-mode" mode)))
+           (funcall (intern mode))
            (indent-region (if (not arg)
                               (point-min)
                             (goto-char (point-min))
@@ -108,7 +116,7 @@ indentation."
            (buffer-string)))
       (error
        (insert txt)
-       (message "Mode `%s' fails with: %S" (format "%s-mode" mode) (nth 1 e))))))
+       (message "Mode `%s' fails with: %S" mode (nth 1 e))))))
 
 (defun fix-programming-punctuation (arg)
   "Fix common punctuation programming errors.
