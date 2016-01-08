@@ -1,30 +1,38 @@
-(require 'ess-site)
+(use-package ess-site
+  :config
+  ;; Remove wrong hooks if there
+  (let ((ess-swv-plug-into-AUCTeX-p nil))
+    (ess-swv-plug-into-AUCTeX))
 
-(setq ess-swv-plug-into-AUCTeX-p t)
+  ;; Override TeX commands Sweave -> KnitR
+  (defun ess-swv-add-TeX-commands ()
+    "Add commands to AUCTeX's \\[TeX-command-list]."
+    (unless (and (featurep 'tex-site) (featurep 'tex))
+      (error "AUCTeX does not seem to be loaded"))
+    (add-to-list 'TeX-command-list
+                 '("Knit" "Rscript -e \"library(knitr); knit('%t')\""
+                   TeX-run-command nil (latex-mode) :help
+                   "Run Knitr") t)
+    (add-to-list 'TeX-command-list
+                 '("LaTeXKnit" "%l %(mode) %s"
+                   TeX-run-TeX nil (latex-mode) :help
+                   "Run LaTeX after Knit") t)
+    (setq TeX-command-default "Knit")
+    (mapc (lambda (suffix)
+            (add-to-list 'TeX-file-extensions suffix))
+          '("nw" "Snw" "Rnw")))
 
-(defun ess-swv-add-TeX-commands ()
-  "Add commands to AUCTeX's \\[TeX-command-list]."
-  (unless (and (featurep 'tex-site) (featurep 'tex))
-    (error "AUCTeX does not seem to be loaded"))
-  (add-to-list 'TeX-command-list
-               '("Knit" "Rscript -e \"library(knitr); knit('%t')\""
-                 TeX-run-command nil (latex-mode) :help
-                 "Run Knitr") t)
-  (add-to-list 'TeX-command-list
-               '("LaTeXKnit" "%l %(mode) %s"
-                 TeX-run-TeX nil (latex-mode) :help
-                 "Run LaTeX after Knit") t)
-  (setq TeX-command-default "Knit")
-  (mapc (lambda (suffix)
-          (add-to-list 'TeX-file-extensions suffix))
-        '("nw" "Snw" "Rnw")))
+  (defun ess-swv-remove-TeX-commands (x)
+    "Helper function: check if car of X is one of the Knitr strings"
+    (let ((swv-cmds '("Knit" "LaTeXKnit")))
+      (unless (member (car x) swv-cmds) x)))
 
-(defun ess-swv-remove-TeX-commands (x)
-  "Helper function: check if car of X is one of the Knitr strings"
-  (let ((swv-cmds '("Knit" "LaTeXKnit")))
-    (unless (member (car x) swv-cmds) x)))
+  (setq ess-swv-plug-into-AUCTeX-p t)
 
-;; No special behaviour of comments starting with #, ## or ###
-(setq ess-fancy-comments nil)
+  ;; Trigger plugging with right hooks
+  (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX))
+
+  ;; No special behaviour of comments starting with #, ## or ###
+  (setq ess-fancy-comments nil))
 
 (provide 'init-ess)
