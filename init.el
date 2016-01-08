@@ -886,7 +886,7 @@ not, return nil."
   (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
   (define-key comint-mode-map [(control ?n)] 'comint-next-input))
 
-(defun transpose-buffers (arg)
+(defun transpose-buffers (&optional arg)
   "Transpose the buffers shown in two windows."
   (interactive "p")
   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
