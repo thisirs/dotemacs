@@ -26,8 +26,8 @@
 (mapc (lambda (chan)
         (mapc (lambda (name)
                 (if (string-match "fr$" name)
-                    (push (list name "fr") erc-spelling-dictionaries)
-                  (push (list name "en") erc-spelling-dictionaries)))
+                    (push (list name "francais") erc-spelling-dictionaries)
+                  (push (list name "english") erc-spelling-dictionaries)))
               (cdr chan)))
       erc-autojoin-channels-alist)
 
