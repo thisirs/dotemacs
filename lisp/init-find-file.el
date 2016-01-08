@@ -11,7 +11,7 @@
 (advice-add 'find-file :around #'find-file-sudo)
 
 ;; Open certain files externally with ido, dired, find-file
-(defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4")
+(defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4" "flv")
   "List of file extensions that should be opened externally.")
 
 (defun find-file-noselect-org-open (oldfun filename &optional nowarn rawfile wildcards)

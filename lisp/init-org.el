@@ -304,6 +304,7 @@ the selected file."
 (add-to-list 'org-file-apps '("\\.xlsx?\\'" . "soffice %s"))
 (add-to-list 'org-file-apps '("\\.mp4\\'" . "vlc %s"))
 (add-to-list 'org-file-apps '("\\.avi\\'" . "vlc %s"))
+(add-to-list 'org-file-apps '("\\.flv\\'" . "vlc %s"))
 
 ;; Open directories with dired
 (add-to-list 'org-file-apps '(directory . emacs))
