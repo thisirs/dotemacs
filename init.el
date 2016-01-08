@@ -256,7 +256,7 @@
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)"))
 
 (use-package google-translate
-  :load-path "~/repositories/google-translate/"
+  ;; :load-path "~/repositories/google-translate/"
   :config (setq google-translate-translation-directions-alist
                 '(("en" . "fr") ("fr" . "en")))
   :bind ("C-c t" . google-translate-smooth-translate))
