@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Minimal beamer + TikZ skeleton
+# key: hdr
+# --
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{frame}
+  \begin{tikzpicture}
+    $0
+  \end{tikzpicture}
+\end{frame}
+\end{document}
