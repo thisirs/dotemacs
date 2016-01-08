@@ -18,7 +18,7 @@
 ;; (add-hook 'ruby-mode-hook 'ruby-setup)
 
 (with-eval-after-load "company"
-    (push 'company-robe company-backends))
+  (push 'company-robe company-backends))
 (add-hook 'ruby-mode-hook 'robe-mode)
 
 (provide 'init-ruby)

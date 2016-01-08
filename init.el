@@ -29,7 +29,7 @@
 
 ;; Tramp env to properly display dired
 (with-eval-after-load "tramp"
-    (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append))
+  (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append))
 
 ;; Backups
 (setq make-backup-files t ;; do make backups
@@ -125,15 +125,15 @@
   (ignore-errors
     (catch 'timeout
       (when (memq nil (mapcar 'package-installed-p package-required-packages))
-	(message "Refreshing packages database...")
-	(with-timeout (10 (message "Timeout, cancelling...")
-			  (sit-for 2)
-			  (throw 'timeout nil))
-	  (package-refresh-contents))
-	(mapc (lambda (p)
-		(when (not (package-installed-p p))
-		  (package-install p)))
-	      package-required-packages)))))
+        (message "Refreshing packages database...")
+        (with-timeout (10 (message "Timeout, cancelling...")
+                          (sit-for 2)
+                          (throw 'timeout nil))
+          (package-refresh-contents))
+        (mapc (lambda (p)
+                (when (not (package-installed-p p))
+                  (package-install p)))
+              package-required-packages)))))
 
 (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
 
@@ -421,128 +421,117 @@
     :in (eq major-mode 'org-agenda-mode)
     :switch org-agenda-list)
 
-  (state-define-state
-   debug
-   :key "d"
-   :switch "*debug*")
+  (state-define-state debug
+    :key "d"
+    :switch "*debug*")
 
-  (state-define-state
-   gnus
-   :key "g"
-   :in (memq major-mode '(gnus-article-edit-mode
-                          gnus-article-mode
-                          gnus-bookmark-bmenu-mode
-                          gnus-browse-mode
-                          gnus-category-mode
-                          gnus-custom-mode
-                          gnus-edit-form-mode
-                          gnus-group-mode
-                          gnus-kill-file-mode
-                          gnus-score-mode
-                          gnus-server-mode
-                          gnus-sticky-article-mode
-                          gnus-summary-mode
-                          gnus-tree-mode
-                          message-mode
-                          plstore-mode
-                          sieve-manage-mode
-                          sieve-mode
-                          smime-mode))
-   :exist gnus-alive-p
-   :create gnus)
+  (state-define-state gnus
+    :key "g"
+    :in (memq major-mode '(gnus-article-edit-mode
+                           gnus-article-mode
+                           gnus-bookmark-bmenu-mode
+                           gnus-browse-mode
+                           gnus-category-mode
+                           gnus-custom-mode
+                           gnus-edit-form-mode
+                           gnus-group-mode
+                           gnus-kill-file-mode
+                           gnus-score-mode
+                           gnus-server-mode
+                           gnus-sticky-article-mode
+                           gnus-summary-mode
+                           gnus-tree-mode
+                           message-mode
+                           plstore-mode
+                           sieve-manage-mode
+                           sieve-mode
+                           smime-mode))
+    :exist gnus-alive-p
+    :create gnus)
 
-  (state-define-state
-   erc
-   :key "i"
-   :in (and (fboundp 'erc-buffer-list)
-            (memq (current-buffer) (erc-buffer-list)))
-   :switch (erc-start-or-switch 1)
-   :keep (erc-track-switch-buffer 0))
+  (state-define-state erc
+    :key "i"
+    :in (and (fboundp 'erc-buffer-list)
+             (memq (current-buffer) (erc-buffer-list)))
+    :switch (erc-start-or-switch 1)
+    :keep (erc-track-switch-buffer 0))
 
-  (state-define-state
-   message
-   :key "m"
-   :switch "*Messages*")
+  (state-define-state message
+    :key "m"
+    :switch "*Messages*")
 
-  (state-define-state
-   scratch
-   :key "s"
-   :switch "*scratch*")
+  (state-define-state scratch
+    :key "s"
+    :switch "*scratch*")
 
-  (state-define-state
-   twit
-   :key "t"
-   :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
-   :switch twit)
+  (state-define-state twit
+    :key "t"
+    :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
+    :switch twit)
 
-  (state-define-state
-   programming_samples
-   :key "r"
-   :switch "~/CloudStation/Sylvain/Org/programming_samples.org")
+  (state-define-state programming_samples
+    :key "r"
+    :switch "~/CloudStation/Sylvain/Org/programming_samples.org")
 
-  (state-define-state
-   personnal
-   :key "p"
-   :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg"
-   :keep (org-password-manager-get-password t))
+  (state-define-state personnal
+    :key "p"
+    :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg"
+    :keep (org-password-manager-get-pass))
 
   ;; Switch to init.el or any already open lisp/init-*.el files
-  (state-define-state
-   emacs
-   :key "e"
-   :in (or (state--in-in-file "~/.emacs.d/init.el")
-           (state--in-in-file "~/.emacs.d/lisp/init"))
-   :exist (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
-              (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init"))
-   :switch (let ((buffer (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
-                             (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init")
-                             (error "Unable to switch to `%s' state" name))))
-             (state--switch-switch-buffer buffer))
-   :create (find-file "~/.emacs.d/init.el")
-   :keep (unless (eq (current-buffer) (find-buffer-visiting "~/.emacs.d/init.el"))
-           (find-file "~/.emacs.d/init.el")))
+  (state-define-state emacs
+    :key "e"
+    :in (or (state--in-in-file "~/.emacs.d/init.el")
+            (state--in-in-file "~/.emacs.d/lisp/init"))
+    :exist (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
+               (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init"))
+    :switch (let ((buffer (or (state--find-file-name-prefix-buffer "~/.emacs.d/init.el")
+                              (state--find-file-name-prefix-buffer "~/.emacs.d/lisp/init")
+                              (error "Unable to switch to `%s' state" name))))
+              (state--switch-switch-buffer buffer))
+    :create (find-file "~/.emacs.d/init.el")
+    :keep (unless (eq (current-buffer) (find-buffer-visiting "~/.emacs.d/init.el"))
+            (find-file "~/.emacs.d/init.el")))
 
   ;; Bound state: only accessible from emacs state
-  (state-define-state
-   emacs-term
-   :key "z"
-   :bound emacs
-   :exist (get-buffer "*ansi-term (dotemacs)*")
-   :in (equal (buffer-name) "*ansi-term (dotemacs)*")
-   :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
-               (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
-             (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
-   :create (progn
-             (switch-to-buffer-other-window (current-buffer))
-             (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
+  (state-define-state emacs-term
+    :key "z"
+    :bound emacs
+    :exist (get-buffer "*ansi-term (dotemacs)*")
+    :in (equal (buffer-name) "*ansi-term (dotemacs)*")
+    :switch (if (get-buffer-window "*ansi-term (dotemacs)*")
+                (select-window (get-buffer-window "*ansi-term (dotemacs)*"))
+              (switch-to-buffer-other-window "*ansi-term (dotemacs)*"))
+    :create (progn
+              (switch-to-buffer-other-window (current-buffer))
+              (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
 
   ;; Not bound state with same key
-  (state-define-state
-   term
-   :key "z"
-   :exist (get-buffer "*ansi-term*")
-   :in (equal (buffer-name) "*ansi-term*")
-   :switch (if (get-buffer-window "*ansi-term*")
-               (select-window (get-buffer-window "*ansi-term*"))
-             (switch-to-buffer-other-window "*ansi-term*"))
-   :create (progn
-             (switch-to-buffer-other-window (current-buffer))
-             (ansi-term "/bin/zsh")))
+  (state-define-state term
+    :key "z"
+    :exist (get-buffer "*ansi-term*")
+    :in (equal (buffer-name) "*ansi-term*")
+    :switch (if (get-buffer-window "*ansi-term*")
+                (select-window (get-buffer-window "*ansi-term*"))
+              (switch-to-buffer-other-window "*ansi-term*"))
+    :create (progn
+              (switch-to-buffer-other-window (current-buffer))
+              (ansi-term "/bin/zsh")))
 
   ;; Common pattern when defining a repl state
   (defmacro state-define-repl (name key buffer-name from create)
     `(state-define-state
-      ,name
-      :bound ,from
-      :key ,key
-      :exist (get-buffer ,buffer-name)
-      :in (equal (buffer-name) ,buffer-name)
-      :switch (if (get-buffer-window ,buffer-name)
-                  (select-window (get-buffer-window ,buffer-name))
-                (switch-to-buffer-other-window ,buffer-name))
-      :create (progn
-                (switch-to-buffer-other-window (current-buffer))
-                ,create)))
+         ,name
+       :bound ,from
+       :key ,key
+       :exist (get-buffer ,buffer-name)
+       :in (equal (buffer-name) ,buffer-name)
+       :switch (if (get-buffer-window ,buffer-name)
+                   (select-window (get-buffer-window ,buffer-name))
+                 (switch-to-buffer-other-window ,buffer-name))
+       :create (progn
+                 (switch-to-buffer-other-window (current-buffer))
+                 ,create)))
 
   (state-define-repl elisp-repl "j" "*ielm*" (eq major-mode 'emacs-lisp-mode) (ielm))
   (state-define-repl matlab-repl "j" "*MATLAB*" (eq major-mode 'matlab-mode) (matlab-shell))
