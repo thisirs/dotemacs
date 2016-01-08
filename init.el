@@ -36,8 +36,8 @@
       ;;  backup-by-copying t     ;; and copy them here
       backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
       version-control t
-      kept-new-versions 2
-      kept-old-versions 5
+      kept-new-versions 10
+      kept-old-versions 0
       delete-old-versions t)
 
 ;; Don't backup sudo opened files and .recentf
