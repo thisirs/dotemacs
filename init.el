@@ -322,9 +322,9 @@
   :bind ("C-c e m" . macrostep-expand))
 
 (use-package multiple-cursors
-  :bind ("C-ç" . mc/mark-next-like-this)
-  :config
-  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el"))
+  :init
+  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
+  :bind ("C-ç" . mc/mark-next-like-this))
 
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context
