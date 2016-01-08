@@ -86,6 +86,7 @@ nil."
 (setq erc-pcomplete-order-nickname-completions t)
 
 (defun my-erc-mode-hook ()
+  (font-lock-mode -1)
   (whitespace-mode -1)
   (set (make-local-variable 'scroll-conservatively) 101)
   (set (make-local-variable 'scroll-step) 1))
