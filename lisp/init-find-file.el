@@ -22,7 +22,12 @@
         (message "Opening file externally"))
     (funcall oldfun filename nowarn rawfile wildcards)))
 
-(advice-add 'find-file-noselect :around #'find-file-noselect-org-open)
+(defvar find-file-open-externally t
+  "If non-nil, open specific files externally.")
+
+(if find-file-open-externally
+    (advice-add 'find-file-noselect :around #'find-file-noselect-org-open)
+  (advice-remove 'find-file-noselect 'find-file-noselect-org-open))
 
 (defun revert-all ()
   "Revert all buffers without asking."
