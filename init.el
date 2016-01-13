@@ -1097,11 +1097,6 @@ to cancel it."
 
 (add-hook 'before-save-hook 'time-stamp)
 
-(defun insert-euro ()
-  "Insert a Euro currency symbol in utf-8."
-  (interactive)
-  (ucs-insert #x20ac))
-
 ;; Make scripts executable on save
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -1206,31 +1201,6 @@ ring."
       (let ((print-length 10))
         (message "Kill-ring: %s" acc))
       (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
-
-(defun dwim-location (path fun)
-  "Call FUN on each buffer visiting a file contained in PATH."
-  (mapc (lambda (buf)
-          (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
-                              (buffer-local-value 'default-directory buf)
-                            (buffer-file-name buf))))
-            (and (stringp location)
-                 (string-prefix-p
-                  (file-truename (abbreviate-file-name path))
-                  (file-truename (abbreviate-file-name location)))
-                 (funcall fun buf))))
-        (buffer-list)))
-
-(defun kill-location (path)
-  "Kill all buffers visiting a file contained in PATH."
-  (interactive "fLocation: ")
-  (dwim-location path 'kill-buffer))
-
-(defun revert-location (path)
-  "Revert all buffers visiting a file contained in PATH."
-  (interactive "fLocation: ")
-  (dwim-location path (lambda (buf)
-                        (with-current-buffer buf
-                          (revert-buffer nil t)))))
 
 ;; Trying sml
 (setq sml/vc-mode-show-backend t)

@@ -143,4 +143,9 @@ If ARG is non-nil, ask for confirmation on each match."
         (indent-region (region-beginning) (region-end))
       (indent-buffer))))
 
+(defun insert-euro ()
+  "Insert a Euro currency symbol in utf-8."
+  (interactive)
+  (ucs-insert #x20ac))
+
 (provide 'init-editing)

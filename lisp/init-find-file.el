@@ -39,6 +39,31 @@
             (let ((revert-without-query '(".")))
               (revert-buffer t)))))))
 
+(defun dwim-location (path fun)
+  "Call FUN on each buffer visiting a file contained in PATH."
+  (mapc (lambda (buf)
+          (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
+                              (buffer-local-value 'default-directory buf)
+                            (buffer-file-name buf))))
+            (and (stringp location)
+                 (string-prefix-p
+                  (file-truename (abbreviate-file-name path))
+                  (file-truename (abbreviate-file-name location)))
+                 (funcall fun buf))))
+        (buffer-list)))
+
+(defun kill-location (path)
+  "Kill all buffers visiting a file contained in PATH."
+  (interactive "fLocation: ")
+  (dwim-location path 'kill-buffer))
+
+(defun revert-location (path)
+  "Revert all buffers visiting a file contained in PATH."
+  (interactive "fLocation: ")
+  (dwim-location path (lambda (buf)
+                        (with-current-buffer buf
+                          (revert-buffer nil t)))))
+
 ;; Taken from http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
 (defun my-create-non-existent-directory ()
   (let ((parent-directory (file-name-directory buffer-file-name)))
