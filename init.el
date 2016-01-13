@@ -200,23 +200,6 @@
 (with-emacs-version>= "24.1"
   (electric-indent-mode 1))
 
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/lisp")
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/gnus/contrib")
-;; (require 'gnus-load)
-
-;; (on-knuth
-;;  (require 'offlineimap)
-;;  (add-hook 'gnus-before-startup-hook 'offlineimap))
-
-;; (require 'bbdb-loaddefs "~/.emacs.d/site-lisp/bbdb/lisp/bbdb-loaddefs.el")
-;; (bbdb-initialize 'gnus)
-;; (setq bbdb-mua-auto-update-init 'gnus)
-;; (setq bbdb-file "~/CloudStation/emacs/.bbdb")
-;; (setq bbdb-message-all-addresses t)
-
-;; ;; BUG gnus-timer--function undefined
-;; (require 'gnus-util)
-
 (with-emacs-version< "24"
   (require 'epa)
   (epa-file-enable))
