@@ -723,10 +723,6 @@
   (add-to-list 'default-frame-alist
                '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1")))
 
-;; No lockfiles
-(with-emacs-version>= "24.2"
-  (setq create-lockfiles nil))
-
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 
