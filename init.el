@@ -55,6 +55,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; No lockfiles
+(with-emacs-version>= "24.2"
+  (setq create-lockfiles nil))
+
+;; Highlight matching paren
 (show-paren-mode 1)
 
 (mouse-wheel-mode 1)
