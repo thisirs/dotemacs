@@ -250,6 +250,7 @@
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package guide-key
+  :disabled t
   :diminish guide-key-mode
   :commands guide-key-mode
   :defer 10
