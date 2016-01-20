@@ -79,6 +79,7 @@
       cmake-mode
       dash
       diminish
+      drag-stuff
       elisp-slime-nav
       erc-colorize
       ess
@@ -97,7 +98,6 @@
       macrostep
       magit
       markdown-mode
-      move-text
       multiple-cursors
       org-caldav
       org-context
@@ -209,9 +209,9 @@
   (require 'epa)
   (epa-file-enable))
 
-(use-package move-text
-  :bind (([C-M-S-up] . move-text-up)
-         ([C-M-S-down] . move-text-down)))
+(use-package drag-stuff
+  :bind (([C-M-S-up] . drag-stuff-up)
+         ([C-M-S-down] . drag-stuff-down)))
 
 (use-package expand-region
   :bind (("C-à" . er/expand-region)
