@@ -548,6 +548,8 @@ this with to-do items than with projects or headings."
 ;; Override the key definition
 (define-key org-agenda-mode-map "X" #'org-agenda-mark-done-and-add-followup)
 
+(define-key org-agenda-mode-map [(control return)] #'org-agenda-add-report)
+
 ;; Custom headline export for checklists, allow fake checkboxes in
 ;; headlines to be exported as well as those in lists. This can be
 ;; used with

@@ -62,4 +62,35 @@ if a TODO cookie is present on the line."
     (org-insert-time-stamp (org-read-date (not (null time)) t nil nil ts)
                            org-time-was-given)))
 
+(defvar org-tags-to-report-alist
+  '(("ensei" . "~/CloudStation/Sylvain/enseignements/2015-2016/notebook.org")
+    ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
+
+(defun org-agenda-add-report (&optional delete-other-windows)
+  (interactive "P")
+  (let* ((txt (org-no-properties (org-get-at-bol 'txt)))
+         (tags-list (org-get-at-bol 'tags))
+         (day (org-get-at-bol 'day))
+         (mdy (calendar-gregorian-from-absolute day))
+         (time (org-get-at-bol 'time-of-day))
+         (ts (encode-time 0 (if time (mod time 100) 0) (if time (floor (/ time 100)) 0)
+                          (nth 1 mdy)
+                          (nth 0 mdy)
+                          (nth 2 mdy)))
+         (report (assoc-default tags-list org-tags-to-report-alist
+                                (lambda (e k)
+                                  (eval (cdr (let (todo-only) (org-make-tags-matcher e))))))))
+    (if report
+      (let ((buffer (find-file-noselect report)))
+        (org-pop-to-buffer-same-window buffer)
+        (when delete-other-windows (delete-other-windows))
+        (widen)
+        (goto-char (point-max))
+        (or (bolp) (insert "\n"))
+        (insert "* ")
+        (org-insert-time-stamp ts t t)
+        (insert " " txt "\n"))
+      (user-error "No corresponding report file found"))))
+
+
 (provide 'init-org-capture-helpers)
