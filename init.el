@@ -915,7 +915,7 @@ not, return nil."
 (defun indent-buffer ()
   "Indent the current buffer."
   (interactive)
-  (indent-region (point-min) (point-max)))
+  (save-restriction (indent-region (point-min) (point-max))))
 
 (defun cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
