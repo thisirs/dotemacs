@@ -210,6 +210,7 @@
   (epa-file-enable))
 
 (use-package drag-stuff
+  :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)))
 
