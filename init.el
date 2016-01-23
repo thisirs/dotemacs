@@ -15,6 +15,7 @@
 
 (define-on-macro "knuth")
 (define-on-macro "zbook")
+(define-on-macro "zouzou")
 
 ;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)
@@ -148,7 +149,13 @@
   (setq exec-path (split-string path "[:\n]" t)))
 
 ;; Loading zenburn theme
-(load-theme 'zenburn t)
+(on-zouzou
+ (load-theme 'zenburn t))
+
+(on-zbook
+ (setq solarized-use-variable-pitch nil)
+ (setq solarized-scale-org-headlines nil)
+ (load-theme 'solarized-dark t))
 
 (eval-when-compile
   (require 'use-package))
