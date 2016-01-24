@@ -79,12 +79,20 @@
 ;; filter group.
 (setq find-file-visit-truename t)
 
-(defadvice ibuffer-diff-with-file (around ibuffer-diff-two-buffers activate)
-  (require 'diff)
+(defun ibuffer-ediff-marked-buffers (&optional arg)
+  "Diff between two marked buffers in ibuffer.
+
+Show a classical diff if ARG is nil. Otherwise, run ediff on the
+two marked buffers."
+  (interactive "P")
   (let ((marked-bufs (ibuffer-get-marked-buffers)))
     (if (eq (length marked-bufs) 2)
-        (diff (car marked-bufs) (cadr marked-bufs))
-      ad-do-it)))
+        (if arg
+            (ediff-buffers (car marked-bufs) (cadr marked-bufs))
+          (diff (car marked-bufs) (cadr marked-bufs)))
+      (error "Mark exactly 2 files to diff"))))
+
+(define-key ibuffer-mode-map (kbd "=") #'ibuffer-ediff-marked-buffers)
 
 ;; Don't show empty groups
 (setq ibuffer-show-empty-filter-groups nil)
