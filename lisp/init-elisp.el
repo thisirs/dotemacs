@@ -79,7 +79,8 @@
   "Replace the preceding sexp with its value."
   (interactive)
   (let ((opoint (point)) form)
-    (forward-sexp -1)
+    (with-syntax-table emacs-lisp-mode-syntax-table
+      (forward-sexp -1))
     (condition-case error
         (progn
           (setq form (eval (read (buffer-substring (point) opoint))))
