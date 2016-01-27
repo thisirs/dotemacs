@@ -848,9 +848,6 @@ not, return nil."
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
 
-;; SHIFT selection
-;;(custom-set-variables '(pc-selection-mode t nil (pc-select)))
-
 (defun rename-current-file-or-buffer ()
   (interactive)
   (if (not (buffer-file-name))
