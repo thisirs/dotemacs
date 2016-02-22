@@ -845,6 +845,15 @@ not, return nil."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; grep binary files (latin-1 are binary files...)
+(with-eval-after-load "grep"
+  (grep-compute-defaults)
+  (let* ((grep-find-cmd (replace-regexp-in-string "grep\\( -a\\)?" "grep -a"
+                                                  (car grep-find-command)))
+         (point (progn (string-match "{}" grep-find-cmd) (match-beginning 0))))
+    (grep-apply-setting 'grep-find-command
+                        (cons grep-find-cmd point))))
+
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
 
