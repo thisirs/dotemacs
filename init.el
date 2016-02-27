@@ -846,13 +846,20 @@ not, return nil."
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; grep binary files (latin-1 are binary files...)
-(with-eval-after-load "grep"
+(defun grep-toggle-binary-search (&optional arg)
+  "Toggle \"grep\"/\"grep -a\" in grep command."
+  (interactive "P")
   (grep-compute-defaults)
-  (let* ((grep-find-cmd (replace-regexp-in-string "grep\\( -a\\)?" "grep -a"
-                                                  (car grep-find-command)))
+  (let* ((grep-find-cmd (replace-regexp-in-string
+                         "grep\\( -a\\)?"
+                         (lambda (m) (concat "grep" (if (match-string 1 m) ""  " -a")))
+                         (car grep-find-command)))
          (point (progn (string-match "{}" grep-find-cmd) (match-beginning 0))))
     (grep-apply-setting 'grep-find-command
                         (cons grep-find-cmd point))))
+
+(with-eval-after-load "grep"
+  (grep-toggle-binary-search))
 
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
