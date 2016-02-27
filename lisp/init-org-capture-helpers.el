@@ -60,7 +60,7 @@ if a TODO cookie is present on the line."
                       (nth 0 mdy)
                       (nth 2 mdy)))))))
     (org-insert-time-stamp (org-read-date (not (null time)) t nil nil ts)
-                           org-time-was-given)))
+                           (and (boundp 'org-time-was-given) org-time-was-given))))
 
 (defvar org-tags-to-report-alist
   '(("ensei" . "~/CloudStation/Sylvain/enseignements/2015-2016/notebook.org")
