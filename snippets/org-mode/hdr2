@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Org document header
+# key: hdr
+# --
+#+TITLE:
+#+AUTHOR:
+#+DATE:
+#+OPTIONS: toc:nil num:nil
