@@ -1111,10 +1111,6 @@ to cancel it."
 ;; Open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
 
-;; Emacs does not recognize zsh files...
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-
-
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
 
