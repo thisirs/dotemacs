@@ -80,6 +80,8 @@ mutiple times."
            "figure"
            ("minted" current-indentation))))
 
+(add-to-list 'LaTeX-verbatim-environments "minted")
+
 (defun latex-auto-fill-everywhere ()
   (when comment-auto-fill-only-comments
     (set (make-local-variable 'comment-auto-fill-only-comments)
