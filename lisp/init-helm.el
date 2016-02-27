@@ -6,8 +6,10 @@
 (require 'helm-config)
 (require 'helm-files)
 
-(require 'helm-descbinds)
-(helm-descbinds-mode)
+(use-package helm-descbinds
+  :config
+  (require 'helm-config)
+  (helm-descbinds-mode))
 
 (helm-mode)
 
