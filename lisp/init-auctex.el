@@ -20,11 +20,6 @@
     (set (make-local-variable 'TeX-auto-save) nil)))
 (add-hook 'LaTeX-mode-hook 'disable-automatic-parsing)
 
-;; shell-escape needed to use external programs such as gnuplot
-;; file-line-error fixes bug where errors were not correctly parsed
-(setq LaTeX-command-style
-      '(("" "%(PDF)%(latex) -shell-escape %S%(PDFout)")))
-
 (setq TeX-engine-alist
       '((xetex_sh "XeTeX shell escape"
                   "xetex --file-line-error --shell-escape"
