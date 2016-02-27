@@ -58,4 +58,20 @@
 
 (add-hook 'desktop-after-read-hook 'set-buffer-display-time)
 
+(defun emacs-process-p (pid)
+  "Return non-nil if PID is the process id of an emacs process, else return nil."
+  (when (integerp pid)
+    (let* ((cmdline-file (concat "/proc/" (int-to-string pid) "/cmdline")))
+      (when (file-exists-p cmdline-file)
+        (with-temp-buffer
+          (insert-file-contents-literally cmdline-file)
+          (goto-char (point-min))
+          (and (search-forward "emacs" nil t) t))))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
+
+
 (provide 'init-desktop)
