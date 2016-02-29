@@ -953,23 +953,29 @@ in file in a non-autocommitted repository."
        (not (and (fboundp 'vc-auto-commit-backend)
                  (vc-auto-commit-backend)))))
 
-(defun shared-on-ownCloud ()
-  "Return non-nil if current buffer is editing a shared file."
+(defvar shared-directory-list
+  '("~/Dropbox/Documents-sy09/"
+    "~/ownCloud/Shared/")
+  "Shared directories")
+
+(defun shared-directory ()
+  "Return non-nil if current buffer is visiting a file that is
+shared as specified in `shared-directory-list'."
   (and (buffer-file-name)
-       (string-prefix-p "~/ownCloud/Shared"
-                        (abbreviate-file-name (buffer-file-name)))))
+       (let ((fname (abbreviate-file-name (buffer-file-name))))
+         (seq-some (lambda (e) (string-prefix-p e fname)) shared-directory-list))))
 
 ;; Don't delete trailing whitespaces on checked in vc-controlled files
-;; that are not auto-committed and on shared files through ownCloud
+;; that are not auto-committed and on shared files
 (add-hook 'delete-trailing-whitespace-hook #'shared-on-vc)
-(add-hook 'delete-trailing-whitespace-hook #'shared-on-ownCloud)
+(add-hook 'delete-trailing-whitespace-hook #'shared-directory)
 
 (defun untabify-vc ()
   "Return non-nil if tabs should remain."
   (or indent-tabs-mode (shared-on-vc)))
 
 (defun untabify-shared ()
-  (or indent-tabs-mode (shared-on-ownCloud)))
+  (or indent-tabs-mode (shared-directory)))
 
 ;; Don't untabify (1) vc-controlled checked in files that are not
 ;; auto-committed, (2) shared files through ownCloud and (3) buffer
