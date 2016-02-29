@@ -206,19 +206,26 @@ The new label is the name of the included file."
 %s}" curr-text curr-text))))
   (indent-region beg (point)))
 
-(defun replace-delimiters (l r nl nr force)
-  "Replace delimiters with new ones on the same line."
+(defun replace-delimiters (l r nl nr force scope)
+  "Replace delimiters in current buffer.
+
+L and R are left and right delimiters to be replaced by NL and
+NR. No ask if FORCE is non-nil. If SCOPE is non-nil, the search
+scope for corresponding delimiters is buffer-wise. Otherwise, it
+is on the same line."
   (interactive "sLeft delimiter: \nsRight delimiter: \nsNew left delimiter :\nsNew right delimiter :\nP")
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward (regexp-quote l) nil t)
       (let ((beg (match-beginning 0))
             (end (match-end 0)))
-        (when (and (re-search-forward (regexp-quote r) (point-at-eol) t)
+        (when (and (re-search-forward (regexp-quote r) (if scope nil (point-at-eol)) t)
                    (or force (y-or-n-p "Perform replacement?")))
-          (replace-match nr)
+          (replace-match nr nil t)
           (delete-region beg end)
           (goto-char beg)
           (insert nl))))))
+
+;; (replace-delimiters "$$" "$$" "\\begin{equation*}\n" "\n\\end{equation*}" t 'buffer)
 
 (provide 'init-latex)
