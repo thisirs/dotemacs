@@ -72,10 +72,15 @@ mutiple times."
                           (list env))))
          '("tikzpicture"
            "scope"
-           "figure"
-           ("minted" current-indentation))))
+           "figure")))
 
+
+;; Other verbatim environments (no auto-indenting, no auto-fill)
 (add-to-list 'LaTeX-verbatim-environments "minted")
+(add-to-list 'LaTeX-indent-environment-list '("minted" current-indentation))
+
+(add-to-list 'LaTeX-verbatim-environments "CVerbatim")
+(add-to-list 'LaTeX-indent-environment-list '("CVerbatim" current-indentation))
 
 (defun latex-auto-fill-everywhere ()
   (when comment-auto-fill-only-comments
