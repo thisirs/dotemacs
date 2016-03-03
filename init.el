@@ -1065,10 +1065,16 @@ to cancel it."
 (setq save-interprogram-paste-before-kill t)
 
 ;; Don't warn when quitting emacs with running processes
-(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+(defun no-processes (oldfun &optional arg)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-  (letf (((symbol-function 'process-list)
-          (lambda ()))) ad-do-it))
+  (letf (((symbol-function 'process-list) (lambda ())))
+    (funcall oldfun arg)))
+(advice-add 'save-buffers-kill-emacs :around #'no-processes)
+
+;; (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+;;   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+;;   (letf (((symbol-function 'process-list)
+;;           (lambda ()))) ad-do-it))
 
 ;; Don't warn when killing running processes
 (delq 'process-kill-buffer-query-function
