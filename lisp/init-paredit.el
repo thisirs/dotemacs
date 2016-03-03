@@ -1,17 +1,19 @@
 (require 'paredit)
 
+;; Use paredit in lisp-like mode
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
 (add-hook 'ielm-mode-hook 'enable-paredit-mode)
 
+;; Use paredit when asking for lisp expression
+(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+
 ;; From https://github.com/purcell/emacs.d.git
-;; Use paredit in the minibuffer
+;; Workaround for commands not using read--expression
 (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
 
-(defvar paredit-minibuffer-commands '(eval-expression
-                                      pp-eval-expression
-                                      ibuffer-do-eval
+(defvar paredit-minibuffer-commands '(ibuffer-do-eval
                                       ibuffer-do-view-and-eval
                                       edebug-eval-expression
                                       edebug-set-conditional-breakpoint)
