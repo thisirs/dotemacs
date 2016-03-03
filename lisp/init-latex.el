@@ -206,26 +206,51 @@ The new label is the name of the included file."
 %s}" curr-text curr-text))))
   (indent-region beg (point)))
 
-(defun replace-delimiters (l r nl nr force scope)
+(defsubst at-beginning (point)
+  (save-excursion
+    (goto-char point)
+    (skip-chars-backward " \t")
+    (bolp)))
+
+(defsubst at-end (point)
+  (save-excursion
+    (goto-char point)
+    (skip-chars-forward " \t")
+    (eolp)))
+
+(defun replace-delimiters (l r nl nr force same-line)
   "Replace delimiters in current buffer.
 
 L and R are left and right delimiters to be replaced by NL and
-NR. No ask if FORCE is non-nil. If SCOPE is non-nil, the search
-scope for corresponding delimiters is buffer-wise. Otherwise, it
-is on the same line."
-  (interactive "sLeft delimiter: \nsRight delimiter: \nsNew left delimiter :\nsNew right delimiter :\nP")
+NR. No ask if FORCE is non-nil. If SAME-LINE is non-nil, the left
+and right delimiters are matched on the same line."
+  (interactive (list (read-string "Left delimiter: ")
+                     (read-string "Right delimiter: ")
+                     (read-string "New left delimiter: ")
+                     (read-string "New right delimiter: ")
+                     (yes-or-no-p "Force? ")
+                     (yes-or-no-p "On the same line only? ")))
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward (regexp-quote l) nil t)
-      (let ((beg (match-beginning 0))
-            (end (match-end 0)))
-        (when (and (re-search-forward (regexp-quote r) (if scope nil (point-at-eol)) t)
+      (let* ((beg (match-beginning 0))
+             (end (match-end 0))
+             (atb (at-beginning beg))
+             (ate (at-end end)))
+        (when (and (re-search-forward (regexp-quote r) (and scope (point-at-eol)) t)
                    (or force (y-or-n-p "Perform replacement?")))
-          (replace-match nr nil t)
+          (let* ((atb (at-beginning (match-beginning 0)))
+                 (ate (at-end (match-end 0)))
+                 (rep (format "%s%s%s" (if atb "" "\n") nr (if ate "" "\n"))))
+            (replace-match rep nil t))
           (delete-region beg end)
           (goto-char beg)
-          (insert nl))))))
+          (insert (format "%s%s%s" (if atb "" "\n") nl (if ate "" "\n"))))))))
 
-;; (replace-delimiters "$$" "$$" "\\begin{equation*}\n" "\n\\end{equation*}" t 'buffer)
+
+;; (replace-delimiters "$$" "$$" "\\begin{equation*}" "\\end{equation*}" t)
+;; (replace-delimiters "\\[" "\\]" "\\begin{equation*}" "\\end{equation*}" t)
+
+
 
 (provide 'init-latex)
