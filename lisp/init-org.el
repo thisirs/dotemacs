@@ -556,7 +556,7 @@ this with to-do items than with projects or headings."
 ;; #+LaTeX_HEADER: \renewcommand\labelitemi{}
 ;; to remove the bullets.
 (defun org-latex-format-headline-checkbox-function
-    (todo todo-type priority text tags)
+    (todo todo-type priority text tags info)
   "Add a checkbox in front of headline depending of the states of
 child checkboxes."
   (let ((checkbox ""))
