@@ -100,6 +100,7 @@
       magit
       markdown-mode
       multiple-cursors
+      openwith
       org-caldav
       org-context
       org-password-manager
@@ -322,6 +323,13 @@
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :bind ("C-ç" . mc/mark-next-like-this))
+
+(use-package openwith
+  :config
+  (setq openwith-associations
+        '(("\\.pdf\\'" "evince" (file))
+          ("\\.\\(?:mpe?g\\|avi\\|wmv\\|flv\\)\\'" "vlc" (file))
+          ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file)))))
 
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context

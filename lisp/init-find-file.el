@@ -10,24 +10,24 @@
 
 (advice-add 'find-file :around #'find-file-sudo)
 
-;; Open certain files externally with ido, dired, find-file
-(defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4" "flv")
-  "List of file extensions that should be opened externally.")
+;; ;; Open certain files externally with ido, dired, find-file
+;; (defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4" "flv")
+;;   "List of file extensions that should be opened externally.")
 
-(defun find-file-noselect-org-open (oldfun filename &optional nowarn rawfile wildcards)
-  "Advice on `find-file-noselect' to open files externally."
-  (if (string-match (concat "\\." (regexp-opt find-file-externally t) "$") filename)
-      (prog1 nil
-        (org-open-file filename)
-        (message "Opening file externally"))
-    (funcall oldfun filename nowarn rawfile wildcards)))
+;; (defun find-file-noselect-org-open (oldfun filename &optional nowarn rawfile wildcards)
+;;   "Advice on `find-file-noselect' to open files externally."
+;;   (if (string-match (concat "\\." (regexp-opt find-file-externally t) "$") filename)
+;;       (prog1 nil
+;;         (org-open-file filename)
+;;         (message "Opening file externally"))
+;;     (funcall oldfun filename nowarn rawfile wildcards)))
 
-(defvar find-file-open-externally t
-  "If non-nil, open specific files externally.")
+;; (defvar find-file-open-externally t
+;;   "If non-nil, open specific files externally.")
 
-(if find-file-open-externally
-    (advice-add 'find-file-noselect :around #'find-file-noselect-org-open)
-  (advice-remove 'find-file-noselect 'find-file-noselect-org-open))
+;; (if find-file-open-externally
+;;     (advice-add 'find-file-noselect :around #'find-file-noselect-org-open)
+;;   (advice-remove 'find-file-noselect 'find-file-noselect-org-open))
 
 (defun revert-all ()
   "Revert all buffers without asking."
