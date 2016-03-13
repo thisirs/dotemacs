@@ -23,9 +23,8 @@ repeatedly q."
              (and (eq major-mode 'help-mode)
                   (or (quit-window kill) t)))))
 
-;; Reload dired after creating a directory
-(defadvice dired-create-directory (after revert-buffer-after-create activate)
-  (revert-buffer))
+;; Don't wait for auto-revert and reload dired after creating a directory
+(advice-add 'dired-create-directory :after (lambda (&rest args) (revert-buffer)))
 
 (defvar dired-sort-map
   (let ((map (make-sparse-keymap)))
