@@ -630,7 +630,7 @@ child checkboxes."
     (require 'org-table)
     (if (org-table-check-inside-data-field 'noerror)
         (org-table-blank-field)
-      (call-interactively 'ace-jump-mode))))
+      (call-interactively 'avy-goto-subword-1))))
 
 (require 'ox-koma-letter)
 
