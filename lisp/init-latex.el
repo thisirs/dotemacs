@@ -237,7 +237,7 @@ and right delimiters are matched on the same line."
              (end (match-end 0))
              (atb (at-beginning beg))
              (ate (at-end end)))
-        (when (and (re-search-forward (regexp-quote r) (and scope (point-at-eol)) t)
+        (when (and (re-search-forward (regexp-quote r) (and same-line (point-at-eol)) t)
                    (or force (y-or-n-p "Perform replacement?")))
           (let* ((atb (at-beginning (match-beginning 0)))
                  (ate (at-end (match-end 0)))
