@@ -252,9 +252,10 @@
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)"))
 
-(use-package google-translate
-  ;; :load-path "~/repositories/google-translate/"
-  :config (setq google-translate-translation-directions-alist
+(use-package google-translate-smooth-ui
+  :config
+  (require 'google-translate-smooth-ui)
+  (setq google-translate-translation-directions-alist
                 '(("en" . "fr") ("fr" . "en")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
