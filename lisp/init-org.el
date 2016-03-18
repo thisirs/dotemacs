@@ -632,19 +632,36 @@ child checkboxes."
         (org-table-blank-field)
       (call-interactively 'avy-goto-subword-1))))
 
-(require 'ox-koma-letter)
-
-;; email is specified is lco file
-(setq org-koma-letter-email nil)
-
-;; no backaddress by default
-(setq org-koma-letter-use-backaddress nil)
-
-;; no foldmarks by default
-(setq org-koma-letter-use-foldmarks nil)
-
 ;; Don't warn when a link run `org-agenda-from-file'
 (setq org-confirm-elisp-link-not-regexp
       "\\`(org-context-agenda-from \".*\" \"[a-zA-Z]+\")\\'")
+
+(use-package ox-koma-letter
+  :config
+  ;; email is specified is lco file
+  (setq org-koma-letter-email nil)
+
+  ;; no backaddress by default
+  (setq org-koma-letter-use-backaddress nil)
+
+  ;; no foldmarks by default
+  (setq org-koma-letter-use-foldmarks nil))
+
+;; Adapted from http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html
+(use-package ox-latex
+  ;; You need to install pygments to use minted
+  :config
+  (when (executable-find "pygmentize")
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (setq org-latex-listings 'minted)
+    (setq org-latex-minted-options
+          '(("mathescape" "true")
+            ("linenos" "true")
+            ("numbersep" "5pt")
+            ("frame" "lines")
+            ("framesep" "2mm")))
+    (setq org-latex-pdf-process
+          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
+
 
 (provide 'init-org)
