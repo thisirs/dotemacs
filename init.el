@@ -808,29 +808,6 @@ not, return nil."
 ;; Drive out the mouse when it's too near to the cursor.
 (mouse-avoidance-mode 'animate)
 
-(defun update-locate-database (directory)
-  "Update locate databases"
-  (interactive)
-  (and (file-exists-p directory)
-       (set-process-sentinel
-        (start-process-shell-command
-         "updatedb process" nil
-         (mapconcat
-          'identity
-          `("updatedb -l 0"
-            "-U"
-            ,directory
-            "--add-prunepaths \""
-            ,(concat directory ".Trash-1000")
-            ,(concat directory ".Trash-1001")
-            "\""
-            "-o $HOME/.locate.db")
-          " "))
-        (lambda (process event)
-          (minibuffer-message (if (string= "finished\n" event)
-                                  "Locate database updated!"
-                                "Updating locate database failed!"))))))
-
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
 
