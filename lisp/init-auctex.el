@@ -12,6 +12,10 @@
 ;; Enable parse on save
 (setq TeX-auto-save t)
 
+(defun TeX-command-shell-escape-p (arg)
+  (string= arg "-shell-escape"))
+(put 'TeX-command-extra-options 'safe-local-variable 'TeX-command-shell-escape-p)
+
 ;; Avoid auto/ directory when shared
 (defun disable-automatic-parsing ()
   (when (and (buffer-file-name)
