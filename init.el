@@ -235,7 +235,7 @@
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
 ;; Fast navigation from symbol to definition
-(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
+(add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
 
 ;; Diminish
 (eval-after-load "undo-tree"
