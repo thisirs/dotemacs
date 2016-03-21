@@ -944,6 +944,12 @@ in file in a non-autocommitted repository."
     "~/ownCloud/Shared/")
   "Shared directories")
 
+(defmacro on-shared-documents (&rest body)
+  `(and (buffer-file-name)
+        (let ((fname (abbreviate-file-name (buffer-file-name))))
+          (seq-some (lambda (e) (string-prefix-p e fname)) shared-directory-list))
+        (progn ,@body)))
+
 (defun shared-directory ()
   "Return non-nil if current buffer is visiting a file that is
 shared as specified in `shared-directory-list'."
