@@ -3,7 +3,7 @@
 (setq dired-dwim-target t)
 
 ;; Auto-revert mode
-(add-hook 'dired-mode-hook 'turn-on-auto-revert-mode)
+(add-hook 'dired-mode-hook #'turn-on-auto-revert-mode)
 (setq auto-revert-verbose nil)
 
 ;; Auto-revert dired buffer on revisiting
@@ -11,7 +11,7 @@
 
 ;; Make dired less verbose
 (with-emacs-version> "24.3.90"
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-hide-details-hide-symlink-targets nil))
 
 (defun dired-bury-all (&optional kill)
@@ -83,7 +83,7 @@ directory."
 (define-key dired-mode-map (kbd "W") #'dired-copy-path-as-kill)
 
 ;; C-c C-m C-a jumps to gnus with current file attached
-(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+(add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
 
 (eval-after-load "dired-aux"
   '(add-to-list 'dired-compress-file-suffixes

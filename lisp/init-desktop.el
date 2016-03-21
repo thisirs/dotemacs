@@ -48,7 +48,7 @@
                   (or buffer-display-time (current-time)))))
         (buffer-list)))
 
-(add-hook 'desktop-save-hook 'save-buffer-display-time)
+(add-hook 'desktop-save-hook #'save-buffer-display-time)
 
 (defun set-buffer-display-time ()
   (mapc (lambda (buf)
@@ -56,7 +56,7 @@
             (setq buffer-display-time buffer-display-time-1)))
         (buffer-list)))
 
-(add-hook 'desktop-after-read-hook 'set-buffer-display-time)
+(add-hook 'desktop-after-read-hook #'set-buffer-display-time)
 
 (defun emacs-process-p (pid)
   "Return non-nil if PID is the process id of an emacs process, else return nil."

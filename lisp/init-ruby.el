@@ -14,11 +14,11 @@
 
 ;;   (define-key ruby-mode-map (kbd "RET") #'reindent-then-newline-and-indent))
 
-;; (add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings)
-;; (add-hook 'ruby-mode-hook 'ruby-setup)
+;; (add-hook 'ruby-mode-hook #'inf-ruby-setup-keybindings)
+;; (add-hook 'ruby-mode-hook #'ruby-setup)
 
 (with-eval-after-load "company"
   (push 'company-robe company-backends))
-(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'ruby-mode-hook #'robe-mode)
 
 (provide 'init-ruby)

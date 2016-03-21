@@ -1,8 +1,8 @@
 ;; Eldoc mode
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
-(add-hook 'ielm-mode-hook 'eldoc-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook #'eldoc-mode)
+(add-hook 'ielm-mode-hook #'eldoc-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
@@ -64,9 +64,9 @@
          try-expand-dabbrev-from-kill
          try-complete-ispell)))
 
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-record-function)
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-add-keywords)
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-custom-hippie-expand)
+(add-hook 'emacs-lisp-mode-hook #'emacs-lisp-custom-record-function)
+(add-hook 'emacs-lisp-mode-hook #'emacs-lisp-add-keywords)
+(add-hook 'emacs-lisp-mode-hook #'emacs-lisp-custom-hippie-expand)
 
 ;; C-u C-u C-x C-e does eval and replace
 (defun eval-last-sexp-replace (oldfun eval-last-sexp-arg-internal)
@@ -97,6 +97,6 @@ file corresponding to the current buffer file, then recompile the file."
              (file-exists-p (byte-compile-dest-file buffer-file-name)))
     (byte-compile-file buffer-file-name)))
 
-(add-hook 'after-save-hook 'auto-byte-recompile)
+(add-hook 'after-save-hook #'auto-byte-recompile)
 
 (provide 'init-elisp)

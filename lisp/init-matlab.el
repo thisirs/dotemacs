@@ -20,13 +20,13 @@
     (local-set-key "\M-;" 'comment-dwim)
     (auto-fill-mode -1))
 
-  (add-hook 'matlab-mode-hook 'matlab-mode-preferences)
+  (add-hook 'matlab-mode-hook #'matlab-mode-preferences)
 
   (defun matlab-shell-fix-slowness ()
     (remove-hook 'comint-output-filter-functions 'matlab-shell-render-html-anchor t)
     (remove-hook 'comint-output-filter-functions 'matlab-shell-render-errors-as-anchor t))
 
-  (add-hook 'matlab-shell-mode-hook 'matlab-shell-fix-slowness))
+  (add-hook 'matlab-shell-mode-hook #'matlab-shell-fix-slowness))
 
 ;; (setq matlab-shell-command "/home/sylvain/CloudStation/Sylvain/scripts/matlab-chroot.sh")
 ;; (setq matlab-shell-command-switches nil)

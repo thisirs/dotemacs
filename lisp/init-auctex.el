@@ -22,7 +22,7 @@
    (set (make-local-variable 'TeX-parse-self) nil)
    (set (make-local-variable 'TeX-auto-save) nil)))
 
-(add-hook 'LaTeX-mode-hook 'disable-automatic-parsing)
+(add-hook 'LaTeX-mode-hook #'disable-automatic-parsing)
 
 (setq TeX-engine-alist
       '((xetex_sh "XeTeX shell escape"
@@ -91,7 +91,7 @@ mutiple times."
     (set (make-local-variable 'comment-auto-fill-only-comments)
          nil)))
 
-(add-hook 'LaTeX-mode-hook 'latex-auto-fill-everywhere)
+(add-hook 'LaTeX-mode-hook #'latex-auto-fill-everywhere)
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()

@@ -11,7 +11,7 @@
            (backup-buffer)
            (kill-buffer)))))
 
-(add-hook 'kill-emacs-hook 'save-scratch-buffer)
+(add-hook 'kill-emacs-hook #'save-scratch-buffer)
 
 ;; Put something different in the scratch buffer
 (setq initial-scratch-message

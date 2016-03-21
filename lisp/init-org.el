@@ -290,7 +290,7 @@ the selected file."
     (reftex-set-cite-format "[[note::%l][%l]]")
     (define-key org-mode-map (kbd "C-c )") #'reftex-citation)))
 
-(add-hook 'org-mode-hook 'org-mode-reftex-setup)
+(add-hook 'org-mode-hook #'org-mode-reftex-setup)
 
 ;; ;; Open pdf files with acroread or evince (fuck gv)
 ;; (and (executable-find "acroread")
@@ -409,7 +409,7 @@ inherited by a parent headline."
     (org-align-all-tags)
     (org-update-all-dblocks)))
 
-(add-hook 'before-save-hook 'clean-org-buffer)
+(add-hook 'before-save-hook #'clean-org-buffer)
 
 (defun org-context-capture-find-headline ()
   "Used with `org-context' in a capture template as a locating
@@ -502,7 +502,7 @@ entry from each headline of FILEV."
                    n-done (+ n-done n-todo) todo-file key project)
            nil nil nil 4))))))
 
-(add-hook 'org-after-todo-statistics-hook 'org-update-project-cookies)
+(add-hook 'org-after-todo-statistics-hook #'org-update-project-cookies)
 
 (defvar org-other-files nil
   "List of org files other than agenda files destined to be

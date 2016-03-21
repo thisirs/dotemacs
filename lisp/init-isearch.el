@@ -1,5 +1,5 @@
 ;; Put the cursor in an intelligent place when searching
-(add-hook 'isearch-mode-end-hook 'custom-goto-match-beginning)
+(add-hook 'isearch-mode-end-hook #'custom-goto-match-beginning)
 (defun custom-goto-match-beginning ()
   "Use with isearch hook to end search at first char of match"
   (and isearch-forward isearch-other-end
