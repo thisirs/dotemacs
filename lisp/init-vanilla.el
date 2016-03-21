@@ -97,4 +97,70 @@ macro `new-vanilla'."
   (require 'state)
   (load "/home/sylvain/repositories/dotemacs/init-state.el"))
 
+(new-vanilla caldav
+  (progn
+    (add-to-list 'load-path "/home/sylvain/.emacs.d/site-lisp")
+    (add-to-list 'load-path "/home/sylvain/.emacs.d/elpa/org-caldav-20150131.152/")
+
+
+    (require 'org)
+    (require 'org-caldav)
+
+    (setq org-id-locations-file "~/CloudStation/Sylvain/Org/.org-id-locations")
+    (setq org-caldav-url "https://localhost:5006/web")
+
+    (setq network-security-level 'low)
+    (setq auth-sources '((:source (:secrets "emacs"))))
+
+    (setq org-caldav-select-tags '("caldav"))
+    (setq org-caldav-calendar-id "calendar-test")
+
+    (setq org-caldav-inbox '(file+headline "~/CloudStation/Sylvain/Org/agenda.org" "External events"))
+    (setq org-caldav-files '("~/CloudStation/Sylvain/Org/agenda.org"))
+
+    (setq org-icalendar-timezone "Europe/Paris")
+    (setq org-icalendar-alarm-time 15)
+
+    ;; Export scheduled item
+    (setq org-icalendar-use-scheduled '(event-if-not-todo todo-start))
+
+    (setq org-caldav-sync-changes-to-org 'all)
+    (setq org-caldav-debug-level 2)
+
+    ;; Place to save state file
+    (setq org-caldav-save-directory "~/CloudStation/Sylvain/Org/")
+
+    ;; Fix org-icalendar error
+    (setq org-ascii-paragraph-spacing 0)
+
+    (setq org-caldav-debug-level 2)
+    
+    ;; (org-caldav-sync)
+    ;; (princ (with-current-buffer "*org-caldav-debug*" (buffer-string)))
+    ))
+
+(new-vanilla lock
+  (load-file "~/.emacs.d/lisp/init-utils.el")
+  (with-emacs-version>= "24.2"
+    (setq create-lockfiles nil)))
+
+(new-vanilla blah
+  :depends (foo bar)
+  
+)
+
+(new-vanilla gnus
+  (setq gnus-select-method
+      '(nnimap "imap.gmail.com"))
+  (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror))
+
+(f9 (vanilla-emacs nil "gnus"))
+
+
+(new-vanilla erc
+  (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs"))))
+
+(new-vanilla electric-test
+  (electric-indent-mode 1))
+
 (provide 'init-vanilla)
