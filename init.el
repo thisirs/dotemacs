@@ -207,7 +207,7 @@
                       ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
                       ?w ?x ?c ?v ?b ?n))
   (setq avy-background t)
-  :bind ("C-c SPC" . avy-goto-subword-1))
+  :bind ("M-h" . avy-goto-subword-1))
 
 
 (with-emacs-version>= "24.1"
