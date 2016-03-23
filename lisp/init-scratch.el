@@ -17,8 +17,8 @@
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
 
-(when (require-maybe 'scratch-message)
-
+(use-package scratch-message
+  :config
   (defun scratch-message-random ()
     (pcase (random 3)
       (0 (scratch-message-contrepet))
@@ -70,6 +70,6 @@
 
   (setq scratch-message-function 'scratch-message-random)
 
-  (scratch-message-toggle-activate 1))
+  (scratch-message-mode))
 
 (provide 'init-scratch)
