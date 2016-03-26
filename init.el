@@ -109,6 +109,7 @@
       projectile
       rainbow-mode
       s
+      scratch-message
       skeletor
       smart-mode-line
       state
