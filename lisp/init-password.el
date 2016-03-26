@@ -244,5 +244,4 @@ Note that the MAX parameter is used so we can exit the parse early."
   (defun org-password-manager-auth-source-insinuate (&optional arg)
     (if (and arg (or (not (numberp arg)) (<= arg 0)))
         (advice-remove 'auth-source-backend-parse #'auth-source-backend-parse-advice)
-      (load "org-password-manager-auth-source.el")
       (advice-add 'auth-source-backend-parse :around #'auth-source-backend-parse-advice))))
