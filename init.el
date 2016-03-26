@@ -412,6 +412,11 @@
         (goto-char old-point))))
   (add-hook 'find-file-hook 'sm-try-smerge t))
 
+;; Smart modeline
+(setq sml/theme 'automatic)
+(sml/setup)
+(setq sml/vc-mode-show-backend t)
+
 ;; Quick navigation between workspaces
 (use-package state
   :load-path "~/CloudStation/Sylvain/emacs/site-lisp/state"
@@ -1205,10 +1210,5 @@ ring."
       (let ((print-length 10))
         (message "Kill-ring: %s" acc))
       (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
-
-;; Trying sml
-(setq sml/vc-mode-show-backend t)
-(sml/setup)
-(sml/apply-theme 'automatic)
 
 ;;; init.el ends here
