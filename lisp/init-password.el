@@ -2,6 +2,9 @@
 
 (use-package org-password-manager
   :config
+  (setq org-password-manager-scope 'file
+        org-password-manager-default-password-wait-time "30")
+
   (defvar org-password-manager-yank-password ()
     "Store a lambda function that yield the password.")
 

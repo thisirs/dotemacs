@@ -337,12 +337,6 @@
 (use-package org-context
   :config (org-context-activate))
 
-(use-package org-password-manager
-  :load-path "~/repositories/org-password-manager/"
-  :config (setq org-password-manager-scope 'file
-                org-password-manager-default-password-wait-time "30")
-  (org-password-manager-auth-source-insinuate))
-
 ;; Projectile
 (use-package projectile
   :init
