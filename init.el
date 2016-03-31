@@ -194,6 +194,7 @@
 (require 'init-python)
 (require 'init-yasnippet)
 (require 'init-ess)
+(require 'init-password)
 
 ;; Activate Hunspell
 (when (executable-find "hunspell")

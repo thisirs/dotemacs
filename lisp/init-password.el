@@ -1,9 +1,18 @@
 ;; Passwords management with org files + auth-source backend
 
+
 (use-package org-password-manager
+  :defer
   :config
+  (require 'auth-source)
+
   (setq org-password-manager-scope 'file
         org-password-manager-default-password-wait-time "30")
+
+  (defun org-password-manager-auth-source-insinuate (&optional arg)
+    (if (and arg (or (not (numberp arg)) (<= arg 0)))
+        (advice-remove 'auth-source-backend-parse #'auth-source-backend-parse-advice)
+      (advice-add 'auth-source-backend-parse :around #'auth-source-backend-parse-advice)))
 
   (defvar org-password-manager-yank-password ()
     "Store a lambda function that yield the password.")
@@ -64,6 +73,13 @@
              (message "Password for `%s' with login `%s' copied to system's clipboard" header login))
             (t
              (message "No stored password")))))
+
+  (org-password-manager-auth-source-insinuate))
+
+(use-package auth-source
+  :defer
+  :config
+  (require 'org-password-manager)
 
   ;; Auth-source backend
   (defun auth-source-backend-parse-advice (oldfun entry)
@@ -242,11 +258,7 @@ Note that the MAX parameter is used so we can exit the parse early."
            (if filtered-properties
                (setq all (funcall adder check filtered-properties all)))))
        "PASSWORD={.+}|SECRET={.+}")
-      (nreverse all)))
+      (nreverse all))))
 
-  (defun org-password-manager-auth-source-insinuate (&optional arg)
-    (if (and arg (or (not (numberp arg)) (<= arg 0)))
-        (advice-remove 'auth-source-backend-parse #'auth-source-backend-parse-advice)
-      (advice-add 'auth-source-backend-parse :around #'auth-source-backend-parse-advice)))
 
-  (org-password-manager-auth-source-insinuate))
+(provide 'init-password)
