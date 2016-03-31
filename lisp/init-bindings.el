@@ -166,8 +166,28 @@ body passed in argument."
                                       ,@fns))))))
          `(global-set-key ,,key ,command)))))
 
+;; Creates f9 and f9e functions
 (create-simple-keybinding-command f9)
 (create-simple-keybinding-command f10)
+
+
+;; For example: (f9 (with-region-or-line s-snake-case s-upcase))
+;; When pressing f9, snake-case and upcase region or line
+(defmacro with-region-or-line (&rest syms)
+  "Apply functions SYMS on current region or line."
+  `(let* ((region (if (region-active-p)
+                      (delete-and-extract-region (region-beginning) (region-end))
+                    (delete-and-extract-region (line-beginning-position) (line-end-position))))
+          (new-text region))
+     (condition-case e
+         (progn
+           (mapc (lambda (sym) (setq new-text (funcall sym new-text)))
+                 (quote ,syms))
+           (insert new-text))
+       (error (progn
+                (message "Error in with-region-or-line: %s" e)
+                (insert region))))))
+
 
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x /") #'align-regexp)
