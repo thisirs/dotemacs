@@ -146,6 +146,6 @@ If ARG is non-nil, ask for confirmation on each match."
 (defun insert-euro ()
   "Insert a Euro currency symbol in utf-8."
   (interactive)
-  (ucs-insert #x20ac))
+  (insert-char #x20ac))
 
 (provide 'init-editing)
