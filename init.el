@@ -95,6 +95,7 @@
       inf-ruby
       info+
       keyfreq
+      lang-tool
       lua-mode
       macrostep
       magit
@@ -124,6 +125,7 @@
       wcheck-mode
       webjump
       wgrep
+      wtf
       yaml-mode
       yasnippet
       zenburn-theme
@@ -292,6 +294,22 @@
   (setq helm-bibtex-notes-symbol "n")
   (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
+;; Trying keyfreq
+(require 'keyfreq)
+(setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" system-name))
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+
+(use-package langtool
+  :defer
+  :config
+  (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
+  (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
+  (setq langtool-default-language "fr"))
+
+(use-package macrostep
+  :bind ("C-c e m" . macrostep-expand))
+
 (use-package magit
   :bind ("C-c i" . magit-status)
   :init
@@ -318,9 +336,6 @@
       (let ((current-prefix-arg t))
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
-
-(use-package macrostep
-  :bind ("C-c e m" . macrostep-expand))
 
 (use-package multiple-cursors
   :init
@@ -358,60 +373,6 @@
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
   (projectile-global-mode))
-
-;; Make zooming affect frame instead of buffers
-(require 'zoom-frm)
-(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
-                    (vector (list 'control mouse-wheel-down-event))
-                  [C-mouse-wheel])      ; Emacs 20, 21
-                'zoom-in)
-(when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
-  (global-set-key (vector (list 'control mouse-wheel-up-event))
-                  'zoom-out))
-
-;; Buffers can't have the same name
-(with-eval-after-load 'uniquify
-  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-  (setq uniquify-after-kill-buffer-p t))
-
-(require 'saveplace)
-(setq save-place-file "~/.emacs.d/cache/.saveplace")
-(setq-default save-place t)
-
-;; From https://github.com/jwiegley/dot-emacs
-(use-package recentf
-  :defer 10
-  :commands (recentf-mode
-             recentf-add-file
-             recentf-apply-filename-handlers)
-  :preface
-  (defun recentf-add-dired-directory ()
-    (if (and dired-directory
-             (file-directory-p dired-directory)
-             (not (string= "/" dired-directory)))
-        (let ((last-idx (1- (length dired-directory))))
-          (recentf-add-file
-           (if (= ?/ (aref dired-directory last-idx))
-               (substring dired-directory 0 last-idx)
-             dired-directory)))))
-  :init
-  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
-  :config
-  (recentf-mode 1))
-
-;; Minor mode to resolve diff3 conflicts
-(use-package smerge-mode
-  :defer 10
-  :commands smerge-mode
-  :config
-  (defun sm-try-smerge ()
-    "Turn on smerge-mode if there is a diff marker."
-    (let ((old-point (point)))
-      (goto-char (point-min))
-      (if (re-search-forward "^<<<<<<< " nil t)
-          (smerge-mode 1)
-        (goto-char old-point))))
-  (add-hook 'find-file-hook 'sm-try-smerge t))
 
 ;; Smart modeline
 (setq sml/theme 'automatic)
@@ -529,7 +490,7 @@
   ;; Common pattern when defining a repl state
   (defmacro state-define-repl (name key buffer-name from create)
     `(state-define-state
-         ,name
+       ,name
        :bound ,from
        :key ,key
        :exist (get-buffer ,buffer-name)
@@ -584,6 +545,63 @@
 (use-package webjump
   :bind ("C-c j" . webjump))
 
+;; wtf for acronym lookup
+(use-package wtf :commands wtf-is)
+
+;; Make zooming affect frame instead of buffers
+(require 'zoom-frm)
+(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
+                    (vector (list 'control mouse-wheel-down-event))
+                  [C-mouse-wheel])      ; Emacs 20, 21
+                'zoom-in)
+(when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
+  (global-set-key (vector (list 'control mouse-wheel-up-event))
+                  'zoom-out))
+
+;; Buffers can't have the same name
+(with-eval-after-load 'uniquify
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (setq uniquify-after-kill-buffer-p t))
+
+(require 'saveplace)
+(setq save-place-file "~/.emacs.d/cache/.saveplace")
+(setq-default save-place t)
+
+;; From https://github.com/jwiegley/dot-emacs
+(use-package recentf
+  :defer 10
+  :commands (recentf-mode
+             recentf-add-file
+             recentf-apply-filename-handlers)
+  :preface
+  (defun recentf-add-dired-directory ()
+    (if (and dired-directory
+             (file-directory-p dired-directory)
+             (not (string= "/" dired-directory)))
+        (let ((last-idx (1- (length dired-directory))))
+          (recentf-add-file
+           (if (= ?/ (aref dired-directory last-idx))
+               (substring dired-directory 0 last-idx)
+             dired-directory)))))
+  :init
+  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
+  :config
+  (recentf-mode 1))
+
+;; Minor mode to resolve diff3 conflicts
+(use-package smerge-mode
+  :defer 10
+  :commands smerge-mode
+  :config
+  (defun sm-try-smerge ()
+    "Turn on smerge-mode if there is a diff marker."
+    (let ((old-point (point)))
+      (goto-char (point-min))
+      (if (re-search-forward "^<<<<<<< " nil t)
+          (smerge-mode 1)
+        (goto-char old-point))))
+  (add-hook 'find-file-hook 'sm-try-smerge t))
+
 (use-package whitespace
   :config
   (setq whitespace-style
@@ -606,9 +624,6 @@
           "*Calendar*"
           "*helm*"))
   (winner-mode 1))
-
-;; wtf for acronym lookup
-(use-package wtf :commands wtf-is)
 
 (defun switch-to-external-terminal (&optional arg)
   "Switch to an external terminal. Change directory if ARG is non-nil."
@@ -1172,12 +1187,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (eval-after-load "re-builder"
   '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
-
-;; Trying keyfreq
-(require 'keyfreq)
-(setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" system-name))
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
 
 (setq set-mark-command-repeat-pop t)
 
