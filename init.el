@@ -1032,9 +1032,9 @@ to cancel it."
                  (or (cadr (member current ring)) (car ring)))))
     (set-frame-parameter nil 'alpha next)))
 
-(autoload 'zap-up-to-char "misc" "Kill up to, but not including ARGth occurrence of CHAR.")
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "M-Z") 'zap-to-char)
+(use-package misc
+  :bind (("M-z" . zap-up-to-char)
+         ("M-Z" . zap-to-char)))
 
 ;; Ignore case when completing
 (setq completion-ignore-case t)
@@ -1047,6 +1047,8 @@ to cancel it."
   (set-buffer-file-coding-system 'utf-8-unix))
 
 (global-set-key [(f2)] 'change-to-utf-8)
+
+(setq set-mark-command-repeat-pop t)
 
 ;; Minibuffer history
 ;;(savehist-mode t)
@@ -1080,16 +1082,11 @@ to cancel it."
     (funcall oldfun arg)))
 (advice-add 'save-buffers-kill-emacs :around #'no-processes)
 
-;; (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
-;;   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-;;   (letf (((symbol-function 'process-list)
-;;           (lambda ()))) ad-do-it))
-
 ;; Don't warn when killing running processes
 (delq 'process-kill-buffer-query-function
       kill-buffer-query-functions)
 
-;; Make URLs in comments/strings clickable
+;; Make URLs/mail adresses in comments/strings highlighted and clickable
 (add-hook 'find-file-hook 'goto-address-prog-mode)
 
 ;; Enable narrow-to-region binding
@@ -1187,8 +1184,6 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 
 (eval-after-load "re-builder"
   '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
-
-(setq set-mark-command-repeat-pop t)
 
 (defun reb-read-regexp (prompt &optional defaults history)
   "Like `read-regexp' but with `re-builder' feedback."
