@@ -1,8 +1,7 @@
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
-  escaping, the first element of a list is preferred when there
-  is a list. When any prefix argument, unescape accented
-  characters."
+escaping, the first element of a list is preferred when there is
+a list. When any prefix argument, unescape accented characters."
   (interactive "P")
   (let ((n 0)
         (beg (copy-marker
@@ -23,17 +22,27 @@
                 (replace-match to nil t)
                 (setq n (+ n 1))))
             from)))
-       '((("\\'e" "\\'{e}" "{\\'e}") . "é")
-         (("\\`e" "\\`{e}" "{\\`e}") . "è")
-         (("\\`a" "\\`{a}" "{\\`a}") . "à")
-         (("\\`u" "\\`{u}" "{\\`u}") . "ù")
-         (("\\^e" "\\^{e}" "{\\^e}") . "ê")
-         (("\\^o" "\\^{o}" "{\\^o}") . "ô")
-         (("\\^u" "\\^{u}" "{\\^u}") . "û")
-         (("\\\"i" "\\\"{i}" "{\\\"i}") . "ï")
-         ("\\c{c}" . "ç")
-         ("\\\"o" . "ö")
-         (("\\^i" "\\^{i}" "{\\^i}") . "î"))))
+       '((("\\'a" "{\\'a}" "\\'{a}" "{\\'{a}}") . "á")
+         (("\\`a" "{\\`a}" "\\`{a}" "{\\`{a}}") . "à")
+         (("\\^a" "{\\^a}" "\\^{a}" "{\\^{a}}") . "â")
+         (("\\"a" "{\\"a}" "\\"{a}" "{\\"{a}}") . "ä")
+         (("\\'e" "{\\'e}" "\\'{e}" "{\\'{e}}") . "é")
+         (("\\`e" "{\\`e}" "\\`{e}" "{\\`{e}}") . "è")
+         (("\\^e" "{\\^e}" "\\^{e}" "{\\^{e}}") . "ê")
+         (("\\"e" "{\\"e}" "\\"{e}" "{\\"{e}}") . "ë")
+         (("\\'i" "{\\'i}" "\\'{i}" "{\\'{i}}") . "í")
+         (("\\`i" "{\\`i}" "\\`{i}" "{\\`{i}}") . "ì")
+         (("\\^i" "{\\^i}" "\\^{i}" "{\\^{i}}") . "î")
+         (("\\"i" "{\\"i}" "\\"{i}" "{\\"{i}}") . "ï")
+         (("\\'o" "{\\'o}" "\\'{o}" "{\\'{o}}") . "ó")
+         (("\\`o" "{\\`o}" "\\`{o}" "{\\`{o}}") . "ò")
+         (("\\^o" "{\\^o}" "\\^{o}" "{\\^{o}}") . "ô")
+         (("\\"o" "{\\"o}" "\\"{o}" "{\\"{o}}") . "ö")
+         (("\\'u" "{\\'u}" "\\'{u}" "{\\'{u}}") . "ú")
+         (("\\`u" "{\\`u}" "\\`{u}" "{\\`{u}}") . "ù")
+         (("\\^u" "{\\^u}" "\\^{u}" "{\\^{u}}") . "û")
+         (("\\"u" "{\\"u}" "\\"{u}" "{\\"{u}}") . "ü")
+         ("\\c{c}" . "ç"))))
     (message "Replaced %d occurences" n)))
 
 (defun enclosing-braces-at-point ()
