@@ -134,7 +134,7 @@ macro `new-vanilla'."
     (setq org-ascii-paragraph-spacing 0)
 
     (setq org-caldav-debug-level 2)
-    
+
     ;; (org-caldav-sync)
     ;; (princ (with-current-buffer "*org-caldav-debug*" (buffer-string)))
     ))
@@ -146,12 +146,12 @@ macro `new-vanilla'."
 
 (new-vanilla blah
   :depends (foo bar)
-  
-)
+
+  )
 
 (new-vanilla gnus
   (setq gnus-select-method
-      '(nnimap "imap.gmail.com"))
+        '(nnimap "imap.gmail.com"))
   (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror))
 
 (f9 (vanilla-emacs nil "gnus"))

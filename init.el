@@ -261,7 +261,7 @@
   :config
   (require 'google-translate-smooth-ui)
   (setq google-translate-translation-directions-alist
-                '(("en" . "fr") ("fr" . "en")))
+        '(("en" . "fr") ("fr" . "en")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package guide-key
