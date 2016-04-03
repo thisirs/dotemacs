@@ -93,23 +93,8 @@ directory."
   "Run COMMAND on marked files. Any files not already open will be opened.
 After this command has been run, any buffers it's modified will remain
 open and unsaved."
-  (interactive
-   (list
-    (let ((print-level nil)
-          (minibuffer-history-position 0)
-          (minibuffer-history-sexp-flag (1+ (minibuffer-depth))))
-      (unwind-protect
-          (read-from-minibuffer
-           "Command: " (prin1-to-string (nth 0 command-history))
-           read-expression-map t
-           (cons 'command-history 0))
-
-        ;; If command was added to command-history as a
-        ;; string, get rid of that.  We want only
-        ;; evaluable expressions there.
-        (if (stringp (car command-history))
-            (setq command-history (cdr command-history)))))))
-  (dolist (filename (dired-get-marked-files))
+  (interactive (list (read--expression "Command: ")))
+  (dolist (filename (dired-get-marked-files nil nil 'dired-nondirectory-p))
     (with-current-buffer (find-file-noselect filename)
       (if (symbolp command)
           (call-interactively command)
