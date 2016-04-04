@@ -69,6 +69,8 @@
 (with-emacs-version>= "24"
   (require 'package)
   (add-to-list 'package-archives
+               `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
+  (add-to-list 'package-archives
                '("melpa" . "http://melpa.org/packages/") t)
 
   (package-initialize)
@@ -356,6 +358,7 @@
 
 ;; Create my own elpa-like repository
 (use-package package-build
+  :commands (package-build-reinitialize)
   :defer
   :config
   (defun package-build-update-local-packages (&optional async)

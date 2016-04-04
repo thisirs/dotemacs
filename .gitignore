@@ -8,3 +8,5 @@ cache
 url
 elpa
 tramp
+local-package-archives/packages/
+local-package-archives/working/
