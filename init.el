@@ -105,6 +105,7 @@
       org-caldav
       org-context
       org-password-manager
+      package-build
       paredit
       pcache
       projectile
@@ -352,6 +353,21 @@
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context
   :config (org-context-activate))
+
+;; Create my own elpa-like repository
+(use-package package-build
+  :defer
+  :config
+  (defun package-build-update-local-packages (&optional async)
+    (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
+           (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
+           (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
+           (package-build-recipes-dir (expand-file-name "recipes/" package-build--this-dir)))
+      (package-build-reinitialize)
+      (package-build-all)
+      (package-build-dump-archive-contents)))
+  ;; Build archives before refreshing
+  (advice-add 'package-refresh-contents :before 'package-build-update-local-packages))
 
 ;; Projectile
 (use-package projectile
