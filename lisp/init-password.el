@@ -7,7 +7,7 @@
   (require 'auth-source)
 
   (setq org-password-manager-scope 'file
-        org-password-manager-default-password-wait-time "30")
+        org-password-manager-timeout "30")
 
   (defun org-password-manager-auth-source-insinuate (&optional arg)
     (if (and arg (or (not (numberp arg)) (<= arg 0)))
