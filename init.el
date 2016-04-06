@@ -616,7 +616,7 @@
     "Turn on smerge-mode if there is a diff marker."
     (let ((old-point (point)))
       (goto-char (point-min))
-      (if (re-search-forward "^<<<<<<< " nil t)
+      (if (re-search-forward "^\\(<\\)\\{7\\} " nil t)
           (smerge-mode 1)
         (goto-char old-point))))
   (add-hook 'find-file-hook 'sm-try-smerge t))
