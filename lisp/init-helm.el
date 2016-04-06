@@ -1,6 +1,10 @@
 (setq helm-command-prefix-key "C-x C-a")
 (setq helm-ff-transformer-show-only-basename nil)
 
+;; History first in sources list
+(setq helm-mode-reverse-history nil)
+
+
 (require 'helm)
 (require 'helm-help)
 (require 'helm-config)
