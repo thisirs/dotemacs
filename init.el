@@ -358,7 +358,7 @@
 
 ;; Create my own elpa-like repository
 (use-package package-build
-  :commands (package-build-reinitialize)
+  :after package
   :defer
   :config
   (defun package-build-update-local-packages (&optional async)
