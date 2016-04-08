@@ -857,13 +857,19 @@ not, return nil."
   "Toggle \"grep\"/\"grep -a\" in grep command."
   (interactive "P")
   (grep-compute-defaults)
-  (let* ((grep-find-cmd (replace-regexp-in-string
+  (let* (msg
+         (grep-find-cmd (replace-regexp-in-string
                          "grep\\( -a\\)?"
-                         (lambda (m) (concat "grep" (if (match-string 1 m) ""  " -a")))
+                         (lambda (m)
+                           (if (match-string 1 m)
+                               (progn (setq msg "Binary search in grep is off") "grep")
+                             (setq msg "Binary search in grep is on")
+                             "grep -a"))
                          (car grep-find-command)))
          (point (progn (string-match "{}" grep-find-cmd) (match-beginning 0))))
     (grep-apply-setting 'grep-find-command
-                        (cons grep-find-cmd point))))
+                        (cons grep-find-cmd point))
+    (message msg)))
 
 (with-eval-after-load "grep"
   (grep-toggle-binary-search))
