@@ -350,7 +350,8 @@
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file))
           ("\\.\\(?:mpe?g\\|avi\\|wmv\\|flv\\)\\'" "vlc" (file))
-          ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file)))))
+          ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file))))
+  (openwith-mode))
 
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context
