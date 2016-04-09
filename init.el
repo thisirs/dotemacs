@@ -357,7 +357,8 @@
 (use-package org-context
   :config (org-context-activate))
 
-;; Create my own elpa-like repository
+;; Create my own elpa-like repository for packages online but not
+;; published in elpa or melpa.
 (use-package package-build
   :after package
   :defer

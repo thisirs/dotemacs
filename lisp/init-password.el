@@ -9,6 +9,7 @@
   (setq org-password-manager-scope 'file
         org-password-manager-timeout "30")
 
+  ;; Add org backend for auth-source
   (defun org-password-manager-auth-source-insinuate (&optional arg)
     (if (and arg (or (not (numberp arg)) (<= arg 0)))
         (advice-remove 'auth-source-backend-parse #'auth-source-backend-parse-advice)
