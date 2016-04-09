@@ -68,6 +68,9 @@
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
+  (setq package-pinned-packages
+        (mapcar (lambda (e) (cons (intern e) "local"))
+                (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
   (add-to-list 'package-archives
                `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
   (add-to-list 'package-archives
