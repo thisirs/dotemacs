@@ -139,7 +139,7 @@
     (catch 'timeout
       (when (memq nil (mapcar 'package-installed-p package-required-packages))
         (message "Refreshing packages database...")
-        (with-timeout (10 (message "Timeout, cancelling...")
+        (with-timeout (60 (message "Timeout, cancelling...")
                           (sit-for 2)
                           (throw 'timeout nil))
           (package-refresh-contents))
