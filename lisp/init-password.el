@@ -49,27 +49,27 @@
                            heading)
                        (org-entry-get (point) "PASSWORD"))))
              (concat "PASSWORD" "={.+}") org-password-manager-scope))
-           (chosen-heading (funcall 'org-completing-read
-                                    "Password for: "
-                                    property-entries
-                                    nil
-                                    nil
-                                    nil
-                                    'org-password-manager-history
-                                    nil))
+           (chosen-heading
+            (let ((history-delete-duplicates t))
+              (funcall 'org-completing-read
+                       "Password for: "
+                       property-entries
+                       nil
+                       nil
+                       nil
+                       'org-password-manager-history
+                       nil)))
            (header-property-list (assoc chosen-heading property-entries))
            (header (nth 0 header-property-list))
            (login (nth 1 header-property-list))
            (password (nth 2 header-property-list)))
       (cond (password
              (org-password-manager-store-password password)
-             (run-at-time org-password-manager-default-password-wait-time nil
+             (run-at-time org-password-manager-timeout nil
                           (lambda () (setq org-password-manager-yank-password 'ignore)))
              (funcall interprogram-cut-function password)
-             (run-at-time org-password-manager-default-password-wait-time nil
+             (run-at-time org-password-manager-timeout nil
                           (lambda () (funcall interprogram-cut-function "")))
-             ;; (let ((history-delete-duplicates t))
-             ;;   (add-to-history 'org-password-manager-history (substring-no-properties header)))
              (message "Password for `%s' with login `%s' copied to system's clipboard" header login))
             (t
              (message "No stored password")))))
