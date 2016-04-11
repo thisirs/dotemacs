@@ -80,7 +80,11 @@ nil."
       (erc :server "irc.freenode.net"
            :port "6667"
            :nick "thisirs"
-           :password (secrets-get-secret "Default" "NickServ"))
+           :password (if-let ((it (funcall (plist-get (car (auth-source-search :max 1
+                                                                               :host "NickServ"
+                                                                               :require '(:host)))
+                                                      :secret))))
+                         it ""))
       (erc-track-switch-buffer 1))))
 
 (setq erc-pcomplete-order-nickname-completions t)
