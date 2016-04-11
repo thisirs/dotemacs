@@ -102,6 +102,7 @@ nil."
 
 ;; Make nicks aligned to the right
 (setq erc-fill-function 'erc-fill-static)
-(setq erc-fill-static-center 10)
+(setq erc-fill-static-center 20)
+(setq erc-fill-column 102)
 
 (provide 'init-erc)
