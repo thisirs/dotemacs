@@ -105,6 +105,7 @@
       macrostep
       magit
       markdown-mode
+      matlab-mode
       multiple-cursors
       openwith
       org-caldav
