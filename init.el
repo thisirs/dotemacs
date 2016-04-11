@@ -447,7 +447,8 @@
     :key "i"
     :in (and (fboundp 'erc-buffer-list)
              (memq (current-buffer) (erc-buffer-list)))
-    :switch (erc-start-or-switch 1)
+    :switch (progn (erc-start-or-switch 1)
+                   (delete-other-windows))
     :keep (erc-track-switch-buffer 0))
 
   (state-define-state message
