@@ -4,7 +4,7 @@
 cancel the indentation if needed."
   (when (or (and (not (derived-mode-p 'makefile-mode 'python-mode))
                  (derived-mode-p 'prog-mode))
-            (memq major-mode '(latex-mode plain-tex-mode matlab-mode)))
+            (memq major-mode '(latex-mode plain-tex-mode matlab-mode ess-mode)))
     (undo-boundary)
     (indent-region (region-beginning) (region-end))))
 
