@@ -406,9 +406,8 @@
 
 ;; Quick navigation between workspaces
 (use-package state
-  :load-path "~/CloudStation/Sylvain/emacs/site-lisp/state"
-  :bind-keymap ("s-s" . state-prefix-map)
-  :defer 5
+  ;; Override state's keymap binding
+  :init (setq state-keymap-prefix (kbd "s-s"))
   :config
   (state-define-state agenda
     :key "a"
