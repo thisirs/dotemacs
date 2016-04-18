@@ -322,7 +322,7 @@
               (magit-get "remote"
                          (magit-get-remote)
                          "url"))
-             (cdr (magit-get-remote-branch)))))
+             (magit-get-current-branch))))
   :config
   ;; Let auth-source handle the passwords for me
   (setq magit-process-find-password-functions '(magit-process-password-auth-source))
