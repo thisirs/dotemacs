@@ -4,10 +4,6 @@
 ;; Add personal site-lisp to load-path
 (defvar site-lisp-directory "~/CloudStation/Sylvain/emacs/site-lisp/")
 
-;; (when (file-exists-p site-lisp-directory)
-;;   (add-to-list 'load-path site-lisp-directory)
-;;   (add-subdirs-to-load-path site-lisp-directory))
-
 ;; Add .emacs.d/site-lisp to load path and all sub-directories
 (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
