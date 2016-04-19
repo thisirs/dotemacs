@@ -92,7 +92,7 @@
       inf-ruby
       info+
       keyfreq
-      lang-tool
+      langtool
       lua-mode
       macrostep
       magit
@@ -124,7 +124,6 @@
       wcheck-mode
       webjump
       wgrep
-      wtf
       yaml-mode
       yasnippet
       zenburn-theme
