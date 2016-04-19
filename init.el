@@ -130,7 +130,7 @@
       zoom-frm)
     "List of required packages")
 
-  (ignore-errors
+  (with-demoted-errors "Package auto-install error: %S"
     (catch 'timeout
       (when (memq nil (mapcar 'package-installed-p package-required-packages))
         (message "Refreshing packages database...")
