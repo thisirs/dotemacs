@@ -64,11 +64,7 @@
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
-  (setq package-pinned-packages
-        (mapcar (lambda (e) (cons (intern e) "local"))
-                (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
-  (add-to-list 'package-archives
-               `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
+
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.org/packages/") t)
 
@@ -363,6 +359,13 @@
   :after package
   :defer
   :config
+  (setq package-archive-priorities '(("local" . 42)))
+  (setq package-pinned-packages
+        (mapcar (lambda (e) (cons (intern e) "local"))
+                (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
+  (add-to-list 'package-archives
+               `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
+
   (defun package-build-update-local-packages (&optional async)
     (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
            (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
