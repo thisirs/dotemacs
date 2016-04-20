@@ -279,13 +279,15 @@
 (use-package helm-bibtex
   :defer 5
   :config
-  (setq helm-bibtex-bibliography
+  (setq bibtex-completion-bibliography
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
           "~/CloudStation/Sylvain/recherche/biblio/refs.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"))
-  (setq helm-bibtex-library-path
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking"
+          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"
+          "~/CloudStation/Sylvain/recherche/biblio/refs_zotero.bib"))
+  (setq bibtex-completion-library-path
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
           "~/CloudStation/Sylvain/recherche/biblio/"))
+  (setq bibtex-completion-pdf-field "file")
 
   ;; Inconsolata is not mono with some symbols
   (setq helm-bibtex-pdf-symbol "p")
