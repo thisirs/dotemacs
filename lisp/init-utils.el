@@ -1,10 +1,3 @@
-(defun add-subdirs-to-load-path (directory)
-  "Add all sub-directories of DIRECTORY to the load path."
-  (mapc (lambda (subdir)
-          (if (file-directory-p subdir)
-              (add-to-list 'load-path (file-name-as-directory subdir))))
-        (directory-files directory t "[^\\.]\\|\\(\\.\\{3,\\}\\)")))
-
 (defun load-file-to-list (file)
   "Return a list of forms read in file FILE."
   (if (and (file-exists-p file)
