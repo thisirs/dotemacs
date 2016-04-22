@@ -57,22 +57,6 @@ that directory local file."
         (car dir)
       (file-name-directory dir))))
 
-(defun patch (func pattern patch)
-  "Patch a function definition by replacing `pattern' by `patch'."
-  (and (byte-code-function-p (symbol-function func))
-       (error "Symbol `%s' is bound to a byte compiled function." func))
-  (fset func (repl (symbol-function func) pattern patch)))
-
-(defun repl (exp pattern patch)
-  (cond
-   ((null exp) nil)
-   ((listp exp)
-    (let ((expr (repl (car exp) pattern patch)))
-      (cons
-       (if (equal expr pattern) patch expr)
-       (repl (cdr exp) pattern patch))))
-   (t exp)))
-
 (defmacro debug-print (obj)
   "Debug macro that prints the object OBJ together with a
 timestamp in a buffer named \"*debug*\". Scroll to bottom in case
