@@ -753,7 +753,7 @@
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
-(require-maybe 'commit-message)
+(use-package commit-message)
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git

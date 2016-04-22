@@ -10,12 +10,6 @@
             (setq form-list (cons form form-list)))
           (nreverse form-list)))))
 
-(defun require-maybe (feat &optional filename)
-  "Like `require' but display a message instead of signaling an
-error."
-  (or (require feat filename t)
-      (not (message "Feature `%s' not loaded!" feat))))
-
 (defmacro sexp-or-progn (&optional first &rest body)
   "Surround with `progn' if more than one sexp."
   (if body `(progn ,first ,@body) first))
