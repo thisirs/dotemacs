@@ -535,6 +535,25 @@ refile targets.")
 
 (setq org-refile-use-outline-path 'full-file-path)
 
+(use-package org-ref
+  :config
+  (defun org-ref-get-pdf-filename-zotero (key)
+    (let* ((results (org-ref-get-bibtex-key-and-file key))
+           (bibfile (cdr results))
+           entry)
+      (with-temp-buffer
+        (insert-file-contents bibfile)
+        (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
+        (bibtex-search-entry key nil 0)
+        (setq entry (bibtex-parse-entry))
+        (let* ((e (org-ref-reftex-get-bib-field "file" entry))
+               (e (replace-regexp-in-string "\\([^\\]\\):" "\\1\0" e))
+               (e (replace-regexp-in-string "\\\\\\(.\\)" "\\1" e))
+               (e (split-string e "\0")))
+          (seq-find (lambda (ee) (and (string-suffix-p ".pdf" ee) (file-exists-p ee))) e)))))
+
+  (setq org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-zotero))
+
 (setq org-outline-path-complete-in-steps nil)
 
 ;; Taken from http://sachachua.com/blog/2013/01/emacs-org-task-related-keyboard-shortcuts-agenda/

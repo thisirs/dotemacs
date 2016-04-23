@@ -103,6 +103,7 @@
       org-caldav
       org-context
       org-password-manager
+      org-ref
       package-build
       paredit
       pcache
