@@ -77,6 +77,7 @@ inline."
        ,obsym)))
 
 (defun generate-password (&optional length)
+  "Generate a password of length LENGTH."
   (interactive "sLength of password (10): ")
   (setq length (cond ((numberp length) length)
                      ((and (stringp length) (> (length length) 0))
@@ -95,6 +96,8 @@ inline."
       (concat result))))
 
 (defun generate-passphrase (wordlist &optional number)
+  "Generate passphrase consisting of NUMBER words taken from a
+file WORDLIST."
   (if (executable-find "shuf")
       (let* ((number (if (numberp number) number 4))
              (shuf-cmd (format "shuf -n %d %s" number (shell-quote-argument wordlist)))
