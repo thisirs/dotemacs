@@ -273,13 +273,11 @@ the selected file."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (latex . t) ; this is the entry to activate LaTeX
-   (sh . t)
+   (latex . t)
+   (shell . t)
    (matlab . t)
    (ruby . t)
    (python . t)))
-
-(setq org-babel-sh-command "bash")
 
 ;; Bib citations in org files
 (defun org-mode-reftex-setup ()
