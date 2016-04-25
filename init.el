@@ -260,6 +260,9 @@
   (require 'google-translate-smooth-ui)
   (setq google-translate-translation-directions-alist
         '(("en" . "fr") ("fr" . "en")))
+  (setq google-translate-listen-program
+        (or (executable-find "mplayer")
+            (executable-find "vlc")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package guide-key
