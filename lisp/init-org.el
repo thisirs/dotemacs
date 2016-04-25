@@ -291,25 +291,6 @@ the selected file."
 
 (add-hook 'org-mode-hook #'org-mode-reftex-setup)
 
-;; ;; Open pdf files with acroread or evince (fuck gv)
-;; (and (executable-find "acroread")
-;;      (push (cons "pdf" "acroread %s") org-file-apps))
-;; (and (executable-find "evince")
-;;      (push (cons "pdf" "evince %s") org-file-apps))
-;; ;; (and (require 'pdf-tools)
-;; ;;      (push '("\\.pdf\\'" . emacs) org-file-apps))
-
-;; ;; Open ods files with libreoffice
-;; (add-to-list 'org-file-apps '("\\.od[st]\\'" . "soffice %s"))
-;; (add-to-list 'org-file-apps '("\\.docx?\\'" . "soffice %s"))
-;; (add-to-list 'org-file-apps '("\\.xlsx?\\'" . "soffice %s"))
-;; (add-to-list 'org-file-apps '("\\.mp4\\'" . "vlc %s"))
-;; (add-to-list 'org-file-apps '("\\.avi\\'" . "vlc %s"))
-;; (add-to-list 'org-file-apps '("\\.flv\\'" . "vlc %s"))
-
-;; ;; Open directories with dired
-;; (add-to-list 'org-file-apps '(directory . emacs))
-
 ;; Bigger latex fragment
 (plist-put org-format-latex-options :scale 1.5)
 
