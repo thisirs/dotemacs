@@ -277,7 +277,8 @@ the selected file."
    (shell . t)
    (matlab . t)
    (ruby . t)
-   (python . t)))
+   (python . t)
+   (R . t)))
 
 ;; Bib citations in org files
 (defun org-mode-reftex-setup ()
