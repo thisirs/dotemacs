@@ -819,13 +819,14 @@
 ;; Don't automatically split vertically
 (setq split-height-threshold nil)
 
+;; Clashes with org's date selection in calendar
 ;; Quit minibuffer if there is a click on another buffer
-(defun stop-using-minibuffer ()
-  "kill the minibuffer"
-  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
-    (abort-recursive-edit)))
+;; (defun stop-using-minibuffer ()
+;;   "kill the minibuffer"
+;;   (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+;;     (abort-recursive-edit)))
 
-(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+;; (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 
 ;; C-v when reading a file name in minibuffer go to root
