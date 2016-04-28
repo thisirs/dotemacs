@@ -7,8 +7,6 @@
 ;; Add .emacs.d/site-lisp to load path and all sub-directories
 (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
-(add-subdirs-to-load-path (concat user-emacs-directory "site-lisp"))
-
 (define-on-macro "knuth")
 (define-on-macro "zbook")
 (define-on-macro "zouzou")
