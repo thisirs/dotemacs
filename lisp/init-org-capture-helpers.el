@@ -67,7 +67,11 @@ if a TODO cookie is present on the line."
     ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
 
 (defun org-agenda-add-report (&optional delete-other-windows)
+  "Look for an appointement in current org agenda line and go to
+appropriate report file."
   (interactive "P")
+  (unless (eq major-mode 'org-agenda-mode)
+    (error "Not in an org agenda"))
   (let* ((txt (org-no-properties (org-get-at-bol 'txt)))
          (tags-list (org-get-at-bol 'tags))
          (day (org-get-at-bol 'day))
@@ -79,7 +83,8 @@ if a TODO cookie is present on the line."
                           (nth 2 mdy)))
          (report (assoc-default tags-list org-tags-to-report-alist
                                 (lambda (e k)
-                                  (eval (cdr (let (todo-only) (org-make-tags-matcher e))))))))
+                                  (funcall (cdr (let (todo-only) (org-make-tags-matcher e)))
+                                           nil tags-list nil)))))
     (if report
         (let ((buffer (find-file-noselect report)))
           (org-pop-to-buffer-same-window buffer)
