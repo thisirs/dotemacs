@@ -324,7 +324,8 @@
              (replace-regexp-in-string
               "\\`.+github\\.com/\\(.+\\)\\.git\\'" "\\1"
               (magit-get "remote"
-                         (magit-get-remote)
+                         (or (magit-get-remote)
+                             (magit-get-push-remote))
                          "url"))
              (magit-get-current-branch))))
   :config
