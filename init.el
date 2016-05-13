@@ -400,6 +400,15 @@
         (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
+
+  (defun projectile-root-hardcoded (dir &optional list)
+    (--some (if (string-prefix-p (abbreviate-file-name it)
+                                 (abbreviate-file-name dir)) it)
+            '("~/CloudStation/Sylvain/enseignements/P2016/SY02/"
+              "~/CloudStation/Sylvain/enseignements/P2016/SY09/"
+              "~/CloudStation/Sylvain/emacs/site-lisp/"
+              "~/CloudStation/Sylvain/recherche/sujet_de_thèses/2016-03-23_Structured_Data_Deep_Learning")))
+  (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
   (projectile-global-mode))
 
 ;; Smart modeline
