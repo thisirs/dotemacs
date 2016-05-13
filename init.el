@@ -87,6 +87,7 @@
       helm
       helm-bibtex
       helm-descbinds
+      ibuffer-project                   ; local package
       inf-ruby
       info+
       keyfreq
