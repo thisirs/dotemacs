@@ -200,11 +200,11 @@ the selected file."
              (not
               (calendar-date-equal
                date
-               (calendar-gregorian-from-absolute (+ (abs-easter) 49)))))
+               (calendar-gregorian-from-absolute (+ abs-easter 49)))))
         (and (diary-float 6 0 1)
              (calendar-date-equal
               date
-              (calendar-gregorian-from-absolute (+ (abs-easter) 56)))))))
+              (calendar-gregorian-from-absolute (+ abs-easter 56)))))))
 
 ;; Don't wait for agenda to be opened to update appt
 (org-agenda-to-appt 1)
