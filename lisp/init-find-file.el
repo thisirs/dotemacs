@@ -47,7 +47,8 @@
                             (buffer-file-name buf))))
             (and (stringp location)
                  (string-prefix-p
-                  (file-truename (abbreviate-file-name path))
+                  (let (file-name-handler-alist)
+                    (file-truename (abbreviate-file-name path)))
                   (file-truename (abbreviate-file-name location)))
                  (funcall fun buf))))
         (buffer-list)))
