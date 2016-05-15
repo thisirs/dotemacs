@@ -2,6 +2,6 @@
 #name : #+BEGIN_...#+END_
 #key: src
 # --
-#+BEGIN_SRC $1
+#+BEGIN_SRC ${1:shell}
   $0
 #+END_SRC
