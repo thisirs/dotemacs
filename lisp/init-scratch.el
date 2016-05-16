@@ -85,7 +85,8 @@
 
   (defmacro with-fill-line-by-line (&rest body)
     "Executes BODY with line by line filling settings."
-    `(let ((paragraph-start "^")
+    `(let ((comment-start (or comment-start ""))
+           (paragraph-start "^")
            (paragraph-separate "\n")
            (fill-prefix ""))
        (progn ,@body)))
