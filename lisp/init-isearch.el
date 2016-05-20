@@ -48,6 +48,9 @@
 ;; Add newline to lax isearch
 (setq search-whitespace-regexp "[[:space:]\n]+")
 
+;; Enable character folding
+(setq search-default-mode 'character-fold-to-regexp)
+
 (define-key isearch-mode-map "\M->" #'isearch-end-of-buffer)
 
 ;; Clashes with eshell
