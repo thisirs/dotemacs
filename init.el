@@ -150,19 +150,23 @@
   (setenv "PATH" path)
   (setq exec-path (split-string path "[:\n]" t)))
 
-;; Loading zenburn theme
-(on-zouzou
- (load-theme 'zenburn t))
-
-(on-zbook
- (setq solarized-use-variable-pitch nil)
- (setq solarized-scale-org-headlines nil)
- (load-theme 'solarized-dark t))
-
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
+
+;; Loading zenburn theme
+(use-package zenburn-theme
+  :if (string-prefix-p "zouzou" system-name)
+  :config
+  (load-theme 'zenburn t))
+
+(use-package solarized
+  :if (string-prefix-p "zbook" system-name)
+  :config
+  (setq solarized-use-variable-pitch nil)
+  (setq solarized-scale-org-headlines nil)
+  (load-theme 'solarized-dark t))
 
 (require 'init-bindings)
 (require 'init-editing)
