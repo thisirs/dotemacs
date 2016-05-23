@@ -411,6 +411,7 @@
                                  (abbreviate-file-name dir)) it)
             '("~/CloudStation/Sylvain/enseignements/P2016/SY02/"
               "~/CloudStation/Sylvain/enseignements/P2016/SY09/"
+              "~/Dropbox/Documents-sy09/Poly/"
               "~/CloudStation/Sylvain/emacs/site-lisp/"
               "~/CloudStation/Sylvain/recherche/sujet_de_thèses/2016-03-23_Structured_Data_Deep_Learning")))
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
