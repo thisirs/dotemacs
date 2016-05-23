@@ -608,7 +608,7 @@
 
 (require 'saveplace)
 (setq save-place-file "~/.emacs.d/cache/.saveplace")
-(setq-default save-place t)
+(save-place-mode)
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
