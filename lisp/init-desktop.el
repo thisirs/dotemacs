@@ -25,7 +25,7 @@
         register-alist))
 
 (setq desktop-files-not-to-save
-      "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)\\|\\(.gpg$\\)")
+      "\\(^/[^/:]*:\\|(ftp)$\\)\\|\\(^/tmp/\\)\\|\\(.gpg$\\)\\|\\(.el.gz$\\)")
 (setq desktop-buffers-not-to-save
       (concat "\\(" "^nn\\.a[0-9]+\\|\\.log\\|(ftp)"
               "\\)$"))
