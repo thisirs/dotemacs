@@ -83,7 +83,8 @@ appropriate report file."
                           (nth 2 mdy)))
          (report (assoc-default tags-list org-tags-to-report-alist
                                 (lambda (e k)
-                                  (funcall (cdr (let (todo-only) (org-make-tags-matcher e)))
+                                  (funcall (cdr (let (org--matcher-tags-todo-only)
+                                                  (org-make-tags-matcher e)))
                                            nil tags-list nil)))))
     (if report
         (let ((buffer (find-file-noselect report)))
