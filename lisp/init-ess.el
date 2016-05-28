@@ -33,6 +33,5 @@
   (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX))
 
   ;; No special behaviour of comments starting with #, ## or ###
-  (setq ess-fancy-comments nil))
-
+  (setq ess-indent-with-fancy-comments nil))
 (provide 'init-ess)
