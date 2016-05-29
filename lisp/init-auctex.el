@@ -103,8 +103,7 @@ mutiple times."
 ;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
 
 ;; Enable fr dictionary when using package frenchb
-(add-hook 'TeX-language-fr-hook
-          (lambda () (with-demoted-errors (ispell-change-dictionary "fr"))))
+(add-hook 'TeX-language-fr-hook (lambda () (ignore-errors (ispell-change-dictionary "fr"))))
 
 ;; (setq TeX-view-program-list '(("Evince" "evince --page-label=%(outpage) %o")))
 
