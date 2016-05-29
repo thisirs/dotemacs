@@ -51,8 +51,7 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; No lockfiles
-(with-emacs-version>= "24.2"
-  (setq create-lockfiles nil))
+(setq create-lockfiles nil)
 
 ;; Highlight matching paren
 (show-paren-mode 1)
