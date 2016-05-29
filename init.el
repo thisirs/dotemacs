@@ -121,6 +121,7 @@
       vc-auto-commit
       vc-check-status
       visual-regexp
+      visual-regexp-steroids
       wcheck-mode
       webjump
       wgrep
@@ -578,6 +579,14 @@
                   (vc-auto-commit-backend))))
 
   (vc-check-status-activate))
+
+(use-package visual-regexp
+  :commands (vr/query-replace vr/replace)
+  :bind* (("C-c r" . vr/replace)
+          ("C-c q" . vr/query-replace))
+  :config
+  (use-package visual-regexp-steroids
+    :commands (vr/select-replace vr/select-query-replace)))
 
 (use-package vc-auto-commit
   :defer 5
