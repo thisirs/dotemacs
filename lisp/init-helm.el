@@ -24,6 +24,8 @@
 
 (global-set-key (kbd "M-y") #'helm-show-kill-ring)
 
+;; Show input in header line
+(setq helm-echo-input-in-header-line t)
 (setq helm-su-or-sudo "sudo")
 
 (setq helm-quick-update t
