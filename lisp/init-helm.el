@@ -17,6 +17,7 @@
 
 (helm-mode)
 
+(setq helm-M-x-fuzzy-match t)
 (global-set-key (kbd "C-x C-m") #'helm-M-x)
 
 (global-set-key (kbd "C-x r b") #'helm-bookmarks)
