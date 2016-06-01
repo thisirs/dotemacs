@@ -20,6 +20,9 @@
 (scroll-bar-mode -1)
 (column-number-mode)
 (setq inhibit-startup-screen t)
+(defun display-startup-echo-area-message ()
+  (message "Let the hacking begin!"))
+
 (setq ring-bell-function 'ignore)
 
 ;; Tramp env to properly display dired
