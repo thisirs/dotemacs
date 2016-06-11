@@ -2,6 +2,7 @@
 (load "preview.el" nil t t)
 
 (TeX-global-PDF-mode 1)
+(TeX-source-correlate-mode 1)
 
 ;; Autosave before compiling
 (setq TeX-save-query nil)
@@ -93,14 +94,13 @@ mutiple times."
 
 (add-hook 'LaTeX-mode-hook #'latex-auto-fill-everywhere)
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (when buffer-file-name
-              (turn-on-reftex)
-              (setq reftex-plug-into-AUCTeX t)
-              (reftex-set-cite-format "~\\cite{%l}"))
-            (TeX-source-correlate-mode 1))) ; Source Specials
-;;(add-to-list 'TeX-output-view-style '("^pdf$" "." "evince %o %(outpage)"))))
+(add-hook 'LaTeX-mode-hook #'LaTeX-setup-reftex)
+
+(defun LaTeX-setup-reftex ()
+  (when buffer-file-name
+    (turn-on-reftex)
+    (setq reftex-plug-into-AUCTeX t)
+    (reftex-set-cite-format "~\\cite{%l}")))
 
 ;; Enable fr dictionary when using package frenchb
 (add-hook 'TeX-language-fr-hook (lambda () (ignore-errors (ispell-change-dictionary "fr"))))
