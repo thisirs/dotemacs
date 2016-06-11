@@ -603,14 +603,11 @@
 (use-package wtf :commands wtf-is)
 
 ;; Make zooming affect frame instead of buffers
-(require 'zoom-frm)
-(global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
-                    (vector (list 'control mouse-wheel-down-event))
-                  [C-mouse-wheel])      ; Emacs 20, 21
-                'zoom-in)
-(when (boundp 'mouse-wheel-up-event)    ; Emacs 22+
-  (global-set-key (vector (list 'control mouse-wheel-up-event))
-                  'zoom-out))
+(use-package zoom-frm
+  :bind (([(list 'control mouse-wheel-down-event)] . zoom-in)
+         ([(list 'control mouse-wheel-up-event)] . zoom-out)
+         ("C-c +" . zoom-in)
+         ("C-c -" . zoom-out)))
 
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
