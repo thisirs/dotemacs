@@ -402,6 +402,9 @@
       ""))
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
+  ;; Open root directory when switching
+  (setq projectile-switch-project-action 'projectile-dired)
+
   (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
   (setq projectile-completion-system 'helm)
   (setq projectile-known-projects-file
