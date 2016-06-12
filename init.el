@@ -785,8 +785,6 @@
 
 (global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
 
-(use-package commit-message)
-
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (add-to-list 'load-path (expand-file-name "auto-insert-multiple" site-lisp-directory))
