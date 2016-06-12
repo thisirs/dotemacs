@@ -32,11 +32,7 @@
 (global-set-key (kbd "C-x C-à") #'delete-other-windows)
 (global-set-key (kbd "C-,") #'other-window)
 
-(with-emacs-version< "24.3"
-  (global-set-key (kbd "M-g c") #'goto-char))
-
 (global-set-key (kbd "M-g f") #'find-grep)
-
 (global-set-key (kbd "M-g r") #'recompile)
 (global-set-key (kbd "M-g c") #'compile)
 
