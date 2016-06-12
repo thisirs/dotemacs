@@ -41,8 +41,6 @@
 (global-set-key (kbd "M-g r") #'recompile)
 (global-set-key (kbd "M-g c") #'compile)
 
-(global-set-key (kbd "C-z") #'shell)
-
 (global-set-key (kbd "C-c h") help-map)
 
 ;; Move between windows with meta-arrows
