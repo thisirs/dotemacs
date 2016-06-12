@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Current working directory
+# key: cwd
+# --
+DIR=$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)
