@@ -560,6 +560,9 @@
 
   (state-global-mode 1))
 
+(use-package transpose-frame
+  :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
+
 (use-package undo-tree
   :config
   (global-undo-tree-mode)

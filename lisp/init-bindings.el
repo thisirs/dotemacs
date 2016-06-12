@@ -18,7 +18,6 @@
 (global-set-key (kbd "<C-kp-2>") #'shrink-window)
 
 (global-set-key (kbd "<C-kp-divide>") #'transpose-buffers)
-(global-set-key (kbd "<C-kp-multiply>") #'rotate-frame-anticlockwise)
 
 (global-set-key (kbd "M-p") #'scroll-down-command)
 (global-set-key (kbd "M-n") #'scroll-up-command)
