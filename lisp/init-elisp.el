@@ -78,12 +78,13 @@
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
-  (let ((opoint (point)) form)
+  (let ((form (elisp--preceding-sexp))
+        (opoint (point)))
     (with-syntax-table emacs-lisp-mode-syntax-table
       (forward-sexp -1))
     (condition-case error
         (progn
-          (setq form (eval (read (buffer-substring (point) opoint))))
+          (setq form (eval form))
           (delete-region (point) opoint)
           (prin1 form (current-buffer)))
       (error (goto-char opoint)
