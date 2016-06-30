@@ -662,5 +662,21 @@ child checkboxes."
     (setq org-latex-pdf-process
           '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
 
+(defun org-move-as-first-sibling ()
+  (interactive)
+  (org-cut-subtree)
+  (outline-up-heading 1)
+  (forward-line)
+  (org-paste-subtree))
+
+;; Taken from http://emacs.stackexchange.com/questions/519/key-bindings-specific-to-a-buffer
+(defvar temp-mode-map (make-sparse-keymap)
+  "Keymap while temp-mode is active.")
+
+(define-minor-mode temp-mode
+  "A temporary minor mode to be activated only specific to a buffer."
+  nil
+  :lighter " Temp"
+  temp-mode-map)
 
 (provide 'init-org)
