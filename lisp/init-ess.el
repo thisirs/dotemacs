@@ -1,4 +1,7 @@
 (use-package ess-site
+  :preface
+  ;; No special behaviour of comments starting with #, ## or ###
+  (setq ess-indent-with-fancy-comments nil)
   :config
   ;; Remove wrong hooks if there
   (let ((ess-swv-plug-into-AUCTeX-p nil))
@@ -30,8 +33,5 @@
   (setq ess-swv-plug-into-AUCTeX-p t)
 
   ;; Trigger plugging with right hooks
-  (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX))
-
-  ;; No special behaviour of comments starting with #, ## or ###
-  (setq ess-indent-with-fancy-comments nil))
+  (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX)))
 (provide 'init-ess)
