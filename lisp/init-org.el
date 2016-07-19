@@ -106,7 +106,7 @@ the selected file."
 (setq org-agenda-day-face-function
       (defun jd:org-agenda-day-face-holidays-function (date)
         "Compute DATE face for holidays."
-        (unless (org-agenda-todayp date)
+        (unless (org-agenda-today-p date)
           (dolist (file (org-agenda-files nil 'ifmode))
             (let ((face
                    (dolist (entry (org-agenda-get-day-entries file date))
