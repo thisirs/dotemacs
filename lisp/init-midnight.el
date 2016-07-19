@@ -6,4 +6,6 @@
                      (lambda ()
                        (run-hooks 'midnight-hook)))
 
+(defalias 'midnight-clean-buffer-list 'clean-buffer-list)
+
 (provide 'init-midnight)
