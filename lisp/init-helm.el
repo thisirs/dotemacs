@@ -71,22 +71,6 @@
   (setq org-stored-links
         (cons (list (concat "file:" candidate)) org-stored-links)))
 
-(define-helm-type-attribute 'file
-  `((action
-     ("Find file" . helm-find-many-files)
-     ("Find file as root" . helm-find-file-as-root)
-     ("Store org link of file" . helm-org-store-link)
-     ("Open dired in file's directory" . helm-open-dired)
-     ("Open file externally (C-u to choose)" . helm-open-file-externally)
-     ("Open file with default tool" . helm-open-file-with-default-tool))
-    (persistent-help . "Show this file")
-    (action-transformer helm-transform-file-load-el
-                        helm-transform-file-browse-url)
-    (candidate-transformer helm-highlight-files
-                           helm-w32-pathname-transformer
-                           helm-skip-boring-files))
-  "File name.")
-
 (defvar helm-ebooks-path
   '("~/Downloads/Scientific_Ebooks/"
     "~/Downloads/Books/"
