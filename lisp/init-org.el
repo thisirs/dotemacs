@@ -167,7 +167,7 @@ the selected file."
 
 ;; Calcul de Pâques (from holidays.el)
 (defun abs-easter ()
-  (let* ((displayed-year (caddr date))
+  (let* ((displayed-year (nth 2 date))
          (century (1+ (/ displayed-year 100)))
          (shifted-epact ;; Age of moon for April 5...
           (% (+ 14 (* 11 (% displayed-year 19)) ;;     ...by Nicaean rule
