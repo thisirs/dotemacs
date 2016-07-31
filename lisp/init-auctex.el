@@ -31,6 +31,29 @@
                   "xelatex --file-line-error --shell-escape"
                   "xetex")))
 
+(add-to-list 'TeX-command-list
+             '("knitr + LaTeX" "%`%l%(mode) -jobname=%s %' %s-knitr.tex"
+               TeX-run-knitr-and-TeX nil
+               (latex-mode doctex-mode)
+               :help "Run knitr and LaTeX"))
+
+;; Run knitr on tex files
+(defun TeX-run-knitr-and-TeX (name command file)
+  "First run knitr on FILE and then compile it with the right
+name."
+  (let ((knitr-file (concat (file-name-sans-extension file) "-knitr")))
+    (TeX-run-shell name (format "Rscript -e \"library(knitr); knit('%s', output='%s')\""
+                                (concat file ".tex") (concat knitr-file ".tex"))
+                   file)
+    (TeX-run-TeX name command knitr-file)))
+
+(add-to-list 'TeX-command-list
+             '("knitr + LaTeX" "%`%l%(mode) -jobname=%s %' %s-knitr.tex"
+               TeX-run-knitr-and-TeX nil
+               (latex-mode doctex-mode)
+               :help "Run knitr and LaTeX"))
+
+
 ;; Correct indentation
 (setq LaTeX-item-indent 0)
 
