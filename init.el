@@ -904,7 +904,7 @@ not, return nil."
                              (setq msg "Binary search in grep is on")
                              "grep -a"))
                          (car grep-find-command)))
-         (point (progn (string-match "{}" grep-find-cmd) (match-beginning 0))))
+         (point (progn (string-match "\\\\{\\\\}" grep-find-cmd) (match-beginning 0))))
     (grep-apply-setting 'grep-find-command
                         (cons grep-find-cmd point))
     (message msg)))
