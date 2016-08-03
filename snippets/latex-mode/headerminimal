@@ -4,8 +4,6 @@
 # --
 \documentclass{minimal}
 
-\usepackage{ucs}
-
 \begin{document}
   $0
 \end{document}

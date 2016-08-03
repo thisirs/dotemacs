@@ -7,7 +7,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage[babel=true, kerning=true]{microtype}
+\usepackage[babel=true]{microtype}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
