@@ -31,12 +31,6 @@
                   "xelatex --file-line-error --shell-escape"
                   "xetex")))
 
-(add-to-list 'TeX-command-list
-             '("knitr + LaTeX" "%`%l%(mode) -jobname=%s %' %s-knitr.tex"
-               TeX-run-knitr-and-TeX nil
-               (latex-mode doctex-mode)
-               :help "Run knitr and LaTeX"))
-
 ;; Run knitr on tex files
 (defun TeX-run-knitr-and-TeX (name command file)
   "First run knitr on FILE and then compile it with the right
