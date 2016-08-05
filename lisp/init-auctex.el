@@ -47,6 +47,26 @@ name."
                (latex-mode doctex-mode)
                :help "Run knitr and LaTeX"))
 
+(defun TeX-run-consecutive (defun-name-cmd-file-list)
+  "Run consecutive asynchronous commands."
+  (let ((args (car defun-name-cmd-file-list)))
+    (when args
+      (let ((buf (current-buffer))
+            (process (apply #'funcall args)))
+        (setq TeX-sentinel-function
+              `(lambda (process name)
+                 (if (eq 0 (process-exit-status process))
+                     (with-current-buffer ,buf
+                       (message "Process %s succeeded" name)
+                       (TeX-run-consecutive ',(cdr defun-name-cmd-file-list)))
+                   (message "Process %s failed" name))))))))
+
+(defun TeX-run-knitr-and-TeX (name command file)
+  (let ((knitr-file (concat (file-name-sans-extension file) "-knitr")))
+    (TeX-run-consecutive `((TeX-run-command "knitr" ,(format "Rscript -e \"library(knitr); knit('%s', output='%s')\""
+                                                             (concat file ".tex") (concat knitr-file ".tex"))
+                                            ,file)
+                           (TeX-run-TeX ,name ,command ,file)))))
 
 ;; Correct indentation
 (setq LaTeX-item-indent 0)
