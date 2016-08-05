@@ -149,7 +149,9 @@
 (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
 
 ;; Set path as if emacs were run in a terminal
-(let ((path (string-trim (shell-command-to-string "bash -i -l -c 'echo $PATH' 2> /dev/null"))))
+(let ((path (shell-command-to-string "bash -i -l -c 'echo $PATH' 2> /dev/null")))
+  (if (string-match "[ \t\n\r]+\\'" path)
+      (replace-match "" t t path))
   (setenv "PATH" path)
   (setq exec-path (split-string path "[:\n]" t)))
 
