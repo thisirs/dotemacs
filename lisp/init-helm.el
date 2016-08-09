@@ -100,4 +100,10 @@
 
 (define-key helm-command-map (kbd "h m") #'helm-find-ebooks)
 
+;; Error after opening Rnw files
+;; See https://github.com/kaz-yos/emacs/blob/master/init.d/200_emacsclient-related.el#L63
+(defun remove-helm-functions ()
+  (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
+  (remove-hook 'post-command-hook 'helm--update-header-line))
+(add-hook 'pre-command-hook 'remove-helm-functions)
 (provide 'init-helm)
