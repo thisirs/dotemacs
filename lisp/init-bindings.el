@@ -157,6 +157,8 @@ body passed in argument."
                 (message "Error in with-region-or-line: %s" e)
                 (insert region))))))
 
+;; Use cycle-spacing instead of just-one-space
+(global-set-key (kbd "M-SPC") #'cycle-spacing)
 
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x /") #'align-regexp)
