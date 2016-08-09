@@ -17,11 +17,11 @@
   (string= arg "-shell-escape"))
 (put 'TeX-command-extra-options 'safe-local-variable 'TeX-command-shell-escape-p)
 
-;; Avoid auto/ directory when shared
+;; Avoid generating auto/ directory when working on shared documents
 (defun disable-automatic-parsing ()
   (on-shared-documents
-   (set (make-local-variable 'TeX-parse-self) nil)
-   (set (make-local-variable 'TeX-auto-save) nil)))
+   (setq-local TeX-parse-self nil)
+   (setq-local TeX-auto-save nil)))
 
 (add-hook 'LaTeX-mode-hook #'disable-automatic-parsing)
 
