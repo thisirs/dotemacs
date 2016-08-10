@@ -1076,14 +1076,17 @@ to cancel it."
 
 (add-hook 'before-save-hook 'cleanup-buffer-maybe)
 
-(defun indent-json (&optional begin end)
-  "Run Python's JSON indenter on the buffer"
-  (interactive "r")
+(defun indent-json (beg end)
+  "Beautify JSON buffer or region."
+  (interactive (if (use-region-p) (list (region-beginning) (region-end))
+                 (list (point-min) (point-max))))
   (save-excursion
-    (shell-command-on-region
-     (or begin (point-min)) (or end (point-max)) "python2 -m json.tool"
-     (current-buffer)
-     t)))
+    (shell-command-on-region beg end
+     (or (and (eq 0 (shell-command "python2 -c \"import json.tool\" &> /dev/null"))
+              "python2 -m json.tool")
+         (and (executable-find "json_pp")
+              "json_pp"))
+     (current-buffer))))
 
 ;; Bookmarks
 (setq bookmark-default-file "~/CloudStation/Sylvain/emacs/.bookmarks")
