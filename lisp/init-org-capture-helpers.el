@@ -88,7 +88,7 @@ appropriate report file."
                                            nil tags-list nil)))))
     (if report
         (let ((buffer (find-file-noselect report)))
-          (org-pop-to-buffer-same-window buffer)
+          (pop-to-buffer-same-window buffer)
           (when delete-other-windows (delete-other-windows))
           (widen)
           (goto-char (point-max))

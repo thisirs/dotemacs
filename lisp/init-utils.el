@@ -81,7 +81,7 @@ inline."
   (interactive "sLength of password (10): ")
   (setq length (cond ((numberp length) length)
                      ((and (stringp length) (> (length length) 0))
-                      (string-to-int length))
+                      (string-to-number length))
                      (t 10)))
   (random t)
   (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$@_+,?[].-")
@@ -91,7 +91,7 @@ inline."
                (setq c (aref (string-to-vector range) (random (length range))))
                (memq c (string-to-list exclude))))
       (setq result (cons c result)))
-    (if (called-interactively-p)
+    (if (called-interactively-p 'any)
         (insert (concat result))
       (concat result))))
 
