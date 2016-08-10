@@ -896,6 +896,12 @@ not, return nil."
 (defun grep-toggle-binary-search (&optional arg)
   "Toggle \"grep\"/\"grep -a\" in grep command."
   (interactive "P")
+  (if (stringp (car compilation-arguments))
+      (setcar compilation-arguments
+              (replace-regexp-in-string
+               "grep\\( -a\\)?"
+               (lambda (m) (if (match-string 1 m) "grep" "grep -a"))
+               (car compilation-arguments))))
   (grep-compute-defaults)
   (let* (msg
          (grep-find-cmd (replace-regexp-in-string
@@ -912,7 +918,7 @@ not, return nil."
     (message msg)))
 
 (with-eval-after-load "grep"
-  (grep-toggle-binary-search))
+  (define-key grep-mode-map "a" #'grep-toggle-binary-search))
 
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
