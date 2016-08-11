@@ -95,27 +95,26 @@ cancel the indentation if needed."
 Useful in Org code blocks or in minted and lstlistings
 environments in LaTeX. With prefix argument, keep first line
 indentation."
-  (interactive (list (completing-read
-                      "Mode: "
-                      (let (sym-list)
-                        (mapatoms (lambda (sym)
-                                    (if (string-match "-mode$" (symbol-name sym))
-                                        (setq sym-list (cons sym sym-list)))))
-                        sym-list))
-                     (region-beginning)
-                     (region-end)))
+  (interactive
+   (list (completing-read
+          "Mode: "
+          (let (sym-list)
+            (mapatoms (lambda (sym)
+                        (if (string-match "-mode$" (symbol-name sym))
+                            (setq sym-list (cons sym sym-list)))))
+            sym-list))
+         (if (use-region-p) (region-beginning) (point-min))
+         (if (use-region-p) (region-end) (point-max))
+         current-prefix-arg))
   (let ((txt (delete-and-extract-region beg end)))
     (condition-case-unless-debug e
         (insert
          (with-temp-buffer
            (insert txt)
            (funcall (intern mode))
-           (indent-region (if (not arg)
-                              (point-min)
-                            (goto-char (point-min))
-                            (forward-line 1)
-                            (point))
-                          (point-max))
+           (goto-char (point-min))
+           (if arg (forward-line))
+           (indent-region (point) (point-max))
            (buffer-string)))
       (error
        (insert txt)
