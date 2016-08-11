@@ -46,8 +46,7 @@
         (let* ((message-buffer-name "*DTC*")
                (message-buffer (or (get-buffer message-buffer-name)
                                    (generate-new-buffer message-buffer-name)))
-               (proc (start-process "DTC" message-buffer-name "ruby"
-                                    "/home/sylvain/CloudStation/Sylvain/scripts/DTC.rb")))
+               (proc (start-process "DTC" message-buffer-name "ruby" "DTC")))
           (with-current-buffer message-buffer-name
             (let ((inhibit-read-only t))
               (erase-buffer)))
@@ -67,8 +66,7 @@
         (let* ((message-buffer-name "*SCMB*")
                (message-buffer (or (get-buffer message-buffer-name)
                                    (generate-new-buffer message-buffer-name)))
-               (proc (start-process "SCMB" message-buffer-name "ruby"
-                                    "/home/sylvain/CloudStation/Sylvain/scripts/SCMB.rb")))
+               (proc (start-process "SCMB" message-buffer-name "ruby" "SCMB")))
           (with-current-buffer message-buffer-name
             (let ((inhibit-read-only t))
               (erase-buffer)))
