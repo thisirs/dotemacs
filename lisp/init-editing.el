@@ -66,16 +66,19 @@ cancel the indentation if needed."
         (sort-subr nil 'forward-line 'end-of-line nil nil
                    (lambda (s1 s2) (eq (random 2) 0)))))))
 
-(defun replace-string-swap (swap1 swap2)
-  "Swap SWAP1 and SWAP2 in current buffer."
-  (interactive "sString A: \nsString B: ")
-  (replace-regexp (format "\\(%s\\)\\|\\(%s\\)"
-                          (regexp-quote swap1)
-                          (regexp-quote swap2))
-                  `(replace-eval-replacement . (if (match-string 1) ,swap2 ,swap1))
-                  nil
-                  (if (region-active-p) (region-beginning))
-                  (if (region-active-p) (region-end))))
+(defun replace-string-swap (beg end s1 s2)
+  "Swap strings S1 and S1 in current region or buffer."
+  (interactive (append (if (use-region-p) (list (region-beginning) (region-end))
+                         (list (point-min) (point-max)))
+                       (list (read-string "String A: ")
+                             (read-string "String B: "))))
+  (let ((rx (format "\\(%s\\)\\|\\(%s\\)" (regexp-quote s1) (regexp-quote s2))))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region (or beg (point-min)) (or end (point-max)))
+        (goto-char (point-min))
+        (while (re-search-forward rx nil t)
+          (replace-match (if (match-string 1) s2 s1)))))))
 
 (defalias 'remove-duplicate-lines 'delete-duplicate-lines)
 
