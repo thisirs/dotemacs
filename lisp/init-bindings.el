@@ -46,8 +46,8 @@
 (global-set-key (kbd "s-n") #'windmove-down)
 
 ;; Move more quickly
-(global-set-key (kbd "C-S-n") (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "C-S-p") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "C-S-n") (lambda () (interactive) (forward-line 5)))
+(global-set-key (kbd "C-S-p") (lambda () (interactive) (forward-line -5)))
 (global-set-key (kbd "C-S-f") (lambda () (interactive) (forward-char 5)))
 (global-set-key (kbd "C-S-b") (lambda () (interactive) (backward-char 5)))
 
