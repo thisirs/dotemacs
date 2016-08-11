@@ -98,12 +98,12 @@ subdirectory img and filtered by extension."
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward "\\\\includegraphics\\(\\[[^]]+\\]\\)?{\\([^}]+\\)" nil t)
-        (let* ((old (match-string-no-properties 2))
+        (let* ((old-filename (match-string-no-properties 2))
                (closest "")
-               (new
+               (new-filename
                 (dolist (file img-files closest)
-                  (if (> (levenshtein-distance old closest)
-                         (levenshtein-distance old (file-name-sans-extension file)))
+                  (if (> (levenshtein-distance old-filename closest)
+                         (levenshtein-distance old-filename (file-name-sans-extension file)))
                       (setq closest (file-name-sans-extension file))))))
           (when (and
                  (> (length new-filename) 0)
