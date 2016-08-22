@@ -339,6 +339,8 @@
                          "url"))
              (magit-get-current-branch))))
   :config
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+
   ;; Let auth-source handle the passwords for me
   (setq magit-process-find-password-functions '(magit-process-password-auth-source))
 
