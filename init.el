@@ -72,65 +72,31 @@
 
   (defvar package-required-packages
     '(async
-      auctex
-      avy
       cmake-mode
       dash
       diminish
-      drag-stuff
       elisp-slime-nav
       erc-colorize
-      ess
-      expand-region
-      find-temp-file
-      flycheck
-      google-translate
-      guide-key
       helm
-      helm-bibtex
-      helm-descbinds
       ibuffer-project                   ; local package
       inf-ruby
       info+
       keyfreq
-      langtool
       lua-mode
-      macrostep
-      magit
       markdown-mode
-      matlab-mode
-      multiple-cursors
-      openwith
       org-caldav
-      org-context
       org-password-manager
-      org-ref
-      package-build
       paredit
       pcache
-      projectile
       rainbow-mode
       s
-      scratch-message
       skeletor
       smart-mode-line
-      state
       tidy
-      transpose-frame
       twittering-mode
-      undo-tree
       use-package
-      vc-auto-commit
-      vc-check-status
-      visual-regexp
-      visual-regexp-steroids
-      wcheck-mode
-      webjump
       wgrep
-      yaml-mode
-      yasnippet
-      zenburn-theme
-      zoom-frm)
+      yaml-mode)
     "List of required packages")
 
   (with-demoted-errors "Package auto-install error: %S"
@@ -162,12 +128,14 @@
 
 ;; Loading zenburn theme
 (use-package zenburn-theme
+  :ensure t
   :if (string-prefix-p "zouzou" system-name)
   :config
   (load-theme 'zenburn t))
 
 (use-package solarized
   :if (string-prefix-p "zbook" system-name)
+  :ensure solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-scale-org-headlines nil)
@@ -212,6 +180,7 @@
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
 
 (use-package avy
+  :ensure t
   :config
   (setq avy-style 'at)
   (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
@@ -229,16 +198,19 @@
   (epa-file-enable))
 
 (use-package drag-stuff
+  :ensure t
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)))
 
 (use-package expand-region
+  :ensure t
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
 ;; Open quickly a temporary file
 (use-package find-temp-file
+  :ensure t
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
   :init
@@ -273,6 +245,7 @@
   '(diminish 'elisp-slime-nav-mode))
 
 (use-package flycheck
+  :ensure t
   :commands global-flycheck-mode
   :defer 10
   :config
@@ -282,6 +255,7 @@
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)"))
 
 (use-package google-translate-smooth-ui
+  :ensure google-translate
   :config
   (require 'google-translate-smooth-ui)
   (setq google-translate-translation-directions-alist
@@ -292,6 +266,7 @@
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package guide-key
+  :ensure t
   :disabled t
   :diminish guide-key-mode
   :commands guide-key-mode
@@ -307,6 +282,7 @@
   (guide-key-mode 1))
 
 (use-package helm-bibtex
+  :ensure t
   :defer 5
   :config
   (setq bibtex-completion-bibliography
@@ -331,6 +307,7 @@
 (keyfreq-autosave-mode 1)
 
 (use-package langtool
+  :ensure t
   :defer
   :config
   (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
@@ -338,9 +315,11 @@
   (setq langtool-default-language "fr"))
 
 (use-package macrostep
+  :ensure t
   :bind ("C-c e m" . macrostep-expand))
 
 (use-package magit
+  :ensure t
   :bind ("C-c i" . magit-status)
   :init
   ;; Taken from http://endlessparentheses.com/easily-create-github-prs-from-magit.html
@@ -371,6 +350,7 @@
   (define-key magit-mode-map "V" #'visit-pull-request-url))
 
 (use-package multiple-cursors
+  :ensure t
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :bind ("C-ç" . mc/mark-next-like-this))
@@ -382,6 +362,7 @@
   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
 
 (use-package openwith
+  :ensure t
   :config
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file))
@@ -391,11 +372,13 @@
 
 ;; Contextual capture and agenda commands for Org-mode
 (use-package org-context
+  :ensure t
   :config (org-context-activate))
 
 ;; Create my own elpa-like repository for packages online but not
 ;; published in elpa or melpa.
 (use-package package-build
+  :ensure t
   :after package
   :defer
   :config
@@ -419,6 +402,7 @@
 
 ;; Projectile
 (use-package projectile
+  :ensure t
   :init
   (defun projectile-custom-mode-line ()
     (if (projectile-project-p)
@@ -458,6 +442,7 @@
 
 ;; Quick navigation between workspaces
 (use-package state
+  :ensure t
   ;; Override state's keymap binding
   :init (setq state-keymap-prefix (kbd "s-s"))
   :config
@@ -589,9 +574,11 @@
   (state-global-mode 1))
 
 (use-package transpose-frame
+  :ensure t
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
 (use-package undo-tree
+  :ensure t
   :config
   (global-undo-tree-mode)
   (define-key undo-tree-visualizer-mode-map (kbd "RET")
@@ -599,6 +586,7 @@
 
 ;; Warn you when quitting emacs and leaving repo dirty
 (use-package vc-check-status
+  :ensure t
   :defer 5
   :config
   ;; Be sure to leave my packages' repo on master
@@ -617,20 +605,24 @@
   (vc-check-status-activate))
 
 (use-package visual-regexp
+  :ensure t
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace))
   :config
   (use-package visual-regexp-steroids
+    :ensure t
     :commands (vr/select-replace vr/select-query-replace)))
 
 (use-package vc-auto-commit
+  :ensure t
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
   :config (vc-auto-commit-activate))
 
 (use-package webjump
+  :ensure t
   :bind ("C-c j" . webjump))
 
 ;; wtf for acronym lookup
@@ -638,6 +630,7 @@
 
 ;; Make zooming affect frame instead of buffers
 (use-package zoom-frm
+  :ensure t
   :bind (([(list 'control mouse-wheel-down-event)] . zoom-in)
          ([(list 'control mouse-wheel-up-event)] . zoom-out)
          ("C-c +" . zoom-in)
@@ -654,6 +647,7 @@
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
+  :ensure t
   :defer 10
   :commands (recentf-mode
              recentf-add-file
@@ -675,6 +669,7 @@
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
+  :ensure t
   :defer 10
   :commands smerge-mode
   :config
@@ -688,12 +683,14 @@
   (add-hook 'find-file-hook 'sm-try-smerge t))
 
 (use-package whitespace
+  :ensure t
   :config
   (setq whitespace-style
         '(face trailing tabs))
   (global-whitespace-mode))
 
 (use-package winner
+  :ensure t
   :if (not noninteractive)
   :defer 5
   :bind (("M-N" . winner-redo)

@@ -1,4 +1,5 @@
 (use-package ess-site
+  :ensure ess
   :preface
   ;; No special behaviour of comments starting with #, ## or ###
   (setq ess-indent-with-fancy-comments nil)

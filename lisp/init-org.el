@@ -516,6 +516,7 @@ refile targets.")
 (setq org-refile-use-outline-path 'full-file-path)
 
 (use-package org-ref
+  :ensure t
   :config
   (defun org-ref-get-pdf-filename-zotero (key)
     (let* ((results (org-ref-get-bibtex-key-and-file key))

@@ -5,6 +5,7 @@
       ";; scratch buffer created -- happy hacking\n\n")
 
 (use-package scratch-message
+  :ensure t
   :config
   (defun scratch-message-random ()
     (pcase (random 4)
