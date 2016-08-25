@@ -240,7 +240,25 @@
 ;; Open quickly a temporary file
 (use-package find-temp-file
   :bind ("C-x C-t" . find-temp-file)
+  :commands find-temp-file--filename
+  :init
+  (defun find-temp-file-save-scratch ()
+    "Save *scratch* buffer as a draft file."
+    (if (and (get-buffer "*scratch*")
+             (with-current-buffer "*scratch*"
+               (buffer-modified-p)))
+        (with-temp-buffer
+          (insert-buffer "*scratch*")
+          (let* ((find-temp-template-alist (list (cons "el" "%M/%D/%N-scratch-%T.el")))
+                 (file-path (find-temp-file--filename "el")))
+            (make-directory (file-name-directory file-path) :parents)
+            (write-file file-path)))))
   :config
+  (add-to-list 'find-temp-template-alist (cons "elscratch" "%M/%D/%N-scratch-%T.el"))
+
+  ;; Save scratch buffer as temp file when quitting emacs
+  (add-hook 'kill-emacs-hook #'find-temp-file-save-scratch)
+
   (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
