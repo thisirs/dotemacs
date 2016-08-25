@@ -375,6 +375,12 @@
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :bind ("C-ç" . mc/mark-next-like-this))
 
+(use-package octave
+  :defer t
+  :config
+  (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
+  (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
+
 (use-package openwith
   :config
   (setq openwith-associations
