@@ -34,5 +34,9 @@
   (setq ess-swv-plug-into-AUCTeX-p t)
 
   ;; Trigger plugging with right hooks
-  (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX)))
+  (use-package tex-site
+    :defer t
+    :config
+    (ess-swv-plug-into-AUCTeX)))
+
 (provide 'init-ess)
