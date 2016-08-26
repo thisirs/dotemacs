@@ -622,7 +622,6 @@
   :config (vc-auto-commit-activate))
 
 (use-package webjump
-  :ensure t
   :bind ("C-c j" . webjump))
 
 ;; wtf for acronym lookup
@@ -647,7 +646,6 @@
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
-  :ensure t
   :defer 10
   :commands (recentf-mode
              recentf-add-file
@@ -669,7 +667,6 @@
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
-  :ensure t
   :defer 10
   :commands smerge-mode
   :config
@@ -683,14 +680,12 @@
   (add-hook 'find-file-hook 'sm-try-smerge t))
 
 (use-package whitespace
-  :ensure t
   :config
   (setq whitespace-style
         '(face trailing tabs))
   (global-whitespace-mode))
 
 (use-package winner
-  :ensure t
   :if (not noninteractive)
   :defer 5
   :bind (("M-N" . winner-redo)
