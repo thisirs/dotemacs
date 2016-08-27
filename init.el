@@ -723,27 +723,6 @@
 
 (global-set-key (kbd "C-z") 'switch-to-external-terminal)
 
-;; Additional menu
-(require 'easymenu)
-(setq my-encoding-map (make-sparse-keymap "Encoding Menu"))
-(easy-menu-define my-encoding-menu my-encoding-map
-  "Encoding Menu."
-  '("Change File Encoding"
-    ["UTF8 - Unix (LF)" (set-buffer-file-coding-system 'utf-8-unix) t]
-    ["UTF8 - Mac (CR)" (set-buffer-file-coding-system 'utf-8-mac) t]
-    ["UTF8 - Win (CR+LF)" (set-buffer-file-coding-system 'utf-8-dos) t]
-    ["--" nil nil]
-    ["Shift JIS - Mac (CR)" (set-buffer-file-coding-system 'sjis-mac) t]
-    ["Shift JIS - Win (CR+LF)" (set-buffer-file-coding-system 'sjis-dos) t]
-    ["--" nil nil]
-    ["EUC - Unix (LF)" (set-buffer-file-coding-system 'euc-jp-unix) t]
-    ["JIS - Unix (LF)" (set-buffer-file-coding-system 'junet-unix) t]
-    ))
-(define-key-after menu-bar-file-menu [my-file-separator]
-  '("--" . nil) 'kill-buffer)
-(define-key-after menu-bar-file-menu [my-encoding-menu]
-  (cons "File Encoding" my-encoding-menu) 'my-file-separator)
-
 ;; Paste in term
 (require 'term)
 
