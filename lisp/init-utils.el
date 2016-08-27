@@ -41,10 +41,17 @@ VERSION."
     `(sexp-or-progn ,@body)))
 
 (defmacro define-on-macro (sys &optional name)
-  "Macro that defines a machine-specific macro."
+  "Macro that defines a machine-specific macro.
+
+SYS is the system name and NAME is used to define a `on-<NAME>'
+macro. If not provided, it defaults to SYS. The `on-<NAME>' macro
+can be used to execute enclosing code on specific machine. It can
+also serve as a predicate telling if we are on specific machine."
   `(defmacro ,(intern (concat "on-" (or name sys))) (&rest body)
-     (when (string-prefix-p ,sys system-name)
-       `(sexp-or-progn ,@body))))
+     (if body
+         (when (string-prefix-p ,sys system-name)
+           `(sexp-or-progn ,@body))
+       (string-prefix-p ,sys system-name))))
 
 ;; .dir-locals.el helper
 (defun dir-locals-get-directory (file)

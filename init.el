@@ -122,12 +122,12 @@
 ;; Loading zenburn theme
 (use-package zenburn-theme
   :ensure t
-  :if (string-prefix-p "zouzou" system-name)
+  :if (on-zouzou)
   :config
   (load-theme 'zenburn t))
 
 (use-package solarized
-  :if (string-prefix-p "zbook" system-name)
+  :if (on-zbook)
   :ensure solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
