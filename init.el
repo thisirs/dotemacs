@@ -439,6 +439,12 @@
 (setq sml/theme 'automatic)
 (sml/setup)
 (setq sml/vc-mode-show-backend t)
+(use-package server
+  :if (window-system)
+  :config
+  (unless (server-running-p server-name)
+    (server-start)))
+
 
 ;; Quick navigation between workspaces
 (use-package state
@@ -806,8 +812,6 @@
             '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
 
 (setq auto-insert 'other)
-
-(server-start nil t)
 
 (when (member "Inconsolata" (font-family-list))
   (add-to-list 'default-frame-alist
