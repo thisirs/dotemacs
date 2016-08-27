@@ -353,6 +353,10 @@
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
 
+(use-package misc
+  :bind (("M-z" . zap-up-to-char)
+         ("M-Z" . zap-to-char)))
+
 ;; Using multi-term instead of term
 (use-package multi-term
   :ensure t
@@ -450,12 +454,51 @@
 (setq sml/theme 'automatic)
 (sml/setup)
 (setq sml/vc-mode-show-backend t)
+;; From https://github.com/jwiegley/dot-emacs
+(use-package recentf
+  :defer 10
+  :commands (recentf-mode
+             recentf-add-file
+             recentf-apply-filename-handlers)
+  :preface
+  (defun recentf-add-dired-directory ()
+    (if (and dired-directory
+             (file-directory-p dired-directory)
+             (not (string= "/" dired-directory)))
+        (let ((last-idx (1- (length dired-directory))))
+          (recentf-add-file
+           (if (= ?/ (aref dired-directory last-idx))
+               (substring dired-directory 0 last-idx)
+             dired-directory)))))
+  :init
+  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
+  :config
+  (recentf-mode 1))
+
+(use-package saveplace
+  :config
+  (setq save-place-file "~/.emacs.d/cache/.saveplace")
+  (save-place-mode))
+
 (use-package server
   :if (window-system)
   :config
   (unless (server-running-p server-name)
     (server-start)))
 
+;; Minor mode to resolve diff3 conflicts
+(use-package smerge-mode
+  :defer 10
+  :commands smerge-mode
+  :config
+  (defun sm-try-smerge ()
+    "Turn on smerge-mode if there is a diff marker."
+    (let ((old-point (point)))
+      (goto-char (point-min))
+      (if (re-search-forward "^\\(<\\)\\{7\\} " nil t)
+          (smerge-mode 1)
+        (goto-char old-point))))
+  (add-hook 'find-file-hook 'sm-try-smerge t))
 
 ;; Quick navigation between workspaces
 (use-package state
@@ -641,60 +684,10 @@
 (use-package webjump
   :bind ("C-c j" . webjump))
 
-;; wtf for acronym lookup
-(use-package wtf :commands wtf-is)
-
-;; Make zooming affect frame instead of buffers
-(use-package zoom-frm
-  :ensure t
-  :bind (([(list 'control mouse-wheel-down-event)] . zoom-in)
-         ([(list 'control mouse-wheel-up-event)] . zoom-out)
-         ("C-c +" . zoom-in)
-         ("C-c -" . zoom-out)))
-
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   (setq uniquify-after-kill-buffer-p t))
-
-(require 'saveplace)
-(setq save-place-file "~/.emacs.d/cache/.saveplace")
-(save-place-mode)
-
-;; From https://github.com/jwiegley/dot-emacs
-(use-package recentf
-  :defer 10
-  :commands (recentf-mode
-             recentf-add-file
-             recentf-apply-filename-handlers)
-  :preface
-  (defun recentf-add-dired-directory ()
-    (if (and dired-directory
-             (file-directory-p dired-directory)
-             (not (string= "/" dired-directory)))
-        (let ((last-idx (1- (length dired-directory))))
-          (recentf-add-file
-           (if (= ?/ (aref dired-directory last-idx))
-               (substring dired-directory 0 last-idx)
-             dired-directory)))))
-  :init
-  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
-  :config
-  (recentf-mode 1))
-
-;; Minor mode to resolve diff3 conflicts
-(use-package smerge-mode
-  :defer 10
-  :commands smerge-mode
-  :config
-  (defun sm-try-smerge ()
-    "Turn on smerge-mode if there is a diff marker."
-    (let ((old-point (point)))
-      (goto-char (point-min))
-      (if (re-search-forward "^\\(<\\)\\{7\\} " nil t)
-          (smerge-mode 1)
-        (goto-char old-point))))
-  (add-hook 'find-file-hook 'sm-try-smerge t))
 
 (use-package whitespace
   :config
@@ -718,6 +711,22 @@
           "*Calendar*"
           "*helm*"))
   (winner-mode 1))
+
+;; wtf for acronym lookup
+(use-package wtf :commands wtf-is)
+
+;; Buffers can't have the same name
+(with-eval-after-load 'uniquify
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (setq uniquify-after-kill-buffer-p t))
+
+;; Make zooming affect frame instead of buffers
+(use-package zoom-frm
+  :ensure t
+  :bind (([(list 'control mouse-wheel-down-event)] . zoom-in)
+         ([(list 'control mouse-wheel-up-event)] . zoom-out)
+         ("C-c +" . zoom-in)
+         ("C-c -" . zoom-out)))
 
 (defun switch-to-external-terminal (&optional arg)
   "Switch to an external terminal. Change directory if ARG is non-nil."
@@ -1101,10 +1110,6 @@ to cancel it."
                    (if (equal current (car ring)) last (car ring))
                  (or (cadr (member current ring)) (car ring)))))
     (set-frame-parameter nil 'alpha next)))
-
-(use-package misc
-  :bind (("M-z" . zap-up-to-char)
-         ("M-Z" . zap-to-char)))
 
 ;; Ignore case when completing
 (setq completion-ignore-case t)
