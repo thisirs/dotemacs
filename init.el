@@ -158,7 +158,6 @@
 (require 'init-isearch)
 (require 'init-matlab)
 (require 'init-midnight)
-(require 'init-octave)
 (require 'init-org)
 (require 'init-paredit)
 (require 'init-python)
