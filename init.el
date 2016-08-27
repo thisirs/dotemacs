@@ -349,6 +349,13 @@
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
 
+;; Using multi-term instead of term
+(use-package multi-term
+  :ensure t
+  :config
+  (defalias 'term 'multi-term)
+  (setq multi-term-program "/bin/zsh"))
+
 (use-package multiple-cursors
   :ensure t
   :init
@@ -728,22 +735,6 @@
                                  (file-truename default-directory)))))
 
 (global-set-key (kbd "C-z") 'switch-to-external-terminal)
-
-;; Paste in term
-(require 'term)
-
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
-            (make-local-variable 'mouse-yank-at-point)
-            (make-local-variable 'transient-mark-mode)
-            (setq mouse-yank-at-point t)
-            (setq transient-mark-mode nil)
-            (auto-fill-mode -1)
-            (setq tab-width 8)
-            (setq truncate-lines t)))
-
-(define-key term-raw-map (kbd "C-y") 'term-paste)
 
 ;; Notify events
 (with-emacs-version>= "24"
