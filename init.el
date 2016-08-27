@@ -114,13 +114,6 @@
 
 (load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
 
-;; Set path as if emacs were run in a terminal
-(let ((path (shell-command-to-string "bash -i -l -c 'echo $PATH' 2> /dev/null")))
-  (if (string-match "[ \t\n\r]+\\'" path)
-      (replace-match "" t t path))
-  (setenv "PATH" path)
-  (setq exec-path (split-string path "[:\n]" t)))
-
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
@@ -201,6 +194,18 @@
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)))
+
+;; Set path as if emacs were run in a terminal
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
+;; (let ((path (shell-command-to-string "bash -i -l -c 'echo $PATH' 2> /dev/null")))
+;;   (if (string-match "[ \t\n\r]+\\'" path)
+;;       (replace-match "" t t path))
+;;   (setenv "PATH" path)
+;;   (setq exec-path (split-string path "[:\n]" t)))
 
 (use-package expand-region
   :ensure t
