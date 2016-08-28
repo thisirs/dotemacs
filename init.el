@@ -78,7 +78,6 @@
       elisp-slime-nav
       erc-colorize
       helm
-      ibuffer-project                   ; local package
       inf-ruby
       info+
       keyfreq
