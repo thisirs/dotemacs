@@ -122,6 +122,9 @@
 (require 'diminish)
 (require 'bind-key)
 
+;; No confirmation when loading theme
+(setq custom-safe-themes t)
+
 ;; Loading zenburn theme
 (use-package zenburn-theme
   :ensure t
