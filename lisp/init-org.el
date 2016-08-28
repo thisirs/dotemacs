@@ -601,7 +601,7 @@ child checkboxes."
 
   (defun org-auto-archive ()
     (message "Auto-archiving...")
-    (mapcar
+    (mapc
      (lambda (file)
        (let ((buf (find-buffer-visiting file)))
          (when buf
