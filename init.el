@@ -692,11 +692,6 @@
 (use-package webjump
   :bind ("C-c j" . webjump))
 
-;; Buffers can't have the same name
-(with-eval-after-load 'uniquify
-  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-  (setq uniquify-after-kill-buffer-p t))
-
 (use-package whitespace
   :config
   (setq whitespace-style
