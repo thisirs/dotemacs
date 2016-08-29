@@ -402,17 +402,44 @@
 ;; published in elpa or melpa.
 (use-package package-build
   :ensure t
-  :after package
-  :defer
   :config
+  (require 'async)
+
   (setq package-archive-priorities '(("local" . 42)))
+
+  ;; Pin all packages listed in local repository
   (setq package-pinned-packages
         (mapcar (lambda (e) (cons (intern e) "local"))
                 (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
   (add-to-list 'package-archives
                `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
 
-  (defun package-build-update-local-packages (&optional async)
+  (defun package-build-update-local-packages-async ()
+    "Asynchronously update all packages listed in local
+repository."
+    (interactive)
+    (async-start
+     `(lambda ()
+        (load-file ,(find-library-name "package"))
+        (load-file ,(find-library-name "package-build"))
+
+        ;; Inject variables and functions
+        ,(async-inject-variables "\\`user-emacs-directory\\'")
+        (fset 'package-build-update-local-packages ,(symbol-function 'package-build-update-local-packages))
+
+        ;; And sync
+        (package-build-update-local-packages)
+        (with-current-buffer "*Messages*"
+          (buffer-string)))
+
+     (lambda (result)
+       (with-current-buffer (get-buffer-create "*async local packages sync*")
+         (setq buffer-read-only nil)
+         (erase-buffer)
+         (insert result))
+       (minibuffer-message "Local packages synchronized!"))))
+
+  (defun package-build-update-local-packages ()
     (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
            (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
            (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
@@ -420,8 +447,9 @@
       (package-build-reinitialize)
       (package-build-all)
       (package-build-dump-archive-contents)))
-  ;; Build archives before refreshing
-  (advice-add 'package-refresh-contents :before 'package-build-update-local-packages))
+
+  ;; Do it asynchronously
+  (package-build-update-local-packages-async))
 
 ;; Projectile
 (use-package projectile
