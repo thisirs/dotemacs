@@ -129,11 +129,13 @@
 (use-package zenburn-theme
   :ensure t
   :if (on-zouzou)
+  :if (window-system)
   :config
   (load-theme 'zenburn t))
 
 (use-package solarized
   :if (on-zbook)
+  :if (window-system)
   :ensure solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
