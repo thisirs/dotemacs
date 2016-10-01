@@ -49,9 +49,9 @@ can be used to execute enclosing code on specific machine. It can
 also serve as a predicate telling if we are on specific machine."
   `(defmacro ,(intern (concat "on-" (or name sys))) (&rest body)
      (if body
-         (when (string-prefix-p ,sys system-name)
+         (when (string-prefix-p ,sys (system-name))
            `(sexp-or-progn ,@body))
-       (string-prefix-p ,sys system-name))))
+       (string-prefix-p ,sys (system-name)))))
 
 ;; .dir-locals.el helper
 (defun dir-locals-get-directory (file)
