@@ -325,9 +325,9 @@
 
 ;; Trying keyfreq
 (require 'keyfreq)
-(let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" system-name)))
+(let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
   (make-directory (file-name-directory filepath) :parents)
-  (setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" system-name)))
+  (setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
