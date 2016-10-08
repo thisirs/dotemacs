@@ -14,12 +14,18 @@
 ;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
+
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
+
+(when window-system
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
+
 (column-number-mode)
+
 (setq inhibit-startup-screen t)
+
 (defun display-startup-echo-area-message ()
   (message "Let the hacking begin!"))
 
