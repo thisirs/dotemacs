@@ -481,11 +481,10 @@ repository."
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
                                  (abbreviate-file-name dir)) it)
-            '("~/CloudStation/Sylvain/enseignements/P2016/SY02/"
-              "~/CloudStation/Sylvain/enseignements/P2016/SY09/"
-              "~/Dropbox/Documents-sy09/Poly/"
-              "~/CloudStation/Sylvain/emacs/site-lisp/"
-              "~/CloudStation/Sylvain/recherche/sujet_de_thèses/2016-03-23_Structured_Data_Deep_Learning")))
+            '("~/CloudStation/Sylvain/enseignements/A2016/SY02/"
+              "~/CloudStation/Sylvain/enseignements/A2016/SY09/"
+              "~/Dropbox/Documents-sy09/"
+              "~/CloudStation/Sylvain/emacs/site-lisp/")))
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
   (projectile-global-mode))
 
