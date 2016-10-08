@@ -666,7 +666,7 @@ repository."
   (state-define-repl matlab-repl "j" "*MATLAB*" (eq major-mode 'matlab-mode) (matlab-shell))
   (state-define-repl python-repl "j" "*Python*" (eq major-mode 'python-mode) (call-interactively 'run-python))
   (state-define-repl ruby-repl "j" "*ruby*" (eq major-mode 'ruby-mode) (inf-ruby))
-  (state-define-repl ruby-repl "j" "*R*" (eq major-mode 'ess-mode)
+  (state-define-repl R-repl "j" "*R*" (eq major-mode 'ess-mode)
                      (let (ess-ask-for-ess-directory) (R)))
 
   (state-global-mode 1))
