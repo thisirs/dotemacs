@@ -1024,6 +1024,7 @@ not, return nil."
 
 ;; Don't let Customize mess with my .emacs
 (setq custom-file (concat site-lisp-directory "custom.el"))
+(setq custom-file (make-temp-file "custom" nil ".el"))
 (load custom-file 'noerror)
 
 ;;; Conditional untabify, delete trailing whitespaces
