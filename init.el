@@ -936,6 +936,12 @@ not, return nil."
 ;; No fast scrolling
 (setq mouse-wheel-progressive-speed nil)
 
+;; Bar cursor
+(setq-default cursor-type 'box)
+
+;; Don't blink the cursor
+(blink-cursor-mode -1)
+
 ;; Drive out the mouse when it's too near to the cursor.
 (mouse-avoidance-mode 'animate)
 
