@@ -464,6 +464,11 @@ repository."
   ;; Do it asynchronously
   (package-build-update-local-packages-async))
 
+(use-package pdf-tools
+  :disabled t
+  :defer 10
+  :config (pdf-tools-install))
+
 ;; Projectile
 (use-package projectile
   :ensure t
