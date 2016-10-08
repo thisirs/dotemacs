@@ -29,6 +29,8 @@
 (defun display-startup-echo-area-message ()
   (message "Let the hacking begin!"))
 
+(setq visible-bell nil)
+
 ;; No confirmation because of openwith
 (setq large-file-warning-threshold nil)
 
