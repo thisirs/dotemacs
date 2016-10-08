@@ -23,6 +23,9 @@
 (defun display-startup-echo-area-message ()
   (message "Let the hacking begin!"))
 
+;; No confirmation because of openwith
+(setq large-file-warning-threshold nil)
+
 (setq ring-bell-function 'ignore)
 
 ;; Tramp env to properly display dired
