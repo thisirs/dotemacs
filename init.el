@@ -1278,6 +1278,11 @@ to cancel it."
     (save-buffers-kill-emacs)))
 
 (defun kill-emacs-or-frame (arg)
+  "Kill emacs or close frame.
+
+If current buffer is editing a file for a client, save buffer and
+call `server-buffer-done'. Otherwise, kill current frame if there
+is more than one or kill emacs if there is only one."
   (interactive "P")
   (if (not server-buffer-clients)
       (if (and (not arg) (> (length (visible-frame-list)) 1))
