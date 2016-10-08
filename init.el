@@ -1131,7 +1131,8 @@ to cancel it."
   (interactive (if (use-region-p) (list (region-beginning) (region-end))
                  (list (point-min) (point-max))))
   (save-excursion
-    (shell-command-on-region beg end
+    (shell-command-on-region
+     beg end
      (or (and (eq 0 (shell-command "python2 -c \"import json.tool\" &> /dev/null"))
               "python2 -m json.tool")
          (and (executable-find "json_pp")
