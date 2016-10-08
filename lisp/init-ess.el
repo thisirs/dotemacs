@@ -14,7 +14,7 @@
     (unless (and (featurep 'tex-site) (featurep 'tex))
       (error "AUCTeX does not seem to be loaded"))
     (add-to-list 'TeX-command-list
-                 '("Knit" "Rscript -e \"library(knitr); knit('%t')\""
+                 '("Knit" "Rscript -e \"library(knitr); all_patterns$tex$$chunk.code <- '^\\s*%+'; knit_patterns$set(all_patterns[['tex']]); knit('%t')\""
                    TeX-run-command nil (latex-mode) :help
                    "Run Knitr") t)
     (add-to-list 'TeX-command-list
