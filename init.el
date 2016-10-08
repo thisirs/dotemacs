@@ -1252,6 +1252,15 @@ to cancel it."
 
 (setq truncate-lines nil)
 (setq truncate-partial-width-windows nil)
+;; Taken from http://emacs.stackexchange.com/questions/519/key-bindings-specific-to-a-buffer
+(defvar temp-mode-map (make-sparse-keymap)
+  "Keymap while temp-mode is active.")
+
+(define-minor-mode temp-mode
+  "A temporary minor mode to be activated only specific to a buffer."
+  nil
+  :lighter " Temp"
+  temp-mode-map)
 
 ;; From http://www.emacswiki.org/emacs/EmacsAsDaemon
 (defun shutdown-emacs-server ()
