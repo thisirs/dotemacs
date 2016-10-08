@@ -872,6 +872,7 @@ repository."
 (setq diff-switches "-u -w")
 
 ;; ediff settings
+(setq ediff-split-window-function 'split-window-vertically)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-diff-options "-w")
 
