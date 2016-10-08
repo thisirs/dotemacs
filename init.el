@@ -767,8 +767,8 @@ repository."
 ;; Make zooming affect frame instead of buffers
 (use-package zoom-frm
   :ensure t
-  :bind (([(list 'control mouse-wheel-down-event)] . zoom-in)
-         ([(list 'control mouse-wheel-up-event)] . zoom-out)
+  :bind (("C-<down-mouse-4>" . zoom-in)
+         ("C-<down-mouse-5>" . zoom-out)
          ("C-c +" . zoom-in)
          ("C-c -" . zoom-out)))
 
