@@ -457,6 +457,8 @@ repository."
 (use-package projectile
   :ensure t
   :init
+  (setq projectile-known-projects-file
+        (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
   (defun projectile-custom-mode-line ()
     (if (projectile-project-p)
         (let* ((project-name (projectile-project-name))
@@ -472,8 +474,7 @@ repository."
 
   (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
   (setq projectile-completion-system 'helm)
-  (setq projectile-known-projects-file
-        (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
+
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
