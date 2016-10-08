@@ -1284,7 +1284,7 @@ If current buffer is editing a file for a client, save buffer and
 call `server-buffer-done'. Otherwise, kill current frame if there
 is more than one or kill emacs if there is only one."
   (interactive "P")
-  (if (not server-buffer-clients)
+  (if (or (not (boundp 'server-buffer-clients)) (not server-buffer-clients))
       (if (and (not arg) (> (length (visible-frame-list)) 1))
           (delete-frame)
         (save-buffers-kill-emacs))
