@@ -40,16 +40,18 @@
 
   (defun org-password-manager-get-pass ()
     (let* ((property-entries
-            (org-map-entries
-             (lambda ()
-               (let ((heading (org-link-display-format (org-get-heading t t))))
-                 (list heading
-                       (or (org-entry-get (point) "LOGIN")
-                           (org-entry-get (point) "USER")
-                           (org-entry-get (point) "NAME")
-                           heading)
-                       (org-entry-get (point) "PASSWORD"))))
-             (concat "PASSWORD" "={.+}") org-password-manager-scope))
+            (delq nil
+                  (org-map-entries
+                   (lambda ()
+                     (let ((heading (org-get-heading t t)))
+                       (when heading
+                         (list (org-link-display-format heading)
+                               (or (org-entry-get (point) "LOGIN")
+                                   (org-entry-get (point) "USER")
+                                   (org-entry-get (point) "NAME")
+                                   heading)
+                               (org-entry-get (point) "PASSWORD")))))
+                   (concat "PASSWORD" "={.+}") org-password-manager-scope)))
            (chosen-heading
             (let ((history-delete-duplicates t))
               (funcall 'org-completing-read
