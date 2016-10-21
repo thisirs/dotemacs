@@ -95,7 +95,6 @@
       helm
       inf-ruby
       info+
-      keyfreq
       lua-mode
       markdown-mode
       org
@@ -346,13 +345,13 @@
 (use-package json-mode
   :commands json-mode)
 
-;; Trying keyfreq
-(require 'keyfreq)
-(let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
-  (make-directory (file-name-directory filepath) :parents)
-  (setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+(use-package keyfreq
+  :config
+  (let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
+    (make-directory (file-name-directory filepath) :parents)
+    (setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
 
 (use-package langtool
   :ensure t
