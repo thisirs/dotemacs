@@ -475,6 +475,8 @@ repository."
 (use-package projectile
   :ensure t
   :init
+  (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
+
   (setq projectile-known-projects-file
         (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
   (defun projectile-custom-mode-line ()
