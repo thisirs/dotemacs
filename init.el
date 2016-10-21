@@ -289,7 +289,13 @@
   (global-flycheck-mode 1)
   (setq-default flycheck-disabled-checkers
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
-  (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)"))
+  (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)")
+
+  (use-package flycheck-color-mode-line
+    :ensure t
+    :config
+    (setq flycheck-highlighting-mode 'symbols)
+    (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
 (use-package google-translate-smooth-ui
   :ensure google-translate
