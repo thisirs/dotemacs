@@ -1,5 +1,6 @@
 (require 'dired-x)
 
+(setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
 
 ;; Auto-revert mode
