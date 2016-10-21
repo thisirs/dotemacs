@@ -197,6 +197,12 @@
   (global-anzu-mode 1)
   :diminish anzu-mode)
 
+(use-package auto-dictionary            ; Automatically infer dictionary
+  :ensure t
+  :bind (("C-c w l" . adict-change-dictionary)
+         ("C-c w g" . adict-guess-dictionary))
+  :init
+  (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
 (use-package avy
   :ensure t
