@@ -191,6 +191,12 @@
   (setq-default ispell-program-name (executable-find "hunspell"))
   (setq ispell-really-hunspell t))
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
+(use-package anzu                       ; Display incremental search stats in the modeline.
+  :ensure t
+  :config
+  (global-anzu-mode 1)
+  :diminish anzu-mode)
+
 
 (use-package avy
   :ensure t
