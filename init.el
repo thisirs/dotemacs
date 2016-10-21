@@ -325,6 +325,9 @@
   (setq helm-bibtex-notes-symbol "n")
   (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
+(use-package json-mode
+  :commands json-mode)
+
 ;; Trying keyfreq
 (require 'keyfreq)
 (let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
@@ -1141,19 +1144,6 @@ to cancel it."
   (delete-trailing-whitespace-maybe))
 
 (add-hook 'before-save-hook 'cleanup-buffer-maybe)
-
-(defun indent-json (beg end)
-  "Beautify JSON buffer or region."
-  (interactive (if (use-region-p) (list (region-beginning) (region-end))
-                 (list (point-min) (point-max))))
-  (save-excursion
-    (shell-command-on-region
-     beg end
-     (or (and (eq 0 (shell-command "python2 -c \"import json.tool\" &> /dev/null"))
-              "python2 -m json.tool")
-         (and (executable-find "json_pp")
-              "json_pp"))
-     (current-buffer))))
 
 ;; Bookmarks
 (setq bookmark-default-file "~/CloudStation/Sylvain/emacs/.bookmarks")
