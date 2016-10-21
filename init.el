@@ -22,7 +22,9 @@
   (scroll-bar-mode -1)
   (tooltip-mode -1))
 
+(line-number-mode)
 (column-number-mode)
+(size-indication-mode)
 
 (setq inhibit-startup-screen t)
 
