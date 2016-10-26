@@ -138,6 +138,8 @@
 (setq custom-safe-themes t)
 
 ;; Loading zenburn theme
+
+;; http://github.com/bbatsov/zenburn-emacs
 (use-package zenburn-theme
   :ensure t
   :if (on-zouzou)
@@ -154,6 +156,7 @@
   (setq solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
 
+;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme
   :disabled t
   :ensure t
@@ -209,6 +212,7 @@
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
+;; https://github.com/abo-abo/avy
 (use-package avy
   :ensure t
   :config
@@ -234,6 +238,7 @@
          ([C-M-S-down] . drag-stuff-down)))
 
 ;; Set path as if emacs were run in a terminal
+;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell
   :ensure t
   :init
@@ -251,6 +256,7 @@
          ("C-M-à" . er/contract-region)))
 
 ;; Open quickly a temporary file
+;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file
   :ensure t
   :bind ("C-x C-t" . find-temp-file)
@@ -286,6 +292,7 @@
 (eval-after-load 'elisp-slime-nav
   '(diminish 'elisp-slime-nav-mode))
 
+;; http://www.flycheck.org
 (use-package flycheck
   :ensure t
   :commands global-flycheck-mode
@@ -313,6 +320,7 @@
             (executable-find "vlc")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
+;; https://github.com/kai2nenobu/guide-key
 (use-package guide-key
   :ensure t
   :disabled t
@@ -348,7 +356,9 @@
   (setq helm-bibtex-notes-symbol "n")
   (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
-(use-package json-mode
+;; https://github.com/joshwnj/json-mode
+(use-package json-mode                  ; json beautifier and more
+  :ensure t
   :commands json-mode)
 
 (use-package keyfreq
@@ -359,6 +369,7 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool
   :ensure t
   :defer
@@ -367,10 +378,12 @@
   (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
   (setq langtool-default-language "fr"))
 
+;; https://github.com/joddie/macrostep
 (use-package macrostep
   :ensure t
   :bind ("C-c e m" . macrostep-expand))
 
+;; https://github.com/magit/magit
 (use-package magit
   :ensure t
   :bind ("C-c i" . magit-status)
@@ -407,6 +420,7 @@
          ("M-Z" . zap-to-char)))
 
 ;; Using multi-term instead of term
+;; http://www.emacswiki.org/emacs/download/multi-term.el
 (use-package multi-term
   :ensure t
   :config
@@ -425,6 +439,7 @@
   (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
 
+;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith
   :ensure t
   :config
@@ -435,6 +450,7 @@
   (openwith-mode))
 
 ;; Contextual capture and agenda commands for Org-mode
+;; https://github.com/thisirs/org-context
 (use-package org-context
   :ensure t
   :config (org-context-activate))
@@ -585,6 +601,7 @@ repository."
   (add-hook 'find-file-hook 'sm-try-smerge t))
 
 ;; Quick navigation between workspaces
+;; https://github.com/thisirs/state.git
 (use-package state
   :ensure t
   ;; Override state's keymap binding
@@ -721,6 +738,7 @@ repository."
   :ensure t
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
+;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree
   :ensure t
   :config
@@ -729,6 +747,7 @@ repository."
     'undo-tree-visualizer-quit))
 
 ;; Warn you when quitting emacs and leaving repo dirty
+;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status
   :ensure t
   :defer 5
@@ -748,16 +767,19 @@ repository."
 
   (vc-check-status-activate))
 
+;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp
   :ensure t
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace))
   :config
+  ;; https://github.com/benma/visual-regexp-steroids.el/
   (use-package visual-regexp-steroids
     :ensure t
     :commands (vr/select-replace vr/select-query-replace)))
 
+;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit
   :ensure t
   :defer 5
@@ -800,6 +822,7 @@ repository."
   (setq uniquify-after-kill-buffer-p t))
 
 ;; Make zooming affect frame instead of buffers
+;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm
   :ensure t
   :bind (("C-<down-mouse-4>" . zoom-in)
