@@ -154,6 +154,12 @@
   (setq solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
 
+(use-package spacemacs-theme
+  :disabled t
+  :ensure t
+  :init
+  (load-theme 'spacemacs-dark t))
+
 (require 'init-bindings)
 (require 'init-editing)
 (require 'init-fill)
