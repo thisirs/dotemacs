@@ -890,9 +890,11 @@ repository."
 
 (setq auto-insert 'other)
 
-(when (member "Inconsolata" (font-family-list))
-  (add-to-list 'default-frame-alist
-               '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1")))
+(cond ((member "Cousine" (font-family-list))
+       (setq default-frame-alist '((font . "Cousine-14"))))
+      ((member "Inconsolata" (font-family-list))
+       (add-to-list 'default-frame-alist
+                    '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))))
 
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
