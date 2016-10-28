@@ -39,6 +39,9 @@
 
 (global-set-key (kbd "C-c h") help-map)
 
+(global-set-key [remap move-beginning-of-line]
+                #'beginning-of-line-or-indentation)
+
 ;; Move between windows with meta-arrows
 ;; (windmove-default-keybindings 'meta)
 (global-set-key (kbd "s-b") #'windmove-left)
