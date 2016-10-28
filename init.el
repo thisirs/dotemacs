@@ -198,6 +198,8 @@
   (setq-default ispell-program-name (executable-find "hunspell"))
   (setq ispell-really-hunspell t))
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
+(setq ispell-choices-win-default-height 5)
+
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :ensure t
   :config
