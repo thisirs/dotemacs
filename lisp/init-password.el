@@ -1,6 +1,7 @@
 ;; Passwords management with org files + auth-source backend
 
 
+;; https://git.leafac.com/leafac/org-password-manager
 (use-package org-password-manager
   :defer
   :config

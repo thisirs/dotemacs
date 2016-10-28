@@ -1,3 +1,4 @@
+;; http://sourceforge.net/projects/matlab-emacs/
 (use-package matlab
   :ensure matlab-mode
   :mode ("\\.m$" . matlab-mode)

@@ -1,3 +1,4 @@
+;; http://github.com/joaotavora/yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode
   :init

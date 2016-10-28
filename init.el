@@ -200,12 +200,15 @@
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
 (setq ispell-choices-win-default-height 5)
 
+
+;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :ensure t
   :config
   (global-anzu-mode 1)
   :diminish anzu-mode)
 
+;; http://nschum.de/src/emacs/auto-dictionary/
 (use-package auto-dictionary            ; Automatically infer dictionary
   :ensure t
   :bind (("C-c w l" . adict-change-dictionary)
@@ -539,6 +542,7 @@ repository."
   (define-polymode poly-markdown-string-mode pm-poly/markdown-string))
 
 ;; Projectile
+;; https://github.com/bbatsov/projectile
 (use-package projectile
   :ensure t
   :init

@@ -1,3 +1,4 @@
+;; http://www.gnu.org/software/auctex/
 (use-package tex-site
   :ensure auctex
   :config
