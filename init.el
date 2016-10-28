@@ -306,7 +306,7 @@
   (global-flycheck-mode 1)
   (setq-default flycheck-disabled-checkers
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
-  (setq flycheck-lintr-linters "with_defaults(commented_code_linter=NULL)")
+  (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
   (use-package flycheck-color-mode-line
     :ensure t
