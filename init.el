@@ -225,6 +225,7 @@
 
 
 (with-emacs-version>= "24.1"
+  (electric-pair-mode)
   (electric-indent-mode 1))
 
 (with-emacs-version< "24"
