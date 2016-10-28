@@ -5,10 +5,6 @@
   ;; No special behaviour of comments starting with #, ## or ###
   (setq ess-indent-with-fancy-comments nil)
   :config
-  ;; Remove wrong hooks if there
-  (let ((ess-swv-plug-into-AUCTeX-p nil))
-    (ess-swv-plug-into-AUCTeX))
-
   ;; Override TeX commands Sweave -> KnitR
   (defun ess-swv-add-TeX-commands ()
     "Add commands to AUCTeX's \\[TeX-command-list]."
