@@ -105,7 +105,6 @@
       pcache
       rainbow-mode
       s
-      skeletor
       smart-mode-line
       tidy
       twittering-mode
@@ -620,6 +619,9 @@ repository."
   :config
   (unless (server-running-p server-name)
     (server-start)))
+
+(use-package skeletor
+  :defer 10)
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
