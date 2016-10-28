@@ -112,4 +112,51 @@ file WORDLIST."
         (mapconcat 'identity (split-string pass-out) " "))
     (error "Unable to find program `shuf'")))
 
+;;; Useful for renumbering sequence of identifiers like foo0, foo0bis,
+;;; foo1000, foo1001 into foo0, foo1, foo2, foo3
+(defun refactor-seq (regex replace)
+  "Replace substrings match by REGEX with a REPLACE function.
+
+REGEX is first matched sequentially and then all matches are
+replace by the result of REPLACE called with the matched string
+and the index of the match."
+  (interactive "s")
+  (when (stringp replace)
+    (unless (string-match "%\\([0-9]+\\)?d" replace)
+      (user-error "Replacement string must have a %%d"))
+    (setq replace (lexical-let ((replace replace))
+                    (lambda (s i) (format replace i)))))
+  (save-excursion
+    (let (varnames)
+      (goto-char (point-min))
+      (while (re-search-forward regex nil t)
+        (unless (member (match-string 0) varnames)
+          (setq varnames (cons (match-string-no-properties 0) varnames))))
+      (setq varnames (nreverse varnames))
+      (goto-char (point-min))
+      (while (re-search-forward regex nil t)
+        (let ((i (cl-position (match-string-no-properties 0) varnames :test 'equal)))
+          (replace-match (funcall replace (match-string 0) i)))))))
+
+(defun use-package-add-url ()
+  "Add url of package before use-package"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "(use-package" nil t)
+      (save-excursion
+        (goto-char (match-beginning 0))
+        (let* ((standard-input (current-buffer))
+               (def (save-excursion (read standard-input)))
+               (pkg-name (or (plist-get (cddr def) :ensure) (cadr def))))
+          (unless (save-excursion
+                    (forward-line -1)
+                    (looking-at "[[:space:]]*;+[[:space:]]*http"))
+            (if-let ((pkg (cadr (assoc pkg-name package-alist))))
+                (when-let ((url (cdr (assoc :url (package-desc-extras pkg)))))
+                  (beginning-of-line)
+                  (open-line 1)
+                  (indent-according-to-mode)
+                  (insert (format ";; %s" url))))))))))
+
 (provide 'init-utils)
