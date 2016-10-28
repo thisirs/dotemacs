@@ -514,6 +514,29 @@ repository."
   :defer 10
   :config (pdf-tools-install))
 
+;; https://github.com/vitoshka/polymode
+(use-package polymode
+  :commands poly-markdown-string-mode
+  :config
+  (defcustom  pm-inner/markdown-string
+    (pm-hbtchunkmode "markdown"
+                     :mode 'markdown-mode
+                     :head-reg "{%markdown%}\n"
+                     :tail-reg "{%/markdown%}")
+    "Markdown typical chunk."
+    :group 'innermodes
+    :type 'object)
+
+  (defcustom pm-poly/markdown-string
+    (pm-polymode-one "markdown"
+                     :hostmode 'pm-host/R
+                     :innermode 'pm-inner/markdown-string)
+    "Markdown typical polymode."
+    :group 'polymodes
+    :type 'object)
+
+  (define-polymode poly-markdown-string-mode pm-poly/markdown-string))
+
 ;; Projectile
 (use-package projectile
   :ensure t
