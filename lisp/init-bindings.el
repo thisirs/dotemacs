@@ -73,6 +73,11 @@
 ;; Fuck occur and word isearch
 (global-set-key (kbd "M-s") #'backward-kill-word)
 
+;; Make upcase and co work with region
+(global-set-key [remap upcase-word] #'upcase-dwim)
+(global-set-key [remap downcase-word] #'downcase-dwim)
+(global-set-key [remap capitalize-word] #'capitalize-dwim)
+
 (global-set-key [(control tab)] #'other-window)
 
 ;; Split window and switch to newly created one
