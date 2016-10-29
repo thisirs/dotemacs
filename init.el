@@ -33,6 +33,8 @@
 
 (setq visible-bell nil)
 
+(setq disabled-command-function nil)
+
 ;; No confirmation because of openwith
 (setq large-file-warning-threshold nil)
 
