@@ -427,9 +427,11 @@
                    `("pandoc" "-f" "markdown" "-t" "latex")
                    " ")))
 
-(use-package misc
-  :bind (("M-z" . zap-up-to-char)
-         ("M-Z" . zap-to-char)))
+;; Zap-to-char with feedback
+(use-package zop-to-char
+  :ensure
+  :bind (("M-z" . zop-to-char)
+         ("M-Z" . zop-up-to-char)))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
