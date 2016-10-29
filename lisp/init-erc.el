@@ -102,7 +102,10 @@ nil."
 (erc-readonly-mode -1)
 
 ;; Per user message colorization
-(erc-colorize-mode 1)
+(use-package erc-colorize
+  :ensure
+  :config
+  (erc-colorize-mode 1))
 
 ;; Make nicks aligned to the right
 (setq erc-fill-function 'erc-fill-static)

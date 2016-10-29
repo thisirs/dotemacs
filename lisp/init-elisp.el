@@ -4,6 +4,12 @@
 (add-hook 'ielm-mode-hook #'eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
+;; Fast navigation from symbol to definition
+(use-package elisp-slime-nav
+  :ensure
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode))
+
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
 

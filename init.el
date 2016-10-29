@@ -88,15 +88,11 @@
   (defvar package-required-packages
     '(async
       cmake-mode
-      dash
       diminish
-      elisp-slime-nav
-      erc-colorize
       helm
       inf-ruby
       info+
       lua-mode
-      markdown-mode
       org
       org-caldav
       org-password-manager
@@ -105,9 +101,7 @@
       pcache
       rainbow-mode
       s
-      smart-mode-line
       tidy
-      twittering-mode
       use-package
       wgrep
       yaml-mode)
@@ -288,9 +282,6 @@
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
-;; Fast navigation from symbol to definition
-(add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
-
 ;; Diminish
 (eval-after-load "undo-tree"
   '(diminish 'undo-tree-mode))
@@ -419,6 +410,22 @@
       (let ((current-prefix-arg t))
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
+
+(use-package markdown-mode
+  :ensure
+  :bind (:map markdown-mode-map
+              ("C-c C-f" . nil)
+              ("C-c C-f b" . markdown-insert-bold)
+              ("C-c C-f i" . markdown-insert-italic)
+              ("C-c C-f c" . markdown-insert-code)
+              ("C-c C-f l" . markdown-insert-link)
+              ("C-c C-f u" . markdown-insert-uri))
+  :config
+  (setq markdown-enable-math t)
+  (setq markdown-command
+        (mapconcat #'shell-quote-argument
+                   `("pandoc" "-f" "markdown" "-t" "latex")
+                   " ")))
 
 (use-package misc
   :bind (("M-z" . zap-up-to-char)
@@ -583,6 +590,7 @@ repository."
 ;; http://github.com/Malabarba/smart-mode-line
 (use-package smart-mode-line
   :if (window-system)
+  :ensure
   :commands sml/setup
   :demand t
   :init
