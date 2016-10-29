@@ -604,6 +604,14 @@ repository."
   :config
   (sml/setup))
 
+(use-package smartparens
+  :ensure
+  :disabled t
+  :config
+  (sp-local-pair
+  '(markdown-mode gfm-mode)
+  "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
+
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
   :defer 10
