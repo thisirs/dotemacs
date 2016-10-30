@@ -418,9 +418,7 @@
   :config
   (setq markdown-enable-math t)
   (setq markdown-command
-        (mapconcat #'shell-quote-argument
-                   `("pandoc" "-f" "markdown" "-t" "latex")
-                   " ")))
+        "pandoc -f markdown -t html5 -s --self-contained --smart"))
 
 ;; Zap-to-char with feedback
 (use-package zop-to-char
