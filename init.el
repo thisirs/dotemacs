@@ -497,6 +497,7 @@ repository."
           (buffer-string)))
 
      (lambda (result)
+       ;; Report back in a buffer
        (with-current-buffer (get-buffer-create "*async local packages sync*")
          (setq buffer-read-only nil)
          (erase-buffer)
@@ -504,6 +505,7 @@ repository."
        (minibuffer-message "Local packages synchronized!"))))
 
   (defun package-build-update-local-packages ()
+    "Build packages listed in \"/~/.emacs.d/local-package-archives/recipes\""
     (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
            (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
            (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
