@@ -133,10 +133,9 @@
 (setq custom-safe-themes t)
 
 ;; Loading zenburn theme
-
 ;; http://github.com/bbatsov/zenburn-emacs
 (use-package zenburn-theme
-  :ensure t
+  :ensure
   :if (on-zouzou)
   :if (window-system)
   :config
@@ -154,7 +153,7 @@
 ;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme
   :disabled t
-  :ensure t
+  :ensure
   :init
   (load-theme 'spacemacs-dark t))
 
@@ -199,14 +198,14 @@
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
-  :ensure t
+  :ensure
   :config
   (global-anzu-mode 1)
   :diminish anzu-mode)
 
 ;; http://nschum.de/src/emacs/auto-dictionary/
 (use-package auto-dictionary            ; Automatically infer dictionary
-  :ensure t
+  :ensure
   :bind (("C-c w l" . adict-change-dictionary)
          ("C-c w g" . adict-guess-dictionary))
   :init
@@ -214,7 +213,7 @@
 
 ;; https://github.com/abo-abo/avy
 (use-package avy
-  :ensure t
+  :ensure
   :config
   (setq avy-style 'at)
   (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
@@ -233,7 +232,7 @@
   (epa-file-enable))
 
 (use-package drag-stuff
-  :ensure t
+  :ensure
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)))
@@ -241,19 +240,19 @@
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell
-  :ensure t
+  :ensure
   :config
   (exec-path-from-shell-initialize))
 
 (use-package expand-region
-  :ensure t
+  :ensure
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
 ;; Open quickly a temporary file
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file
-  :ensure t
+  :ensure
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
   :init
@@ -286,7 +285,7 @@
 
 ;; http://www.flycheck.org
 (use-package flycheck
-  :ensure t
+  :ensure
   :commands global-flycheck-mode
   :defer 10
   :config
@@ -296,7 +295,7 @@
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
   (use-package flycheck-color-mode-line
-    :ensure t
+    :ensure
     :config
     (setq flycheck-highlighting-mode 'symbols)
     (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
@@ -314,7 +313,7 @@
 
 ;; https://github.com/kai2nenobu/guide-key
 (use-package guide-key
-  :ensure t
+  :ensure
   :disabled t
   :diminish guide-key-mode
   :commands guide-key-mode
@@ -330,7 +329,7 @@
   (guide-key-mode 1))
 
 (use-package helm-bibtex
-  :ensure t
+  :ensure
   :defer 5
   :config
   (setq bibtex-completion-bibliography
@@ -350,7 +349,7 @@
 
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
-  :ensure t
+  :ensure
   :commands json-mode)
 
 (use-package keyfreq
@@ -363,7 +362,7 @@
 
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool
-  :ensure t
+  :ensure
   :defer
   :config
   (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
@@ -372,12 +371,12 @@
 
 ;; https://github.com/joddie/macrostep
 (use-package macrostep
-  :ensure t
+  :ensure
   :bind ("C-c e m" . macrostep-expand))
 
 ;; https://github.com/magit/magit
 (use-package magit
-  :ensure t
+  :ensure
   :bind ("C-c i" . magit-status)
   :init
   ;; Taken from http://endlessparentheses.com/easily-create-github-prs-from-magit.html
@@ -432,13 +431,13 @@
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
 (use-package multi-term
-  :ensure t
+  :ensure
   :config
   (defalias 'term 'multi-term)
   (setq multi-term-program "/bin/zsh"))
 
 (use-package multiple-cursors
-  :ensure t
+  :ensure
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :bind ("C-ç" . mc/mark-next-like-this))
@@ -451,7 +450,7 @@
 
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith
-  :ensure t
+  :ensure
   :config
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file))
@@ -462,13 +461,13 @@
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context
-  :ensure t
+  :ensure
   :config (org-context-activate))
 
 ;; Create my own elpa-like repository for packages online but not
 ;; published in elpa or melpa.
 (use-package package-build
-  :ensure t
+  :ensure
   :config
   (require 'async)
 
@@ -549,7 +548,7 @@ repository."
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile
-  :ensure t
+  :ensure
   :init
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
@@ -660,7 +659,7 @@ repository."
 ;; Quick navigation between workspaces
 ;; https://github.com/thisirs/state.git
 (use-package state
-  :ensure t
+  :ensure
   ;; Override state's keymap binding
   :init (setq state-keymap-prefix (kbd "s-s"))
   :config
@@ -792,12 +791,12 @@ repository."
   (state-global-mode 1))
 
 (use-package transpose-frame
-  :ensure t
+  :ensure
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree
-  :ensure t
+  :ensure
   :config
   (global-undo-tree-mode)
   (define-key undo-tree-visualizer-mode-map (kbd "RET")
@@ -806,7 +805,7 @@ repository."
 ;; Warn you when quitting emacs and leaving repo dirty
 ;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status
-  :ensure t
+  :ensure
   :defer 5
   :config
   ;; Be sure to leave my packages' repo on master
@@ -826,19 +825,19 @@ repository."
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp
-  :ensure t
+  :ensure
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace))
   :config
   ;; https://github.com/benma/visual-regexp-steroids.el/
   (use-package visual-regexp-steroids
-    :ensure t
+    :ensure
     :commands (vr/select-replace vr/select-query-replace)))
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit
-  :ensure t
+  :ensure
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
@@ -881,7 +880,7 @@ repository."
 ;; Make zooming affect frame instead of buffers
 ;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm
-  :ensure t
+  :ensure
   :bind (("C-<down-mouse-4>" . zoom-in)
          ("C-<down-mouse-5>" . zoom-out)
          ("C-c +" . zoom-in)
