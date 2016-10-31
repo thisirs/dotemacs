@@ -195,6 +195,16 @@
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
 (setq ispell-choices-win-default-height 5)
 
+(use-package ag
+  :if (executable-find "ag")
+  :ensure
+  :config
+  (use-package wgrep-ag :ensure)
+
+  (defun ag-current-directory (string)
+    (interactive (list (ag/read-from-minibuffer "Search string")))
+    (ag/search string default-directory))
+  :bind ("M-g f" . ag-current-directory))
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
