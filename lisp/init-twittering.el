@@ -1,5 +1,6 @@
 (use-package twittering-mode
   :ensure
+  :defer
   :config
 
   (setq twittering-use-master-password t)
