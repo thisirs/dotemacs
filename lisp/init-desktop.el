@@ -36,27 +36,27 @@
 (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 (add-to-list 'desktop-modes-not-to-save 'DocView-mode)
 
-;; buffer-display-time is changed when desktop is loaded
-(add-to-list 'desktop-locals-to-save 'buffer-display-time-1)
+;; ;; buffer-display-time is changed when desktop is loaded
+;; (add-to-list 'desktop-locals-to-save 'buffer-display-time-1)
 
-(make-variable-buffer-local 'buffer-display-time-1)
+;; (make-variable-buffer-local 'buffer-display-time-1)
 
-(defun save-buffer-display-time ()
-  (mapc (lambda (buf)
-          (with-current-buffer buf
-            (setq buffer-display-time-1
-                  (or buffer-display-time (current-time)))))
-        (buffer-list)))
+;; (defun save-buffer-display-time ()
+;;   (mapc (lambda (buf)
+;;           (with-current-buffer buf
+;;             (setq buffer-display-time-1
+;;                   (or buffer-display-time (current-time)))))
+;;         (buffer-list)))
 
-(add-hook 'desktop-save-hook #'save-buffer-display-time)
+;; (add-hook 'desktop-save-hook #'save-buffer-display-time)
 
-(defun set-buffer-display-time ()
-  (mapc (lambda (buf)
-          (with-current-buffer buf
-            (setq buffer-display-time buffer-display-time-1)))
-        (buffer-list)))
+;; (defun set-buffer-display-time ()
+;;   (mapc (lambda (buf)
+;;           (with-current-buffer buf
+;;             (setq buffer-display-time buffer-display-time-1)))
+;;         (buffer-list)))
 
-(add-hook 'desktop-after-read-hook #'set-buffer-display-time)
+;; (add-hook 'desktop-after-read-hook #'set-buffer-display-time)
 
 (defun emacs-process-p (pid)
   "Return non-nil if PID is the process id of an emacs process, else return nil."
