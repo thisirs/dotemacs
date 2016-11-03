@@ -1,5 +1,5 @@
 (use-package wcheck-mode
-  :ensure t
+  :ensure
   :functions (wcheck-query-language-data wcheck-parser-ispell-suggestions)
   :bind (("C-c w w" . wcheck-mode)
          ("C-c w f" . wcheck-fr)

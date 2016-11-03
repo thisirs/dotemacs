@@ -11,7 +11,7 @@
 (require 'helm-files)
 
 (use-package helm-descbinds
-  :ensure t
+  :ensure
   :config
   (require 'helm-config)
   (helm-descbinds-mode))
