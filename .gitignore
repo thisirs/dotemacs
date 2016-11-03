@@ -1,12 +1,23 @@
 *.elc
 
-eshell
-var
-auto-save-list
-emacs.backups
-cache
-url
-elpa
+auto-save-list/
+cache/
+elpa/
+emacs.backups/
+emojis/
+eshell/
+url/
+var/
+
+bbdb
+ido.last
+recentf
 tramp
+
+
+# Custom package repository
 local-package-archives/packages/
 local-package-archives/working/
+
+# StackExchange client
+.sx/
