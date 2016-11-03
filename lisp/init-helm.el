@@ -27,6 +27,10 @@
 
 ;; Show input in header line
 (setq helm-echo-input-in-header-line t)
+
+;; Remove header lines if only a single source
+(setq helm-display-header-line nil)
+
 (setq helm-su-or-sudo "sudo")
 
 (setq helm-quick-update t
