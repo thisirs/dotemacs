@@ -477,7 +477,7 @@
 (use-package package-build
   :ensure
   :config
-  (use-package 'async :ensure)
+  (use-package async :ensure)
 
   (setq package-archive-priorities '(("local" . 42)))
 
