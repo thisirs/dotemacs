@@ -310,6 +310,9 @@
     (setq flycheck-highlighting-mode 'symbols)
     (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
+;; https://github.com/magit/git-modes
+(use-package gitconfig-mode :ensure)
+
 (use-package google-translate-smooth-ui
   :ensure google-translate
   :config
