@@ -165,7 +165,9 @@ the selected file."
              (org-store-link-props :type "http" :link uri)
              t))))
 
-  (add-to-list 'org-store-link-functions 'org-twittering-store-link)
+  (org-link-set-parameters
+   "twittering"
+   :store 'org-twittering-store-link)
 
   (mapc (lambda (file)
           (if (file-exists-p file)
