@@ -1,8 +1,8 @@
 (setq helm-command-prefix-key "C-x C-a")
-(setq helm-ff-transformer-show-only-basename nil)
+(setq helm-ff-transformer-show-only-basename t)
 
 ;; History first in sources list
-(setq helm-mode-reverse-history nil)
+(setq helm-mode-reverse-history t)
 
 
 (require 'helm)
