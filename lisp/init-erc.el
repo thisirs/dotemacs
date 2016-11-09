@@ -98,8 +98,6 @@ nil."
 
 (setq erc-format-nick-function 'erc-format-@nick)
 
-(erc-readonly-mode -1)
-
 ;; Per user message colorization
 (use-package erc-colorize
   :ensure
