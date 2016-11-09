@@ -1,18 +1,36 @@
-;; Auto-save with non-visiting buffer is too rigid
-
 ;; Put something different in the scratch buffer
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")
 
+(defun scratch-message-qwertee ()
+  (let* ((image1 (create-image "~/.emacs.d/cache/0.jpg"))
+         (image2 (create-image "~/.emacs.d/cache/1.jpg"))
+         (image3 (create-image "~/.emacs.d/cache/2.jpg"))
+         (text "aaa"))
+    (add-text-properties 0 1 `(display ,image1
+                                       rear-nonsticky (display)
+                                       keymap ,image-map)
+                         text)
+    (add-text-properties 1 2 `(display ,image2
+                                       rear-nonsticky (display)
+                                       keymap ,image-map)
+                         text)
+    (add-text-properties 2 3 `(display ,image3
+                                       rear-nonsticky (display)
+                                       keymap ,image-map)
+                         text)
+    (scratch-message-insert text)))
+
 (use-package scratch-message
-  :ensure t
+  :ensure
   :config
   (defun scratch-message-random ()
-    (pcase (random 4)
+    (pcase (random 5)
       (0 (scratch-message-contrepet))
       (1 (scratch-message-SCMB))
       (2 (scratch-message-DTC))
-      (3 (scratch-message-fortune))))
+      (3 (scratch-message-fortune))
+      (4 (scratch-message-qwertee))))
 
   (defun scratch-message-fortune ()
     (require 'fortune)
@@ -47,7 +65,7 @@
                   (with-fill-line-by-line
                    (fill-region (point-min) (point-max)))
                   (buffer-string)))))))
-      (error "Ruby is not installed")))
+      (user-error "Ruby is not installed")))
 
   (defun scratch-message-SCMB ()
     (if (executable-find "ruby")
@@ -67,7 +85,7 @@
                   (with-fill-line-by-line
                    (fill-region (point-min) (point-max)))
                   (buffer-string)))))))
-      (error "Ruby is not installed")))
+      (user-error "Ruby is not installed")))
 
   (defmacro with-fill-line-by-line (&rest body)
     "Executes BODY with line by line filling settings."
