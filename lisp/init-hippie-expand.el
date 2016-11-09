@@ -1,13 +1,15 @@
+(require 'hippie-exp)
+
 (defun try-complete-wcheck (old)
-  (when wcheck-mode
+  (when (bound-and-true-p 'wcheck-mode)
     (when (not old)
       (he-init-string (he-dabbrev-beg) (point))
       (let ((marked-text
              (vector he-search-string (he-dabbrev-beg) (point) nil "fr")))
-        (setq he-next-expand 0
+        (setq he-search-loc2 0
               he-expand-list
               (cdr (mapcar #'cdr
-                           (wcheck-get-actions marked-text)))))))
+                           (wcheck--get-actions marked-text)))))))
 
   (while (and he-expand-list
               (or (not (car he-expand-list))
@@ -26,7 +28,7 @@
   (when (not old)
     ;; use the correct dictionary
     (flyspell-accept-buffer-local-defs)
-    (setq he-next-expand 0)
+    (setq he-search-loc2 0)
     (he-init-string (he-dabbrev-beg) (point))
     ;; now check spelling of word.
     (ispell-send-string "%\n")        ;put in verbose mode
