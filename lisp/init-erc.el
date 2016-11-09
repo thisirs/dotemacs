@@ -36,7 +36,7 @@
       (lambda () (concat (buffer-name) ">")))
 
 (erc-match-mode 1)
-(setq erc-keywords '("magit" "koans" "rubywarrior" "org"))
+(setq erc-keywords '("\\<magit\\>" "\\<koans\\>" "\\<rubywarrior\\>" "\\<org\\>"))
 
 (defvar erc-notifications-ring-size 5
   "Maximum number of simultaneous notifications.")
