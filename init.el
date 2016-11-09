@@ -33,6 +33,7 @@
 
 (setq visible-bell nil)
 
+;; No disabled command like timer-list
 (setq disabled-command-function nil)
 
 ;; No confirmation because of openwith
