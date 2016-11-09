@@ -14,6 +14,7 @@ ido.last
 recentf
 tramp
 
+lisp/init-vanilla.el
 
 # Custom package repository
 local-package-archives/packages/
