@@ -800,12 +800,11 @@ repository."
                  (switch-to-buffer-other-window (current-buffer))
                  ,create)))
 
-  (state-define-repl elisp-repl "j" "*ielm*" (eq major-mode 'emacs-lisp-mode) (ielm))
+  (state-define-repl elisp-repl "j" "*ielm*" (memq major-mode '(lisp-interaction-mode emacs-lisp-mode)) (ielm))
   (state-define-repl matlab-repl "j" "*MATLAB*" (eq major-mode 'matlab-mode) (matlab-shell))
   (state-define-repl python-repl "j" "*Python*" (eq major-mode 'python-mode) (call-interactively 'run-python))
   (state-define-repl ruby-repl "j" "*ruby*" (eq major-mode 'ruby-mode) (inf-ruby))
-  (state-define-repl R-repl "j" "*R*" (eq major-mode 'ess-mode)
-                     (let (ess-ask-for-ess-directory) (R)))
+  (state-define-repl R-repl "j" "*R*" (eq major-mode 'ess-mode) (let (ess-ask-for-ess-directory) (R)))
 
   (state-global-mode 1))
 
