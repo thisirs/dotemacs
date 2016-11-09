@@ -134,14 +134,14 @@
 
 ;; Loading zenburn theme
 ;; http://github.com/bbatsov/zenburn-emacs
-(use-package zenburn-theme
+(use-package zenburn-theme              ; A low contrast color theme for Emacs.
   :ensure
   :if (on-zouzou)
   :if (window-system)
   :config
   (load-theme 'zenburn t))
 
-(use-package solarized
+(use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :if (on-zbook)
   :if (window-system)
   :ensure solarized-theme
@@ -151,7 +151,7 @@
   (load-theme 'solarized-dark t))
 
 ;; https://github.com/nashamri/spacemacs-theme
-(use-package spacemacs-theme
+(use-package spacemacs-theme            ; Color theme with a dark and light versions
   :disabled t
   :ensure
   :init
@@ -195,11 +195,12 @@
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
 (setq ispell-choices-win-default-height 5)
 
-(use-package ag
+(use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :if (executable-find "ag")
   :ensure
   :config
-  (use-package wgrep-ag :ensure)
+  ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
+  (use-package wgrep-ag :ensure)        ; Writable ag buffer and apply the changes to files
 
   (defun ag-current-directory (string)
     (interactive (list (ag/read-from-minibuffer "Search string")))
@@ -214,7 +215,7 @@
   :diminish anzu-mode)
 
 ;; http://nschum.de/src/emacs/auto-dictionary/
-(use-package auto-dictionary            ; Automatically infer dictionary
+(use-package auto-dictionary            ; automatic dictionary switcher for flyspell
   :ensure
   :bind (("C-c w l" . adict-change-dictionary)
          ("C-c w g" . adict-guess-dictionary))
@@ -222,7 +223,7 @@
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
 ;; https://github.com/abo-abo/avy
-(use-package avy
+(use-package avy                        ; tree-based completion
   :ensure
   :config
   (setq avy-style 'at)
@@ -241,7 +242,7 @@
   (require 'epa)
   (epa-file-enable))
 
-(use-package drag-stuff
+(use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :ensure
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
@@ -249,19 +250,19 @@
 
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
-(use-package exec-path-from-shell
+(use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
   :ensure
   :config
   (exec-path-from-shell-initialize))
 
-(use-package expand-region
+(use-package expand-region              ; Increase selected region by semantic units.
   :ensure
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
 ;; Open quickly a temporary file
 ;; https://github.com/thisirs/find-temp-file.git
-(use-package find-temp-file
+(use-package find-temp-file             ; Open quickly a temporary file
   :ensure
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
@@ -294,7 +295,7 @@
   '(diminish 'elisp-slime-nav-mode))
 
 ;; http://www.flycheck.org
-(use-package flycheck
+(use-package flycheck                   ; On-the-fly syntax checking
   :ensure
   :commands global-flycheck-mode
   :defer 10
@@ -304,16 +305,16 @@
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
-  (use-package flycheck-color-mode-line
+  (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
     :ensure
     :config
     (setq flycheck-highlighting-mode 'symbols)
     (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
 ;; https://github.com/magit/git-modes
-(use-package gitconfig-mode :ensure)
+(use-package gitconfig-mode :ensure)    ; Major mode for editing .gitconfig files
 
-(use-package google-translate-smooth-ui
+(use-package google-translate-smooth-ui ; Emacs interface to Google Translate.
   :ensure google-translate
   :config
   (require 'google-translate-smooth-ui)
@@ -325,7 +326,7 @@
   :bind ("C-c t" . google-translate-smooth-translate))
 
 ;; https://github.com/kai2nenobu/guide-key
-(use-package guide-key
+(use-package guide-key                  ; Guide the following key bindings automatically and dynamically
   :ensure
   :disabled t
   :diminish guide-key-mode
@@ -341,7 +342,7 @@
           (smerge-mode "C-c ^")))
   (guide-key-mode 1))
 
-(use-package helm-bibtex
+(use-package helm-bibtex                ; A bibliography manager based on Helm
   :ensure
   :defer 5
   :config
@@ -365,7 +366,7 @@
   :ensure
   :commands json-mode)
 
-(use-package keyfreq
+(use-package keyfreq                    ; track command frequencies
   :config
   (let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
     (make-directory (file-name-directory filepath) :parents)
@@ -374,7 +375,7 @@
   (keyfreq-autosave-mode 1))
 
 ;; https://github.com/mhayashi1120/Emacs-langtool
-(use-package langtool
+(use-package langtool                   ; Grammar check utility using LanguageTool
   :ensure
   :defer
   :config
@@ -383,12 +384,12 @@
   (setq langtool-default-language "fr"))
 
 ;; https://github.com/joddie/macrostep
-(use-package macrostep
+(use-package macrostep                  ; interactive macro expander
   :ensure
   :bind ("C-c e m" . macrostep-expand))
 
 ;; https://github.com/magit/magit
-(use-package magit
+(use-package magit                      ; A Git porcelain inside Emacs
   :ensure
   :bind ("C-c i" . magit-status)
   :init
@@ -419,7 +420,8 @@
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
 
-(use-package markdown-mode
+;; http://jblevins.org/projects/markdown-mode/
+(use-package markdown-mode              ; Major mode for Markdown-formatted text
   :ensure
   :bind (:map markdown-mode-map
               ("C-c C-f" . nil)
@@ -434,20 +436,21 @@
         "pandoc -f markdown -t html5 -s --self-contained --smart"))
 
 ;; Zap-to-char with feedback
-(use-package zop-to-char
+;; https://github.com/thierryvolpiatto/zop-to-char
+(use-package zop-to-char                ; A replacement of zap-to-char.
   :ensure
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
-(use-package multi-term
+(use-package multi-term                 ; Managing multiple terminal buffers in Emacs.
   :ensure
   :config
   (defalias 'term 'multi-term)
   (setq multi-term-program "/bin/zsh"))
 
-(use-package multiple-cursors
+(use-package multiple-cursors           ; Multiple cursors for Emacs.
   :ensure
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
@@ -460,7 +463,7 @@
   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
 
 ;; https://bitbucket.org/jpkotta/openwith
-(use-package openwith
+(use-package openwith                   ; Open files with external programs
   :ensure
   :config
   (setq openwith-associations
@@ -471,16 +474,17 @@
 
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
-(use-package org-context
+(use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :ensure
   :config (org-context-activate))
 
 ;; Create my own elpa-like repository for packages online but not
 ;; published in elpa or melpa.
-(use-package package-build
+(use-package package-build              ; Tools for assembling a package archive
   :ensure
   :config
-  (use-package async :ensure)
+  ;; https://github.com/jwiegley/emacs-async
+  (use-package async :ensure)           ; Asynchronous processing in Emacs
 
   (setq package-archive-priorities '(("local" . 42)))
 
@@ -530,13 +534,13 @@ repository."
   ;; Do it asynchronously
   (package-build-update-local-packages-async))
 
-(use-package pdf-tools
+(use-package pdf-tools                  ; Support library for PDF documents.
   :disabled t
   :defer 10
   :config (pdf-tools-install))
 
 ;; https://github.com/vitoshka/polymode
-(use-package polymode
+(use-package polymode                   ; Versatile multiple modes with extensive literate programming support
   :commands poly-markdown-string-mode
   :config
   (defcustom  pm-inner/markdown-string
@@ -560,7 +564,7 @@ repository."
 
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
-(use-package projectile
+(use-package projectile                 ; Manage and navigate projects in Emacs easily
   :ensure
   :init
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
@@ -598,7 +602,7 @@ repository."
 
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
-(use-package smart-mode-line
+(use-package smart-mode-line            ; A color coded smart mode-line.
   :if (window-system)
   :ensure
   :commands sml/setup
@@ -612,7 +616,7 @@ repository."
   :config
   (sml/setup))
 
-(use-package smartparens
+(use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
   :ensure
   :disabled t
   :config
@@ -652,7 +656,7 @@ repository."
   (unless (server-running-p server-name)
     (server-start)))
 
-(use-package skeletor
+(use-package skeletor                   ; Provides project skeletons for Emacs
   :defer 10)
 
 ;; Minor mode to resolve diff3 conflicts
@@ -671,7 +675,7 @@ repository."
 
 ;; Quick navigation between workspaces
 ;; https://github.com/thisirs/state.git
-(use-package state
+(use-package state                      ; Quick navigation between workspaces
   :ensure
   ;; Override state's keymap binding
   :init (setq state-keymap-prefix (kbd "s-s"))
@@ -803,12 +807,12 @@ repository."
 
   (state-global-mode 1))
 
-(use-package transpose-frame
+(use-package transpose-frame            ; Transpose windows arrangement in a frame
   :ensure
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
 ;; http://www.dr-qubit.org/emacs.php
-(use-package undo-tree
+(use-package undo-tree                  ; Treat undo history as a tree
   :ensure
   :config
   (global-undo-tree-mode)
@@ -817,7 +821,7 @@ repository."
 
 ;; Warn you when quitting emacs and leaving repo dirty
 ;; https://github.com/thisirs/vc-check-status
-(use-package vc-check-status
+(use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
   :ensure
   :defer 5
   :config
@@ -837,19 +841,19 @@ repository."
   (vc-check-status-activate))
 
 ;; https://github.com/benma/visual-regexp.el/
-(use-package visual-regexp
+(use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
   :ensure
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace))
   :config
   ;; https://github.com/benma/visual-regexp-steroids.el/
-  (use-package visual-regexp-steroids
+  (use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
     :ensure
     :commands (vr/select-replace vr/select-query-replace)))
 
 ;; http://github.com/thisirs/vc-auto-commit.git
-(use-package vc-auto-commit
+(use-package vc-auto-commit             ; Auto-committing feature for your repository
   :ensure
   :defer 5
   :commands (vc-auto-commit-backend)
@@ -858,6 +862,9 @@ repository."
 
 (use-package webjump
   :bind ("C-c j" . webjump))
+
+;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
+(use-package wgrep)                     ; Writable grep buffer and apply the changes to files
 
 (use-package whitespace
   :config
@@ -892,7 +899,7 @@ repository."
 
 ;; Make zooming affect frame instead of buffers
 ;; http://www.emacswiki.org/zoom-frm.el
-(use-package zoom-frm
+(use-package zoom-frm                   ; Commands to zoom frame font size.
   :ensure
   :bind (("C-<down-mouse-4>" . zoom-in)
          ("C-<down-mouse-5>" . zoom-out)
