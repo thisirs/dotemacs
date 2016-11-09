@@ -249,6 +249,14 @@
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)))
 
+(use-package eval-expr                  ; enhanced eval-expression command
+  :ensure
+  :bind ("M-:" . eval-expr)
+  :config
+  (setq eval-expr-print-function 'pp
+        eval-expr-print-level 20
+        eval-expr-print-length 100))
+
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
