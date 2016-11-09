@@ -1037,7 +1037,7 @@ repository."
 (set-fringe-mode '(8 . 0))
 
 ;; No fringe in minibuffer
-(set-window-fringes (minibuffer-window) 0 0)
+(set-window-fringes (minibuffer-window) 8 0)
 
 ;; Don't automatically split vertically
 (setq split-height-threshold nil)
