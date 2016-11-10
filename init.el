@@ -1077,8 +1077,12 @@ repository."
 (use-package ediff-wind
   :defer t
   :config
+  ;; Split windows horizontally in ediff (instead of vertically)
   (setq ediff-split-window-function 'split-window-vertically)
+
+  ;; No separate frame for ediff control buffer
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
   (setq ediff-diff-options "-w")
 
   ;; Restore window configuration after quit
