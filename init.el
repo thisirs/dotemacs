@@ -206,7 +206,12 @@
   :ensure
   :config
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
-  (use-package wgrep-ag :ensure)        ; Writable ag buffer and apply the changes to files
+  (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
+    :ensure
+    :bind (:map wgrep-mode-map
+                ("C-x s" . wgrep-save-all-buffers)))
+
+  (setq ag-group-matches nil)
 
   (defun ag-current-directory (string)
     (interactive (list (ag/read-from-minibuffer "Search string")))
