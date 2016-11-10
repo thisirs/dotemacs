@@ -257,7 +257,45 @@
   :ensure
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
-         ([C-M-S-down] . drag-stuff-down)))
+         ([C-M-S-down] . drag-stuff-down)
+         ("C-M-;" . drag-stuff-left)
+         ("C-M-'" . drag-stuff-right))
+  :config
+  ;; https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-drag-stuff.el
+  ;; http://emacs.stackexchange.com/a/13942/115
+  (defvar modi/drag-stuff--point-adjusted nil)
+  (defvar modi/drag-stuff--point-mark-exchanged nil)
+
+  (defun modi/drag-stuff--adj-pt-pre-drag ()
+    "If a region is selected AND the `point' is in the first column, move
+back the point by one char so that it ends up on the previous line. If the
+point is above the mark, exchange the point and mark temporarily."
+    (when (region-active-p)
+      (when (< (point) (mark)) ; selection is done starting from bottom to up
+        (exchange-point-and-mark)
+        (setq modi/drag-stuff--point-mark-exchanged t))
+      (if (zerop (current-column))
+          (progn
+            (backward-char 1)
+            (setq modi/drag-stuff--point-adjusted t))
+        ;; If point did not end up being on the first column after the
+        ;; point/mark exchange, revert that exchange.
+        (when modi/drag-stuff--point-mark-exchanged
+          (exchange-point-and-mark) ; restore the original point and mark loc
+          (setq modi/drag-stuff--point-mark-exchanged nil)))))
+
+  (defun modi/drag-stuff--rst-pt-post-drag ()
+    "Restore the `point' to where it was by forwarding it by one char after
+the vertical drag is done."
+    (when modi/drag-stuff--point-adjusted
+      (forward-char 1)
+      (setq modi/drag-stuff--point-adjusted nil))
+    (when modi/drag-stuff--point-mark-exchanged
+      (exchange-point-and-mark) ; restore the original point and mark loc
+      (setq modi/drag-stuff--point-mark-exchanged nil)))
+
+  (add-hook 'drag-stuff-before-drag-hook #'modi/drag-stuff--adj-pt-pre-drag)
+  (add-hook 'drag-stuff-after-drag-hook  #'modi/drag-stuff--rst-pt-post-drag))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
