@@ -717,6 +717,11 @@ repository."
 (use-package skeletor                   ; Provides project skeletons for Emacs
   :defer 10)
 
+(use-package smart-mark                 ; Restore point after C-g when mark
+  :ensure
+  :config
+  (smart-mark-mode 1))
+
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
   :defer 10
