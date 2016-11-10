@@ -196,6 +196,11 @@
 (ignore-errors (ispell-change-dictionary "fr-reforme1990"))
 (setq ispell-choices-win-default-height 5)
 
+(use-package abbrev
+  :init
+  ;; Silently save abbrevs on quitting emacs
+  (setq save-abbrevs 'silently))
+
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :if (executable-find "ag")
   :ensure
