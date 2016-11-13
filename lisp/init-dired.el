@@ -3,6 +3,8 @@
 (setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
 
+(setq dired-listing-switches "-alGhvF --group-directories-first")
+
 ;; Auto-revert mode
 (add-hook 'dired-mode-hook #'turn-on-auto-revert-mode)
 (setq auto-revert-verbose nil)
