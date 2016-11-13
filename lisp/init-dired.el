@@ -49,6 +49,13 @@ repeatedly q."
 
 (define-key dired-mode-map (kbd "Q") #'dired-bury-all)
 
+(defun dired-open (&optional file-list)
+  (interactive
+   (list (dired-get-marked-files t current-prefix-arg)))
+  (apply 'call-process "xdg-open" nil 0 nil file-list))
+
+(define-key dired-mode-map (kbd "e") 'dired-open)
+
 (define-key dired-mode-map "s" dired-sort-map)
 
 ;; Delete with C-x C-k to match file buffers and magit
