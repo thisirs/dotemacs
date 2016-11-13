@@ -296,6 +296,27 @@ the vertical drag is done."
   (add-hook 'drag-stuff-before-drag-hook #'modi/drag-stuff--adj-pt-pre-drag)
   (add-hook 'drag-stuff-after-drag-hook  #'modi/drag-stuff--rst-pt-post-drag))
 
+;; ediff settings
+(use-package ediff-wind
+  :defer t
+  :config
+  ;; Split windows horizontally in ediff (instead of vertically)
+  (setq ediff-split-window-function 'split-window-vertically)
+
+  ;; No separate frame for ediff control buffer
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+  (setq ediff-diff-options "-w")
+
+  ;; Restore window configuration after quit
+  (add-hook 'ediff-before-setup-hook
+            (lambda ()
+              (window-configuration-to-register 'ediff)))
+
+  (add-hook 'ediff-quit-hook
+            (lambda ()
+              (jump-to-register 'ediff))))
+
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
   :bind ("M-:" . eval-expr)
@@ -492,13 +513,6 @@ the vertical drag is done."
   (setq markdown-command
         "pandoc -f markdown -t html5 -s --self-contained --smart"))
 
-;; Zap-to-char with feedback
-;; https://github.com/thierryvolpiatto/zop-to-char
-(use-package zop-to-char                ; A replacement of zap-to-char.
-  :ensure
-  :bind (("M-z" . zop-to-char)
-         ("M-Z" . zop-up-to-char)))
-
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
 (use-package multi-term                 ; Managing multiple terminal buffers in Emacs.
@@ -657,6 +671,27 @@ repository."
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
   (projectile-global-mode))
 
+;; From https://github.com/jwiegley/dot-emacs
+(use-package recentf
+  :defer 10
+  :commands (recentf-mode
+             recentf-add-file
+             recentf-apply-filename-handlers)
+  :preface
+  (defun recentf-add-dired-directory ()
+    (if (and dired-directory
+             (file-directory-p dired-directory)
+             (not (string= "/" dired-directory)))
+        (let ((last-idx (1- (length dired-directory))))
+          (recentf-add-file
+           (if (= ?/ (aref dired-directory last-idx))
+               (substring dired-directory 0 last-idx)
+             dired-directory)))))
+  :init
+  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
+  :config
+  (recentf-mode 1))
+
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
 (use-package smart-mode-line            ; A color coded smart mode-line.
@@ -681,26 +716,6 @@ repository."
   '(markdown-mode gfm-mode)
   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
-;; From https://github.com/jwiegley/dot-emacs
-(use-package recentf
-  :defer 10
-  :commands (recentf-mode
-             recentf-add-file
-             recentf-apply-filename-handlers)
-  :preface
-  (defun recentf-add-dired-directory ()
-    (if (and dired-directory
-             (file-directory-p dired-directory)
-             (not (string= "/" dired-directory)))
-        (let ((last-idx (1- (length dired-directory))))
-          (recentf-add-file
-           (if (= ?/ (aref dired-directory last-idx))
-               (substring dired-directory 0 last-idx)
-             dired-directory)))))
-  :init
-  (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
-  :config
-  (recentf-mode 1))
 
 (use-package saveplace
   :config
@@ -968,6 +983,13 @@ repository."
          ("C-c +" . zoom-in)
          ("C-c -" . zoom-out)))
 
+;; Zap-to-char with feedback
+;; https://github.com/thierryvolpiatto/zop-to-char
+(use-package zop-to-char                ; A replacement of zap-to-char.
+  :ensure
+  :bind (("M-z" . zop-to-char)
+         ("M-Z" . zop-up-to-char)))
+
 (defun switch-to-external-terminal (&optional arg)
   "Switch to an external terminal. Change directory if ARG is non-nil."
   (interactive "P")
@@ -1072,27 +1094,6 @@ repository."
 
 ;; Unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
-
-;; ediff settings
-(use-package ediff-wind
-  :defer t
-  :config
-  ;; Split windows horizontally in ediff (instead of vertically)
-  (setq ediff-split-window-function 'split-window-vertically)
-
-  ;; No separate frame for ediff control buffer
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  (setq ediff-diff-options "-w")
-
-  ;; Restore window configuration after quit
-  (add-hook 'ediff-before-setup-hook
-            (lambda ()
-              (window-configuration-to-register 'ediff)))
-
-  (add-hook 'ediff-quit-hook
-            (lambda ()
-              (jump-to-register 'ediff))))
 
 ;; No limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
