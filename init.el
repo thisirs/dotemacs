@@ -1111,6 +1111,7 @@ repository."
 (setq locale-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (setq-default buffer-file-coding-system 'utf-8-unix)
+(setq keyboard-coding-system 'utf-8-unix)
 
 ;; Unified diff format and no whitespace when using `diff'
 (setq diff-switches "-u -w")
