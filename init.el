@@ -109,7 +109,6 @@
       s
       tidy
       use-package
-      wgrep
       yaml-mode)
     "List of required packages")
 
@@ -926,7 +925,8 @@ repository."
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
-(use-package wgrep)                     ; Writable grep buffer and apply the changes to files
+(use-package wgrep                      ; Writable grep buffer and apply the changes to files
+  :ensure)
 
 (use-package whitespace
   :config
