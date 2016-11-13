@@ -77,6 +77,9 @@
 
 (mouse-wheel-mode 1)
 
+(electric-pair-mode)
+(electric-indent-mode 1)
+
 ;; Adding packages
 (with-emacs-version>= "24"
   (require 'package)
@@ -249,10 +252,6 @@
   :config
   ;; Move point to first error
   (setq compilation-scroll-output 'first-error))
-
-(with-emacs-version>= "24.1"
-  (electric-pair-mode)
-  (electric-indent-mode 1))
 
 (with-emacs-version< "24"
   (require 'epa)
