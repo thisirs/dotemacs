@@ -4,8 +4,8 @@
 (add-hook 'ielm-mode-hook #'eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 
-;; Fast navigation from symbol to definition
-(use-package elisp-slime-nav
+;; https://github.com/purcell/elisp-slime-nav
+(use-package elisp-slime-nav            ; Make M-. and M-, work in elisp like they do in slime
   :ensure
   :config
   (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode))
