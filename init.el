@@ -438,6 +438,26 @@ the vertical drag is done."
   (setq helm-bibtex-notes-symbol "n")
   (define-key helm-command-map (kbd "h b") 'helm-bibtex))
 
+(use-package hl-line
+  :disabled
+  :ensure
+  :config
+  ;; Highlight the line only in the active window
+  (setq global-hl-line-sticky-flag t)
+  (setq hl-line-sticky-flag t)
+
+
+  ;; hl-line+
+  ;; http://www.emacswiki.org/emacs/hl-line+.el
+  (use-package hl-line+               ; Extensions to hl-line.el.
+    :ensure
+    :config
+    (toggle-hl-line-when-idle 1) ; Highlight line only when idle
+    ;; Number of seconds of idle time after when the line should be highlighted
+    (setq hl-line-idle-interval 5)
+    ;; Number of seconds for `hl-line-flash' to highlight the line
+    (setq hl-line-flash-show-period 3)))
+
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
   :ensure
