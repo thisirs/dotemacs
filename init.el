@@ -253,10 +253,6 @@
   ;; Move point to first error
   (setq compilation-scroll-output 'first-error))
 
-(with-emacs-version< "24"
-  (require 'epa)
-  (epa-file-enable))
-
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :ensure
   :diminish drag-stuff-mode
