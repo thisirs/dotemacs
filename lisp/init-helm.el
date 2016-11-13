@@ -10,7 +10,8 @@
 (require 'helm-config)
 (require 'helm-files)
 
-(use-package helm-descbinds
+;; https://github.com/emacs-helm/helm-descbinds
+(use-package helm-descbinds             ; A convenient `describe-bindings' with `helm'
   :ensure
   :config
   (require 'helm-config)

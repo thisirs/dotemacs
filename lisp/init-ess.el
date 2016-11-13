@@ -1,5 +1,5 @@
 ;; http://ess.r-project.org
-(use-package ess-site
+(use-package ess-site                   ; Emacs Speaks Statistics
   :ensure ess
   :preface
   ;; No special behaviour of comments starting with #, ## or ###

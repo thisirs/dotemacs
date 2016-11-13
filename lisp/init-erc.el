@@ -99,7 +99,8 @@ nil."
 (setq erc-format-nick-function 'erc-format-@nick)
 
 ;; Per user message colorization
-(use-package erc-colorize
+;; https://github.com/thisirs/erc-colorize.git
+(use-package erc-colorize               ; Per user colorization of whole message
   :ensure
   :config
   (erc-colorize-mode 1))

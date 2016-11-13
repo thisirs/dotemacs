@@ -1,5 +1,5 @@
 ;; http://sourceforge.net/projects/matlab-emacs/
-(use-package matlab
+(use-package matlab                     ; Major mode for MATLAB(R) dot-m files
   :ensure matlab-mode
   :mode ("\\.m$" . matlab-mode)
   :commands (matlab-shell)

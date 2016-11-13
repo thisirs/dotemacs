@@ -1,5 +1,5 @@
 ;; http://www.gnu.org/software/auctex/
-(use-package tex-site
+(use-package tex-site                   ; Integrated environment for *TeX*
   :ensure auctex
   :config
   (use-package latex

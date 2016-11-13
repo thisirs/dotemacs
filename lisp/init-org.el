@@ -1,4 +1,4 @@
-(use-package org
+(use-package org                        ; Outline-based notes management and organizer
   :config
   (use-package ox-koma-letter
     :defer t
@@ -530,7 +530,8 @@ refile targets.")
 
   (setq org-refile-use-outline-path 'full-file-path)
 
-  (use-package org-ref
+  ;; https://github.com/jkitchin/org-ref
+  (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
     :ensure
     :config
     (defun org-ref-get-pdf-filename-zotero (key)

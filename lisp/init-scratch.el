@@ -21,7 +21,8 @@
                          text)
     (scratch-message-insert text)))
 
-(use-package scratch-message
+;; https://github.com/thisirs/scratch-message.git
+(use-package scratch-message            ; Changing message in your scratch buffer
   :ensure
   :config
   (defun scratch-message-random ()

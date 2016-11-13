@@ -1,4 +1,5 @@
-(use-package twittering-mode
+;; http://twmode.sf.net/
+(use-package twittering-mode            ; Major mode for Twitter
   :ensure
   :defer
   :config
