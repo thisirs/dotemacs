@@ -244,6 +244,11 @@
   (setq avy-background t)
   :bind ("M-h" . avy-goto-subword-1))
 
+(use-package compile
+  :defer
+  :config
+  ;; Move point to first error
+  (setq compilation-scroll-output 'first-error))
 
 (with-emacs-version>= "24.1"
   (electric-pair-mode)
