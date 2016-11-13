@@ -10,12 +10,9 @@
 
 (global-set-key [C-return] #'comment-indent-new-line)
 
-(defun unfill-paragraph ()
-  "Replace newline chars in current paragraph by single spaces."
-  (interactive)
-  (let ((fill-column most-positive-fixnum))
-    (fill-paragraph)))
-
-(global-set-key (kbd "M-Q") #'unfill-paragraph)
+;; https://github.com/purcell/unfill
+(use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
+  :ensure
+  :bind ("M-q" . unfill-toggle))
 
 (provide 'init-fill)
