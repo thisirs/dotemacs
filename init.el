@@ -1001,7 +1001,9 @@ repository."
   :bind (("C-<down-mouse-4>" . zoom-in)
          ("C-<down-mouse-5>" . zoom-out)
          ("C-c +" . zoom-in)
-         ("C-c -" . zoom-out)))
+         ("C-c -" . zoom-out)
+         ("<C-kp-add>" . zoom-in)
+         ("<C-kp-subtract>" . zoom-out)))
 
 ;; Zap-to-char with feedback
 ;; https://github.com/thierryvolpiatto/zop-to-char
