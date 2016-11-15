@@ -183,7 +183,6 @@
 (require 'init-ruby)
 (require 'init-scratch)
 (require 'init-twittering)
-(require 'init-vanilla)
 (require 'init-wcheck)
 (require 'init-ruby)
 (require 'init-python)
