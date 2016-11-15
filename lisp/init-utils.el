@@ -120,7 +120,7 @@ file WORDLIST."
 REGEX is first matched sequentially and then all matches are
 replace by the result of REPLACE called with the matched string
 and the index of the match."
-  (interactive "s")
+  (interactive "sRegex:\nsReplace:")
   (when (stringp replace)
     (unless (string-match "%\\([0-9]+\\)?d" replace)
       (user-error "Replacement string must have a %%d"))
