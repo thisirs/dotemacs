@@ -1,4 +1,5 @@
 (use-package org                        ; Outline-based notes management and organizer
+  :ensure
   :config
   (use-package ox-koma-letter
     :defer t
