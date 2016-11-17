@@ -63,7 +63,7 @@ if a TODO cookie is present on the line."
                            (and (boundp 'org-time-was-given) org-time-was-given))))
 
 (defvar org-tags-to-report-alist
-  '(("ensei" . "~/CloudStation/Sylvain/enseignements/2015-2016/notebook.org")
+  '(("ensei" . "~/CloudStation/Sylvain/enseignements/notebook.org")
     ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
 
 (defun org-agenda-add-report (&optional delete-other-windows)
