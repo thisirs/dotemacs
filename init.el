@@ -626,9 +626,14 @@ repository."
   (package-build-update-local-packages-async))
 
 (use-package pdf-tools                  ; Support library for PDF documents.
+  :ensure
   :disabled t
   :defer 10
-  :config (pdf-tools-install))
+  :config
+  (pdf-tools-install)
+  ;; https://github.com/thisirs/pdf-tools-points.git
+  (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
+    :ensure))
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
