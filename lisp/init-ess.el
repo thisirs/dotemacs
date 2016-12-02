@@ -32,6 +32,25 @@
 
   ;; Trigger plugging with right hooks
   (if (use-package tex-site)
-      (ess-swv-plug-into-AUCTeX)))
+      (ess-swv-plug-into-AUCTeX))
+
+  (defun tidy-R-buffer (&optional beg end)
+    (interactive "r")
+    (save-excursion
+      (let* ((beg (if (region-active-p) (region-beginning) (point-min)))
+             (end (if (region-active-p) (region-end) (point-max)))
+             (filename (file-name-nondirectory (buffer-file-name)))
+             (buf (current-buffer))
+             (command (concat "Rscript" " -e " (format "\"library(formatR); tidy_source(\\\"%s\\\")\"" filename)))
+             (temp-buffer (generate-new-buffer " *temp*")))
+        (unwind-protect
+            (progn
+              (shell-command-on-region beg end command temp-buffer)
+              (with-current-buffer buf
+                (delete-region beg end)
+                (insert-buffer temp-buffer)))
+          (and
+           (buffer-name temp-buffer)
+           (kill-buffer temp-buffer)))))))
 
 (provide 'init-ess)
