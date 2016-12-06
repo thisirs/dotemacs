@@ -106,9 +106,9 @@ mutiple times."
                    (regexp "tables?" "tab\\." "Tabellen?")))
 
     ;; Disable fill in env
-    (add-to-list 'LaTeX-indent-environment-list "scope")
-    (add-to-list 'LaTeX-indent-environment-list "figure")
-    (add-to-list 'LaTeX-indent-environment-list "tikzpicture")
+    (add-to-list 'LaTeX-indent-environment-list '("scope"))
+    (add-to-list 'LaTeX-indent-environment-list '("figure"))
+    (add-to-list 'LaTeX-indent-environment-list '("tikzpicture"))
 
     ;; Other verbatim environments (no auto-indenting, no auto-fill)
 
