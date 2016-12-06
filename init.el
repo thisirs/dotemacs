@@ -686,14 +686,37 @@ repository."
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
+  (defun UTC-semester-from-time (time)
+    (let* ((dtime (decode-time time))
+           (month (nth 4 dtime))
+           (year (nth 5 dtime)))
+      (if (and (< month 8) (> month 2))
+          (format "P%d" year)
+        (if (<= month 2)
+            (format "A%d" (1- year))
+          (format "A%d" year)))))
+
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
                                  (abbreviate-file-name dir)) it)
-            '("~/CloudStation/Sylvain/enseignements/A2016/SY02/"
-              "~/CloudStation/Sylvain/enseignements/A2016/SY09/"
-              "~/Dropbox/Documents-sy09/"
-              "~/CloudStation/Sylvain/emacs/site-lisp/")))
+            (append (let ((semester (UTC-semester-from-time (current-time))))
+                      (mapcar (lambda (path)
+                                (format path semester))
+                              '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
+                                "~/CloudStation/Sylvain/enseignements/%s/SY09/"
+                                "~/CloudStation/Sylvain/enseignements/%s/SY19/")))
+                    '("~/Dropbox/Documents-sy09/"
+                      "~/CloudStation/Sylvain/emacs/site-lisp/"))))
+
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
+
+  (defun projectile-ignored-semester (truename)
+    (and (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
+         (not (equal (match-string 0 truename)
+                     (UTC-semester-from-time (current-time))))))
+
+  (setq projectile-ignored-project-function #'projectile-ignored-semester)
+
   (projectile-global-mode))
 
 ;; From https://github.com/jwiegley/dot-emacs
