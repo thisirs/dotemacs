@@ -627,7 +627,6 @@ repository."
 
 (use-package pdf-tools                  ; Support library for PDF documents.
   :ensure
-  :disabled t
   :defer 10
   :config
   (pdf-tools-install)
