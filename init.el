@@ -323,7 +323,12 @@ the vertical drag is done."
   :config
   (setq eval-expr-print-function 'pp
         eval-expr-print-level 20
-        eval-expr-print-length 100))
+        eval-expr-print-length 100)
+  (use-package paredit
+    :config
+    (defun eval-expr-minibuffer-setup ()
+      (enable-paredit-mode)
+      (set-syntax-table emacs-lisp-mode-syntax-table))))
 
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
