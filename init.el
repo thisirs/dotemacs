@@ -327,6 +327,9 @@ the vertical drag is done."
   (use-package paredit
     :config
     (defun eval-expr-minibuffer-setup ()
+      (add-function :before-until (local 'eldoc-documentation-function)
+                    #'elisp-eldoc-documentation-function)
+      (eldoc-mode)
       (enable-paredit-mode)
       (set-syntax-table emacs-lisp-mode-syntax-table))))
 
