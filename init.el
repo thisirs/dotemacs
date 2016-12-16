@@ -1054,6 +1054,11 @@ repository."
       (switch-to-tmux arg)
     (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
 
+(defun tmux-display (message)
+  (with-temp-buffer
+    (shell-command (format "tmux display -p \"%s\"" message) (current-buffer))
+    (string-trim (buffer-string))))
+
 (defun switch-to-tmux (&optional arg)
   "Switch to tmux and change current directory to current
 `default-directory' if ARG is non-nil."
@@ -1063,8 +1068,13 @@ repository."
     (start-process "Start" nil "urxvt" "-T" "my-tmux" "-e" "tmux" "new-session"))
   (and (executable-find "wmctrl")
        (shell-command "wmctrl -a my-tmux"))
-  (if arg (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
-                                 (file-truename default-directory)))))
+  (if arg
+      (let ((current-command (tmux-display "#{pane_current_command}")))
+        (cond ((string= current-command "R")
+               (shell-command (format "tmux send \"setwd(\\\"%s\\\")\" ENTER"
+                                      (file-truename default-directory))))
+              (t (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
+                                        (file-truename default-directory))))))))
 
 (global-set-key (kbd "C-z") 'switch-to-external-terminal)
 
