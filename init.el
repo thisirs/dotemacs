@@ -1466,7 +1466,11 @@ to cancel it."
 (setq set-mark-command-repeat-pop t)
 
 ;; Minibuffer history
-;;(savehist-mode t)
+(savehist-mode t)
+(setq savehist-additional-variables
+      ;; also save my search entries
+      '(search-ring regexp-search-ring)
+      savehist-file "~/.emacs.d/savehist")
 
 ;; Always add a final newline
 (setq require-final-newline t)
