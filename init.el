@@ -1059,24 +1059,46 @@ repository."
     (shell-command (format "tmux display -p \"%s\"" message) (current-buffer))
     (string-trim (buffer-string))))
 
+(defun switch-to-tmux-or-suspend (&optional arg)
+  "Switch to tmux if in a graphic session. Otherwise, suspend emacs.
+Change directory to `default-directory' if ARG is non-nil."
+  (interactive "P")
+  (if (display-graphic-p)
+      (switch-to-tmux arg)
+    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
+
+(defun tmux-has-session ()
+  (eq 0 (shell-command "tmux -q has-session")))
+
 (defun switch-to-tmux (&optional arg)
   "Switch to tmux and change current directory to current
 `default-directory' if ARG is non-nil."
   (interactive "P")
-  (if (eq 0 (shell-command "tmux -q has-session"))
-      (start-process "Attach" nil "urxvt" "-T" "my-tmux" "-e" "tmux" "attach-session" "-d")
-    (start-process "Start" nil "urxvt" "-T" "my-tmux" "-e" "tmux" "new-session"))
-  (and (executable-find "wmctrl")
-       (shell-command "wmctrl -a my-tmux"))
+  (if (tmux-has-session)
+      (apply #'start-process "Attach" nil
+             (split-string  (format "urxvt -title %s@%s -e tmux attach-session -d"
+                                    (user-login-name) (system-name))))
+    (apply #'start-process "Start" nil
+           (split-string  (format "urxvt -title %s@%s -e tmux new-session"
+                                  (user-login-name) (system-name)))))
   (if arg
       (let ((current-command (tmux-display "#{pane_current_command}")))
         (cond ((string= current-command "R")
                (shell-command (format "tmux send \"setwd(\\\"%s\\\")\" ENTER"
                                       (file-truename default-directory))))
               (t (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
-                                        (file-truename default-directory))))))))
+                                        (file-truename default-directory)))))))
+  (message "Switched to tmux"))
 
-(global-set-key (kbd "C-z") 'switch-to-external-terminal)
+(defun switch-to-tmux-or-suspend (&optional arg)
+  "Switch to tmux if in a graphic session. Otherwise, suspend emacs.
+Change directory to `default-directory' if ARG is non-nil."
+  (interactive "P")
+  (if (display-graphic-p)
+      (switch-to-tmux arg)
+    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
+
+(global-set-key (kbd "C-z") 'switch-to-tmux-or-suspend)
 
 ;; Notify events
 (with-emacs-version>= "24"
