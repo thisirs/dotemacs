@@ -31,11 +31,12 @@ if a TODO cookie is present on the line."
   "Return the selected region at the time of the capture."
   (with-temp-buffer
     (insert (or (plist-get org-store-link-plist :initial) ""))
-    (fill-region (buffer-end 0) (buffer-end 1))
+    (fill-region (point-min) (point-max))
     (buffer-string)))
 
 (defun org-capture-timestamp-from-now (days &optional before)
-  "Return an active DAYS days from now org time-stamp."
+  "Return an active org time-stamp that is DAYS ahead from now.
+If BEFORE is an integer, add a warn time."
   (let ((time (format-time-string
                (car org-time-stamp-formats)
                (time-add (current-time) (days-to-time days)))))
@@ -67,7 +68,13 @@ if a TODO cookie is present on the line."
     ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
 
 (defun org-agenda-add-report (&optional delete-other-windows)
-  "Look for an appointement in current org agenda line and go to
+  "Visit file from current agenda line.
+
+It looks at the current line of the org agenda and find a file
+from the tags of the event. The mapping is controlled by the
+variable `org-tags-to-report-alist'.
+
+Look for an appointement in current org agenda line and go to
 appropriate report file."
   (interactive "P")
   (unless (eq major-mode 'org-agenda-mode)
