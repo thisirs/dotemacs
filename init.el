@@ -77,7 +77,9 @@
 
 (mouse-wheel-mode 1)
 
-(electric-pair-mode)
+(on-zbook
+ (electric-pair-mode))
+
 (electric-indent-mode 1)
 
 ;; Adding packages
