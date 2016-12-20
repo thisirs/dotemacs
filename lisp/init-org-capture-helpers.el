@@ -97,5 +97,13 @@ appropriate report file."
           (insert " " txt "\n"))
       (user-error "No corresponding report file found"))))
 
+(defun org-capture--org-set-tags ()
+  "Make `org-set-tags' available from embedded lisp in capture
+templates. Use %(org-capture--org-set-tags) for interactive tags
+insertion."
+  (let ((org-inhibit-startup t)) (org-mode))
+  (org-clone-local-variables (org-capture-get :original-buffer) "\\`org-")
+  (org-set-tags))
+
 
 (provide 'init-org-capture-helpers)
