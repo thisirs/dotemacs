@@ -101,7 +101,6 @@
       inf-ruby
       info+
       lua-mode
-      org
       org-caldav
       org-password-manager
       org-plus-contrib
