@@ -805,7 +805,6 @@ repository."
         (goto-char old-point))))
   (add-hook 'find-file-hook 'sm-try-smerge t))
 
-;; Quick navigation between workspaces
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
   :ensure
@@ -950,7 +949,6 @@ repository."
   (define-key undo-tree-visualizer-mode-map (kbd "RET")
     'undo-tree-visualizer-quit))
 
-;; Warn you when quitting emacs and leaving repo dirty
 ;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
   :ensure
@@ -1029,7 +1027,6 @@ repository."
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   (setq uniquify-after-kill-buffer-p t))
 
-;; Make zooming affect frame instead of buffers
 ;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm                   ; Commands to zoom frame font size.
   :ensure
@@ -1040,7 +1037,6 @@ repository."
          ("<C-kp-add>" . zoom-in)
          ("<C-kp-subtract>" . zoom-out)))
 
-;; Zap-to-char with feedback
 ;; https://github.com/thierryvolpiatto/zop-to-char
 (use-package zop-to-char                ; A replacement of zap-to-char.
   :ensure
