@@ -466,6 +466,10 @@ the vertical drag is done."
     ;; Number of seconds for `hl-line-flash' to highlight the line
     (setq hl-line-flash-show-period 3)))
 
+;; https://github.com/abo-abo/swiper
+(use-package ivy                        ; Incremental Vertical completYon
+  :ensure)
+
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
   :ensure

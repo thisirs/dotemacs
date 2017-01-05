@@ -162,11 +162,6 @@ two marked buffers."
 
 (define-key ibuffer-mode-map (kbd "C-g") #'quit-window)
 
-(require 'ido)
-(ido-mode t)
-(setq ido-mode 'buffer)
-(setq ido-auto-merge-work-directories-length -1)
-
 (define-key ibuffer-mode-map (kbd "C-s") #'helm-buffers-list)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
