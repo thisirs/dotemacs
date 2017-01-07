@@ -641,7 +641,7 @@ repository."
   :ensure
   :defer 10
   :config
-  (pdf-tools-install)
+  (pdf-tools-install :force-compile nil :no-error)
   ;; https://github.com/thisirs/pdf-tools-points.git
   (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
     :ensure))
