@@ -991,7 +991,11 @@ repository."
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
-  :config (vc-auto-commit-activate))
+  :config
+  (defun not-on-zbook (root backend)
+    (not (on-zbook)))
+  (add-hook 'vc-auto-commit-cancel-hook #'not-on-zbook)
+  (vc-auto-commit-activate))
 
 (use-package webjump
   :bind ("C-c j" . webjump))
