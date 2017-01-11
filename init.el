@@ -698,6 +698,7 @@ repository."
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
   (defun UTC-semester-from-time (time)
+    "Return the semester corresponding to TIME."
     (let* ((dtime (decode-time time))
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
