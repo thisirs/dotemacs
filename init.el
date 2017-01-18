@@ -468,7 +468,9 @@ the vertical drag is done."
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
-  :ensure)
+  :ensure
+  :config
+  (ivy-mode))
 
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
