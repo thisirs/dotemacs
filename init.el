@@ -319,6 +319,15 @@ the vertical drag is done."
             (lambda ()
               (jump-to-register 'ediff))))
 
+(use-package epwdgen                    ; Flexible password generator
+  :ensure
+  :config
+  (setq epwdgen-password-presets
+    '(("passphrase, 4 words, space separator" passphrase
+       :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
+      ("upper+number, length 4" password :length 4 :upper t :number t :lower nil
+       :symbol nil :ambiguous nil))))
+
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
   :bind ("M-:" . eval-expr)
