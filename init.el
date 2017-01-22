@@ -210,6 +210,8 @@
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
   (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
     :ensure
+    :config
+    (setq ag-arguments (list "--smart-case" "--stats" "--hidden"))
     :bind (:map wgrep-mode-map
                 ("C-x s" . wgrep-save-all-buffers)))
 
