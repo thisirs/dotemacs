@@ -335,7 +335,7 @@ the vertical drag is done."
   (setq eval-expr-print-function 'pp
         eval-expr-print-level 20
         eval-expr-print-length 100)
-  (use-package paredit                  ; minor mode for editing parentheses
+  (use-package paredit
     :config
     (defun eval-expr-minibuffer-setup ()
       (add-function :before-until (local 'eldoc-documentation-function)
