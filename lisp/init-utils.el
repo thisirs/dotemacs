@@ -118,7 +118,7 @@ file WORDLIST."
   "Replace substrings match by REGEX with a REPLACE function.
 
 REGEX is first matched sequentially and then all matches are
-replace by the result of REPLACE called with the matched string
+replaced by the result of REPLACE called with the matched string
 and the index of the match."
   (interactive "sRegex:\nsReplace:")
   (when (stringp replace)
