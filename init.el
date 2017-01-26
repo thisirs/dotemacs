@@ -335,7 +335,7 @@ the vertical drag is done."
   (setq eval-expr-print-function 'pp
         eval-expr-print-level 20
         eval-expr-print-length 100)
-  (use-package paredit
+  (use-package paredit                  ; minor mode for editing parentheses
     :config
     (defun eval-expr-minibuffer-setup ()
       (add-function :before-until (local 'eldoc-documentation-function)
@@ -716,18 +716,29 @@ repository."
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
       (if (and (< month 8) (> month 2))
-          (format "P%d" year)
+          (list (format "P%d" year) (format "%d (1)" year))
         (if (<= month 2)
-            (format "A%d" (1- year))
-          (format "A%d" year)))))
+            (list (format "A%d" (1- year)) (format "%d (2)" (1- year)))
+          (list (format "A%d" year) (format "%d (2)" year))))))
 
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
                                  (abbreviate-file-name dir)) it)
-            (append (let ((semester (UTC-semester-from-time (current-time))))
+            (append (let ((semester (car (UTC-semester-from-time (current-time)))))
                       (mapcar (lambda (path)
                                 (format path semester))
                               '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
+                                "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
+                                "~/CloudStation/Sylvain/enseignements/%s/SY09/"
+                                "~/CloudStation/Sylvain/enseignements/%s/SY19/")))
+                    (let ((next-semester (car (UTC-semester-from-time
+                                               (time-add
+                                                (current-time)
+                                                (seconds-to-time (* 60 60 24 365 .5)))))))
+                      (mapcar (lambda (path)
+                                (format path next-semester))
+                              '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
+                                "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
                                 "~/CloudStation/Sylvain/enseignements/%s/SY09/"
                                 "~/CloudStation/Sylvain/enseignements/%s/SY19/")))
                     '("~/Dropbox/Documents-sy09/"
@@ -736,9 +747,16 @@ repository."
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
 
   (defun projectile-ignored-semester (truename)
+    "Ignore past semesters."
     (and (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
-         (not (equal (match-string 0 truename)
-                     (UTC-semester-from-time (current-time))))))
+         (let ((semester (concat (match-string 2 truename)
+                                 (if (string= (match-string 1 truename) "P")
+                                     "(1)" "(2)")))
+               (current-semester (cadr (UTC-semester-from-time (current-time)))))
+           (and (string-lessp semester current-semester)
+                (not (string= semester current-semester))))))
+
+  (setq projectile-require-project-root nil)
 
   (setq projectile-ignored-project-function #'projectile-ignored-semester)
 
