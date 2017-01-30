@@ -83,35 +83,6 @@ inline."
              (set-window-point (get-buffer-window "*debug*") (point))))
        ,obsym)))
 
-(defun generate-password (&optional length)
-  "Generate a password of length LENGTH."
-  (interactive "sLength of password (10): ")
-  (setq length (cond ((numberp length) length)
-                     ((and (stringp length) (> (length length) 0))
-                      (string-to-number length))
-                     (t 10)))
-  (random t)
-  (let ((range "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$@_+,?[].-")
-        (exclude "io0O1l") c result)
-    (dotimes (i length result)
-      (while (progn
-               (setq c (aref (string-to-vector range) (random (length range))))
-               (memq c (string-to-list exclude))))
-      (setq result (cons c result)))
-    (if (called-interactively-p 'any)
-        (insert (concat result))
-      (concat result))))
-
-(defun generate-passphrase (wordlist &optional number)
-  "Generate passphrase consisting of NUMBER words taken from a
-file WORDLIST."
-  (if (executable-find "shuf")
-      (let* ((number (if (numberp number) number 4))
-             (shuf-cmd (format "shuf -n %d %s" number (shell-quote-argument wordlist)))
-             (pass-out (shell-command-to-string shuf-cmd)))
-        (mapconcat 'identity (split-string pass-out) " "))
-    (error "Unable to find program `shuf'")))
-
 ;;; Useful for renumbering sequence of identifiers like foo0, foo0bis,
 ;;; foo1000, foo1001 into foo0, foo1, foo2, foo3
 (defun refactor-seq (regex replace)
