@@ -726,23 +726,17 @@ repository."
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
                                  (abbreviate-file-name dir)) it)
-            (append (let ((semester (car (UTC-semester-from-time (current-time)))))
-                      (mapcar (lambda (path)
-                                (format path semester))
-                              '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
-                                "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
-                                "~/CloudStation/Sylvain/enseignements/%s/SY09/"
-                                "~/CloudStation/Sylvain/enseignements/%s/SY19/")))
-                    (let ((next-semester (car (UTC-semester-from-time
-                                               (time-add
-                                                (current-time)
-                                                (seconds-to-time (* 60 60 24 365 .5)))))))
-                      (mapcar (lambda (path)
-                                (format path next-semester))
-                              '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
-                                "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
-                                "~/CloudStation/Sylvain/enseignements/%s/SY09/"
-                                "~/CloudStation/Sylvain/enseignements/%s/SY19/")))
+            (append (let* ((paths '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
+                                    "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
+                                    "~/CloudStation/Sylvain/enseignements/%s/SY09/"
+                                    "~/CloudStation/Sylvain/enseignements/%s/SY19/"))
+                           (semester (car (UTC-semester-from-time (current-time))))
+                           (next-semester (car (UTC-semester-from-time
+                                                (time-add
+                                                 (current-time)
+                                                 (seconds-to-time (* 60 60 24 365 .5)))))))
+                      (append (mapcar (lambda (path) (format path semester)) paths)
+                              (mapcar (lambda (path) (format path next-semester)) paths)))
                     '("~/Dropbox/Documents-sy09/"
                       "~/CloudStation/Sylvain/emacs/site-lisp/"))))
 
