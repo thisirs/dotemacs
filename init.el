@@ -321,12 +321,14 @@ the vertical drag is done."
 
 (use-package epwdgen                    ; Flexible password generator
   :ensure
+  :commands epwdgen-generate-password
   :config
   (setq epwdgen-password-presets
-    '(("passphrase, 4 words, space separator" passphrase
-       :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
-      ("upper+number, length 4" password :length 4 :upper t :number t :lower nil
-       :symbol nil :ambiguous nil))))
+        '(("passphrase, 4 words, space separator" passphrase
+           :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
+          ("classic, length 16" password :length 16 :upper t :number t :lower t :symbol t :ambiguous t)
+          ("upper+number, length 4" password :length 4 :upper t :number t :lower nil
+           :symbol nil :ambiguous nil))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
