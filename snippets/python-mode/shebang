@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: Insert Python shebang
+# name: Insert Python3 shebang
 # key: sb
 # --
-#! /usr/bin/env python2
+#!/usr/bin/env python3
 
 $0

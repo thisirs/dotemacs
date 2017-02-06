@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: Python2 shebang header
+# name: Python3 shebang header
 # key: hdr
 # --
-#! /usr/bin/env python2
+#!/usr/bin/env python3
 
 $0
