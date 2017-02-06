@@ -1606,19 +1606,19 @@ to cancel it."
         (window-system "x"))
     (save-buffers-kill-emacs)))
 
-(defun kill-emacs-or-frame (arg)
-  "Kill emacs or close frame.
+(defun kill-emacs-or-frame (&optional arg)
+  "Kill emacs, close frame or editing buffer.
 
-If current buffer is editing a file for a client, save buffer and
-call `server-buffer-done'. Otherwise, kill current frame if there
+If a server buffer is current, it is marked \"done\" and
+optionnaly saved. Otherwise, kill current frame if there
 is more than one or kill emacs if there is only one."
   (interactive "P")
-  (if (or (not (boundp 'server-buffer-clients)) (not server-buffer-clients))
-      (if (and (not arg) (> (length (visible-frame-list)) 1))
-          (delete-frame)
-        (save-buffers-kill-emacs))
-    (save-buffer)
-    (server-buffer-done (current-buffer))))
+  (cond
+   ((and (boundp 'server-buffer-clients) server-buffer-clients)
+    (apply 'server-switch-buffer (server-done)))
+   ((> (length (visible-frame-list)) 1)
+    (delete-frame))
+   (t (save-buffers-kill-emacs arg))))
 
 (global-set-key "\C-x\C-c" 'kill-emacs-or-frame)
 
