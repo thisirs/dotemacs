@@ -1627,7 +1627,7 @@ is more than one or kill emacs if there is only one."
 (add-hook 'server-done-hook 'lower-frame-unless-commit)
 
 (defun lower-frame-unless-commit ()
-  (unless (and (boundp 'global-git-commit-mode) global-git-commit-mode)
+  (unless (and (boundp 'with-editor-mode) with-editor-mode)
     (lower-frame)))
 
 ;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
