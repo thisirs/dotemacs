@@ -544,6 +544,11 @@ the vertical drag is done."
         (call-interactively 'magit-diff-visit-file))))
   (define-key magit-mode-map "V" #'visit-pull-request-url))
 
+;; https://github.com/vermiculus/magithub
+(use-package magithub                   ; Magit interfaces for GitHub
+  :after magit
+  :config (magithub-feature-autoinject t))
+
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
   :ensure
