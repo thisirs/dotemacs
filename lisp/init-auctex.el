@@ -136,6 +136,19 @@ mutiple times."
     ;; Enable fr dictionary when using package frenchb
     (add-hook 'TeX-language-fr-hook (lambda () (ignore-errors (ispell-change-dictionary "fr"))))
 
+    ;; Adapted from http://emacs.stackexchange.com/questions/23867/inform-auctex-about-index-style-file
+    (defvar TeX-index-options "")
+    (make-variable-buffer-local 'TeX-index-options)
+    (put 'TeX-index-options 'safe-local-variable 'stringp)
+    ;; Add new expansion string
+    (add-to-list 'TeX-expand-list
+                 '("%(indexopts)" (lambda () TeX-index-options)))
+    ;; Add new command.
+    (setcdr (assoc "Index" TeX-command-list)
+            '("makeindex %(indexopts) %s"
+             TeX-run-index nil t
+             :help "Run makeindex to create index file"))
+
     ;; hook function to use in `TeX-command-list' list
     (defun TeX-run-Make-or-TeX (name command file)
       (let* ((master (TeX-master-directory)))
