@@ -114,6 +114,7 @@ the selected file."
           ("Movie" "~/.emacs.d/icons/film.png" nil nil :ascent center)
           ("Bébé" "~/.emacs.d/icons/baby.png" nil nil :ascent center)
           ("Football" "~/.emacs.d/icons/football.svg" nil nil :ascent center)
+          ("Cours" "~/.emacs.d/icons/hat.png" nil nil :ascent center)
           ("" '(space . (:height (16) :width (16))))))
 
   ;; (setq org-agenda-day-face-function
