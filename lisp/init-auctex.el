@@ -168,6 +168,10 @@ mutiple times."
                     (latex-mode doctex-mode)
                     :help "Run Make or LaTeX if no Makefile"))
 
+
+    ;; No special fontification for script
+    (face-spec-set 'font-latex-script-char-face '((t (:foreground nil))) nil)
+
     ;; needs to be extended to handle rake
     (defadvice TeX-command-query (before check-make activate)
       (let ((default-directory (TeX-master-directory)))
