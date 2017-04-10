@@ -97,7 +97,7 @@
     '(async
       cmake-mode
       diminish
-      helm
+      ;; helm
       inf-ruby
       info+
       lua-mode
@@ -172,7 +172,7 @@
 (require 'init-dired)
 (require 'init-elisp)
 (require 'init-erc)
-(require 'init-helm)
+;; (require 'init-helm)
 (require 'init-hippie-expand)
 (require 'init-ibuffer)
 (require 'init-isearch)
@@ -443,6 +443,7 @@ the vertical drag is done."
 (use-package helm-bibtex                ; A bibliography manager based on Helm
   :ensure
   :defer 5
+  :disabled t
   :config
   (setq bibtex-completion-bibliography
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
@@ -712,7 +713,7 @@ repository."
   (setq projectile-switch-project-action 'projectile-dired)
 
   (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
-  (setq projectile-completion-system 'helm)
+  (setq projectile-completion-system 'ivy)
 
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
