@@ -257,7 +257,9 @@ and right delimiters are matched on the same line."
             (replace-match rep nil t))
           (delete-region beg end)
           (goto-char beg)
-          (insert (format "%s%s%s" (if atb "" "\n") nl (if ate "" "\n"))))))))
+          (insert (format "%s%s%s" (if atb "" "\n") nl (if ate "" "\n")))
+          (LaTeX-mark-environment)
+          (indent-region (region-beginning) (region-end)))))))
 
 
 ;; (replace-delimiters "$$" "$$" "\\begin{equation*}" "\\end{equation*}" t)
