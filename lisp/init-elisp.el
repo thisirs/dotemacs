@@ -13,6 +13,8 @@
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
 
+(setq debugger-stack-frame-as-list t)
+
 ;; Load newest file
 (setq load-prefer-newer t)
 
