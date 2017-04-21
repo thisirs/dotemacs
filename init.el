@@ -489,7 +489,11 @@ the vertical drag is done."
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
   :ensure
+  :bind (("C-x C-b" . ivy-switch-buffer)
+         ("C-x l" . counsel-locate)
+         ("C-x b" . counsel-recoll))
   :config
+  (define-key ivy-minibuffer-map (kbd "C-b") 'next-line)
   (ivy-mode))
 
 ;; https://github.com/joshwnj/json-mode
