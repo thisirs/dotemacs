@@ -265,6 +265,21 @@ and right delimiters are matched on the same line."
 ;; (replace-delimiters "$$" "$$" "\\begin{equation*}" "\\end{equation*}" t)
 ;; (replace-delimiters "\\[" "\\]" "\\begin{equation*}" "\\end{equation*}" t)
 
+(defvar latex-convert-eqnarray
+  '("\\leq" "\\geq" "\\approx" "\\sim" "\\simeq" "+" "=")
+  "List of operators found in eqnarray")
+
+(defun latex-convert-eqnarray ()
+  "Convert eqnarray environment into align environment."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\\\begin{eqnarray\\(\\*?\\)}" nil t)
+      (LaTeX-modify-environment (concat "align" (match-string 1)))
+      (let ((re-operator (concat "& *" (regexp-opt latex-convert-eqnarray t) " *&"))
+            (bound (save-excursion (LaTeX-find-matching-end))))
+        (while (re-search-forward re-operator bound t)
+          (replace-match (concat "&" (match-string 1)) nil t))))))
 
 
 (provide 'init-latex)
