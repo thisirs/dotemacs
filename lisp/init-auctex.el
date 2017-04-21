@@ -223,7 +223,7 @@ mutiple times."
 
     ;; Taken from
     ;; http://emacs.stackexchange.com/questions/3083/how-to-indent-items-in-latex-auctex-itemize-environments
-
+    ;; Breaks paragraph filling
     (defun LaTeX-indent-item ()
       "Provide proper indentation for LaTeX \"itemize\",\"enumerate\", and
 \"description\" environments.
@@ -269,6 +269,30 @@ mutiple times."
 environments."
       :group 'LaTeX-indentation
       :type 'integer)
+
+    ;; Fix of the fix: filling in itemize works now
+    (defun LaTeX-fill-region-as-paragraph-fix (oldfun from to &optional justify-flag)
+      (let ((LaTeX-indent-environment-list LaTeX-indent-environment-list))
+        (setq LaTeX-indent-environment-list
+              (remove '("enumerate" LaTeX-indent-item) LaTeX-indent-environment-list))
+        (setq LaTeX-indent-environment-list
+              (remove '("itemize" LaTeX-indent-item) LaTeX-indent-environment-list))
+        (funcall oldfun from to justify-flag)))
+
+    (advice-add 'LaTeX-fill-region-as-paragraph
+                :around
+                'LaTeX-fill-region-as-paragraph-fix)
+
+    (defun LaTeX-fill-region-as-para-do-fix (oldfun from end-marker justify-flag)
+      (let ((LaTeX-indent-environment-list LaTeX-indent-environment-list))
+        (add-to-list 'LaTeX-indent-environment-list '("itemize" LaTeX-indent-item))
+        (add-to-list 'LaTeX-indent-environment-list '("enumerate" LaTeX-indent-item))
+        (funcall oldfun from end-marker justify-flag)))
+
+    (advice-add 'LaTeX-fill-region-as-para-do
+                :around
+                'LaTeX-fill-region-as-para-do-fix)
+
 
     (add-to-list 'LaTeX-indent-environment-list '("itemize" LaTeX-indent-item))
     (add-to-list 'LaTeX-indent-environment-list '("enumerate" LaTeX-indent-item))
