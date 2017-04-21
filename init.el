@@ -1207,7 +1207,9 @@ Change directory to `default-directory' if ARG is non-nil."
 
 (setq auto-insert 'other)
 
-(cond ((member "Cousine" (font-family-list))
+(cond ((member "Fira Mono" (font-family-list))
+       (setq default-frame-alist '((font . "Fira-14"))))
+      ((member "Cousine" (font-family-list))
        (setq default-frame-alist '((font . "Cousine-14"))))
       ((member "Inconsolata" (font-family-list))
        (add-to-list 'default-frame-alist
