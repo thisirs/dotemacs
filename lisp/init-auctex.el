@@ -61,11 +61,22 @@
     (defun TeX-run-knitr-and-TeX (name command file)
       (let ((knitr-file (concat (file-name-sans-extension file) "-knitr"))
             (fix "all_patterns\\$tex\\$chunk.code <- '^\\\\\\\\s*%+'; knit_patterns\\$set(all_patterns[['tex']])"))
-        (TeX-run-consecutive `((TeX-run-command "knitr" ,(format "Rscript -e \"library(knitr); %s; knit('%s', output='%s')\""
-                                                                 fix
-                                                                 (concat file ".tex") (concat knitr-file ".tex"))
-                                                ,file)
-                               (TeX-run-TeX ,name ,command ,file)))))
+        (TeX-run-consecutive
+         `((TeX-run-command "knitr"
+                            ,(format "Rscript -e \"%s\""
+                                     (mapconcat 'identity
+                                                (list
+                                                 "library(knitr)"
+                                                 fix
+                                                 (format "knit('%s', output = '%s')"
+                                                         (concat file ".tex")
+                                                         (concat knitr-file ".tex"))
+                                                 (format "knit('%s', output = '%s', tangle = TRUE)"
+                                                         (concat file ".tex")
+                                                         (concat file ".R")))
+                                                "; "))
+                            ,file)
+           (TeX-run-TeX ,name ,command ,file)))))
 
     ;; Correct indentation
     (setq LaTeX-item-indent 0)
