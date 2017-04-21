@@ -1124,9 +1124,10 @@ Change directory to `default-directory' if ARG is non-nil."
   (if arg
       (let ((current-command (tmux-display "#{pane_current_command}")))
         (cond ((string= current-command "R")
-               (shell-command (format "tmux send \"setwd(\\\"%s\\\")\" ENTER"
-                                      (file-truename default-directory))))
-              (t (let ((coding-system-for-write 'latin-1))
+               (let ((coding-system-for-write 'utf-8))
+                 (shell-command (format "tmux send \"setwd(\\\"%s\\\")\" ENTER"
+                                        (file-truename default-directory)))))
+              (t (let ((coding-system-for-write 'utf-8))
                    (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
                                           (file-truename default-directory))))))))
   (message "Switched to tmux"))
