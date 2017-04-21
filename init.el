@@ -663,6 +663,8 @@ repository."
   :defer 10
   :config
   (pdf-tools-install :force-compile nil :no-error)
+  (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
+
   ;; https://github.com/thisirs/pdf-tools-points.git
   (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
     :ensure))
