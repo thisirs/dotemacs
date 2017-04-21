@@ -361,6 +361,12 @@ the vertical drag is done."
 ;; Open quickly a temporary file
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file             ; Open quickly a temporary file
+  :preface
+  (add-hook 'after-init-hook
+            (lambda ()
+              (interactive)
+              (with-current-buffer "*scratch*"
+                (setq default-directory (expand-file-name "emacs-lisp-mode" find-temp-file-directory)))))
   :ensure
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
