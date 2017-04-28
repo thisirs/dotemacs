@@ -56,10 +56,6 @@
 (global-set-key (kbd "C-S-f") (lambda () (interactive) (forward-char 5)))
 (global-set-key (kbd "C-S-b") (lambda () (interactive) (backward-char 5)))
 
-(global-set-key (kbd "C-x à") #'delete-other-windows)
-(global-set-key (kbd "C-x C-à") #'delete-other-windows)
-(global-set-key (kbd "C-,") #'other-window)
-
 (global-set-key (kbd "C-c C-t") #'ring-transparency)
 
 ;; If electric-indent-mode is not available
