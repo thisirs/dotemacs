@@ -54,7 +54,8 @@ repeatedly q."
    (list (dired-get-marked-files t current-prefix-arg)))
   (apply 'call-process "xdg-open" nil 0 nil file-list))
 
-(define-key dired-mode-map (kbd "e") 'dired-open)
+(define-key dired-mode-map (kbd "<C-return>") #'dired-open)
+(define-key dired-mode-map "e" #'dired-ediff-marked-files)
 
 (define-key dired-mode-map "s" dired-sort-map)
 
