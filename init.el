@@ -1223,12 +1223,11 @@ Change directory to `default-directory' if ARG is non-nil."
 (setq auto-insert 'other)
 
 (cond ((member "Fira Mono" (font-family-list))
-       (setq default-frame-alist '((font . "Fira-14"))))
+       (set-frame-font "Fira Mono-14" nil t))
       ((member "Cousine" (font-family-list))
-       (setq default-frame-alist '((font . "Cousine-14"))))
+       (set-frame-font "Cousine-14" nil t))
       ((member "Inconsolata" (font-family-list))
-       (add-to-list 'default-frame-alist
-                    '(font . "-unknown-Inconsolata-bold-normal-normal-*-*-*-*-*-m-0-iso10646-1"))))
+       (set-frame-font "Inconsolata-14" nil t)))
 
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
