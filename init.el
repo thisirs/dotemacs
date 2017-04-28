@@ -558,6 +558,7 @@ the vertical drag is done."
 
 ;; https://github.com/vermiculus/magithub
 (use-package magithub                   ; Magit interfaces for GitHub
+  :disabled t
   :after magit
   :config (magithub-feature-autoinject t))
 
