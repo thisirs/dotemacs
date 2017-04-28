@@ -362,6 +362,7 @@ the vertical drag is done."
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file             ; Open quickly a temporary file
   :preface
+  (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
   (add-hook 'after-init-hook
             (lambda ()
               (interactive)
