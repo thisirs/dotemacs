@@ -746,17 +746,17 @@ repository."
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
                                  (abbreviate-file-name dir)) it)
-            (append (let* ((paths '("~/CloudStation/Sylvain/enseignements/%s/SY02/"
-                                    "~/CloudStation/Sylvain/enseignements/%s/TIS02/"
-                                    "~/CloudStation/Sylvain/enseignements/%s/SY09/"
-                                    "~/CloudStation/Sylvain/enseignements/%s/SY19/"))
-                           (semester (car (UTC-semester-from-time (current-time))))
-                           (next-semester (car (UTC-semester-from-time
-                                                (time-add
-                                                 (current-time)
-                                                 (seconds-to-time (* 60 60 24 365 .5)))))))
-                      (append (mapcar (lambda (path) (format path semester)) paths)
-                              (mapcar (lambda (path) (format path next-semester)) paths)))
+            (append (-filter #'file-exists-p
+                             (mapcar (lambda (args)
+                                       (apply #'format "~/CloudStation/Sylvain/enseignements/%s/%s/%s" args))
+                                     (let ((semesters (list (car (UTC-semester-from-time (current-time)))
+                                                            (car (UTC-semester-from-time
+                                                                  (time-add
+                                                                   (current-time)
+                                                                   (seconds-to-time (* 60 60 24 365 .5)))))))
+                                           (uvs '("SY02" "TIS02" "SY09" "SY19"))
+                                           (dirs '("Cours" "TP" "TD" "poly")))
+                                       (-table-flat 'list semesters uvs dirs))))
                     '("~/Dropbox/Documents-sy09/"
                       "~/CloudStation/Sylvain/emacs/site-lisp/"))))
 
