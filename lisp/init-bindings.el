@@ -32,6 +32,7 @@
 (global-set-key (kbd "C-x à") #'delete-other-windows)
 (global-set-key (kbd "C-x C-à") #'delete-other-windows)
 (global-set-key (kbd "C-,") #'other-window)
+(global-set-key (kbd "M-o") #'other-window)
 
 (global-set-key (kbd "M-g f") #'find-grep)
 (global-set-key (kbd "M-g r") #'recompile)
