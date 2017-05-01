@@ -310,6 +310,16 @@ the vertical drag is done."
 
   (setq ediff-diff-options "-w")
 
+  ;; Show all in org files with ediff
+  (defun ediff-outline-show-all ()
+    (if (eq major-mode 'org-mode)
+        (outline-show-all)))
+
+  (add-hook 'ediff-prepare-buffer-hook #'ediff-outline-show-all)
+
+  ;; ediff buffer with file
+  (defalias 'ediff-buffer-with-file 'ediff-current-file)
+
   ;; Restore window configuration after quit
   (add-hook 'ediff-before-setup-hook
             (lambda ()
