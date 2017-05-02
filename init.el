@@ -1236,6 +1236,8 @@ Change directory to `default-directory' if ARG is non-nil."
 
 (cond ((member "Fira Mono" (font-family-list))
        (set-frame-font "Fira Mono-14" nil t))
+      ((member "Hack" (font-family-list))
+       (set-frame-font "Hack-14" nil t))
       ((member "Cousine" (font-family-list))
        (set-frame-font "Cousine-14" nil t))
       ((member "Inconsolata" (font-family-list))
