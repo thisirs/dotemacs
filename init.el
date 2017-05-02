@@ -254,6 +254,16 @@
   ;; Move point to first error
   (setq compilation-scroll-output 'first-error))
 
+;; https://github.com/abo-abo/swiper
+(use-package counsel                    ; Various completion functions using Ivy
+  :ensure
+  :bind
+  (("C-x l" . counsel-locate)
+   ("C-x b" . counsel-recoll)
+   ("M-y" . counsel-yank-pop)
+   :map ivy-minibuffer-map
+   ("M-y" . ivy-next-line)))
+
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :ensure
   :diminish drag-stuff-mode
@@ -494,11 +504,9 @@ the vertical drag is done."
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
   :ensure
-  :bind (("C-x C-b" . ivy-switch-buffer)
-         ("C-x l" . counsel-locate)
-         ("C-x b" . counsel-recoll))
+  :bind (("C-x C-b" . ivy-switch-buffer))
   :config
-  (define-key ivy-minibuffer-map (kbd "C-b") 'next-line)
+  (define-key ivy-switch-buffer-map (kbd "C-b") 'next-line)
   (ivy-mode))
 
 ;; https://github.com/joshwnj/json-mode
