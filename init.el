@@ -457,10 +457,9 @@ the vertical drag is done."
           (smerge-mode "C-c ^")))
   (guide-key-mode 1))
 
-(use-package helm-bibtex                ; A bibliography manager based on Helm
+(use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :ensure
   :defer 5
-  :disabled t
   :config
   (setq bibtex-completion-bibliography
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
@@ -470,12 +469,7 @@ the vertical drag is done."
   (setq bibtex-completion-library-path
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
           "~/CloudStation/Sylvain/recherche/biblio/"))
-  (setq bibtex-completion-pdf-field "file")
-
-  ;; Inconsolata is not mono with some symbols
-  (setq helm-bibtex-pdf-symbol "p")
-  (setq helm-bibtex-notes-symbol "n")
-  (define-key helm-command-map (kbd "h b") 'helm-bibtex))
+  (setq bibtex-completion-pdf-field "file"))
 
 (use-package hl-line
   :disabled
