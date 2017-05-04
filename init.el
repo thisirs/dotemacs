@@ -33,6 +33,11 @@
 
 (setq visible-bell nil)
 
+;; Use gtklp
+(when (executable-find "gtklp")
+  (setq lpr-command "gtklp")
+  (setq ps-lpr-command "gtklp"))
+
 ;; No disabled command like timer-list
 (setq disabled-command-function nil)
 
