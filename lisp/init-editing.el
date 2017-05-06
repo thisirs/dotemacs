@@ -161,4 +161,19 @@ If ARG is non-nil, ask for confirmation on each match."
   (interactive)
   (insert-char #x20ac))
 
+(defun duplicate-line ()
+  "Duplicate the line containing point."
+  (interactive)
+  (save-excursion
+    (let (line-text)
+      (goto-char (line-beginning-position))
+      (let ((beg (point)))
+        (goto-char (line-end-position))
+        (setq line-text (buffer-substring beg (point))))
+      (if (eobp)
+          (insert ?\n)
+        (forward-line))
+      (open-line 1)
+      (insert line-text))))
+
 (provide 'init-editing)
