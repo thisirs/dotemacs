@@ -182,6 +182,19 @@ mutiple times."
                     (latex-mode doctex-mode)
                     :help "Run Make or LaTeX if no Makefile"))
 
+    ;; Viewer: prefer pdf-tools when predicate pdf-tools-running is true
+    (setq TeX-view-program-selection
+          (cons '((output-pdf pdf-tools-running) "PDF Tools")
+                TeX-view-program-selection))
+
+    ;; Prefer pdf-tools when only one window in current frame or pdf
+    ;; is already showed in a window
+    (add-to-list 'TeX-view-predicate-list
+                 '(pdf-tools-running
+                   (let ((master (TeX-active-master)))
+                     (or (= 1 (count-windows))
+                         (when-let ((buf (find-buffer-visiting (concat master ".pdf"))))
+                           (get-buffer-window buf))))))
 
     ;; No special fontification for script
     (face-spec-set 'font-latex-script-char-face '((t (:foreground nil))) nil)
