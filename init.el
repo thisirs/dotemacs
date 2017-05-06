@@ -475,6 +475,7 @@ the vertical drag is done."
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :ensure
   :defer 5
+  :bind ("C-x b" . ivy-bibtex)
   :config
   (setq bibtex-completion-bibliography
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
@@ -484,7 +485,16 @@ the vertical drag is done."
   (setq bibtex-completion-library-path
         '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
           "~/CloudStation/Sylvain/recherche/biblio/"))
-  (setq bibtex-completion-pdf-field "file"))
+  (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
+  (setq bibtex-completion-pdf-field "file")
+
+  ;; Always cite with \cite
+  (defun bibtex-completion-format-always-cite (oldfun keys)
+    (flet ((completing-read (&rest _) "cite"))
+      (funcall oldfun keys)))
+
+  (advice-add 'bibtex-completion-format-citation-cite :around
+              #'bibtex-completion-format-always-cite))
 
 (use-package hl-line
   :disabled
