@@ -20,6 +20,9 @@
     ;; Enable parse on save
     (setq TeX-auto-save t)
 
+    ;; Revert buffer visiting pdf file after compilation
+    (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+
     (defun TeX-command-shell-escape-p (arg)
       (string= arg "-shell-escape"))
     (put 'TeX-command-extra-options 'safe-local-variable 'TeX-command-shell-escape-p)
