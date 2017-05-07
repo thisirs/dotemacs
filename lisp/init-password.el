@@ -1,6 +1,5 @@
 ;; Passwords management with org files + auth-source backend
 
-
 ;; https://git.leafac.com/leafac/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
   :defer
@@ -9,12 +8,6 @@
 
   (setq org-password-manager-scope 'file
         org-password-manager-timeout "30")
-
-  ;; Add org backend for auth-source
-  (defun org-password-manager-auth-source-insinuate (&optional arg)
-    (if (and arg (or (not (numberp arg)) (<= arg 0)))
-        (advice-remove 'auth-source-backend-parse #'auth-source-backend-parse-advice)
-      (advice-add 'auth-source-backend-parse :around #'auth-source-backend-parse-advice)))
 
   (defvar org-password-manager-yank-password ()
     "Store a lambda function that yield the password.")
@@ -76,27 +69,25 @@
                           (lambda () (funcall interprogram-cut-function "")))
              (message "Password for `%s' with login `%s' copied to system's clipboard" header login))
             (t
-             (message "No stored password")))))
-
-  (org-password-manager-auth-source-insinuate))
+             (message "No stored password"))))))
 
 (use-package auth-source
   :defer
   :config
   (require 'org-password-manager)
 
-  ;; Auth-source backend
-  (defun auth-source-backend-parse-advice (oldfun entry)
-    "Allow gpg-encrypted Org files as secret sources."
-    (if (not (and (stringp (plist-get entry :source))
-                  (string-match "\\.org\\.gpg\\'" (plist-get entry :source))))
-        (funcall oldfun entry)
-      (auth-source-backend
-       (plist-get entry :source)
-       :source (plist-get entry :source)
-       :type 'org
-       :search-function 'auth-source-org-search
-       :create-function 'auth-source-org-create)))
+  ;; Add org backend
+  (add-hook 'auth-source-backend-parser-functions 'auth-source-backends-parser-org)
+
+  (defun auth-source-backends-parser-org (entry)
+    (if (and (stringp (plist-get entry :source))
+             (string-match "\\.org\\.gpg\\'" (plist-get entry :source)))
+        (auth-source-backend
+         (plist-get entry :source)
+         :source (plist-get entry :source)
+         :type 'org
+         :search-function 'auth-source-org-search
+         :create-function 'auth-source-org-create)))
 
   (defvar auth-source-org-cache nil)
 
