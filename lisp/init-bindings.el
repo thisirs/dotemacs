@@ -189,6 +189,10 @@ body passed in argument."
 
 (global-set-key (kbd "C-h") (kbd "DEL"))
 
-(global-set-key (kbd "C-x C-k C-r") (lambda () (interactive) (kmacro-set-counter 0)))
+(defun kmacro-reset-counter ()
+  (interactive)
+  (kmacro-set-counter 0))
+
+(global-set-key (kbd "C-x C-k C-r") #'kmacro-reset-counter)
 
 (provide 'init-bindings)
