@@ -455,6 +455,39 @@ the vertical drag is done."
             (executable-find "vlc")))
   :bind ("C-c t" . google-translate-smooth-translate))
 
+(use-package grep
+  :defer
+  :bind (:map grep-mode-map
+              ("a" . grep-toggle-binary-search))
+  :config
+  (if (not (executable-find "ag"))
+      (bind-key "M-g f" find-grep))
+
+  ;; grep binary files (latin-1 are binary files...)
+  (defun grep-toggle-binary-search (&optional arg)
+    "Toggle \"grep\"/\"grep -a\" in grep command."
+    (interactive "P")
+    (if (stringp (car compilation-arguments))
+        (setcar compilation-arguments
+                (replace-regexp-in-string
+                 "grep\\( -a\\)?"
+                 (lambda (m) (if (match-string 1 m) "grep" "grep -a"))
+                 (car compilation-arguments))))
+    (grep-compute-defaults)
+    (let* (msg
+           (grep-find-cmd (replace-regexp-in-string
+                           "grep\\( -a\\)?"
+                           (lambda (m)
+                             (if (match-string 1 m)
+                                 (progn (setq msg "Binary search in grep is off") "grep")
+                               (setq msg "Binary search in grep is on")
+                               "grep -a"))
+                           (car grep-find-command)))
+           (point (progn (string-match "\\\\{\\\\}" grep-find-cmd) (match-beginning 0))))
+      (grep-apply-setting 'grep-find-command
+                          (cons grep-find-cmd point))
+      (message msg))))
+
 ;; https://github.com/kai2nenobu/guide-key
 (use-package guide-key                  ; Guide the following key bindings automatically and dynamically
   :ensure
@@ -1340,33 +1373,6 @@ not, return nil."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; grep binary files (latin-1 are binary files...)
-(defun grep-toggle-binary-search (&optional arg)
-  "Toggle \"grep\"/\"grep -a\" in grep command."
-  (interactive "P")
-  (if (stringp (car compilation-arguments))
-      (setcar compilation-arguments
-              (replace-regexp-in-string
-               "grep\\( -a\\)?"
-               (lambda (m) (if (match-string 1 m) "grep" "grep -a"))
-               (car compilation-arguments))))
-  (grep-compute-defaults)
-  (let* (msg
-         (grep-find-cmd (replace-regexp-in-string
-                         "grep\\( -a\\)?"
-                         (lambda (m)
-                           (if (match-string 1 m)
-                               (progn (setq msg "Binary search in grep is off") "grep")
-                             (setq msg "Binary search in grep is on")
-                             "grep -a"))
-                         (car grep-find-command)))
-         (point (progn (string-match "\\\\{\\\\}" grep-find-cmd) (match-beginning 0))))
-    (grep-apply-setting 'grep-find-command
-                        (cons grep-find-cmd point))
-    (message msg)))
-
-(with-eval-after-load "grep"
-  (define-key grep-mode-map "a" #'grep-toggle-binary-search))
 
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
