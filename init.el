@@ -741,9 +741,38 @@ repository."
 (use-package pdf-tools                  ; Support library for PDF documents.
   :ensure
   :defer 10
+  :init
+  ;; pdf-annot-minor-mode before pdf-sync-minor-mode
+  (setq pdf-tools-enabled-modes
+        '(pdf-history-minor-mode
+          pdf-isearch-minor-mode
+          pdf-links-minor-mode
+          pdf-misc-minor-mode
+          pdf-outline-minor-mode
+          pdf-misc-size-indication-minor-mode
+          pdf-misc-menu-bar-minor-mode
+          pdf-sync-minor-mode
+          pdf-annot-minor-mode
+          pdf-misc-context-menu-minor-mode
+          pdf-cache-prefetch-minor-mode
+          pdf-occur-global-minor-mode))
+
   :config
   (pdf-tools-install :force-compile nil :no-error)
   (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
+
+  (use-package pdf-annot
+    :config
+    (defun pdf-annot-add-text-annotation-here (ev)
+      (interactive "@e")
+      (pdf-annot-activate-annotation (pdf-annot-mouse-add-text-annotation ev)))
+    :bind (:map
+           pdf-annot-minor-mode-map
+           ([double-mouse-1] . pdf-annot-add-text-annotation-here)
+           :map
+           pdf-annot-edit-contents-minor-mode-map
+           ;; Instead of C-c C-q
+           ("C-c C-k" . pdf-annot-edit-contents-abort)))
 
   ;; https://github.com/thisirs/pdf-tools-points.git
   (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
