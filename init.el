@@ -215,17 +215,17 @@
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
   (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
     :ensure
-    :config
-    (setq ag-arguments (list "--smart-case" "--stats" "--hidden"))
     :bind (:map wgrep-mode-map
                 ("C-x s" . wgrep-save-all-buffers)))
 
+  (setq ag-arguments (list "--smart-case" "--stats" "--hidden"))
   (setq ag-group-matches nil)
 
-  (defun ag-current-directory (string)
+  (defun ag-search-current-directory (string)
     (interactive (list (ag/read-from-minibuffer "Search string")))
-    (ag/search string default-directory))
-  :bind ("M-g f" . ag-current-directory))
+    (let ((current-prefix-arg last-prefix-arg))
+      (ag/search string default-directory)))
+  :bind ("M-g f" . ag-search-current-directory))
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
