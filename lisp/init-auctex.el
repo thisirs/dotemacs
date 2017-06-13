@@ -23,6 +23,16 @@
     ;; Revert buffer visiting pdf file after compilation
     (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
+    ;; Remove eqnarray and eqnarray* from known environments
+    (defun LaTeX-remove-eqnarray ()
+      (mapc (lambda (env)
+              (setq LaTeX-environment-list
+                    (assq-delete-all
+                     (car (assoc env (LaTeX-environment-list)))
+                     LaTeX-environment-list)))
+            '("eqnarray" "eqnarray*")))
+    (add-hook 'LaTeX-mode-hook #'LaTeX-remove-eqnarray)
+
     (defun TeX-command-shell-escape-p (arg)
       (string= arg "-shell-escape"))
     (put 'TeX-command-extra-options 'safe-local-variable 'TeX-command-shell-escape-p)
