@@ -218,7 +218,7 @@
     :bind (:map wgrep-mode-map
                 ("C-x s" . wgrep-save-all-buffers)))
 
-  (setq ag-arguments (list "--smart-case" "--stats" "--hidden"))
+  (setq ag-arguments (list "--smart-case" "--stats" "--hidden" "--all-text"))
   (setq ag-group-matches nil)
 
   (defun ag-search-current-directory (string)
