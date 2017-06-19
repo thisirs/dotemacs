@@ -933,6 +933,7 @@ repository."
     (server-start)))
 
 (use-package skeletor                   ; Provides project skeletons for Emacs
+  :ensure
   :defer 10)
 
 (use-package smart-mark                 ; Restore point after C-g when mark
