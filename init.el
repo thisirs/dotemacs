@@ -644,7 +644,13 @@ the vertical drag is done."
   :config
   (setq markdown-enable-math t)
   (setq markdown-command
-        "pandoc -f markdown -t html5 -s --self-contained --smart"))
+        "pandoc -f markdown -t html5 -s --self-contained --smart")
+
+  (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
+    "Mode for RMarkdown"
+    (set (make-local-variable 'markdown-command-needs-filename) t)
+    (set (make-local-variable 'markdown-command)
+         "Rscript -e \"library(knitr); knitr::knit(commandArgs(trailing = TRUE)[1])\"")))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
