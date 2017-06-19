@@ -262,12 +262,16 @@
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
   :ensure
-  :bind
-  (("C-x l" . counsel-locate)
-   ("C-x b" . counsel-recoll)
-   ("M-y" . counsel-yank-pop)
-   :map ivy-minibuffer-map
-   ("M-y" . ivy-next-line)))
+  :bind (("C-x C-f" . counsel-find-file)
+         ("C-x l" . counsel-locate)
+         ("M-x" . counsel-M-x)
+         ("M-y" . counsel-yank-pop)
+         :map help-map
+         ("f" . counsel-describe-function)
+         ("v" . counsel-describe-variable)
+         ("C-l" . counsel-info-lookup-symbol)
+         :map ivy-minibuffer-map
+         ("M-y" . ivy-next-line)))
 
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :ensure
