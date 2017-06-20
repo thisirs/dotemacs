@@ -102,13 +102,17 @@ directory."
   '(add-to-list 'dired-compress-file-suffixes
                 '("\\.zip\\'" ".zip" "unzip")))
 
+(defun dired-nondirectory-p (file)
+  (not (file-directory-p file)))
+
 (defun dired-do-command (command)
   "Run COMMAND on marked files. Any files not already open will be opened.
 After this command has been run, any buffers it's modified will remain
 open and unsaved."
   (interactive (list (read--expression "Command: ")))
   (dolist (filename (dired-get-marked-files nil nil 'dired-nondirectory-p))
-    (with-current-buffer (find-file-noselect filename)
+    (save-window-excursion
+      (switch-to-buffer (find-file-noselect filename))
       (if (symbolp command)
           (call-interactively command)
         (eval command)))))
