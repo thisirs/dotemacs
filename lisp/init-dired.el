@@ -134,7 +134,7 @@ value of the last form in BODY."
                (with-current-buffer buf
                  (setq ,variable ,current-variable)))
              ,buffers)
-       (prog1 (progn,@body)
+       (prog1 (progn ,@body)
          ;; restore variable value
          (mapc (lambda (e)
                  (with-current-buffer (car e)
