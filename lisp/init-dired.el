@@ -57,6 +57,8 @@ repeatedly q."
 (define-key dired-mode-map (kbd "<C-return>") #'dired-open)
 (define-key dired-mode-map "e" #'dired-ediff-marked-files)
 
+(define-key dired-mode-map (kbd "M-!") #'async-shell-command)
+
 (define-key dired-mode-map "s" dired-sort-map)
 
 ;; Delete with C-x C-k to match file buffers and magit
