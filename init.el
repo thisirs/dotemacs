@@ -523,13 +523,12 @@ the vertical drag is done."
   :bind ("C-x b" . ivy-bibtex)
   :config
   (setq bibtex-completion-bibliography
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking/tracking.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/refs.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/my_publications.bib"
-          "~/CloudStation/Sylvain/recherche/biblio/refs_zotero.bib"))
+        '("~/CloudStation/Sylvain/recherche/biblio/zotero/refs.bib"))
   (setq bibtex-completion-library-path
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
-          "~/CloudStation/Sylvain/recherche/biblio/"))
+        '("~/CloudStation/Sylvain/recherche/biblio/zotero/tracking/"
+          "~/CloudStation/Sylvain/recherche/biblio/zotero/compressed_sensing/"
+          "~/CloudStation/Sylvain/recherche/biblio/zotero/hashing/"
+          "~/CloudStation/Sylvain/recherche/biblio/zotero/graphs_and_deep_learning/"))
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file")
 
