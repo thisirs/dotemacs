@@ -253,6 +253,12 @@
   (setq avy-background t)
   :bind ("M-h" . avy-goto-subword-1))
 
+;; https://github.com/DamienCassou/beginend
+(use-package beginend                   ; Redefine M-< and M-> for some modes
+  :ensure
+  :config
+  (beginend-global-mode))
+
 (use-package compile
   :defer
   :config
