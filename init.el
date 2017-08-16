@@ -1665,7 +1665,8 @@ to cancel it."
 ;; Enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
 
-;; Delete the selected region when something is typed or with DEL
+;; Delete the selected region when something is yanked, typed or with
+;; DEL
 (delete-selection-mode t)
 
 ;; Text selection highlighted by default on Emacs 23
