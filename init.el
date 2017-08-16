@@ -875,7 +875,7 @@ repository."
                                                                    (current-time)
                                                                    (seconds-to-time (* 60 60 24 365 .5)))))))
                                            (uvs '("SY02" "TIS02" "SY09" "SY19"))
-                                           (dirs '("Cours" "TP" "TD" "poly")))
+                                           (dirs '("Cours" "TP" "TD" "poly" "")))
                                        (-table-flat 'list semesters uvs dirs))))
                     '("~/Dropbox/Documents-sy09/"
                       "~/CloudStation/Sylvain/emacs/site-lisp/"))))
