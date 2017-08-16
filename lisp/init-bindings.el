@@ -169,6 +169,11 @@ body passed in argument."
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x /") #'align-regexp)
 
+(global-set-key (kbd "M-!") #'async-shell-command)
+(global-set-key (kbd "C-x C-d") #'duplicate-line)
+(global-set-key (kbd "C-c f") #'flush-lines)
+(global-set-key (kbd "C-c k") #'keep-lines)
+
 
 (global-set-key (kbd "C-c e k") #'find-function-on-key)
 (global-set-key (kbd "C-c e b") #'eval-buffer)
