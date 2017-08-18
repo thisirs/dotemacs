@@ -1,0 +1,1 @@
+(helm-bibtex :fetcher github :repo "thisirs/helm-bibtex")
