@@ -369,9 +369,24 @@ the vertical drag is done."
   (setq epwdgen-password-presets
         '(("passphrase, 4 words, space separator" passphrase
            :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
-          ("classic, length 16" password :length 16 :upper t :number t :lower t :symbol t :ambiguous t)
-          ("upper+number, length 4" password :length 4 :upper t :number t :lower nil
-           :symbol nil :ambiguous nil))))
+          ("alphanumeric, length 16" password
+           :length 16
+           :letter mixed
+           :number t
+           :symbol nil
+           :ambiguous t)
+          ("classic, length 16" password
+           :length 16
+           :letter mixed
+           :number t
+           :symbol t
+           :ambiguous t)
+          ("upper+number, length 4" password
+           :length 4
+           :letter uppercase-only
+           :number t
+           :symbol nil
+           :ambiguous nil))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
