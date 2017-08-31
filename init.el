@@ -166,6 +166,73 @@
   :init
   (load-theme 'spacemacs-dark t))
 
+;; Create my own elpa-like repository for packages online but not
+;; published in elpa or melpa.
+(use-package package-build              ; Tools for assembling a package archive
+  :preface
+  ;; Download package-build.el if not already
+  (unless (file-exists-p (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))
+    (with-current-buffer (url-retrieve-synchronously "https://raw.githubusercontent.com/melpa/melpa/master/package-build/package-build.el")
+      (goto-char (point-min))
+      (re-search-forward "^$")
+      (delete-region (point) (point-min))
+      (write-file (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))))
+  (add-to-list 'load-path (expand-file-name "local-package-archives" user-emacs-directory))
+
+  :config
+  ;; https://github.com/jwiegley/emacs-async
+  (use-package async :ensure)           ; Asynchronous processing in Emacs
+  (require 'find-func) ;; for find-library-name
+
+  (setq package-archive-priorities '(("local" . 42)))
+
+  ;; Pin all packages listed in local repository
+  (setq package-pinned-packages
+        (mapcar (lambda (e) (cons (intern e) "local"))
+                (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
+  (add-to-list 'package-archives
+               `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
+
+
+  (defun package-build-update-local-packages-async ()
+    "Asynchronously update all packages listed in local
+repository."
+    (interactive)
+    (async-start
+     `(lambda ()
+        (load-file ,(find-library-name "package"))
+        (load-file ,(find-library-name "package-build"))
+
+        ;; Inject variables and functions
+        ,(async-inject-variables "\\`user-emacs-directory\\'")
+        (fset 'package-build-update-local-packages ,(symbol-function 'package-build-update-local-packages))
+
+        ;; And sync
+        (package-build-update-local-packages)
+        (with-current-buffer "*Messages*"
+          (buffer-string)))
+
+     (lambda (result)
+       ;; Report back in a buffer
+       (with-current-buffer (get-buffer-create "*async local packages sync*")
+         (setq buffer-read-only nil)
+         (erase-buffer)
+         (insert result))
+       (minibuffer-message "Local packages synchronized!"))))
+
+  (defun package-build-update-local-packages ()
+    "Build packages listed in \"/~/.emacs.d/local-package-archives/recipes\""
+    (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
+           (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
+           (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
+           (package-build-recipes-dir (expand-file-name "recipes/" package-build--this-dir)))
+      (package-build-reinitialize)
+      (package-build-all)
+      (package-build-dump-archive-contents)))
+
+  ;; Do it asynchronously
+  (package-build-update-local-packages-async))
+
 (require 'init-bindings)
 (require 'init-editing)
 (require 'init-fill)
@@ -722,62 +789,6 @@ the vertical drag is done."
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :ensure
   :config (org-context-activate))
-
-;; Create my own elpa-like repository for packages online but not
-;; published in elpa or melpa.
-(use-package package-build              ; Tools for assembling a package archive
-  :ensure
-  :config
-  ;; https://github.com/jwiegley/emacs-async
-  (use-package async :ensure)           ; Asynchronous processing in Emacs
-
-  (setq package-archive-priorities '(("local" . 42)))
-
-  ;; Pin all packages listed in local repository
-  (setq package-pinned-packages
-        (mapcar (lambda (e) (cons (intern e) "local"))
-                (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
-  (add-to-list 'package-archives
-               `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
-
-  (defun package-build-update-local-packages-async ()
-    "Asynchronously update all packages listed in local
-repository."
-    (interactive)
-    (async-start
-     `(lambda ()
-        (load-file ,(find-library-name "package"))
-        (load-file ,(find-library-name "package-build"))
-
-        ;; Inject variables and functions
-        ,(async-inject-variables "\\`user-emacs-directory\\'")
-        (fset 'package-build-update-local-packages ,(symbol-function 'package-build-update-local-packages))
-
-        ;; And sync
-        (package-build-update-local-packages)
-        (with-current-buffer "*Messages*"
-          (buffer-string)))
-
-     (lambda (result)
-       ;; Report back in a buffer
-       (with-current-buffer (get-buffer-create "*async local packages sync*")
-         (setq buffer-read-only nil)
-         (erase-buffer)
-         (insert result))
-       (minibuffer-message "Local packages synchronized!"))))
-
-  (defun package-build-update-local-packages ()
-    "Build packages listed in \"/~/.emacs.d/local-package-archives/recipes\""
-    (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
-           (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
-           (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
-           (package-build-recipes-dir (expand-file-name "recipes/" package-build--this-dir)))
-      (package-build-reinitialize)
-      (package-build-all)
-      (package-build-dump-archive-contents)))
-
-  ;; Do it asynchronously
-  (package-build-update-local-packages-async))
 
 (use-package pdf-tools                  ; Support library for PDF documents.
   :ensure

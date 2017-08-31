@@ -1,4 +1,0 @@
-(package-build :repo "thisirs/melpa"
-               :fetcher github
-               :branch "no-debug-on-signal"
-               :files ("package-build.el"))
