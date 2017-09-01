@@ -151,7 +151,7 @@
   (load-theme 'zenburn t))
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
-  :if (on-zbook)
+  :if (or (on-zbook) (on-knuth))
   :if (window-system)
   :ensure solarized-theme
   :config
