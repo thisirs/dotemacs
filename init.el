@@ -99,23 +99,14 @@
   (package-initialize)
 
   (defvar package-required-packages
-    '(async
-      cmake-mode
+    '(
       diminish
       ;; helm
-      inf-ruby
-      info+
       lua-mode
       org-caldav
-      org-password-manager
       org-plus-contrib
       paredit
-      pcache
-      rainbow-mode
-      s
-      tidy
-      use-package
-      yaml-mode)
+      use-package)
     "List of required packages")
 
   (with-demoted-errors "Package auto-install error: %S"
@@ -324,6 +315,8 @@ repository."
   :ensure
   :config
   (beginend-global-mode))
+
+(use-package cmake-mode :ensure)        ; major-mode for editing CMake sources
 
 (use-package compile
   :defer
@@ -609,6 +602,31 @@ the vertical drag is done."
           (smerge-mode "C-c ^")))
   (guide-key-mode 1))
 
+(use-package hl-line
+  :disabled
+  :ensure
+  :config
+  ;; Highlight the line only in the active window
+  (setq global-hl-line-sticky-flag t)
+  (setq hl-line-sticky-flag t)
+
+  ;; hl-line+
+  ;; http://www.emacswiki.org/emacs/hl-line+.el
+  (use-package hl-line+               ; Extensions to hl-line.el.
+    :ensure
+    :config
+    (toggle-hl-line-when-idle 1) ; Highlight line only when idle
+    ;; Number of seconds of idle time after when the line should be highlighted
+    (setq hl-line-idle-interval 5)
+    ;; Number of seconds for `hl-line-flash' to highlight the line
+    (setq hl-line-flash-show-period 3)))
+
+;; https://www.emacswiki.org/emacs/download/info%2b.el
+(use-package info+ :ensure)             ; Extensions to `info.el'.
+
+;; http://github.com/nonsequitur/inf-ruby
+(use-package inf-ruby :ensure)          ; Run a Ruby process in a buffer
+
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :ensure
   :defer 5
@@ -632,26 +650,6 @@ the vertical drag is done."
 
   (advice-add 'bibtex-completion-format-citation-cite :around
               #'bibtex-completion-format-always-cite))
-
-(use-package hl-line
-  :disabled
-  :ensure
-  :config
-  ;; Highlight the line only in the active window
-  (setq global-hl-line-sticky-flag t)
-  (setq hl-line-sticky-flag t)
-
-
-  ;; hl-line+
-  ;; http://www.emacswiki.org/emacs/hl-line+.el
-  (use-package hl-line+               ; Extensions to hl-line.el.
-    :ensure
-    :config
-    (toggle-hl-line-when-idle 1) ; Highlight line only when idle
-    ;; Number of seconds of idle time after when the line should be highlighted
-    (setq hl-line-idle-interval 5)
-    ;; Number of seconds for `hl-line-flash' to highlight the line
-    (setq hl-line-flash-show-period 3)))
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
@@ -792,6 +790,8 @@ the vertical drag is done."
   :ensure
   :config (org-context-activate))
 
+(use-package pcache :ensure)            ; persistent caching for Emacs.
+
 (use-package pdf-tools                  ; Support library for PDF documents.
   :ensure
   :defer 10
@@ -928,6 +928,9 @@ the vertical drag is done."
   (setq projectile-ignored-project-function #'projectile-ignored-semester)
 
   (projectile-global-mode))
+
+;; http://elpa.gnu.org/packages/rainbow-mode.html
+(use-package rainbow-mode :ensure)      ; Colorize color names in buffers
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
@@ -1141,6 +1144,9 @@ the vertical drag is done."
 
   (state-global-mode 1))
 
+;; http://www.emacswiki.org/elisp/tidy.el
+(use-package tidy :ensure)              ; Interface to the HTML Tidy program
+
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
   :ensure
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
@@ -1234,6 +1240,8 @@ the vertical drag is done."
 (with-eval-after-load 'uniquify
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   (setq uniquify-after-kill-buffer-p t))
+
+(use-package yaml-mode :ensure)         ; Major mode for editing YAML files
 
 ;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm                   ; Commands to zoom frame font size.
