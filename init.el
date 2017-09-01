@@ -619,7 +619,8 @@ the vertical drag is done."
         '("~/CloudStation/Sylvain/recherche/biblio/zotero/tracking/"
           "~/CloudStation/Sylvain/recherche/biblio/zotero/compressed_sensing/"
           "~/CloudStation/Sylvain/recherche/biblio/zotero/hashing/"
-          "~/CloudStation/Sylvain/recherche/biblio/zotero/graphs_and_deep_learning/"))
+          "~/CloudStation/Sylvain/recherche/biblio/zotero/graphs_and_deep_learning/"
+          "~/CloudStation/Sylvain/recherche/biblio/zotero/books/"))
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file")
 
