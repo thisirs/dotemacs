@@ -566,7 +566,7 @@ the vertical drag is done."
               ("a" . grep-toggle-binary-search))
   :config
   (if (not (executable-find "ag"))
-      (bind-key "M-g f" find-grep))
+      (bind-key "M-g f" 'find-grep))
 
   ;; grep binary files (latin-1 are binary files...)
   (defun grep-toggle-binary-search (&optional arg)
