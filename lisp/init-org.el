@@ -1,8 +1,8 @@
 (use-package org                        ; Outline-based notes management and organizer
   :ensure
   :config
-  (use-package org-caldav :ensure)
-  (use-package org-plus-contrib :ensure)
+  (use-package org-caldav :ensure)      ; Sync org files with external calendar through CalDAV
+  (use-package org-plus-contrib :ensure) ; Outline-based notes management and organizer
   (use-package ox-koma-letter
     :defer t
     :config
