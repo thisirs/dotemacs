@@ -88,27 +88,12 @@
 (electric-indent-mode 1)
 
 ;; Adding packages
-(with-emacs-version>= "24"
-  (require 'package)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
 
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/") t)
-
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-
-  (package-initialize)
-
-  (defvar package-required-packages
-    '(
-      diminish
-      ;; helm
-      lua-mode
-      org-caldav
-      org-plus-contrib
-      paredit
-      use-package)
-    "List of required packages")
-
+(let ((package-required-packages '(use-package diminish)))
   (with-demoted-errors "Package auto-install error: %S"
     (catch 'timeout
       (when (memq nil (mapcar 'package-installed-p package-required-packages))
@@ -688,6 +673,9 @@ the vertical drag is done."
   (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
   (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
   (setq langtool-default-language "fr"))
+
+;; http://immerrr.github.com/lua-mode
+(use-package lua-mode :ensure)          ; a major-mode for editing Lua scripts
 
 ;; https://github.com/joddie/macrostep
 (use-package macrostep                  ; interactive macro expander

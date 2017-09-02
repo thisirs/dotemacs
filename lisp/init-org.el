@@ -1,6 +1,8 @@
 (use-package org                        ; Outline-based notes management and organizer
   :ensure
   :config
+  (use-package org-caldav :ensure)
+  (use-package org-plus-contrib :ensure)
   (use-package ox-koma-letter
     :defer t
     :config
