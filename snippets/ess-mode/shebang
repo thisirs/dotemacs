@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Insert R shebang
+# key: sb
+# --
+#!/usr/bin/env Rscript
+
+$0
