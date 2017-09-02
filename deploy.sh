@@ -27,19 +27,3 @@ fi
 
 git clone $DOTEMACS_REPO $HOME/.emacs.d
 
-cd $HOME/.emacs.d
-git submodule init
-git submodule update
-
-# Per sub-module configuration
-read -r -d '' PRGM << "EOM"
-case $(basename $(pwd)) in
-    org-mode)
-        make autoloads
-        ;;
-    *)
-        echo "No configuration for submodule $(basename $(pwd))"
-esac
-EOM
-
-git submodule foreach "$PRGM"
