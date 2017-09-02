@@ -112,5 +112,19 @@ insertion."
   (org-clone-local-variables (org-capture-get :original-buffer) "\\`org-")
   (org-set-tags))
 
+(defun org-attach-attach-from (file)
+  "Attach FILE to current entry.
+
+Attachment directory is specified in property :attachments_dir in
+capture template. When called interactively, offer a list of
+recently downloaded files to attach."
+  (interactive (list (completing-read
+                      "File to attach: "
+                      (let ((output (string-trim (shell-command-to-string "find ~/deathrow /tmp/mozilla_sylvain0 -maxdepth 1 -type f -exec ls -1t \"{}\" +;"))))
+                        (unless (string-empty-p output)
+                          (split-string output "\n"))))))
+  (let ((org-attach-directory (org-capture-get :attachments_dir)))
+    (ignore (org-attach-attach file nil 'cp))))
+
 
 (provide 'init-org-capture-helpers)
