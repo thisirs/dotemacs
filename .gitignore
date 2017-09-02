@@ -19,6 +19,7 @@ lisp/init-vanilla.el
 # Custom package repository
 local-package-archives/packages/
 local-package-archives/working/
+local-package-archives/package-build.el
 
 # StackExchange client
 .sx/
