@@ -175,8 +175,7 @@
     (with-current-buffer (url-retrieve-synchronously "https://raw.githubusercontent.com/melpa/melpa/master/package-build/package-build.el")
       (goto-char (point-min))
       (re-search-forward "^$")
-      (delete-region (point) (point-min))
-      (write-file (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))))
+      (write-region (point) (point-max) (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))))
   (add-to-list 'load-path (expand-file-name "local-package-archives" user-emacs-directory))
 
   :config
