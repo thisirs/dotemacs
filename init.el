@@ -1576,9 +1576,12 @@ in file in a non-autocommitted repository."
 (defun shared-directory ()
   "Return non-nil if current buffer is visiting a file that is
 shared as specified in `shared-directory-list'."
-  (and (buffer-file-name)
-       (let ((fname (abbreviate-file-name (buffer-file-name))))
-         (seq-some (lambda (e) (string-prefix-p e fname)) shared-directory-list))))
+  (when-let ((fname (buffer-file-name)))
+    (seq-some (lambda (e)
+                (string-prefix-p
+                 (directory-file-name (expand-file-name e))
+                 (directory-file-name (expand-file-name fname))))
+              shared-directory-list)))
 
 ;; Don't delete trailing whitespaces on checked in vc-controlled files
 ;; that are not auto-committed and on shared files
