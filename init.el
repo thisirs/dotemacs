@@ -883,10 +883,10 @@ the vertical drag is done."
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
       (if (and (< month 8) (> month 2))
-          (list (format "P%d" year) (format "%d (1)" year))
+          (list (format "P%d" year) (format "%d(1)" year))
         (if (<= month 2)
-            (list (format "A%d" (1- year)) (format "%d (2)" (1- year)))
-          (list (format "A%d" year) (format "%d (2)" year))))))
+            (list (format "A%d" (1- year)) (format "%d(2)" (1- year)))
+          (list (format "A%d" year) (format "%d(2)" year))))))
 
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
