@@ -93,7 +93,7 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
-(let ((package-required-packages '(use-package diminish)))
+(let ((package-required-packages (list 'use-package 'diminish)))
   (with-demoted-errors "Package auto-install error: %S"
     (catch 'timeout
       (when (memq nil (mapcar 'package-installed-p package-required-packages))
