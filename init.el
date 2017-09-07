@@ -451,6 +451,9 @@ the vertical drag is done."
                     #'elisp-eldoc-documentation-function)
       (eldoc-mode)
       (enable-paredit-mode)
+      (add-hook 'completion-at-point-functions
+                #'elisp-completion-at-point nil 'local)
+      (local-set-key (kbd "<tab>") #'completion-at-point)
       (set-syntax-table emacs-lisp-mode-syntax-table))))
 
 ;; Set path as if emacs were run in a terminal
