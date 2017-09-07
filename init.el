@@ -420,19 +420,22 @@ the vertical drag is done."
            :letter mixed
            :number t
            :symbol nil
-           :ambiguous t)
+           :ambiguous t
+           :group t)
           ("classic, length 16" password
            :length 16
            :letter mixed
            :number t
            :symbol t
-           :ambiguous t)
+           :ambiguous t
+           :group t)
           ("upper+number, length 4" password
            :length 4
            :letter uppercase-only
            :number t
            :symbol nil
-           :ambiguous nil))))
+           :ambiguous nil
+           :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :ensure
