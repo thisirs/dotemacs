@@ -501,7 +501,6 @@ the vertical drag is done."
   ;; Save scratch buffer as temp file when quitting emacs
   (add-hook 'kill-emacs-hook #'find-temp-file-save-scratch)
 
-  (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
