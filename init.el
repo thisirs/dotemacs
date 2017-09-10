@@ -827,6 +827,9 @@ the vertical drag is done."
   (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
     :ensure))
 
+;; https://github.com/ejmr/php-mode
+(use-package php-mode :ensure)          ; Major mode for editing PHP code
+
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
   :commands poly-markdown-string-mode
