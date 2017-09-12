@@ -80,20 +80,17 @@ repeatedly q."
     (interactive)
     (dired (getenv "HOME"))))
 
-;; Copy full file-path in kill-ring
-(defun dired-copy-path-as-kill (&optional arg)
-  "Copy full path of marked or current file. If ARG is non-nil,
-ask for a base directory and return path relative to this
-directory."
-  (interactive "P")
-  (if arg
-      (let ((default-directory default-directory))
-        (if (called-interactively-p 'interactive)
-            (setq default-directory (read-file-name "Base directory: ")))
-        (dired-copy-filename-as-kill '(4)))
-    (dired-copy-filename-as-kill 0)))
+;; Invert C-u and M-0 prefix arg in dired-copy-filename-as-kill
+(defun dired-copy-filename-as-kill-fix (args)
+  (when args
+    (cond ((equal (car args) '(4))
+           '(0))
+          ((equal (car args) '(0))
+           '((4)))
+          (t args))))
 
-(define-key dired-mode-map (kbd "W") #'dired-copy-path-as-kill)
+(advice-add 'dired-copy-filename-as-kill :filter-args 'dired-copy-filename-as-kill-fix)
+
 
 ;; C-c C-m C-a jumps to gnus with current file attached
 (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
