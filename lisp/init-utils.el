@@ -142,4 +142,15 @@ and the index of the match."
                 (indent-to comment-column 1)
                 (insert (format "; %s" desc))))))))))
 
+(defun copy-downloaded-file (file &optional directory)
+  (interactive
+   (list
+    (completing-read
+     "File to attach: "
+     (let ((output (string-trim (shell-command-to-string "find ~/deathrow /tmp/mozilla_sylvain0 -maxdepth 1 -type f -exec ls -1t \"{}\" +;"))))
+       (unless (string-empty-p output)
+         (split-string output "\n"))))
+    (read-directory-name "Copy in directory? " default-directory)))
+  (copy-file file (expand-file-name (file-name-nondirectory file) (or directory default-directory))))
+
 (provide 'init-utils)
