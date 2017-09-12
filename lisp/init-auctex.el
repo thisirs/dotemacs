@@ -39,7 +39,7 @@
 
     ;; Avoid generating auto/ directory when working on shared documents
     (defun disable-automatic-parsing ()
-      (on-shared-documents
+      (when (shared-directory)
        (setq-local TeX-parse-self nil)
        (setq-local TeX-auto-save nil)))
 
