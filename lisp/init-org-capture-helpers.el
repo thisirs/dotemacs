@@ -123,6 +123,7 @@ recently downloaded files to attach."
                       (let ((output (string-trim (shell-command-to-string "find ~/deathrow /tmp/mozilla_sylvain0 -maxdepth 1 -type f -exec ls -1t \"{}\" +;"))))
                         (unless (string-empty-p output)
                           (split-string output "\n"))))))
+  (require 'org-attach)
   (let ((org-attach-directory (org-capture-get :attachments_dir)))
     (ignore (org-attach-attach file nil 'cp))))
 
