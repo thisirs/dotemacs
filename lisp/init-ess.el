@@ -48,10 +48,8 @@
               (shell-command-on-region beg end command temp-buffer)
               (with-current-buffer buf
                 (delete-region beg end)
-                (insert-buffer-substring temp-buffer)))
-          (and
-           (buffer-name temp-buffer)
-           (kill-buffer temp-buffer))))))
+                (insert-buffer-substring temp-buffer))))
+        (kill-buffer temp-buffer))))
 
   (defun tidy-Rtex-chunks ()
     (interactive)
