@@ -191,4 +191,11 @@ defaults to one. "
            (read-file-name "file: " (dired-dwim-target-directory)))
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
+(use-package dired-ranger
+  :ensure
+  :bind (:map dired-mode-map
+              ("W" . dired-ranger-copy)
+              ("X" . dired-ranger-move)
+              ("Y" . dired-ranger-paste)))
+
 (provide 'init-dired)
