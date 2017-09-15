@@ -316,6 +316,7 @@ repository."
          ("C-x l" . counsel-locate)
          ("M-x" . counsel-M-x)
          ("M-y" . counsel-yank-pop)
+         ("C-c e l" . counsel-find-library)
          :map help-map
          ("f" . counsel-describe-function)
          ("v" . counsel-describe-variable)

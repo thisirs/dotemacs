@@ -178,7 +178,6 @@ body passed in argument."
 (global-set-key (kbd "C-c e k") #'find-function-on-key)
 (global-set-key (kbd "C-c e b") #'eval-buffer)
 (global-set-key (kbd "C-c e d") #'toggle-debug-on-error)
-(global-set-key (kbd "C-c e l") #'find-library)
 (global-set-key (kbd "C-c e r") #'eval-region)
 (global-set-key (kbd "C-c e q") #'toggle-debug-on-quit)
 (global-set-key (kbd "C-c e g") #'toggle-debug-on-quit)
