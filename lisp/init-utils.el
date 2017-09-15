@@ -91,7 +91,7 @@ inline."
 REGEX is first matched sequentially and then all matches are
 replaced by the result of REPLACE called with the matched string
 and the index of the match."
-  (interactive "sRegex:\nsReplace:")
+  (interactive "sRegex: \nsReplace: ")
   (when (stringp replace)
     (unless (string-match "%\\([0-9]+\\)?d" replace)
       (user-error "Replacement string must have a %%d"))
