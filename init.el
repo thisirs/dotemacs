@@ -265,7 +265,7 @@ repository."
   (setq ag-group-matches nil)
 
   (defun ag-search-current-directory (string)
-    (interactive (list (ag/read-from-minibuffer "Search string")))
+    (interactive (list (ag/read-from-minibuffer "Ag search string")))
     (let ((current-prefix-arg last-prefix-arg))
       (ag/search string default-directory))))
 
