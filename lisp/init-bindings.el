@@ -34,7 +34,6 @@
 (global-set-key (kbd "C-,") #'other-window)
 (global-set-key (kbd "M-o") #'other-window)
 
-(global-set-key (kbd "M-g f") #'find-grep)
 (global-set-key (kbd "M-g r") #'recompile)
 (global-set-key (kbd "M-g c") #'compile)
 
@@ -183,15 +182,6 @@ body passed in argument."
 (global-set-key (kbd "C-c e g") #'toggle-debug-on-quit)
 (global-set-key (kbd "C-c e L") #'elint-current-buffer)
 (global-set-key (kbd "C-c e t") #'ert-run-tests-interactively)
-
-(global-set-key (kbd "C-c d k") #'describe-key)
-(global-set-key (kbd "C-c d v") #'describe-variable)
-(global-set-key (kbd "C-c d f") #'describe-function)
-
-(global-set-key (kbd "C-c d a") #'helm-apropos)
-(global-set-key [remap execute-extended-command] #'helm-M-x)
-
-(global-set-key (kbd "C-h") (kbd "DEL"))
 
 (defun kmacro-reset-counter ()
   (interactive)
