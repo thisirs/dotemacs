@@ -24,6 +24,8 @@ repeatedly q."
   (while (or (and (eq major-mode 'dired-mode)
                   (or (quit-window kill) t))
              (and (eq major-mode 'help-mode)
+                  (or (quit-window kill) t))
+             (and (derived-mode-p 'compilation-mode)
                   (or (quit-window kill) t)))))
 
 ;; Don't wait for auto-revert and reload dired after creating a directory
