@@ -253,6 +253,7 @@ repository."
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :if (executable-find "ag")
   :ensure
+  :bind ("M-g f" . ag-search-current-directory)
   :config
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
   (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
@@ -266,8 +267,7 @@ repository."
   (defun ag-search-current-directory (string)
     (interactive (list (ag/read-from-minibuffer "Search string")))
     (let ((current-prefix-arg last-prefix-arg))
-      (ag/search string default-directory)))
-  :bind ("M-g f" . ag-search-current-directory))
+      (ag/search string default-directory))))
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
