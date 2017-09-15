@@ -102,17 +102,26 @@ repeatedly q."
 (defun dired-nondirectory-p (file)
   (not (file-directory-p file)))
 
-(defun dired-do-command (command)
+(defvar dired-do-command-result nil)
+
+(defun dired-do-command (command &optional reduce)
   "Run COMMAND on marked files. Any files not already open will be opened.
 After this command has been run, any buffers it's modified will remain
 open and unsaved."
-  (interactive (list (read--expression "Command: ")))
-  (dolist (filename (dired-get-marked-files nil nil 'dired-nondirectory-p))
-    (save-window-excursion
-      (switch-to-buffer (find-file-noselect filename))
-      (if (symbolp command)
-          (call-interactively command)
-        (eval command)))))
+  (interactive (list (read--expression "Command: ")
+                     (read--expression "Reduce return values (default list): "
+                                       "list")))
+  (unless reduce (setq reduce 'list))
+  (setq dired-do-command-result
+        (apply reduce
+               (mapcar
+                (lambda (filename)
+                  (save-window-excursion
+                    (switch-to-buffer (find-file-noselect filename))
+                    (if (symbolp command)
+                        (call-interactively command)
+                      (eval command))))
+                (dired-get-marked-files nil nil 'dired-nondirectory-p)))))
 
 (defmacro with-current-value (variable buffers &rest body)
   "Execute the forms in BODY with VARIABLE temporarily set to
