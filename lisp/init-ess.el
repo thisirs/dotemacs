@@ -35,6 +35,7 @@
       (ess-swv-plug-into-AUCTeX))
 
   (defun tidy-R-buffer (&optional beg end formatR-opts)
+    "Tidy current buffer with the R library formatR."
     (interactive "r\nMformatR options: ")
     (save-excursion
       (let* ((beg (if (region-active-p) (region-beginning) (point-min)))
@@ -52,6 +53,7 @@
         (kill-buffer temp-buffer))))
 
   (defun tidy-Rtex-chunks ()
+    "Tidy all the R chunks delimited by begin.rcode/end.rcode."
     (interactive)
     (save-excursion
       (goto-char (point-min))
