@@ -409,6 +409,45 @@ the vertical drag is done."
             (lambda ()
               (jump-to-register 'ediff))))
 
+;; https://github.com/hrs/engine-mode
+(use-package engine-mode                ; Define and query search engines from within Emacs.
+  :ensure
+  :bind* ("C-c /" . engine-mode-hydra/body)
+  :config
+
+  ;; https://github.com/abo-abo/hydra
+  (use-package hydra)                   ; Make bindings that stick around.
+
+  (engine-mode t)
+
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d")
+
+  (defengine stack-overflow
+    "https://stackoverflow.com/search?q=%s"
+    :keybinding "s")
+
+  (defengine google
+    "https://google.com/search?q=%s"
+    :keybinding "g")
+
+  (defengine wikipedia
+    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+    :keybinding "w")
+
+  (defengine rfcs
+    "http://pretty-rfc.herokuapp.com/search?q=%s"
+    :keybinding "r")
+
+  (defhydra engine-mode-hydra (:color blue)
+    "Engine mode"
+    ("d" engine/search-duckduckgo "duckduckgo")
+    ("w" engine/search-wikipedia "wikipedia")
+    ("r" engine/search-rfcs "RFC")
+    ("s" engine/search-stack-overflow "stack overflow")
+    ("g" engine/search-google "google")))
+
 (use-package epwdgen                    ; Flexible password generator
   :ensure
   :commands epwdgen-generate-password
