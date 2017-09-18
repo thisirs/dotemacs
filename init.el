@@ -825,6 +825,13 @@ the vertical drag is done."
   :ensure
   :config (org-context-activate))
 
+;; https://github.com/Malabarba/paradox
+(use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
+  :ensure
+  :commands paradox-list-packages
+  :config
+  (setq paradox-execute-asynchronously t))
+
 (use-package pcache :ensure)            ; persistent caching for Emacs.
 
 (use-package pdf-tools                  ; Support library for PDF documents.
