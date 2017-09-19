@@ -50,8 +50,8 @@ If BEFORE is an integer, add a warn time."
     (when (bufferp obuf)
       (with-current-buffer obuf
         (when (eq major-mode 'org-agenda-mode)
-          (when-let ((day (org-get-at-bol 'day))
-                     (mdy (calendar-gregorian-from-absolute day)))
+          (when-let* ((day (org-get-at-bol 'day))
+                      (mdy (calendar-gregorian-from-absolute day)))
             (setq time (org-get-at-bol 'time-of-day))
             (setq ts (encode-time
                       0

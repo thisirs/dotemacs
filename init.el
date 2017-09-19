@@ -1627,7 +1627,7 @@ in file in a non-autocommitted repository."
 (defun shared-directory ()
   "Return non-nil if current buffer is visiting a file that is
 shared as specified in `shared-directory-list'."
-  (when-let ((fname (buffer-file-name)))
+  (when-let* ((fname (buffer-file-name)))
     (seq-some (lambda (e)
                 (string-prefix-p
                  (directory-file-name (expand-file-name e))
