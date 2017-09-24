@@ -770,7 +770,8 @@ the vertical drag is done."
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
   :ensure
-  :mode ("README\\.md\\'" . gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.Rmd\\'" . rmarkdown-mode))
   :bind (:map markdown-mode-map
               ("C-c C-f" . nil)
               ("C-c C-f b" . markdown-insert-bold)
