@@ -801,6 +801,7 @@ the vertical drag is done."
   :ensure
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
+  (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind ("C-ç" . mc/mark-next-like-this))
 
 (use-package octave
