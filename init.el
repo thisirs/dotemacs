@@ -787,8 +787,7 @@ the vertical drag is done."
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
     (set (make-local-variable 'markdown-command-needs-filename) t)
-    (set (make-local-variable 'markdown-command)
-         "Rscript -e \"library(knitr); knitr::knit(commandArgs(trailing = TRUE)[1])\"")))
+    (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el

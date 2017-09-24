@@ -1,0 +1,9 @@
+#!/usr/bin/Rscript
+
+input <- commandArgs(trailing = TRUE)[1]
+sink("/dev/null")
+library(rmarkdown)
+output <- sub("\\.rmd", "\\.htmlknit", input)
+rmarkdown::render(input, output_file = output, quiet = TRUE)
+sink()
+system(paste("cat", output))
