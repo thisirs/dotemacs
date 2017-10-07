@@ -705,6 +705,7 @@ the vertical drag is done."
   :commands json-mode)
 
 (use-package keyfreq                    ; track command frequencies
+  :ensure
   :config
   (let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
     (make-directory (file-name-directory filepath) :parents)
