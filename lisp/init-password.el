@@ -2,6 +2,7 @@
 
 ;; https://git.leafac.com/leafac/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
+  :ensure
   :defer
   :config
   (require 'auth-source)
