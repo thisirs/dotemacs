@@ -781,6 +781,9 @@ the vertical drag is done."
               ("C-c C-f l" . markdown-insert-link)
               ("C-c C-f u" . markdown-insert-uri))
   :config
+  ;; https://github.com/Fanael/edit-indirect
+  (use-package edit-indirect :ensure)   ; Edit regions in separate buffers
+
   (setq markdown-enable-math t)
   (setq markdown-command
         "pandoc -f markdown -t html5 -s --self-contained --smart")
