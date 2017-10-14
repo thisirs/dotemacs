@@ -836,6 +836,7 @@ the vertical drag is done."
   :ensure
   :commands paradox-list-packages
   :config
+  (setq paradox-github-token t)
   (setq paradox-execute-asynchronously t))
 
 (use-package pcache :ensure)            ; persistent caching for Emacs.
