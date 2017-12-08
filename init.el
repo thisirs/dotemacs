@@ -194,7 +194,8 @@ repository."
          (setq buffer-read-only nil)
          (erase-buffer)
          (insert result))
-       (minibuffer-message "Local packages synchronized!"))))
+       (minibuffer-message "Local packages synchronized!")))
+    (message "Local packages synchronization started"))
 
   (defun package-build-update-local-packages ()
     "Build packages listed in \"/~/.emacs.d/local-package-archives/recipes\""
