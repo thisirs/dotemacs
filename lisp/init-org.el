@@ -22,6 +22,8 @@
 
   ;; (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
 
+  (setq org-archive-location (format "%%s_archive_%s::" (format-time-string "%Y")))
+
   (setq org-todo-keywords
         '("TODO" "|" "CANCELLED" "DONE"))
 
