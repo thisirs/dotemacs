@@ -695,6 +695,8 @@ the vertical drag is done."
 
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-use-selectable-prompt t)
 
   ;; number of result lines to display
   (setq ivy-height 10)
