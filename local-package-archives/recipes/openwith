@@ -1,3 +1,1 @@
-(openwith
- :fetcher bitbucket
- :repo "thisirs/openwith")
+(openwith :fetcher github :repo "thisirs/openwith")
