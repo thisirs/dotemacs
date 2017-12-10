@@ -5,6 +5,10 @@
   ;; No special behaviour of comments starting with #, ## or ###
   (setq ess-indent-with-fancy-comments nil)
   :config
+  ;; No double sharp sign when starting a comment
+  (setq ess-r-customize-alist
+        (append ess-r-customize-alist '((comment-add . 0))))
+
   ;; Override TeX commands Sweave -> KnitR
   (defun ess-swv-add-TeX-commands ()
     "Add commands to AUCTeX's \\[TeX-command-list]."
