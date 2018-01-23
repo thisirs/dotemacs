@@ -41,6 +41,8 @@
   (defun tidy-R-buffer (&optional beg end formatR-opts)
     "Tidy current buffer with the R library formatR."
     (interactive "r\nMformatR options: ")
+    (unless (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
+      (user-error "Need formatR library"))
     (save-excursion
       (let* ((beg (if (region-active-p) (region-beginning) (point-min)))
              (end (if (region-active-p) (region-end) (point-max)))
