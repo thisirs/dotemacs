@@ -540,22 +540,11 @@ refile targets.")
   (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
     :ensure
     :config
-    (defun org-ref-get-pdf-filename-zotero (key)
-      (let* ((results (org-ref-get-bibtex-key-and-file key))
-             (bibfile (cdr results))
-             entry)
-        (with-temp-buffer
-          (insert-file-contents bibfile)
-          (bibtex-set-dialect (parsebib-find-bibtex-dialect) t)
-          (bibtex-search-entry key nil 0)
-          (setq entry (bibtex-parse-entry))
-          (let* ((e (org-ref-reftex-get-bib-field "file" entry))
-                 (e (replace-regexp-in-string "\\([^\\]\\):" "\\1\0" e))
-                 (e (replace-regexp-in-string "\\\\\\(.\\)" "\\1" e))
-                 (e (split-string e "\0")))
-            (seq-find (lambda (ee) (and (string-suffix-p ".pdf" ee) (file-exists-p ee))) e)))))
 
-    (setq org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-zotero))
+    ;; Use bibtex-completion-find-pdf-in-field to open pdf file
+    (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
+      (car (bibtex-completion-find-pdf-in-field key-or-entry)))
+    (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
   (setq org-outline-path-complete-in-steps nil)
 
