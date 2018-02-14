@@ -874,13 +874,21 @@ the vertical drag is done."
     (defun pdf-annot-add-text-annotation-here (ev)
       (interactive "@e")
       (pdf-annot-activate-annotation (pdf-annot-mouse-add-text-annotation ev)))
+
+    (defun pdf-annot-delete-current ()
+      "Delete currently edited annotation"
+      (interactive)
+      (pdf-annot-delete pdf-annot-edit-contents--annotation)
+      (pdf-annot-edit-contents-abort))
+
     :bind (:map
            pdf-annot-minor-mode-map
            ([double-mouse-1] . pdf-annot-add-text-annotation-here)
            :map
            pdf-annot-edit-contents-minor-mode-map
            ;; Instead of C-c C-q
-           ("C-c C-k" . pdf-annot-edit-contents-abort)))
+           ("C-c C-k" . pdf-annot-edit-contents-abort)
+           ("C-c C-d" . pdf-annot-delete-current)))
 
   ;; https://github.com/thisirs/pdf-tools-points.git
   (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
@@ -932,7 +940,7 @@ the vertical drag is done."
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; Open root directory when switching
-  (setq projectile-switch-project-action 'projectile-dired)
+  (setq projectile-switch-project-action 'projectile-find-file)
 
   (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
   (setq projectile-completion-system 'ivy)
