@@ -540,6 +540,7 @@ refile targets.")
   (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
     :ensure
     :config
+    (setq org-ref-completion-library 'org-ref-ivy-bibtex)
 
     ;; Use bibtex-completion-find-pdf-in-field to open pdf file
     (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
