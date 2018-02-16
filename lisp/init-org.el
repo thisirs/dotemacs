@@ -543,7 +543,8 @@ refile targets.")
 
     ;; Use bibtex-completion-find-pdf-in-field to open pdf file
     (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
-      (car (bibtex-completion-find-pdf-in-field key-or-entry)))
+      (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
+          "/dummy"))
     (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
   (setq org-outline-path-complete-in-steps nil)
