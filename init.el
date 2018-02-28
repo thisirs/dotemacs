@@ -1134,6 +1134,12 @@ the vertical drag is done."
     :exist gnus-alive-p
     :create gnus)
 
+  (state-define-state slack
+    :key "l"
+    :in (memq major-mode '(slack-message-buffer-mode))
+    :switch (tracking-next-buffer)
+    :keep (tracking-next-buffer))
+
   (state-define-state erc
     :key "i"
     :in (and (fboundp 'erc-buffer-list)
