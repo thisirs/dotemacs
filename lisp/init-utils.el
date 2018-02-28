@@ -120,7 +120,7 @@ and the index of the match."
                (def (save-excursion
                       (goto-char (match-beginning 0))
                       (read standard-input)))
-               (pkg-name (let ((it (plist-get (use-package-normalize-plist (cadr def) (cddr def))
+               (pkg-name (let ((it (plist-get (use-package-normalize-plist (cadr def) (cddr def) nil #'use-package-merge-keys)
                                               :ensure)))
                            (if (or (eq it t) (null it))
                                (cadr def)
