@@ -869,6 +869,8 @@ the vertical drag is done."
   (pdf-tools-install :force-compile nil :no-error)
   (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
+  (setq pdf-misc-print-programm lpr-command)
+
   (use-package pdf-annot
     :config
     (defun pdf-annot-add-text-annotation-here (ev)
@@ -1057,6 +1059,22 @@ the vertical drag is done."
 (use-package skeletor                   ; Provides project skeletons for Emacs
   :ensure
   :defer 10)
+
+;; https://github.com/yuya373/emacs-slack
+(use-package slack                      ; Slack client for Emacs
+  :commands (slack-start)
+  :init
+  (setq slack-buffer-emojify t)
+  (setq slack-prefer-current-team t)
+  :config
+  (slack-register-team
+   :name (plist-get (car (auth-source-search :require '(:client_id))) :name)
+   :default t
+   :client-id (plist-get (car (auth-source-search :require '(:name :client_id))) :client_id)
+   :client-secret (plist-get (car (auth-source-search :require '(:name :client_id))) :client_secret)
+   :token (plist-get (car (auth-source-search :require '(:name :client_id))) :token)
+   ;; :subscribed-channels '(test-rename rrrrr)
+   :full-and-display-names t))
 
 (use-package smart-mark                 ; Restore point after C-g when mark
   :ensure
