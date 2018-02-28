@@ -125,17 +125,17 @@ and the index of the match."
                            (if (or (eq it t) (null it))
                                (cadr def)
                              it))))
-          (when-let ((pkg (cadr (assoc pkg-name package-archive-contents))))
-            (when-let ((url (cdr (assoc :url (package-desc-extras pkg)))))
-              (unless (save-excursion
-                        (forward-line -1)
-                        (looking-at "[[:space:]]*;+[[:space:]]*http"))
-                (save-excursion
-                  (beginning-of-line)
-                  (open-line 1)
-                  (indent-according-to-mode)
-                  (insert (format ";; %s" url)))))
-            (when-let ((desc (package-desc-summary pkg)))
+          (when-let* ((pkg (cadr (assoc pkg-name package-archive-contents)))
+                      (url (cdr (assoc :url (package-desc-extras pkg)))))
+            (unless (save-excursion
+                      (forward-line -1)
+                      (looking-at "[[:space:]]*;+[[:space:]]*http"))
+              (save-excursion
+                (beginning-of-line)
+                (open-line 1)
+                (indent-according-to-mode)
+                (insert (format ";; %s" url))))
+            (when-let* ((desc (package-desc-summary pkg)))
               (unless (or (equal desc package--default-summary)
                           (save-excursion (re-search-forward ";" (line-end-position) t)))
                 (end-of-line)
