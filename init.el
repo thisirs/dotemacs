@@ -693,7 +693,8 @@ the vertical drag is done."
 (use-package ivy                        ; Incremental Vertical completYon
   :ensure
   :diminish (ivy-mode . "")
-  :bind (("C-x C-b" . ivy-switch-buffer))
+  :bind (("C-x C-b" . ivy-switch-buffer)
+         ("C-x C-j" . ivy-bookmarks))
   :config
   (define-key ivy-switch-buffer-map (kbd "C-b") 'next-line)
 
@@ -705,7 +706,25 @@ the vertical drag is done."
   ;; number of result lines to display
   (setq ivy-height 10)
 
-  (ivy-mode))
+  (ivy-mode)
+
+  (defun ivy-bookmarks-open (candidate)
+    (let ((key (cdr (assoc "href" (cdr candidate)))))
+      (browse-url key)))
+
+  (defun ivy-bookmarks ()
+    (interactive)
+    (let* ((fn "~/.mozilla/firefox/bookmark_list.el")
+           candidates)
+      (when (file-exists-p fn)
+        (setq candidates (with-temp-buffer
+                           (insert-file-contents fn)
+                           (goto-char (point-min))
+                           (read (current-buffer)))))
+      (ivy-read (concat "Visit bookmark" (if (null candidates) " (not found)") ": ")
+                candidates
+                :action 'ivy-bookmarks-open
+                :caller 'ivy-bookmarks))))
 
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
