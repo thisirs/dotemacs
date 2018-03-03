@@ -12,7 +12,7 @@
 
 ;; https://github.com/emacs-helm/helm-descbinds
 (use-package helm-descbinds             ; A convenient `describe-bindings' with `helm'
-  :ensure
+  :straight
   :config
   (require 'helm-config)
   (helm-descbinds-mode))

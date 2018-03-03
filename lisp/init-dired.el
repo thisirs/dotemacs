@@ -194,7 +194,7 @@ defaults to one. "
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
 (use-package dired-ranger
-  :ensure
+  :straight t
   :bind (:map dired-mode-map
               ("W" . dired-ranger-copy)
               ("X" . dired-ranger-move)

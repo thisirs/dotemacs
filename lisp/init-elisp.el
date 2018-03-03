@@ -6,7 +6,7 @@
 
 ;; https://github.com/purcell/elisp-slime-nav
 (use-package elisp-slime-nav            ; Make M-. and M-, work in elisp like they do in slime
-  :ensure
+  :straight t
   :config
   (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode))
 

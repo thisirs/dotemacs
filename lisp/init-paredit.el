@@ -1,4 +1,4 @@
-(use-package paredit :ensure)           ; minor mode for editing parentheses
+(use-package paredit :straight t)           ; minor mode for editing parentheses
 
 ;; Use paredit in lisp-like mode
 (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
