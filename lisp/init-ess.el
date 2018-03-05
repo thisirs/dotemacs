@@ -46,13 +46,25 @@
     (save-excursion
       (let* ((beg (if (region-active-p) (region-beginning) (point-min)))
              (end (if (region-active-p) (region-end) (point-max)))
-             (filename (file-name-nondirectory (buffer-file-name)))
              (buf (current-buffer))
-             (command (concat "Rscript" " -e " (format "\"library(formatR); tidy_source(\\\"%s\\\", %s)\"" filename (concat formatR-opts))))
+             (prefix (save-excursion
+                       (goto-char beg)
+                       (current-indentation)))
+             (command (concat "Rscript" " -e " (format "\"library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, %s)\"" (concat formatR-opts))))
              (temp-buffer (generate-new-buffer " *temp*")))
         (unwind-protect
             (progn
               (shell-command-on-region beg end command temp-buffer)
+              (with-current-buffer temp-buffer
+                (goto-char (point-min))
+                (when (> prefix 0)
+                  (while (not (eobp))
+                    (skip-chars-forward " \t")
+                    (unless (eolp)                ;ignore blank lines
+                      (let ((i (current-column)))
+                        (delete-region (line-beginning-position) (point))
+                        (indent-to (+ i prefix))))
+                    (forward-line))))
               (with-current-buffer buf
                 (delete-region beg end)
                 (insert-buffer-substring temp-buffer))))
