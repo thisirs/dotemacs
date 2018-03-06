@@ -11,6 +11,8 @@
 (define-on-macro "zbook")
 (define-on-macro "zouzou")
 
+(set-frame-parameter nil 'fullscreen 'maximized)
+
 ;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
