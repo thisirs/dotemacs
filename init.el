@@ -11,6 +11,8 @@
 (define-on-macro "zbook")
 (define-on-macro "zouzou")
 
+(modify-all-frames-parameters '((fullscreen . maximized)))
+
 ;; Disable dialog box, tool bar...
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
@@ -372,6 +374,7 @@ the vertical drag is done."
   (add-hook 'drag-stuff-before-drag-hook #'modi/drag-stuff--adj-pt-pre-drag)
   (add-hook 'drag-stuff-after-drag-hook  #'modi/drag-stuff--rst-pt-post-drag))
 
+;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode :straight t)   ; Major mode for editing Docker's Dockerfiles
 
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
@@ -1752,7 +1755,7 @@ to cancel it."
 (savehist-mode t)
 (setq savehist-additional-variables
       ;; also save my search entries
-      '(search-ring regexp-search-ring)
+      '(search-ring regexp-search-ring extended-command-history)
       savehist-file "~/.emacs.d/savehist")
 
 ;; Always add a final newline
