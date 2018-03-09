@@ -372,6 +372,7 @@ the vertical drag is done."
   (add-hook 'drag-stuff-before-drag-hook #'modi/drag-stuff--adj-pt-pre-drag)
   (add-hook 'drag-stuff-after-drag-hook  #'modi/drag-stuff--rst-pt-post-drag))
 
+;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode :ensure)   ; Major mode for editing Docker's Dockerfiles
 
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
