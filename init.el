@@ -1752,7 +1752,7 @@ to cancel it."
 (savehist-mode t)
 (setq savehist-additional-variables
       ;; also save my search entries
-      '(search-ring regexp-search-ring)
+      '(search-ring regexp-search-ring extended-command-history)
       savehist-file "~/.emacs.d/savehist")
 
 ;; Always add a final newline
