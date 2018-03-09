@@ -90,34 +90,27 @@
 
 (electric-indent-mode 1)
 
-;; Adding packages
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-;; (package-initialize)
-
-;; (let ((package-required-packages (list 'use-package 'diminish)))
-;;   (with-demoted-errors "Package auto-install error: %S"
-;;     (catch 'timeout
-;;       (when (memq nil (mapcar 'package-installed-p package-required-packages))
-;;         (message "Refreshing packages database...")
-;;         (with-timeout (60 (message "Timeout, cancelling...")
-;;                           (sit-for 2)
-;;                           (throw 'timeout nil))
-;;           (package-refresh-contents))
-;;         (mapc (lambda (p)
-;;                 (when (not (package-installed-p p))
-;;                   (package-install p)))
-;;               package-required-packages)))))
-
-(load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
+(let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
+      (bootstrap-version 3))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+(straight-use-package 'diminish)
 
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+;; https://github.com/jwiegley/use-package/issues/204#issuecomment-226684009
+(defmacro use-package-bq (&rest args)
+  "Wrap use-package to use backquote."
+  (declare (indent 1))
+  (list 'eval (list 'backquote `(use-package ,@args))))
+
+(load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
 
 ;; No confirmation when loading theme
 (setq custom-safe-themes t)
@@ -146,73 +139,6 @@
   :straight t
   :init
   (load-theme 'spacemacs-dark t))
-
-;; Create my own elpa-like repository for packages online but not
-;; published in elpa or melpa.
-;; (use-package package-build              ; Tools for assembling a package archive
-;;   :preface
-;;   ;; Download package-build.el if not already
-;;   (unless (file-exists-p (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))
-;;     (with-current-buffer (url-retrieve-synchronously "https://raw.githubusercontent.com/melpa/melpa/master/package-build/package-build.el")
-;;       (goto-char (point-min))
-;;       (re-search-forward "^$")
-;;       (write-region (point) (point-max) (expand-file-name "package-build.el" (expand-file-name "local-package-archives" user-emacs-directory)))))
-;;   (add-to-list 'load-path (expand-file-name "local-package-archives" user-emacs-directory))
-
-;;   :config
-;;   ;; https://github.com/jwiegley/emacs-async
-;;   (use-package async :straight t)           ; Asynchronous processing in Emacs
-;;   (require 'find-func) ;; for find-library-name
-
-;;   (setq package-archive-priorities '(("local" . 42)))
-
-;;   ;; Pin all packages listed in local repository
-;;   (setq package-pinned-packages
-;;         (mapcar (lambda (e) (cons (intern e) "local"))
-;;                 (directory-files (expand-file-name "local-package-archives/recipes" user-emacs-directory) nil "[^\\.]")))
-;;   (add-to-list 'package-archives
-;;                `("local" . ,(expand-file-name "local-package-archives/packages" user-emacs-directory)))
-
-
-;;   (defun package-build-update-local-packages-async ()
-;;     "Asynchronously update all packages listed in local
-;; repository."
-;;     (interactive)
-;;     (async-start
-;;      `(lambda ()
-;;         (load-file ,(find-library-name "package"))
-;;         (load-file ,(find-library-name "package-build"))
-
-;;         ;; Inject variables and functions
-;;         ,(async-inject-variables "\\`user-emacs-directory\\'")
-;;         (fset 'package-build-update-local-packages ,(symbol-function 'package-build-update-local-packages))
-
-;;         ;; And sync
-;;         (package-build-update-local-packages)
-;;         (with-current-buffer "*Messages*"
-;;           (buffer-string)))
-
-;;      (lambda (result)
-;;        ;; Report back in a buffer
-;;        (with-current-buffer (get-buffer-create "*async local packages sync*")
-;;          (setq buffer-read-only nil)
-;;          (erase-buffer)
-;;          (insert result))
-;;        (minibuffer-message "Local packages synchronized!")))
-;;     (message "Local packages synchronization started"))
-
-;;   (defun package-build-update-local-packages ()
-;;     "Build packages listed in \"/~/.emacs.d/local-package-archives/recipes\""
-;;     (let* ((package-build--this-dir (expand-file-name "local-package-archives" user-emacs-directory))
-;;            (package-build-working-dir (expand-file-name "working/" package-build--this-dir))
-;;            (package-build-archive-dir (expand-file-name "packages/" package-build--this-dir))
-;;            (package-build-recipes-dir (expand-file-name "recipes/" package-build--this-dir)))
-;;       (package-build-reinitialize)
-;;       (package-build-all)
-;;       (package-build-dump-archive-contents)))
-
-;;   ;; Do it asynchronously
-;;   (package-build-update-local-packages-async))
 
 (require 'init-bindings)
 (require 'init-editing)
@@ -455,34 +381,35 @@ the vertical drag is done."
     ("s" engine/search-stack-overflow "stack overflow")
     ("g" engine/search-google "google")))
 
-(use-package epwdgen                    ; Flexible password generator
-  :straight t
-  :commands epwdgen-generate-password
-  :config
-  (setq epwdgen-password-presets
-        '(("passphrase, 4 words, space separator" passphrase
-           :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
-          ("alphanumeric, length 16" password
-           :length 16
-           :letter mixed
-           :number t
-           :symbol nil
-           :ambiguous t
-           :group t)
-          ("classic, length 16" password
-           :length 16
-           :letter mixed
-           :number t
-           :symbol t
-           :ambiguous t
-           :group t)
-          ("upper+number, length 4" password
-           :length 4
-           :letter uppercase-only
-           :number t
-           :symbol nil
-           :ambiguous nil
-           :group t))))
+(use-package-bq epwdgen                    ; Flexible password generator
+   :straight (epwdgen :type git
+                      :local-repo ,(expand-file-name "epwdgen" site-lisp-directory))
+   :commands epwdgen-generate-password
+   :config
+   (setq epwdgen-password-presets
+         '(("passphrase, 4 words, space separator" passphrase
+            :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
+           ("alphanumeric, length 16" password
+            :length 16
+            :letter mixed
+            :number t
+            :symbol nil
+            :ambiguous t
+            :group t)
+           ("classic, length 16" password
+            :length 16
+            :letter mixed
+            :number t
+            :symbol t
+            :ambiguous t
+            :group t)
+           ("upper+number, length 4" password
+            :length 4
+            :letter uppercase-only
+            :number t
+            :symbol nil
+            :ambiguous nil
+            :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :straight t
@@ -667,7 +594,9 @@ the vertical drag is done."
 (use-package inf-ruby :straight t)          ; Run a Ruby process in a buffer
 
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
-  :straight t
+  :straight (ivy-bibtex :type git :host github :repo "thisirs/helm-bibtex"
+                        :files ("ivy-bibtex.el" "bibtex-completion.el"))
+
   :defer 5
   :bind ("C-x b" . ivy-bibtex)
   :config
@@ -685,7 +614,7 @@ the vertical drag is done."
 
   ;; Always cite with \cite
   (defun bibtex-completion-format-always-cite (oldfun keys)
-    (flet ((completing-read (&rest _) "cite"))
+    (cl-flet ((completing-read (&rest _) "cite"))
       (funcall oldfun keys)))
 
   (advice-add 'bibtex-completion-format-citation-cite :around
@@ -898,8 +827,8 @@ the vertical drag is done."
            ("C-c C-d" . pdf-annot-delete-current)))
 
   ;; https://github.com/thisirs/pdf-tools-points.git
-  (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-    :straight t))
+  (use-package-bq pdf-tools-points          ; Offline annotation with pdf-tools and tikz
+    :straight (pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))))
 
 ;; https://github.com/ejmr/php-mode
 (use-package php-mode :straight t)          ; Major mode for editing PHP code
@@ -1046,8 +975,8 @@ the vertical drag is done."
   :disabled t
   :config
   (sp-local-pair
-  '(markdown-mode gfm-mode)
-  "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
+   '(markdown-mode gfm-mode)
+   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
 
 (use-package saveplace

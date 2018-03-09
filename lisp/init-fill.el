@@ -12,7 +12,7 @@
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
-  :ensure
+  :straight t
   :bind ("M-q" . unfill-toggle))
 
 (provide 'init-fill)
