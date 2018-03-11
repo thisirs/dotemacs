@@ -1266,6 +1266,13 @@ the vertical drag is done."
 
 (use-package yaml-mode :straight t)         ; Major mode for editing YAML files
 
+(use-package yasnippet-snippets
+  :straight (yasnippet-snippets
+             :type git
+             :host github
+             :repo "AndreaCrotti/yasnippet-snippets"
+             :files ("*.el" ("snippets" "snippets/python-mode"))))
+
 ;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm                   ; Commands to zoom frame font size.
   :straight t
