@@ -78,7 +78,8 @@
 
 ;; C-u C-u C-x C-e does eval and replace
 (defun eval-last-sexp-replace (oldfun eval-last-sexp-arg-internal)
-  (if (eq 16 (car eval-last-sexp-arg-internal))
+  (if (and (called-interactively-p 'interactive)
+           (eq 16 (car eval-last-sexp-arg-internal)))
       (call-interactively 'eval-and-replace)
     (funcall oldfun eval-last-sexp-arg-internal)))
 (advice-add 'eval-last-sexp :around #'eval-last-sexp-replace)
