@@ -1,8 +1,8 @@
 (use-package org                        ; Outline-based notes management and organizer
-  :ensure
+  :straight t
   :config
-  (use-package org-caldav :ensure)      ; Sync org files with external calendar through CalDAV
-  (use-package org-plus-contrib :ensure) ; Outline-based notes management and organizer
+  (use-package org-caldav :straight t)      ; Sync org files with external calendar through CalDAV
+  (use-package org-plus-contrib :straight t) ; Outline-based notes management and organizer
   (use-package ox-koma-letter
     :defer t
     :config
@@ -538,7 +538,7 @@ refile targets.")
 
   ;; https://github.com/jkitchin/org-ref
   (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
-    :ensure
+    :straight t
     :config
     (setq org-ref-completion-library 'org-ref-ivy-bibtex)
 

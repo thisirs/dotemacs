@@ -1,8 +1,11 @@
 ;; Passwords management with org files + auth-source backend
 
-;; https://git.leafac.com/leafac/org-password-manager
+;; https://git.leafac.com/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
-  :ensure
+  :straight (org-password-manager
+             :type git
+             :host github
+             :repo "thisirs/org-password-manager")
   :defer
   :config
   (require 'auth-source)
@@ -160,8 +163,7 @@ Note that the MAX parameter is used so we can exit the parse early."
                                 host
                                 (or
                                  (auth-source--aget alist "machine")
-                                 (auth-source--aget alist "host")
-                                 t))
+                                 (auth-source--aget alist "host")))
                                (auth-source-search-collection
                                 user
                                 (or
@@ -240,7 +242,8 @@ Note that the MAX parameter is used so we can exit the parse early."
                      (push alist all))
                    all))
           all)
-      (org-mode)
+      (let (after-change-major-mode-hook) ; ess-r-package-auto-activate creates an infinite loop
+        (org-mode))
       (org-map-entries
        (lambda ()
          (let (filtered-properties)

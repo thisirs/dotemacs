@@ -81,10 +81,10 @@ nil."
       (erc :server "irc.freenode.net"
            :port "6667"
            :nick "thisirs"
-           :password (if-let ((it (funcall (plist-get (car (auth-source-search :max 1
-                                                                               :host "NickServ"
-                                                                               :require '(:host)))
-                                                      :secret))))
+           :password (if-let* ((it (funcall (plist-get (car (auth-source-search :max 1
+                                                                                :host "NickServ"
+                                                                                :require '(:host)))
+                                                       :secret))))
                          it ""))
       (erc-track-switch-buffer 1))))
 
@@ -102,7 +102,7 @@ nil."
 ;; Per user message colorization
 ;; https://github.com/thisirs/erc-colorize.git
 (use-package erc-colorize               ; Per user colorization of whole message
-  :ensure
+  :straight t
   :config
   (erc-colorize-mode 1))
 

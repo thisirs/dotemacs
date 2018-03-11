@@ -114,7 +114,7 @@ and the index of the match."
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "([u]se-package[[:space:]]" nil t)
+    (while (re-search-forward "([u]se-package\\(-bq\\)?[[:space:]]" nil t)
       (save-excursion
         (let* ((standard-input (current-buffer))
                (def (save-excursion

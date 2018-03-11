@@ -1,6 +1,6 @@
 ;; http://ess.r-project.org
 (use-package ess-site                   ; Emacs Speaks Statistics
-  :ensure ess
+  :straight ess
   :preface
   ;; No special behaviour of comments starting with #, ## or ###
   (setq ess-indent-with-fancy-comments nil)

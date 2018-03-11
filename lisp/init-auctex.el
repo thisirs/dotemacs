@@ -1,6 +1,6 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package tex-site                   ; Integrated environment for *TeX*
-  :ensure auctex
+  :straight auctex
   :config
   (use-package latex
     :defer t

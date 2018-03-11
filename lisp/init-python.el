@@ -1,5 +1,5 @@
 (use-package elpy
-  :ensure
+  :straight t
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (setq python-indent-guess-indent-offset-verbose nil)
