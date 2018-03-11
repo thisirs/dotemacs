@@ -1,8 +1,11 @@
 ;; Passwords management with org files + auth-source backend
 
-;; https://git.leafac.com/leafac/org-password-manager
+;; https://git.leafac.com/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
-  :straight t
+  :straight (org-password-manager
+             :type git
+             :host github
+             :repo "thisirs/org-password-manager")
   :defer
   :config
   (require 'auth-source)
