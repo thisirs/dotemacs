@@ -811,6 +811,13 @@ the vertical drag is done."
       (interactive "@e")
       (pdf-annot-activate-annotation (pdf-annot-mouse-add-text-annotation ev)))
 
+    (defun pdf-annot-edit-contents-abort-or-delete ()
+      "Abort current annotation or delete if empty"
+      (interactive)
+      (if (zerop (buffer-size))
+          (pdf-annot-delete-current)
+        (pdf-annot-edit-contents-abort)))
+
     (defun pdf-annot-delete-current ()
       "Delete currently edited annotation"
       (interactive)
@@ -823,7 +830,7 @@ the vertical drag is done."
            :map
            pdf-annot-edit-contents-minor-mode-map
            ;; Instead of C-c C-q
-           ("C-c C-k" . pdf-annot-edit-contents-abort)
+           ("C-c C-k" . pdf-annot-edit-contents-abort-or-delete)
            ("C-c C-d" . pdf-annot-delete-current)))
 
   ;; https://github.com/thisirs/pdf-tools-points.git
