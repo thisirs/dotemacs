@@ -1006,7 +1006,6 @@ the vertical drag is done."
    '(markdown-mode gfm-mode)
    "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
-
 (use-package saveplace
   :config
   (setq save-place-file "~/.emacs.d/cache/.saveplace")
