@@ -776,6 +776,8 @@ the vertical drag is done."
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith                   ; Open files with external programs
   :straight t
+  :preface
+  (rassq-delete-all #'doc-view-mode-maybe auto-mode-alist)
   :config
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file))
