@@ -342,6 +342,18 @@ the vertical drag is done."
             (lambda ()
               (jump-to-register 'ediff))))
 
+(use-package elpy
+  :straight t
+  :config
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (when (use-package flycheck)
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+  (setq python-indent-guess-indent-offset-verbose nil)
+  (elpy-enable)
+  (setq python-shell-interpreter "ipython3"
+        python-shell-interpreter-args "-i --simple-prompt"))
+
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
   :straight t
