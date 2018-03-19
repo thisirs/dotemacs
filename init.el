@@ -254,7 +254,9 @@
          ("v" . counsel-describe-variable)
          ("C-l" . counsel-info-lookup-symbol)
          :map ivy-minibuffer-map
-         ("M-y" . ivy-next-line)))
+         ("M-y" . ivy-next-line))
+  :config
+  (use-package smex :straight t))
 
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :straight t
