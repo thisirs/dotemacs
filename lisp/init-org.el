@@ -1,5 +1,7 @@
 (use-package org                        ; Outline-based notes management and organizer
-  :straight t
+  :straight (org-plus-contrib
+             :type git :repo "https://code.orgmode.org/bzg/org-mode.git"
+             :local-repo "org" :files (:defaults "contrib/lisp/*.el"))
   :config
   (use-package org-caldav :straight t)      ; Sync org files with external calendar through CalDAV
   (use-package org-plus-contrib :straight t) ; Outline-based notes management and organizer
