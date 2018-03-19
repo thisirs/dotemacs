@@ -406,34 +406,34 @@ the vertical drag is done."
     ("g" engine/search-google "google")))
 
 (use-package-bq epwdgen                    ; Flexible password generator
-   :straight (epwdgen :type git
-                      :local-repo ,(expand-file-name "epwdgen" site-lisp-directory))
-   :commands epwdgen-generate-password
-   :config
-   (setq epwdgen-password-presets
-         '(("passphrase, 4 words, space separator" passphrase
-            :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
-           ("alphanumeric, length 16" password
-            :length 16
-            :letter mixed
-            :number t
-            :symbol nil
-            :ambiguous t
-            :group t)
-           ("classic, length 16" password
-            :length 16
-            :letter mixed
-            :number t
-            :symbol t
-            :ambiguous t
-            :group t)
-           ("upper+number, length 4" password
-            :length 4
-            :letter uppercase-only
-            :number t
-            :symbol nil
-            :ambiguous nil
-            :group t))))
+  :straight (epwdgen :type git
+                     :local-repo ,(expand-file-name "epwdgen" site-lisp-directory))
+  :commands epwdgen-generate-password
+  :config
+  (setq epwdgen-password-presets
+        '(("passphrase, 4 words, space separator" passphrase
+           :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
+          ("alphanumeric, length 16" password
+           :length 16
+           :letter mixed
+           :number t
+           :symbol nil
+           :ambiguous t
+           :group t)
+          ("classic, length 16" password
+           :length 16
+           :letter mixed
+           :number t
+           :symbol t
+           :ambiguous t
+           :group t)
+          ("upper+number, length 4" password
+           :length 4
+           :letter uppercase-only
+           :number t
+           :symbol nil
+           :ambiguous nil
+           :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
   :straight t
