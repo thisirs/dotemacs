@@ -1109,7 +1109,7 @@ the vertical drag is done."
 (use-package state                      ; Quick navigation between workspaces
   :straight t
   ;; Override state's keymap binding
-  :init (setq state-keymap-prefix (kbd "s-s"))
+  :bind-keymap ("s-s" . state-prefix-map)
   :config
   (state-define-state agenda
     :key "a"
