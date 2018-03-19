@@ -103,6 +103,7 @@
 
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
+(require 'bind-key)
 
 ;; https://github.com/jwiegley/use-package/issues/204#issuecomment-226684009
 (defmacro use-package-bq (&rest args)
