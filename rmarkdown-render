@@ -3,7 +3,9 @@
 input <- commandArgs(trailing = TRUE)[1]
 sink("/dev/null")
 library(rmarkdown)
-output <- sub("\\.rmd", "\\.htmlknit", input)
+library(knitr)
+output <- sub("\\.rmd", "\\.htmlknit", input, ignore.case = TRUE)
 rmarkdown::render(input, output_file = output, quiet = TRUE)
+suppressMessages(purl(input))
 sink()
 system(paste("cat", output))
