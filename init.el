@@ -771,6 +771,32 @@ the vertical drag is done."
     (set (make-local-variable 'markdown-command-needs-filename) t)
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
+(use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :config
+  (use-package state
+    :straight t
+    :config
+    (state-define-state mu4e
+      :key "u"
+      :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
+      :exist (get-buffer " *mu4e-main*")
+      :create mu4e))
+
+  (setq mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval 600)
+
+  (setq mu4e-maildir "~/mbsync")
+
+  (defun notify-new-email ()
+    (alert
+     "You have unread emails"
+     :title "New mail!"
+     :icon "/usr/share/icons/gnome/32x32/status/mail-unread.png"
+     :style 'libnotify))
+
+  (add-hook 'mu4e-index-updated-hook #'notify-new-email))
+
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
 (use-package multi-term                 ; Managing multiple terminal buffers in Emacs.
