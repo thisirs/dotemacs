@@ -663,9 +663,22 @@ the vertical drag is done."
 
   (ivy-mode)
 
+  (defun ivy-bookmarks-display-transformer (candidate)
+    (let* ((width (1- (frame-width)))
+           (idx (get-text-property 0 'idx candidate))
+           (entry (cdr (nth idx (ivy-state-collection ivy-last)))))
+      (concat (truncate-string-to-width candidate 60)
+              (make-string (1+ (max 0 (- 60 (length candidate)))) ?\ )
+              (cdr (assoc "href" entry))
+              (cdr (assoc "tags" entry)))))
+
   (defun ivy-bookmarks-open (candidate)
     (let ((key (cdr (assoc "href" (cdr candidate)))))
       (browse-url key)))
+
+  (ivy-set-display-transformer
+   'ivy-bookmarks
+   'ivy-bookmarks-display-transformer)
 
   (defun ivy-bookmarks ()
     (interactive)
