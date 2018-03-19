@@ -201,6 +201,12 @@
     (let ((current-prefix-arg last-prefix-arg))
       (ag/search string default-directory)))) 
 
+;; https://github.com/jwiegley/alert
+(use-package alert                      ; Growl-style notification system for Emacs
+  :straight t
+  :config
+  (alert-add-rule :style 'libnotify))
+
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :straight t
