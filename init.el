@@ -1223,6 +1223,11 @@ the vertical drag is done."
   (define-key undo-tree-visualizer-mode-map (kbd "RET")
     'undo-tree-visualizer-quit))
 
+;; https://github.com/purcell/unfill
+(use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
+  :straight t
+  :bind ("M-q" . unfill-toggle))
+
 ;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
   :straight t
