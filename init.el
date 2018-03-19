@@ -182,6 +182,9 @@
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
 
+(use-package academic-phrases
+  :straight t)
+
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :if (executable-find "ag")
   :straight t
