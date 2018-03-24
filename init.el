@@ -484,6 +484,7 @@ the vertical drag is done."
   :init
   (defun find-temp-file-save-scratch ()
     "Save *scratch* buffer as a draft file."
+    (interactive)
     (if (and (get-buffer "*scratch*")
              (with-current-buffer "*scratch*"
                (buffer-modified-p)))
