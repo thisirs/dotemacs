@@ -808,19 +808,28 @@ the vertical drag is done."
       :exist (get-buffer " *mu4e-main*")
       :create mu4e))
 
+  ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
+  (setq mu4e-sent-messages-behavior 'delete)
+
+  ;; Use mu4e for e-mail in emacs
+  (setq mail-user-agent 'mu4e-user-agent)
+
+  (setq mu4e-change-filenames-when-moving t)
   (setq mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 600)
 
   (setq mu4e-maildir "~/mbsync")
 
-  (defun notify-new-email ()
-    (alert
-     "You have unread emails"
-     :title "New mail!"
-     :icon "/usr/share/icons/gnome/32x32/status/mail-unread.png"
-     :style 'libnotify))
-
-  (add-hook 'mu4e-index-updated-hook #'notify-new-email))
+  (use-package mu4e-alert
+    :straight t
+    :config
+    (mu4e-alert-set-default-style 'libnotify)
+    (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+    (setq mu4e-alert-interesting-mail-query
+          (concat
+           "flag:unread"
+           " AND NOT flag:trashed"
+           " AND NOT maildir:/gmail"))))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
