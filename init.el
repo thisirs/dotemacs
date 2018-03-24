@@ -815,6 +815,12 @@ the vertical drag is done."
   (setq mail-user-agent 'mu4e-user-agent)
 
   (setq mu4e-change-filenames-when-moving t)
+
+  ;; Exit after sending message
+  (setq message-kill-buffer-on-exit t)
+
+  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
   (setq mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 600)
 
