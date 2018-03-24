@@ -805,8 +805,10 @@ the vertical drag is done."
     (state-define-state mu4e
       :key "u"
       :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
-      :exist (get-buffer " *mu4e-main*")
-      :create mu4e))
+      :exist (mu4e-running-p)
+      :create (progn
+                (mu4e)
+                (delete-other-windows))))
 
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
