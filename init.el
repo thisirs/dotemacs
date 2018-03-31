@@ -810,6 +810,12 @@ the vertical drag is done."
                 (mu4e)
                 (delete-other-windows))))
 
+  (setq mu4e-context-policy 'pick-first)
+
+  (setq mu4e-compose-context-policy nil)
+
+  (setq mu4e-compose-format-flowed t)
+
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
 
@@ -821,7 +827,15 @@ the vertical drag is done."
   ;; Exit after sending message
   (setq message-kill-buffer-on-exit t)
 
+  ;; No AM date
+  (setq mu4e-headers-time-format "%T")
   (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
+  (setq mu4e-headers-fields '((:human-date . 16)
+                              (:flags . 6)
+                              (:mailing-list . 10)
+                              (:from . 22)
+                              (:subject)))
 
   (setq mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 600)
@@ -837,7 +851,7 @@ the vertical drag is done."
           (concat
            "flag:unread"
            " AND NOT flag:trashed"
-           " AND NOT maildir:/gmail"))))
+           " AND NOT maildir:/gmail/INBOX"))))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
