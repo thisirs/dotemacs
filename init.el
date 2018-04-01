@@ -816,6 +816,8 @@ the vertical drag is done."
 
   (setq mu4e-compose-format-flowed t)
 
+  (setq mu4e-use-fancy-chars t)
+
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
 
