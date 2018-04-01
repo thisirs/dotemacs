@@ -1536,17 +1536,47 @@ Change directory to `default-directory' if ARG is non-nil."
 (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 (setq auto-insert-query nil)
 
-;; Might be slow due to yasnippet
-(setq auto-insert-alist
-      `(("\\.rb$" ,@(macroexpand
-                     '(auto-insert-yasnippet ruby-mode "sb")))
-        ;; normal-mode to adjust major-mode
-        ("\\.sh$" ,@(macroexpand
-                     '(auto-insert-yasnippet sh-mode "sb" (normal-mode))))
-        ;; TeX-normal-mode to run styles
-        ("\\.tex$"
-         ,@(macroexpand
-            '(auto-insert-yasnippet latex-mode "hdr" (TeX-normal-mode 1))))))
+(defun auto-insert-yasnippet-expand (snippet)
+  "Expand yasnippet's SNIPPET in current buffer."
+  (with-demoted-errors
+      (save-window-excursion
+        (require 'yasnippet)
+        ;; make buffer visible before yasnippet
+        ;; which might ask the user for something
+        (switch-to-buffer (current-buffer))
+        (yas-expand-snippet snippet))))
+
+(defmacro auto-insert-add-from-yasnippet (mode key &rest actions)
+  (declare (indent defun))
+  (mapc (lambda (dir)
+          (if (file-directory-p (expand-file-name (symbol-name mode) dir))
+              (yas--load-directory-1
+               (expand-file-name (symbol-name mode) dir)
+               mode)))
+        (yas-snippet-dirs))
+  (let ((snippets (mapcan #'(lambda (table)
+                              (yas--fetch table key))
+                          (let ((major-mode mode))
+                            (yas--get-snippet-tables)))))
+    (if snippets
+        (cons 'progn (mapcar
+                      (lambda (template)
+                        `(push (cons (cons ',mode ,(car template))
+                                     '(lambda ()
+                                        (auto-insert-yasnippet-expand
+                                         ,(yas--template-content (cdr template)))))
+                               auto-insert-alist))
+                      (mapcan #'(lambda (table)
+                                  (yas--fetch table key))
+                              (let ((major-mode mode))
+                                (yas--get-snippet-tables)))))
+      (error "No snippet with key \"%s\" in mode %s" key mode))))
+
+(auto-insert-add-from-yasnippet latex-mode "hdr"
+  (TeX-normal-mode 1))
+(auto-insert-add-from-yasnippet sh-mode "sb"
+  (normal-mode))
+(auto-insert-add-from-yasnippet org-mode "hdr")
 
 (setq auto-insert 'other)
 
