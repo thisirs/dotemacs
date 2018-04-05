@@ -544,6 +544,8 @@ refile targets.")
     :config
     (setq org-ref-completion-library 'org-ref-ivy-bibtex)
 
+    (require 'org-ref-ivy-cite)
+
     ;; Use bibtex-completion-find-pdf-in-field to open pdf file
     (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
       (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
