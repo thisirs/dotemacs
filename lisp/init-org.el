@@ -157,7 +157,6 @@ the selected file."
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c L") #'org-insert-link-global)
   (global-set-key (kbd "C-c a") #'org-agenda)
-  (global-set-key (kbd "C-c b") #'org-iswitchb)
 
   ;; Support for links in twittering-mode
   (defun org-twittering-store-link ()
