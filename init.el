@@ -818,6 +818,8 @@ the vertical drag is done."
 
   (setq mu4e-use-fancy-chars t)
 
+  (setq mu4e-headers-leave-behavior 'apply)
+
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
   (setq mu4e-sent-messages-behavior 'delete)
 
