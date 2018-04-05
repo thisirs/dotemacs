@@ -839,8 +839,11 @@ the vertical drag is done."
                               (:from . 22)
                               (:subject)))
 
-  (setq mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval 600)
+  (setq mu4e-get-mail-command "mbsync -a")
+
+  (if (on-zbook)
+      (setq mu4e-update-interval 500)
+    (setq mu4e-update-interval nil))
 
   (setq mu4e-maildir "~/mbsync")
 
