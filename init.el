@@ -849,7 +849,18 @@ the vertical drag is done."
 
   (setq mu4e-maildir "~/mbsync")
 
+  (define-key-after global-map [menu-bar tools mu4e]
+    (cons "Mu4e" (make-sparse-keymap " blah")) 'tools)
+
+  (define-key global-map [menu-bar tools mu4e dau]
+    (cons "Disable auto-update"
+          (lambda ()
+            (interactive)
+            (cancel-timer mu4e~update-timer)
+            (setq mu4e-update-interval nil))))
+
   (use-package mu4e-alert
+    :if (on-zbook)
     :straight t
     :config
     (mu4e-alert-set-default-style 'libnotify)
