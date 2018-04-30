@@ -810,6 +810,9 @@ the vertical drag is done."
                 (mu4e)
                 (delete-other-windows))))
 
+  (setq mu4e-compose-keep-self-cc nil)
+  (setq mu4e-compose-dont-reply-to-self t)
+
   (setq mu4e-context-policy 'pick-first)
 
   (setq mu4e-compose-context-policy nil)
