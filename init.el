@@ -862,6 +862,8 @@ the vertical drag is done."
             (cancel-timer mu4e~update-timer)
             (setq mu4e-update-interval nil))))
 
+  (require 'org-mu4e)
+
   (use-package mu4e-alert
     :if (on-zbook)
     :straight t
