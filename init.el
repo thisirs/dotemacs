@@ -789,7 +789,7 @@ the vertical drag is done."
 
   (setq markdown-enable-math t)
   (setq markdown-command
-        "pandoc -f markdown -t html5 -s --self-contained --smart")
+        "pandoc -f markdown+smart -t html5 -s --self-contained 2> /dev/null")
 
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
