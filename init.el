@@ -862,6 +862,11 @@ the vertical drag is done."
             (cancel-timer mu4e~update-timer)
             (setq mu4e-update-interval nil))))
 
+  (use-package orgalist
+    :straight t
+    :config
+    (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
+
   (require 'org-mu4e)
 
   (use-package mu4e-alert
