@@ -852,6 +852,16 @@ the vertical drag is done."
 
   (setq mu4e-maildir "~/mbsync")
 
+  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
+                                :name "Unread or today"
+                                :query "flag:unread OR date:today..now"
+                                :key ?u))
+
+  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
+                                :name "Unread"
+                                :query "flag:unread AND NOT flag:trashed"
+                                :key ?U))
+
   (define-key-after global-map [menu-bar tools mu4e]
     (cons "Mu4e" (make-sparse-keymap " blah")) 'tools)
 
