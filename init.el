@@ -867,6 +867,22 @@ the vertical drag is done."
     :config
     (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
+  (defhydra hydra-mu4e-search (:foreign-keys run)
+    "mu search keywords"
+    ("C-c a" (insert "flag:attach ") "Attach")
+    ("C-c p" (insert "mime:application/pdf ") "PDF")
+    ("C-c s" (insert "maildir:/utc/Sent ") "Sent")
+    ("RET" exit-minibuffer "Search" :exit t))
+
+  (defun mu4e-headers-search-hydra ()
+    (interactive)
+    (minibuffer-with-setup-hook #'hydra-mu4e-search/body
+      (mu4e-headers-search
+       (read-string "Search for: "))))
+
+  (define-key 'mu4e-headers-mode-map (kbd "s") #'mu4e-headers-search-hydra)
+  (define-key 'mu4e-main-mode-map (kbd "s") #'mu4e-headers-search-hydra)
+
   (require 'org-mu4e)
 
   (use-package mu4e-alert
