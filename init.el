@@ -637,6 +637,10 @@ the vertical drag is done."
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file")
 
+  (setq ivy-re-builders-alist
+        '((ivy-bibtex . ivy--regex-ignore-order)
+          (t . ivy--regex-plus)))
+
   ;; Always cite with \cite
   (defun bibtex-completion-format-always-cite (oldfun keys)
     (cl-flet ((completing-read (&rest _) "cite"))
