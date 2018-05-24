@@ -10,9 +10,4 @@
 
 (global-set-key [C-return] #'comment-indent-new-line)
 
-;; https://github.com/purcell/unfill
-(use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
-  :straight t
-  :bind ("M-q" . unfill-toggle))
-
 (provide 'init-fill)
