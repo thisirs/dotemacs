@@ -110,7 +110,7 @@ templates. Use %(org-capture--org-set-tags) for interactive tags
 insertion."
   (let ((org-inhibit-startup t)) (org-mode))
   (org-clone-local-variables (org-capture-get :original-buffer) "\\`org-")
-  (org-set-tags))
+  (org-set-tags-command))
 
 (defun org-attach-attach-from (file)
   "Attach FILE to current entry.
