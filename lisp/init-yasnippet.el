@@ -32,10 +32,6 @@
 
   (setq yas-triggers-in-field t)
 
-  ;; (define-key yas-keymap (kbd "C-e") #'yas-goto-start-of-active-field)
-  ;; (define-key yas-keymap (kbd "C-a") #'yas-goto-start-of-active-field)
-  ;; (define-key yas-keymap (kbd "C-k") #'yas-clear-current-field)
-
   ;; Don't use yasnippet with terminal
   (add-hook 'term-mode-hook
             (lambda ()
