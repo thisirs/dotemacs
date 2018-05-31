@@ -899,6 +899,8 @@ the vertical drag is done."
 
   (require 'org-mu4e)
 
+  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+
   (use-package mu4e-alert
     :if (on-zbook)
     :straight t
