@@ -877,11 +877,6 @@ the vertical drag is done."
             (cancel-timer mu4e~update-timer)
             (setq mu4e-update-interval nil))))
 
-  (use-package orgalist
-    :straight t
-    :config
-    (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
-
   (defhydra hydra-mu4e-search (:foreign-keys run)
     "mu search keywords"
     ("C-c a" (insert "flag:attach ") "Attach")
