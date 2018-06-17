@@ -369,6 +369,7 @@ the vertical drag is done."
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
   :straight t
+  :disable t
   :bind* ("C-c /" . engine-mode-hydra/body)
   :config
 
