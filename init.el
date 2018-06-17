@@ -953,6 +953,13 @@ the vertical drag is done."
   :straight t
   :config (org-context-activate))
 
+(ignore-errors
+  (use-package orgalist
+    :straight t
+    :after mu4e
+    :config
+    (add-hook 'mu4e-compose-mode-hook #'orgalist-mode)))
+
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
   :straight t
