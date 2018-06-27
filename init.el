@@ -885,7 +885,7 @@ the vertical drag is done."
 
   (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
                                 :name "Sent"
-                                :query "flag:sent"
+                                :query "maildir:/utc/Sent"
                                 :key ?s))
 
   (define-key-after global-map [menu-bar tools mu4e]
