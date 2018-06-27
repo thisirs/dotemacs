@@ -160,13 +160,13 @@
 (require 'init-midnight)
 (require 'init-org)
 (require 'init-paredit)
-(require 'init-python)
+;; (require 'init-python)
 (require 'init-ruby)
 (require 'init-scratch)
 (require 'init-twittering)
 (require 'init-wcheck)
 (require 'init-ruby)
-(require 'init-python)
+;; (require 'init-python)
 (require 'init-yasnippet)
 (require 'init-ess)
 (require 'init-password)
@@ -369,7 +369,7 @@ the vertical drag is done."
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
   :straight t
-  :disable t
+  :disabled t
   :bind* ("C-c /" . engine-mode-hydra/body)
   :config
 
@@ -726,8 +726,11 @@ the vertical drag is done."
   :straight t
   :defer
   :config
-  (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
-  (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
+  (cond ((file-exists-p "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
+         (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java"))
+        ((file-exists-p "/usr/bin/java")
+         (setq langtool-java-bin "/usr/bin/java")))
+  (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*:/tmp/bar/languagetool-4.1/LanguageTool-4.1-stable/")
   (setq langtool-default-language "fr"))
 
 ;; http://immerrr.github.com/lua-mode
@@ -866,6 +869,11 @@ the vertical drag is done."
                                 :name "Unread"
                                 :query "flag:unread AND NOT flag:trashed"
                                 :key ?U))
+
+  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
+                                :name "Sent"
+                                :query "flag:sent"
+                                :key ?s))
 
   (define-key-after global-map [menu-bar tools mu4e]
     (cons "Mu4e" (make-sparse-keymap " blah")) 'tools)
@@ -1592,56 +1600,59 @@ Change directory to `default-directory' if ARG is non-nil."
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
-(add-to-list 'load-path (expand-file-name "auto-insert-multiple" site-lisp-directory))
-(require 'autoinsert)
-(auto-insert-mode t)
+(use-package-bq autoinsert
+  :straight (auto-insert-multiple
+             :type git
+             :local-repo ,(expand-file-name "auto-insert-multiple"
+                                            site-lisp-directory))
+  :config
+  (auto-insert-mode t)
+  (setq auto-insert 'other)
+  (setq auto-insert-query 'multiple)
+  (setq auto-insert-alist nil)
+  (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
 
-(setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/"))
-(setq auto-insert-query nil)
+  (defun auto-insert-yasnippet-expand (snippet)
+    "Expand yasnippet's SNIPPET in current buffer."
+    (with-demoted-errors
+        (save-window-excursion
+          (require 'yasnippet)
+          ;; make buffer visible before yasnippet
+          ;; which might ask the user for something
+          (switch-to-buffer (current-buffer))
+          (yas-expand-snippet snippet))))
 
-(defun auto-insert-yasnippet-expand (snippet)
-  "Expand yasnippet's SNIPPET in current buffer."
-  (with-demoted-errors
-      (save-window-excursion
-        (require 'yasnippet)
-        ;; make buffer visible before yasnippet
-        ;; which might ask the user for something
-        (switch-to-buffer (current-buffer))
-        (yas-expand-snippet snippet))))
+  (defmacro auto-insert-add-from-yasnippet (mode key &rest actions)
+    (declare (indent defun))
+    (mapc (lambda (dir)
+            (if (file-directory-p (expand-file-name (symbol-name mode) dir))
+                (yas--load-directory-1
+                 (expand-file-name (symbol-name mode) dir)
+                 mode)))
+          (yas-snippet-dirs))
+    (let ((snippets (mapcan #'(lambda (table)
+                                (yas--fetch table key))
+                            (let ((major-mode mode))
+                              (yas--get-snippet-tables)))))
+      (if snippets
+          (cons 'progn (mapcar
+                        (lambda (template)
+                          `(push (cons (cons ',mode ,(car template))
+                                       '(lambda ()
+                                          (auto-insert-yasnippet-expand
+                                           ,(yas--template-content (cdr template)))))
+                                 auto-insert-alist))
+                        (mapcan #'(lambda (table)
+                                    (yas--fetch table key))
+                                (let ((major-mode mode))
+                                  (yas--get-snippet-tables)))))
+        (error "No snippet with key \"%s\" in mode %s" key mode))))
 
-(defmacro auto-insert-add-from-yasnippet (mode key &rest actions)
-  (declare (indent defun))
-  (mapc (lambda (dir)
-          (if (file-directory-p (expand-file-name (symbol-name mode) dir))
-              (yas--load-directory-1
-               (expand-file-name (symbol-name mode) dir)
-               mode)))
-        (yas-snippet-dirs))
-  (let ((snippets (mapcan #'(lambda (table)
-                              (yas--fetch table key))
-                          (let ((major-mode mode))
-                            (yas--get-snippet-tables)))))
-    (if snippets
-        (cons 'progn (mapcar
-                      (lambda (template)
-                        `(push (cons (cons ',mode ,(car template))
-                                     '(lambda ()
-                                        (auto-insert-yasnippet-expand
-                                         ,(yas--template-content (cdr template)))))
-                               auto-insert-alist))
-                      (mapcan #'(lambda (table)
-                                  (yas--fetch table key))
-                              (let ((major-mode mode))
-                                (yas--get-snippet-tables)))))
-      (error "No snippet with key \"%s\" in mode %s" key mode))))
-
-(auto-insert-add-from-yasnippet latex-mode "hdr"
-  (TeX-normal-mode 1))
-(auto-insert-add-from-yasnippet sh-mode "sb"
-  (normal-mode))
-(auto-insert-add-from-yasnippet org-mode "hdr")
-
-(setq auto-insert 'other)
+  (auto-insert-add-from-yasnippet latex-mode "hdr"
+    (TeX-normal-mode 1))
+  (auto-insert-add-from-yasnippet sh-mode "sb"
+    (normal-mode))
+  (auto-insert-add-from-yasnippet org-mode "hdr"))
 
 (cond ((member "Fira Mono" (font-family-list))
        (set-frame-font "Fira Mono-14" nil t))

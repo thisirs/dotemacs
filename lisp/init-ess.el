@@ -75,36 +75,39 @@
     (interactive)
     (save-excursion
       (goto-char (point-min))
-      (while (re-search-forward "^ *\\(%+\\) *begin\\.rcode *" nil t)
-        (let* ((column (progn
-                         (goto-char (match-beginning 1))
-                         (current-column)))
-               (beg (progn
-                      (forward-line 1)
-                      (point-at-bol)))
-               (end (progn
-                      (re-search-forward "end\\.rcode" nil t)
-                      (forward-line -1)
-                      (point-at-eol)))
-               (code (delete-and-extract-region beg end))
-               (new-code (progn
-                           (make-temp-file "foo")
-                           (with-temp-buffer
-                             (insert code)
-                             (goto-char (point-min))
-                             (while (re-search-forward " *%+ *" nil t)
-                               (replace-match ""))
-                             (write-file (make-temp-file "foo"))
-                             (tidy-R-buffer nil nil "indent = 2, arrow = TRUE, width.cutoff = 500")
-                             (goto-char (point-min))
-                             (while (re-search-forward "^\\(.\\)" nil t)
-                               (replace-match (concat
-                                               (make-string column ?\ )
-                                               "% "
-                                               "\\1")))
-                             (save-buffer)
-                             (string-trim-right (buffer-string))))))
-          (goto-char beg)
-          (insert new-code))))))
+      (let ((re-begin-chunk "^ *\\(%+\\) *begin\\.rcode *")
+            (re-end-chunk "end\\.rcode")
+            (re-prefix-chunk " *%+ *")
+            (prefix-chunk "% "))
+        (while (re-search-forward begin-chunk nil t)
+          (let* ((column (progn
+                           (goto-char (match-beginning 1))
+                           (current-column)))
+                 (beg (progn
+                        (forward-line 1)
+                        (point-at-bol)))
+                 (end (progn
+                        (re-search-forward end-chunk nil t)
+                        (forward-line -1)
+                        (point-at-eol)))
+                 (code (delete-and-extract-region beg end))
+                 (new-code (progn
+                             (with-temp-buffer
+                               (insert code)
+                               (goto-char (point-min))
+                               (while (re-search-forward re-prefix-chunk nil t)
+                                 (replace-match ""))
+                               (write-file (make-temp-file "foo"))
+                               (tidy-R-buffer nil nil "indent = 2, arrow = TRUE, width.cutoff = 500")
+                               (goto-char (point-min))
+                               (while (re-search-forward "^\\(.\\)" nil t)
+                                 (replace-match (concat
+                                                 (make-string column ?\ )
+                                                 prefix-chunk
+                                                 "\\1")))
+                               (save-buffer)
+                               (string-trim-right (buffer-string))))))
+            (goto-char beg)
+            (insert new-code)))))))
 
 (provide 'init-ess)

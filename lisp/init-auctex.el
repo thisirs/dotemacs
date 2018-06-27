@@ -1,6 +1,10 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package tex-site                   ; Integrated environment for *TeX*
-  :straight auctex
+  :straight (auctex :type git
+                    :branch "externals/auctex"
+                    :repo "git://git.savannah.gnu.org/emacs/elpa.git"
+                    :local-repo "elpa:auctex"
+                    :single-branch t)
   :config
   (use-package latex
     :defer t
@@ -111,7 +115,7 @@
       "Reftex custom label detection. When using conditionnal
 compilation in latex with, for example, \\ifCLASSOPTIONonecolumn
 labels might have to be defined multiple times. We factor out
-that definition with \\def\onelabel{\\label{eq:22}} and use it
+that definition with \\def\\onelabel{\\label{eq:22}} and use it
 mutiple times."
       (if (re-search-backward "label{\\\\label{" bound t) (point)))
 
