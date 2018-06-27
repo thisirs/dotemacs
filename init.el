@@ -613,6 +613,19 @@ the vertical drag is done."
     ;; Number of seconds for `hl-line-flash' to highlight the line
     (setq hl-line-flash-show-period 3)))
 
+(use-package hydra
+  :straight t
+  :config
+  (defhydra jump-hydra (:color blue)
+  "Jump to bookmarks"
+  ("g" (progn
+         (let ((search (read-string "Google search: ")))
+           (browse-url-firefox
+            (format "http://www.google.com/search?q=%s"
+                    (url-hexify-string search))))) "Google")
+  ("m" (browse-url-firefox "http://www.moodle.utc.fr") "UTC Moodle")
+  ("j" ivy-bookmarks "Bookmarks")))
+
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
 (use-package info+ :straight t)             ; Extensions to `info.el'.
 

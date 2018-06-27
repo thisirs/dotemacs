@@ -189,12 +189,6 @@ body passed in argument."
 
 (global-set-key (kbd "C-x C-k C-r") #'kmacro-reset-counter)
 
-(defhydra jump-hydra (:color blue)
-  "Jump to bookmarks"
-  ("g" (browse-url-firefox "http://www.google.com") "Google")
-  ("m" (browse-url-firefox "http://www.moodle.utc.fr") "UTC Moodle")
-  ("j" ivy-bookmarks "Bookmarks"))
-
 (global-set-key (kbd "C-c j") #'jump-hydra/body)
 
 (provide 'init-bindings)
