@@ -888,6 +888,11 @@ the vertical drag is done."
                                 :query "maildir:/utc/Sent"
                                 :key ?s))
 
+  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
+                                :name "Last month's messages"
+                                :query "date:31d..now"
+                                :key ?W))
+
   (define-key-after global-map [menu-bar tools mu4e]
     (cons "Mu4e" (make-sparse-keymap " blah")) 'tools)
 
