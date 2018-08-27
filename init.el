@@ -627,7 +627,7 @@ the vertical drag is done."
            (browse-url-firefox
             (format "http://www.google.com/search?q=%s"
                     (url-hexify-string search))))) "Google")
-  ("m" (browse-url-firefox "http://www.moodle.utc.fr") "UTC Moodle")
+  ("m" (browse-url-firefox "https://moodle.utc.fr") "UTC Moodle")
   ("j" ivy-bookmarks "Bookmarks")))
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
