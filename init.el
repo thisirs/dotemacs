@@ -967,6 +967,7 @@ the vertical drag is done."
         '(("\\.pdf\\'" "evince" (file))
           ("\\.\\(?:mpe?g\\|avi\\|wmv\\|flv\\)\\'" "vlc" (file))
           ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file))))
+  (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler)
   (openwith-mode))
 
 ;; Contextual capture and agenda commands for Org-mode
