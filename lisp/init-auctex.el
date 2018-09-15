@@ -1,10 +1,6 @@
 ;; http://www.gnu.org/software/auctex/
+(straight-use-package 'auctex)
 (use-package tex-site                   ; Integrated environment for *TeX*
-  :straight (auctex :type git
-                    :branch "externals/auctex"
-                    :repo "git://git.savannah.gnu.org/emacs/elpa.git"
-                    :local-repo "elpa:auctex"
-                    :single-branch t)
   :config
   (use-package latex
     :defer t
