@@ -362,7 +362,7 @@ the vertical drag is done."
   :straight t
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (when (use-package flycheck)
+  (when (use-package flycheck :straight t)
     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
   (setq python-indent-guess-indent-offset-verbose nil)
