@@ -854,6 +854,9 @@ the vertical drag is done."
   ;; Use mu4e for e-mail in emacs
   (setq mail-user-agent 'mu4e-user-agent)
 
+  ;; Use mu4e when attaching from dired
+  (setq gnus-dired-mail-mode 'mu4e-user-agent)
+
   (setq mu4e-change-filenames-when-moving t)
 
   ;; Exit after sending message
