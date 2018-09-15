@@ -91,6 +91,24 @@
                             ,file)
            (TeX-run-TeX ,name ,command ,file)))))
 
+    (defun TeX-run-TeX-pythontex-and-TeX (name command file)
+      (TeX-run-consecutive
+       `((TeX-run-command "Remove cache files"
+                          ,(format "rm -rf pythontex-files-%s" file)
+                          ,file)
+         ;; (TeX-run-TeX ,name ,command ,file)
+         (TeX-run-command "pythontex"
+                          ,(format "pythontex \"%s\"" file)
+                          ,file)
+         (TeX-run-TeX ,name ,command ,file))))
+
+    ;; Run knitr on tex files
+    (add-to-list 'TeX-command-list
+                 '("pythontex + LaTeX" "%`%l%(mode) -jobname=%s %' %s.tex"
+                   TeX-run-TeX-pythontex-and-TeX nil
+                   (latex-mode doctex-mode)
+                   :help "Run pythontex and LaTeX"))
+
     ;; Correct indentation
     (setq LaTeX-item-indent 0)
 
@@ -141,6 +159,9 @@ mutiple times."
 
     (add-to-list 'LaTeX-verbatim-environments "CVerbatim")
     (add-to-list 'LaTeX-indent-environment-list '("CVerbatim" current-indentation))
+
+    (add-to-list 'LaTeX-verbatim-environments "pycode")
+    (add-to-list 'LaTeX-indent-environment-list '("pycode" current-indentation))
 
     (defun latex-auto-fill-everywhere ()
       (when comment-auto-fill-only-comments
