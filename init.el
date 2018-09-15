@@ -637,9 +637,9 @@ the vertical drag is done."
 (use-package inf-ruby :straight t)          ; Run a Ruby process in a buffer
 
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
-  :straight (ivy-bibtex :type git :host github :repo "thisirs/helm-bibtex"
-                        :files ("ivy-bibtex.el" "bibtex-completion.el"))
-
+  :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
+                        :files ("ivy-bibtex.el" "bibtex-completion.el")
+                        :fork (:host github :repo "thisirs/helm-bibtex"))
   :defer 5
   :bind ("C-x b" . ivy-bibtex)
   :config
