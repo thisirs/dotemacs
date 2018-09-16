@@ -630,6 +630,8 @@ the vertical drag is done."
   ("m" (browse-url-firefox "https://moodle.utc.fr") "UTC Moodle")
   ("j" ivy-bookmarks "Bookmarks")))
 
+(use-package ical2org :straight t)
+
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
 (use-package info+ :straight t)             ; Extensions to `info.el'.
 
