@@ -675,11 +675,10 @@ the vertical drag is done."
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
          ("C-x j" . jump-hydra/body))
-  :bind (:map ivy-minibuffer-map
-              ("C-w" . ivy-yank-word))
+  :bind (:map ivy-minibuffer-map ("C-w" . ivy-yank-word)
+              :map ivy-switch-buffer-map
+              ("C-b" . next-line))
   :config
-  (define-key ivy-switch-buffer-map (kbd "C-b") 'next-line)
-
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
