@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (current time)
+# name: (current time) in french
 # key: timefr
 # --
 `(string-trim (shell-command-to-string "LC_TIME=fr_FR.UTF-8 date +'%A %d %B %Y %H:%M'"))`
