@@ -942,7 +942,16 @@ the vertical drag is done."
           (concat
            "flag:unread"
            " AND NOT flag:trashed"
-           " AND NOT maildir:/gmail/INBOX"))))
+           " AND NOT maildir:/gmail/INBOX")))
+
+  ;; Open in emacs on M-RET
+  (defun mu4e~view-open-attach-from-binding ()
+    "Open the attachement at point, or click location."
+    (interactive)
+    (let* (( msg (mu4e~view-get-property-from-event 'mu4e-msg))
+           ( attnum (mu4e~view-get-property-from-event 'mu4e-attnum)))
+      (when (and msg attnum)
+        (mu4e-view-open-attachment-emacs msg attnum)))))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
