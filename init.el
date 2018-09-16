@@ -674,7 +674,7 @@ the vertical drag is done."
   :straight t
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
-         ("C-x j" . ivy-bookmarks))
+         ("C-x j" . jump-hydra/body))
   :config
   (define-key ivy-switch-buffer-map (kbd "C-b") 'next-line)
 
