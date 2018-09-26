@@ -247,7 +247,11 @@
   :config
   (beginend-global-mode))
 
+(use-package blacken :straight t)
+
 (use-package cmake-mode :straight t)        ; major-mode for editing CMake sources
+
+(use-package company :straight t)
 
 (use-package compile
   :defer
