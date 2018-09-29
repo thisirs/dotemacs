@@ -1101,26 +1101,20 @@ the vertical drag is done."
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
+  :straight t
   :commands poly-markdown-string-mode
   :config
-  (defcustom  pm-inner/markdown-string
-    (pm-hbtchunkmode "markdown"
-                     :mode 'markdown-mode
-                     :head-reg "{%markdown%}\n"
-                     :tail-reg "{%/markdown%}")
-    "Markdown typical chunk."
-    :group 'innermodes
+  (defcustom  pm-inner/markdown-code
+    (pm-inner-chunkmode :name "markdown-code"
+                        :head-matcher "{%markdown%}\n"
+                        :tail-matcher "{%/markdown%}")
+    "Markdown code block."
+    :group 'poly-innermodes
     :type 'object)
 
-  (defcustom pm-poly/markdown-string
-    (pm-polymode-one "markdown"
-                     :hostmode 'pm-host/R
-                     :innermode 'pm-inner/markdown-string)
-    "Markdown typical polymode."
-    :group 'polymodes
-    :type 'object)
-
-  (define-polymode poly-markdown-string-mode pm-poly/markdown-string))
+  (define-polymode poly-markdown-mode
+    :hostmode 'pm-host/R
+    :innermodes '(pm-inner/markdown-code)))
 
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
