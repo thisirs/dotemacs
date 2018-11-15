@@ -207,11 +207,11 @@ mutiple times."
          (t
           (TeX-run-TeX name command file)))))
 
-    '(add-to-list 'TeX-command-list
-                  '("Make" "%`%l%(mode)%' %t"
-                    TeX-run-Make-or-TeX nil
-                    (latex-mode doctex-mode)
-                    :help "Run Make or LaTeX if no Makefile"))
+    (add-to-list 'TeX-command-list
+                 '("Make" "%`%l%(mode)%' %t"
+                   TeX-run-Make-or-TeX nil
+                   (latex-mode doctex-mode)
+                   :help "Run Make or LaTeX if no Makefile"))
 
     ;; Viewer: prefer pdf-tools when predicate pdf-tools-running is true
     (setq TeX-view-program-selection
