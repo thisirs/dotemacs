@@ -66,9 +66,12 @@
             (setq TeX-sentinel-function
                   `(lambda (process name)
                      (if (eq 0 (process-exit-status process))
-                         (with-current-buffer ,buf
-                           (message "Process %s succeeded" name)
-                           (TeX-run-consecutive ',(cdr defun-name-cmd-file-list)))
+                         (progn
+                           (with-current-buffer ,(TeX-process-buffer-name (nth 3 args))
+                             (rename-buffer ,(concat "*" (abbreviate-file-name (expand-file-name (nth 3 args))) " output for " (nth 1 args) "*")))
+                           (with-current-buffer ,buf
+                             (message "Process %s succeeded" name)
+                             (TeX-run-consecutive ',(cdr defun-name-cmd-file-list))))
                        (message "Process %s failed" name))))))))
 
     (defun TeX-run-knitr-and-TeX (name command file)
