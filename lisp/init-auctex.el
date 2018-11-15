@@ -191,8 +191,8 @@ mutiple times."
     ;; Add new command.
     (setcdr (assoc "Index" TeX-command-list)
             '("makeindex %(indexopts) %s"
-             TeX-run-index nil t
-             :help "Run makeindex to create index file"))
+              TeX-run-index nil t
+              :help "Run makeindex to create index file"))
 
     ;; hook function to use in `TeX-command-list' list
     (defun TeX-run-Make-or-TeX (name command file)
