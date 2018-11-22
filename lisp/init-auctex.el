@@ -66,9 +66,10 @@
             (setq TeX-sentinel-function
                   `(lambda (process name)
                      (if (eq 0 (process-exit-status process))
-                         (progn
-                           (with-current-buffer ,(TeX-process-buffer-name (nth 3 args))
-                             (rename-buffer ,(concat "*" (abbreviate-file-name (expand-file-name (nth 3 args))) " output for " (nth 1 args) "*")))
+                         (let ((buffer-name ,(TeX-process-buffer-name (nth 3 args)))
+                               (log-buffer ,(concat "*" (abbreviate-file-name (expand-file-name (nth 3 args))) " output for " (nth 1 args) "*")))
+                           (with-current-buffer buffer-name
+                             (copy-to-buffer (get-buffer-create log-buffer) nil nil))
                            (with-current-buffer ,buf
                              (message "Process %s succeeded" name)
                              (TeX-run-consecutive ',(cdr defun-name-cmd-file-list))))
