@@ -193,6 +193,7 @@
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :if (executable-find "ag")
   :straight t
+  :defer 5
   :bind ("M-g f" . ag-search-current-directory)
   :config
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
