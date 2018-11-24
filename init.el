@@ -631,7 +631,8 @@ the vertical drag is done."
            (browse-url-firefox
             (format "http://www.google.com/search?q=%s"
                     (url-hexify-string search))))) "Google")
-  ("m" (browse-url-firefox "https://moodle.utc.fr") "UTC Moodle")
+  ("m" (browse-url-firefox (format "https://cas.utc.fr/cas/login?service=%s%%3FauthCAS%%3DCAS"
+                                   (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
   ("j" ivy-bookmarks "Bookmarks")))
 
 (use-package ical2org :straight t)
