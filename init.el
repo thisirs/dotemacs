@@ -468,9 +468,10 @@ the vertical drag is done."
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
   :straight t
   :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "SSH_AGENT_PID")
-  (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
+  (setq exec-path-from-shell-variables
+        (append exec-path-from-shell-variables
+                (list "SSH_AGENT_PID" "SSH_AUTH_SOCK")))
+  (exec-path-from-shell-initialize))
 
 (use-package expand-region              ; Increase selected region by semantic units.
   :straight t
