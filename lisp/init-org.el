@@ -183,7 +183,8 @@ the selected file."
           "~/CloudStation/Sylvain/Org/someday.org"
           "~/CloudStation/Sylvain/Org/specialdays.org"
           "~/CloudStation/Sylvain/Org/books.org"
-          "~/CloudStation/Sylvain/Org/series.org"
+          "~/CloudStation/Sylvain/Org/feedly.org"
+          "~/CloudStation/Sylvain/Documents/attachments.org"
           ))
 
   ;; Calcul de Pâques (from holidays.el)
