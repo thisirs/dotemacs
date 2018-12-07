@@ -696,6 +696,8 @@ the vertical drag is done."
 
   (ivy-mode)
 
+  (add-to-list 'ivy-sort-functions-alist (list 'org-attach-attach-from))
+
   (defun ivy-bookmarks-display-transformer (candidate)
     (let* ((width (1- (frame-width)))
            (p1 60.0)
