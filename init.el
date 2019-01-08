@@ -1508,6 +1508,14 @@ the vertical drag is done."
 (use-package wgrep                      ; Writable grep buffer and apply the changes to files
   :straight t)
 
+(use-package which-key
+  :straight t
+  :defer 5
+  :diminish
+  :commands which-key-mode
+  :config
+  (which-key-mode))
+
 (use-package whitespace
   :config
   (setq whitespace-style
