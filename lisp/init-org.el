@@ -409,7 +409,7 @@ inherited by a parent headline."
       (and buffer-file-name
            (file-exists-p buffer-file-name)
            (org-remove-redundant-tags))
-      (org-align-all-tags)
+      (org-align-tags t)
       (org-update-all-dblocks)))
 
   (add-hook 'before-save-hook #'clean-org-buffer)
