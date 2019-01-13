@@ -607,33 +607,32 @@ child checkboxes."
   (setq org-latex-format-headline-function
         'org-latex-format-headline-checkbox-function)
 
-  ;; Automatic expire mechanism
-  (when (file-exists-p "~/CloudStation/Sylvain/emacs/site-lisp/org-expiry")
-
-    (add-to-list 'load-path "~/CloudStation/Sylvain/emacs/site-lisp/org-expiry")
-    (require 'org-expiry)
-
-    (setq org-expiry-handler-function 'org-archive-subtree)
-    (setq org-expiry-confirm-flag nil)
-
+  (use-package-bq org-expiry
+    :if (on-zbook)
+    :straight (org-expiry :type git
+                          :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
+    :config
     (defun org-auto-archive ()
       (message "Auto-archiving...")
-      (mapc
-       (lambda (file)
-         (let ((buf (find-buffer-visiting file)))
-           (when buf
-             (with-current-buffer buf
-               (org-expiry-process-entries nil nil t)
-               ;; save buffer as it is not save if org-auto-archive is
-               ;; called from kill-emacs-hook
-               (save-buffer)))))
-       '("~/CloudStation/Sylvain/Org/someday.org"
-         "~/CloudStation/Sylvain/Org/agenda.org"))
+      (with-current-buffer "someday.org"
+        (org-expiry-process-entries))
+      (with-current-buffer "agenda.org"
+        (save-restriction
+          (widen)
+          (goto-char (point-min))
+          (when (search-forward "* External events" nil t)
+            (org-narrow-to-subtree)
+            (org-expiry-process-entries))
+          (widen)
+          (goto-char (point-min))
+          (when (search-forward "* Evénements simples" nil t)
+            (org-narrow-to-subtree)
+            (org-expiry-process-entries))))
+      (org-expiry-process-entries "someday.org")
       (message "Auto-archiving...done"))
 
-    (on-zbook
-     ;; (add-hook 'kill-emacs-hook 'org-auto-archive)
-     ))
+    (setq org-expiry-handler-function 'org-expiry-handler-function-force)
+    (add-hook 'kill-emacs-hook 'org-auto-archive))
 
   ;; electric-indent-mode doesn't play well with org
   (with-emacs-version>= "24.1"
