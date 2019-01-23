@@ -981,6 +981,16 @@ the vertical drag is done."
   (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind (("C-M-c" . mc/mark-next-like-this)))
 
+(use-package ob-tmux
+  :straight t
+  :custom
+  (org-babel-default-header-args:tmux
+   `((:results . "silent")
+     (:session . ,(format "%s@%s" (user-login-name) (system-name)))
+     (:socket  . nil)
+     (:terminal . "urxvt")))
+  (org-babel-tmux-session-prefix ""))
+
 (use-package octave
   :defer t
   :config
