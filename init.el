@@ -989,7 +989,13 @@ the vertical drag is done."
      (:session . ,(format "%s@%s" (user-login-name) (system-name)))
      (:socket  . nil)
      (:terminal . "urxvt")))
-  (org-babel-tmux-session-prefix ""))
+  (org-babel-tmux-session-prefix "")
+
+  (defun ob-tmux--target (ob-session)
+    (let* ((target-session (ob-tmux--session ob-session))
+           (window (ob-tmux--window ob-session))
+           (target-window (if window (concat "=" window) "")))
+      (concat target-session ":" target-window))))
 
 (use-package octave
   :defer t
