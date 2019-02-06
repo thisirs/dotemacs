@@ -534,9 +534,17 @@ refile targets.")
                    nil 'tree)
                   project-files)))))
 
+  (defun org-refile-all-org-files ()
+    (seq-filter 'identity
+                (seq-map (lambda (buf)
+                           (with-current-buffer buf
+                             (when (derived-mode-p 'org-mode)
+                               (buffer-file-name buf))))
+                         (buffer-list))))
+
   (setq org-refile-targets
         `((,org-agenda-files . (:level . 1))
-          (,org-other-files . (:level . 0))))
+          (org-refile-all-org-files . (:level . 0))))
 
   (setq org-refile-use-outline-path 'full-file-path)
 
