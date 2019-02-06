@@ -924,7 +924,7 @@ the vertical drag is done."
             (cancel-timer mu4e~update-timer)
             (setq mu4e-update-interval nil))))
 
-  (defhydra hydra-mu4e-search (:foreign-keys run)
+  (defhydra hydra-mu4e-search (:foreign-keys run :base-map (make-sparse-keymap))
     "mu search keywords"
     ("C-c a" (insert "flag:attach ") "Attach")
     ("C-c p" (insert "mime:application/pdf ") "PDF")
