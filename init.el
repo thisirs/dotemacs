@@ -1211,12 +1211,11 @@ the vertical drag is done."
                                                             (car (UTC-semester-from-time
                                                                   (time-add
                                                                    (current-time)
-                                                                   (seconds-to-time (* 60 60 24 365 .5)))))))
-                                           (uvs '("SY02" "TIS02" "SY09" "SY19"))
+                                                                   (seconds-to-time (* 60 60 24 31 2)))))))
+                                           (uvs '("SY02" "AOS1" "AOS2" "SY09" "SY19"))
                                            (dirs '("Cours" "TP" "TD" "poly" "")))
                                        (-table-flat 'list semesters uvs dirs))))
-                    '("~/Dropbox/Documents-sy09/"
-                      "~/CloudStation/Sylvain/emacs/site-lisp/"))))
+                    '("~/CloudStation/Sylvain/emacs/site-lisp/"))))
 
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
 
@@ -1964,8 +1963,7 @@ in file in a non-autocommitted repository."
                  (vc-auto-commit-backend)))))
 
 (defvar shared-directory-list
-  '("~/Dropbox/Documents-sy09/"
-    "~/ownCloud/Shared/")
+  '("~/ownCloud/Shared/")
   "Shared directories")
 
 (defun shared-directory ()
