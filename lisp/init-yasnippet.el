@@ -5,13 +5,13 @@
   ;; Inter-field navigation
   (defun yas-goto-start-of-active-field ()
     (interactive)
-    (let* ((snippet (car (yas--snippets-at-point)))
+    (let* ((snippet (car (yas-active-snippets)))
            (position (yas--field-start (yas--snippet-active-field snippet))))
       (goto-char position)))
 
   (defun yas-goto-end-of-active-field ()
     (interactive)
-    (let* ((snippet (car (yas--snippets-at-point)))
+    (let* ((snippet (car (yas-active-snippets)))
            (position (yas--field-end (yas--snippet-active-field snippet))))
       (goto-char position)))
 
