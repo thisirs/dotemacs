@@ -118,7 +118,7 @@
   (declare (indent 1))
   (list 'eval (list 'backquote `(use-package ,@args))))
 
-(load "~/CloudStation/Sylvain/emacs/personal.el" :noerror)
+(load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
 ;; No confirmation when loading theme
 (setq custom-safe-themes t)
@@ -749,9 +749,9 @@ the vertical drag is done."
 (use-package keyfreq                    ; track command frequencies
   :straight t
   :config
-  (let ((filepath (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
+  (let ((filepath (format (expand-file-name (format ".emacs.%s.keyfreq" (system-name)) personal-emacs-directory))))
     (make-directory (file-name-directory filepath) :parents)
-    (setq keyfreq-file (format "~/CloudStation/Sylvain/emacs/.emacs.%s.keyfreq" (system-name))))
+    (setq keyfreq-file filepath))
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
@@ -2010,7 +2010,7 @@ to cancel it."
 (add-hook 'before-save-hook 'cleanup-buffer-maybe)
 
 ;; Bookmarks
-(setq bookmark-default-file "~/CloudStation/Sylvain/emacs/.bookmarks")
+(setq bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
 
 ;; Save bookmarks every time
 (setq bookmark-save-flag 1)
