@@ -164,6 +164,9 @@ mutiple times."
     (add-to-list 'LaTeX-verbatim-environments "CVerbatim")
     (add-to-list 'LaTeX-indent-environment-list '("CVerbatim" current-indentation))
 
+    (add-to-list 'LaTeX-verbatim-environments "Verbatim")
+    (add-to-list 'LaTeX-indent-environment-list '("Verbatim" current-indentation))
+
     (add-to-list 'LaTeX-verbatim-environments "pycode")
     (add-to-list 'LaTeX-indent-environment-list '("pycode" current-indentation))
 
