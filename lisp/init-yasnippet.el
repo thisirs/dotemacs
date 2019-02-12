@@ -29,6 +29,7 @@
 
   ;; Use only own snippets, do not use bundled ones
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (add-to-list 'yas-snippet-dirs (expand-file-name "snippets" personal-emacs-directory))
 
   (setq yas-triggers-in-field t)
 
