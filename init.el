@@ -1007,7 +1007,7 @@ the vertical drag is done."
      (:socket  . nil)
      (:terminal . "urxvt")))
   (org-babel-tmux-session-prefix "")
-
+  :config
   (defun ob-tmux--target (ob-session)
     (let* ((target-session (ob-tmux--session ob-session))
            (window (ob-tmux--window ob-session))
