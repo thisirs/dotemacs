@@ -1238,6 +1238,19 @@ the vertical drag is done."
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode :straight t)      ; Colorize color names in buffers
 
+(use-package reformatter               ; Define commands which run re-formatters
+  :straight t
+  :config
+  (when (executable-find "latexindent")
+    (reformatter-define latexindent
+      :program "latexindent"
+      :args (list "-y=defaultIndent:'  '")))
+
+  (when (executable-find "black")
+    (reformatter-define black
+      :program "black"
+      :args (list "-"))))
+
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
   :defer 10
