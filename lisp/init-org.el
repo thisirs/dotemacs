@@ -641,6 +641,16 @@ child checkboxes."
       (org-expiry-process-entries "someday.org")
       (message "Auto-archiving...done"))
 
+    (defun org-expiry-handler-function-force (info)
+      (goto-char (car info))
+      (let* ((year (nth 2 info))
+             (org-archive-location (format "%%s_archive_%s::" year))
+             (filep (org-extract-archive-file org-archive-location)))
+        (message (buffer-substring (point) (line-end-position)))
+        (if (not (file-exists-p filep))
+            (with-temp-buffer (write-file filep)))
+        (org-archive-subtree)))
+
     (setq org-expiry-handler-function 'org-expiry-handler-function-force)
     (add-hook 'kill-emacs-hook 'org-auto-archive))
 
