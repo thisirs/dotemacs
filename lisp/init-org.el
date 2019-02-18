@@ -622,20 +622,22 @@ child checkboxes."
     :config
     (defun org-auto-archive ()
       (message "Auto-archiving...")
-      (with-current-buffer "someday.org"
-        (org-expiry-process-entries))
-      (with-current-buffer "agenda.org"
-        (save-restriction
-          (widen)
-          (goto-char (point-min))
-          (when (search-forward "* External events" nil t)
-            (org-narrow-to-subtree)
-            (org-expiry-process-entries))
-          (widen)
-          (goto-char (point-min))
-          (when (search-forward "* Evénements simples" nil t)
-            (org-narrow-to-subtree)
-            (org-expiry-process-entries))))
+      (when (get-buffer "someday.org")
+        (with-current-buffer "someday.org"
+          (org-expiry-process-entries)))
+      (when (get-buffer "agenda.org")
+        (with-current-buffer "agenda.org"
+          (save-restriction
+            (widen)
+            (goto-char (point-min))
+            (when (search-forward "* External events" nil t)
+              (org-narrow-to-subtree)
+              (org-expiry-process-entries))
+            (widen)
+            (goto-char (point-min))
+            (when (search-forward "* Evénements simples" nil t)
+              (org-narrow-to-subtree)
+              (org-expiry-process-entries)))))
       (org-expiry-process-entries "someday.org")
       (message "Auto-archiving...done"))
 
