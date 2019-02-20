@@ -1241,6 +1241,11 @@ the vertical drag is done."
 (use-package reformatter               ; Define commands which run re-formatters
   :straight t
   :config
+  (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
+    (reformatter-define Rindent
+      :program "Rscript"
+      :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE)")))
+
   (when (executable-find "latexindent")
     (reformatter-define latexindent
       :program "latexindent"
