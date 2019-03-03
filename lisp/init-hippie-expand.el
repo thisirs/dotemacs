@@ -180,6 +180,8 @@ string). It returns t if a new expansion is found, nil otherwise."
         try-expand-dabbrev-from-kill
         try-complete-ispell))
 
+(add-to-list 'hippie-expand-ignore-buffers "^.*\\.gpg$")
+
 (global-set-key (kbd "S-SPC") #'hippie-expand)
 (global-set-key (kbd "C-S-SPC") (lambda () (interactive) (hippie-expand -1)))
 
