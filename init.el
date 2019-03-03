@@ -194,6 +194,7 @@
   :straight t)
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
+  :disabled t
   :if (executable-find "ag")
   :straight t
   :defer 5
@@ -211,7 +212,7 @@
   (defun ag-search-current-directory (string)
     (interactive (list (ag/read-from-minibuffer "Ag search string")))
     (let ((current-prefix-arg last-prefix-arg))
-      (ag/search string default-directory)))) 
+      (ag/search string default-directory))))
 
 ;; https://github.com/jwiegley/alert
 (use-package alert                      ; Growl-style notification system for Emacs
@@ -1276,6 +1277,16 @@ the vertical drag is done."
   (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
   :config
   (recentf-mode 1))
+
+(use-package rg
+  :straight t
+  :bind ("M-g f" . rg-custom-search)
+  :config
+  (add-hook 'rg-mode-hook (lambda () (interactive) (toggle-truncate-lines t)))
+  (rg-define-search rg-custom-search
+    :format "regexp"
+    :dir  "current"
+    :files "all"))
 
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
