@@ -1039,29 +1039,30 @@ the vertical drag is done."
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :straight t
   :config
-  (add-to-list 'org-context-capture-alist
-               (cons 'mu4e-view-mode
-                     '(("e" "Event")
-                       ("ee" "Simple event" entry
-                         (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Evénements simples")
-                         "\
+  (let ((capture-tmpls '(("e" "Event")
+                         ("ee" "Simple event" entry
+                          (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Evénements simples")
+                          "\
 * %? %a %(org-capture--org-set-tags)
   %(org-capture-read-date)
   OPENED: %U"
-                         :created t)
-                       ("es" "Scheduled event" entry
-                        (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des scheduled")
-                        "\
+                          :created t)
+                         ("es" "Scheduled event" entry
+                          (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des scheduled")
+                          "\
 * %? %a %(org-capture--org-set-tags)
   SCHEDULED: %(org-capture-read-date)
   OPENED: %U")
-                       ("ed" "Deadline event" entry
-                        (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des deadlines")
-                        "\
+                         ("ed" "Deadline event" entry
+                          (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des deadlines")
+                          "\
 * %? %a %(org-capture--org-set-tags)
   DEADLINE: %(org-capture-read-date)
   OPENED: %U"
-                        ))))
+                          ))))
+    (add-to-list 'org-context-capture-alist (cons 'mu4e-view-mode capture-tmpls))
+    (add-to-list 'org-context-capture-alist (cons 'mu4e-headers-mode capture-tmpls)))
+
   (org-context-activate))
 
 (use-package org-pdfview
