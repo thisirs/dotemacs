@@ -1678,14 +1678,14 @@ Change directory to `default-directory' if ARG is non-nil."
       (let ((current-command (tmux-display "#{pane_current_command}")))
         (cond ((string= current-command "R")
                (let ((coding-system-for-write 'utf-8))
-                 (shell-command (format "tmux send \"setwd(\\\"%s\\\")\" ENTER"
+                 (shell-command (format "tmux send C-u C-k \"setwd(\\\"%s\\\")\" ENTER"
                                         (file-truename default-directory)))))
               ((string-match "python[23]?" current-command)
                (let ((coding-system-for-write 'utf-8))
-                 (shell-command (format "tmux send \"import os; os.chdir(\\\"%s\\\")\" ENTER"
+                 (shell-command (format "tmux send C-u C-k \"import os; os.chdir(\\\"%s\\\")\" ENTER"
                                         (file-truename default-directory)))))
               (t (let ((coding-system-for-write 'utf-8))
-                   (shell-command (format "tmux send \"cd \\\"%s\\\"\" ENTER"
+                   (shell-command (format "tmux send C-u \"cd \\\"%s\\\"\" ENTER"
                                           (file-truename default-directory))))))))
   (message "Switched to tmux"))
 
