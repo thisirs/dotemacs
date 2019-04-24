@@ -67,7 +67,7 @@
         '(("\\`file:.*/\\([^/:]+\\)\\(::.*\\)" . "\\1")
           ("\\`file:.*/\\([^/:]+\\)" . "\\1")))
 
-  (setq org-make-link-description-function
+  (setq org-link-make-description-function
         (lambda (link description)
           (let ((found (assoc-default link org-link-to-description 'string-match)))
             (cond
@@ -77,7 +77,7 @@
     "Command that make the selected region an org link pointing to
 the selected file."
     (interactive "fFile: ")
-    (insert (org-make-link-string
+    (insert (org-link-make-string
              file
              (if (file-directory-p file)
                  (file-name-as-directory file)
@@ -169,7 +169,7 @@ the selected file."
                            (twittering-get-status-url username id))
                        nil))))
         (and (stringp uri)
-             (org-store-link-props :type "http" :link uri)
+             (org-link-store-props :type "http" :link uri)
              t))))
 
   (org-link-set-parameters
@@ -429,7 +429,7 @@ captured from."
       (goto-char (point-min))
       (if (re-search-forward
            (format org-complex-heading-regexp-format
-                   (regexp-quote (org-make-link-string (format "file:%s" name) name))) nil t)
+                   (regexp-quote (org-link-make-string (format "file:%s" name) name))) nil t)
           (progn
             (org-end-of-subtree t nil)
             (or (bolp) (insert "\n")))
@@ -440,7 +440,7 @@ captured from."
   OPENED: %s
 "
                         "ONPROGRESS"
-                        (org-make-link-string (format "file:%s" name) name)
+                        (org-link-make-string (format "file:%s" name) name)
                         (format-time-string
                          "[%Y-%m-%d %a %H:%M:%S]"
                          (nth 6 (file-attributes (expand-file-name name base-dir))))))
@@ -645,7 +645,7 @@ child checkboxes."
       (goto-char (car info))
       (let* ((year (nth 2 info))
              (org-archive-location (format "%%s_archive_%s::" year))
-             (filep (org-extract-archive-file org-archive-location)))
+             (filep (car (org-archive--compute-location org-archive-location))))
         (message (buffer-substring (point) (line-end-position)))
         (if (not (file-exists-p filep))
             (with-temp-buffer (write-file filep)))
