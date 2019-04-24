@@ -1,6 +1,6 @@
 ;; http://www.gnu.org/software/auctex/
 (straight-use-package 'auctex)
-(use-package tex-site                   ; Integrated environment for *TeX*
+(use-package tex-site               ; Integrated environment for *TeX*
   :config
   (use-package latex
     :defer t
@@ -40,8 +40,8 @@
     ;; Avoid generating auto/ directory when working on shared documents
     (defun disable-automatic-parsing ()
       (when (shared-directory)
-       (setq-local TeX-parse-self nil)
-       (setq-local TeX-auto-save nil)))
+        (setq-local TeX-parse-self nil)
+        (setq-local TeX-auto-save nil)))
 
     (add-hook 'LaTeX-mode-hook #'disable-automatic-parsing)
 
@@ -52,7 +52,7 @@
 
     ;; Run knitr on tex files
     (add-to-list 'TeX-command-list
-                 '("knitr + LaTeX" "%`%l%(mode) -jobname=%s %' %s-knitr.tex"
+                 '("knitr + LaTeX" "%`%l%(mode) -jobname=%s %' %s_knitr.tex"
                    TeX-run-knitr-and-TeX nil
                    (latex-mode doctex-mode)
                    :help "Run knitr and LaTeX"))
