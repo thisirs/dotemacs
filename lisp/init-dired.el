@@ -82,17 +82,19 @@ repeatedly q."
     (interactive)
     (dired (getenv "HOME"))))
 
-;; Invert C-u and M-0 prefix arg in dired-copy-filename-as-kill
-(defun dired-copy-filename-as-kill-fix (args)
-  (when args
-    (cond ((equal (car args) '(4))
-           '(0))
-          ((equal (car args) '(0))
-           '((4)))
-          (t args))))
+(defun dired-copy-filename-as-kill-fix (&optional arg)
+  (interactive "P")
+  (cond ((equal arg '(4))
+         (dired-copy-filename-as-kill '(0)))
+        ((equal arg '(16))
+         (let* ((file (car (dired-get-marked-files nil t)))
+                (root (vc-responsible-backend-root file))
+                (string (file-relative-name file root)))
+           (kill-new string)
+           (message "%s" string)))
+        (t (dired-copy-filename-as-kill arg))))
 
-(advice-add 'dired-copy-filename-as-kill :filter-args 'dired-copy-filename-as-kill-fix)
-
+(define-key dired-mode-map (kbd "w") #'dired-copy-filename-as-kill-fix)
 
 ;; C-c C-m C-a jumps to gnus with current file attached
 (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
