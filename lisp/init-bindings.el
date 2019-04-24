@@ -9,6 +9,12 @@
 (shell-bind "<f5>" "dbus-spotify previous" "previous")
 (shell-bind "<f6>" "dbus-spotify next" "next")
 
+(defun mpv-bindings ()
+  (interactive)
+  (shell-bind "<f4>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" p" "play/paused")
+  (shell-bind "<f5>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Left" "advance")
+  (shell-bind "<f6>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Right" "next"))
+
 ;; Shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") #'revert-buffer)
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
