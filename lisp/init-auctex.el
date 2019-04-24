@@ -170,6 +170,9 @@ mutiple times."
     (add-to-list 'LaTeX-verbatim-environments "pycode")
     (add-to-list 'LaTeX-indent-environment-list '("pycode" current-indentation))
 
+    (add-to-list 'LaTeX-verbatim-environments "knitr")
+    (add-to-list 'LaTeX-indent-environment-list '("knitr" current-indentation))
+
     (defun latex-auto-fill-everywhere ()
       (when comment-auto-fill-only-comments
         (set (make-local-variable 'comment-auto-fill-only-comments)
