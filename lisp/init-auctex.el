@@ -202,23 +202,20 @@ mutiple times."
               :help "Run makeindex to create index file"))
 
     ;; hook function to use in `TeX-command-list' list
-    (defun TeX-run-Make-or-TeX (name command file)
-      (let* ((master (TeX-master-directory)))
-        (cond
-         ((and (file-exists-p (concat master "Makefile"))
-               (executable-find "make"))
-          (TeX-run-command name "make" file))
-         ((and (file-exists-p (concat master "Rakefile"))
-               (executable-find "rake"))
-          (TeX-run-command name "rake" file))
-         (t
-          (TeX-run-TeX name command file)))))
+    (defvar-local TeX-make-command "make")
+
+    (add-to-list 'TeX-expand-list
+                 '("%(makecmd)" (lambda () (or TeX-make-command "make"))))
+
+    (defun TeX-run-Make (name command file)
+      (setq TeX-make-command command)
+      (TeX-run-command name TeX-make-command file))
 
     (add-to-list 'TeX-command-list
-                 '("Make" "%`%l%(mode)%' %t"
-                   TeX-run-Make-or-TeX nil
+                 '("Make" "%(makecmd)"
+                   TeX-run-Make nil
                    (latex-mode doctex-mode)
-                   :help "Run Make or LaTeX if no Makefile"))
+                   :help "Run Make"))
 
     ;; Viewer: prefer pdf-tools when predicate pdf-tools-running is true
     (setq TeX-view-program-selection
