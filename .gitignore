@@ -23,3 +23,14 @@ straight/
 .sx/
 
 smex-items
+
+forge-database.sqlite
+network-security.data
+sokoban-state
+
+transient/
+emms/
+eudc-options
+Dockerfile
+savehist
+abbrev_defs
