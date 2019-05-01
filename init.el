@@ -2156,6 +2156,7 @@ to cancel it."
 
 ;; Open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
 (add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("PKGBUILD\\'" . sh-mode))
 
 ;; Taken from http://emacs.stackexchange.com/questions/519/key-bindings-specific-to-a-buffer
 (defvar temp-mode-map (make-sparse-keymap)
