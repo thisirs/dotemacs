@@ -63,17 +63,19 @@
         (when args
           (let ((buf (current-buffer))
                 (process (apply #'funcall args)))
-            (setq TeX-sentinel-function
-                  `(lambda (process name)
-                     (if (eq 0 (process-exit-status process))
-                         (let ((buffer-name ,(TeX-process-buffer-name (nth 3 args)))
-                               (log-buffer ,(concat "*" (abbreviate-file-name (expand-file-name (nth 3 args))) " output for " (nth 1 args) "*")))
-                           (with-current-buffer buffer-name
-                             (copy-to-buffer (get-buffer-create log-buffer) nil nil))
-                           (with-current-buffer ,buf
-                             (message "Process %s succeeded" name)
-                             (TeX-run-consecutive ',(cdr defun-name-cmd-file-list))))
-                       (message "Process %s failed" name))))))))
+            (if (processp process)
+                (setq TeX-sentinel-function
+                      `(lambda (process name)
+                         (if (eq 0 (process-exit-status process))
+                             (let ((buffer-name ,(TeX-process-buffer-name (nth 3 args)))
+                                   (log-buffer ,(concat "*" (abbreviate-file-name (expand-file-name (nth 3 args))) " output for " (nth 1 args) "*")))
+                               (with-current-buffer buffer-name
+                                 (copy-to-buffer (get-buffer-create log-buffer) nil nil))
+                               (with-current-buffer ,buf
+                                 (message "Process %s succeeded" name)
+                                 (TeX-run-consecutive ',(cdr defun-name-cmd-file-list))))
+                           (message "Process %s failed" name))))
+              (TeX-run-consecutive (cdr defun-name-cmd-file-list)))))))
 
     (defun TeX-run-knitr-and-TeX (name command file)
       (let ((knitr-file (concat (file-name-sans-extension file) "-knitr"))
