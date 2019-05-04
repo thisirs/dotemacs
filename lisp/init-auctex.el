@@ -78,24 +78,38 @@
               (TeX-run-consecutive (cdr defun-name-cmd-file-list)))))))
 
     (defun TeX-run-knitr-and-TeX (name command file)
-      (let ((knitr-file (concat (file-name-sans-extension file) "-knitr"))
-            (fix "all_patterns\\$tex\\$chunk.code <- '^\\\\\\\\s*%+'; knit_patterns\\$set(all_patterns[['tex']])"))
+      (let ((knitr-file (concat file "_knitr")))
         (TeX-run-consecutive
-         `((TeX-run-command "knitr"
-                            ,(format "Rscript -e \"%s\""
-                                     (mapconcat 'identity
-                                                (list
-                                                 "library(knitr)"
-                                                 fix
-                                                 (format "knit('%s', output = '%s')"
-                                                         (concat file ".tex")
-                                                         (concat knitr-file ".tex"))
-                                                 (format "knit('%s', output = '%s', tangle = TRUE)"
-                                                         (concat file ".tex")
-                                                         (concat file ".R")))
-                                                "; "))
-                            ,file)
-           (TeX-run-TeX ,name ,command ,file)))))
+         `((TeX-run-command
+            "knitr"
+            ,(format "Rscript -e \"library(knitr); knitr::opts_knit\\$set(progress = TRUE, verbose = TRUE, concordance = TRUE); knit('%s', output = '%s')\""
+                     (concat file ".tex")
+                     (concat knitr-file ".tex"))
+            ,file)
+           (TeX-run-command
+            "tangle"
+            ,(format "Rscript -e \"library(knitr); knit('%s', output = '%s', tangle = TRUE)\""
+                     (concat file ".tex")
+                     (concat file ".R"))
+            ,file)
+           (TeX-run-TeX ,name ,command ,file)
+           (TeX-run-function
+            "patchSynctex"
+            ,(let (print-level print-length)
+               (format "%S"
+                       `(when (or t (file-exists-p ,(concat knitr-file "-concordance.tex")))
+                          (cl-letf (((symbol-function 'messagea)
+                                     (lambda (&rest args)
+                                       nil)))
+                            (TeX-run-shell nil ,(format "Rscript -e \"library(patchSynctex); patchSynctex('%s')\""
+                                                        knitr-file)
+                                           nil)
+                            (shell-command (format "gunzip < \"%s\" | sed s/_knitr\\.Rnw/\\.tex/g | gzip | sponge \"%s\""
+                                                   ,(concat file ".synctex.gz")
+                                                   ,(concat file ".synctex.gz")))
+                            ;; make evince reload with patched  synctex file
+                            (shell-command ,(format "cat \"%s\" | sponge \"%s\"" (concat file ".pdf") (concat file ".pdf")))))))
+            nil)))))
 
     (defun TeX-run-TeX-pythontex-and-TeX (name command file)
       (TeX-run-consecutive
