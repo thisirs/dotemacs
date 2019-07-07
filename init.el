@@ -1290,13 +1290,14 @@ the vertical drag is done."
 
 (use-package rg
   :straight t
+  :if (executable-find "rg")
   :bind ("M-g f" . rg-custom-search)
   :config
   (add-hook 'rg-mode-hook (lambda () (interactive) (toggle-truncate-lines t)))
   (rg-define-search rg-custom-search
     :format "regexp"
     :dir  "current"
-    :files "all"))
+    :files "*"))
 
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
