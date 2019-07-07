@@ -1039,25 +1039,32 @@ the vertical drag is done."
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :straight t
   :config
+  (defun org-capture--add-link ()
+    (format "%s %s"
+            (plist-get org-store-link-plist :subject)
+            (org-link-make-string
+             (plist-get org-store-link-plist :link)
+             "ici")))
+
   (let ((capture-tmpls
          '(("e" "Event")
            ("ee" "Simple event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Evénements simples")
             "\
-* %? %a %(org-capture--org-set-tags)
+* %? %(org-capture--add-link) %(org-capture--org-set-tags)
   %(org-capture-read-date)
   OPENED: %U"
             :created t)
            ("es" "Scheduled event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des scheduled")
             "\
-* %? %a %(org-capture--org-set-tags)
+* %? %(org-capture--add-link) %(org-capture--org-set-tags)
   SCHEDULED: %(org-capture-read-date)
   OPENED: %U")
            ("ed" "Deadline event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des deadlines")
             "\
-* %? %a %(org-capture--org-set-tags)
+* %? %(org-capture--add-link) %(org-capture--org-set-tags)
   DEADLINE: %(org-capture-read-date)
   OPENED: %U"
             ))))
