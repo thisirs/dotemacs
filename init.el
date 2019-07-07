@@ -195,7 +195,8 @@
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :disabled t
-  :if (executable-find "ag")
+  :if (and (executable-find "ag")
+           (not (executable-find "rg")))
   :straight t
   :defer 5
   :bind ("M-g f" . ag-search-current-directory)
