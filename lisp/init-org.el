@@ -258,7 +258,7 @@ the selected file."
 
   ;; Warning with appt and notify
   (setq
-   appt-message-warning-time 15 ;; warn 15 min in advance
+   appt-message-warning-time 20
    appt-display-interval 3
    appt-display-mode-line t     ;; show in the modeline
    appt-display-format 'window) ;; use our func
