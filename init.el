@@ -1091,6 +1091,7 @@ the vertical drag is done."
 
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
+  :disabled t
   :straight t
   :commands paradox-list-packages
   :config
