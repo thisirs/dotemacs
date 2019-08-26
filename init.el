@@ -236,6 +236,11 @@
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
+(use-package atomic-chrome
+  :straight t
+  :config
+  (atomic-chrome-start-server))
+
 ;; https://github.com/abo-abo/avy
 (use-package avy                        ; tree-based completion
   :straight t
