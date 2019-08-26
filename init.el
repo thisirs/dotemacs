@@ -224,6 +224,7 @@
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :straight t
+  :disabled t
   :config
   (global-anzu-mode 1)
   :diminish anzu-mode)
