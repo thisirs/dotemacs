@@ -1331,9 +1331,9 @@ the vertical drag is done."
    "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
 (use-package saveplace
+  :hook (after-init . save-place-mode)
   :config
-  (setq save-place-file "~/.emacs.d/cache/.saveplace")
-  (save-place-mode))
+  (setq save-place-file "~/.emacs.d/cache/.saveplace"))
 
 (use-package server
   :if (window-system)
