@@ -1587,6 +1587,7 @@ the vertical drag is done."
   (vc-auto-commit-activate))
 
 (use-package webjump
+  :disabled t
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
