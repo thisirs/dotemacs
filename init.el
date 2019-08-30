@@ -548,7 +548,9 @@ the vertical drag is done."
     (setq flycheck-highlighting-mode 'symbols)
     (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
-(use-package forge :straight t)
+(use-package forge
+  :straight t
+  :after magit)
 
 ;; https://github.com/magit/git-modes
 (use-package gitconfig-mode :straight t)    ; Major mode for editing .gitconfig files
