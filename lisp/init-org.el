@@ -57,6 +57,9 @@
   ;; Special navigation in org mode
   (setq org-special-ctrl-a/e t)
 
+  ;; Smart C-k
+  (setq org-special-ctrl-k t)
+
   ;; Fontify src blocks
   (setq org-src-fontify-natively t)
 
