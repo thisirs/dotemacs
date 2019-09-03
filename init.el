@@ -711,6 +711,7 @@ the vertical drag is done."
 
   (ivy-mode)
 
+  ;; Don't sort in org-attach-attach-from
   (add-to-list 'ivy-sort-functions-alist (list 'org-attach-attach-from))
 
   (defun ivy-bookmarks-display-transformer (candidate)
