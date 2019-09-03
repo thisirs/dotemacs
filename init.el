@@ -752,6 +752,11 @@ the vertical drag is done."
                 :action 'ivy-bookmarks-open
                 :caller 'ivy-bookmarks))))
 
+(use-package ivy-prescient
+  :straight t
+  :after prescient
+  :config (ivy-prescient-mode))
+
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
   :straight t
@@ -1182,6 +1187,10 @@ the vertical drag is done."
   (define-polymode poly-markdown-mode
     :hostmode 'pm-host/R
     :innermodes '(pm-inner/markdown-code)))
+
+(use-package prescient
+  :straight t
+  :config (prescient-persist-mode))
 
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
