@@ -17,6 +17,10 @@
     ;; no foldmarks by default
     (setq org-koma-letter-use-foldmarks nil))
 
+  (use-package org-attach
+    :config
+    (setq org-attach-archive-delete t))
+
   ;; Workaround to use yasnippet in org-mode
   ;; (defun yas-org-very-safe-expand ()
   ;;   (let ((yas-fallback-behavior 'return-nil))
