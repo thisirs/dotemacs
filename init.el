@@ -1502,7 +1502,8 @@ the vertical drag is done."
   (state-global-mode 1))
 
 (use-package swiper
-  :bind (("C-s" . swiper)))
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
 
 ;; http://www.emacswiki.org/elisp/tidy.el
 (use-package tidy)              ; Interface to the HTML Tidy program
