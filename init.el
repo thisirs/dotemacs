@@ -598,6 +598,24 @@ the vertical drag is done."
           (smerge-mode "C-c ^")))
   (guide-key-mode 1))
 
+(use-package helpful
+  :straight t
+  :bind* (("C-c C-d" . helpful-at-point))
+  :bind* (;; Remap standard commands.
+         ("C-c C-d" . helpful-at-point)
+         ([remap describe-function] . helpful-callable)
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-symbol]   . helpful-symbol)
+         ([remap describe-key]      . helpful-key)
+
+         ;; Suggested bindings from the documentation at
+         ;; https://github.com/Wilfred/helpful.
+
+         :map help-map
+         ("F" . helpful-function)
+         ("M-f" . helpful-macro)
+         ("C" . helpful-command)))
+
 (use-package hl-line
   :disabled
   :config
