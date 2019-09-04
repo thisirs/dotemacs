@@ -1,11 +1,8 @@
 (use-package org                        ; Outline-based notes management and organizer
-  :straight (org-plus-contrib
-             :type git :repo "https://code.orgmode.org/bzg/org-mode.git"
-             :local-repo "org" :files (:defaults "contrib/lisp/*.el"))
   :config
-  (use-package org-caldav :straight t)      ; Sync org files with external calendar through CalDAV
-  (use-package org-plus-contrib :straight t) ; Outline-based notes management and organizer
+  (use-package org-caldav)      ; Sync org files with external calendar through CalDAV
   (use-package ox-koma-letter
+    :straight nil
     :defer t
     :config
     ;; email is specified is lco file
@@ -557,7 +554,6 @@ refile targets.")
 
   ;; https://github.com/jkitchin/org-ref
   (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
-    :straight t
     :config
     (require 'org-ref-ivy)
 
@@ -685,6 +681,7 @@ child checkboxes."
 
   ;; Adapted from http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html
   (use-package ox-latex
+    :straight nil
     ;; You need to install pygments to use minted
     :config
     (when (executable-find "pygmentize")

@@ -35,7 +35,7 @@
   (setq ess-swv-plug-into-AUCTeX-p t)
 
   ;; Trigger plugging with right hooks
-  (if (use-package tex-site)
+  (if (use-package tex-site :straight nil)
       (ess-swv-plug-into-AUCTeX))
 
   (defun tidy-R-buffer (&optional beg end formatR-opts)

@@ -1,8 +1,9 @@
 ;; http://www.gnu.org/software/auctex/
-(straight-use-package 'auctex)
 (use-package tex-site               ; Integrated environment for *TeX*
+  :straight auctex
   :config
   (use-package latex
+    :straight nil
     :defer t
     :defines TeX-sentinel-function
     :functions (TeX-run-command TeX-run-TeX)

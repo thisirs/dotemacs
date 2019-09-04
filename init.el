@@ -108,6 +108,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(setq straight-use-package-by-default t)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
 (require 'bind-key)
@@ -126,7 +127,6 @@
 ;; Loading zenburn theme
 ;; http://github.com/bbatsov/zenburn-emacs
 (use-package zenburn-theme              ; A low contrast color theme for Emacs.
-  :straight t
   :if (on-zouzou)
   :if (window-system)
   :config
@@ -144,7 +144,6 @@
 ;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme            ; Color theme with a dark and light versions
   :disabled t
-  :straight t
   :init
   (load-theme 'spacemacs-dark t))
 
@@ -186,24 +185,22 @@
 (setq ispell-choices-win-default-height 5)
 
 (use-package abbrev
+  :straight nil
   :init
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
 
-(use-package academic-phrases
-  :straight t)
+(use-package academic-phrases)
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :disabled t
   :if (and (executable-find "ag")
            (not (executable-find "rg")))
-  :straight t
   :defer 5
   :bind ("M-g f" . ag-search-current-directory)
   :config
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
   (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
-    :straight t
     :bind (:map wgrep-mode-map
                 ("C-x s" . wgrep-save-all-buffers)))
 
@@ -217,13 +214,11 @@
 
 ;; https://github.com/jwiegley/alert
 (use-package alert                      ; Growl-style notification system for Emacs
-  :straight t
   :config
   (alert-add-rule :style 'libnotify))
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
-  :straight t
   :disabled t
   :config
   (global-anzu-mode 1)
@@ -231,20 +226,17 @@
 
 ;; http://nschum.de/src/emacs/auto-dictionary/
 (use-package auto-dictionary            ; automatic dictionary switcher for flyspell
-  :straight t
   :bind (("C-c w l" . adict-change-dictionary)
          ("C-c w g" . adict-guess-dictionary))
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
 (use-package atomic-chrome
-  :straight t
   :config
   (atomic-chrome-start-server))
 
 ;; https://github.com/abo-abo/avy
 (use-package avy                        ; tree-based completion
-  :straight t
   :config
   (setq avy-style 'at)
   (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
@@ -255,15 +247,14 @@
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
-  :straight t
   :config
   (beginend-global-mode))
 
-(use-package blacken :straight t)
+(use-package blacken)
 
-(use-package cmake-mode :straight t)        ; major-mode for editing CMake sources
+(use-package cmake-mode)        ; major-mode for editing CMake sources
 
-(use-package company :straight t)
+(use-package company)
 
 (use-package compile
   :defer
@@ -273,7 +264,6 @@
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
-  :straight t
   :bind (("C-x C-f" . counsel-find-file)
          ("C-x l" . counsel-locate)
          ("M-x" . counsel-M-x)
@@ -286,10 +276,9 @@
          :map ivy-minibuffer-map
          ("M-y" . ivy-next-line))
   :config
-  (use-package smex :straight t))
+  (use-package smex))
 
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
-  :straight t
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
          ([C-M-S-down] . drag-stuff-down)
@@ -333,10 +322,9 @@ the vertical drag is done."
   (add-hook 'drag-stuff-after-drag-hook  #'modi/drag-stuff--rst-pt-post-drag))
 
 ;; https://github.com/spotify/dockerfile-mode
-(use-package dockerfile-mode :straight t)   ; Major mode for editing Docker's Dockerfiles
+(use-package dockerfile-mode)   ; Major mode for editing Docker's Dockerfiles
 
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
-  :straight t
   :bind (("M-g o" . dumb-jump-go-other-window)
          ("M-g j" . dumb-jump-go)
          ("M-g x" . dumb-jump-go-prefer-external)
@@ -345,6 +333,7 @@ the vertical drag is done."
 
 ;; ediff settings
 (use-package ediff-wind
+  :straight nil
   :defer t
   :config
   ;; Split windows horizontally in ediff (instead of vertically)
@@ -375,10 +364,9 @@ the vertical drag is done."
               (jump-to-register 'ediff))))
 
 (use-package elpy
-  :straight t
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (when (use-package flycheck :straight t)
+  (when (use-package flycheck)
     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
   (setq python-indent-guess-indent-offset-verbose nil)
@@ -388,7 +376,6 @@ the vertical drag is done."
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
-  :straight t
   :disabled t
   :bind* ("C-c /" . engine-mode-hydra/body)
   :config
@@ -457,7 +444,6 @@ the vertical drag is done."
            :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
-  :straight t
   :bind ("M-:" . eval-expr)
   :config
   (setq eval-expr-print-function 'pp
@@ -478,7 +464,6 @@ the vertical drag is done."
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
-  :straight t
   :config
   (setq exec-path-from-shell-variables
         (append exec-path-from-shell-variables
@@ -486,7 +471,6 @@ the vertical drag is done."
   (exec-path-from-shell-initialize))
 
 (use-package expand-region              ; Increase selected region by semantic units.
-  :straight t
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
 
@@ -500,7 +484,6 @@ the vertical drag is done."
               (interactive)
               (with-current-buffer "*scratch*"
                 (setq default-directory (expand-file-name "emacs-lisp-mode" find-temp-file-directory)))))
-  :straight t
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
   :init
@@ -533,7 +516,6 @@ the vertical drag is done."
 
 ;; http://www.flycheck.org
 (use-package flycheck                   ; On-the-fly syntax checking
-  :straight t
   :commands global-flycheck-mode
   :defer 10
   :config
@@ -543,20 +525,18 @@ the vertical drag is done."
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
   (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
-    :straight t
     :config
     (setq flycheck-highlighting-mode 'symbols)
     (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
 (use-package forge
-  :straight t
   :after magit)
 
 ;; https://github.com/magit/git-modes
-(use-package gitconfig-mode :straight t)    ; Major mode for editing .gitconfig files
+(use-package gitconfig-mode)    ; Major mode for editing .gitconfig files
 
 ;; https://github.com/magit/git-modes
-(use-package gitignore-mode :straight t)    ; Major mode for editing .gitignore files
+(use-package gitignore-mode)    ; Major mode for editing .gitignore files
 
 (use-package google-translate-smooth-ui ; Emacs interface to Google Translate.
   :straight google-translate
@@ -604,7 +584,6 @@ the vertical drag is done."
 
 ;; https://github.com/kai2nenobu/guide-key
 (use-package guide-key                  ; Guide the following key bindings automatically and dynamically
-  :straight t
   :disabled t
   :diminish guide-key-mode
   :commands guide-key-mode
@@ -621,7 +600,6 @@ the vertical drag is done."
 
 (use-package hl-line
   :disabled
-  :straight t
   :config
   ;; Highlight the line only in the active window
   (setq global-hl-line-sticky-flag t)
@@ -630,7 +608,6 @@ the vertical drag is done."
   ;; hl-line+
   ;; http://www.emacswiki.org/emacs/hl-line+.el
   (use-package hl-line+               ; Extensions to hl-line.el.
-    :straight t
     :config
     (toggle-hl-line-when-idle 1) ; Highlight line only when idle
     ;; Number of seconds of idle time after when the line should be highlighted
@@ -639,7 +616,6 @@ the vertical drag is done."
     (setq hl-line-flash-show-period 3)))
 
 (use-package hydra
-  :straight t
   :config
   (defhydra jump-hydra (:color blue)
     "Jump to bookmarks"
@@ -652,13 +628,13 @@ the vertical drag is done."
                                      (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
     ("j" ivy-bookmarks "Bookmarks")))
 
-(use-package ical2org :straight t)
+(use-package ical2org)
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
-(use-package info+ :straight t)             ; Extensions to `info.el'.
+;; (use-package info+)             ; Extensions to `info.el'.
 
 ;; http://github.com/nonsequitur/inf-ruby
-(use-package inf-ruby :straight t)          ; Run a Ruby process in a buffer
+(use-package inf-ruby)          ; Run a Ruby process in a buffer
 
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
@@ -693,7 +669,6 @@ the vertical drag is done."
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
-  :straight t
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
          ("C-x j" . jump-hydra/body))
@@ -759,11 +734,9 @@ the vertical drag is done."
 
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
-  :straight t
   :commands json-mode)
 
 (use-package keyfreq                    ; track command frequencies
-  :straight t
   :config
   (let ((filepath (format (expand-file-name (format ".emacs.%s.keyfreq" (system-name)) personal-emacs-directory))))
     (make-directory (file-name-directory filepath) :parents)
@@ -773,7 +746,6 @@ the vertical drag is done."
 
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool                   ; Grammar check utility using LanguageTool
-  :straight t
   :defer
   :config
   (cond ((file-exists-p "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
@@ -784,16 +756,14 @@ the vertical drag is done."
   (setq langtool-default-language "fr"))
 
 ;; http://immerrr.github.com/lua-mode
-(use-package lua-mode :straight t)          ; a major-mode for editing Lua scripts
+(use-package lua-mode)          ; a major-mode for editing Lua scripts
 
 ;; https://github.com/joddie/macrostep
 (use-package macrostep                  ; interactive macro expander
-  :straight t
   :bind ("C-c e m" . macrostep-expand))
 
 ;; https://github.com/magit/magit
 (use-package magit                      ; A Git porcelain inside Emacs
-  :straight t
   :bind ("C-c i" . magit-status)
   :init
   ;; Taken from http://endlessparentheses.com/easily-create-github-prs-from-magit.html
@@ -831,7 +801,6 @@ the vertical drag is done."
 
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
-  :straight t
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.Rmd\\'" . rmarkdown-mode))
   :bind (:map markdown-mode-map
@@ -843,7 +812,7 @@ the vertical drag is done."
               ("C-c C-f u" . markdown-insert-uri))
   :config
   ;; https://github.com/Fanael/edit-indirect
-  (use-package edit-indirect :straight t)   ; Edit regions in separate buffers
+  (use-package edit-indirect)   ; Edit regions in separate buffers
 
   (setq markdown-enable-math t)
   (setq markdown-command
@@ -858,7 +827,6 @@ the vertical drag is done."
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   (use-package state
-    :straight t
     :config
     (state-define-state mu4e
       :key "u"
@@ -979,7 +947,6 @@ the vertical drag is done."
 
   (use-package mu4e-alert
     :if (on-zbook)
-    :straight t
     :config
     (mu4e-alert-set-default-style 'libnotify)
     (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
@@ -1001,13 +968,11 @@ the vertical drag is done."
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
 (use-package multi-term                 ; Managing multiple terminal buffers in Emacs.
-  :straight t
   :config
   (defalias 'term 'multi-term)
   (setq multi-term-program "/bin/zsh"))
 
 (use-package multiple-cursors           ; Multiple cursors for Emacs.
-  :straight t
   :init
   (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :config
@@ -1015,7 +980,6 @@ the vertical drag is done."
   :bind (("C-M-c" . mc/mark-next-like-this)))
 
 (use-package ob-tmux
-  :straight t
   :custom
   (org-babel-default-header-args:tmux
    `((:results . "silent")
@@ -1038,7 +1002,6 @@ the vertical drag is done."
 
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith                   ; Open files with external programs
-  :straight t
   :preface
   (rassq-delete-all #'doc-view-mode-maybe auto-mode-alist)
   :config
@@ -1052,7 +1015,6 @@ the vertical drag is done."
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
-  :straight t
   :config
   (defun org-capture--add-link ()
     (format "%s %s"
@@ -1088,11 +1050,9 @@ the vertical drag is done."
 
   (org-context-activate))
 
-(use-package org-pdfview
-  :straight t)
+(use-package org-pdfview)
 
 (use-package orgalist
-  :straight t
   :after mu4e
   :config
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
@@ -1100,16 +1060,14 @@ the vertical drag is done."
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
   :disabled t
-  :straight t
   :commands paradox-list-packages
   :config
   (setq paradox-github-token t)
   (setq paradox-execute-asynchronously t))
 
-(use-package pcache :straight t)            ; persistent caching for Emacs.
+(use-package pcache)            ; persistent caching for Emacs.
 
 (use-package pdf-tools                  ; Support library for PDF documents.
-  :straight t
   :defer 10
   :init
   ;; pdf-annot-minor-mode before pdf-sync-minor-mode
@@ -1137,6 +1095,7 @@ the vertical drag is done."
   (setq pdf-misc-print-programm lpr-command)
 
   (use-package pdf-annot
+    :straight nil
     :config
     (defun pdf-annot-add-text-annotation-here (ev)
       (interactive "@e")
@@ -1169,11 +1128,10 @@ the vertical drag is done."
     :straight (pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))))
 
 ;; https://github.com/ejmr/php-mode
-(use-package php-mode :straight t)          ; Major mode for editing PHP code
+(use-package php-mode)          ; Major mode for editing PHP code
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
-  :straight t
   :commands poly-markdown-string-mode
   :config
   (defcustom  pm-inner/markdown-code
@@ -1195,7 +1153,6 @@ the vertical drag is done."
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
-  :straight t
   :init
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
@@ -1266,10 +1223,9 @@ the vertical drag is done."
   (projectile-global-mode))
 
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
-(use-package rainbow-mode :straight t)      ; Colorize color names in buffers
+(use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package reformatter               ; Define commands which run re-formatters
-  :straight t
   :config
   (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
     (reformatter-define Rindent
@@ -1308,7 +1264,6 @@ the vertical drag is done."
   (recentf-mode 1))
 
 (use-package rg
-  :straight t
   :if (executable-find "rg")
   :bind ("M-g f" . rg-custom-search)
   :config
@@ -1322,7 +1277,6 @@ the vertical drag is done."
 ;; http://github.com/Malabarba/smart-mode-line
 (use-package smart-mode-line            ; A color coded smart mode-line.
   :if (window-system)
-  :straight t
   :commands sml/setup
   :demand t
   :init
@@ -1335,7 +1289,6 @@ the vertical drag is done."
   (sml/setup))
 
 (use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
-  :straight t
   :disabled t
   :config
   (sp-local-pair
@@ -1354,7 +1307,6 @@ the vertical drag is done."
     (server-start)))
 
 (use-package skeletor                   ; Provides project skeletons for Emacs
-  :straight t
   :defer 10)
 
 ;; https://github.com/yuya373/emacs-slack
@@ -1374,7 +1326,6 @@ the vertical drag is done."
    :full-and-display-names t))
 
 (use-package smart-mark                 ; Restore point after C-g when mark
-  :straight t
   :config
   (smart-mark-mode 1))
 
@@ -1394,7 +1345,6 @@ the vertical drag is done."
 
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
-  :straight t
   ;; Override state's keymap binding
   :bind-keymap ("s-s" . state-prefix-map)
   :config
@@ -1531,19 +1481,16 @@ the vertical drag is done."
   (state-global-mode 1))
 
 (use-package swiper
-  :straight t
   :bind (("C-s" . swiper)))
 
 ;; http://www.emacswiki.org/elisp/tidy.el
-(use-package tidy :straight t)              ; Interface to the HTML Tidy program
+(use-package tidy)              ; Interface to the HTML Tidy program
 
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
-  :straight t
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree                  ; Treat undo history as a tree
-  :straight t
   :config
   (global-undo-tree-mode)
   (define-key undo-tree-visualizer-mode-map (kbd "RET")
@@ -1551,12 +1498,10 @@ the vertical drag is done."
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
-  :straight t
   :bind ("M-q" . unfill-toggle))
 
 ;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
-  :straight t
   :defer 5
   :config
   ;; Be sure to leave my packages' repo on master
@@ -1576,7 +1521,6 @@ the vertical drag is done."
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
-  :straight t
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace))
@@ -1588,7 +1532,6 @@ the vertical drag is done."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :straight t
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
@@ -1603,11 +1546,10 @@ the vertical drag is done."
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
-(use-package wgrep                      ; Writable grep buffer and apply the changes to files
-  :straight t)
+;; Writable grep buffer and apply the changes to files
+(use-package wgrep)
 
 (use-package which-key
-  :straight t
   :defer 5
   :diminish
   :commands which-key-mode
@@ -1645,7 +1587,7 @@ the vertical drag is done."
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   (setq uniquify-after-kill-buffer-p t))
 
-(use-package yaml-mode :straight t)         ; Major mode for editing YAML files
+(use-package yaml-mode)         ; Major mode for editing YAML files
 
 (use-package yasnippet-snippets
   :straight (yasnippet-snippets
@@ -1656,7 +1598,6 @@ the vertical drag is done."
 
 ;; http://www.emacswiki.org/zoom-frm.el
 (use-package zoom-frm                   ; Commands to zoom frame font size.
-  :straight t
   :bind (("C-<down-mouse-4>" . zoom-in)
          ("C-<down-mouse-5>" . zoom-out)
          ("C-c +" . zoom-in)
@@ -1666,7 +1607,6 @@ the vertical drag is done."
 
 ;; https://github.com/thierryvolpiatto/zop-to-char
 (use-package zop-to-char                ; A replacement of zap-to-char.
-  :straight t
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
 
