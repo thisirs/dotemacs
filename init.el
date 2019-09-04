@@ -646,7 +646,13 @@ the vertical drag is done."
                                      (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
     ("j" ivy-bookmarks "Bookmarks")))
 
-(use-package ical2org)
+(use-package ical2org
+  :custom
+  (ical2org/event-format "* {SUMMARY}
+  {TIME}
+  {ORGANIZER}
+  {URL}
+  {DESCRIPTION}"))
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
 ;; (use-package info+)             ; Extensions to `info.el'.
