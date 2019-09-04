@@ -6,6 +6,8 @@
 ;; http://ess.r-project.org
 (use-package ess-site                   ; Emacs Speaks Statistics
   :straight ess
+  :bind (:map ess-r-mode-map ("_" . ess-insert-assign)
+              :map inferior-ess-mode-map ("_" . ess-insert-assign))
   :preface
   ;; No special behaviour of comments starting with #, ## or ###
   (setq ess-indent-with-fancy-comments nil)
