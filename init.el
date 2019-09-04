@@ -1931,7 +1931,7 @@ not, return nil."
               'comint-delchar-or-eof-or-kill-buffer)))
 
 ;; echo keystrokes quickly
-(setq echo-keystrokes 0.1)
+(setq echo-keystrokes 1e-6)
 
 ;; Delete all whitespace when deleting backward
 (setq backward-delete-char-untabify-method 'all)
