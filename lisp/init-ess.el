@@ -1,3 +1,8 @@
+(use-package julia-mode
+  :straight (julia-mode :repo "JuliaEditorSupport/julia-emacs"
+                        :fetcher github
+                        :files "*.el"))
+
 ;; http://ess.r-project.org
 (use-package ess-site                   ; Emacs Speaks Statistics
   :straight ess
