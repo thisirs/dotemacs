@@ -1075,6 +1075,9 @@ the vertical drag is done."
   :config
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
+(use-package ox-ipynb
+  :straight (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
+
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
   :disabled t
