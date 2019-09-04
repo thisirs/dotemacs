@@ -1553,12 +1553,13 @@ the vertical drag is done."
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
-          ("C-c q" . vr/query-replace))
-  :config
-  ;; https://github.com/benma/visual-regexp-steroids.el/
-  (use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
-    :straight t
-    :commands (vr/select-replace vr/select-query-replace)))
+          ("C-c q" . vr/query-replace)
+          ("M-%" . vr/query-replace)))
+
+;; https://github.com/benma/visual-regexp-steroids.el/
+(use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
+  :commands (vr/select-replace vr/select-query-replace)
+  :after visual-regexp)
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
