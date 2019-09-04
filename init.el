@@ -1508,6 +1508,14 @@ the vertical drag is done."
 ;; http://www.emacswiki.org/elisp/tidy.el
 (use-package tidy)              ; Interface to the HTML Tidy program
 
+;; Taken from https://github.com/raxod502/radian/blob/develop/emacs/radian.el
+(use-package transient
+  :config
+  ;; Allow using `q' to quit out of popups, in addition to `C-g'. See
+  ;; <https://magit.vc/manual/transient.html#Why-does-q-not-quit-popups-anymore_003f>
+  ;; for discussion.
+  (transient-bind-q-to-quit))
+
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
