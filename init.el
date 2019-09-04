@@ -1521,10 +1521,10 @@ the vertical drag is done."
 
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree                  ; Treat undo history as a tree
+  :bind (:map undo-tree-visualizer-mode-map ("RET" . undo-tree-visualizer-quit))
   :config
   (global-undo-tree-mode)
-  (define-key undo-tree-visualizer-mode-map (kbd "RET")
-    'undo-tree-visualizer-quit))
+  (setq undo-tree-enable-undo-in-region nil))
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
