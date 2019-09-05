@@ -363,6 +363,12 @@ the vertical drag is done."
             (lambda ()
               (jump-to-register 'ediff))))
 
+(use-package electric-operator
+  :after ess-site
+  :hook ((R-mode ess-r-mode inferior-ess-r-mode). electric-operator-mode)
+  :custom
+  (electric-operator-R-named-argument-style 'spaced))
+
 (use-package elpy
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
