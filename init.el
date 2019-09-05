@@ -250,7 +250,8 @@
   :config
   (beginend-global-mode))
 
-(use-package blacken)
+(use-package blacken
+  :disabled t)
 
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
