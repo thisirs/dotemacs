@@ -143,7 +143,7 @@
 
 ;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme            ; Color theme with a dark and light versions
-  :disabled t
+  :disabled
   :init
   (load-theme 'spacemacs-dark t))
 
@@ -193,7 +193,7 @@
 (use-package academic-phrases)
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
-  :disabled t
+  :disabled
   :if (and (executable-find "ag")
            (not (executable-find "rg")))
   :defer 5
@@ -219,7 +219,7 @@
 
 ;; https://github.com/syohex/emacs-anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
-  :disabled t
+  :disabled
   :config
   (global-anzu-mode 1)
   :diminish anzu-mode)
@@ -382,7 +382,7 @@ the vertical drag is done."
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
-  :disabled t
+  :disabled
   :bind* ("C-c /" . engine-mode-hydra/body)
   :config
 
@@ -590,7 +590,7 @@ the vertical drag is done."
 
 ;; https://github.com/kai2nenobu/guide-key
 (use-package guide-key                  ; Guide the following key bindings automatically and dynamically
-  :disabled t
+  :disabled
   :diminish guide-key-mode
   :commands guide-key-mode
   :defer 10
@@ -822,7 +822,7 @@ the vertical drag is done."
 
 ;; https://github.com/vermiculus/magithub
 (use-package magithub                   ; Magit interfaces for GitHub
-  :disabled t
+  :disabled
   :after magit
   :config (magithub-feature-autoinject t))
 
@@ -1089,7 +1089,7 @@ the vertical drag is done."
 
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
-  :disabled t
+  :disabled
   :commands paradox-list-packages
   :config
   (setq paradox-github-token t)
@@ -1318,7 +1318,7 @@ the vertical drag is done."
   (sml/setup))
 
 (use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
-  :disabled t
+  :disabled
   :config
   (sp-local-pair
    '(markdown-mode gfm-mode)
@@ -1581,7 +1581,7 @@ the vertical drag is done."
   (vc-auto-commit-activate))
 
 (use-package webjump
-  :disabled t
+  :disabled
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
