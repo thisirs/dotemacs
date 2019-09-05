@@ -102,7 +102,6 @@ nil."
 ;; Per user message colorization
 ;; https://github.com/thisirs/erc-colorize.git
 (use-package erc-colorize               ; Per user colorization of whole message
-  :straight t
   :config
   (erc-colorize-mode 1))
 

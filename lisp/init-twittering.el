@@ -1,6 +1,5 @@
 ;; http://twmode.sf.net/
 (use-package twittering-mode            ; Major mode for Twitter
-  :straight t
   :defer
   :config
 

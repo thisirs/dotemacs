@@ -605,7 +605,6 @@ the vertical drag is done."
   (guide-key-mode 1))
 
 (use-package helpful
-  :straight t
   :bind* (("C-c C-d" . helpful-at-point))
   :bind* (;; Remap standard commands.
          ("C-c C-d" . helpful-at-point)
@@ -757,7 +756,6 @@ the vertical drag is done."
                 :caller 'ivy-bookmarks))))
 
 (use-package ivy-prescient
-  :straight t
   :after prescient
   :config (ivy-prescient-mode))
 
@@ -1179,7 +1177,6 @@ the vertical drag is done."
     :innermodes '(pm-inner/markdown-code)))
 
 (use-package prescient
-  :straight t
   :config (prescient-persist-mode))
 
 ;; Projectile
