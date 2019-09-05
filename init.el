@@ -670,7 +670,6 @@ the vertical drag is done."
   :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
                         :files ("ivy-bibtex.el" "bibtex-completion.el")
                         :fork (:host github :repo "thisirs/helm-bibtex"))
-  :defer 5
   :bind ("C-x b" . ivy-bibtex)
   :config
   (setq bibtex-completion-bibliography
