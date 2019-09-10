@@ -253,6 +253,23 @@
 (use-package blacken
   :disabled t)
 
+(use-package bookmark
+  :straight nil
+  :defer
+  :config
+  (defun bookmark-dynamic-handler (bmk-record)
+    (setq bmk-record (copy-tree bmk-record))
+    (let ((spec (bookmark-prop-get bmk-record 'spec))
+          (file (bookmark-get-filename bmk-record)))
+      (if (symbolp spec)
+          (setq spec (funcall spec)))
+      (setq file (format-spec file spec))
+      (bookmark-prop-set bmk-record 'filename file)
+      (funcall 'bookmark-default-handler bmk-record)))
+
+  (defun bookmark-spec ()
+    `((?s . ,(car (UTC-semester-from-time (current-time)))))))
+
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
 (use-package company)
