@@ -525,16 +525,22 @@ the vertical drag is done."
 (use-package flycheck                   ; On-the-fly syntax checking
   :commands global-flycheck-mode
   :defer 10
+  :hook (elpy-mode . flycheck-mode)
   :config
   (global-flycheck-mode 1)
   (setq-default flycheck-disabled-checkers
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
+
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
-  (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
-    :config
-    (setq flycheck-highlighting-mode 'symbols)
-    (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+  (setq flycheck-python-pylint-executable "python3")
+  (setq flycheck-python-flake8-executable "python3"))
+
+(use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
+  :after flycheck
+  :hook (flycheck-mode . flycheck-color-mode-line)
+  :config
+  (setq flycheck-highlighting-mode 'symbols))
 
 (use-package forge
   :after magit)
