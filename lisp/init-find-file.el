@@ -1,15 +1,3 @@
-;; Open a buffer with sudo via tramp
-(defun find-file-sudo (oldfun filename &optional wildcards)
-  (if (and (file-exists-p filename)
-           (not (file-writable-p filename))
-           (not (file-remote-p filename))
-           (not (file-directory-p filename))
-           (y-or-n-p (format "File %s is read-only.  Open it as root? " filename)))
-      (find-file (concat "/sudo::" (expand-file-name filename)))
-    (funcall oldfun filename wildcards)))
-
-(advice-add 'find-file :around #'find-file-sudo)
-
 ;; ;; Open certain files externally with ido, dired, find-file
 ;; (defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4" "flv")
 ;;   "List of file extensions that should be opened externally.")
