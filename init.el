@@ -292,9 +292,7 @@
          ("v" . counsel-describe-variable)
          ("C-l" . counsel-info-lookup-symbol)
          :map ivy-minibuffer-map
-         ("M-y" . ivy-next-line))
-  :config
-  (use-package smex))
+         ("M-y" . ivy-next-line)))
 
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :diminish drag-stuff-mode
@@ -1349,6 +1347,11 @@ the vertical drag is done."
   (sp-local-pair
    '(markdown-mode gfm-mode)
    "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
+
+(use-package smex
+  :defer 10
+  :config
+  (smex-initialize))
 
 (use-package saveplace
   :hook (after-init . save-place-mode)
