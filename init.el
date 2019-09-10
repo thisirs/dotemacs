@@ -1544,6 +1544,10 @@ the vertical drag is done."
 
   (state-global-mode 1))
 
+(use-package sudo-edit
+  :config
+  (sudo-edit-indicator-mode))
+
 (use-package swiper
   :bind (("C-s" . swiper)
          ("C-r" . swiper)))
