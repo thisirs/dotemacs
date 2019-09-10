@@ -1098,6 +1098,8 @@ the vertical drag is done."
 (use-package orgalist
   :after mu4e
   :config
+  (add-to-list 'orgalist-context-function
+               '(mu4e-compose-mode . orgalist-message-mode-context))
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
 (use-package ox-ipynb
