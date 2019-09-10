@@ -900,7 +900,7 @@ the vertical drag is done."
 
   (setq mu4e-get-mail-command "mbsync -a")
 
-  (if (on-zbook)
+  (if (or (on-zbook) (on-knuth))
       (setq mu4e-update-interval 500)
     (setq mu4e-update-interval nil))
 
