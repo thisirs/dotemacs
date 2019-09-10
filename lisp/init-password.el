@@ -244,19 +244,24 @@ Note that the MAX parameter is used so we can exit the parse early."
           all)
       (let (after-change-major-mode-hook) ; ess-r-package-auto-activate creates an infinite loop
         (org-mode))
-      (org-map-entries
-       (lambda ()
-         (let (filtered-properties)
-           (mapc (lambda (property)
-                   (cond
-                    ((member (car property) (append '("LAST_CHANGED" "CATEGORY")
-                                                    org-special-properties)))
-                    (t (push (cons (downcase (car property)) (cdr property))
-                             filtered-properties))))
-                 (org-entry-properties))
-           (if filtered-properties
-               (setq all (funcall adder check filtered-properties all)))))
-       "PASSWORD={.+}|SECRET={.+}")
+      ;; tramp is interfering when asking a password, org-map-entries
+      ;; calls file-name-case-insensitive-p which seems to be remapped
+      ;; and fails
+      (cl-letf (((symbol-function 'file-name-case-insensitive-p)
+                 (lambda (&rest args) t)))
+        (org-map-entries
+         (lambda ()
+           (let (filtered-properties)
+             (mapc (lambda (property)
+                     (cond
+                      ((member (car property) (append '("LAST_CHANGED" "CATEGORY")
+                                                      org-special-properties)))
+                      (t (push (cons (downcase (car property)) (cdr property))
+                               filtered-properties))))
+                   (org-entry-properties))
+             (if filtered-properties
+                 (setq all (funcall adder check filtered-properties all)))))
+         "PASSWORD={.+}|SECRET={.+}"))
       (nreverse all))))
 
 
