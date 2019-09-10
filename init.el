@@ -265,11 +265,11 @@
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
-  :bind (("C-x C-f" . counsel-find-file)
+  :bind (([remap find-file] . counsel-find-file)
          ("C-x l" . counsel-locate)
-         ("M-x" . counsel-M-x)
-         ("M-y" . counsel-yank-pop)
-         ("C-c e l" . counsel-find-library)
+         ([remap execute-extended-command] . counsel-M-x)
+         ([remap yank-pop] . counsel-yank-pop)
+         ([remap find-library] . counsel-find-library)
          :map help-map
          ("f" . counsel-describe-function)
          ("v" . counsel-describe-variable)
