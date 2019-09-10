@@ -15,6 +15,7 @@
     (setq org-koma-letter-use-foldmarks nil))
 
   (use-package org-attach
+    :straight nil
     :config
     (setq org-attach-archive-delete t))
 
