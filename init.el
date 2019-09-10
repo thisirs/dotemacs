@@ -1230,10 +1230,10 @@ the vertical drag is done."
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
       (if (and (< month 8) (> month 2))
-          (list (format "P%d" year) (format "%d(1)" year))
+          (format "P%d" year)
         (if (<= month 2)
-            (list (format "A%d" (1- year)) (format "%d(2)" (1- year)))
-          (list (format "A%d" year) (format "%d(2)" year))))))
+            (format "A%d" (1- year))
+          (format "A%d" year)))))
 
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
@@ -1241,11 +1241,11 @@ the vertical drag is done."
             (append (-filter #'file-exists-p
                              (mapcar (lambda (args)
                                        (apply #'format "~/CloudStation/Sylvain/enseignements/%s/%s/%s" args))
-                                     (let ((semesters (list (car (UTC-semester-from-time (current-time)))
-                                                            (car (UTC-semester-from-time
-                                                                  (time-add
-                                                                   (current-time)
-                                                                   (seconds-to-time (* 60 60 24 31 2)))))))
+                                     (let ((semesters (list (UTC-semester-from-time (current-time))
+                                                            (UTC-semester-from-time
+                                                             (time-add
+                                                              (current-time)
+                                                              (seconds-to-time (* 60 60 24 31 2))))))
                                            (uvs '("SY02" "AOS1" "AOS2" "SY09" "SY19"))
                                            (dirs '("Cours" "TP" "TD" "poly" "")))
                                        (-table-flat 'list semesters uvs dirs))))
@@ -1255,13 +1255,17 @@ the vertical drag is done."
 
   (defun projectile-ignored-semester (truename)
     "Ignore past semesters."
-    (and (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
-         (let ((semester (concat (match-string 2 truename)
-                                 (if (string= (match-string 1 truename) "P")
-                                     "(1)" "(2)")))
-               (current-semester (cadr (UTC-semester-from-time (current-time)))))
-           (and (string-lessp semester current-semester)
-                (not (string= semester current-semester))))))
+    (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
+        (let ((year (string-to-number (match-string 2 truename)))
+              (season (match-string 1 truename)))
+          (let ((current-semester (UTC-semester-from-time (current-time))))
+            (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" current-semester)
+                (let ((cyear (string-to-number (match-string 2 current-semester)))
+                      (cseason (match-string 1 current-semester)))
+                  (or (< year cyear)
+                      (and (= year cyear)
+                           (string-equal cseason "A")
+                           (string-equal season "P")))))))))
 
   (setq projectile-require-project-root nil)
 
