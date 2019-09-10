@@ -373,13 +373,7 @@ the vertical drag is done."
 (use-package elpy
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (when (use-package flycheck)
-    (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-  (setq python-indent-guess-indent-offset-verbose nil)
-  (elpy-enable)
-  (setq python-shell-interpreter "ipython3"
-        python-shell-interpreter-args "-i --simple-prompt"))
+  (elpy-enable))
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
@@ -1257,6 +1251,14 @@ the vertical drag is done."
   (setq projectile-ignored-project-function #'projectile-ignored-semester)
 
   (projectile-global-mode))
+
+(use-package python
+  :straight nil
+  :defer
+  :config
+  (setq python-indent-guess-indent-offset-verbose nil
+        python-shell-interpreter "ipython3"
+        python-shell-interpreter-args "-i --simple-prompt"))
 
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
