@@ -120,8 +120,10 @@ repeatedly q."
 
 ;; (define-key dired-mode-map (kbd "Q") #'dired-bury-all)
 
-;; ;; C-c C-m C-a jumps to gnus with current file attached
-;; (add-hook 'dired-mode-hook #'turn-on-gnus-dired-mode)
+;; C-c C-m C-a jumps to gnus with current file attached
+(use-package gnus-dired
+  :straight nil
+  :hook (dired-mode . turn-on-gnus-dired-mode))
 
 ;; (defvar dired-do-command-result nil)
 
