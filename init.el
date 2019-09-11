@@ -287,6 +287,9 @@
          ([remap execute-extended-command] . counsel-M-x)
          ([remap yank-pop] . counsel-yank-pop)
          ([remap find-library] . counsel-find-library)
+         :map counsel-find-file-map
+         ("<right>" . counsel-down-directory)
+         ("<left>" . counsel-up-directory)
          :map help-map
          ("f" . counsel-describe-function)
          ("v" . counsel-describe-variable)
