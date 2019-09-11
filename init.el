@@ -550,7 +550,7 @@ the vertical drag is done."
 
 (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
   :after flycheck
-  :hook (flycheck-mode . flycheck-color-mode-line)
+  :hook (flycheck-mode . flycheck-color-mode-line-mode)
   :config
   (setq flycheck-highlighting-mode 'symbols))
 
