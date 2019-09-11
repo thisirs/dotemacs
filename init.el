@@ -1195,7 +1195,10 @@ the vertical drag is done."
     :innermodes '(pm-inner/markdown-code)))
 
 (use-package prescient
-  :config (prescient-persist-mode))
+  :config (prescient-persist-mode)
+  :custom ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
+           (prescient-sort-length-enable nil)
+           (prescient-aggressive-file-save t)))
 
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
