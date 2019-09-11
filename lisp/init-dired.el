@@ -1,5 +1,7 @@
 (use-package dired
   :straight nil
+  :hook ((dired-mode . turn-on-auto-revert-mode)
+         (dired-mode . dired-hide-details-mode))
   :init
   (defun dired-copy-filename-as-kill-fix (&optional arg)
     (interactive "P")
@@ -87,16 +89,11 @@
   :config
   (setq dired-recursive-copies 'always)
   (setq dired-dwim-target t)
-  (add-hook 'dired-mode-hook #'turn-on-auto-revert-mode)
-
 
   (setq dired-clean-confirm-killing-deleted-buffers nil)
 
   ;; Automatically revert Dired buffer on revisiting.
   (setq dired-auto-revert-buffer t)
-
-  ;; Hide details in dired listing
-  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
   ;; But show symlinks
   (setq dired-hide-details-hide-symlink-targets nil))
