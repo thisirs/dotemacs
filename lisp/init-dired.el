@@ -96,7 +96,9 @@
   (setq dired-auto-revert-buffer t)
 
   ;; But show symlinks
-  (setq dired-hide-details-hide-symlink-targets nil))
+  (setq dired-hide-details-hide-symlink-targets nil)
+
+  (setq auto-revert-verbose nil))
 
 (use-package dired-x
   :straight nil
