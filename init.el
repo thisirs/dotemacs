@@ -1282,7 +1282,25 @@ the vertical drag is done."
 (use-package python
   :straight nil
   :defer
+  :bind (:map python-mode-map
+              ("C-c <" . (lambda ()
+                           "Shift lines to the left"
+                           (interactive)
+                           (call-interactively 'python-indent-shift-left)
+                           (python-indent/body)))
+              ("C-c >" . (lambda ()
+                           "Shift lines to the right"
+                           (interactive)
+                           (call-interactively 'python-indent-shift-right)
+                           (python-indent/body))))
   :config
+  (use-package hydra)
+  (defhydra python-indent (:post (deactivate-mark))
+    "Python indent"
+    ("<" python-indent-shift-left)
+    (">" python-indent-shift-right)
+    ("q" nil :exit t))
+
   (setq python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter "ipython3"
         python-shell-interpreter-args "-i --simple-prompt"))
