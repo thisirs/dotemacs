@@ -1278,7 +1278,7 @@ the vertical drag is done."
 
   (setq projectile-ignored-project-function #'projectile-ignored-semester)
 
-  (projectile-global-mode))
+  (projectile-mode))
 
 (use-package python
   :straight nil
