@@ -32,7 +32,49 @@
                       (overlay-get yas--active-field-overlay 'yas--field))))
       (and field (delete-region (point) (yas--field-end field)))))
 
+  (defun auto-insert-yasnippet-expand (snippet)
+    "Expand yasnippet's SNIPPET in current buffer."
+    (with-demoted-errors
+        (save-window-excursion
+          (require 'yasnippet)
+          ;; make buffer visible before yasnippet
+          ;; which might ask the user for something
+          (switch-to-buffer (current-buffer))
+          (yas-expand-snippet snippet))))
+
+  (defmacro auto-insert-add-from-yasnippet (mode key &rest actions)
+    (declare (indent defun))
+    (mapc (lambda (dir)
+            (if (file-directory-p (expand-file-name (symbol-name mode) dir))
+                (yas--load-directory-1
+                 (expand-file-name (symbol-name mode) dir)
+                 mode)))
+          (yas-snippet-dirs))
+    (let ((snippets (mapcan #'(lambda (table)
+                                (yas--fetch table key))
+                            (let ((major-mode mode))
+                              (yas--get-snippet-tables)))))
+      (if snippets
+          (cons 'progn (mapcar
+                        (lambda (template)
+                          `(push (cons (cons ',mode ,(car template))
+                                       '(lambda ()
+                                          (auto-insert-yasnippet-expand
+                                           ,(yas--template-content (cdr template)))))
+                                 auto-insert-alist))
+                        (mapcan #'(lambda (table)
+                                    (yas--fetch table key))
+                                (let ((major-mode mode))
+                                  (yas--get-snippet-tables)))))
+        (error "No snippet with key \"%s\" in mode %s" key mode))))
+
   :config
+  (auto-insert-add-from-yasnippet latex-mode "hdr"
+    (TeX-normal-mode 1))
+  (auto-insert-add-from-yasnippet sh-mode "sb"
+    (normal-mode))
+  (auto-insert-add-from-yasnippet org-mode "hdr")
+
   ;; Suppress excessive log messages
   (setq yas-verbosity 1)
 
