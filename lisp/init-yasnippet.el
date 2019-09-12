@@ -9,7 +9,6 @@
          ("C-a" . yas-goto-start-of-active-field)
          ("C-e" . yas-goto-end-of-active-field)
          ("C-k" . yas-clear-current-field))
-  :commands
   :init
   ;; Inter-field navigation
   (defun yas-goto-start-of-active-field ()
