@@ -96,13 +96,13 @@
 
   (defvar auth-source-org-cache nil)
 
-  (defun* auth-source-org-create (&rest spec
+  (cl-defun auth-source-org-create (&rest spec
                                         &key backend
                                         secret host user port create
                                         &allow-other-keys)
     (user-error "To be written"))
 
-  (defun* auth-source-org-search (&rest
+  (cl-defun auth-source-org-search (&rest
                                   spec
                                   &key backend require create delete
                                   type max host user port
@@ -141,7 +141,7 @@ See `auth-source-search' for details on SPEC."
                               (plist-put spec :create nil)))))
       results))
 
-  (defun* auth-source-org-parse (&rest
+  (cl-defun auth-source-org-parse (&rest
                                  spec
                                  &key file max host user port delete require
                                  &allow-other-keys)
