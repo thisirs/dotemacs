@@ -379,7 +379,7 @@ the vertical drag is done."
 
 (use-package electric-operator
   :after ess-site
-  :hook ((R-mode ess-r-mode inferior-ess-r-mode) . electric-operator-mode)
+  :hook ((ess-r-mode inferior-ess-r-mode) . electric-operator-mode)
   :custom
   (electric-operator-R-named-argument-style 'spaced))
 
