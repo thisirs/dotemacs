@@ -511,7 +511,7 @@ the vertical drag is done."
              (with-current-buffer "*scratch*"
                (buffer-modified-p)))
         (with-temp-buffer
-          (insert-buffer "*scratch*")
+          (insert-buffer-substring "*scratch*")
           (let* ((find-temp-template-alist (list (cons "el" "%M/%D/%N-scratch-%T.el")))
                  (file-path (find-temp-file--filename "el")))
             (make-directory (file-name-directory file-path) :parents)
