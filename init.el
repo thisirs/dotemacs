@@ -190,7 +190,7 @@
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
 
-(use-package academic-phrases)
+(use-package academic-phrases :defer)
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :disabled
@@ -384,6 +384,7 @@ the vertical drag is done."
   (electric-operator-R-named-argument-style 'spaced))
 
 (use-package elpy
+  :defer 10
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (elpy-enable))
@@ -458,6 +459,7 @@ the vertical drag is done."
            :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
+  :defer 5
   :bind ("M-:" . eval-expr)
   :config
   (setq eval-expr-print-function 'pp
@@ -478,6 +480,7 @@ the vertical drag is done."
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
+  :defer 10
   :config
   (setq exec-path-from-shell-variables
         (append exec-path-from-shell-variables
@@ -865,6 +868,8 @@ the vertical drag is done."
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
 (use-package mu4e
+  :commands mu4e-running-p              ; used by state
+  :defer 10
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   (use-package state
@@ -1091,7 +1096,7 @@ the vertical drag is done."
 
   (org-context-activate))
 
-(use-package org-pdfview)
+(use-package org-pdfview :defer)
 
 (use-package orgalist
   :after mu4e
@@ -1174,7 +1179,8 @@ the vertical drag is done."
     :straight (pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))))
 
 ;; https://github.com/ejmr/php-mode
-(use-package php-mode)          ; Major mode for editing PHP code
+(use-package php-mode          ; Major mode for editing PHP code
+  :defer)
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
@@ -1304,6 +1310,7 @@ the vertical drag is done."
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package reformatter               ; Define commands which run re-formatters
+  :defer 10
   :config
   (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
     (reformatter-define Rindent
@@ -1688,6 +1695,7 @@ the vertical drag is done."
 (use-package yaml-mode)         ; Major mode for editing YAML files
 
 (use-package yasnippet-snippets
+  :defer 10
   :straight (yasnippet-snippets
              :type git
              :host github
@@ -1819,6 +1827,7 @@ Change directory to `default-directory' if ARG is non-nil."
              :type git
              :local-repo ,(expand-file-name "auto-insert-multiple"
                                             site-lisp-directory))
+  :defer
   :config
   (auto-insert-mode t)
   (setq auto-insert 'other)
