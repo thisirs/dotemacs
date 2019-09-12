@@ -188,6 +188,7 @@ body passed in argument."
 (global-set-key (kbd "C-c e g") #'toggle-debug-on-quit)
 (global-set-key (kbd "C-c e L") #'elint-current-buffer)
 (global-set-key (kbd "C-c e t") #'ert-run-tests-interactively)
+(global-set-key (kbd "C-c e l") #'find-library)
 
 (defun kmacro-reset-counter ()
   (interactive)
