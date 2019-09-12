@@ -1594,7 +1594,7 @@ the vertical drag is done."
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
-  :bind ("M-q" . unfill-toggle))
+  :bind ([remap fill-paragraph] . unfill-toggle))
 
 ;; https://github.com/thisirs/vc-check-status
 (use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
