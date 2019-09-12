@@ -1394,6 +1394,7 @@ the vertical drag is done."
 
 ;; https://github.com/yuya373/emacs-slack
 (use-package slack                      ; Slack client for Emacs
+  :disabled
   :commands (slack-start)
   :init
   (setq slack-buffer-emojify t)
