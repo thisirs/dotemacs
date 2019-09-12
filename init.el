@@ -282,20 +282,15 @@
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
-  :bind (([remap find-file] . counsel-find-file)
-         ("C-x l" . counsel-locate)
-         ([remap execute-extended-command] . counsel-M-x)
-         ([remap yank-pop] . counsel-yank-pop)
-         ([remap find-library] . counsel-find-library)
+  :bind (("C-x l" . counsel-locate)
          :map counsel-find-file-map
          ("<right>" . counsel-down-directory)
          ("<left>" . counsel-up-directory)
-         :map help-map
-         ("f" . counsel-describe-function)
-         ("v" . counsel-describe-variable)
-         ("C-l" . counsel-info-lookup-symbol)
          :map ivy-minibuffer-map
-         ("M-y" . ivy-next-line)))
+         ("M-y" . ivy-next-line))
+  :config
+  ;; Remaps some built-in emacs functions
+  (counsel-mode))
 
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :diminish drag-stuff-mode
