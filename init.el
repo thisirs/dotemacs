@@ -1728,14 +1728,6 @@ the vertical drag is done."
     (shell-command (format "tmux display -p \"%s\"" message) (current-buffer))
     (string-trim (buffer-string))))
 
-(defun switch-to-tmux-or-suspend (&optional arg)
-  "Switch to tmux if in a graphic session. Otherwise, suspend emacs.
-Change directory to `default-directory' if ARG is non-nil."
-  (interactive "P")
-  (if (display-graphic-p)
-      (switch-to-tmux arg)
-    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
-
 (defun tmux-has-session ()
   (eq 0 (shell-command "tmux -q has-session")))
 
