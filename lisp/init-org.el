@@ -1,24 +1,43 @@
-(use-package org                        ; Outline-based notes management and organizer
+(use-package org-caldav ; Sync org files with external calendar through CalDAV
+  :defer 10
+  :after org)
+
+(use-package org-attach
+  :after org
+  :straight nil
   :config
-  (use-package org-caldav)      ; Sync org files with external calendar through CalDAV
-  (use-package ox-koma-letter
-    :straight nil
-    :defer t
-    :config
-    ;; email is specified is lco file
-    (setq org-koma-letter-email nil)
+  (setq org-attach-archive-delete t))
 
-    ;; no backaddress by default
-    (setq org-koma-letter-use-backaddress nil)
+;; https://github.com/jkitchin/org-ref
+(use-package org-ref ; citations, cross-references and bibliographies in org-mode
+  :defer 10
+  :after org
+  :config
+  (require 'org-ref-ivy)
 
-    ;; no foldmarks by default
-    (setq org-koma-letter-use-foldmarks nil))
+  ;; Use bibtex-completion-find-pdf-in-field to open pdf file
+  (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
+    (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
+        "/dummy"))
+  (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
-  (use-package org-attach
-    :straight nil
-    :config
-    (setq org-attach-archive-delete t))
+(use-package ox-koma-letter
+  :straight nil
+  :after org
+  :defer 10
+  :config
+  ;; email is specified is lco file
+  (setq org-koma-letter-email nil)
 
+  ;; no backaddress by default
+  (setq org-koma-letter-use-backaddress nil)
+
+  ;; no foldmarks by default
+  (setq org-koma-letter-use-foldmarks nil))
+
+(use-package org        ; Outline-based notes management and organizer
+  :defer 10
+  :config
   ;; Workaround to use yasnippet in org-mode
   ;; (defun yas-org-very-safe-expand ()
   ;;   (let ((yas-fallback-behavior 'return-nil))
@@ -553,16 +572,7 @@ refile targets.")
 
   (setq org-refile-use-outline-path 'full-file-path)
 
-  ;; https://github.com/jkitchin/org-ref
-  (use-package org-ref                  ; citations, cross-references and bibliographies in org-mode
-    :config
-    (require 'org-ref-ivy)
 
-    ;; Use bibtex-completion-find-pdf-in-field to open pdf file
-    (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
-      (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
-          "/dummy"))
-    (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
   (setq org-outline-path-complete-in-steps nil)
 
