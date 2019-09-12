@@ -1,6 +1,15 @@
 ;; http://github.com/joaotavora/yasnippet
 (use-package yasnippet                  ; Yet another snippet extension for Emacs.
   :diminish yas-minor-mode
+  :bind (("C-c y TAB" . yas-expand)
+         ("C-c y r" . yas-reload-all)
+         ("C-c y n" . yas-new-snippet)
+         ("C-c y v" . yas-visit-snippet-file)
+         :map yas-keymap
+         ("C-a" . yas-goto-start-of-active-field)
+         ("C-e" . yas-goto-end-of-active-field)
+         ("C-k" . yas-clear-current-field))
+  :commands
   :init
   ;; Inter-field navigation
   (defun yas-goto-start-of-active-field ()
@@ -38,12 +47,6 @@
             (lambda ()
               (yas-minor-mode -1)))
 
-  (bind-keys
-   :map yas-keymap
-   ("C-a" . yas-goto-start-of-active-field)
-   ("C-e" . yas-goto-end-of-active-field)
-   ("C-k" . yas-clear-current-field))
-
   (yas-global-mode 1)
 
   (defvar yas-snippet-chars
@@ -71,10 +74,7 @@ currently selected region as new one."
                          (key-description (vector last-input-event))))
             (yas-expand-snippet (aref yas-disposable-snippets index)))
         (undefined))))
-  :bind (("C-c y TAB" . yas-expand)
-         ("C-c y r" . yas-reload-all)
-         ("C-c y n" . yas-new-snippet)
-         ("C-c y v" . yas-visit-snippet-file)))
+)
 
 
 (defvar yas-snippet-chars
