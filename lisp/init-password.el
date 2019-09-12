@@ -76,6 +76,7 @@
              (message "No stored password"))))))
 
 (use-package auth-source
+  :straight nil
   :defer
   :config
   (require 'org-password-manager)
