@@ -1687,7 +1687,9 @@ the vertical drag is done."
   (winner-mode 1))
 
 ;; wtf for acronym lookup
-(use-package wtf :commands wtf-is)
+(use-package wtf
+  :disabled
+  :commands wtf-is)
 
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
