@@ -1433,6 +1433,22 @@ the vertical drag is done."
 
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
+  :preface
+  ;; Common pattern when defining a repl state
+  (defmacro state-define-repl (name key buffer-name from create)
+    `(state-define-state
+       ,name
+       :bound ,from
+       :key ,key
+       :exist (get-buffer ,buffer-name)
+       :in (equal (buffer-name) ,buffer-name)
+       :switch (if (get-buffer-window ,buffer-name)
+                   (select-window (get-buffer-window ,buffer-name))
+                 (switch-to-buffer-other-window ,buffer-name))
+       :create (progn
+                 (switch-to-buffer-other-window (current-buffer))
+                 ,create)))
+
   ;; Override state's keymap binding
   :bind-keymap ("s-s" . state-prefix-map)
   :config
@@ -1552,21 +1568,6 @@ the vertical drag is done."
     :create (progn
               (switch-to-buffer-other-window (current-buffer))
               (ansi-term "/bin/zsh")))
-
-  ;; Common pattern when defining a repl state
-  (defmacro state-define-repl (name key buffer-name from create)
-    `(state-define-state
-       ,name
-       :bound ,from
-       :key ,key
-       :exist (get-buffer ,buffer-name)
-       :in (equal (buffer-name) ,buffer-name)
-       :switch (if (get-buffer-window ,buffer-name)
-                   (select-window (get-buffer-window ,buffer-name))
-                 (switch-to-buffer-other-window ,buffer-name))
-       :create (progn
-                 (switch-to-buffer-other-window (current-buffer))
-                 ,create)))
 
   (state-define-repl elisp-repl "j" "*ielm*" (memq major-mode '(lisp-interaction-mode emacs-lisp-mode)) (ielm))
   (state-define-repl matlab-repl "j" "*MATLAB*" (eq major-mode 'matlab-mode) (matlab-shell))
