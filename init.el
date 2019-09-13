@@ -111,6 +111,8 @@
 (setq straight-use-package-by-default t)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
+(setq use-package-always-defer t)
+
 (require 'bind-key)
 
 ;; https://github.com/jwiegley/use-package/issues/204#issuecomment-226684009
