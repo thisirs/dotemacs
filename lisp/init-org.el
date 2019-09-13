@@ -633,6 +633,7 @@ child checkboxes."
     :if (on-zbook)
     :straight (org-expiry :type git
                           :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
+    :hook (kill-emacs . org-auto-archive)
     :config
     (defun org-auto-archive ()
       (message "Auto-archiving...")
@@ -667,8 +668,7 @@ child checkboxes."
             (with-temp-buffer (write-file filep)))
         (org-archive-subtree)))
 
-    (setq org-expiry-handler-function 'org-expiry-handler-function-force)
-    (add-hook 'kill-emacs-hook 'org-auto-archive))
+    (setq org-expiry-handler-function 'org-expiry-handler-function-force))
 
   ;; electric-indent-mode doesn't play well with org
   (with-emacs-version>= "24.1"
