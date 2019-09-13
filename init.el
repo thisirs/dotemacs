@@ -127,12 +127,14 @@
 ;; Loading zenburn theme
 ;; http://github.com/bbatsov/zenburn-emacs
 (use-package zenburn-theme              ; A low contrast color theme for Emacs.
+  :demand t
   :if (on-zouzou)
   :if (window-system)
   :config
   (load-theme 'zenburn t))
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
+  :demand t
   :if (or (on-zbook) (on-knuth))
   :if (window-system)
   :straight solarized-theme
@@ -714,6 +716,7 @@ the vertical drag is done."
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
+  :demand t
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
          ("C-x j" . jump-hydra/body))
@@ -1199,6 +1202,7 @@ the vertical drag is done."
     :innermodes '(pm-inner/markdown-code)))
 
 (use-package prescient
+  :demand t
   :config (prescient-persist-mode)
   :custom ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
            (prescient-sort-length-enable nil)
@@ -1392,6 +1396,7 @@ the vertical drag is done."
 
 (use-package server
   :if (window-system)
+  :demand t
   :config
   (unless (server-running-p server-name)
     (server-start)))
