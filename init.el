@@ -875,15 +875,7 @@ the vertical drag is done."
   :defer 10
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
-  (use-package state
-    :config
-    (state-define-state mu4e
-      :key "u"
-      :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
-      :exist (mu4e-running-p)
-      :create (progn
-                (mu4e)
-                (delete-other-windows))))
+  
 
   (setq mu4e-compose-keep-self-cc nil)
   (setq mu4e-compose-dont-reply-to-self t)
@@ -1476,6 +1468,14 @@ the vertical drag is done."
                            smime-mode))
     :exist gnus-alive-p
     :create gnus)
+
+  (state-define-state mu4e
+    :key "u"
+    :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
+    :exist (mu4e-running-p)
+    :create (progn
+              (mu4e)
+              (delete-other-windows)))
 
   (state-define-state slack
     :key "l"
