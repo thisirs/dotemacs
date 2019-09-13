@@ -1825,13 +1825,17 @@ Change directory to `default-directory' if ARG is non-nil."
              :type git
              :local-repo ,(expand-file-name "auto-insert-multiple"
                                             site-lisp-directory))
-  :defer
   :hook (find-file . auto-insert)
   :config
+  ;; Reset templates
+  (setq auto-insert-alist nil)
+
+  ;; Load templates from yasnippet
   (require 'yasnippet)
+
   (setq auto-insert 'other)
   (setq auto-insert-query 'multiple)
-  (setq auto-insert-alist nil)
+
   (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
 
 (cond ((member "Fira Mono" (font-family-list))
