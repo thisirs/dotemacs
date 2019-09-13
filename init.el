@@ -171,7 +171,7 @@
 ;; (require 'init-python)
 (require 'init-ruby)
 (require 'init-scratch)
-(require 'init-twittering)
+;; (require 'init-twittering)
 (require 'init-wcheck)
 (require 'init-ruby)
 ;; (require 'init-python)
