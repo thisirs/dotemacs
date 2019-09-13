@@ -1701,7 +1701,7 @@ the vertical drag is done."
 (use-package yaml-mode)         ; Major mode for editing YAML files
 
 (use-package yasnippet-snippets
-  :defer 10
+  :after yasnippet
   :straight (yasnippet-snippets
              :type git
              :host github
