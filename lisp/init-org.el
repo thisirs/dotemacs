@@ -656,6 +656,7 @@ child checkboxes."
               (org-narrow-to-subtree)
               (org-expiry-process-entries)))
           (save-buffer)))
+      (org-save-all-org-buffers)
       (message "Auto-archiving...done"))
 
     (defun org-expiry-handler-function-force (info)
