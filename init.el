@@ -626,19 +626,19 @@ the vertical drag is done."
 (use-package helpful
   :bind* (("C-c C-d" . helpful-at-point))
   :bind* (;; Remap standard commands.
-         ("C-c C-d" . helpful-at-point)
-         ([remap describe-function] . helpful-callable)
-         ([remap describe-variable] . helpful-variable)
-         ([remap describe-symbol]   . helpful-symbol)
-         ([remap describe-key]      . helpful-key)
+          ("C-c C-d" . helpful-at-point)
+          ([remap describe-function] . helpful-callable)
+          ([remap describe-variable] . helpful-variable)
+          ([remap describe-symbol]   . helpful-symbol)
+          ([remap describe-key]      . helpful-key)
 
-         ;; Suggested bindings from the documentation at
-         ;; https://github.com/Wilfred/helpful.
+          ;; Suggested bindings from the documentation at
+          ;; https://github.com/Wilfred/helpful.
 
-         :map help-map
-         ("F" . helpful-function)
-         ("M-f" . helpful-macro)
-         ("C" . helpful-command)))
+          :map help-map
+          ("F" . helpful-function)
+          ("M-f" . helpful-macro)
+          ("C" . helpful-command)))
 
 (use-package hl-line
   :disabled
