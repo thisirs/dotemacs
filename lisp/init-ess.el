@@ -1,7 +1,3 @@
-;; (use-package julia-mode
-;;   :straight (julia-mode :repo "JuliaEditorSupport/julia-emacs"
-;;                         :fetcher github
-;;                         :files "*.el"))
 (use-package ess)
 
 (use-package ess-r-mode
