@@ -161,7 +161,6 @@
 (require 'init-hippie-expand)
 (require 'init-ibuffer)
 (require 'init-isearch)
-(require 'init-midnight)
 (require 'init-org)
 (require 'init-paredit)
 (require 'init-scratch)
@@ -865,6 +864,16 @@ the vertical drag is done."
     "Mode for RMarkdown"
     (set (make-local-variable 'markdown-command-needs-filename) t)
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
+
+(use-package midnight
+  :demand t
+  :straight nil
+  :config
+  (cancel-timer midnight-timer)
+  (defalias 'midnight-clean-buffer-list 'clean-buffer-list)
+  (run-with-idle-timer 20 nil
+                       (lambda ()
+                         (run-hooks 'midnight-hook))))
 
 (use-package mu4e
   :commands mu4e-running-p              ; used by state
