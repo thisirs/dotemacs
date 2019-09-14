@@ -1337,6 +1337,7 @@ the vertical drag is done."
   :config
   (recentf-mode 1))
 
+;; A search tool based on ripgrep
 (use-package rg
   :if (executable-find "rg")
   :bind ("M-g f" . rg-custom-search)
