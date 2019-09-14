@@ -1406,6 +1406,7 @@ the vertical drag is done."
    :full-and-display-names t))
 
 (use-package smart-mark                 ; Restore point after C-g when mark
+  :demand
   :config
   (smart-mark-mode 1))
 
@@ -1592,6 +1593,7 @@ the vertical drag is done."
 
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree                  ; Treat undo history as a tree
+  :demand
   :bind (:map undo-tree-visualizer-mode-map ("RET" . undo-tree-visualizer-quit))
   :diminish
   :config
@@ -1653,6 +1655,7 @@ the vertical drag is done."
 (use-package wgrep)
 
 (use-package which-key
+  :demand
   :diminish
   :commands which-key-mode
   :config
