@@ -574,7 +574,8 @@ the vertical drag is done."
   :bind (:map grep-mode-map
               ("a" . grep-toggle-binary-search))
   :config
-  (if (not (executable-find "ag"))
+  (if (and (not (executable-find "ag"))
+           (not (executable-find "rg")))
       (bind-key "M-g f" 'find-grep))
 
   ;; grep binary files (latin-1 are binary files...)
