@@ -37,6 +37,7 @@
 
 (use-package org        ; Outline-based notes management and organizer
   :defer 10
+  :straight org-plus-contrib
   :config
   ;; Workaround to use yasnippet in org-mode
   ;; (defun yas-org-very-safe-expand ()
