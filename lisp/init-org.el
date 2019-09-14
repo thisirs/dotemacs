@@ -2,8 +2,7 @@
 
 (use-package org-attach
   :straight nil
-  :config
-  (setq org-attach-archive-delete t))
+  :custom (org-attach-archive-delete t))
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
