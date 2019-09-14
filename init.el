@@ -1412,7 +1412,7 @@ the vertical drag is done."
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
-  :commands smerge-mode
+  :hook (find-file . sm-try-smerge)
   :config
   (defun sm-try-smerge ()
     "Turn on smerge-mode if there is a diff marker."
@@ -1420,8 +1420,7 @@ the vertical drag is done."
       (goto-char (point-min))
       (if (re-search-forward "^\\(<\\)\\{7\\} " nil t)
           (smerge-mode 1)
-        (goto-char old-point))))
-  (add-hook 'find-file-hook 'sm-try-smerge t))
+        (goto-char old-point)))))
 
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
