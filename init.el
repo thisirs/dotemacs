@@ -1086,7 +1086,7 @@ the vertical drag is done."
 
   (org-context-activate))
 
-(use-package org-pdfview :defer)
+(use-package org-pdfview)
 
 (use-package orgalist
   :after mu4e
