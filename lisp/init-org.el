@@ -621,47 +621,7 @@ child checkboxes."
   (setq org-latex-format-headline-function
         'org-latex-format-headline-checkbox-function)
 
-  (use-package-bq org-expiry
-    :if (on-zbook)
-    :straight (org-expiry :type git
-                          :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
-    :hook (kill-emacs . org-auto-archive)
-    :config
-    (defun org-auto-archive ()
-      (message "Auto-archiving...")
-      (when (get-buffer "someday.org")
-        (with-current-buffer "someday.org"
-          (let ((org-expiry-event-wait "1m"))
-            (org-expiry-process-entries))
-          (save-buffer)))
-      (when (get-buffer "agenda.org")
-        (with-current-buffer "agenda.org"
-          (save-restriction
-            (widen)
-            (goto-char (point-min))
-            (when (search-forward "* External events" nil t)
-              (org-narrow-to-subtree)
-              (org-expiry-process-entries))
-            (widen)
-            (goto-char (point-min))
-            (when (search-forward "* Evénements simples" nil t)
-              (org-narrow-to-subtree)
-              (org-expiry-process-entries)))
-          (save-buffer)))
-      (org-save-all-org-buffers)
-      (message "Auto-archiving...done"))
-
-    (defun org-expiry-handler-function-force (info)
-      (goto-char (car info))
-      (let* ((year (nth 2 info))
-             (org-archive-location (format "%%s_archive_%s::" year))
-             (filep (car (org-archive--compute-location org-archive-location))))
-        (message (buffer-substring (point) (line-end-position)))
-        (if (not (file-exists-p filep))
-            (with-temp-buffer (write-file filep)))
-        (org-archive-subtree)))
-
-    (setq org-expiry-handler-function 'org-expiry-handler-function-force))
+  
 
   ;; electric-indent-mode doesn't play well with org
   (with-emacs-version>= "24.1"
@@ -683,23 +643,6 @@ child checkboxes."
   (setq org-confirm-elisp-link-not-regexp
         "\\`(org-context-agenda-from \".*\" \"[a-zA-Z]+\")\\'")
 
-  ;; Adapted from http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html
-  (use-package ox-latex
-    :straight nil
-    ;; You need to install pygments to use minted
-    :config
-    (when (executable-find "pygmentize")
-      (add-to-list 'org-latex-packages-alist '("" "minted"))
-      (setq org-latex-listings 'minted)
-      (setq org-latex-minted-options
-            '(("mathescape" "true")
-              ("linenos" "true")
-              ("numbersep" "5pt")
-              ("frame" "lines")
-              ("framesep" "2mm")))
-      (setq org-latex-pdf-process
-            '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
-
   (defun org-move-as-first-sibling ()
     (interactive)
     (save-excursion
@@ -707,5 +650,64 @@ child checkboxes."
       (outline-up-heading 1)
       (forward-line)
       (org-paste-subtree))))
+
+;; Adapted from http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html
+(use-package ox-latex
+  :straight nil
+  :config
+  ;; You need to install pygments to use minted
+  (when (executable-find "pygmentize")
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (setq org-latex-listings 'minted)
+    (setq org-latex-minted-options
+          '(("mathescape" "true")
+            ("linenos" "true")
+            ("numbersep" "5pt")
+            ("frame" "lines")
+            ("framesep" "2mm")))
+    (setq org-latex-pdf-process
+          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
+
+(use-package-bq org-expiry
+  :if (on-zbook)
+  :straight (org-expiry :type git
+                        :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
+  :hook (kill-emacs . org-auto-archive)
+  :config
+  (defun org-auto-archive ()
+    (message "Auto-archiving...")
+    (when (get-buffer "someday.org")
+      (with-current-buffer "someday.org"
+        (let ((org-expiry-event-wait "1m"))
+          (org-expiry-process-entries))
+        (save-buffer)))
+    (when (get-buffer "agenda.org")
+      (with-current-buffer "agenda.org"
+        (save-restriction
+          (widen)
+          (goto-char (point-min))
+          (when (search-forward "* External events" nil t)
+            (org-narrow-to-subtree)
+            (org-expiry-process-entries))
+          (widen)
+          (goto-char (point-min))
+          (when (search-forward "* Evénements simples" nil t)
+            (org-narrow-to-subtree)
+            (org-expiry-process-entries)))
+        (save-buffer)))
+    (message "Auto-archiving...done"))
+
+  (defun org-expiry-handler-function-force (info)
+    (goto-char (car info))
+    (let* ((year (nth 2 info))
+           (org-archive-location (format "%%s_archive_%s::" year))
+           (filep (car (org-archive--compute-location org-archive-location))))
+      (message (buffer-substring (point) (line-end-position)))
+      (if (not (file-exists-p filep))
+          (with-temp-buffer (write-file filep)))
+      (org-archive-subtree)))
+
+  (setq org-expiry-handler-function 'org-expiry-handler-function-force))
+
 
 (provide 'init-org)
