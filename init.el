@@ -88,11 +88,6 @@
 
 (mouse-wheel-mode 1)
 
-(on-zbook
- (electric-pair-mode))
-
-(electric-indent-mode 1)
-
 (setq straight-recipes-gnu-elpa-use-mirror t)
 (setq straight-repository-branch "develop")
 (defvar bootstrap-version)
@@ -376,11 +371,24 @@ the vertical drag is done."
             (lambda ()
               (jump-to-register 'ediff))))
 
+(use-package electric
+  :straight nil
+  :demand t
+  :config
+  (electric-indent-mode 1))
+
 (use-package electric-operator
   :after ess
   :hook ((ess-r-mode inferior-ess-r-mode) . electric-operator-mode)
   :custom
   (electric-operator-R-named-argument-style 'spaced))
+
+(use-package elec-pair
+  :if (on-zbook)
+  :straight nil
+  :demand t
+  :config
+  (electric-pair-mode))
 
 (use-package elpy
   :defer 10
