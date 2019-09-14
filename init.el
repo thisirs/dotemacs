@@ -184,13 +184,12 @@
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
 
-(use-package academic-phrases :defer)
+(use-package academic-phrases)
 
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :disabled
   :if (and (executable-find "ag")
            (not (executable-find "rg")))
-  :defer 5
   :bind ("M-g f" . ag-search-current-directory)
   :config
   ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
@@ -249,7 +248,6 @@
 
 (use-package bookmark
   :straight nil
-  :defer
   :config
   (defun bookmark-dynamic-handler (bmk-record)
     (setq bmk-record (copy-tree bmk-record))
@@ -269,7 +267,6 @@
 (use-package company)
 
 (use-package compile
-  :defer
   :config
   ;; Move point to first error
   (setq compilation-scroll-output 'first-error))
@@ -342,7 +339,6 @@ the vertical drag is done."
 ;; ediff settings
 (use-package ediff-wind
   :straight nil
-  :defer t
   :config
   ;; Split windows horizontally in ediff (instead of vertically)
   (setq ediff-split-window-function 'split-window-vertically)
@@ -466,7 +462,6 @@ the vertical drag is done."
            :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
-  :defer 5
   :bind ("M-:" . eval-expr)
   :config
   (setq eval-expr-print-function 'pp
@@ -579,7 +574,6 @@ the vertical drag is done."
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package grep
-  :defer
   :bind (:map grep-mode-map
               ("a" . grep-toggle-binary-search))
   :config
@@ -799,7 +793,6 @@ the vertical drag is done."
 
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool                   ; Grammar check utility using LanguageTool
-  :defer
   :config
   (cond ((file-exists-p "/usr/lib/jvm/java-8-openjdk/jre/bin/java")
          (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java"))
@@ -878,7 +871,6 @@ the vertical drag is done."
 
 (use-package mu4e
   :commands mu4e-running-p              ; used by state
-  :defer 10
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   
@@ -1042,7 +1034,6 @@ the vertical drag is done."
       (concat target-session ":" target-window))))
 
 (use-package octave
-  :defer t
   :config
   (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
@@ -1180,8 +1171,7 @@ the vertical drag is done."
     :straight (pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))))
 
 ;; https://github.com/ejmr/php-mode
-(use-package php-mode          ; Major mode for editing PHP code
-  :defer)
+(use-package php-mode)          ; Major mode for editing PHP code
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
@@ -1284,7 +1274,6 @@ the vertical drag is done."
 
 (use-package python
   :straight nil
-  :defer
   :bind (:map python-mode-map
               ("C-c <" . (lambda ()
                            "Shift lines to the left"
@@ -1399,8 +1388,7 @@ the vertical drag is done."
   (unless (server-running-p server-name)
     (server-start)))
 
-(use-package skeletor                   ; Provides project skeletons for Emacs
-  :defer 10)
+(use-package skeletor)          ; Provides project skeletons for Emacs
 
 ;; https://github.com/yuya373/emacs-slack
 (use-package slack                      ; Slack client for Emacs
@@ -1425,7 +1413,6 @@ the vertical drag is done."
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
-  :defer 10
   :commands smerge-mode
   :config
   (defun sm-try-smerge ()
@@ -1668,7 +1655,6 @@ the vertical drag is done."
 (use-package wgrep)
 
 (use-package which-key
-  :defer 5
   :diminish
   :commands which-key-mode
   :config
