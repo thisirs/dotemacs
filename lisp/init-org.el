@@ -1,17 +1,12 @@
 (use-package org-caldav ; Sync org files with external calendar through CalDAV
-  :defer 10
-  :after org)
 
 (use-package org-attach
-  :after org
   :straight nil
   :config
   (setq org-attach-archive-delete t))
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
-  :defer 10
-  :after org
   :config
   (require 'org-ref-ivy)
 
@@ -23,8 +18,6 @@
 
 (use-package ox-koma-letter
   :straight nil
-  :after org
-  :defer 10
   :config
   ;; email is specified is lco file
   (setq org-koma-letter-email nil)
@@ -36,7 +29,6 @@
   (setq org-koma-letter-use-foldmarks nil))
 
 (use-package org        ; Outline-based notes management and organizer
-  :defer 10
   :straight org-plus-contrib
   :config
   ;; Workaround to use yasnippet in org-mode
