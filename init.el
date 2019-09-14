@@ -1661,6 +1661,7 @@ the vertical drag is done."
   (which-key-mode))
 
 (use-package whitespace
+  :straight nil
   :config
   (setq whitespace-style
         '(face trailing tabs))
