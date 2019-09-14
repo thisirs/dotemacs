@@ -655,6 +655,7 @@ the vertical drag is done."
     (setq hl-line-flash-show-period 3)))
 
 (use-package hydra
+  :commands jump-hydra-body
   :config
   (defhydra jump-hydra (:color blue)
     "Jump to bookmarks"
@@ -716,7 +717,8 @@ the vertical drag is done."
   :demand t
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
-         ("C-x j" . jump-hydra/body))
+         ("C-x j" . jump-hydra/body)
+         ("C-c j" . jump-hydra/body))
   :bind (:map ivy-minibuffer-map ("C-w" . ivy-yank-word)
               :map ivy-switch-buffer-map
               ("C-b" . next-line))

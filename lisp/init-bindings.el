@@ -196,6 +196,4 @@ body passed in argument."
 
 (global-set-key (kbd "C-x C-k C-r") #'kmacro-reset-counter)
 
-(global-set-key (kbd "C-c j") #'jump-hydra/body)
-
 (provide 'init-bindings)
