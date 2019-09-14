@@ -1346,6 +1346,9 @@ the vertical drag is done."
     :dir  "current"
     :files "*"))
 
+(use-package robe
+  :hook (ruby-mode . robe-mode))
+
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
 (use-package smart-mode-line            ; A color coded smart mode-line.
