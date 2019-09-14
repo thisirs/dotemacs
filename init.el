@@ -381,7 +381,7 @@ the vertical drag is done."
   (electric-operator-R-named-argument-style 'spaced))
 
 (use-package elec-pair
-  :if (on-zbook)
+  :if (or (on-zbook) (on-knuth))
   :straight nil
   :demand t
   :config
