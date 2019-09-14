@@ -398,10 +398,6 @@ the vertical drag is done."
   :disabled
   :bind* ("C-c /" . engine-mode-hydra/body)
   :config
-
-  ;; https://github.com/abo-abo/hydra
-  (use-package hydra)                   ; Make bindings that stick around.
-
   (engine-mode t)
 
   (defengine duckduckgo
