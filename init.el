@@ -537,12 +537,6 @@ the vertical drag is done."
   :init
   (setq firestarter-default-type 'failure))
 
-;; Diminish
-(eval-after-load "undo-tree"
-  '(diminish 'undo-tree-mode))
-(eval-after-load 'elisp-slime-nav
-  '(diminish 'elisp-slime-nav-mode))
-
 ;; http://www.flycheck.org
 (use-package flycheck                   ; On-the-fly syntax checking
   :commands global-flycheck-mode
@@ -1614,6 +1608,7 @@ the vertical drag is done."
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree                  ; Treat undo history as a tree
   :bind (:map undo-tree-visualizer-mode-map ("RET" . undo-tree-visualizer-quit))
+  :diminish
   :config
   (global-undo-tree-mode)
   (setq undo-tree-enable-undo-in-region nil))
