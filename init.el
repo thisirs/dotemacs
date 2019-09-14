@@ -1657,7 +1657,6 @@ the vertical drag is done."
 (use-package which-key
   :demand
   :diminish
-  :commands which-key-mode
   :config
   (which-key-mode))
 
