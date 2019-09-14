@@ -161,7 +161,6 @@
 (require 'init-hippie-expand)
 (require 'init-ibuffer)
 (require 'init-isearch)
-(require 'init-matlab)
 (require 'init-midnight)
 (require 'init-org)
 (require 'init-paredit)
