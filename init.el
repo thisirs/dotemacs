@@ -532,6 +532,11 @@ the vertical drag is done."
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
+(use-package firestarter
+  :hook (prog-mode . firestarter-mode)
+  :init
+  (setq firestarter-default-type 'failure))
+
 ;; Diminish
 (eval-after-load "undo-tree"
   '(diminish 'undo-tree-mode))
