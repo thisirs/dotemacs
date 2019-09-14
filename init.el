@@ -109,6 +109,7 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
+(setq use-package-always-defer t)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
 (setq use-package-always-defer t)
