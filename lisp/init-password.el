@@ -18,7 +18,7 @@
 
   (defun org-password-manager-store-password (password &optional timeout)
     (setq org-password-manager-yank-password
-          (lexical-let ((i 0) (password password))
+          (let ((i 0) (password password))
             (lambda ()
               (if (> i 1)
                   (and (setq org-password-manager-yank-password 'ignore) nil)
@@ -110,7 +110,7 @@
     "Given a property list SPEC, return search matches from the :backend.
 See `auth-source-search' for details on SPEC."
     ;; just in case, check that the type is correct (null or same as the backend)
-    (assert (or (null type) (eq type (oref backend type)))
+    (cl-assert (or (null type) (eq type (oref backend type)))
             t "Invalid org search: %s %s")
 
     (let ((results (auth-source-netrc-normalize
@@ -203,8 +203,9 @@ Note that the MAX parameter is used so we can exit the parse early."
               ;; (note for the irony-impaired: they are just obfuscated)
               (auth-source--aput
                auth-source-org-cache file
-               (list :mtime (nth 5 (file-attributes file))
-                     :secret (lexical-let ((v (mapcar #'1+ (buffer-string))))
+               (list :mtime (file-attribute-modification-time
+                             (file-attributes file))
+                     :secret (let ((v (mapcar #'1+ (buffer-string))))
                                (lambda () (apply #'string (mapcar #'1- v)))))))
             (goto-char (point-min))
             (let ((entries (auth-source-org-parse-entries check max))
