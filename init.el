@@ -259,7 +259,7 @@
       (funcall 'bookmark-default-handler bmk-record)))
 
   (defun bookmark-spec ()
-    `((?s . ,(car (UTC-semester-from-time (current-time)))))))
+    `((?s . ,(UTC-semester-from-time (current-time))))))
 
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
