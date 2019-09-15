@@ -877,7 +877,13 @@ the vertical drag is done."
 
 (use-package mu4e
   :commands mu4e-running-p              ; used by state
+  :commands (org-mu4e-open org-mu4e-store-link)
   :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :init
+  (eval-after-load "org"
+    ' (org-link-set-parameters "mu4e"
+                               :follow #'org-mu4e-open
+                               :store #'org-mu4e-store-link))
   :config
   (setq mu4e-compose-keep-self-cc nil)
   (setq mu4e-compose-dont-reply-to-self t)
