@@ -1,4 +1,4 @@
-(use-package org-caldav ; Sync org files with external calendar through CalDAV
+(use-package org-caldav) ; Sync org files with external calendar through CalDAV
 
 (use-package org-attach
   :straight nil
