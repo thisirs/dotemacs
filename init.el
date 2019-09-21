@@ -2096,6 +2096,7 @@ to cancel it."
 
 ;; Bookmarks
 (setq bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
+(setq bookmark-watch-bookmark-file 'silent)
 
 ;; Save bookmarks every time
 (setq bookmark-save-flag 1)
