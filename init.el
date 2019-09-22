@@ -747,7 +747,7 @@ corresponding statement."
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
-  :demand t
+  :demand
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
          ("C-x j" . jump-hydra/body)
