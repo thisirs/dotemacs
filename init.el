@@ -223,6 +223,7 @@
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
 (use-package atomic-chrome
+  :demand
   :config
   (atomic-chrome-start-server))
 
@@ -238,6 +239,7 @@
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
+  :demand
   :diminish
   :config
   (beginend-global-mode))
@@ -772,6 +774,7 @@ the vertical drag is done."
                 :caller 'ivy-bookmarks))))
 
 (use-package ivy-prescient
+  :demand
   :after prescient
   :config (ivy-prescient-mode))
 
