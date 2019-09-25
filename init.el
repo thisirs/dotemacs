@@ -389,9 +389,46 @@ the vertical drag is done."
 
 (use-package elpy
   :defer 10
+  :hook (elpy-mode . flycheck-mode)
+  :bind (:map elpy-mode-map ("C-c C-c" . elpy-shell-send-group-and-step-or-region))
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (elpy-enable))
+
+  (setq python-indent-guess-indent-offset-verbose nil)
+  (elpy-enable)
+
+  (defun elpy-shell-send-group-and-step-or-region (&optional go)
+    (interactive "P")
+    (if (region-active-p)
+        (progn
+          (if go
+              (elpy-shell-send-region-or-buffer-and-step-and-go)
+            (elpy-shell-send-region-or-buffer-and-step))
+          ;; (deactivate-mark)
+          )
+      (if go
+          (elpy-shell-send-group-and-step-and-go)
+        (elpy-shell-send-group-and-step))))
+
+  (defun elpy-shell-send-top-statement-and-step ()
+    "Send current or next statement to Python shell and step.
+
+If the current line is part of a statement, sends this statement.
+Otherwise, skips forward to the next code line and sends the
+corresponding statement."
+    (interactive)
+    (elpy-shell--ensure-shell-running)
+    (when (not elpy-shell-echo-input) (elpy-shell--append-to-shell-output "\n"))
+    (let ((beg (progn (elpy-shell--nav-beginning-of-top-statement)
+                      (save-excursion
+                        (beginning-of-line)
+                        (point))))
+          (end (progn (elpy-shell--nav-end-of-statement) (point))))
+      (unless (eq beg end)
+        (elpy-shell--flash-and-message-region beg end)
+        (elpy-shell--with-maybe-echo
+         (python-shell-send-string (elpy-shell--region-without-indentation beg end)))))
+    (python-nav-forward-statement)))
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
@@ -533,7 +570,6 @@ the vertical drag is done."
 (use-package flycheck                   ; On-the-fly syntax checking
   :commands global-flycheck-mode
   :defer 10
-  :hook (elpy-mode . flycheck-mode)
   :config
   (global-flycheck-mode 1)
   (setq-default flycheck-disabled-checkers
