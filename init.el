@@ -83,9 +83,6 @@
 ;; No lockfiles
 (setq create-lockfiles nil)
 
-;; Highlight matching paren
-(show-paren-mode 1)
-
 (mouse-wheel-mode 1)
 
 (setq straight-recipes-gnu-elpa-use-mirror t)
@@ -1154,6 +1151,16 @@ corresponding statement."
   :config
   (setq paradox-github-token t)
   (setq paradox-execute-asynchronously t))
+
+(use-package paren
+  :straight nil
+  :demand
+  :custom
+  (show-paren-style 'mixed)
+  (show-paren-when-point-inside-paren t)
+  (show-paren-when-point-in-periphery t)
+  :config
+  (show-paren-mode))
 
 (use-package pcache)            ; persistent caching for Emacs.
 
