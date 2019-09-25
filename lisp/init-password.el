@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;; Passwords management with org files + auth-source backend
 
 ;; https://git.leafac.com/org-password-manager
