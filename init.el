@@ -271,6 +271,7 @@
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
+  :demand
   :bind (("C-x l" . counsel-locate)
          :map counsel-find-file-map
          ("<right>" . counsel-down-directory)
