@@ -2159,15 +2159,7 @@ to cancel it."
 ;; Save clipboard strings into kill ring before replacing them
 (setq save-interprogram-paste-before-kill t)
 
-(if (version<= "26" emacs-version)
-    (setq confirm-kill-processes nil)
-
-  ;; Don't warn when quitting emacs with running processes
-  (defun no-processes (oldfun &optional arg)
-    "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-    (letf (((symbol-function 'process-list) (lambda ())))
-      (funcall oldfun arg)))
-  (advice-add 'save-buffers-kill-emacs :around #'no-processes))
+(setq confirm-kill-processes nil)
 
 ;; Don't warn when killing running processes
 (delq 'process-kill-buffer-query-function
