@@ -559,10 +559,8 @@ the vertical drag is done."
 ;; https://github.com/magit/git-modes
 (use-package gitignore-mode)    ; Major mode for editing .gitignore files
 
-(use-package google-translate-smooth-ui ; Emacs interface to Google Translate.
-  :straight google-translate
+(use-package google-translate ; Emacs interface to Google Translate.
   :config
-  (require 'google-translate-smooth-ui)
   (setq google-translate-translation-directions-alist
         '(("en" . "fr") ("fr" . "en")))
   (setq google-translate-listen-program
