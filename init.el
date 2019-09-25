@@ -278,6 +278,8 @@
          ("<left>" . counsel-up-directory)
          :map ivy-minibuffer-map
          ("M-y" . ivy-next-line))
+  :custom ((counsel-yank-pop-separator
+            "\n────────────────────────────────────────────────────────\n"))
   :config
   ;; Remaps some built-in emacs functions
   (counsel-mode))
@@ -754,6 +756,8 @@ corresponding statement."
               :map ivy-switch-buffer-map
               ("C-b" . next-line))
   :config
+  (setq ivy-height-alist (cons (cons 'counsel-yank-pop 15) ivy-height-alist))
+
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
