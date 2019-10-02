@@ -1365,7 +1365,7 @@ corresponding statement."
   (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\" > /dev/null 2>&1"))
     (reformatter-define Rindent
       :program "Rscript"
-      :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE)")))
+      :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, width.cutoff = 500)")))
 
   (when (executable-find "latexindent")
     (reformatter-define latexindent
