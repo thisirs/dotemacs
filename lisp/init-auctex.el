@@ -222,17 +222,17 @@ mutiple times."
               :help "Run makeindex to create index file"))
 
     ;; hook function to use in `TeX-command-list' list
-    (defvar-local TeX-make-command "make")
+    (defvar-local TeX-make-arguments "")
+    (put 'TeX-make-arguments 'safe-local-variable 'stringp)
 
     (add-to-list 'TeX-expand-list
-                 '("%(makecmd)" (lambda () (or TeX-make-command "make"))))
+                 '("%(makeargs)" (lambda () (or TeX-make-arguments ""))))
 
     (defun TeX-run-Make (name command file)
-      (setq TeX-make-command command)
-      (TeX-run-command name TeX-make-command file))
+      (TeX-run-command name command file))
 
     (add-to-list 'TeX-command-list
-                 '("Make" "%(makecmd)"
+                 '("Make" "make %(makeargs)"
                    TeX-run-Make nil
                    (latex-mode doctex-mode)
                    :help "Run Make"))
