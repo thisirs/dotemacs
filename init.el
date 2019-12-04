@@ -586,6 +586,10 @@ corresponding statement."
   :config
   (setq flycheck-highlighting-mode 'symbols))
 
+(use-package folding
+  :config
+  (folding-add-to-marks-list 'python-mode "# [[[cog" "# [[[end]]]"))
+
 (use-package forge
   :after magit)
 
