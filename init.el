@@ -1262,6 +1262,35 @@ corresponding statement."
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
+  :preface
+  (defun UTC-autumn-from-time (time)
+    "Return the autumn semester corresponding to TIME."
+    (let* ((dtime (decode-time time))
+           (month (nth 4 dtime))
+           (year (nth 5 dtime)))
+      (if (and (< month 8))
+          (format "A%d" (1- year))
+        (format "A%d" year))))
+
+  (defun UTC-spring-from-time (time)
+    "Return the autumn semester corresponding to TIME."
+    (let* ((dtime (decode-time time))
+           (month (nth 4 dtime))
+           (year (nth 5 dtime)))
+      (if (and (> month 2))
+          (format "P%d" year)
+        (format "P%d" (1- year)))))
+
+  (defun UTC-semester-from-time (time)
+    "Return the semester corresponding to TIME."
+    (let* ((dtime (decode-time time))
+           (month (nth 4 dtime))
+           (year (nth 5 dtime)))
+      (if (and (< month 8) (> month 2))
+          (format "P%d" year)
+        (if (<= month 2)
+            (format "A%d" (1- year))
+          (format "A%d" year)))))
   :init
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
@@ -1286,16 +1315,7 @@ corresponding statement."
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
-  (defun UTC-semester-from-time (time)
-    "Return the semester corresponding to TIME."
-    (let* ((dtime (decode-time time))
-           (month (nth 4 dtime))
-           (year (nth 5 dtime)))
-      (if (and (< month 8) (> month 2))
-          (format "P%d" year)
-        (if (<= month 2)
-            (format "A%d" (1- year))
-          (format "A%d" year)))))
+
 
   (defun projectile-root-hardcoded (dir &optional list)
     (--some (if (string-prefix-p (abbreviate-file-name it)
