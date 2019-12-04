@@ -246,7 +246,7 @@
 
 (use-package bookmark
   :straight nil
-  :config
+  :preface
   (defun bookmark-dynamic-handler (bmk-record)
     (setq bmk-record (copy-tree bmk-record))
     (let ((spec (bookmark-prop-get bmk-record 'spec))
@@ -258,7 +258,9 @@
       (funcall 'bookmark-default-handler bmk-record)))
 
   (defun bookmark-spec ()
-    `((?s . ,(UTC-semester-from-time (current-time))))))
+    `((?a . ,(UTC-autumn-from-time (current-time)))
+      (?p . ,(UTC-spring-from-time (current-time)))
+      (?s . ,(UTC-semester-from-time (current-time))))))
 
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
