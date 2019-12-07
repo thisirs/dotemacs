@@ -579,8 +579,8 @@ corresponding statement."
 
   (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))")
 
-  (setq flycheck-python-pylint-executable "python3")
-  (setq flycheck-python-flake8-executable "python3"))
+  (setq flycheck-python-pylint-executable "python3.7")
+  (setq flycheck-python-flake8-executable "python3.7"))
 
 (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
   :after flycheck
@@ -1379,8 +1379,8 @@ corresponding statement."
     ("q" nil :exit t))
 
   (setq python-indent-guess-indent-offset-verbose nil
-        python-shell-interpreter "ipython3"
-        python-shell-interpreter-args "-i --simple-prompt"))
+        python-shell-interpreter "python3.7"
+        python-shell-interpreter-args "-m IPython -i --simple-prompt"))
 
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
