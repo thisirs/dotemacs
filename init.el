@@ -1385,21 +1385,26 @@ corresponding statement."
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package reformatter               ; Define commands which run re-formatters
-  :defer 10
+  :commands (reformatter-R reformatter-black reformatter-sql reformatter-latex)
   :config
   (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\" > /dev/null 2>&1"))
-    (reformatter-define Rindent
+    (reformatter-define reformatter-R
       :program "Rscript"
       :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, width.cutoff = 500)")))
 
   (when (executable-find "latexindent")
-    (reformatter-define latexindent
+    (reformatter-define reformatter-latex
       :program "latexindent"
       :args (list "-y=defaultIndent:'  '")))
 
   (when (executable-find "black")
-    (reformatter-define black
+    (reformatter-define reformatter-black
       :program "black"
+      :args (list "-")))
+
+  (when (executable-find "sql-formatter-cli")
+    (reformatter-define reformatter-sql
+      :program "sql-formatter-cli"
       :args (list "-"))))
 
 ;; From https://github.com/jwiegley/dot-emacs
