@@ -228,8 +228,17 @@ mutiple times."
     (add-to-list 'TeX-expand-list
                  '("%(makeargs)" (lambda () (or TeX-make-arguments ""))))
 
+    (defun make-knitr-TeX-sentinel (process name)
+      (let ((buffer (process-buffer process)))
+        (if (zerop (process-exit-status process))
+            (message (concat name ": finished successfully."))
+          (message  (concat name " failed.  Type `%s' to display output.")
+                   (substitute-command-keys
+                    "\\<TeX-mode-map>\\[TeX-recenter-output-buffer]")))))
+
     (defun TeX-run-Make (name command file)
-      (TeX-run-command name command file))
+      (TeX-run-command name command file)
+      (setq TeX-sentinel-function #'make-knitr-TeX-sentinel))
 
     (add-to-list 'TeX-command-list
                  '("Make" "make %(makeargs)"
