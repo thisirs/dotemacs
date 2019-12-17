@@ -1039,17 +1039,6 @@ corresponding statement."
 
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
-  (use-package mu4e-alert
-    :if (on-zbook)
-    :config
-    (mu4e-alert-set-default-style 'libnotify)
-    (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
-    (setq mu4e-alert-interesting-mail-query
-          (concat
-           "flag:unread"
-           " AND NOT flag:trashed"
-           " AND NOT maildir:/gmail/INBOX")))
-
   ;; Open in emacs on M-RET
   (defun mu4e~view-open-attach-from-binding ()
     "Open the attachement at point, or click location."
@@ -1058,6 +1047,18 @@ corresponding statement."
            ( attnum (mu4e~view-get-property-from-event 'mu4e-attnum)))
       (when (and msg attnum)
         (mu4e-view-open-attachment-emacs msg attnum)))))
+
+(use-package mu4e-alert
+  :if (on-zbook)
+  :after mu4e
+  :config
+  (mu4e-alert-set-default-style 'libnotify)
+  (mu4e-alert-enable-notifications)
+  (setq mu4e-alert-interesting-mail-query
+        (concat
+         "flag:unread"
+         " AND NOT flag:trashed"
+         " AND NOT maildir:/gmail/INBOX")))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
