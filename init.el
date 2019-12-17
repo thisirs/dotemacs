@@ -1539,14 +1539,6 @@ corresponding statement."
   ;; Override state's keymap binding
   :bind-keymap ("s-s" . state-prefix-map)
   :config
-  (state-define-state mu4e
-    :key "u"
-    :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
-    :exist (mu4e-running-p)
-    :create (progn
-              (mu4e)
-              (delete-other-windows)))
-
   (state-define-state agenda
     :key "a"
     :in (eq major-mode 'org-agenda-mode)
