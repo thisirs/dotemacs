@@ -122,14 +122,14 @@
 ;; Loading zenburn theme
 ;; http://github.com/bbatsov/zenburn-emacs
 (use-package zenburn-theme              ; A low contrast color theme for Emacs.
-  :demand t
+  :demand
   :if (on-zouzou)
   :if (window-system)
   :config
   (load-theme 'zenburn t))
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
-  :demand t
+  :demand
   :if (or (on-zbook) (on-knuth))
   :if (window-system)
   :straight solarized-theme
@@ -372,7 +372,7 @@ the vertical drag is done."
 
 (use-package electric
   :straight nil
-  :demand t
+  :demand
   :config
   (electric-indent-mode 1))
 
@@ -385,7 +385,7 @@ the vertical drag is done."
 (use-package elec-pair
   :if (or (on-zbook) (on-knuth))
   :straight nil
-  :demand t
+  :demand
   :config
   (electric-pair-mode))
 
@@ -911,7 +911,7 @@ corresponding statement."
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
 (use-package midnight
-  :demand t
+  :demand
   :straight nil
   :config
   (cancel-timer midnight-timer)
@@ -1109,6 +1109,7 @@ corresponding statement."
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
+  :demand
   :config
   (defun org-capture--add-link ()
     (format "%s %s"
@@ -1255,7 +1256,7 @@ corresponding statement."
     :innermodes '(pm-inner/markdown-code)))
 
 (use-package prescient
-  :demand t
+  :demand
   :config (prescient-persist-mode)
   :custom ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
            (prescient-sort-length-enable nil)
@@ -1386,7 +1387,7 @@ corresponding statement."
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package reformatter               ; Define commands which run re-formatters
-  :commands (reformatter-R reformatter-black reformatter-sql reformatter-latex)
+  :demand
   :config
   (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\" > /dev/null 2>&1"))
     (reformatter-define reformatter-R
@@ -1448,7 +1449,7 @@ corresponding statement."
 (use-package smart-mode-line            ; A color coded smart mode-line.
   :if (window-system)
   :commands sml/setup
-  :demand t
+  :demand
   :init
   (setq sml/theme 'respectful
         sml/shorten-directory t
@@ -1477,7 +1478,7 @@ corresponding statement."
 
 (use-package server
   :if (window-system)
-  :demand t
+  :demand
   :config
   (unless (server-running-p server-name)
     (server-start)))
@@ -1756,6 +1757,7 @@ corresponding statement."
   (which-key-mode))
 
 (use-package whitespace
+  :demand
   :straight nil
   :config
   (setq whitespace-style
