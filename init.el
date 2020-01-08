@@ -147,6 +147,7 @@
   :init
   (load-theme 'spacemacs-dark t))
 
+(require 'init-elisp)
 (require 'init-bindings)
 (require 'init-editing)
 (require 'init-fill)
@@ -156,7 +157,6 @@
 (require 'init-auctex)
 (require 'init-desktop)
 (require 'init-dired)
-(require 'init-elisp)
 (require 'init-erc)
 (require 'init-hippie-expand)
 (require 'init-ibuffer)
