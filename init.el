@@ -107,6 +107,7 @@
 (setq use-package-always-defer t)
 
 (require 'bind-key)
+(use-package use-package-ensure-system-package)
 
 ;; https://github.com/jwiegley/use-package/issues/204#issuecomment-226684009
 (defmacro use-package-bq (&rest args)
@@ -921,6 +922,7 @@ corresponding statement."
                          (run-hooks 'midnight-hook))))
 
 (use-package mu4e
+  :ensure-system-package (mu isync)
   :commands mu4e-running-p              ; used by state
   :commands (org-mu4e-open org-mu4e-store-link)
   :load-path "/usr/share/emacs/site-lisp/mu4e"
