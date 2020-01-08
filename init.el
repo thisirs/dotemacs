@@ -104,7 +104,9 @@
 (setq use-package-always-defer t)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
+(require 'use-package)
 (setq use-package-always-defer t)
+(setq use-package-compute-statistics t)
 
 (require 'bind-key)
 (use-package use-package-ensure-system-package)
