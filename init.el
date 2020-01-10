@@ -521,7 +521,7 @@ corresponding statement."
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
-  :defer 10
+  :demand
   :config
   (setq exec-path-from-shell-variables
         (append exec-path-from-shell-variables
