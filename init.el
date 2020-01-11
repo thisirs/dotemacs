@@ -501,6 +501,7 @@ corresponding statement."
            :group t))))
 
 (use-package eval-expr                  ; enhanced eval-expression command
+  :defer 10
   :bind ("M-:" . eval-expr)
   :config
   (setq eval-expr-print-function 'pp
