@@ -925,6 +925,7 @@ corresponding statement."
                          (run-hooks 'midnight-hook))))
 
 (use-package mu4e
+  :defer 10
   :ensure-system-package (mu isync)
   :commands mu4e-running-p              ; used by state
   :commands (org-mu4e-open org-mu4e-store-link)
