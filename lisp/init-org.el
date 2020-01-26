@@ -679,8 +679,7 @@ child checkboxes."
     (when (get-buffer "someday.org")
       (with-current-buffer "someday.org"
         (let ((org-expiry-event-wait "1m"))
-          (org-expiry-process-entries))
-        (save-buffer)))
+          (org-expiry-process-entries))))
     (when (get-buffer "agenda.org")
       (with-current-buffer "agenda.org"
         (save-restriction
@@ -693,8 +692,8 @@ child checkboxes."
           (goto-char (point-min))
           (when (search-forward "* Evénements simples" nil t)
             (org-narrow-to-subtree)
-            (org-expiry-process-entries)))
-        (save-buffer)))
+            (org-expiry-process-entries)))))
+    (org-save-all-org-buffers)          ; saving both org and org archive file
     (message "Auto-archiving...done"))
 
   (defun org-expiry-handler-function-force (info)
