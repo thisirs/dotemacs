@@ -597,7 +597,7 @@ corresponding statement."
   (folding-add-to-marks-list 'python-mode "# [[[cog" "# [[[end]]]"))
 
 (use-package forge
-  :after magit)
+  :demand :after magit)
 
 ;; https://github.com/magit/git-modes
 (use-package gitconfig-mode)    ; Major mode for editing .gitconfig files
@@ -820,8 +820,7 @@ corresponding statement."
                 :caller 'ivy-bookmarks))))
 
 (use-package ivy-prescient
-  :demand
-  :after prescient
+  :demand :after prescient
   :config (ivy-prescient-mode))
 
 ;; https://github.com/joshwnj/json-mode
@@ -1056,7 +1055,7 @@ corresponding statement."
 
 (use-package mu4e-alert
   :if (on-zbook)
-  :after mu4e
+  :demand :after mu4e
   :config
   (mu4e-alert-set-default-style 'libnotify)
   (mu4e-alert-enable-notifications)
@@ -1154,7 +1153,7 @@ corresponding statement."
 (use-package org-pdfview)
 
 (use-package orgalist
-  :after mu4e
+  :demand :after mu4e
   :config
   (add-to-list 'orgalist-context-function
                '(mu4e-compose-mode . orgalist-message-mode-context))
@@ -1735,7 +1734,7 @@ corresponding statement."
 ;; https://github.com/benma/visual-regexp-steroids.el/
 (use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
   :commands (vr/select-replace vr/select-query-replace)
-  :after visual-regexp)
+  :demand :after visual-regexp)
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
@@ -1801,7 +1800,7 @@ corresponding statement."
 (use-package yaml-mode)         ; Major mode for editing YAML files
 
 (use-package yasnippet-snippets
-  :after yasnippet
+  :demand :after yasnippet
   :straight (yasnippet-snippets
              :type git
              :host github
