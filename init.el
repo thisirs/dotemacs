@@ -263,7 +263,27 @@
   (defun bookmark-spec ()
     `((?a . ,(UTC-autumn-from-time (current-time)))
       (?p . ,(UTC-spring-from-time (current-time)))
-      (?s . ,(UTC-semester-from-time (current-time))))))
+      (?s . ,(UTC-semester-from-time (current-time)))))
+
+  (defun bookmark-not-generated (bmk-record)
+    (null (bookmark-prop-get bmk-record 'generated)))
+
+  (defun bookmark-save-filter (oldfun &optional parg file make-default)
+    (let ((bookmark-alist (seq-filter #'bookmark-not-generated bookmark-alist)))
+      (funcall oldfun parg file make-default)))
+
+  (advice-add 'bookmark-save :around #'bookmark-save-filter)
+
+  (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
+    (let ((directory "~/CloudStation/Sylvain/Documents/"))
+      (bookmark-import-new-list
+       (mapcar (lambda (dir)
+                 `(,dir
+                   (filename . ,(expand-file-name dir directory))
+                   (generated . t)))
+               (directory-files directory nil "^[0-9]\\{4\\}")))))
+
+  (advice-add 'bookmark-load :after #'bookmark-add-generated-bookmarks))
 
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
