@@ -34,7 +34,7 @@
 
   (defun scratch-message-fortune ()
     (require 'fortune)
-    (fortune-in-buffer t "~/.conky/english-idioms")
+    (fortune-in-buffer t "/usr/share/fortune/english-idioms")
     (scratch-message-insert
      (with-current-buffer fortune-buffer-name
        (buffer-string))))
@@ -42,7 +42,7 @@
   (defun scratch-message-contrepet ()
     (require 'fortune)
     (with-demoted-errors "Error: %S"
-      (fortune-in-buffer t "~/.conky/contrepétries")
+      (fortune-in-buffer t "/usr/share/fortune/contrepetries")
       (scratch-message-insert
        (with-current-buffer fortune-buffer-name
          (buffer-string)))))
