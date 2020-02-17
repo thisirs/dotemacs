@@ -23,6 +23,7 @@
 
 ;; https://github.com/thisirs/scratch-message.git
 (use-package scratch-message            ; Changing message in your scratch buffer
+  :demand
   :config
   (defun scratch-message-random ()
     (pcase (random 5)
