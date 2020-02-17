@@ -1764,7 +1764,6 @@ corresponding statement."
 (use-package whitespace
   :demand
   :straight nil
-  :demand
   :config
   (setq whitespace-style
         '(face trailing tabs))
