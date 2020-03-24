@@ -1304,7 +1304,7 @@ corresponding statement."
     (let* ((dtime (decode-time time))
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
-      (if (and (> month 2))
+      (if (and (>= month 2))
           (format "P%d" year)
         (format "P%d" (1- year)))))
 
@@ -1313,7 +1313,7 @@ corresponding statement."
     (let* ((dtime (decode-time time))
            (month (nth 4 dtime))
            (year (nth 5 dtime)))
-      (if (and (< month 8) (> month 2))
+      (if (and (< month 8) (>= month 2))
           (format "P%d" year)
         (if (<= month 2)
             (format "A%d" (1- year))
