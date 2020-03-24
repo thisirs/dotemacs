@@ -732,12 +732,11 @@ corresponding statement."
     ("j" ivy-bookmarks "Bookmarks")))
 
 (use-package ical2org
+  :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
   :custom
-  (ical2org/event-format "* {SUMMARY}
-  {TIME}
-  {ORGANIZER}
-  {URL}
-  {DESCRIPTION}"))
+  (ical2org/event-format "\
+* {SUMMARY}
+  {TIME}"))
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
 ;; (use-package info+)             ; Extensions to `info.el'.
