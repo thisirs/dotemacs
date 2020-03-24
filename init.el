@@ -1756,7 +1756,8 @@ behavior added."
   :diminish
   :config
   (global-undo-tree-mode)
-  (setq undo-tree-enable-undo-in-region nil))
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-enable-undo-in-region t))
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
