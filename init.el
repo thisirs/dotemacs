@@ -585,6 +585,7 @@ corresponding statement."
   (add-hook 'kill-emacs-hook #'find-temp-file-save-scratch)
 
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
+  (add-to-list 'find-temp-template-alist (cons "py" "%M/%D/%N_%T.%E"))
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
 (use-package firestarter
