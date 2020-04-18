@@ -1165,7 +1165,7 @@ corresponding statement."
     (add-to-list 'org-context-capture-alist (cons 'mu4e-view-mode capture-tmpls))
     (add-to-list 'org-context-capture-alist (cons 'mu4e-headers-mode capture-tmpls)))
 
-  (org-context-activate))
+  (org-context-mode))
 
 (use-package org-pdfview)
 
