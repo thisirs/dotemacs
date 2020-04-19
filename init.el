@@ -947,9 +947,9 @@ corresponding statement."
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :init
   (eval-after-load "org"
-    ' (org-link-set-parameters "mu4e"
-                               :follow #'org-mu4e-open
-                               :store #'org-mu4e-store-link))
+    '(org-link-set-parameters "mu4e"
+                              :follow #'org-mu4e-open
+                              :store #'org-mu4e-store-link))
   :config
   (setq mu4e-compose-keep-self-cc nil)
   (setq mu4e-compose-dont-reply-to-self t)

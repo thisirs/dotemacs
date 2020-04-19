@@ -624,8 +624,6 @@ child checkboxes."
   (setq org-latex-format-headline-function
         'org-latex-format-headline-checkbox-function)
 
-  
-
   ;; electric-indent-mode doesn't play well with org
   (with-emacs-version>= "24.1"
     (add-hook 'org-mode-hook

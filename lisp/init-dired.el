@@ -106,7 +106,6 @@
          (:map dired-mode-map
                ("M-!" . async-shell-command))))
 
-
 (defun dired-bury-all (&optional kill)
   "Bury dired buffer as they appear. It keeps you from pressing
 repeatedly q."
