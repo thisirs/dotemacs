@@ -992,8 +992,6 @@ corresponding statement."
       (setq mu4e-update-interval 500)
     (setq mu4e-update-interval nil))
 
-  (setq mu4e-maildir "~/mbsync")
-
   (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
                                 :name "Unread or today"
                                 :query "flag:unread OR date:today..now"
