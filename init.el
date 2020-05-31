@@ -1035,8 +1035,8 @@ corresponding statement."
       (mu4e-headers-search
        (read-string "Search for: "))))
 
-  (define-key 'mu4e-headers-mode-map (kbd "s") #'mu4e-headers-search-hydra)
-  (define-key 'mu4e-main-mode-map (kbd "s") #'mu4e-headers-search-hydra)
+  (define-key mu4e-headers-mode-map (kbd "s") #'mu4e-headers-search-hydra)
+  (define-key mu4e-main-mode-map (kbd "s") #'mu4e-headers-search-hydra)
 
   (require 'org-mu4e)
 
