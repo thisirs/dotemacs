@@ -1057,6 +1057,7 @@ corresponding statement."
             (push (buffer-name buffer) buffers))))
       (nreverse buffers)))
 
+  (setq gnus-dired-mail-mode 'mu4e-user-agent)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
   ;; Open in emacs on M-RET
