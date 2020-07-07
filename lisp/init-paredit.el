@@ -25,7 +25,7 @@
       (enable-paredit-mode)))
 
 ;; All-the-way extra command
-(require 'paredit-ext)
+;; (require 'paredit-ext)
 
 ;; (define-key paredit-mode-map (kbd "C-)")
 ;;   (let ((map (make-sparse-keymap)))
