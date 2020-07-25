@@ -162,7 +162,6 @@
 (require 'init-ibuffer)
 (require 'init-isearch)
 (require 'init-org)
-(require 'init-paredit)
 (require 'init-scratch)
 (require 'init-wcheck)
 (require 'init-yasnippet)
@@ -1185,6 +1184,23 @@ corresponding statement."
   :config
   (setq paradox-github-token t)
   (setq paradox-execute-asynchronously t))
+
+(use-package paredit
+  :preface
+  (defvar paredit-minibuffer-commands '(ibuffer-do-eval
+                                        ibuffer-do-view-and-eval
+                                        edebug-eval-expression
+                                        edebug-set-conditional-breakpoint)
+    "Interactive commands for which paredit should be enabled in the minibuffer.")
+
+  (defun conditionally-enable-paredit-mode ()
+    "Enable paredit during lisp-related minibuffer commands."
+    (if (memq this-command paredit-minibuffer-commands)
+        (enable-paredit-mode)))
+
+  :hook
+  (minibuffer-setup . conditionally-enable-paredit-mode)
+  ((eval-expression-minibuffer-setup emacs-lisp-mode lisp-mode lisp-interaction-mode ielm-mode) . paredit-mode))
 
 (use-package paren
   :straight nil
