@@ -1474,7 +1474,7 @@ corresponding statement."
   (add-hook 'rg-mode-hook (lambda () (interactive) (toggle-truncate-lines t)))
   (rg-define-search rg-custom-search
     :format "regexp"
-    :dir  "current"
+    :dir current
     :files "*"))
 
 (use-package robe
