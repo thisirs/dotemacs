@@ -4,6 +4,9 @@
   :straight nil
   :custom (org-attach-archive-delete t))
 
+;; https://github.com/emacsattic/org-link-minor-mode
+(use-package org-link-minor-mode) ;; Enable org-mode links in non-org modes
+
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
   :config
