@@ -1,6 +1,0 @@
-[submodule "site-lisp/org-mode"]
-	path = site-lisp/org-mode
-	url = https://github.com/thisirs/org-mode.git
-[submodule "site-lisp/matlab-emacs"]
-	path = site-lisp/matlab-emacs
-	url = https://github.com/thisirs/matlab-emacs.git
