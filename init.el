@@ -1473,7 +1473,7 @@ corresponding statement."
   :config
   (add-hook 'rg-mode-hook (lambda () (interactive) (toggle-truncate-lines t)))
   (rg-define-search rg-custom-search
-    :format "regexp"
+    :format regexp
     :dir current
     :files "*"))
 
