@@ -2049,8 +2049,10 @@ Change directory to `default-directory' if ARG is non-nil."
 (setq keyboard-coding-system 'utf-8-unix)
 (set-terminal-coding-system 'utf-8-unix)
 
-;; Unified diff format and no whitespace when using `diff'
-(setq diff-switches "-u -w")
+(use-package diff
+  :config
+  ;; Unified diff format and no whitespace when using `diff'
+  (setq diff-switches "-u -w"))
 
 ;; No limit on how many lines to keep in *Messages* buffer
 (setq message-log-max t)
