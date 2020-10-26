@@ -286,7 +286,30 @@
 
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
-(use-package company)
+(use-package company
+  :disabled
+  :diminish company-mode
+  :defines
+  (company-dabbrev-ignore-case company-dabbrev-downcase)
+  :bind
+  (:map company-active-map
+        ("C-n" . company-select-next)
+        ("C-p" . company-select-previous)
+        ("<tab>" . company-complete-common-or-cycle)
+        :map company-search-map
+        ("C-p" . company-select-previous)
+        ("C-n" . company-select-next))
+  :custom
+  (company-idle-delay 0)
+  (company-echo-delay 0)
+  (company-minimum-prefix-length 1)
+  :hook
+  (after-init . global-company-mode))
+
+(use-package company-posframe
+  :disabled
+  :custom (company-posframe-show-indicator t)
+  :hook (company-mode . company-posframe-mode))
 
 (use-package compile
   :config
