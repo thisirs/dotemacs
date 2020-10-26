@@ -522,8 +522,8 @@ corresponding statement."
   (setq epwdgen-password-presets
         '(("passphrase, 4 words, space separator" passphrase
            :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
-          ("alphanumeric, length 16" password
-           :length 16
+          ("alphanumeric, length 10" password
+           :length 10
            :letter mixed
            :number t
            :symbol nil
