@@ -6,21 +6,21 @@
   :config
   (setq wcheck-language-data
         '(("fr"
-           (program . "/usr/bin/enchant")
+           (program . "/usr/bin/enchant-2")
            (args "-l" "-d" "fr_FR")
-           (action-program . "/usr/bin/enchant")
+           (action-program . "/usr/bin/enchant-2")
            (action-args "-a" "-d" "fr_FR")
            (action-parser . enchant-suggestions-menu))
           ("en"
-           (program . "/usr/bin/enchant")
+           (program . "/usr/bin/enchant-2")
            (args "-l" "-d" "en_GB")
-           (action-program . "/usr/bin/enchant")
+           (action-program . "/usr/bin/enchant-2")
            (action-args "-a" "-d" "en_GB")
            (action-parser . enchant-suggestions-menu))
           ("us"
-           (program . "/usr/bin/enchant")
+           (program . "/usr/bin/enchant-2")
            (args "-l" "-d" "us_US")
-           (action-program . "/usr/bin/enchant")
+           (action-program . "/usr/bin/enchant-2")
            (action-args "-a" "-d" "us_US")
            (action-parser . enchant-suggestions-menu))))
 
