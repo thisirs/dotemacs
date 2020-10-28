@@ -669,9 +669,9 @@ child checkboxes."
     (setq org-latex-pdf-process
           '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
 
-(use-package-bq org-expiry
+(use-package org-expiry
   :if (on-zbook)
-  :straight (org-expiry :type git
+  :straight `(org-expiry :type git
                         :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
   :hook (kill-emacs . org-auto-archive)
   :config

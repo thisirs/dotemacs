@@ -111,12 +111,6 @@
 (require 'bind-key)
 (use-package use-package-ensure-system-package)
 
-;; https://github.com/jwiegley/use-package/issues/204#issuecomment-226684009
-(defmacro use-package-bq (&rest args)
-  "Wrap use-package to use backquote."
-  (declare (indent 1))
-  (list 'eval (list 'backquote `(use-package ,@args))))
-
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
 ;; No confirmation when loading theme
@@ -514,8 +508,8 @@ corresponding statement."
     ("s" engine/search-stack-overflow "stack overflow")
     ("g" engine/search-google "google")))
 
-(use-package-bq epwdgen                    ; Flexible password generator
-  :straight (epwdgen :type git
+(use-package epwdgen                    ; Flexible password generator
+  :straight `(epwdgen :type git
                      :local-repo ,(expand-file-name "epwdgen" site-lisp-directory))
   :commands epwdgen-generate-password
   :config
@@ -1294,9 +1288,10 @@ corresponding statement."
            ("C-c C-k" . pdf-annot-edit-contents-abort-or-delete)
            ("C-c C-d" . pdf-annot-delete-current)))
 
-  ;; https://github.com/thisirs/pdf-tools-points.git
-  (use-package-bq pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-    :straight (pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))))
+;; https://github.com/thisirs/pdf-tools-points.git
+(use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
+  :straight `(pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))
+  :after pdf-tools :demand)
 
 ;; https://github.com/ejmr/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
@@ -2013,8 +2008,8 @@ Change directory to `default-directory' if ARG is non-nil."
 
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
-(use-package-bq autoinsert
-  :straight (auto-insert-multiple
+(use-package autoinsert
+  :straight `(auto-insert-multiple
              :type git
              :local-repo ,(expand-file-name "auto-insert-multiple"
                                             site-lisp-directory))
