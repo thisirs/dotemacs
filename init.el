@@ -751,7 +751,7 @@ corresponding statement."
   :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
   :custom
   (ical2org/event-format "\
-* {SUMMARY}
+* {SUMMARY} en {LOCATION}
   {TIME}"))
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
