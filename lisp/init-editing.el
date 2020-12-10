@@ -34,7 +34,7 @@ cancel the indentation if needed."
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))
     (message "line copied")))
 
-(global-set-key (kbd "M-w") #'save-region-or-current-line)
+(global-set-key [remap kill-ring-save] #'save-region-or-current-line)
 
 (defun join-to-next-line ()
   (interactive)
