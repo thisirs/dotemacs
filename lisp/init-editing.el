@@ -15,7 +15,7 @@ cancel the indentation if needed."
   (interactive)
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
-    (kill-line 0)))
+    (backward-kill-word 1)))
 
 (global-set-key (kbd "C-w") #'kill-region-or-backward)
 
