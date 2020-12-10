@@ -102,6 +102,7 @@
 
 (use-package dired-x
   :straight nil
+  :demand :after dired
   :bind (("C-x C-j" . dired-jump)
          (:map dired-mode-map
                ("M-!" . async-shell-command))))
