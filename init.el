@@ -1254,8 +1254,11 @@ corresponding statement."
   (pdf-tools-install :force-compile nil :no-error)
   (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
-  (define-key pdf-sync-minor-mode-map (kbd "C-c C-v")
-    (lambda () (interactive) (pdf-sync-backward-search 0 0)))
+  (use-package pdf-sync
+    :straight nil
+    :config
+    (define-key pdf-sync-minor-mode-map (kbd "C-c C-v")
+      (lambda () (interactive) (pdf-sync-backward-search 0 0))))
 
   (setq pdf-misc-print-programm lpr-command)
 
