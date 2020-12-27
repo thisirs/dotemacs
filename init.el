@@ -1286,7 +1286,7 @@ corresponding statement."
            pdf-annot-edit-contents-minor-mode-map
            ;; Instead of C-c C-q
            ("C-c C-k" . pdf-annot-edit-contents-abort-or-delete)
-           ("C-c C-d" . pdf-annot-delete-current)))
+           ("C-c C-d" . pdf-annot-delete-current))))
 
 ;; https://github.com/thisirs/pdf-tools-points.git
 (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
