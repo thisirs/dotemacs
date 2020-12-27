@@ -1184,6 +1184,14 @@ corresponding statement."
 
   (org-context-mode))
 
+(use-package org-link-minor-mode
+  :init
+  (define-globalized-minor-mode
+    global-org-link-minor-mode
+    org-link-minor-mode
+    (lambda () (org-link-minor-mode 1)))
+  :diminish)
+
 (use-package org-pdfview)
 
 (use-package orgalist
