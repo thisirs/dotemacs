@@ -159,16 +159,19 @@ the selected file."
   ;;               (when face (return face)))))))
 
   ;; Annoted todo are stared
-  (eval-after-load "org-agenda"
-    '(add-to-list 'org-agenda-prefix-format
-                  '(todo . " %(annotedp)%i %-12:c")))
+  (with-eval-after-load "org-agenda"
+    (add-to-list 'org-agenda-prefix-format
+                 '(todo . " %(annotedp)%i %-12:c"))
+    (add-to-list 'org-agenda-prefix-format
+                 '(agenda . " %(annotedp)%i %-12:c%?-12t% s")))
 
   (defun annotedp ()
-    (when (derived-mode-p 'org-mode)
-      (save-excursion
-        (let ((end (save-excursion (outline-next-heading) (point))))
-          (if (re-search-forward "- Note taken" end t)
-              "*" " ")))))
+    (if (derived-mode-p 'org-mode)
+        (save-excursion
+          (let ((end (save-excursion (outline-next-heading) (point))))
+            (if (re-search-forward "- Note taken" end t)
+                "*" " ")))
+      " "))
 
   ;; Logging
   (setq org-log-done 'time)
