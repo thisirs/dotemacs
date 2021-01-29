@@ -1654,30 +1654,6 @@ behavior added."
     :key "d"
     :switch "*debug*")
 
-  (state-define-state gnus
-    :key "g"
-    :in (memq major-mode '(gnus-article-edit-mode
-                           gnus-article-mode
-                           gnus-bookmark-bmenu-mode
-                           gnus-browse-mode
-                           gnus-category-mode
-                           gnus-custom-mode
-                           gnus-edit-form-mode
-                           gnus-group-mode
-                           gnus-kill-file-mode
-                           gnus-score-mode
-                           gnus-server-mode
-                           gnus-sticky-article-mode
-                           gnus-summary-mode
-                           gnus-tree-mode
-                           message-mode
-                           plstore-mode
-                           sieve-manage-mode
-                           sieve-mode
-                           smime-mode))
-    :exist gnus-alive-p
-    :create gnus)
-
   (state-define-state mu4e
     :key "u"
     :in (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-view-mode mu4e-compose-mode))
