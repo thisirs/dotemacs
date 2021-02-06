@@ -941,7 +941,10 @@ corresponding statement."
 
   (setq markdown-enable-math t)
   (setq markdown-command
-        "pandoc -f markdown+smart -t html5 -s --self-contained 2> /dev/null")
+        (concat
+         "pandoc -f markdown+smart -t html5 -s --self-contained --css "
+         (expand-file-name "data/markdown.css" user-emacs-directory)))
+  (setq markdown-css-paths nil)
 
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
