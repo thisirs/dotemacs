@@ -1754,6 +1754,8 @@ behavior added."
   (sudo-edit-indicator-mode))
 
 (use-package swiper
+  :bind (:map ivy-minibuffer-map
+              ("C-w" . ivy-yank-word))
   :bind (("C-s" . swiper)
          ("C-r" . swiper)))
 
