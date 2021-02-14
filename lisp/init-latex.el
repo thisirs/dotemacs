@@ -265,7 +265,7 @@ and right delimiters are matched on the same line."
 
 
 ;; (replace-delimiters "$$" "$$" "\\begin{equation*}" "\\end{equation*}" t)
-;; (replace-delimiters "\\[" "\\]" "\\begin{equation*}" "\\end{equation*}" t)
+;; (replace-delimiters "\\[" "\\]" "\\begin{equation*}" "\\end{equation*}" t nil)
 
 (defvar latex-convert-eqnarray
   '("\\leq" "\\geq" "\\approx" "\\sim" "\\simeq" "+" "=")
