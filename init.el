@@ -1477,7 +1477,12 @@ corresponding statement."
   (when (executable-find "sql-formatter-cli")
     (reformatter-define reformatter-sql
       :program "sql-formatter-cli"
-      :args (list "-"))))
+      :args (list "-")))
+
+  (when (executable-find "/snap/bin/shfmt")
+    (reformatter-define reformatter-bash
+      :program "/snap/bin/shfmt"
+      :lighter " ShFmt")))
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
