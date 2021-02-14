@@ -312,6 +312,7 @@
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
+  :disabled
   :demand
   :bind (("C-x l" . counsel-locate)
          :map counsel-find-file-map
@@ -761,6 +762,7 @@ corresponding statement."
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
 
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
+  :disabled
   :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
                         :files ("ivy-bibtex.el" "bibtex-completion.el")
                         :fork (:host github :repo "thisirs/helm-bibtex"))
@@ -792,6 +794,7 @@ corresponding statement."
 
 ;; https://github.com/abo-abo/swiper
 (use-package ivy                        ; Incremental Vertical completYon
+  :disabled
   :demand
   :diminish (ivy-mode . "")
   :bind (("C-x C-b" . ivy-switch-buffer)
@@ -855,6 +858,7 @@ corresponding statement."
                 :caller 'ivy-bookmarks))))
 
 (use-package ivy-prescient
+  :disabled
   :demand :after prescient
   :config (ivy-prescient-mode))
 
@@ -1326,13 +1330,6 @@ corresponding statement."
     :hostmode 'pm-host/R
     :innermodes '(pm-inner/markdown-code)))
 
-(use-package prescient
-  :demand
-  :config (prescient-persist-mode)
-  :custom ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
-           (prescient-sort-length-enable nil)
-           (prescient-aggressive-file-save t)))
-
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
@@ -1518,6 +1515,20 @@ corresponding statement."
 
 (use-package robe
   :hook (ruby-mode . robe-mode))
+
+(use-package selectrum-prescient
+  :demand
+  :bind (:map selectrum-minibuffer-map
+              ("C-M-j" . selectrum-submit-exact-input)
+              ("C-j" . selectrum-insert-current-candidate))
+  :config
+  (selectrum-mode +1)
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode)
+  :custom
+  ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
+   (prescient-sort-length-enable nil)
+   (prescient-aggressive-file-save t)))
 
 (use-package simple
   :straight nil
