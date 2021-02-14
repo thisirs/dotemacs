@@ -260,7 +260,8 @@ and right delimiters are matched on the same line."
           (goto-char beg)
           (insert (format "%s%s%s" (if atb "" "\n") nl (if ate "" "\n")))
           (LaTeX-mark-environment)
-          (indent-region (region-beginning) (region-end)))))))
+          (indent-region (region-beginning) (region-end))
+          (deactivate-mark))))))
 
 
 ;; (replace-delimiters "$$" "$$" "\\begin{equation*}" "\\end{equation*}" t)
