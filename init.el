@@ -1632,6 +1632,11 @@ behavior added."
           (smerge-mode 1)
         (goto-char old-point)))))
 
+(use-package spotify.el
+  :disabled
+  :straight (spotify.el :type git :host github :repo "danielfm/spotify.el"
+                     :files ("*.el")))
+
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
   :preface
