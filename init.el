@@ -269,6 +269,13 @@
   (advice-add 'bookmark-save :around #'bookmark-save-filter)
 
   (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
+    (let ((directory "~/CloudStation/Sylvain/enseignements/"))
+      (bookmark-import-new-list
+       (mapcar (lambda (dir)
+                 `(,dir
+                   (filename . ,(expand-file-name dir directory))
+                   (generated . t)))
+               (directory-files directory nil "^\\(A\\|P\\)[0-9]\\{4\\}"))))
     (let ((directory "~/CloudStation/Sylvain/Documents/"))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
