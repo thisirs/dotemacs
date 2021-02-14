@@ -262,6 +262,7 @@
     (null (bookmark-prop-get bmk-record 'generated)))
 
   (defun bookmark-save-filter (oldfun &optional parg file make-default)
+    "Don't save generated bookmarks"
     (let ((bookmark-alist (seq-filter #'bookmark-not-generated bookmark-alist)))
       (funcall oldfun parg file make-default)))
 
