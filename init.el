@@ -1163,6 +1163,9 @@ corresponding statement."
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
+  :straight `(org-context
+              :type git
+              :local-repo ,(expand-file-name "org-context" site-lisp-directory))
   :demand
   :config
   (defun org-capture--add-link ()
