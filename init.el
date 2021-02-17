@@ -1487,7 +1487,16 @@ corresponding statement."
   (when (executable-find "/snap/bin/shfmt")
     (reformatter-define reformatter-bash
       :program "/snap/bin/shfmt"
-      :lighter " ShFmt")))
+      :lighter " ShFmt"))
+
+  (reformatter-define styler
+    :program "Rscript"
+    :args (list "--vanilla" "-e" "con <- file(\"stdin\")
+out <- styler::style_text(readLines(con))
+close(con)
+out")
+    :lighter " styler"))
+
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
