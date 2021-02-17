@@ -318,6 +318,10 @@
   ;; Move point to first error
   (setq compilation-scroll-output 'first-error))
 
+(use-package consult
+  :demand
+  :bind (("C-x C-b" . consult-buffer)))
+
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
   :disabled
@@ -481,6 +485,16 @@ corresponding statement."
         (elpy-shell--with-maybe-echo
          (python-shell-send-string (elpy-shell--region-without-indentation beg end)))))
     (python-nav-forward-statement)))
+
+(use-package embark
+  :demand
+  :bind
+  ("C-x C-p" . embark-act))
+
+(use-package embark-consult
+  :demand :after (embark consult)
+  :hook
+  (embark-collect-mode . embark-consult-preview-minor-mode))
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
@@ -935,6 +949,12 @@ corresponding statement."
   :disabled
   :after magit
   :config (magithub-feature-autoinject t))
+
+(use-package marginalia
+  :demand
+  :custom (marginalia-annotators '(marginalia-annotators-heavy))
+  :config
+  (marginalia-mode))
 
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
