@@ -1512,6 +1512,16 @@ corresponding statement."
       :program "black"
       :args (list "-")))
 
+  (when (executable-find "npx")
+    (reformatter-define reformatter-sql
+      :program "npx"
+      :args (list "sql-formatter" "-u")))
+
+  (when (executable-find "sqlformat")
+    (reformatter-define reformatter-sql
+      :program "sqlformat"
+      :args (list "-k" "upper" "-r" "-")))
+
   (when (executable-find "sql-formatter-cli")
     (reformatter-define reformatter-sql
       :program "sql-formatter-cli"
