@@ -338,6 +338,11 @@
   ;; Remaps some built-in emacs functions
   (counsel-mode))
 
+(use-package ctrlf
+  :demand
+  :config
+  (ctrlf-mode +1))
+
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :diminish drag-stuff-mode
   :bind (([C-M-S-up] . drag-stuff-up)
@@ -1815,6 +1820,7 @@ behavior added."
   (sudo-edit-indicator-mode))
 
 (use-package swiper
+  :disabled
   :bind (:map ivy-minibuffer-map
               ("C-w" . ivy-yank-word))
   :bind (("C-s" . swiper)
