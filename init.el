@@ -2383,17 +2383,13 @@ to cancel it."
 
 (setq sentence-end-double-space nil)
 
-(setq select-enable-clipboard t)
-
-;; Default in 24.4
-;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
-;; Save clipboard strings into kill ring before replacing them
+;; Save existing clipboard text into kill ring before replacing it.
 (setq save-interprogram-paste-before-kill t)
 
+;; Don't ask when killing processes on exit.
 (setq confirm-kill-processes nil)
 
-;; Don't warn when killing running processes
+;; Don't ask before killing a buffer that has a running process.
 (delq 'process-kill-buffer-query-function
       kill-buffer-query-functions)
 
@@ -2435,7 +2431,7 @@ to cancel it."
 
 (add-hook 'before-save-hook 'time-stamp)
 
-;; Make scripts executable on save
+;; Make files with a shebang executable
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 ;; Open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
