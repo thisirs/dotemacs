@@ -186,7 +186,7 @@ Note that the MAX parameter is used so we can exit the parse early."
                                 ;; every element of require is in n(ormalized)
                                 (let ((n (nth 0 (auth-source-netrc-normalize
                                                  (list alist) file))))
-                                  (loop for req in require
+                                  (cl-loop for req in require
                                         always (plist-get n req)))))))
                  result)
 
