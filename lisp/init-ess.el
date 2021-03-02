@@ -15,8 +15,10 @@
 
 (use-package ess-custom
   :straight nil
-  ;; No special behaviour of comments starting with #, ## or ###
-  :custom (ess-indent-with-fancy-comments nil))
+  :custom (
+           ;; No special behaviour of comments starting with #, ## or ###
+           (ess-indent-with-fancy-comments nil)
+           (ess-offset-arguments 'prev-line)))
 
 ;; http://ess.r-project.org
 (defun tidy-Rtex-chunks ()
