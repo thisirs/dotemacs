@@ -1,6 +1,8 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-utils)
 
+(defvar personal-directory "~/CloudStation/Sylvain/")
+
 ;; Add personal site-lisp to load-path
 (defvar personal-emacs-directory "~/CloudStation/Sylvain/emacs/")
 
