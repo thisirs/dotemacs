@@ -1902,6 +1902,7 @@ behavior added."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
+  :straight `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" site-lisp-directory))
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
