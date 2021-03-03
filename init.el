@@ -630,7 +630,10 @@ corresponding statement."
   ;; Save scratch buffer as temp file when quitting emacs
   (add-hook 'kill-emacs-hook #'find-temp-file-save-scratch)
 
+  ;; Path is: <mode name>/<date>/<prefix>-<sha1>.<ext>
   (setq find-temp-template-default "%M/%D/%N-%T.%E")
+
+  ;; Change template for Python and Matlab files (no dash in filename)
   (add-to-list 'find-temp-template-alist (cons "py" "%M/%D/%N_%T.%E"))
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
 
