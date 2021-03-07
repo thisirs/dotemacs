@@ -321,8 +321,8 @@
   (setq compilation-scroll-output 'first-error))
 
 (use-package consult
-  :bind (("C-x b" . consult-buffer)
-         ("M-y" . consult-yank-pop)))
+  :bind (("C-x C-b" . consult-buffer)
+         ([remap yank-pop] . consult-yank-pop)))
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
