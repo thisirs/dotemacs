@@ -322,7 +322,8 @@
 
 (use-package consult
   :bind (("C-x C-b" . consult-buffer)
-         ([remap yank-pop] . consult-yank-pop)))
+         ([remap yank-pop] . consult-yank-pop)
+         ("M-g f" . consult-ripgrep)))
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
@@ -1615,6 +1616,7 @@ out")
 
 ;; A search tool based on ripgrep
 (use-package rg
+  :disabled
   :if (executable-find "rg")
   :bind ("M-g f" . rg-custom-search)
   :config
