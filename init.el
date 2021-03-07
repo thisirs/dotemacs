@@ -1638,6 +1638,11 @@ out")
   (selectrum-mode +1)
   (selectrum-prescient-mode +1)
   (prescient-persist-mode)
+
+  (when (require 'embark nil t)
+    (define-key selectrum-minibuffer-map (kbd "C-c C-o") 'embark-export)
+    (define-key selectrum-minibuffer-map (kbd "C-c C-c") 'embark-act))
+
   :custom
   ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
    (prescient-sort-length-enable nil)
