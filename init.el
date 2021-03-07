@@ -1710,6 +1710,7 @@ behavior added."
    "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
 
 (use-package smex
+  :disabled
   :defer 10
   :config
   (smex-initialize))
