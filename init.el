@@ -1806,20 +1806,6 @@ behavior added."
               (mu4e)
               (delete-other-windows)))
 
-  (state-define-state slack
-    :key "l"
-    :in (memq major-mode '(slack-message-buffer-mode))
-    :switch (tracking-next-buffer)
-    :keep (tracking-next-buffer))
-
-  (state-define-state erc
-    :key "i"
-    :in (and (fboundp 'erc-buffer-list)
-             (memq (current-buffer) (erc-buffer-list)))
-    :switch (progn (erc-start-or-switch 1)
-                   (delete-other-windows))
-    :keep (erc-track-switch-buffer 0))
-
   (state-define-state message
     :key "m"
     :switch "*Messages*")
@@ -1827,11 +1813,6 @@ behavior added."
   (state-define-state scratch
     :key "s"
     :switch "*scratch*")
-
-  (state-define-state twit
-    :key "t"
-    :in (and (require 'twittering-mode nil t) (twittering-buffer-p))
-    :switch twit)
 
   (state-define-state programming_samples
     :key "r"
