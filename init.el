@@ -1588,7 +1588,8 @@ out")
   :custom
   ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
    (prescient-sort-length-enable nil)
-   (prescient-aggressive-file-save t)))
+   (prescient-aggressive-file-save t)
+   (selectrum-fix-vertical-window-height t)))
 
 (use-package simple
   :straight nil
