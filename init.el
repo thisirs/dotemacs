@@ -1242,6 +1242,18 @@ corresponding statement."
 
 (use-package org-pdfview)
 
+;; https://github.com/jkitchin/org-ref
+(use-package org-ref ; citations, cross-references and bibliographies in org-mode
+  :disabled
+  :config
+  (require 'org-ref-ivy)
+
+  ;; Use bibtex-completion-find-pdf-in-field to open pdf file
+  (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
+    (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
+        "/dummy"))
+  (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
+
 (use-package orgalist
   :demand :after mu4e
   :config

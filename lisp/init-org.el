@@ -7,17 +7,6 @@
 ;; https://github.com/emacsattic/org-link-minor-mode
 (use-package org-link-minor-mode) ;; Enable org-mode links in non-org modes
 
-;; https://github.com/jkitchin/org-ref
-(use-package org-ref ; citations, cross-references and bibliographies in org-mode
-  :config
-  (require 'org-ref-ivy)
-
-  ;; Use bibtex-completion-find-pdf-in-field to open pdf file
-  (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
-    (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
-        "/dummy"))
-  (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
-
 (use-package ox-koma-letter
   :straight nil
   :config
