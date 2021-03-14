@@ -1365,6 +1365,8 @@ corresponding statement."
   (pdf-tools-install :force-compile nil :no-error)
   (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
+  (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
+
   (use-package pdf-sync
     :straight nil
     :config
