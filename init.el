@@ -238,6 +238,13 @@
   :config
   (beginend-global-mode))
 
+(use-package bibtex-actions
+  :bind ("C-x b" . bibtex-actions-open-pdf)
+  :straight (bibtex-actions :host github :repo "bdarcus/bibtex-actions")
+  :config
+  (if (require 'embark nil t)
+      (setf (alist-get 'bibtex embark-keymap-alist) 'bibtex-actions-map)))
+
 (use-package blacken
   :disabled t)
 
