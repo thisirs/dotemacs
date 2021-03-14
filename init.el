@@ -809,6 +809,23 @@ corresponding statement."
 ;; http://github.com/nonsequitur/inf-ruby
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
 
+(use-package bibtex-completion
+  :demand :after bibtex-completion
+  :straight (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
+                               :files ("bibtex-completion.el"))
+  :config
+  (setq bibtex-completion-bibliography
+        '("~/CloudStation/Sylvain/recherche/biblio/refs.bib"))
+  (setq bibtex-completion-library-path
+        '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
+          "~/CloudStation/Sylvain/recherche/biblio/compressed_sensing/"
+          "~/CloudStation/Sylvain/recherche/biblio/hashing/"
+          "~/CloudStation/Sylvain/recherche/biblio/graphs_and_deep_learning/"
+          "~/CloudStation/Sylvain/recherche/biblio/NN regularization/"
+          "~/CloudStation/Sylvain/recherche/biblio/books/"))
+  (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
+  (setq bibtex-completion-pdf-field "file"))
+
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :disabled
   :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
