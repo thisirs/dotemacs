@@ -2177,7 +2177,8 @@ Change directory to `default-directory' if ARG is non-nil."
 (set-window-fringes (minibuffer-window) 8 0)
 
 ;; Don't automatically split vertically
-(setq split-height-threshold nil)
+(on-zbook
+ (setq split-height-threshold nil))
 
 ;; Clashes with org's date selection in calendar
 ;; Quit minibuffer if there is a click on another buffer
