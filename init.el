@@ -500,8 +500,10 @@ corresponding statement."
   :config
   (if (require 'which-key nil t)
       (setq embark-action-indicator
-            (lambda (map _target)
-              (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            (lambda (map target)
+              (which-key--show-keymap
+               (format "Act on `%s'" target)
+               map nil nil 'no-paging)
               #'which-key--hide-popup-ignore-command)
             embark-become-indicator embark-action-indicator)))
 
