@@ -2562,7 +2562,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (eval-after-load "re-builder"
   '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
 
-(defun reb-read-regexp (prompt &optional defaults history)
+(defun reb-read-regexp2 (prompt &optional defaults history)
   "Like `read-regexp' but with `re-builder' feedback."
   (let ((reb-re-syntax 'string))
     (re-builder)
@@ -2580,7 +2580,7 @@ Argument REPLACE String used to replace the matched strings in the buffer.
 (defun collect-regexp (regexp &optional beg end)
   "Collect all string matched by REGEXP and store it in the kill
 ring."
-  (interactive (cons (reb-read-regexp "Collect regexp: ")
+  (interactive (cons (read-regexp "Collect regexp: ")
                      (if (use-region-p)
                          (list (region-beginning) (region-end))
                        (list (point) nil))))
@@ -2589,9 +2589,11 @@ ring."
     (let (acc)
       (while (re-search-forward regexp end t)
         (push (match-string 0) acc))
+      (setq acc (nreverse acc))
       (let ((print-length 10))
         (message "Kill-ring: %s" acc))
-      (kill-new (mapconcat 'identity (nreverse acc) "\n")))))
+      (kill-new (mapconcat 'identity acc "\n")))))
+
 
 ;;; init.el ends here
 
