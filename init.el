@@ -2124,8 +2124,6 @@ Change directory to `default-directory' if ARG is non-nil."
         (t
          (find-file-at-point))))
 
-(global-set-key (kbd "C-x C-p") 'my-find-thing-at-point)
-
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
