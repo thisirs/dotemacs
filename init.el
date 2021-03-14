@@ -1476,7 +1476,7 @@ corresponding statement."
   (setq projectile-switch-project-action 'projectile-find-file)
 
   (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
-  (setq projectile-completion-system 'ivy)
+  (setq projectile-completion-system 'default)
 
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
