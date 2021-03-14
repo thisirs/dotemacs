@@ -1266,6 +1266,8 @@ corresponding statement."
   :hook
   (after-init . org-roam-mode)
   :custom
+  (org-roam-db-location
+   (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
   :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
