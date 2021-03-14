@@ -2083,8 +2083,7 @@ Change directory to `default-directory' if ARG is non-nil."
 (global-set-key (kbd "C-z") 'switch-to-tmux-or-suspend)
 
 ;; Notify events
-(with-emacs-version>= "24"
-  (require 'notifications))
+(require 'notifications)
 
 (require 'ffap)
 ;; Find file at point even if it is the wrong user: /home/otheruser/.bashrc
