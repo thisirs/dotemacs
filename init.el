@@ -8,7 +8,6 @@
 
 (defvar site-lisp-directory (expand-file-name "site-lisp" personal-emacs-directory ))
 
-
 ;; Add .emacs.d/site-lisp to load path and all sub-directories
 (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
