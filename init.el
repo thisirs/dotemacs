@@ -1411,19 +1411,23 @@ corresponding statement."
 
 ;; https://github.com/vitoshka/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
-  :commands poly-markdown-string-mode
+  :commands poly-latex-mode
   :config
-  (defcustom  pm-inner/markdown-code
-    (pm-inner-chunkmode :name "markdown-code"
-                        :head-matcher "{%markdown%}\n"
-                        :tail-matcher "{%/markdown%}")
-    "Markdown code block."
+  (defcustom  pm-inner/latex-code-environment
+    (pm-inner-chunkmode :name "latex-code-environment"
+                        :head-matcher "^[ \t]*\\\\begin{knitr}\\(?:\\[\\([^]]+\\)\\]\\)?\n"
+                        :tail-matcher "^[ \t]*\\\\end{knitr}"
+                        :mode 'python-mode
+                        :head-mode 'host
+                        :tail-mode 'host
+                        )
+    "Latex code environment."
     :group 'poly-innermodes
     :type 'object)
 
-  (define-polymode poly-markdown-mode
-    :hostmode 'pm-host/R
-    :innermodes '(pm-inner/markdown-code)))
+  (define-polymode poly-latex-mode
+    :hostmode 'pm-host/latex
+    :innermodes '(pm-inner/latex-code-environment)))
 
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
