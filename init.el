@@ -1276,9 +1276,8 @@ corresponding statement."
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
-  :disabled
   :config
-  (require 'org-ref-ivy)
+  ;; (require 'org-ref-ivy)
 
   ;; Use bibtex-completion-find-pdf-in-field to open pdf file
   (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
