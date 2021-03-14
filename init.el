@@ -2540,59 +2540,6 @@ is more than one or kill emacs if there is only one."
   (unless (and (boundp 'with-editor-mode) with-editor-mode)
     (lower-frame)))
 
-;;; From http://emacs-journey.blogspot.fr/2012/06/re-builder-query-replace-this.html
-(defun reb-query-replace-this-regxp (replace)
-  "Uses the regexp built with re-builder to query the target buffer.
-This function must be run from within the re-builder buffer, not the target
-buffer.
-
-Argument REPLACE String used to replace the matched strings in the buffer.
- Subexpression references can be used (\1, \2, etc)."
-  (interactive "sReplace with: ")
-  (let* ((reg (reb-read-regexp))
-         (newcmd (list 'query-replace-regexp reg replace)))
-    (select-window reb-target-window)
-    (save-excursion
-      (goto-char (point-min))
-      (or (equal newcmd (car command-history))
-          (setq command-history (cons newcmd command-history)))
-      (eval newcmd)))
-  (reb-quit))
-
-(eval-after-load "re-builder"
-  '(define-key reb-mode-map "\C-c\M-%" 'reb-query-replace-this-regxp))
-
-(defun reb-read-regexp2 (prompt &optional defaults history)
-  "Like `read-regexp' but with `re-builder' feedback."
-  (let ((reb-re-syntax 'string))
-    (re-builder)
-    (recursive-edit))
-  (let ((re (with-output-to-string
-              (print (reb-target-binding
-                      (prog1 reb-regexp
-                        (reb-quit)))))))
-    (read re)))
-
-(defadvice reb-quit (after recursive-quit activate)
-  (if (> (recursion-depth) 0)
-      (exit-recursive-edit)))
-
-(defun collect-regexp (regexp &optional beg end)
-  "Collect all string matched by REGEXP and store it in the kill
-ring."
-  (interactive (cons (read-regexp "Collect regexp: ")
-                     (if (use-region-p)
-                         (list (region-beginning) (region-end))
-                       (list (point) nil))))
-  (save-excursion
-    (goto-char beg)
-    (let (acc)
-      (while (re-search-forward regexp end t)
-        (push (match-string 0) acc))
-      (setq acc (nreverse acc))
-      (let ((print-length 10))
-        (message "Kill-ring: %s" acc))
-      (kill-new (mapconcat 'identity acc "\n")))))
 
 
 ;;; init.el ends here
