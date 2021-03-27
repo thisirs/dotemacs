@@ -1276,6 +1276,7 @@ corresponding statement."
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
+  :demand
   :config
   ;; (require 'org-ref-ivy)
 
