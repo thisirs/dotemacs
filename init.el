@@ -1286,6 +1286,7 @@ corresponding statement."
   (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
 (use-package org-roam
+  :diminish
   :hook
   (after-init . org-roam-mode)
   :custom
@@ -1301,6 +1302,7 @@ corresponding statement."
               (("C-c n I" . org-roam-insert-immediate))))
 
 (use-package org-roam-bibtex
+  :diminish
   :after org-roam
   :hook (org-roam-mode . org-roam-bibtex-mode))
 
