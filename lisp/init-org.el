@@ -53,8 +53,7 @@
   ;; Remove tags in agenda
   (setq org-agenda-remove-tags t)
 
-  (setq org-tag-alist '(("rech" . ?r)
-                        ("home" . ?h)
+  (setq org-tag-alist '(("home" . ?h)
                         ("labo" . ?l)))
 
   ;; Special navigation in org mode
