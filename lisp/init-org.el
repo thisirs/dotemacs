@@ -170,24 +170,6 @@ the selected file."
   (global-set-key (kbd "C-c L") #'org-insert-link-global)
   (global-set-key (kbd "C-c a") #'org-agenda)
 
-  ;; Support for links in twittering-mode
-  (defun org-twittering-store-link ()
-    (when (eq major-mode 'twittering-mode)
-      (let ((uri (or (get-text-property (point) 'uri)
-                     (if (get-text-property (point) 'field)
-                         (let ((id (or (get-text-property (point) 'retweeted-id)
-                                       (get-text-property (point) 'id)))
-                               (username (get-text-property (point) 'username)))
-                           (twittering-get-status-url username id))
-                       nil))))
-        (and (stringp uri)
-             (org-link-store-props :type "http" :link uri)
-             t))))
-
-  (org-link-set-parameters
-   "twittering"
-   :store 'org-twittering-store-link)
-
   (mapc (lambda (file)
           (if (file-exists-p file)
               (add-to-list 'org-agenda-files file)))
