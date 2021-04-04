@@ -648,29 +648,13 @@ child checkboxes."
   :if (on-zbook)
   :straight `(org-expiry :type git
                         :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
-  :hook (kill-emacs . org-auto-archive)
+  :hook (kill-emacs . org-expiry-process-buffers)
   :config
-  (defun org-auto-archive ()
-    (message "Auto-archiving...")
-    (when (get-buffer "someday.org")
-      (with-current-buffer "someday.org"
-        (let ((org-expiry-event-wait "1m"))
-          (org-expiry-process-entries))))
-    (when (get-buffer "agenda.org")
-      (with-current-buffer "agenda.org"
-        (save-restriction
-          (widen)
-          (goto-char (point-min))
-          (when (search-forward "* External events" nil t)
-            (org-narrow-to-subtree)
-            (org-expiry-process-entries))
-          (widen)
-          (goto-char (point-min))
-          (when (search-forward "* Evénements simples" nil t)
-            (org-narrow-to-subtree)
-            (org-expiry-process-entries)))))
-    (org-save-all-org-buffers)          ; saving both org and org archive file
-    (message "Auto-archiving...done"))
+  (setq org-expiry-plan
+        '(("agenda.org" . ((subtree "External events")))
+          ("someday.org" . ((org-expiry-event-wait "1m")))
+          ("agenda.org" . ((subtree "Liste des scheduled")))
+          ("agenda.org" . ((subtree "Liste des deadlines")))))
 
   (setq org-expiry-handler-function 'org-expiry-handler-function-force))
 
