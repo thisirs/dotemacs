@@ -1619,7 +1619,7 @@ corresponding statement."
       :program "/snap/bin/shfmt"
       :lighter " ShFmt"))
 
-  (reformatter-define styler
+  (reformatter-define reformatter-styler
     :program "Rscript"
     :args (list "--vanilla" "-e" "con <- file(\"stdin\")
 out <- styler::style_text(readLines(con))
