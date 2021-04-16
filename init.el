@@ -1308,6 +1308,7 @@ corresponding statement."
   :hook (org-roam-mode . org-roam-bibtex-mode))
 
 (use-package org-roam-server
+  :diminish
   :straight
   :config
   (setq org-roam-server-host "127.0.0.1"
