@@ -1863,6 +1863,16 @@ behavior added."
   ;; Override state's keymap binding
   :bind-keymap ("s-s" . state-prefix-map)
   :config
+  (state-define-state org-roam
+    :key "b"
+    :in (or (eq (buffer-name) org-roam-buffer)
+            (state--in-in-file org-roam-directory))
+    :create
+    (progn
+      (dired org-roam-directory)
+      (delete-other-windows)
+      (org-roam)))
+
   (state-define-state agenda
     :key "a"
     :in (eq major-mode 'org-agenda-mode)
