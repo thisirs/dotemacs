@@ -1791,6 +1791,7 @@ behavior added."
 
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
+  :diminish
   :preface
   ;; Common pattern when defining a repl state
   (defmacro state-define-repl (name key buffer-name from create)
