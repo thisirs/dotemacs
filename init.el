@@ -1325,12 +1325,13 @@ corresponding statement."
    (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
   :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-graph))
+              ("C-c n l" . org-roam)
+              ("C-c n f" . org-roam-find-file)
+              ("C-c n g" . org-roam-graph)
+              ("C-c n j" . org-roam-find-directory)
               :map org-mode-map
-              (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate))))
+              ("C-c n i" . org-roam-insert)
+              ("C-c n I" . org-roam-insert-immediate)))
 
 ;; https://github.com/org-roam/org-roam-bibtex
 (use-package org-roam-bibtex            ; Org Roam meets BibTeX
