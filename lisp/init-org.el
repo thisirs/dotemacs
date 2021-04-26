@@ -647,7 +647,7 @@ child checkboxes."
 (use-package org-expiry
   :if (on-zbook)
   :straight `(org-expiry :type git
-                        :local-repo ,(expand-file-name "org-expiry" site-lisp-directory))
+                         :local-repo ,(expand-file-name "org-expiry" projects-directory))
   :hook (kill-emacs . org-expiry-process-buffers)
   :config
   (setq org-expiry-plan

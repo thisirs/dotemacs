@@ -2,6 +2,7 @@
 (require 'init-utils)
 
 (defvar personal-directory "~/CloudStation/Sylvain/")
+(defvar projects-directory "~/CloudStation/Sylvain/projects")
 
 ;; Add personal site-lisp to load-path
 (defvar personal-emacs-directory "~/CloudStation/Sylvain/emacs/")
@@ -571,7 +572,7 @@ corresponding statement."
 
 (use-package epwdgen                    ; Flexible password generator
   :straight `(epwdgen :type git
-                     :local-repo ,(expand-file-name "epwdgen" site-lisp-directory))
+                     :local-repo ,(expand-file-name "epwdgen" projects-directory))
   :commands epwdgen-generate-password
   :config
   (setq epwdgen-password-presets
@@ -1255,7 +1256,7 @@ corresponding statement."
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :straight `(org-context
               :type git
-              :local-repo ,(expand-file-name "org-context" site-lisp-directory))
+              :local-repo ,(expand-file-name "org-context" projects-directory))
   :demand
   :config
   (defun org-capture--add-link ()
@@ -1464,7 +1465,7 @@ corresponding statement."
 
 ;; https://github.com/thisirs/pdf-tools-points.git
 (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-  :straight `(pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" site-lisp-directory))
+  :straight `(pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
   :after pdf-tools :demand)
 
 ;; https://github.com/ejmr/php-mode
@@ -1978,7 +1979,7 @@ behavior added."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :straight `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" site-lisp-directory))
+  :straight `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
@@ -2166,7 +2167,7 @@ Change directory to `default-directory' if ARG is non-nil."
   :straight `(auto-insert-multiple
              :type git
              :local-repo ,(expand-file-name "auto-insert-multiple"
-                                            site-lisp-directory))
+                                            projects-directory))
   :hook (find-file . auto-insert)
   :config
   ;; Reset templates
