@@ -153,4 +153,61 @@ and the index of the match."
     (read-directory-name "Copy in directory? " default-directory)))
   (copy-file file (expand-file-name (file-name-nondirectory file) (or directory default-directory))))
 
+(defun UTC-autumn-from-time (time)
+  "Return the autumn semester corresponding to TIME."
+  (let* ((dtime (decode-time time))
+         (month (nth 4 dtime))
+         (year (nth 5 dtime)))
+    (if (and (< month 8))
+        (format "A%d" (1- year))
+      (format "A%d" year))))
+
+(defun UTC-spring-from-time (time)
+  "Return the spring semester corresponding to TIME."
+  (let* ((dtime (decode-time time))
+         (month (nth 4 dtime))
+         (year (nth 5 dtime)))
+    (if (and (>= month 2))
+        (format "P%d" year)
+      (format "P%d" (1- year)))))
+
+(defun UTC-semester-from-time (time)
+  "Return the semester corresponding to TIME."
+  (let* ((dtime (decode-time time))
+         (month (nth 4 dtime))
+         (year (nth 5 dtime)))
+    (if (and (< month 8) (>= month 2))
+        (format "P%d" year)
+      (if (<= month 2)
+          (format "A%d" (1- year))
+        (format "A%d" year)))))
+
+(defun projectile-root-hardcoded (dir &optional list)
+  (seq-filter #'file-exists-p
+              (mapcar (lambda (args)
+                        (apply #'format "~/CloudStation/Sylvain/enseignements/%s/%s/%s" args))
+                      (let ((semesters (delete-dups
+                                        (list (UTC-semester-from-time (current-time))
+                                              (UTC-semester-from-time
+                                               (time-add
+                                                (current-time)
+                                                (seconds-to-time (* 60 60 24 31 2)))))))
+                            (uvs '("SY02" "AOS1" "AOS2" "SY09" "SY19"))
+                            (dirs '("Cours" "TP" "TD" "poly" "")))
+                        (-table-flat 'list semesters uvs dirs)))))
+
+(defun projectile-ignored-semester (truename)
+  "Ignore past semesters."
+  (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
+      (let ((year (string-to-number (match-string 2 truename)))
+            (season (match-string 1 truename)))
+        (let ((current-semester (UTC-semester-from-time (current-time))))
+          (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" current-semester)
+              (let ((cyear (string-to-number (match-string 2 current-semester)))
+                    (cseason (match-string 1 current-semester)))
+                (or (< year cyear)
+                    (and (= year cyear)
+                         (string-equal cseason "A")
+                         (string-equal season "P")))))))))
+
 (provide 'init-utils)

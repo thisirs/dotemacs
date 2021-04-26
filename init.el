@@ -1493,40 +1493,13 @@ corresponding statement."
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
-  :preface
-  (defun UTC-autumn-from-time (time)
-    "Return the autumn semester corresponding to TIME."
-    (let* ((dtime (decode-time time))
-           (month (nth 4 dtime))
-           (year (nth 5 dtime)))
-      (if (and (< month 8))
-          (format "A%d" (1- year))
-        (format "A%d" year))))
-
-  (defun UTC-spring-from-time (time)
-    "Return the autumn semester corresponding to TIME."
-    (let* ((dtime (decode-time time))
-           (month (nth 4 dtime))
-           (year (nth 5 dtime)))
-      (if (and (>= month 2))
-          (format "P%d" year)
-        (format "P%d" (1- year)))))
-
-  (defun UTC-semester-from-time (time)
-    "Return the semester corresponding to TIME."
-    (let* ((dtime (decode-time time))
-           (month (nth 4 dtime))
-           (year (nth 5 dtime)))
-      (if (and (< month 8) (>= month 2))
-          (format "P%d" year)
-        (if (<= month 2)
-            (format "A%d" (1- year))
-          (format "A%d" year)))))
   :init
+  ;; Auto-remove non-existent projects
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
   (setq projectile-known-projects-file
         (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
+
   (defun projectile-custom-mode-line ()
     (if (projectile-project-p)
         (let* ((project-name (projectile-project-name))
@@ -1538,51 +1511,25 @@ corresponding statement."
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; Open root directory when switching
-  (setq projectile-switch-project-action 'projectile-find-file)
+  (setq projectile-switch-project-action #'projectile-dired)
 
-  (setq-default projectile-mode-line '(:eval (projectile-custom-mode-line)))
+  (setq projectile-mode-line-function #'projectile-custom-mode-line)
+
   (setq projectile-completion-system 'default)
 
   (setq projectile-cache-file
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
-
-
-  (defun projectile-root-hardcoded (dir &optional list)
-    (--some (if (string-prefix-p (abbreviate-file-name it)
-                                 (abbreviate-file-name dir)) it)
-            (append (-filter #'file-exists-p
-                             (mapcar (lambda (args)
-                                       (apply #'format "~/CloudStation/Sylvain/enseignements/%s/%s/%s" args))
-                                     (let ((semesters (list (UTC-semester-from-time (current-time))
-                                                            (UTC-semester-from-time
-                                                             (time-add
-                                                              (current-time)
-                                                              (seconds-to-time (* 60 60 24 31 2))))))
-                                           (uvs '("SY02" "AOS1" "AOS2" "SY09" "SY19"))
-                                           (dirs '("Cours" "TP" "TD" "poly" "")))
-                                       (-table-flat 'list semesters uvs dirs))))
-                    '("~/CloudStation/Sylvain/emacs/site-lisp/"))))
-
+  ;; Use custom function to add specific projects
   (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
-
-  (defun projectile-ignored-semester (truename)
-    "Ignore past semesters."
-    (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
-        (let ((year (string-to-number (match-string 2 truename)))
-              (season (match-string 1 truename)))
-          (let ((current-semester (UTC-semester-from-time (current-time))))
-            (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" current-semester)
-                (let ((cyear (string-to-number (match-string 2 current-semester)))
-                      (cseason (match-string 1 current-semester)))
-                  (or (< year cyear)
-                      (and (= year cyear)
-                           (string-equal cseason "A")
-                           (string-equal season "P")))))))))
 
   (setq projectile-require-project-root nil)
 
+  ;; Use custom function to ignore specific projects
   (setq projectile-ignored-project-function #'projectile-ignored-semester)
+
+  ;; Unconditionaly add these projects
+  (setq projectile-project-search-path (list (expand-file-name "projects" personal-directory)))
 
   (projectile-mode))
 
