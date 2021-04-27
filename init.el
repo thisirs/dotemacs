@@ -1523,7 +1523,10 @@ corresponding statement."
         (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
   ;; Use custom function to add specific projects
-  (add-to-list 'projectile-project-root-files-functions 'projectile-root-hardcoded)
+  (add-to-list 'projectile-project-root-functions 'projectile-fake-projects)
+
+  ;; Add list of default projects
+  (mapc #'projectile-add-known-project (projectile-default-projects))
 
   (setq projectile-require-project-root nil)
 

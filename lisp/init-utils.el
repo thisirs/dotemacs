@@ -182,10 +182,13 @@ and the index of the match."
           (format "A%d" (1- year))
         (format "A%d" year)))))
 
-(defun projectile-root-hardcoded (dir &optional list)
+(defun projectile-fake-projects (dir)
+  (car (member dir (projectile-default-projects))))
+
+(defun projectile-default-projects ()
   (seq-filter #'file-exists-p
               (mapcar (lambda (args)
-                        (apply #'format "~/CloudStation/Sylvain/enseignements/%s/%s/%s" args))
+                        (apply #'format (expand-file-name "enseignements/%s/%s/%s" personal-directory) args))
                       (let ((semesters (delete-dups
                                         (list (UTC-semester-from-time (current-time))
                                               (UTC-semester-from-time
