@@ -1317,6 +1317,10 @@ corresponding statement."
         "/dummy"))
   (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
+(use-package org-protocol
+  :straight nil
+  :demand :after server)
+
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :diminish
@@ -1369,11 +1373,10 @@ corresponding statement."
 
 (use-package org-roam-protocol
   :straight nil
-  :after org-protocol)
+  :demand :after org-protocol)
 
 ;; https://github.com/goktug97/org-roam-server
 (use-package org-roam-server            ; Org Roam Database Visualizer
-  :straight
   :diminish
   :config
   (setq org-roam-server-host "127.0.0.1"
