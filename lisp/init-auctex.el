@@ -264,12 +264,12 @@ mutiple times."
     (face-spec-set 'font-latex-script-char-face '((t (:foreground nil))) nil)
 
     ;; needs to be extended to handle rake
-    (defadvice TeX-command-query (before check-make activate)
-      (let ((default-directory (TeX-master-directory)))
-        (unless (eq 0 (call-process "make" nil nil nil "-q"))
-          (TeX-process-set-variable (ad-get-arg 0)
-                                    'TeX-command-next
-                                    TeX-command-default))))
+    ;; (defadvice TeX-command-query (before check-make activate)
+    ;;   (let ((default-directory (TeX-master-directory)))
+    ;;     (unless (eq 0 (call-process "make" nil nil nil "-q"))
+    ;;       (TeX-process-set-variable (ad-get-arg 0)
+    ;;                                 'TeX-command-next
+    ;;                                 TeX-command-default))))
 
 
 

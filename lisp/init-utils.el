@@ -109,12 +109,18 @@ and the index of the match."
         (let ((i (cl-position (match-string-no-properties 0) varnames :test 'equal)))
           (replace-match (funcall replace (match-string 0) i)))))))
 
+(defun straight-get-url (package)
+  (let ((recipe (straight-recipes-retrieve package straight-recipe-repositories)))
+    (straight-vc-git--destructure (straight--convert-recipe recipe)
+        (repo host protocol)
+      (straight-vc-git--encode-url repo host protocol))))
+
 (defun use-package-add-url ()
   "Add url of package before use-package"
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "([u]se-package\\(-bq\\)?[[:space:]]" nil t)
+    (while (re-search-forward "([u]se-package[[:space:]]" nil t)
       (save-excursion
         (let* ((standard-input (current-buffer))
                (def (save-excursion

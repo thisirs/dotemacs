@@ -1,4 +1,5 @@
-(use-package org-caldav) ; Sync org files with external calendar through CalDAV
+;; Sync org files with external calendar through CalDAV
+(use-package org-caldav)
 
 (use-package org-attach
   :straight nil
@@ -20,7 +21,7 @@
   (setq org-koma-letter-use-foldmarks nil))
 
 (use-package org        ; Outline-based notes management and organizer
-  :straight org-plus-contrib
+  ;; :straight org-plus-contrib
   :config
   ;; Workaround to use yasnippet in org-mode
   ;; (defun yas-org-very-safe-expand ()
@@ -81,6 +82,18 @@
           (let ((found (assoc-default link org-link-to-description 'string-match)))
             (cond
              ((stringp found) (match-substitute-replacement found t nil link))))))
+
+  (defun org-save-all-agenda-buffers ()
+    "Save all Org agenda buffers without user confirmation."
+    (interactive)
+    (message "Saving all Org agenda buffers...")
+    (with-demoted-errors
+        (dolist (fn (org-agenda-files))
+          (save-buffer fn))
+      (when (featurep 'org-id) (org-id-locations-save)))
+    (message "Saving all Org agenda buffers... done"))
+
+  (add-hook 'auto-save-hook 'org-save-all-agenda-buffers)
 
   (defun org-string-to-link (file)
     "Command that make the selected region an org link pointing to
@@ -295,6 +308,7 @@ the selected file."
      (matlab . t)
      (ruby . t)
      (python . t)
+     ;; (ipython . t)
      (R . t)))
 
   ;; Bib citations in org files

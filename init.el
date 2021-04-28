@@ -103,6 +103,10 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
+(setq use-package-verbose nil)
+;; (setq use-package-verbose 'debug)
+;; (setq debug-on-error t)
+(setq use-package-minimum-reported-time 0.1)
 (setq use-package-always-defer t)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
@@ -416,7 +420,7 @@ the vertical drag is done."
          ("M-g x" . dumb-jump-go-prefer-external)
          ("M-g z" . dumb-jump-go-prefer-external-other-window))
   :config
-  (setq dumb-jump-selector 'ivy)
+  ;; (setq dumb-jump-selector 'ivy)
   (setq dumb-jump-prefer-searcher 'rg))
 
 ;; ediff settings
@@ -476,6 +480,7 @@ the vertical drag is done."
   :hook (elpy-mode . flycheck-mode)
   :bind (:map elpy-mode-map ("C-c C-c" . elpy-shell-send-group-and-step-or-region))
   :config
+  (setq elpy-rpc-python-command "python3")
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
 
   (setq python-indent-guess-indent-offset-verbose nil)
@@ -520,7 +525,7 @@ corresponding statement."
   :bind
   ("C-x C-p" . embark-act)
   :config
-  (if (require 'which-key nil t)
+  (when (require 'which-key nil t)
       (setq embark-action-indicator
             (lambda (map target)
               (which-key--show-keymap
@@ -837,15 +842,12 @@ corresponding statement."
   :straight (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
                                :files ("bibtex-completion.el"))
   :config
-  (setq bibtex-completion-bibliography
-        '("~/CloudStation/Sylvain/recherche/biblio/refs.bib"))
-  (setq bibtex-completion-library-path
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
-          "~/CloudStation/Sylvain/recherche/biblio/compressed_sensing/"
-          "~/CloudStation/Sylvain/recherche/biblio/hashing/"
-          "~/CloudStation/Sylvain/recherche/biblio/graphs_and_deep_learning/"
-          "~/CloudStation/Sylvain/recherche/biblio/NN regularization/"
-          "~/CloudStation/Sylvain/recherche/biblio/books/"))
+  ;; Main Bibtex file automatically exported by Zotero
+  (setq bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+
+  ;; Base directory of all pdf files
+  (setq bibtex-completion-library-path (expand-file-name "recherche/biblio" personal-directory))
+
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file"))
 
@@ -853,7 +855,7 @@ corresponding statement."
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :disabled
   :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
-                        :files ("ivy-bibtex.el" "bibtex-completion.el")
+                        :files ("ivy-bibtex.el")
                         :fork (:host github :repo "thisirs/helm-bibtex"))
   :bind ("C-x b" . ivy-bibtex)
   :config
@@ -1307,7 +1309,7 @@ corresponding statement."
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
   :demand
   :config
-  ;; (require 'org-ref-ivy)
+  (setq org-ref-default-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
 
   ;; Use bibtex-completion-find-pdf-in-field to open pdf file
   (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
@@ -1324,20 +1326,50 @@ corresponding statement."
   (org-roam-db-location
    (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
+  ;; Immediately file capture and display file: add :immediate-finish
+  ;; and :jump-to-captured.
+  (org-roam-capture-ref-templates '(("r" "ref" plain #'org-roam-capture--get-point
+                                     "%?"
+                                     :file-name "${slug}"
+                                     :head "#+title: ${title}\n#+roam_key: ${ref}"
+                                     :unnarrowed t
+                                     :jump-to-captured t
+                                     :immediate-finish t)))
   :bind (:map org-roam-mode-map
               ("C-c n l" . org-roam)
               ("C-c n f" . org-roam-find-file)
               ("C-c n g" . org-roam-graph)
               ("C-c n j" . org-roam-find-directory)
               :map org-mode-map
-              ("C-c n i" . org-roam-insert)
-              ("C-c n I" . org-roam-insert-immediate)))
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate)))
+  :config
+  (defun org-roam-capture--no-autoinsert (oldfun &optional goto keys)
+    "No autoinsert when capturing via `org-roam'."
+    (let (auto-insert)
+      (funcall oldfun)))
+
+  (advice-add 'org-roam-capture--capture :around #'org-roam-capture--no-autoinsert))
 
 ;; https://github.com/org-roam/org-roam-bibtex
 (use-package org-roam-bibtex            ; Org Roam meets BibTeX
   :diminish
   :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode))
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :custom
+  ;; Immediately file capture and display file: add :immediate-finish
+  ;; and :jump-to-captured.
+  (orb-templates '(("r" "ref" plain #'org-roam-capture--get-point
+                    "%?"
+                    :file-name "${citekey}"
+                    :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}"
+                    :unnarrowed t
+                    :jump-to-captured t
+                    :immediate-finish t))))
+
+(use-package org-roam-protocol
+  :straight nil
+  :after org-protocol)
 
 ;; https://github.com/goktug97/org-roam-server
 (use-package org-roam-server            ; Org Roam Database Visualizer
@@ -1423,15 +1455,16 @@ corresponding statement."
 
   :config
   (pdf-tools-install :force-compile nil :no-error)
-  (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
   (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
 
   (use-package pdf-sync
     :straight nil
-    :config
-    (define-key pdf-sync-minor-mode-map (kbd "C-c C-v")
-      (lambda () (interactive) (pdf-sync-backward-search 0 0))))
+    :bind (:map
+           pdf-sync-minor-mode-map
+           ("C-c C-v" . (lambda () (interactive) (pdf-sync-backward-search 0 0)))))
+
+  (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
   (setq pdf-misc-print-programm lpr-command)
 
@@ -1553,7 +1586,8 @@ corresponding statement."
                            (call-interactively 'python-indent-shift-right)
                            (python-indent/body))))
   :config
-  (use-package hydra)
+  ;; https://github.com/abo-abo/hydra
+  (use-package hydra)                   ; Make bindings that stick around.
   (defhydra python-indent (:post (deactivate-mark))
     "Python indent"
     ("<" python-indent-shift-left)
@@ -2251,6 +2285,37 @@ not, return nil."
 
 (define-key minibuffer-local-filename-completion-map (kbd "C-v")
   'minibuffer--goto-root)
+
+(setq lexical-binding t)
+
+;;; Taken from https://with-emacs.com/posts/projectize-commands-using-numeric-arguments/
+(defun projectize-1 (cmd f &rest args)
+  (if (eq cmd real-this-command)
+      (let* ((proot
+              (and (= 0 (prefix-numeric-value
+                         current-prefix-arg))
+                   (vc-responsible-backend-root default-directory)))
+             (current-prefix-arg
+              (and (not (= 0 (prefix-numeric-value
+                              current-prefix-arg)))
+                   current-prefix-arg))
+             (default-directory
+               (or proot default-directory))
+             (buffer-file-name
+              (or proot buffer-file-name)))
+        ;; Update: simplified interactive call
+        ;; thanks to /u/SlowValue
+        (call-interactively f))
+    (apply f args)))
+
+(defun projectize (&rest cmds)
+  (dolist (cmd cmds)
+    (advice-add cmd :around
+                (lambda (f &rest args)
+                  (interactive)
+                  (apply #'projectize-1 cmd f args)))))
+
+;; (projectize #'rg-custom-search)
 
 ;; No fast scrolling
 (setq mouse-wheel-progressive-speed nil)
