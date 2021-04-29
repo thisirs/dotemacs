@@ -1360,7 +1360,23 @@ corresponding statement."
                     :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}"
                     :unnarrowed t
                     :jump-to-captured t
-                    :immediate-finish t))))
+                    :immediate-finish t)))
+  :config
+  (defun org-roam-bibtex-open-citekey (info)
+    "Open an Org-roam note from an org-protocol call"
+    (when-let* ((alist (org-roam--plist-to-alist info))
+                (decoded-alist (mapcar (lambda (k.v)
+                                         (let ((key (car k.v))
+                                               (val (cdr k.v)))
+                                           (cons key (org-link-decode val)))) alist)))
+      (unless (assoc 'citekey decoded-alist)
+        (error "No citekey key provided"))
+      (raise-frame)
+      (orb-edit-notes (cdr (assoc 'citekey decoded-alist)))))
+
+  ;; Handle "roam-citekey" protocol calls
+  (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
+        org-protocol-protocol-alist))
 
 (use-package org-roam-protocol
   :straight nil
