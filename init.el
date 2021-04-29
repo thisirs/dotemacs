@@ -1330,15 +1330,6 @@ corresponding statement."
   (org-roam-db-location
    (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
-  ;; Immediately file capture and display file: add :immediate-finish
-  ;; and :jump-to-captured.
-  (org-roam-capture-ref-templates '(("r" "ref" plain #'org-roam-capture--get-point
-                                     "%?"
-                                     :file-name "${slug}"
-                                     :head "#+title: ${title}\n#+roam_key: ${ref}"
-                                     :unnarrowed t
-                                     :jump-to-captured t
-                                     :immediate-finish t)))
   :bind (:map org-roam-mode-map
               ("C-c n l" . org-roam)
               ("C-c n f" . org-roam-find-file)
