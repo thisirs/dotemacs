@@ -108,6 +108,7 @@
 ;; (setq debug-on-error t)
 (setq use-package-minimum-reported-time 0.1)
 (setq use-package-always-defer t)
+;; (setq use-package-verbose 'debug)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
 (require 'use-package)
@@ -486,18 +487,21 @@ the vertical drag is done."
   (setq python-indent-guess-indent-offset-verbose nil)
   (elpy-enable)
 
-  (defun elpy-shell-send-group-and-step-or-region (&optional go)
+  (defun elpy-send-region-or-buffer-and-step ()
     (interactive "P")
+    (if (use-region-p)
+        (elpy-shell--flash-and-message-region (region-beginning) (region-end))
+      (elpy-shell--flash-and-message-region (point-min) (point-max)))
+    (elpy-shell--send-region-or-buffer-internal)
+    (if (use-region-p)
+        (goto-char (region-end))
+      (goto-char (point-max)))    )
+
+  (defun elpy-shell-send-group-and-step-or-region (&optional go)
+    (interactive)
     (if (region-active-p)
-        (progn
-          (if go
-              (elpy-shell-send-region-or-buffer-and-step-and-go)
-            (elpy-shell-send-region-or-buffer-and-step))
-          ;; (deactivate-mark)
-          )
-      (if go
-          (elpy-shell-send-group-and-step-and-go)
-        (elpy-shell-send-group-and-step))))
+        (elpy-shell-send-region-or-buffer-and-step)
+      (elpy-shell-send-group-and-step)))
 
   (defun elpy-shell-send-top-statement-and-step ()
     "Send current or next statement to Python shell and step.
@@ -516,7 +520,7 @@ corresponding statement."
       (unless (eq beg end)
         (elpy-shell--flash-and-message-region beg end)
         (elpy-shell--with-maybe-echo
-         (python-shell-send-string (elpy-shell--region-without-indentation beg end)))))
+         (tmux-send-string (elpy-shell--region-without-indentation beg end)))))
     (python-nav-forward-statement)))
 
 ;; https://github.com/oantolin/embark
@@ -1184,13 +1188,14 @@ corresponding statement."
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
   ;; Open in emacs on M-RET
-  (defun mu4e~view-open-attach-from-binding ()
-    "Open the attachement at point, or click location."
-    (interactive)
-    (let* (( msg (mu4e~view-get-property-from-event 'mu4e-msg))
-           ( attnum (mu4e~view-get-property-from-event 'mu4e-attnum)))
-      (when (and msg attnum)
-        (mu4e-view-open-attachment-emacs msg attnum)))))
+  ;; (defun mu4e~view-open-attach-from-binding ()
+  ;;   "Open the attachement at point, or click location."
+  ;;   (interactive)
+  ;;   (let* (( msg (mu4e~view-get-property-from-event 'mu4e-msg))
+  ;;          ( attnum (mu4e~view-get-property-from-event 'mu4e-attnum)))
+  ;;     (when (and msg attnum)
+  ;;       (mu4e-view-open-attachment-emacs msg attnum))))
+  )
 
 ;; https://github.com/iqbalansari/mu4e-alert
 (use-package mu4e-alert                 ; Desktop notification for mu4e
@@ -1382,6 +1387,10 @@ corresponding statement."
   :straight nil
   :demand :after org-protocol)
 
+(use-package org-roam-protocol
+  :straight nil
+  :after (org org-roam))
+
 ;; https://github.com/goktug97/org-roam-server
 (use-package org-roam-server            ; Org Roam Database Visualizer
   :diminish
@@ -1446,6 +1455,7 @@ corresponding statement."
 (use-package pcache)            ; persistent caching for Emacs.
 
 (use-package pdf-tools                  ; Support library for PDF documents.
+  :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
   :defer 10
   :init
   ;; pdf-annot-minor-mode before pdf-sync-minor-mode
@@ -1757,18 +1767,18 @@ behavior added."
 
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
-(use-package smart-mode-line            ; A color coded smart mode-line.
-  :if (window-system)
-  :commands sml/setup
-  :demand
-  :init
-  (setq sml/theme 'respectful
-        sml/shorten-directory t
-        sml/shorten-modes t
-        sml/name-width 40
-        sml/mode-width 'full)
-  :config
-  (sml/setup))
+;; (use-package smart-mode-line            ; A color coded smart mode-line.
+;;   :if (window-system)
+;;   :commands sml/setup
+;;   :demand
+;;   :init
+;;   (setq sml/theme 'respectful
+;;         sml/shorten-directory t
+;;         sml/shorten-modes t
+;;         sml/name-width 40
+;;         sml/mode-width 'full)
+;;   :config
+;;   (sml/setup))
 
 ;; https://github.com/Fuco1/smartparens
 (use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
@@ -2274,6 +2284,7 @@ Change directory to `default-directory' if ARG is non-nil."
 
 ;; (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
+(setq resize-mini-windows t)
 
 ;; C-v when reading a file name in minibuffer go to root
 (defun vc-responsible-backend-root (file)
@@ -2657,8 +2668,25 @@ is more than one or kill emacs if there is only one."
   (unless (and (boundp 'with-editor-mode) with-editor-mode)
     (lower-frame)))
 
-
-
 ;;; init.el ends here
 
+[
+ ;; http://github.com/nflath/hungry-delete
+ (use-package hungry-delete             ; hungry delete minor mode
+   :config
+   (setq hungry-delete-chars-to-skip " \t\r\f\v")
 
+   (defun modi/turn-off-hungry-delete-mode ()
+     "Turn off hungry delete mode."
+     (hungry-delete-mode -1))
+
+   ;; Enable `hungry-delete-mode' everywhere ..
+   (global-hungry-delete-mode)
+
+   (setq hungry-delete-join-reluctantly t)
+
+   ;; Except ..
+   ;; `hungry-delete-mode'-loaded backspace does not work in `wdired-mode',
+   ;; i.e. when editing file names in the *Dired* buffer.
+   (add-hook 'wdired-mode-hook #'modi/turn-off-hungry-delete-mode))
+ ]
