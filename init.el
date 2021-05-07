@@ -1767,18 +1767,18 @@ behavior added."
 
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
-;; (use-package smart-mode-line            ; A color coded smart mode-line.
-;;   :if (window-system)
-;;   :commands sml/setup
-;;   :demand
-;;   :init
-;;   (setq sml/theme 'respectful
-;;         sml/shorten-directory t
-;;         sml/shorten-modes t
-;;         sml/name-width 40
-;;         sml/mode-width 'full)
-;;   :config
-;;   (sml/setup))
+(use-package smart-mode-line            ; A color coded smart mode-line.
+  :if (window-system)
+  :commands sml/setup
+  :demand
+  :init
+  (setq sml/theme 'respectful
+        sml/shorten-directory t
+        sml/shorten-modes t
+        sml/name-width 40
+        sml/mode-width 'full)
+  :config
+  (sml/setup))
 
 ;; https://github.com/Fuco1/smartparens
 (use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
