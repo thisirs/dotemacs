@@ -2047,6 +2047,11 @@ behavior added."
   (add-hook 'vc-auto-commit-cancel-hook #'not-on-zbook)
   (vc-auto-commit-activate))
 
+(use-package warnings
+  :straight nil
+  :config
+  (add-to-list 'warning-suppress-types '(comp)))
+
 (use-package webjump
   :disabled
   :bind ("C-c j" . webjump))
