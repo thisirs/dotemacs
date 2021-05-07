@@ -116,8 +116,6 @@
 (setq use-package-compute-statistics t)
 
 (require 'bind-key)
-;; https://github.com/waymondo/use-package-ensure-system-package
-(use-package use-package-ensure-system-package) ; auto install system packages
 
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
@@ -1069,7 +1067,6 @@ corresponding statement."
 
 (use-package mu4e
   :defer 10
-  :ensure-system-package (mu isync)
   :commands mu4e-running-p              ; used by state
   :commands (org-mu4e-open org-mu4e-store-link)
   :load-path "/usr/share/emacs/site-lisp/mu4e"
