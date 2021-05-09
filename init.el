@@ -1082,6 +1082,10 @@ corresponding statement."
                               :follow #'org-mu4e-open
                               :store #'org-mu4e-store-link))
   :config
+  (setq mu4e-attachment-dir "~/Downloads")
+
+  (setq mu4e-completing-read-function 'completing-read)
+
   (setq mu4e-compose-keep-self-cc nil)
   (setq mu4e-compose-dont-reply-to-self t)
 
