@@ -1265,6 +1265,12 @@ corresponding statement."
   (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler)
   (openwith-mode))
 
+(use-package orderless
+  :after selectrum
+  :config
+  (setq completion-styles '(orderless))
+  (setq orderless-skip-highlighting (lambda () selectrum-is-active)))
+
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
@@ -1720,7 +1726,11 @@ out")
               ("C-M-j" . selectrum-submit-exact-input)
               ("C-j" . selectrum-insert-current-candidate))
   :config
+  (setq selectrum-count-style 'current/matches)
   (selectrum-mode +1)
+  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches)
+  (setq selectrum-refine-candidates-function #'orderless-filter)
+  (setq selectrum-prescient-enable-filtering nil)
   (selectrum-prescient-mode +1)
   (prescient-persist-mode)
 
