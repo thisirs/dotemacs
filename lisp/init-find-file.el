@@ -53,13 +53,11 @@
                         (with-current-buffer buf
                           (revert-buffer nil t)))))
 
-;; Taken from http://iqbalansari.github.io/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/
-(defun my-create-non-existent-directory ()
-  (let ((parent-directory (file-name-directory buffer-file-name)))
-    (when (and (not (file-exists-p parent-directory))
-               (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
-      (make-directory parent-directory t))))
+;; https://github.com/mclear-tools/dotemacs
+(defun make-parent-directory ()
+  "Make sure the directory of `buffer-file-name' exists."
+  (make-directory (file-name-directory buffer-file-name) t))
 
-(add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
+(add-hook 'find-file-not-found-functions #'make-parent-directory)
 
 (provide 'init-find-file)

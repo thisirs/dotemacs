@@ -131,6 +131,12 @@
   :config
   (load-theme 'zenburn t))
 
+(use-package so-long
+  :straight nil
+  :hook (after-init . global-so-long-mode)
+  :config
+  (global-so-long-mode))
+
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :demand
   :if (or (on-zbook) (on-knuth))
