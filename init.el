@@ -2411,7 +2411,7 @@ not, return nil."
         (set-window-buffer (selected-window) next-win)
         (set-window-buffer (funcall selector) this-win)
         (select-window (funcall selector)))
-      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+      (setq arg (if (> arg 0) (1- arg) (1+ arg))))))
 
 ;; C-d to kill buffer if process is dead.
 (defun comint-delchar-or-eof-or-kill-buffer (arg)
