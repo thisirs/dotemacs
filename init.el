@@ -481,16 +481,9 @@ the vertical drag is done."
 
 ;; https://github.com/jorgenschaefer/elpy
 (use-package elpy                       ; Emacs Python Development Environment
-  :defer 10
-  :hook (elpy-mode . flycheck-mode)
-  :bind (:map elpy-mode-map ("C-c C-c" . elpy-shell-send-group-and-step-or-region))
+  :demand :after python
+  :bind (:map python-mode-map ("C-c C-c" . elpy-shell-send-group-and-step-or-region))
   :config
-  (setq elpy-rpc-python-command "python3")
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-
-  (setq python-indent-guess-indent-offset-verbose nil)
-  (elpy-enable)
-
   (defun elpy-send-region-or-buffer-and-step ()
     (interactive "P")
     (if (use-region-p)
@@ -499,33 +492,13 @@ the vertical drag is done."
     (elpy-shell--send-region-or-buffer-internal)
     (if (use-region-p)
         (goto-char (region-end))
-      (goto-char (point-max)))    )
+      (goto-char (point-max))))
 
   (defun elpy-shell-send-group-and-step-or-region (&optional go)
     (interactive)
     (if (region-active-p)
         (elpy-shell-send-region-or-buffer-and-step)
-      (elpy-shell-send-group-and-step)))
-
-  (defun elpy-shell-send-top-statement-and-step ()
-    "Send current or next statement to Python shell and step.
-
-If the current line is part of a statement, sends this statement.
-Otherwise, skips forward to the next code line and sends the
-corresponding statement."
-    (interactive)
-    (elpy-shell--ensure-shell-running)
-    (when (not elpy-shell-echo-input) (elpy-shell--append-to-shell-output "\n"))
-    (let ((beg (progn (elpy-shell--nav-beginning-of-top-statement)
-                      (save-excursion
-                        (beginning-of-line)
-                        (point))))
-          (end (progn (elpy-shell--nav-end-of-statement) (point))))
-      (unless (eq beg end)
-        (elpy-shell--flash-and-message-region beg end)
-        (elpy-shell--with-maybe-echo
-         (tmux-send-string (elpy-shell--region-without-indentation beg end)))))
-    (python-nav-forward-statement)))
+      (elpy-shell-send-group-and-step))))
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions
@@ -983,6 +956,22 @@ corresponding statement."
          (setq langtool-java-bin "/usr/bin/java")))
   (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*:/tmp/bar/languagetool-4.1/LanguageTool-4.1-stable/")
   (setq langtool-default-language "fr"))
+
+(use-package lsp-jedi
+  :demand :after lsp-mode
+  :config
+  (add-to-list 'lsp-disabled-clients 'pyls)
+  (add-to-list 'lsp-enabled-clients 'jedi))
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  ;; (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (python-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
 
 ;; http://immerrr.github.com/lua-mode
 (use-package lua-mode)          ; a major-mode for editing Lua scripts
