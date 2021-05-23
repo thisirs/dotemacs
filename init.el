@@ -502,7 +502,7 @@ the vertical drag is done."
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions
-  :demand
+  :demand :after which-key
   :bind
   ("C-x C-p" . embark-act)
   :config
