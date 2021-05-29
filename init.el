@@ -1457,7 +1457,6 @@ the vertical drag is done."
 (use-package pcache)            ; persistent caching for Emacs.
 
 (use-package pdf-tools                  ; Support library for PDF documents.
-  :straight (pdf-tools :type git :host github :repo "vedang/pdf-tools")
   :defer 10
   :init
   ;; pdf-annot-minor-mode before pdf-sync-minor-mode
