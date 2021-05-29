@@ -247,6 +247,7 @@
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
+  :disabled
   :demand
   :diminish
   :config
