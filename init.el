@@ -266,6 +266,7 @@
 
 (use-package bookmark
   :straight nil
+  :custom (bookmark-fontify nil)
   :preface
   (defun bookmark-dynamic-handler (bmk-record)
     (setq bmk-record (copy-tree bmk-record))
