@@ -42,7 +42,8 @@
             (delq nil
                   (org-map-entries
                    (lambda ()
-                     (let ((heading (org-get-heading t t)))
+                     (let ((heading (org-link-display-format (org-get-heading t t))))
+                       (set-text-properties 0 (length heading) nil heading)
                        (when heading
                          (list (org-link-display-format heading)
                                (or (org-entry-get (point) "LOGIN")
