@@ -1378,8 +1378,8 @@ the vertical drag is done."
                                          (let ((key (car k.v))
                                                (val (cdr k.v)))
                                            (cons key (org-link-decode val)))) alist)))
-      (unless (assoc 'citekey decoded-alist)
-        (error "No citekey key provided"))
+      (unless (cdr (assoc 'citekey decoded-alist))
+        (error "No citekey detected in URL"))
       (raise-frame)
       (orb-edit-notes (cdr (assoc 'citekey decoded-alist)))))
 
