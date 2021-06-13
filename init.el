@@ -1477,7 +1477,7 @@ the vertical drag is done."
           pdf-occur-global-minor-mode))
 
   :config
-  (pdf-tools-install :force-compile nil :no-error)
+  (pdf-loader-install :no-query)
 
   (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
 
