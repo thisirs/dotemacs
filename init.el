@@ -1255,10 +1255,9 @@ the vertical drag is done."
   (openwith-mode))
 
 (use-package orderless
-  :after selectrum
+  :after vertico
   :config
-  (setq completion-styles '(orderless))
-  (setq orderless-skip-highlighting (lambda () selectrum-is-active)))
+  (setq completion-styles '(orderless)))
 
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
@@ -1546,6 +1545,16 @@ the vertical drag is done."
     :hostmode 'pm-host/latex
     :innermodes '(pm-inner/latex-code-environment)))
 
+(use-package prescient
+  :demand
+  :config
+  (prescient-persist-mode)
+  :custom
+  ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
+   (prescient-sort-length-enable nil)
+   (prescient-aggressive-file-save t)
+   (selectrum-fix-vertical-window-height t)))
+
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
@@ -1709,6 +1718,7 @@ out")
 
 ;; https://github.com/raxod502/prescient.el
 (use-package selectrum-prescient        ; Selectrum integration
+  :disabled
   :demand
   :bind (:map selectrum-minibuffer-map
               ("C-M-j" . selectrum-submit-exact-input)
@@ -2027,6 +2037,14 @@ behavior added."
                   (vc-auto-commit-backend))))
 
   (vc-check-status-activate))
+
+(use-package vertico
+  :hook (after-init . vertico-mode)
+  :config
+  (use-package embark
+    :bind (:map vertico-map
+                ("C-c C-o" . embark-export)
+                ("C-c C-c" . embark-act))))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
