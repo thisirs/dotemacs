@@ -941,6 +941,52 @@ the vertical drag is done."
                 :action 'ivy-bookmarks-open
                 :caller 'ivy-bookmarks))))
 
+(use-package emacs
+  :bind ("C-c j" . browse-bookmark)
+  :config
+  (defun get-candidates ()
+    (interactive)
+    (let* ((fn "~/.mozilla/firefox/bookmark_list.el")
+           (width (1- (frame-width)))
+           (p1 40.0)
+           (p2 50.0)
+           (w1 (floor (/ (* (- width 2) p1) 100)))
+           (w2 (floor (/ (* (- width 2) p2) 100)))
+           (w3 (- width (+ 2 w1 w2)))
+           candidates)
+      (when (file-exists-p fn)
+        (setq candidates (with-temp-buffer
+                           (insert-file-contents fn)
+                           (goto-char (point-min))
+                           (read (current-buffer))))
+        (cl-loop
+         for candidate in candidates
+         collect
+         (let* ((href (cdr (assoc "href" (cdr candidate))))
+                (title (cdr (assoc "title" (cdr candidate))))
+                (tags (cdr (assoc "tags" (cdr candidate))))
+                (candidate-hidden (mapconcat 'identity (list href title tags) " "))
+                (candidate-main
+                 (concat (truncate-string-to-width (concat title) w1 0 ?\ )
+                         " "
+                         (truncate-string-to-width (concat href) w2 0 ?\ )
+                         " "
+                         (truncate-string-to-width (concat tags) w3 0 ?\ ))))
+           (concat
+            (propertize candidate-main) " "
+            (propertize candidate-hidden 'invisible t)))))))
+
+  (defun browse-bookmark ()
+    (interactive)
+    (let ((candidates (get-candidates)))
+      (completing-read
+       "Bookmark URLs: "
+       (lambda (string predicate action)
+         (if (eq action 'metadata)
+             `(metadata
+               (category . bookmark-url))
+           (complete-with-action action candidates string predicate)))))))
+
 ;; https://github.com/raxod502/prescient.el
 (use-package ivy-prescient              ; prescient.el + Ivy
   :disabled
