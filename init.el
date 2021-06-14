@@ -1020,10 +1020,8 @@ the vertical drag is done."
 
 ;; https://github.com/minad/marginalia
 (use-package marginalia                 ; Enrich existing commands with completion annotations
-  :demand
-  :custom (marginalia-annotators '(marginalia-annotators-heavy))
-  :config
-  (marginalia-mode))
+  :hook
+  (after-init . marginalia-mode))
 
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
