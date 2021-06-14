@@ -190,6 +190,17 @@
 ;; https://github.com/nashamri/academic-phrases
 (use-package academic-phrases)          ; Bypass that mental block when writing your papers.
 
+(use-package affe
+  :demand :after orderless
+  :bind ("M-g f" . affe-grep)
+  :config
+  ;; Configure Orderless
+  (setq affe-regexp-function #'orderless-pattern-compiler
+        affe-highlight-function #'orderless--highlight)
+
+  ;; Manual preview key for `affe-grep'
+  (consult-customize affe-grep :preview-key (kbd "C-o")))
+
 ;; https://github.com/Wilfred/ag.el
 (use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
   :disabled
@@ -348,8 +359,7 @@
 ;; https://github.com/minad/consult
 (use-package consult                    ; Consulting completing-read
   :bind (("C-x C-b" . consult-buffer)
-         ([remap yank-pop] . consult-yank-pop)
-         ("M-g f" . consult-ripgrep)))
+         ([remap yank-pop] . consult-yank-pop)))
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
