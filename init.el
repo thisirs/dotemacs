@@ -131,7 +131,8 @@
   :config
   (load-theme 'zenburn t))
 
-(use-package so-long
+;; https://savannah.nongnu.org/projects/so-long
+(use-package so-long                    ; Say farewell to performance problems with minified code.
   :straight nil
   :hook (after-init . global-so-long-mode)
   :config
@@ -190,7 +191,8 @@
 ;; https://github.com/nashamri/academic-phrases
 (use-package academic-phrases)          ; Bypass that mental block when writing your papers.
 
-(use-package affe
+;; https://github.com/minad/affe
+(use-package affe                       ; Asynchronous Fuzzy Finder for Emacs
   :demand :after orderless
   :bind ("M-g f" . affe-grep)
   :config
@@ -1015,13 +1017,15 @@ the vertical drag is done."
   (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*:/tmp/bar/languagetool-4.1/LanguageTool-4.1-stable/")
   (setq langtool-default-language "fr"))
 
-(use-package lsp-jedi
+;; http://github.com/fredcamps/lsp-jedi
+(use-package lsp-jedi                   ; Lsp client plugin for Python Jedi Language Server
   :demand :after lsp-mode
   :config
   (add-to-list 'lsp-disabled-clients 'pyls)
   (add-to-list 'lsp-enabled-clients 'jedi))
 
-(use-package lsp-mode
+;; https://github.com/emacs-lsp/lsp-mode
+(use-package lsp-mode                   ; LSP mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   ;; (setq lsp-keymap-prefix "C-c l")
@@ -1310,7 +1314,8 @@ the vertical drag is done."
   (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler)
   (openwith-mode))
 
-(use-package orderless
+;; https://github.com/oantolin/orderless
+(use-package orderless                  ; Completion style for matching regexps in any order
   :after vertico
   :config
   (setq completion-styles '(orderless)))
@@ -1511,6 +1516,7 @@ the vertical drag is done."
 
 (use-package pcache)            ; persistent caching for Emacs.
 
+;; http://github.com/vedang/pdf-tools/
 (use-package pdf-tools                  ; Support library for PDF documents.
   :defer 10
   :init
@@ -1601,7 +1607,8 @@ the vertical drag is done."
     :hostmode 'pm-host/latex
     :innermodes '(pm-inner/latex-code-environment)))
 
-(use-package prescient
+;; https://github.com/raxod502/prescient.el
+(use-package prescient                  ; Better sorting and filtering
   :demand
   :config
   (prescient-persist-mode)
@@ -2094,10 +2101,12 @@ behavior added."
 
   (vc-check-status-activate))
 
-(use-package vertico
+;; https://github.com/minad/vertico
+(use-package vertico                    ; VERTical Interactive COmpletion
   :hook (after-init . vertico-mode)
   :config
-  (use-package embark
+  ;; https://github.com/oantolin/embark
+  (use-package embark                   ; Conveniently act on minibuffer completions
     :bind (:map vertico-map
                 ("C-c C-o" . embark-export)
                 ("C-c C-c" . embark-act))))
@@ -2185,6 +2194,7 @@ behavior added."
   (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
   (setq uniquify-after-kill-buffer-p t))
 
+;; https://github.com/yoshiki/yaml-mode
 (use-package yaml-mode)         ; Major mode for editing YAML files
 
 ;; https://github.com/AndreaCrotti/yasnippet-snippets
