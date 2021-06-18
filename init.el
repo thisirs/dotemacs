@@ -362,6 +362,12 @@
 (use-package consult                    ; Consulting completing-read
   :bind (("C-x C-b" . consult-buffer)
          ([remap yank-pop] . consult-yank-pop)))
+;; https://github.com/minad/corfu
+(use-package corfu                      ; Completion Overlay Region FUnction
+  :demand
+  :config
+  (setq corfu-cycle t)
+  (corfu-global-mode))
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
