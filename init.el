@@ -638,6 +638,7 @@ the vertical drag is done."
                 (list "SSH_AGENT_PID" "SSH_AUTH_SOCK")))
   (exec-path-from-shell-initialize))
 
+;; https://github.com/magnars/expand-region.el
 (use-package expand-region              ; Increase selected region by semantic units.
   :bind (("C-à" . er/expand-region)
          ("C-M-à" . er/contract-region)))
