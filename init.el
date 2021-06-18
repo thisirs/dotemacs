@@ -361,7 +361,10 @@
 ;; https://github.com/minad/consult
 (use-package consult                    ; Consulting completing-read
   :bind (("C-x C-b" . consult-buffer)
-         ([remap yank-pop] . consult-yank-pop)))
+         ([remap yank-pop] . consult-yank-pop))
+  :config
+  (setq completion-in-region-function 'consult-completion-in-region))
+
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
