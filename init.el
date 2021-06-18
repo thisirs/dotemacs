@@ -2390,8 +2390,6 @@ Change directory to `default-directory' if ARG is non-nil."
 
 ;; (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
-(setq resize-mini-windows t)
-
 ;; C-v when reading a file name in minibuffer go to root
 (defun vc-responsible-backend-root (file)
   "Return ROOT if file is under a version controlled system. If
