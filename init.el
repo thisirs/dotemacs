@@ -2155,8 +2155,6 @@ behavior added."
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
-;; Writable grep buffer and apply the changes to files
-;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
 (use-package wgrep)                     ; Writable grep buffer and apply the changes to files
 
 ;; https://github.com/justbur/emacs-which-key
