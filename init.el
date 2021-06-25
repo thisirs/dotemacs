@@ -2162,9 +2162,12 @@ behavior added."
   :demand
   :diminish
   :config
+  ;; Trigger which-key on C-h or on specific keystrokes
   (setq which-key-show-early-on-C-h t)
   (setq which-key-idle-delay 10000)
   (setq which-key-idle-secondary-delay 0.05)
+  (setq which-key-allow-regexps
+        '("C-c n"))
   (which-key-mode))
 
 (use-package whitespace
