@@ -956,7 +956,7 @@ the vertical drag is done."
 (use-package emacs
   :bind ("C-c j" . browse-bookmark)
   :config
-  (defun get-candidates ()
+  (defun bookmarks-get-candidates ()
     (interactive)
     (let* ((fn "~/.mozilla/firefox/bookmark_list.el")
            (width (1- (frame-width)))
@@ -984,20 +984,25 @@ the vertical drag is done."
                          (truncate-string-to-width (concat href) w2 0 ?\ )
                          " "
                          (truncate-string-to-width (concat tags) w3 0 ?\ ))))
-           (concat
-            (propertize candidate-main) " "
-            (propertize candidate-hidden 'invisible t)))))))
+           (cons
+            (concat
+             (propertize candidate-main) " "
+             (propertize candidate-hidden 'invisible t))
+            href))))))
 
   (defun browse-bookmark ()
     (interactive)
-    (let ((candidates (get-candidates)))
-      (completing-read
-       "Bookmark URLs: "
-       (lambda (string predicate action)
-         (if (eq action 'metadata)
-             `(metadata
-               (category . bookmark-url))
-           (complete-with-action action candidates string predicate)))))))
+    (let ((candidates (bookmarks-get-candidates)) choice)
+      (setq choice
+            (completing-read
+             "Bookmark URLs: "
+             (lambda (string predicate action)
+               (if (eq action 'metadata)
+                   `(metadata
+                     (display-sort-function . ,#'identity)
+                     (category . bookmark-url))
+                 (complete-with-action action candidates string predicate)))))
+      (browse-url (cdr (assoc choice candidates))))))
 
 ;; https://github.com/raxod502/prescient.el
 (use-package ivy-prescient              ; prescient.el + Ivy
