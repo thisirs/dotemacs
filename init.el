@@ -195,6 +195,7 @@
 (use-package affe                       ; Asynchronous Fuzzy Finder for Emacs
   :demand :after orderless
   :bind ("M-g f" . affe-grep)
+  :custom (affe-count 100)
   :config
   ;; Configure Orderless
   (setq affe-regexp-function #'orderless-pattern-compiler
