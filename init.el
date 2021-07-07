@@ -2174,7 +2174,7 @@ behavior added."
   (setq which-key-idle-delay 10000)
   (setq which-key-idle-secondary-delay 0.05)
   (setq which-key-allow-regexps
-        '("C-c n"))
+        '("C-c n" "C-x RET"))
   (which-key-mode))
 
 (use-package whitespace
