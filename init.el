@@ -1226,6 +1226,7 @@ the vertical drag is done."
     ("C-c a" (insert "flag:attach ") "Attach")
     ("C-c p" (insert "mime:application/pdf ") "PDF")
     ("C-c s" (insert "maildir:/utc/Sent ") "Sent")
+    ("C-c h" (progn (browse-url "https://www.djcbsoftware.nl/code/mu/mu4e/Queries.html")) "Help")
     ("RET" exit-minibuffer "Search" :exit t))
 
   (defun mu4e-headers-search-hydra ()
