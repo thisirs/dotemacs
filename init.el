@@ -2352,7 +2352,7 @@ Change directory to `default-directory' if ARG is non-nil."
   (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
 
 (cond ((member "JetBrains Mono" (font-family-list))
-       (set-frame-font "JetBrains Mono" nil t))
+       (set-frame-font "JetBrains Mono-13" nil t))
       ((member "Fira Mono" (font-family-list))
        (set-frame-font "Fira Mono-14" nil t))
       ((member "Hack" (font-family-list))
