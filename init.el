@@ -1725,10 +1725,9 @@ the vertical drag is done."
       :program "latexindent"
       :args (list "-y=defaultIndent:'  '")))
 
-  (when (executable-find "black")
+  (when (executable-find "black-macchiato")
     (reformatter-define reformatter-black
-      :program "black"
-      :args (list "-")))
+      :program "black-macchiato"))
 
   (when (executable-find "npx")
     (reformatter-define reformatter-sql
