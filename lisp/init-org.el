@@ -85,14 +85,11 @@
              ((stringp found) (match-substitute-replacement found t nil link))))))
 
   (defun org-save-all-agenda-buffers ()
-    "Save all Org agenda buffers without user confirmation."
+    "Save all agenda buffers without user confirmation."
     (interactive)
-    (message "Saving all Org agenda buffers...")
-    (with-demoted-errors
-        (dolist (fn (org-agenda-files))
-          (save-buffer fn))
-      (when (featurep 'org-id) (org-id-locations-save)))
-    (message "Saving all Org agenda buffers... done"))
+    (message "Saving all agenda buffers...")
+    (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
+    (message "Saving all agenda buffers... done"))
 
   (add-hook 'auto-save-hook 'org-save-all-agenda-buffers)
 
