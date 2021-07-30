@@ -22,6 +22,7 @@
 
 (use-package org        ; Outline-based notes management and organizer
   ;; :straight org-plus-contrib
+  :custom (org-adapt-indentation t)
   :config
   ;; Workaround to use yasnippet in org-mode
   ;; (defun yas-org-very-safe-expand ()
