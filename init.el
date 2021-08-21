@@ -1416,67 +1416,64 @@ the vertical drag is done."
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :diminish
-  :hook
-  (after-init . org-roam-mode)
+  :init
+  (setq org-roam-v2-ack t)
   :custom
   (org-roam-db-location
    (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
-  :bind (:map org-roam-mode-map
-              ("C-c n l" . org-roam)
-              ("C-c n f" . org-roam-find-file)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+              ("C-c n f" . org-roam-node-find)
+              ("C-c n i" . org-roam-node-insert)
               ("C-c n g" . org-roam-graph)
-              ("C-c n j" . org-roam-find-directory)
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))
-              (("C-c n I" . org-roam-insert-immediate)))
+              ("C-c n j" . org-roam-find-directory))
   :config
-  (defun org-roam-capture--no-autoinsert (oldfun &optional goto keys)
+  (org-roam-setup)
+
+  ;; Disable auto-insert feature when capturing in new Org file
+  (defun org-roam-capture--no-autoinsert (oldfun &rest args)
     "No autoinsert when capturing via `org-roam'."
     (let (auto-insert)
-      (funcall oldfun)))
+      (apply oldfun args)))
 
-  (advice-add 'org-roam-capture--capture :around #'org-roam-capture--no-autoinsert))
+  (advice-add 'org-roam-capture- :around #'org-roam-capture--no-autoinsert))
 
 ;; https://github.com/org-roam/org-roam-bibtex
 (use-package org-roam-bibtex            ; Org Roam meets BibTeX
   :diminish
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :custom
+  :commands org-roam-bibtex-open-citekey
+  :preface
+  (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
+        org-protocol-protocol-alist)
+  :config
   ;; Immediately file capture and display file: add :immediate-finish
   ;; and :jump-to-captured.
-  (orb-templates '(("r" "ref" plain #'org-roam-capture--get-point
-                    "%?"
-                    :file-name "${citekey}"
-                    :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}"
-                    :unnarrowed t
-                    :jump-to-captured t
-                    :immediate-finish t)))
-  :config
+  (add-to-list 'org-roam-capture-templates
+               '("r" "bibliography reference" plain "%?"
+                 :if-new
+                 (file+head "${citekey}.org" "#+title: ${title}\n")
+                 :unnarrowed t
+                 :jump-to-captured t
+                 :immediate-finish t))
+
   (defun org-roam-bibtex-open-citekey (info)
     "Open an Org-roam note from an org-protocol call"
-    (when-let* ((alist (org-roam--plist-to-alist info))
-                (decoded-alist (mapcar (lambda (k.v)
-                                         (let ((key (car k.v))
-                                               (val (cdr k.v)))
-                                           (cons key (org-link-decode val)))) alist)))
-      (unless (cdr (assoc 'citekey decoded-alist))
-        (error "No citekey detected in URL"))
-      (raise-frame)
-      (orb-edit-notes (cdr (assoc 'citekey decoded-alist)))))
-
-  ;; Handle "roam-citekey" protocol calls
-  (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
-        org-protocol-protocol-alist))
+    (unless (plist-get info :citekey)
+      (user-error "No citekey key provided"))
+    (unless (plist-get info :template)
+      (user-error "No template key provided"))
+    (org-roam-plist-map! (lambda (k v)
+                           (org-link-decode
+                            (if (equal k :ref)
+                                (org-protocol-sanitize-uri v)
+                              v))) info)
+    (raise-frame)
+    (let ((org-roam-capture-templates (list (assoc (plist-get info :template) org-roam-capture-templates))))
+      (orb-edit-note (plist-get info :citekey)))))
 
 (use-package org-roam-protocol
   :straight nil
   :demand :after org-protocol)
-
-(use-package org-roam-protocol
-  :straight nil
-  :after (org org-roam))
 
 ;; https://github.com/goktug97/org-roam-server
 (use-package org-roam-server            ; Org Roam Database Visualizer
