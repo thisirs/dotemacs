@@ -131,6 +131,13 @@
   :config
   (load-theme 'zenburn t))
 
+(use-package server
+  :if (window-system)
+  :demand
+  :config
+  (unless (server-running-p server-name)
+    (server-start)))
+
 ;; https://savannah.nongnu.org/projects/so-long
 (use-package so-long                    ; Say farewell to performance problems with minified code.
   :straight nil
@@ -1894,13 +1901,6 @@ behavior added."
   :hook (after-init . save-place-mode)
   :config
   (setq save-place-file "~/.emacs.d/cache/.saveplace"))
-
-(use-package server
-  :if (window-system)
-  :demand
-  :config
-  (unless (server-running-p server-name)
-    (server-start)))
 
 (use-package skeletor)          ; Provides project skeletons for Emacs
 
