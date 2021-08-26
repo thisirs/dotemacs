@@ -1340,7 +1340,7 @@ the vertical drag is done."
 
 ;; https://github.com/oantolin/orderless
 (use-package orderless                  ; Completion style for matching regexps in any order
-  :after vertico
+  :demand
   :config
   (setq completion-styles '(partial-completion orderless))
   (setq completion-category-overrides '((file (styles basic partial-completion)))))
