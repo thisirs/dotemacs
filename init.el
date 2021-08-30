@@ -373,8 +373,17 @@
 
 ;; https://github.com/minad/consult
 (use-package consult                    ; Consulting completing-read
+  :init
+  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
   :bind (("C-x C-b" . consult-buffer)
-         ([remap yank-pop] . consult-yank-pop))
+         ("C-x l" . consult-locate)
+         ([remap bookmark-jump] . consult-bookmark)
+         ([remap yank-pop] . consult-yank-pop)
+         ([remap goto-line] . consult-goto-line))
   :config
   (setq completion-in-region-function 'consult-completion-in-region))
 
