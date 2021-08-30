@@ -2471,7 +2471,7 @@ not, return nil."
 (blink-cursor-mode -1)
 
 ;; Drive out the mouse when it's too near to the cursor.
-(mouse-avoidance-mode 'animate)
+(mouse-avoidance-mode 'banish)
 
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
