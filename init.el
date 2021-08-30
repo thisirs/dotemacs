@@ -550,6 +550,7 @@ the vertical drag is done."
   :demand :after which-key
   :bind
   ("C-x C-p" . embark-act)
+  :custom (embark-prompter #'embark-completing-read-prompter)
   :config
   (when (require 'which-key nil t)
       (setq embark-action-indicator
