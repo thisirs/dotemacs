@@ -276,10 +276,15 @@
 
 ;; https://github.com/bdarcus/bibtex-actions
 (use-package bibtex-actions             ; Biblographic commands based on completing-read
-  :bind ("C-x b" . bibtex-actions-open-pdf)
+  :bind (("C-x b" . bibtex-actions-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . bibtex-actions-insert-preset))
+  :after (embark bibtex-completion)
   :config
-  (if (require 'embark nil t)
-      (setf (alist-get 'bibtex embark-keymap-alist) 'bibtex-actions-map)))
+  ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
+  (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
+  (add-to-list 'embark-keymap-alist '(bib-reference . bibtex-actions-map))
+  (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map)))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
