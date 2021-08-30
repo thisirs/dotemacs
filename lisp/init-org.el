@@ -611,13 +611,6 @@ child checkboxes."
   (setq org-latex-format-headline-function
         'org-latex-format-headline-checkbox-function)
 
-  ;; electric-indent-mode doesn't play well with org
-  (with-emacs-version>= "24.1"
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (set (make-local-variable 'electric-indent-functions)
-                     (list (lambda (arg) 'no-indent))))))
-
   (declare-function org-table-check-inside-data-field "org-table")
   (define-key org-mode-map (kbd "C-c SPC")
     (lambda ()
