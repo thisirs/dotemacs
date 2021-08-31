@@ -294,21 +294,23 @@
   :straight nil
   :custom (bookmark-fontify nil)
   :preface
-  (defun bookmark-dynamic-handler (bmk-record)
-    (setq bmk-record (copy-tree bmk-record))
-    (let ((spec (bookmark-prop-get bmk-record 'spec))
-          (file (bookmark-get-filename bmk-record)))
-      (if (symbolp spec)
-          (setq spec (funcall spec)))
-      (setq file (format-spec file spec))
-      (bookmark-prop-set bmk-record 'filename file)
-      (funcall 'bookmark-default-handler bmk-record)))
+  ;; Support for placeholder in filename of bookmarks
+  (defun bookmark-get-filename-advice (bookmark-name-or-record)
+    (if-let ((spec (bookmark-prop-get bookmark-name-or-record 'spec))
+             (filename (bookmark-prop-get bookmark-name-or-record 'filename)))
+        (progn (if (symbolp spec)
+                   (setq spec (funcall spec)))
+               (format-spec filename spec))
+      (bookmark-prop-get bookmark-name-or-record 'filename)))
+
+  (advice-add #'bookmark-get-filename :override #'bookmark-get-filename-advice)
 
   (defun bookmark-spec ()
     `((?a . ,(UTC-autumn-from-time (current-time)))
       (?p . ,(UTC-spring-from-time (current-time)))
       (?s . ,(UTC-semester-from-time (current-time)))))
 
+  ;; Support for dynamically generated bookmarks
   (defun bookmark-not-generated (bmk-record)
     (null (bookmark-prop-get bmk-record 'generated)))
 
@@ -320,6 +322,7 @@
   (advice-add 'bookmark-save :around #'bookmark-save-filter)
 
   (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
+    "Import bookmarks generated from specific directories."
     (let ((directory "~/CloudStation/Sylvain/enseignements/"))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
