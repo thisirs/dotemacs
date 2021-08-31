@@ -386,6 +386,7 @@
          ("C-x l" . consult-locate)
          ([remap bookmark-jump] . consult-bookmark)
          ([remap yank-pop] . consult-yank-pop)
+         ([remap keep-lines] . consult-keep-lines)
          ([remap goto-line] . consult-goto-line))
   :config
   (setq completion-in-region-function 'consult-completion-in-region))
