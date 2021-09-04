@@ -279,6 +279,14 @@
   :bind (("C-x b" . bibtex-actions-insert-citation))
   :after (embark bibtex-completion)
   :config
+
+  ;; Don't display link
+  (setf (cdr (assoc 'link bibtex-actions-symbols)) (cons "" ""))
+
+  ;; Org-roam notes
+  (setq bibtex-actions-notes-paths
+        (list (expand-file-name "recherche/notes" personal-directory)))
+
   ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
   (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
   (add-to-list 'embark-keymap-alist '(bib-reference . bibtex-actions-map))
