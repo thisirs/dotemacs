@@ -276,9 +276,7 @@
 
 ;; https://github.com/bdarcus/bibtex-actions
 (use-package bibtex-actions             ; Biblographic commands based on completing-read
-  :bind (("C-x b" . bibtex-actions-insert-citation)
-         :map minibuffer-local-map
-         ("M-b" . bibtex-actions-insert-preset))
+  :bind (("C-x b" . bibtex-actions-insert-citation))
   :after (embark bibtex-completion)
   :config
   ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
