@@ -390,12 +390,15 @@
         xref-show-definitions-function #'consult-xref)
   :bind (("C-x C-b" . consult-buffer)
          ("C-x l" . consult-locate)
+         ("M-g i" . consult-imenu)
+         ("M-g m" . consult-mark)
+
          ([remap bookmark-jump] . consult-bookmark)
          ([remap yank-pop] . consult-yank-pop)
          ([remap keep-lines] . consult-keep-lines)
          ([remap goto-line] . consult-goto-line))
-  :config
-  (setq completion-in-region-function 'consult-completion-in-region))
+  :custom
+  (completion-in-region-function #'consult-completion-in-region))
 
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
