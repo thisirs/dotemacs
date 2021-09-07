@@ -747,7 +747,9 @@ the vertical drag is done."
 
 ;; https://github.com/magit/forge
 (use-package forge                      ; Access Git forges from Magit.
-  :demand :after magit)
+  :demand :after magit
+  :custom
+  (forge-owned-accounts '(("thisirs" :remote-name "fork"))))
 
 ;; https://github.com/magit/git-modes
 (use-package gitconfig-mode)    ; Major mode for editing .gitconfig files
