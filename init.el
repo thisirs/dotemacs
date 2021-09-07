@@ -298,7 +298,11 @@
 
 (use-package bookmark
   :straight nil
-  :custom (bookmark-fontify nil)
+  :custom
+  (bookmark-fontify nil)
+  (bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
+  (bookmark-watch-bookmark-file 'silent)
+  (bookmark-save-flag 1)
   :preface
   ;; Support for placeholder in filename of bookmarks
   (defun bookmark-get-filename-advice (bookmark-name-or-record)
@@ -2649,13 +2653,6 @@ to cancel it."
   (delete-trailing-whitespace-maybe))
 
 (add-hook 'before-save-hook 'cleanup-buffer-maybe)
-
-;; Bookmarks
-(setq bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
-(setq bookmark-watch-bookmark-file 'silent)
-
-;; Save bookmarks every time
-(setq bookmark-save-flag 1)
 
 (defun ring-transparency (arg)
   "Selects next transparency setting. When used with
