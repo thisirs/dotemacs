@@ -397,6 +397,13 @@
   :custom
   (completion-in-region-function #'consult-completion-in-region))
 
+;; https://github.com/karthink/consult-dir
+(use-package consult-dir                ; Consult based directory picker
+  :bind
+  (:map vertico-map
+        ("M-." . consult-dir)
+        ("M-j" . consult-dir-jump-file)))
+
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
