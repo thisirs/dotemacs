@@ -268,10 +268,10 @@
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
-  :disabled
   :demand
-  :diminish
+  :diminish beginend-global-mode
   :config
+  (dolist (mode beginend-modes) (diminish (cdr mode)))
   (beginend-global-mode))
 
 ;; https://github.com/bdarcus/bibtex-actions
