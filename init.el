@@ -138,13 +138,6 @@
   (unless (server-running-p server-name)
     (server-start)))
 
-;; https://savannah.nongnu.org/projects/so-long
-(use-package so-long                    ; Say farewell to performance problems with minified code.
-  :straight nil
-  :hook (after-init . global-so-long-mode)
-  :config
-  (global-so-long-mode))
-
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :demand
   :if (or (on-zbook) (on-knuth))
@@ -1968,6 +1961,13 @@ behavior added."
       (if (re-search-forward "^\\(<\\)\\{7\\} " nil t)
           (smerge-mode 1)
         (goto-char old-point)))))
+
+;; https://savannah.nongnu.org/projects/so-long
+(use-package so-long                    ; Say farewell to performance problems with minified code.
+  :straight nil
+  :hook (after-init . global-so-long-mode)
+  :config
+  (global-so-long-mode))
 
 (use-package spotify.el
   :disabled
