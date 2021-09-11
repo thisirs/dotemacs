@@ -2212,6 +2212,14 @@ behavior added."
         '(face trailing tabs))
   (global-whitespace-mode))
 
+(use-package windmove
+  :straight nil
+  :bind
+  ("s-b" . windmove-left)
+  ("s-f" . windmove-right)
+  ("s-p" . windmove-up)
+  ("s-n" . windmove-down))
+
 (use-package winner
   :if (not noninteractive)
   :defer 5

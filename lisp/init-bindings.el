@@ -48,13 +48,6 @@
 (global-set-key [remap move-beginning-of-line]
                 #'beginning-of-line-or-indentation)
 
-;; Move between windows with meta-arrows
-;; (windmove-default-keybindings 'meta)
-(global-set-key (kbd "s-b") #'windmove-left)
-(global-set-key (kbd "s-f") #'windmove-right)
-(global-set-key (kbd "s-p") #'windmove-up)
-(global-set-key (kbd "s-n") #'windmove-down)
-
 ;; Move more quickly
 (global-set-key (kbd "C-S-n") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-S-p") (lambda () (interactive) (forward-line -5)))
