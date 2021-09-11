@@ -18,7 +18,6 @@
 ;; Shortcut for reverting a buffer
 (global-set-key (kbd "C-x C-r") #'revert-buffer)
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
-(global-set-key [remap list-buffers] 'consult-buffer)
 
 (global-set-key (kbd "<C-kp-4>") #'enlarge-window-horizontally)
 (global-set-key (kbd "<C-kp-6>") #'shrink-window-horizontally)
