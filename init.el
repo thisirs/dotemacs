@@ -2146,13 +2146,14 @@ behavior added."
 
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
-  :hook (after-init . vertico-mode)
-  :config
-  ;; https://github.com/oantolin/embark
-  (use-package embark                   ; Conveniently act on minibuffer completions
-    :bind (:map vertico-map
-                ("C-c C-o" . embark-export)
-                ("C-c C-c" . embark-act))))
+  :hook (after-init-hook . vertico-mode))
+
+;; https://github.com/oantolin/embark
+(use-package embark                   ; Conveniently act on minibuffer completions
+  :after vertico
+  :bind (:map vertico-map
+              ("C-c C-o" . embark-export)
+              ("C-c C-c" . embark-act)))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
