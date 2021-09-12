@@ -387,7 +387,7 @@
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  :bind (("C-x C-b" . consult-buffer)
+  :bind (([remap list-buffers] . consult-buffer)
          ("C-x l" . consult-locate)
          ("M-g i" . consult-imenu)
          ("M-g m" . consult-mark)
