@@ -490,35 +490,30 @@ the vertical drag is done."
   (dumb-jump-prefer-searcher 'rg))
 
 ;; ediff settings
+(use-package ediff-diff
+  :straight nil
+  :custom
+  ;; Ignore whitespace in diff
+  (ediff-diff-options "-w"))
+
 (use-package ediff-wind
   :straight nil
-  :config
-  ;; Split windows horizontally in ediff (instead of vertically)
-  (setq ediff-split-window-function 'split-window-vertically)
-
-  ;; No separate frame for ediff control buffer
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  (setq ediff-diff-options "-w")
+  :preface
+  (defalias 'ediff-buffer-with-file 'ediff-current-file)
 
   ;; Show all in org files with ediff
   (defun ediff-outline-show-all ()
     (if (eq major-mode 'org-mode)
         (outline-show-all)))
-
-  (add-hook 'ediff-prepare-buffer-hook #'ediff-outline-show-all)
-
-  ;; ediff buffer with file
-  (defalias 'ediff-buffer-with-file 'ediff-current-file)
+  :hook
+  (ediff-prepare-buffer-hook . ediff-outline-show-all)
 
   ;; Restore window configuration after quit
-  (add-hook 'ediff-before-setup-hook
-            (lambda ()
-              (window-configuration-to-register 'ediff)))
-
-  (add-hook 'ediff-quit-hook
-            (lambda ()
-              (jump-to-register 'ediff))))
+  (ediff-before-setup-hook . (lambda () (window-configuration-to-register 'ediff)))
+  (ediff-quit-hook . (lambda () (jump-to-register 'ediff)))
+  :custom
+  ;; No separate frame for ediff control buffer
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package electric
   :straight nil
