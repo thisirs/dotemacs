@@ -482,13 +482,11 @@ the vertical drag is done."
 
 ;; https://github.com/jacktasia/dumb-jump
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g x" . dumb-jump-go-prefer-external)
-         ("M-g z" . dumb-jump-go-prefer-external-other-window))
-  :config
-  ;; (setq dumb-jump-selector 'ivy)
-  (setq dumb-jump-prefer-searcher 'rg))
+  :after xref
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :custom
+  (dumb-jump-prefer-searcher 'rg))
 
 ;; ediff settings
 (use-package ediff-wind
