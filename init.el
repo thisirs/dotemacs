@@ -1175,61 +1175,57 @@ the vertical drag is done."
                        (lambda ()
                          (run-hooks 'midnight-hook))))
 
+(use-package message
+  :straight nil
+  :custom
+  ;; Exit after sending message
+  (message-kill-buffer-on-exit t)
+  :hook
+  (message-mode . turn-off-auto-fill)
+  (message-mode . turn-on-visual-line-mode))
+
 (use-package mu4e
-  :defer 10
-  :commands mu4e-running-p              ; used by state
-  :commands (org-mu4e-open org-mu4e-store-link)
   :load-path "/usr/share/emacs/site-lisp/mu4e"
+  ;; When invoking via `state'
+  :commands mu4e-running-p              ; used by state
+  ;; When opening a link in an Org task
+  :commands (mu4e-org-open mu4e-org-store-link)
   :init
+  ;; Install link support but don't load mu4e
   (eval-after-load "org"
     '(org-link-set-parameters "mu4e"
-                              :follow #'org-mu4e-open
-                              :store #'org-mu4e-store-link))
-  :config
-  (setq mu4e-attachment-dir "~/Downloads")
-
-  (setq mu4e-completing-read-function 'completing-read)
-
-  (setq mu4e-compose-keep-self-cc nil)
-  (setq mu4e-compose-dont-reply-to-self t)
-
-  (setq mu4e-context-policy 'pick-first)
-
-  (setq mu4e-compose-context-policy nil)
-
-  (setq mu4e-compose-format-flowed t)
-
-  (setq mu4e-use-fancy-chars t)
-
-  (setq mu4e-headers-leave-behavior 'apply)
+                              :follow #'mu4e-org-open
+                              :store #'mu4e-org-store-link))
+  :custom
+  (mu4e-attachment-dir "~/Downloads")
+  (mu4e-completing-read-function 'completing-read)
+  (mu4e-compose-keep-self-cc nil)
+  (mu4e-compose-dont-reply-to-self t)
+  (mu4e-context-policy 'pick-first)
+  (mu4e-compose-context-policy nil)
+  (mu4e-compose-format-flowed t)
+  (mu4e-use-fancy-chars t)
+  (mu4e-headers-leave-behavior 'apply)
 
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
-  (setq mu4e-sent-messages-behavior 'delete)
+  (mu4e-sent-messages-behavior 'delete)
 
   ;; Use mu4e for e-mail in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
+  (mail-user-agent 'mu4e-user-agent)
 
-  (setq mu4e-change-filenames-when-moving t)
-
-  ;; Exit after sending message
-  (setq message-kill-buffer-on-exit t)
+  (mu4e-change-filenames-when-moving t)
 
   ;; No AM date
-  (setq mu4e-headers-time-format "%T")
-  (setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
-
-  (setq mu4e-headers-fields '((:human-date . 16)
-                              (:flags . 6)
-                              (:mailing-list . 10)
-                              (:from . 22)
-                              (:subject)))
-
-  (setq mu4e-get-mail-command "mbsync -a")
-
-  (if (or (on-zbook) (on-knuth))
-      (setq mu4e-update-interval 500)
-    (setq mu4e-update-interval nil))
-
+  (mu4e-headers-time-format "%T")
+  (mu4e-headers-date-format "%Y-%m-%d %H:%M")
+  (mu4e-headers-fields '((:human-date . 16)
+                         (:flags . 6)
+                         (:mailing-list . 10)
+                         (:from . 22)
+                         (:subject)))
+  (mu4e-get-mail-command "mbsync -a")
+  (mu4e-update-interval (when (or (on-zbook) (on-knuth)) 500))
+  :config
   (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
                                 :name "Unread or today"
                                 :query "flag:unread OR date:today..now"
