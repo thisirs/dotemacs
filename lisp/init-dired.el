@@ -1,7 +1,7 @@
 (use-package dired
   :straight nil
-  :hook ((dired-mode . turn-on-auto-revert-mode)
-         (dired-mode . dired-hide-details-mode))
+  :hook ((dired-mode-hook . turn-on-auto-revert-mode)
+         (dired-mode-hook . dired-hide-details-mode))
   :init
   (defun dired-copy-filename-as-kill-fix (&optional arg)
     (interactive "P")

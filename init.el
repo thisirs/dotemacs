@@ -108,6 +108,7 @@
 ;; (setq debug-on-error t)
 (setq use-package-minimum-reported-time 0.1)
 (setq use-package-always-defer t)
+(setq use-package-hook-name-suffix "")
 ;; (setq use-package-verbose 'debug)
 (straight-use-package 'use-package)
 (straight-use-package 'diminish)
@@ -365,13 +366,13 @@
   (company-echo-delay 0)
   (company-minimum-prefix-length 1)
   :hook
-  (after-init . global-company-mode))
+  (after-init-hook . global-company-mode))
 
 ;; https://github.com/tumashu/company-posframe
 (use-package company-posframe           ; Use a posframe as company candidate menu
   :disabled
   :custom (company-posframe-show-indicator t)
-  :hook (company-mode . company-posframe-mode))
+  :hook (company-mode-hook . company-posframe-mode))
 
 (use-package compile
   :config
@@ -484,8 +485,7 @@ the vertical drag is done."
 ;; https://github.com/jacktasia/dumb-jump
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
   :after xref
-  :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :hook (xref-backend-functions . dumb-jump-xref-activate)
   :custom
   (dumb-jump-prefer-searcher 'rg))
 
@@ -529,7 +529,7 @@ the vertical drag is done."
 ;; https://github.com/davidshepherd7/electric-operator
 (use-package electric-operator          ; Automatically add spaces around operators
   :after ess
-  :hook ((ess-r-mode inferior-ess-r-mode) . electric-operator-mode)
+  :hook ((ess-r-mode-hook inferior-ess-r-mode-hook) . electric-operator-mode)
   :custom
   (electric-operator-R-named-argument-style 'spaced))
 
@@ -581,7 +581,7 @@ the vertical drag is done."
 (use-package embark-consult             ; Consult integration for Embark
   :demand :after (embark consult)
   :hook
-  (embark-collect-mode . embark-consult-preview-minor-mode))
+  (embark-collect-mode-hook . embark-consult-preview-minor-mode))
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
@@ -686,7 +686,7 @@ the vertical drag is done."
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file             ; Open quickly a temporary file
   :hook
-  (after-init . set-scratch-buffer-default-directory)
+  (after-init-hook . set-scratch-buffer-default-directory)
   ;; Save scratch buffer as temp file when quitting emacs
   (kill-emacs . find-temp-file-save-scratch)
   :bind ("C-x C-t" . find-temp-file)
@@ -722,7 +722,7 @@ the vertical drag is done."
 
 ;; https://depp.brause.cc/firestarter
 (use-package firestarter                ; Execute (shell) commands on save
-  :hook (prog-mode . firestarter-mode)
+  :hook (prog-mode-hook . firestarter-mode)
   :init
   (setq firestarter-default-type 'failure))
 
@@ -1086,9 +1086,9 @@ the vertical drag is done."
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   ;; (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (python-mode . lsp)
+         (python-mode-hook . lsp)
          ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
+         (lsp-mode-hook . lsp-enable-which-key-integration))
   :commands lsp)
 
 ;; http://immerrr.github.com/lua-mode
@@ -1137,7 +1137,7 @@ the vertical drag is done."
 ;; https://github.com/minad/marginalia
 (use-package marginalia                 ; Enrich existing commands with completion annotations
   :hook
-  (after-init . marginalia-mode))
+  (after-init-hook . marginalia-mode))
 
 ;; http://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
@@ -1182,8 +1182,8 @@ the vertical drag is done."
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
   :hook
-  (message-mode . turn-off-auto-fill)
-  (message-mode . turn-on-visual-line-mode))
+  (message-mode-hook . turn-off-auto-fill)
+  (message-mode-hook . turn-on-visual-line-mode))
 
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
@@ -1551,8 +1551,8 @@ the vertical drag is done."
         (enable-paredit-mode)))
 
   :hook
-  (minibuffer-setup . conditionally-enable-paredit-mode)
-  ((eval-expression-minibuffer-setup emacs-lisp-mode lisp-mode lisp-interaction-mode ielm-mode) . paredit-mode))
+  (minibuffer-setup-hook . conditionally-enable-paredit-mode)
+  ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook) . paredit-mode))
 
 (use-package paren
   :straight nil
@@ -1825,7 +1825,7 @@ out")
 
 ;; https://github.com/dgutov/robe
 (use-package robe                       ; Code navigation, documentation lookup and completion for Ruby
-  :hook (ruby-mode . robe-mode))
+  :hook (ruby-mode-hook . robe-mode))
 
 ;; https://github.com/raxod502/prescient.el
 (use-package selectrum-prescient        ; Selectrum integration
@@ -1922,7 +1922,7 @@ behavior added."
   (smex-initialize))
 
 (use-package saveplace
-  :hook (after-init . save-place-mode)
+  :hook (after-init-hook . save-place-mode)
   :config
   (setq save-place-file "~/.emacs.d/cache/.saveplace"))
 
@@ -1952,7 +1952,7 @@ behavior added."
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
-  :hook (find-file . sm-try-smerge)
+  :hook (find-file-hook . sm-try-smerge)
   :config
   (defun sm-try-smerge ()
     "Turn on smerge-mode if there is a diff marker."
@@ -1965,7 +1965,7 @@ behavior added."
 ;; https://savannah.nongnu.org/projects/so-long
 (use-package so-long                    ; Say farewell to performance problems with minified code.
   :straight nil
-  :hook (after-init . global-so-long-mode)
+  :hook (after-init-hook . global-so-long-mode)
   :config
   (global-so-long-mode))
 
@@ -2369,7 +2369,7 @@ Change directory to `default-directory' if ARG is non-nil."
              :type git
              :local-repo ,(expand-file-name "auto-insert-multiple"
                                             projects-directory))
-  :hook (find-file . auto-insert)
+  :hook (find-file-hook . auto-insert)
   :config
   ;; Reset templates
   (setq auto-insert-alist nil)
@@ -2682,7 +2682,7 @@ to cancel it."
 
 ;; Minibuffer history
 (use-package savehist
-  :hook (after-init . savehist-mode)
+  :hook (after-init-hook . savehist-mode)
   :config
   (setq savehist-additional-variables
         ;; also save my search entries
