@@ -684,16 +684,24 @@ the vertical drag is done."
 ;; Open quickly a temporary file
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file             ; Open quickly a temporary file
-  :preface
-  (setq find-temp-file-directory "~/CloudStation/Sylvain/drafts")
-  (add-hook 'after-init-hook
-            (lambda ()
-              (interactive)
-              (with-current-buffer "*scratch*"
-                (setq default-directory (expand-file-name "emacs-lisp-mode" find-temp-file-directory)))))
+  :hook
+  (after-init . set-scratch-buffer-default-directory)
+  ;; Save scratch buffer as temp file when quitting emacs
+  (kill-emacs . find-temp-file-save-scratch)
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
+  :custom
+  (find-temp-file-directory "~/CloudStation/Sylvain/drafts")
+
+  ;; Path is: <mode name>/<date>/<prefix>-<sha1>.<ext>
+  (find-temp-template-default "%M/%D/%N-%T.%E")
+
   :init
+  (defun set-scratch-buffer-default-directory ()
+    (require 'find-temp-file)
+    (with-current-buffer "*scratch*"
+      (setq default-directory (expand-file-name "emacs-lisp-mode" find-temp-file-directory))))
+
   (defun find-temp-file-save-scratch ()
     "Save *scratch* buffer as a draft file."
     (interactive)
@@ -707,14 +715,6 @@ the vertical drag is done."
             (make-directory (file-name-directory file-path) :parents)
             (write-file file-path)))))
   :config
-  (add-to-list 'find-temp-template-alist (cons "elscratch" "%M/%D/%N-scratch-%T.el"))
-
-  ;; Save scratch buffer as temp file when quitting emacs
-  (add-hook 'kill-emacs-hook #'find-temp-file-save-scratch)
-
-  ;; Path is: <mode name>/<date>/<prefix>-<sha1>.<ext>
-  (setq find-temp-template-default "%M/%D/%N-%T.%E")
-
   ;; Change template for Python and Matlab files (no dash in filename)
   (add-to-list 'find-temp-template-alist (cons "py" "%M/%D/%N_%T.%E"))
   (add-to-list 'find-temp-template-alist (cons "m" "%M/%D/%N_%T.%E")))
