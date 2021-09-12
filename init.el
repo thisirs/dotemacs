@@ -1448,8 +1448,6 @@ the vertical drag is done."
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-db-location
-   (expand-file-name "org-roam.db" (concat personal-directory "/recherche")))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
   :bind (("C-c n l" . org-roam-buffer-toggle)
               ("C-c n f" . org-roam-node-find)
