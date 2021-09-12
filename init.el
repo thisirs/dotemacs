@@ -280,10 +280,11 @@
   (setq bibtex-actions-notes-paths
         (list (expand-file-name "recherche/notes" personal-directory)))
 
-  ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
-  (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
-  (add-to-list 'embark-keymap-alist '(bib-reference . bibtex-actions-map))
-  (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map)))
+  (when (require 'embark nil t)
+    ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
+    (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
+    (add-to-list 'embark-keymap-alist '(bib-reference . bibtex-actions-map))
+    (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map))))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
