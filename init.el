@@ -1458,7 +1458,7 @@ the vertical drag is done."
               ("C-c n f" . org-roam-node-find)
               ("C-c n i" . org-roam-node-insert)
               ("C-c n g" . org-roam-graph)
-              ("C-c n j" . org-roam-find-directory))
+              ("C-c n j" . (lambda () (interactive) (dired org-roam-directory))))
   :config
   (org-roam-setup)
 
