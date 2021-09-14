@@ -294,7 +294,7 @@
 (use-package bookmark
   :straight nil
   :custom
-  (bookmark-fontify nil)
+  (bookmark-set-fringe-mark nil)
   (bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
   (bookmark-watch-bookmark-file 'silent)
   (bookmark-save-flag 1)
