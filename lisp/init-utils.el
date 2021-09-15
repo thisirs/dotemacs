@@ -219,4 +219,12 @@ and the index of the match."
                          (string-equal cseason "A")
                          (string-equal season "P")))))))))
 
+(defun check-filepath (filepath)
+  (prog1
+      filepath
+    (unless (file-exists-p filepath)
+      (display-warning
+       'init
+       (format "File %s does not exist" filepath)))))
+
 (provide 'init-utils)
