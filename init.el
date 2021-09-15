@@ -340,6 +340,7 @@
        (mapcar (lambda (dir)
                  `(,dir
                    (filename . ,(expand-file-name dir directory))
+                   (position . 0)
                    (generated . t)))
                (directory-files directory nil "^[0-9]\\{4\\}")))))
 
