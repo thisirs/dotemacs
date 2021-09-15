@@ -44,25 +44,6 @@ If BEFORE is an integer, add a warn time."
         (concat (substring time 0 -1) " -" (format "%d" before) "d>")
       time)))
 
-(defun org-capture-read-date ()
-  "To be used in a capture template as %(org-capture-read-date). It reads"
-  (let ((obuf (org-capture-get :original-buffer)) ts time)
-    (when (bufferp obuf)
-      (with-current-buffer obuf
-        (when (eq major-mode 'org-agenda-mode)
-          (when-let* ((day (org-get-at-bol 'day))
-                      (mdy (calendar-gregorian-from-absolute day)))
-            (setq time (org-get-at-bol 'time-of-day))
-            (setq ts (encode-time
-                      0
-                      (if time (mod time 100) 0)
-                      (if time (floor (/ time 100)) 0)
-                      (nth 1 mdy)
-                      (nth 0 mdy)
-                      (nth 2 mdy)))))))
-    (org-insert-time-stamp (org-read-date (not (null time)) t nil nil ts)
-                           (and (boundp 'org-time-was-given) org-time-was-given))))
-
 (defvar org-tags-to-report-alist
   '(("ensei" . "~/CloudStation/Sylvain/enseignements/notebook.org")
     ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
@@ -103,14 +84,6 @@ appropriate report file."
           (org-insert-time-stamp ts t t)
           (insert " " txt "\n"))
       (user-error "No corresponding report file found"))))
-
-(defun org-capture--org-set-tags ()
-  "Make `org-set-tags' available from embedded lisp in capture
-templates. Use %(org-capture--org-set-tags) for interactive tags
-insertion."
-  (let ((org-inhibit-startup t)) (org-mode))
-  (org-clone-local-variables (org-capture-get :original-buffer) "\\`org-")
-  (org-set-tags-command))
 
 (defun org-attach-attach-from (file)
   "Attach FILE to current entry.
