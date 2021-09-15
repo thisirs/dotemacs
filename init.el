@@ -1390,21 +1390,21 @@ the vertical drag is done."
            ("ee" "Simple event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Evénements simples")
             "\
-* %? %(org-capture--add-link) %(org-capture--org-set-tags)
-  %(org-capture-read-date)
+* %?%(org-capture--add-link) %^G
+  %^T
   OPENED: %U"
             :created t)
            ("es" "Scheduled event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des scheduled")
             "\
-* %? %(org-capture--add-link) %(org-capture--org-set-tags)
-  SCHEDULED: %(org-capture-read-date)
+* %?%(org-capture--add-link) %^G
+  SCHEDULED: %^T
   OPENED: %U")
            ("ed" "Deadline event" entry
             (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des deadlines")
             "\
-* %? %(org-capture--add-link) %(org-capture--org-set-tags)
-  DEADLINE: %(org-capture-read-date)
+* %?%(org-capture--add-link) %^G
+  DEADLINE: %^T
   OPENED: %U"
             ))))
     (add-to-list 'org-context-capture-alist (cons 'mu4e-view-mode capture-tmpls))
