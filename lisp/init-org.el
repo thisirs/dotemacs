@@ -40,7 +40,7 @@
   ;; Archive subtrees by year
   (org-archive-location (format "%%s_archive_%s::" (format-time-string "%Y")))
 
-  (org-todo-keywords '("TODO" "|" "CANCELLED" "DONE"))
+  (org-todo-keywords '((sequence "TODO" "|" "CANCELLED" "DONE")))
 
   ;; Allow property inheritance for org-context agenda in my scripts
   ;; directory
