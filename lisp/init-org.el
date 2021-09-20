@@ -10,68 +10,65 @@
 
 (use-package ox-koma-letter
   :straight nil
-  :config
+  :custom
   ;; email is specified is lco file
-  (setq org-koma-letter-email nil)
+  (org-koma-letter-email nil)
 
   ;; no backaddress by default
-  (setq org-koma-letter-use-backaddress nil)
+  (org-koma-letter-use-backaddress nil)
 
   ;; no foldmarks by default
-  (setq org-koma-letter-use-foldmarks nil))
+  (org-koma-letter-use-foldmarks nil))
 
 (use-package org        ; Outline-based notes management and organizer
-  ;; :straight org-plus-contrib
-  :custom (org-adapt-indentation t)
-  :config
-  ;; Workaround to use yasnippet in org-mode
-  ;; (defun yas-org-very-safe-expand ()
-  ;;   (let ((yas-fallback-behavior 'return-nil))
-  ;;     (yas-expand)))
+  :init
+  (defun org-save-all-agenda-buffers ()
+    "Save all agenda buffers without user confirmation."
+    (interactive)
+    (message "Saving all agenda buffers...")
+    (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
+    (message "Saving all agenda buffers... done"))
 
-  ;; (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
+  :hook (auto-save-hook . org-save-all-agenda-buffers)
 
-  (setq org-startup-folded t)
+  :custom
+  ;; Adapt indentation to outline node level
+  (org-adapt-indentation t)
 
-  (setq org-archive-location (format "%%s_archive_%s::" (format-time-string "%Y")))
+  (org-startup-folded t)
 
-  (setq org-todo-keywords
-        '("TODO" "|" "CANCELLED" "DONE"))
+  ;; Archive subtrees by year
+  (org-archive-location (format "%%s_archive_%s::" (format-time-string "%Y")))
 
-  ;; No recursive todo in agenda
-  (setq org-agenda-todo-list-sublevels nil)
-
-  ;; Ignore scheduled and deadline
-  (setq org-agenda-todo-ignore-scheduled t)
-  (setq org-agenda-todo-ignore-deadlines t)
+  (org-todo-keywords '("TODO" "|" "CANCELLED" "DONE"))
 
   ;; Allow property inheritance for org-context agenda in my scripts
   ;; directory
-  (setq org-use-property-inheritance t)
+  (org-use-property-inheritance t)
+
+  (org-tag-alist '(("home" . ?h)
+                   ("labo" . ?l)))
+
+  ;; Special navigation in org mode
+  (org-special-ctrl-a/e t)
+
+  ;; Smart C-k
+  (org-special-ctrl-k t)
+
+  ;; TODO: Remove as already default
+  ;; Fontify src blocks
+  (org-src-fontify-natively t)
+
+  ;; TODO: Remove as already default
+  (org-src-tab-acts-natively t)
+
+  ;; Logging
+  (org-log-done 'time)
+
+  :config
 
   ;; Set org id locations
   (setq org-id-locations-file "~/CloudStation/Sylvain/Org/.org-id-locations")
-
-  ;; Remove tags in agenda
-  (setq org-agenda-remove-tags t)
-
-  (setq org-tag-alist '(("home" . ?h)
-                        ("labo" . ?l)))
-
-  ;; Special navigation in org mode
-  (setq org-special-ctrl-a/e t)
-
-  ;; Smart C-k
-  (setq org-special-ctrl-k t)
-
-  ;; Fontify src blocks
-  (setq org-src-fontify-natively t)
-
-  (setq org-src-tab-acts-natively t)
-
-  ;; Restore windows configuration
-  ;; (setq org-agenda-restore-windows-after-quit t)
-  (setq org-agenda-window-setup 'other-window)
 
   ;; Shorter description
   (setq org-link-to-description
@@ -83,15 +80,6 @@
           (let ((found (assoc-default link org-link-to-description 'string-match)))
             (cond
              ((stringp found) (match-substitute-replacement found t nil link))))))
-
-  (defun org-save-all-agenda-buffers ()
-    "Save all agenda buffers without user confirmation."
-    (interactive)
-    (message "Saving all agenda buffers...")
-    (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
-    (message "Saving all agenda buffers... done"))
-
-  (add-hook 'auto-save-hook 'org-save-all-agenda-buffers)
 
   (defun org-string-to-link (file)
     "Command that make the selected region an org link pointing to
@@ -110,39 +98,6 @@ the selected file."
         (replace-match (concat "[\\1[" here "]]") nil nil link)
       link))
 
-
-  (require 'init-org-capture-helpers)
-
-  ;; Load templates from personal location
-  (setq org-capture-templates
-        (load-file-to-list "~/CloudStation/Sylvain/emacs/org-capture-templates.el"))
-
-
-  (define-key global-map "\C-cc" #'org-capture)
-
-  ;; Custom agenda view
-  (setq org-agenda-custom-commands
-        '(("b" "Thesis Work" tags-todo "boss")
-          ("t" "All TODO" alltodo "")))
-
-  ;; Icons in agenda
-  (setq org-agenda-category-icon-alist
-        '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
-          ("Books\\|Magazines" "~/.emacs.d/icons/book.png" nil nil :ascent center)
-          ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
-          ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
-          ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
-          ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
-          ("Argent" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
-          ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
-          ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
-          ("Series" "~/.emacs.d/icons/tv.png" nil nil :ascent center)
-          ("Movie" "~/.emacs.d/icons/film.png" nil nil :ascent center)
-          ("Bébé" "~/.emacs.d/icons/baby.png" nil nil :ascent center)
-          ("Football" "~/.emacs.d/icons/football.svg" nil nil :ascent center)
-          ("Cours" "~/.emacs.d/icons/hat.png" nil nil :ascent center)
-          ("" '(space . (:height (16) :width (16))))))
-
   ;; (setq org-agenda-day-face-function
   ;;       (defun jd:org-agenda-day-face-holidays-function (date)
   ;;         "Compute DATE face for holidays."
@@ -157,48 +112,15 @@ the selected file."
   ;;                          (return 'org-agenda-date-weekend))))))
   ;;               (when face (return face)))))))
 
-  ;; Annoted todo are stared
-  (with-eval-after-load "org-agenda"
-    (add-to-list 'org-agenda-prefix-format
-                 '(todo . " %(annotedp)%i %-12:c"))
-    (add-to-list 'org-agenda-prefix-format
-                 '(agenda . " %(annotedp)%i %-12:c%?-12t% s")))
-
-  (defun annotedp ()
-    (if (derived-mode-p 'org-mode)
-        (save-excursion
-          (let ((end (save-excursion (outline-next-heading) (point))))
-            (if (re-search-forward "- Note taken" end t)
-                "*" " ")))
-      " "))
-
-  ;; Logging
-  (setq org-log-done 'time)
-
-  (setq org-agenda-skip-deadline-if-done t)
-
-  (global-set-key (kbd "C-c l") #'org-store-link)
-  (global-set-key (kbd "C-c L") #'org-insert-link-global)
-  (global-set-key (kbd "C-c a") #'org-agenda)
-
-  (mapc (lambda (file)
-          (if (file-exists-p file)
-              (add-to-list 'org-agenda-files file)))
-        '("~/CloudStation/Sylvain/Org/agenda.org"
-          "~/CloudStation/Sylvain/Org/someday.org"
-          "~/CloudStation/Sylvain/Org/specialdays.org"
-          "~/CloudStation/Sylvain/Org/books.org"
-          "~/CloudStation/Sylvain/Org/feedly.org"
-          "~/CloudStation/Sylvain/Documents/attachments.org"
-          ))
-
   ;; Calcul de Pâques (from holidays.el)
   (defvar date)
-  (defun abs-easter ()
-    (let* ((displayed-year (nth 2 date))
-           (century (1+ (/ displayed-year 100)))
+
+  ;; Adapted from holidays.el
+  (defun abs-easter (year)
+    "Return easter date for given YEAR."
+    (let* ((century (1+ (/ year 100)))
            (shifted-epact ;; Age of moon for April 5...
-            (% (+ 14 (* 11 (% displayed-year 19)) ;;     ...by Nicaean rule
+            (% (+ 14 (* 11 (% year 19)) ;;     ...by Nicaean rule
                   (- ;; ...corrected for the Gregorian century rule
                    (/ (* 3 century) 4))
                   (/ ;; ...corrected for Metonic cycle inaccuracy.
@@ -207,49 +129,36 @@ the selected file."
                30))
            (adjusted-epact ;;  Adjust for 29.5 day month.
             (if (or (= shifted-epact 0)
-                    (and (= shifted-epact 1) (< 10 (% displayed-year 19))))
+                    (and (= shifted-epact 1) (< 10 (% year 19))))
                 (1+ shifted-epact)
               shifted-epact))
            (paschal-moon ;; Day after the full moon on or after March 21.
-            (- (calendar-absolute-from-gregorian (list 4 19 displayed-year))
+            (- (calendar-absolute-from-gregorian (list 4 19 year))
                adjusted-epact)))
       (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
 
-  ;; Jours fériés et fêtes
-  (defun mardi-gras ()
-    (let ((abs-easter (abs-easter)))
-      (and (calendar-date-equal
-            date
-            (calendar-gregorian-from-absolute (+ abs-easter -47))))))
+  (defun org-easter (&optional n mark)
+    "Easter date with an optional number of shifting days N."
+    (with-no-warnings
+      (let* ((easter (abs-easter (caddr date)))
+             (ddate (calendar-gregorian-from-absolute (+ easter n))))
+        (and (calendar-date-equal date ddate)
+             (cons mark mark)))))
 
   (defun fete-meres ()
-    (let ((abs-easter (abs-easter)))
+    (let ((easter (abs-easter (caddr date))))
       (or (and (diary-float 5 0 -1)
                (not
                 (calendar-date-equal
                  date
-                 (calendar-gregorian-from-absolute (+ abs-easter 49)))))
+                 (calendar-gregorian-from-absolute (+ easter 49)))))
           (and (diary-float 6 0 1)
                (calendar-date-equal
                 date
-                (calendar-gregorian-from-absolute (+ abs-easter 56)))))))
+                (calendar-gregorian-from-absolute (+ easter 56)))))))
 
   ;; Don't wait for agenda to be opened to update appt
   (org-agenda-to-appt 1)
-
-  (setq french-holiday
-        '((holiday-fixed 1 1 "Jour de l'an")
-          (holiday-fixed 5 1 "Fête du travail")
-          (holiday-fixed 5 8 "Victoire 45")
-          (holiday-fixed 7 14 "Fête nationale")
-          (holiday-fixed 8 15 "Assomption")
-          (holiday-fixed 11 1 "Toussaint")
-          (holiday-fixed 11 11 "Armistice 1918")
-          (holiday-fixed 12 25 "Noël")
-          (holiday-easter-etc 1 "Lundi de Pâques")
-          (holiday-easter-etc 39 "Ascension")
-          ;;        (holiday-easter-etc -47 "Mardi gras")
-          (holiday-easter-etc 50 "Lundi de Pentecôte")))
 
 
   ;; (holiday-float 6 0 3 "Fête des pères")
@@ -257,46 +166,10 @@ the selected file."
   ;;     (holiday-float 6 0 1 "Fête des mères!!")
   ;;   (holiday-float 5 0 -1 "Fête des mères!!"))
 
-  (setq calendar-date-style 'european
-        calendar-holidays french-holiday
-        calendar-mark-holidays-flag t)
-
-  ;; Warning with appt and notify
-  (setq
-   appt-message-warning-time 20
-   appt-display-interval 3
-   appt-display-mode-line t     ;; show in the modeline
-   appt-display-format 'window) ;; use our func
-
-  (appt-activate 1)              ;; active appt (appointment notification)
-  (display-time)                 ;; time display is required for this...
-
   ;; Update appt each time agenda is opened, force a refresh to cancel
-  ;; Deleted appt
+  ;; deleted appt
   (add-hook 'org-finalize-agenda-hook
             (lambda () (org-agenda-to-appt 1)))
-
-  ;; Our little façade-function for djcb-popup
-  (defun appt-display (mins current-time msgs)
-    (cl-mapcar
-     (lambda (min msg)
-       (notifications-notify
-        :title (concat "Appointment "
-                       (cond
-                        ((equal min "0")
-                         "now!")
-                        ((equal min "1")
-                         "in 1 minute!")
-                        (t
-                         (format "in %s minutes" min))))
-        :body msg
-        :app-icon "~/.emacs.d/icons/appointment-soon.png"
-        :sound-file "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"))
-     (if (listp mins) mins (list mins))
-     (if (listp msgs) msgs (list msgs))))
-
-  (setq appt-disp-window-function 'appt-display)
-  (setq appt-delete-window-function 'ignore)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -309,83 +182,8 @@ the selected file."
      ;; (ipython . t)
      (R . t)))
 
-  ;; Bib citations in org files
-  (defun org-mode-reftex-setup ()
-    (reftex-mode t)
-    (when (and (buffer-file-name)
-               (file-exists-p (buffer-file-name)))
-      (reftex-parse-all)
-      (reftex-set-cite-format "[[note::%l][%l]]")
-      (define-key org-mode-map (kbd "C-c )") #'reftex-citation)))
-
-  (add-hook 'org-mode-hook #'org-mode-reftex-setup)
-
   ;; Bigger latex fragment
   (plist-put org-format-latex-options :scale 1.5)
-
-  ;; (defun jump-to-org-agenda ()
-  ;;   (interactive)
-  ;;   (let ((buf (or (get-buffer "*Org Agenda*")
-  ;;                  (get-buffer "*Org Agenda(a)*")))
-  ;;         wind)
-  ;;     (if buf
-  ;;         (if (setq wind (get-buffer-window buf))
-  ;;             (when (called-interactively-p 'any)
-  ;;               (select-window wind)
-  ;;               (org-fit-window-to-buffer))
-  ;;           (if (called-interactively-p 'any)
-  ;;               (progn
-  ;;                 (select-window (display-buffer buf t t))
-  ;;                 (org-fit-window-to-buffer))
-  ;;             (with-selected-window (display-buffer buf)
-  ;;               (org-fit-window-to-buffer))))
-  ;;       (call-interactively 'org-agenda-list))))
-
-  ;; (run-with-idle-timer 900 t 'jump-to-org-agenda)
-
-  (eval-after-load 'parse-time
-    '(progn
-       (setq parse-time-months
-             (append parse-time-months
-                     '(("janv" . 1)
-                       ("jan" . 1)
-                       ("févr" . 2)
-                       ("fév" . 2)
-                       ("fev" . 2)
-                       ("mar" . 3)
-                       ("avril" . 4)
-                       ("avr" . 4)
-                       ("mai" . 5)
-                       ("jun" . 6)
-                       ("juill" . 7)
-                       ("jul" . 7)
-                       ("aou" . 8)
-                       ("sept" . 9)
-                       ("sep" . 9)
-                       ("oct" . 10)
-                       ("nov" . 11)
-                       ("déc" . 12)
-                       ("dec" . 12)
-                       ("janvier" . 1)
-                       ("février" . 2)
-                       ("mars" . 3)
-                       ("avril" . 4)
-                       ("juin" . 6)
-                       ("juillet" . 7)
-                       ("aout" . 8)
-                       ("août" . 8)
-                       ("septembre" . 9)
-                       ("octobre" . 10)
-                       ("novembre" . 11)
-                       ("décembre" . 12))))
-       (setq parse-time-weekdays
-             (append parse-time-weekdays
-                     '(("dim" . 0) ("lun" . 1) ("mar" . 2)
-                       ("mer" . 3) ("jeu" . 4) ("ven" . 5)
-                       ("sam" . 6) ("dimanche" . 0) ("lundi" . 1)
-                       ("mardi" . 2) ("mercredi" . 3)
-                       ("jeudi" . 4) ("vendredi" . 5)
-                       ("samedi" . 6))))))
 
   (and (boundp 'server-process)
        (require 'org-protocol))
@@ -451,9 +249,6 @@ captured from."
                          "[%Y-%m-%d %a %H:%M:%S]"
                          (nth 6 (file-attributes (expand-file-name name base-dir))))))
         (org-id-get nil 'create))))
-
-  ;; Compact the block agenda view
-  (setq org-agenda-compact-blocks t)
 
   (defun org-context-agenda-blocks (filev)
     "Construct a block agenda command where each block takes its
@@ -554,62 +349,7 @@ refile targets.")
 
   (setq org-refile-use-outline-path 'full-file-path)
 
-
-
   (setq org-outline-path-complete-in-steps nil)
-
-  ;; Taken from http://sachachua.com/blog/2013/01/emacs-org-task-related-keyboard-shortcuts-agenda/
-  (defun org-agenda-mark-done-and-add-followup ()
-    "Mark the current TODO as done and add another task after it.
-Creates it at the same level as the previous task, so it's better to use
-this with to-do items than with projects or headings."
-    (interactive)
-    (org-agenda-todo "DONE")
-    (org-agenda-switch-to)
-    (org-capture 0 "t"))
-
-  ;; Override the key definition
-  (define-key org-agenda-mode-map "X" #'org-agenda-mark-done-and-add-followup)
-
-  (define-key org-agenda-mode-map [(control return)] #'org-agenda-add-report)
-
-  ;; Custom headline export for checklists, allow fake checkboxes in
-  ;; headlines to be exported as well as those in lists. This can be
-  ;; used with
-  ;; #+LaTeX_HEADER: \renewcommand\labelitemi{}
-  ;; to remove the bullets.
-  (defun org-latex-format-headline-checkbox-function
-      (todo todo-type priority text tags info)
-    "Add a checkbox in front of headline depending of the states of
-child checkboxes."
-    (let ((checkbox ""))
-      (when (boundp 'headline)
-        (let ((all-checked t) (all-unchecked t) with-checkbox)
-          (org-element-map headline 'item
-            (lambda (element)
-              (let ((state (plist-get (cadr element) :checkbox)))
-                (if state
-                    (setq with-checkbox t))
-                (if (eq state 'on)
-                    (setq all-unchecked nil))
-                (if (or (eq state 'off) (eq state 'trans))
-                    (setq all-checked nil)))))
-          (if with-checkbox
-              (setq checkbox
-                    (cond
-                     (all-checked "$\\blacksquare$ ")
-                     (all-unchecked "$\\Box$ ")
-                     (t "$\\boxminus$ "))))))
-      (concat
-       (and todo (format "{\\bfseries\\sffamily %s} " todo))
-       (and priority (format "\\framebox{\\#%c} " priority))
-       checkbox
-       text
-       (and tags
-            (format "\\hfill{}\\textsc{%s}" (mapconcat 'identity tags ":"))))))
-
-  (setq org-latex-format-headline-function
-        'org-latex-format-headline-checkbox-function)
 
   (declare-function org-table-check-inside-data-field "org-table")
   (define-key org-mode-map (kbd "C-c SPC")
@@ -621,10 +361,11 @@ child checkboxes."
         (call-interactively 'avy-goto-subword-1))))
 
   ;; Don't warn when a link run `org-agenda-from-file'
-  (setq org-confirm-elisp-link-not-regexp
+  (setq org-link-elisp-skip-confirm-regexp
         "\\`(org-context-agenda-from \".*\" \"[a-zA-Z]+\")\\'")
 
   (defun org-move-as-first-sibling ()
+    "Move current subtree as first sibling."
     (interactive)
     (save-excursion
       (org-cut-subtree)
@@ -632,7 +373,6 @@ child checkboxes."
       (forward-line)
       (org-paste-subtree))))
 
-;; Adapted from http://joat-programmer.blogspot.fr/2013/07/org-mode-version-8-and-pdf-export-with.html
 (use-package ox-latex
   :straight nil
   :config
@@ -647,21 +387,255 @@ child checkboxes."
             ("frame" "lines")
             ("framesep" "2mm")))
     (setq org-latex-pdf-process
-          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
+          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+    ;; Custom headline export for checklists, allow fake checkboxes in
+    ;; headlines to be exported as well as those in lists. This can be
+    ;; used with
+    ;; #+LaTeX_HEADER: \renewcommand\labelitemi{}
+    ;; to remove the bullets.
+    (defun org-latex-format-headline-checkbox-function
+        (todo todo-type priority text tags info)
+      "Add a checkbox in front of headline depending of the states of
+child checkboxes."
+      (let ((checkbox ""))
+        (when (boundp 'headline)
+          (let ((all-checked t) (all-unchecked t) with-checkbox)
+            (org-element-map headline 'item
+              (lambda (element)
+                (let ((state (plist-get (cadr element) :checkbox)))
+                  (if state
+                      (setq with-checkbox t))
+                  (if (eq state 'on)
+                      (setq all-unchecked nil))
+                  (if (or (eq state 'off) (eq state 'trans))
+                      (setq all-checked nil)))))
+            (if with-checkbox
+                (setq checkbox
+                      (cond
+                       (all-checked "$\\blacksquare$ ")
+                       (all-unchecked "$\\Box$ ")
+                       (t "$\\boxminus$ "))))))
+        (concat
+         (and todo (format "{\\bfseries\\sffamily %s} " todo))
+         (and priority (format "\\framebox{\\#%c} " priority))
+         checkbox
+         text
+         (and tags
+              (format "\\hfill{}\\textsc{%s}" (mapconcat 'identity tags ":"))))))
+
+    (setq org-latex-format-headline-function
+          'org-latex-format-headline-checkbox-function)))
 
 (use-package org-expiry
   :if (on-zbook)
   :straight `(org-expiry :type git
                          :local-repo ,(expand-file-name "org-expiry" projects-directory))
-  :hook (kill-emacs . org-expiry-process-buffers)
+  :hook (kill-emacs-hook . org-expiry-process-buffers)
+  :custom
+  (org-expiry-plan
+   '(("agenda.org" . ((subtree "External events")))
+     ("someday.org" . ((org-expiry-event-wait "1m")))
+     ("agenda.org" . ((subtree "Liste des scheduled")))
+     ("agenda.org" . ((subtree "Liste des deadlines")))))
+  (org-expiry-handler-function 'org-expiry-handler-function-force))
+
+(use-package org-capture
+  :straight nil
+  :preface (require 'init-org-capture-helpers)
+  :custom
+  ;; Load templates from personal location
+  (org-capture-templates
+   (load-file-to-list
+    (expand-file-name "org-capture-templates.el" personal-emacs-directory))))
+
+(use-package org-agenda
+  :straight nil
+  :init
+  (defun annotedp ()
+    (if (derived-mode-p 'org-mode)
+        (save-excursion
+          (let ((end (save-excursion (outline-next-heading) (point))))
+            (if (re-search-forward "- Note taken" end t)
+                "*" " ")))
+      " "))
+
+  :custom
+  (org-agenda-files '("~/CloudStation/Sylvain/Org/agenda.org"
+                      "~/CloudStation/Sylvain/Org/someday.org"
+                      "~/CloudStation/Sylvain/Org/specialdays.org"))
+
+  ;; No recursive todo in agenda
+  (org-agenda-todo-list-sublevels nil)
+
+  ;; Ignore scheduled and deadline in TODO lists
+  (org-agenda-todo-ignore-scheduled 'all)
+  (org-agenda-todo-ignore-deadlines 'all)
+
+  (org-agenda-skip-deadline-if-done t)
+
+  ;; Remove tags in agenda
+  (org-agenda-remove-tags t)
+
+  (org-agenda-window-setup 'other-window)
+
+  ;; Compact the block agenda view
+  (org-agenda-compact-blocks t)
+
+  ;; Custom agenda view
+  (agenda-custom-commands
+   '(("b" "Thesis Work" tags-todo "boss")
+     ("t" "All TODO" alltodo "")))
+
+  ;; Icons in agenda
+  (org-agenda-category-icon-alist
+   '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
+     ("Books\\|Magazines" "~/.emacs.d/icons/book.png" nil nil :ascent center)
+     ("Anniv" "~/.emacs.d/icons/birthday.png" nil nil :ascent center)
+     ("Fête" "~/.emacs.d/icons/party-hat.png" nil nil :ascent center)
+     ("Férié" "~/.emacs.d/icons/flip_flops.png" nil nil :ascent center)
+     ("Schlink!" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
+     ("Argent" "~/.emacs.d/icons/euro.png" nil nil :ascent center)
+     ("Santé" "~/.emacs.d/icons/syringe.png" nil nil :ascent center)
+     ("Download" "~/.emacs.d/icons/download.png" nil nil :ascent center)
+     ("Series" "~/.emacs.d/icons/tv.png" nil nil :ascent center)
+     ("Movie" "~/.emacs.d/icons/film.png" nil nil :ascent center)
+     ("Bébé" "~/.emacs.d/icons/baby.png" nil nil :ascent center)
+     ("Football" "~/.emacs.d/icons/football.svg" nil nil :ascent center)
+     ("Cours" "~/.emacs.d/icons/hat.png" nil nil :ascent center)
+     ("" '(space . (:height (16) :width (16))))))
+
+  :bind*
+  ("C-c c" . org-capture)
+  ("C-c l" . org-store-link)
+  ("C-c L" . org-insert-link-global)
+  ("C-c a" . org-agenda)
+
   :config
-  (setq org-expiry-plan
-        '(("agenda.org" . ((subtree "External events")))
-          ("someday.org" . ((org-expiry-event-wait "1m")))
-          ("agenda.org" . ((subtree "Liste des scheduled")))
-          ("agenda.org" . ((subtree "Liste des deadlines")))))
+  ;; Annoted todo are stared
+  (add-to-list 'org-agenda-prefix-format
+               '(todo . " %(annotedp)%i %-12:c"))
+  (add-to-list 'org-agenda-prefix-format
+               '(agenda . " %(annotedp)%i %-12:c%?-12t% s"))
 
-  (setq org-expiry-handler-function 'org-expiry-handler-function-force))
+  ;; Taken from http://sachachua.com/blog/2013/01/emacs-org-task-related-keyboard-shortcuts-agenda/
+  (defun org-agenda-mark-done-and-add-followup ()
+    "Mark the current TODO as done and add another task after it.
+Creates it at the same level as the previous task, so it's better to use
+this with to-do items than with projects or headings."
+    (interactive)
+    (org-agenda-todo "DONE")
+    (org-agenda-switch-to)
+    (org-capture 0 "t"))
 
+  ;; Override the key definition
+  (define-key org-agenda-mode-map "X" #'org-agenda-mark-done-and-add-followup)
+
+  (define-key org-agenda-mode-map [(control return)] #'org-agenda-add-report))
+
+(use-package calendar
+  :straight nil
+  :custom
+  (calendar-date-style 'european)
+  (calendar-mark-holidays-flag t))
+
+(use-package holidays
+  :straight nil
+  :demand :after org-agenda
+  :custom
+  (calendar-holidays
+   '((holiday-fixed 1 1 "Jour de l'an")
+     (holiday-fixed 5 1 "Fête du travail")
+     (holiday-fixed 5 8 "Victoire 45")
+     (holiday-fixed 7 14 "Fête nationale")
+     (holiday-fixed 8 15 "Assomption")
+     (holiday-fixed 11 1 "Toussaint")
+     (holiday-fixed 11 11 "Armistice 1918")
+     (holiday-fixed 12 25 "Noël")
+     (holiday-easter-etc 1 "Lundi de Pâques")
+     (holiday-easter-etc 39 "Ascension")
+     ;;        (holiday-easter-etc -47 "Mardi gras")
+     (holiday-easter-etc 50 "Lundi de Pentecôte"))))
+
+(use-package appt
+  :straight nil
+  :preface
+  (defun appt-display (mins current-time msgs)
+    (seq-mapn
+     (lambda (min msg)
+       (notifications-notify
+        :title (concat "Appointment "
+                       (cond
+                        ((equal min "0")
+                         "now!")
+                        ((equal min "1")
+                         "in 1 minute!")
+                        (t
+                         (format "in %s minutes" min))))
+        :body msg
+        :app-icon (check-filepath "~/.emacs.d/icons/appointment-soon.png")
+        :sound-file (check-filepath "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg")))
+     (if (listp mins) mins (list mins))
+     (if (listp msgs) msgs (list msgs))))
+
+  :custom
+  ;; Warning with appt and notify
+  (appt-message-warning-time 20)
+  (appt-display-interval 3)
+  (appt-display-mode-line t)     ;; show in the modeline
+  (appt-display-format 'window) ;; use our func
+  (appt-disp-window-function 'appt-display)
+  (appt-delete-window-function 'ignore)
+
+  :config
+  (appt-activate 1) ;; active appt (appointment notification)
+  (display-time)    ;; time display is required for this...
+  )
+
+(use-package parse-time
+  :straight nil
+  :config
+  (setq parse-time-months
+        (append parse-time-months
+                '(("janv" . 1)
+                  ("jan" . 1)
+                  ("févr" . 2)
+                  ("fév" . 2)
+                  ("fev" . 2)
+                  ("mar" . 3)
+                  ("avril" . 4)
+                  ("avr" . 4)
+                  ("mai" . 5)
+                  ("jun" . 6)
+                  ("juill" . 7)
+                  ("jul" . 7)
+                  ("aou" . 8)
+                  ("sept" . 9)
+                  ("sep" . 9)
+                  ("oct" . 10)
+                  ("nov" . 11)
+                  ("déc" . 12)
+                  ("dec" . 12)
+                  ("janvier" . 1)
+                  ("février" . 2)
+                  ("mars" . 3)
+                  ("avril" . 4)
+                  ("juin" . 6)
+                  ("juillet" . 7)
+                  ("aout" . 8)
+                  ("août" . 8)
+                  ("septembre" . 9)
+                  ("octobre" . 10)
+                  ("novembre" . 11)
+                  ("décembre" . 12))))
+
+  (setq parse-time-weekdays
+        (append parse-time-weekdays
+                '(("dim" . 0) ("lun" . 1) ("mar" . 2)
+                  ("mer" . 3) ("jeu" . 4) ("ven" . 5)
+                  ("sam" . 6) ("dimanche" . 0) ("lundi" . 1)
+                  ("mardi" . 2) ("mercredi" . 3)
+                  ("jeudi" . 4) ("vendredi" . 5)
+                  ("samedi" . 6)))))
 
 (provide 'init-org)
