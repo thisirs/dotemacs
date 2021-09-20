@@ -1325,8 +1325,8 @@ the vertical drag is done."
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors           ; Multiple cursors for Emacs.
-  :init
-  (setq mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
+  :custom
+  (mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
   :config
   (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind (("C-M-c" . mc/mark-next-like-this)))
