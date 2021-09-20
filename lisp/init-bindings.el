@@ -90,9 +90,8 @@
 
 (global-set-key (kbd "C-x C-v") #'find-file-other-window)
 
-;; Binding for `replace-string' and `replace-regexp'
+;; Binding for `replace-string'
 (global-set-key (kbd "C-c s") #'replace-string)
-(global-set-key (kbd "C-c r") #'replace-regexp)
 
 (defmacro create-flash-binding (key)
   "Make KEY boundable to a command.
