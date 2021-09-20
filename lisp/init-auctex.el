@@ -100,6 +100,42 @@ filled by AuCTeX functions."
                  (latex-mode doctex-mode)
                  :help "Run Make")))
 
+
+(use-package reftex
+  :demand :after latex
+  :preface
+  (defun LaTeX-setup-reftex ()
+    (when buffer-file-name
+      (turn-on-reftex)
+      (reftex-set-cite-format "~\\cite{%l}")))
+
+  :hook (LaTeX-mode-hook . LaTeX-setup-reftex)
+
+  :custom
+  ;; Don't prompt for choosing ref label style
+  (reftex-ref-macro-prompt nil)
+
+  ;; Derive a label name for figure and table environments as well
+  (reftex-insert-label-flags '("sft" "sft"))
+
+  (reftex-plug-into-AUCTeX t)
+
+  :config
+
+  ;; Add reftex support for my custom environment
+  (add-to-list 'reftex-label-alist
+               '("prop" ?m "prop:" "~\\ref{%s}" nil ("proposition") nil))
+
+  (add-to-list 'reftex-label-alist
+               '("thm" ?m "thm:" "~\\ref{%s}" nil ("theorem" "théorème") nil))
+
+  (add-to-list 'reftex-label-alist
+               '("subnumcases" 101 nil "~\\eqref{%s}" eqnarray-like))
+
+  (add-to-list 'reftex-label-alist
+               '("table" 116 "tab:" "~\\ref{%s}" caption
+                 (regexp "tables?" "tab\\." "Tabellen?"))))
+
 (provide 'init-auctex)
 
 ;;; init-auctex.el ends here
