@@ -1177,6 +1177,7 @@ the vertical drag is done."
   :custom
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
+  (message-send-mail-function 'smtpmail-send-it)
   :hook
   (message-mode-hook . turn-off-auto-fill)
   (message-mode-hook . turn-on-visual-line-mode))
@@ -1194,7 +1195,7 @@ the vertical drag is done."
                               :follow #'mu4e-org-open
                               :store #'mu4e-org-store-link))
   :custom
-  (mu4e-attachment-dir "~/Downloads")
+  (mu4e-attachment-dir "~/deathrow")
   (mu4e-completing-read-function 'completing-read)
   (mu4e-compose-keep-self-cc nil)
   (mu4e-compose-dont-reply-to-self t)
