@@ -1368,7 +1368,7 @@ the vertical drag is done."
 (use-package orderless                  ; Completion style for matching regexps in any order
   :demand
   :config
-  (setq completion-styles '(partial-completion orderless))
+  (setq completion-styles '(substring orderless))
   (setq completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; Contextual capture and agenda commands for Org-mode
