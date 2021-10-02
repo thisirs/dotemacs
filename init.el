@@ -333,6 +333,7 @@
        (mapcar (lambda (dir)
                  `(,dir
                    (filename . ,(expand-file-name dir directory))
+                   (position . 0)
                    (generated . t)))
                (directory-files directory nil "^\\(A\\|P\\)[0-9]\\{4\\}"))))
     (let ((directory "~/CloudStation/Sylvain/Documents/"))
