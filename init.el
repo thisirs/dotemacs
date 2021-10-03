@@ -2007,7 +2007,7 @@ behavior added."
   (state-define-state agenda
     :key "a"
     :in (eq major-mode 'org-agenda-mode)
-    :switch (lambda () (org-agenda nil "a")))
+    :switch (org-agenda nil "a"))
 
   (state-define-state debug
     :key "d"
