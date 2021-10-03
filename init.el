@@ -1853,6 +1853,8 @@ out")
 
 (use-package simple
   :straight nil
+  :custom
+  (line-move-visual nil)
   :preface
   ;; From https://with-emacs.com/posts/tips/quit-current-context/
   (defun keyboard-quit-context+ ()
