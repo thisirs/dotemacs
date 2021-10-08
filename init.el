@@ -1851,6 +1851,13 @@ out")
    (prescient-aggressive-file-save t)
    (selectrum-fix-vertical-window-height t)))
 
+(use-package separedit
+  :bind (:map prog-mode-map
+              ("C-c '" . separedit))
+  :custom
+  (separedit-remove-trailing-spaces-in-comment t)
+  (separedit-default-mode 'markdown-mode))
+
 (use-package simple
   :straight nil
   :custom
