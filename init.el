@@ -742,8 +742,18 @@ the vertical drag is done."
   (setq flycheck-highlighting-mode 'symbols))
 
 (use-package folding
+  :init
+  (defun unfold-current ()
+    (interactive)
+    (if (equal (point) (car-safe (folding-skip-folds 'backward)))
+        (folding-toggle-show-hide)
+      (let* ((folding-mode nil)
+             (original-func (key-binding (kbd "TAB"))))
+        (call-interactively original-func))))
+  :bind (:map folding-mode-map
+              ("TAB" . unfold-current))
   :config
-  (folding-add-to-marks-list 'python-mode "# [[[cog" "# [[[end]]]"))
+  (folding-add-to-marks-list 'python-mode "# <answer>" "# </answer>"))
 
 ;; https://github.com/magit/forge
 (use-package forge                      ; Access Git forges from Magit.
