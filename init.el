@@ -277,6 +277,13 @@
   ;; Don't display link
   (setf (cdr (assoc 'link bibtex-actions-symbols)) (cons "" ""))
 
+  (defun orb-bibtex-actions-edit-note-template (citekey _entry)
+    "Use template \"r\" instead of give the choice."
+    (let ((org-roam-capture-templates (list (assoc "r" org-roam-capture-templates))))
+      (orb-edit-note citekey)))
+
+  (setq bibtex-actions-file-open-note-function 'orb-bibtex-actions-edit-note-template)
+
   ;; Org-roam notes
   (setq bibtex-actions-notes-paths
         (list (expand-file-name "recherche/notes" personal-directory)))
