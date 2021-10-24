@@ -1438,7 +1438,7 @@ the vertical drag is done."
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
   :demand
   :config
-  (setq org-ref-default-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+  (setq bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
 
   ;; Use bibtex-completion-find-pdf-in-field to open pdf file
   (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
