@@ -769,10 +769,7 @@ the vertical drag is done."
   (forge-owned-accounts '(("thisirs" :remote-name "fork"))))
 
 ;; https://github.com/magit/git-modes
-(use-package gitconfig-mode)    ; Major mode for editing .gitconfig files
-
-;; https://github.com/magit/git-modes
-(use-package gitignore-mode)    ; Major mode for editing .gitignore files
+(use-package git-modes)                 ; Major modes for editing Git configuration files
 
 ;; https://github.com/atykhonov/google-translate
 (use-package google-translate ; Emacs interface to Google Translate.
