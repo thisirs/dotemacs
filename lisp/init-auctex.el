@@ -61,6 +61,8 @@ filled by AuCTeX functions."
   (add-to-list 'LaTeX-verbatim-environments "pycode")
   (add-to-list 'LaTeX-verbatim-environments "knitr")
 
+  (add-to-list 'LaTeX-verbatim-macros-with-braces "rinline")
+
   ;; Custom indentation for some environments
   (add-to-list 'LaTeX-indent-environment-list '("minted" current-indentation))
   (add-to-list 'LaTeX-indent-environment-list '("CVerbatim" current-indentation))
