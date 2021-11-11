@@ -268,31 +268,24 @@
   (dolist (mode beginend-modes) (diminish (cdr mode)))
   (beginend-global-mode))
 
-;; https://github.com/bdarcus/bibtex-actions
-(use-package bibtex-actions             ; Biblographic commands based on completing-read
-  :bind (("C-x b" . bibtex-actions-insert-citation))
-  :after (embark bibtex-completion)
+;; https://github.com/bdarcus/citar
+(use-package citar             ; Citation-related commands for org, latex, markdown.
+  :bind (("C-c b" . citar-insert-citation))
+  :custom
+  (citar-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+  (citar-library-paths (list (expand-file-name "recherche/biblio" personal-directory)))
+  ;; Org-roam notes
+  (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-
   ;; Don't display link
-  (setf (cdr (assoc 'link bibtex-actions-symbols)) (cons "" ""))
+  (setf (cdr (assoc 'link citar-symbols)) (cons "" ""))
 
-  (defun orb-bibtex-actions-edit-note-template (citekey _entry)
+  (defun orb-citar-edit-note-template (citekey _entry)
     "Use template \"r\" instead of give the choice."
     (let ((org-roam-capture-templates (list (assoc "r" org-roam-capture-templates))))
       (orb-edit-note citekey)))
 
-  (setq bibtex-actions-file-open-note-function 'orb-bibtex-actions-edit-note-template)
-
-  ;; Org-roam notes
-  (setq bibtex-actions-notes-paths
-        (list (expand-file-name "recherche/notes" personal-directory)))
-
-  (when (require 'embark nil t)
-    ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
-    (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
-    (add-to-list 'embark-keymap-alist '(bib-reference . bibtex-actions-map))
-    (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map))))
+  (setq citar-file-open-note-function 'orb-citar-edit-note-template))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
