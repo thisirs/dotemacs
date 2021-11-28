@@ -1748,6 +1748,13 @@ the vertical drag is done."
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
+(use-package real-auto-save
+  :config
+  (real-auto-save-mode +1)
+  (setq real-auto-save-buffers-list nil)
+  (with-eval-after-load 'org
+    (setq real-auto-save-buffers-list org-agenda-files)))
+
 ;; https://github.com/purcell/reformatter.el
 (use-package reformatter               ; Define commands which run re-formatters
   :demand
