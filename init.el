@@ -79,8 +79,11 @@
 
 (setq auto-save-list-file-prefix
       "~/.emacs.d/cache/auto-save-list/.saves-")
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+
+;; Auto-save remote file in /tmp and the rest in
+;; ~/.emacs.d/cache/auto-save-list/
+(add-to-list 'auto-save-file-name-transforms
+             '(".*" "~/.emacs.d/cache/auto-save-list/" t) t)
 
 ;; No lockfiles
 (setq create-lockfiles nil)
