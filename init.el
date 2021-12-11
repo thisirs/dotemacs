@@ -2227,6 +2227,7 @@ behavior added."
 
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key                  ; Display available keybindings in popup
+  :disabled
   :demand
   :diminish
   :config
