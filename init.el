@@ -563,19 +563,23 @@ the vertical drag is done."
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions
-  :demand :after which-key
   :bind
   ("C-x C-p" . embark-act)
-  :custom (embark-prompter #'embark-completing-read-prompter)
+  :custom
+  (embark-prompter #'embark-completing-read-prompter)
+  (embark-indicators '(embark-minimal-indicator
+                       embark-highlight-indicator
+                       embark-isearch-highlight-indicator))
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
   :config
-  (when (require 'which-key nil t)
-      (setq embark-action-indicator
-            (lambda (map target)
-              (which-key--show-keymap
-               (format "Act on `%s'" target)
-               map nil nil 'no-paging)
-              #'which-key--hide-popup-ignore-command)
-            embark-become-indicator embark-action-indicator)))
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
 
 ;; https://github.com/oantolin/embark
 (use-package embark-consult             ; Consult integration for Embark
