@@ -779,6 +779,9 @@ the vertical drag is done."
   (setq google-translate-listen-program
         (or (executable-find "mplayer")
             (executable-find "vlc")))
+  (defun google-translate--search-tkk ()
+    "Search TKK."
+    (list 430675 2721866130))
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package grep
