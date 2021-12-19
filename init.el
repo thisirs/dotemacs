@@ -1484,7 +1484,7 @@ the vertical drag is done."
               ("C-c n g" . org-roam-graph)
               ("C-c n j" . (lambda () (interactive) (dired org-roam-directory))))
   :config
-  (org-roam-setup)
+  (org-roam-db-autosync-enable)
 
   ;; Disable auto-insert feature when capturing in new Org file
   (defun org-roam-capture--no-autoinsert (oldfun &rest args)
