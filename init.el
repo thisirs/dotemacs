@@ -2734,14 +2734,16 @@ to cancel it."
 ;; Always add a final newline
 (setq require-final-newline t)
 
-;; Display time in 24 hours format
-(setq display-time-24hr-format t)
+;; Display only time in the modeline
+(setq display-time-format "%k:%M %b %y")
+(setq display-time-string-forms
+      '((propertize
+         (format-time-string display-time-format now)
+         'help-echo
+         (format-time-string "%a %b %e, %Y" now))))
 
 ;; Display time in the modeline
 (display-time-mode t)
-
-;; Do not display the load
-(setq display-time-default-load-average nil)
 
 (setq sentence-end-double-space nil)
 
