@@ -1116,9 +1116,7 @@ the vertical drag is done."
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   ;; (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (python-mode-hook . lsp)
-         ;; if you want which-key integration
-         (lsp-mode-hook . lsp-enable-which-key-integration))
+         (python-mode-hook . lsp))
   :commands lsp)
 
 ;; http://immerrr.github.com/lua-mode
