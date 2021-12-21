@@ -26,54 +26,33 @@
   :demand
   :config
   (defun scratch-message-random ()
-    (pcase (random 5)
-      (0 (scratch-message-contrepet))
-      (1 (scratch-message-SCMB))
-      (2 (scratch-message-DTC))
-      (3 (scratch-message-fortune))
-      (4 (scratch-message-qwertee))))
+    (let ((funs '(scratch-message-print-quote
+                  scratch-message-contrepet
+                  scratch-message-qwertee)))
+      (funcall (elt funs (random (length funs))))))
 
   (defun scratch-message-fortune ()
     (require 'fortune)
-    (fortune-in-buffer t "/usr/share/fortune/english-idioms")
-    (scratch-message-insert
-     (with-current-buffer fortune-buffer-name
-       (buffer-string))))
-
-  (defun scratch-message-contrepet ()
-    (require 'fortune)
     (with-demoted-errors "Error: %S"
-      (fortune-in-buffer t "/usr/share/fortune/contrepetries")
+      (fortune-in-buffer t "/usr/share/games/fortunes/english-idioms")
       (scratch-message-insert
        (with-current-buffer fortune-buffer-name
          (buffer-string)))))
 
-  (defun scratch-message-DTC ()
-    (if (executable-find "ruby")
-        (let* ((message-buffer-name "*DTC*")
-               (message-buffer (or (get-buffer message-buffer-name)
-                                   (generate-new-buffer message-buffer-name)))
-               (proc (start-process "DTC" message-buffer-name "ruby" "DTC")))
-          (with-current-buffer message-buffer-name
-            (let ((inhibit-read-only t))
-              (erase-buffer)))
-          (set-process-sentinel
-           proc
-           (lambda (process event)
-             (when (string= "finished\n" event)
-               (scratch-message-insert
-                (with-current-buffer "*DTC*"
-                  (with-fill-line-by-line
-                   (fill-region (point-min) (point-max)))
-                  (buffer-string)))))))
-      (user-error "Ruby is not installed")))
+  (defun scratch-message-contrepet ()
+    (require 'fortune)
+    (with-demoted-errors "Error: %S"
+      (fortune-in-buffer t "/usr/share/games/fortunes/contrepetries")
+      (scratch-message-insert
+       (with-current-buffer fortune-buffer-name
+         (buffer-string)))))
 
-  (defun scratch-message-SCMB ()
-    (if (executable-find "ruby")
-        (let* ((message-buffer-name "*SCMB*")
+  (defun scratch-message-print-quote ()
+    (if (executable-find "print-quote")
+        (let* ((message-buffer-name "*print-quote*")
                (message-buffer (or (get-buffer message-buffer-name)
                                    (generate-new-buffer message-buffer-name)))
-               (proc (start-process "SCMB" message-buffer-name "ruby" "SCMB")))
+               (proc (start-process "print-quote" message-buffer-name "print-quote" "SCMB")))
           (with-current-buffer message-buffer-name
             (let ((inhibit-read-only t))
               (erase-buffer)))
@@ -82,11 +61,12 @@
            (lambda (process event)
              (when (string= "finished\n" event)
                (scratch-message-insert
-                (with-current-buffer "*SCMB*"
+                (with-current-buffer "*print-quote*"
                   (with-fill-line-by-line
                    (fill-region (point-min) (point-max)))
                   (buffer-string)))))))
-      (user-error "Ruby is not installed")))
+      (user-error "print-quote not installed")))
+
 
   (defmacro with-fill-line-by-line (&rest body)
     "Executes BODY with line by line filling settings."
