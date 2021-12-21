@@ -281,7 +281,7 @@
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
   ;; Watch for changes in `citar-bibliography'
-  (citar-filenotify-setup)
+  (citar-filenotify-setup nil)
 
   (use-package all-the-icons
     :config
