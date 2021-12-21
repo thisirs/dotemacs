@@ -280,15 +280,31 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
+  ;; Watch for changes in `citar-bibliography'
+  (citar-filenotify-setup)
+
+  (use-package all-the-icons
+    :config
+    (setq citar-symbols
+          `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+            (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+            (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+    (setq citar-symbol-separator "  "))
+
   ;; Don't display link
   (setf (cdr (assoc 'link citar-symbols)) (cons "" ""))
 
   (defun orb-citar-edit-note-template (citekey _entry)
-    "Use template \"r\" instead of give the choice."
-    (let ((org-roam-capture-templates (list (assoc "r" org-roam-capture-templates))))
-      (orb-edit-note citekey)))
+    "Use `org-roam-bibtex' to open a note file.
 
-  (setq citar-file-open-note-function 'orb-citar-edit-note-template))
+This function is used in `citar-open-note-function'."
+    (require 'org-roam-bibtex)
+    (if-let ((tmpl (assoc "r" org-roam-capture-templates)))
+      (let ((org-roam-capture-templates (list tmpl)))
+        (orb-edit-note citekey))
+      (error "No template with key `r' found in `org-roam-capture-templates'")))
+
+  (setq citar-open-note-function 'orb-citar-edit-note-template)
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
