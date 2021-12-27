@@ -121,6 +121,8 @@
 
 (require 'bind-key)
 
+(use-package no-littering)
+
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
 ;; No confirmation when loading theme
