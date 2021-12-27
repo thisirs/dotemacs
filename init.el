@@ -304,7 +304,7 @@ This function is used in `citar-open-note-function'."
         (orb-edit-note citekey))
       (error "No template with key `r' found in `org-roam-capture-templates'")))
 
-  (setq citar-open-note-function 'orb-citar-edit-note-template)
+  (setq citar-open-note-function 'orb-citar-edit-note-template))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
