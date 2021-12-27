@@ -708,7 +708,7 @@ the vertical drag is done."
   :hook
   (after-init-hook . set-scratch-buffer-default-directory)
   ;; Save scratch buffer as temp file when quitting emacs
-  (kill-emacs . find-temp-file-save-scratch)
+  (kill-emacs-hook . find-temp-file-save-scratch)
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
   :custom
