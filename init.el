@@ -121,7 +121,7 @@
 
 (require 'bind-key)
 
-(use-package no-littering)
+(use-package no-littering :demand)
 
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
