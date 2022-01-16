@@ -1711,9 +1711,6 @@ the vertical drag is done."
   ;; Auto-remove non-existent projects
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
-  (setq projectile-known-projects-file
-        (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory))
-
   (defun projectile-custom-mode-line ()
     (if (projectile-project-p)
         (let* ((project-name (projectile-project-name))
@@ -1730,9 +1727,6 @@ the vertical drag is done."
   (setq projectile-mode-line-function #'projectile-custom-mode-line)
 
   (setq projectile-completion-system 'default)
-
-  (setq projectile-cache-file
-        (expand-file-name "cache/projectile.cache" user-emacs-directory))
 
   ;; Use custom function to add specific projects
   (add-to-list 'projectile-project-root-functions 'projectile-fake-projects)
