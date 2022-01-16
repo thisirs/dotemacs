@@ -1,11 +1,7 @@
 *.elc
 
-auto-save-list/
-cache/
 elpa/
-emacs.backups/
 emojis/
-eshell/
 url/
 var/
 
@@ -13,8 +9,6 @@ bbdb
 ido.last
 recentf
 tramp
-
-lisp/init-vanilla.el
 
 # Custom package repository
 straight/
