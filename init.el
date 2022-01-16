@@ -1250,14 +1250,27 @@ the vertical drag is done."
   ;; No AM date
   (mu4e-headers-time-format "%T")
   (mu4e-headers-date-format "%Y-%m-%d %H:%M")
-  (mu4e-headers-fields '((:human-date . 16)
-                         (:flags . 6)
-                         (:mailing-list . 10)
-                         (:from . 22)
-                         (:subject)))
+  (mu4e-headers-fields
+   '((:flags . 8)
+     (:human-date . 18)
+     (:mailing-list . 10)
+     (:from . 22)
+     (:subject)))
   (mu4e-get-mail-command "mbsync -a")
   (mu4e-update-interval (when (or (on-zbook) (on-knuth)) 500))
   :config
+  (setq mu4e-headers-unread-mark    '("u" .  "")
+        mu4e-headers-draft-mark     '("D" .  "🚧")
+        mu4e-headers-flagged-mark   '("F" .  "🚩")
+        mu4e-headers-new-mark       '("N" .  "")
+        mu4e-headers-passed-mark    '("P" .  "↪")
+        mu4e-headers-replied-mark   '("R" .  "↩")
+        mu4e-headers-seen-mark      '("S" .  "")
+        mu4e-headers-trashed-mark   '("T" .  "🗑️")
+        mu4e-headers-attach-mark    '("a" .  "📎")
+        mu4e-headers-encrypted-mark '("x" .  "🔑")
+        mu4e-headers-signed-mark    '("s" .  ""))
+
   (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
                                 :name "Unread or today"
                                 :query "flag:unread OR date:today..now"
