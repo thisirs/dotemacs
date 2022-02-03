@@ -59,9 +59,7 @@
   (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append))
 
 ;; Backups
-(setq make-backup-files t ;; do make backups
-      ;;  backup-by-copying t     ;; and copy them here
-      backup-directory-alist '((".*" . "~/.emacs.d/emacs.backups"))
+(setq make-backup-files t
       version-control t
       kept-new-versions 10
       kept-old-versions 0
@@ -76,9 +74,6 @@
     (normal-backup-enable-predicate filename)))
 
 (setq backup-enable-predicate 'my-dont-backup-files-p)
-
-(setq auto-save-list-file-prefix
-      "~/.emacs.d/cache/auto-save-list/.saves-")
 
 ;; Auto-save remote file in /tmp and the rest in
 ;; ~/.emacs.d/cache/auto-save-list/
