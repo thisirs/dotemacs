@@ -2110,6 +2110,13 @@ behavior added."
               (switch-to-buffer-other-window (current-buffer))
               (ansi-term "/bin/zsh" "ansi-term (dotemacs)")))
 
+  (state-define-state erc
+    :key "i"
+    :in (and (fboundp 'erc-buffer-list)
+             (memq (current-buffer) (erc-buffer-list)))
+    :switch (progn (erc-start-or-switch 1)
+                   (delete-other-windows)))
+
   ;; Not bound state with same key
   (state-define-state term
     :key "z"
