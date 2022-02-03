@@ -55,13 +55,6 @@
   ;; Smart C-k
   (org-special-ctrl-k t)
 
-  ;; TODO: Remove as already default
-  ;; Fontify src blocks
-  (org-src-fontify-natively t)
-
-  ;; TODO: Remove as already default
-  (org-src-tab-acts-natively t)
-
   ;; Logging
   (org-log-done 'time)
 
