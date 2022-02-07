@@ -1475,6 +1475,7 @@ the vertical drag is done."
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
+  :disabled
   :demand
   :config
   (setq bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
