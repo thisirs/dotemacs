@@ -1524,6 +1524,9 @@ the vertical drag is done."
   ;; editing the note corresponding to citekey.
   (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
         org-protocol-protocol-alist)
+  :custom
+  ;; Use Org syntax to cite: [cite:@citekey]
+  (orb-roam-ref-format 'org-cite)
   :config
   ;; Immediately file capture and display file: add :immediate-finish
   ;; and :jump-to-captured.
