@@ -1518,7 +1518,10 @@ the vertical drag is done."
   :diminish
   :commands org-roam-bibtex-open-citekey
   :preface
-  ;; Add support for org-protocol links of the form: org-protocol://roam-citekey?template=r&citekey=belkin_reconciling_2018
+  ;; Add support for org-protocol links of the form:
+  ;; org-protocol://roam-citekey?template=r&citekey=belkin_reconciling_2018.
+  ;; The function `org-roam-bibtex-open-citekey' handles the link by
+  ;; editing the note corresponding to citekey.
   (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
         org-protocol-protocol-alist)
   :config
