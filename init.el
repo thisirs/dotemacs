@@ -1,11 +1,11 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-utils)
 
-(defvar personal-directory "~/CloudStation/Sylvain/")
-(defvar projects-directory "~/CloudStation/Sylvain/projects")
+(defvar personal-directory "~/SynologyDrive/Sylvain/")
+(defvar projects-directory "~/SynologyDrive/Sylvain/projects")
 
 ;; Add personal site-lisp to load-path
-(defvar personal-emacs-directory "~/CloudStation/Sylvain/emacs/")
+(defvar personal-emacs-directory "~/SynologyDrive/Sylvain/emacs/")
 
 (defvar site-lisp-directory (expand-file-name "site-lisp" personal-emacs-directory ))
 
@@ -344,7 +344,7 @@ This function is used in `citar-open-note-function'."
 
   (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
     "Import bookmarks generated from specific directories."
-    (let ((directory "~/CloudStation/Sylvain/enseignements/"))
+    (let ((directory "~/SynologyDrive/Sylvain/enseignements/"))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
                  `(,dir
@@ -352,7 +352,7 @@ This function is used in `citar-open-note-function'."
                    (position . 0)
                    (generated . t)))
                (directory-files directory nil "^\\(A\\|P\\)[0-9]\\{4\\}"))))
-    (let ((directory "~/CloudStation/Sylvain/Documents/"))
+    (let ((directory "~/SynologyDrive/Sylvain/Documents/"))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
                  `(,dir
@@ -642,7 +642,7 @@ the vertical drag is done."
   :config
   (setq epwdgen-password-presets
         '(("passphrase, 4 words, space separator" passphrase
-           :sep " " :file "/home/sylvain/CloudStation/Sylvain/wordlist.lst")
+           :sep " " :file "/home/sylvain/SynologyDrive/Sylvain/wordlist.lst")
           ("alphanumeric, length 10" password
            :length 10
            :letter mixed
@@ -709,7 +709,7 @@ the vertical drag is done."
   :bind ("C-x C-t" . find-temp-file)
   :commands find-temp-file--filename
   :custom
-  (find-temp-file-directory "~/CloudStation/Sylvain/drafts")
+  (find-temp-file-directory "~/SynologyDrive/Sylvain/drafts")
 
   ;; Path is: <mode name>/<date>/<prefix>-<sha1>.<ext>
   (find-temp-template-default "%M/%D/%N-%T.%E")
@@ -933,14 +933,14 @@ the vertical drag is done."
   :bind ("C-x b" . ivy-bibtex)
   :config
   (setq bibtex-completion-bibliography
-        '("~/CloudStation/Sylvain/recherche/biblio/refs.bib"))
+        '("~/SynologyDrive/Sylvain/recherche/biblio/refs.bib"))
   (setq bibtex-completion-library-path
-        '("~/CloudStation/Sylvain/recherche/biblio/tracking/"
-          "~/CloudStation/Sylvain/recherche/biblio/compressed_sensing/"
-          "~/CloudStation/Sylvain/recherche/biblio/hashing/"
-          "~/CloudStation/Sylvain/recherche/biblio/graphs_and_deep_learning/"
-          "~/CloudStation/Sylvain/recherche/biblio/NN regularization/"
-          "~/CloudStation/Sylvain/recherche/biblio/books/"))
+        '("~/SynologyDrive/Sylvain/recherche/biblio/tracking/"
+          "~/SynologyDrive/Sylvain/recherche/biblio/compressed_sensing/"
+          "~/SynologyDrive/Sylvain/recherche/biblio/hashing/"
+          "~/SynologyDrive/Sylvain/recherche/biblio/graphs_and_deep_learning/"
+          "~/SynologyDrive/Sylvain/recherche/biblio/NN regularization/"
+          "~/SynologyDrive/Sylvain/recherche/biblio/books/"))
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file")
 
@@ -1368,7 +1368,7 @@ the vertical drag is done."
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors           ; Multiple cursors for Emacs.
   :custom
-  (mc/list-file "~/CloudStation/Sylvain/emacs/.mc-lists.el")
+  (mc/list-file "~/SynologyDrive/Sylvain/emacs/.mc-lists.el")
   :config
   (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind (("C-M-c" . mc/mark-next-like-this)))
@@ -1431,20 +1431,20 @@ the vertical drag is done."
   (let ((capture-tmpls
          '(("e" "Event")
            ("ee" "Simple event" entry
-            (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Evénements simples")
+            (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Evénements simples")
             "\
 * %?%(org-capture--add-link) %^G
   %^T
   OPENED: %U"
             :created t)
            ("es" "Scheduled event" entry
-            (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des scheduled")
+            (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Liste des scheduled")
             "\
 * %?%(org-capture--add-link) %^G
   SCHEDULED: %^T
   OPENED: %U")
            ("ed" "Deadline event" entry
-            (file+headline "~/CloudStation/Sylvain/Org/agenda.org" "Liste des deadlines")
+            (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Liste des deadlines")
             "\
 * %?%(org-capture--add-link) %^G
   DEADLINE: %^T
@@ -2075,11 +2075,11 @@ behavior added."
 
   (state-define-state programming_samples
     :key "r"
-    :switch "~/CloudStation/Sylvain/Org/programming_samples.org")
+    :switch "~/SynologyDrive/Sylvain/Org/programming_samples.org")
 
   (state-define-state personnal
     :key "p"
-    :switch "~/CloudStation/Sylvain/Org/personnel.org.gpg"
+    :switch "~/SynologyDrive/Sylvain/Org/personnel.org.gpg"
     :keep (org-password-manager-get-pass))
 
   ;; Switch to init.el or any already open lisp/init-*.el files
@@ -2184,7 +2184,7 @@ behavior added."
   :defer 5
   :config
   ;; Be sure to leave my packages' repo on master
-  (push '("~/CloudStation/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
+  (push '("~/SynologyDrive/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
 
   ;; Only look for unpushed commits on master
   (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)

@@ -45,8 +45,8 @@ If BEFORE is an integer, add a warn time."
       time)))
 
 (defvar org-tags-to-report-alist
-  '(("ensei" . "~/CloudStation/Sylvain/enseignements/notebook.org")
-    ("rech" . "~/CloudStation/Sylvain/recherche/notebook.org")))
+  '(("ensei" . "~/SynologyDrive/Sylvain/enseignements/notebook.org")
+    ("rech" . "~/SynologyDrive/Sylvain/recherche/notebook.org")))
 
 (defun org-agenda-add-report (&optional delete-other-windows)
   "Visit file from current agenda line.

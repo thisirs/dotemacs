@@ -62,17 +62,17 @@
 (when (require 'ibuffer-project nil t)
   (setq ibuffer-project-alist
         '(("Project: %S"
-           "~/CloudStation/Sylvain/emacs/site-lisp"
+           "~/SynologyDrive/Sylvain/emacs/site-lisp"
            "~/repositories"
            "~/.emacs.d"
-           "~/CloudStation/Sylvain/programming")
-          ("%D" "~/CloudStation/Sylvain/scripts")
-          ("%D" "~/CloudStation/Sylvain/projects/")
-          ("%D" "~/CloudStation/Sylvain/conf-files/")
-          ("Boss: %D" "~/CloudStation/Sylvain/recherche/publications/")
-          ("Boss: %D" "~/CloudStation/Sylvain/enseignements/programs")
-          ("Boss: %D" "~/CloudStation/Sylvain/recherche/programs")
-          ("Boss: %D" "~/CloudStation/Sylvain/recherche/projects/")))
+           "~/SynologyDrive/Sylvain/programming")
+          ("%D" "~/SynologyDrive/Sylvain/scripts")
+          ("%D" "~/SynologyDrive/Sylvain/projects/")
+          ("%D" "~/SynologyDrive/Sylvain/conf-files/")
+          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/publications/")
+          ("Boss: %D" "~/SynologyDrive/Sylvain/enseignements/programs")
+          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/programs")
+          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/projects/")))
   (setq ibuffer-project-cache-file
         (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
   (ibuffer-project-refresh t))

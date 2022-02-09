@@ -61,7 +61,7 @@
   :config
 
   ;; Set org id locations
-  (setq org-id-locations-file "~/CloudStation/Sylvain/Org/.org-id-locations")
+  (setq org-id-locations-file "~/SynologyDrive/Sylvain/Org/.org-id-locations")
 
   ;; Shorter description
   (setq org-link-to-description
@@ -309,7 +309,7 @@ refile targets.")
 
   ;; First open someday.org and look for org files to add to
   ;; org-other-files in "Projects" headline.
-  (find-file "~/CloudStation/Sylvain/Org/someday.org")
+  (find-file "~/SynologyDrive/Sylvain/Org/someday.org")
 
   (setq org-other-files
         (with-current-buffer "someday.org"
@@ -454,9 +454,9 @@ child checkboxes."
       " "))
 
   :custom
-  (org-agenda-files '("~/CloudStation/Sylvain/Org/agenda.org"
-                      "~/CloudStation/Sylvain/Org/someday.org"
-                      "~/CloudStation/Sylvain/Org/specialdays.org"))
+  (org-agenda-files '("~/SynologyDrive/Sylvain/Org/agenda.org"
+                      "~/SynologyDrive/Sylvain/Org/someday.org"
+                      "~/SynologyDrive/Sylvain/Org/specialdays.org"))
 
   ;; No recursive todo in agenda
   (org-agenda-todo-list-sublevels nil)

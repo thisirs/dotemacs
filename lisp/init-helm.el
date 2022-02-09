@@ -57,8 +57,8 @@
 (define-key helm-command-map (kbd "f") #'helm-for-files)
 
 (defvar helm-bib-locations
-  '("~/CloudStation/Sylvain/recherche/biblio/"
-    "~/CloudStation/Sylvain/recherche/biblio/tracking/"))
+  '("~/SynologyDrive/Sylvain/recherche/biblio/"
+    "~/SynologyDrive/Sylvain/recherche/biblio/tracking/"))
 
 ;; Open files with evince instead of xpdf
 (setq helm-pdfgrep-default-read-command "evince -p %p \"%f\"")
@@ -79,8 +79,8 @@
 (defvar helm-ebooks-path
   '("~/Downloads/Scientific_Ebooks/"
     "~/Downloads/Books/"
-    "~/CloudStation/Sylvain/manuals/"
-    "~/CloudStation/Sylvain/books/"))
+    "~/SynologyDrive/Sylvain/manuals/"
+    "~/SynologyDrive/Sylvain/books/"))
 
 (defun helm-find-ebooks ()
   (interactive)
