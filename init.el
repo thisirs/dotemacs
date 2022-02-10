@@ -1413,6 +1413,14 @@ the vertical drag is done."
   (setq completion-styles '(substring orderless))
   (setq completion-category-overrides '((file (styles basic partial-completion)))))
 
+(use-package org-bullets
+  :after org
+  :custom
+  (org-bullets-bullet-list '("•"))
+  (org-ellipsis "⤵")
+  :hook
+  (org-mode-hook . org-bullets-mode))
+
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
