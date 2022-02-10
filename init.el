@@ -2015,9 +2015,7 @@ behavior added."
 ;; https://savannah.nongnu.org/projects/so-long
 (use-package so-long                    ; Say farewell to performance problems with minified code.
   :straight nil
-  :hook (after-init-hook . global-so-long-mode)
-  :config
-  (global-so-long-mode))
+  :hook (after-init-hook . global-so-long-mode))
 
 (use-package spotify.el
   :disabled
