@@ -1554,6 +1554,7 @@ the vertical drag is done."
 
 (use-package org-roam-ui
   :after org-roam
+  :diminish
   :config
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
