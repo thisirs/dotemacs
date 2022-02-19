@@ -1536,7 +1536,7 @@ the vertical drag is done."
   (add-to-list 'org-roam-capture-templates
                '("r" "bibliography reference" plain "%?"
                  :target
-                 (file+head "${citekey}.org" "#+TITLE: ${title}\n")
+                 (file+head "${citekey}.org" "#+TITLE: ${title}\n#+AUTHORS: ${author}")
                  :unnarrowed t
                  :jump-to-captured t
                  :immediate-finish t))
