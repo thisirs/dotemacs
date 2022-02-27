@@ -1985,9 +1985,7 @@ behavior added."
   (smex-initialize))
 
 (use-package saveplace
-  :hook (after-init-hook . save-place-mode)
-  :config
-  (setq save-place-file "~/.emacs.d/cache/.saveplace"))
+  :hook (after-init-hook . save-place-mode))
 
 (use-package skeletor)          ; Provides project skeletons for Emacs
 
