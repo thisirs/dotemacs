@@ -558,6 +558,20 @@ the vertical drag is done."
   :config
   (electric-pair-mode))
 
+(use-package elfeed
+  :custom
+  (elfeed-feeds
+   '("http://export.arxiv.org/api/query?search_query=cat:math.OC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
+     "http://export.arxiv.org/api/query?search_query=cat:stat.ML&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
+     "http://export.arxiv.org/api/query?search_query=cat:cs.LG&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
+     "https://www.jmlr.org/jmlr.xml")))
+
+(use-package elfeed-score
+  :demand :after elfeed
+  :config
+  (define-key elfeed-search-mode-map "=" elfeed-score-map)
+  (elfeed-score-enable))
+
 ;; https://github.com/jorgenschaefer/elpy
 (use-package elpy                       ; Emacs Python Development Environment
   :demand :after python
