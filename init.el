@@ -452,6 +452,7 @@ This function is used in `citar-open-note-function'."
 
 ;; https://github.com/raxod502/ctrlf
 (use-package ctrlf                      ; Emacs finally learns how to ctrl+F
+  :disabled
   :demand
   :config
   (ctrlf-mode +1))
@@ -911,6 +912,12 @@ the vertical drag is done."
 
 ;; http://github.com/nonsequitur/inf-ruby
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
+
+(use-package isearch-mb
+  :demand
+  :config
+  (add-to-list 'isearch-mb--with-buffer #'isearch-yank-word)
+  (define-key isearch-mb-minibuffer-map (kbd "C-w") #'isearch-yank-word))
 
 ;; https://github.com/tmalsburg/helm-bibtex
 (use-package bibtex-completion          ; A BibTeX backend for completion frameworks
