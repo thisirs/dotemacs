@@ -1812,6 +1812,7 @@ the vertical drag is done."
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package real-auto-save
+  :demand
   :config
   (real-auto-save-mode +1)
   (setq real-auto-save-buffers-list nil)
