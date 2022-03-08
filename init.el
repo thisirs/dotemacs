@@ -2175,6 +2175,11 @@ behavior added."
   (state-define-repl ruby-repl "j" "*ruby*" (eq major-mode 'ruby-mode) (inf-ruby))
   (state-define-repl R-repl "j" "*R*" (eq major-mode 'ess-mode) (let (ess-ask-for-ess-directory) (R)))
 
+  (state-define-state elfeed
+    :key "l"
+    :switch elfeed
+    :in (memq major-mode '(elfeed-show-mode elfeed-search-mode)))
+
   (state-global-mode 1))
 
 ;; https://github.com/nflath/sudo-edit
