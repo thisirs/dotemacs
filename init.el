@@ -275,7 +275,8 @@
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
-  (citar-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
   (citar-library-paths (list (expand-file-name "recherche/biblio" personal-directory)))
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
