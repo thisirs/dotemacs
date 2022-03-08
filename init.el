@@ -595,8 +595,12 @@ the vertical drag is done."
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions
+  :after vertico
   :bind
-  ("C-x C-p" . embark-act)
+  (("C-x C-p" . embark-act)
+   (:map vertico-map
+         ("C-c C-o" . embark-export)
+         ("C-c C-c" . embark-act)))
   :custom
   (embark-prompter #'embark-completing-read-prompter)
   (embark-indicators '(embark-minimal-indicator
@@ -2246,13 +2250,6 @@ behavior added."
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
   :hook (after-init-hook . vertico-mode))
-
-;; https://github.com/oantolin/embark
-(use-package embark                   ; Conveniently act on minibuffer completions
-  :after vertico
-  :bind (:map vertico-map
-              ("C-c C-o" . embark-export)
-              ("C-c C-c" . embark-act)))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
