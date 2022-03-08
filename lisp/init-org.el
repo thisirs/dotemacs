@@ -458,6 +458,9 @@ child checkboxes."
                       "~/SynologyDrive/Sylvain/Org/someday.org"
                       "~/SynologyDrive/Sylvain/Org/specialdays.org"))
 
+  ;; Week start on sunday
+  (org-agenda-start-on-weekday 0)
+
   ;; No recursive todo in agenda
   (org-agenda-todo-list-sublevels nil)
 
