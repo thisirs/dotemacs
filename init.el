@@ -332,7 +332,7 @@ This function is used in `citar-open-note-function'."
   :straight nil
   :custom
   (bookmark-set-fringe-mark nil)
-  (bookmark-default-file (expand-file-name ".bookmarks" personal-emacs-directory))
+  (bookmark-default-file (change-base-dir bookmark-default-file))
   (bookmark-watch-bookmark-file 'silent)
   (bookmark-save-flag 1)
   :preface
@@ -577,6 +577,9 @@ the vertical drag is done."
 
 (use-package elfeed
   :custom
+  (elfeed-db-directory (change-base-dir elfeed-db-directory))
+  (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir))
+  (elfeed-score-score-file (change-base-dir elfeed-score-score-file))
   (elfeed-feeds
    '("http://export.arxiv.org/api/query?search_query=cat:math.OC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
      "http://export.arxiv.org/api/query?search_query=cat:stat.ML&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
