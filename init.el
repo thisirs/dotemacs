@@ -78,7 +78,7 @@
 ;; Auto-save remote file in /tmp and the rest in
 ;; ~/.emacs.d/cache/auto-save-list/
 (add-to-list 'auto-save-file-name-transforms
-             '(".*" "~/.emacs.d/cache/auto-save-list/" t) t)
+             '(".*" "~/.emacs.d/var/auto-save/files/" t) t)
 
 ;; No lockfiles
 (setq create-lockfiles nil)
