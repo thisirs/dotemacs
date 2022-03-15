@@ -577,6 +577,7 @@ the vertical drag is done."
 
 (use-package elfeed
   :custom
+  (elfeed-search-title-max-width 120)
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
   (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir)))
 
