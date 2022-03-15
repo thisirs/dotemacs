@@ -1,30 +1,10 @@
 *.elc
 
 elpa/
-emojis/
-url/
 var/
-
-bbdb
-ido.last
-recentf
-tramp
+etc/
 
 # Custom package repository
 straight/
 
-# StackExchange client
-.sx/
-
-smex-items
-
-forge-database.sqlite
-network-security.data
-sokoban-state
-
-transient/
-emms/
-eudc-options
 Dockerfile
-savehist
-abbrev_defs
