@@ -590,7 +590,7 @@ the vertical drag is done."
 (use-package elfeed-score
   :demand :after elfeed
   :custom
-  (elfeed-score-serde-score-file (change-base-dir elfeed-score-score-file))
+  (elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
   :config
   (define-key elfeed-search-mode-map "=" elfeed-score-map)
   (elfeed-score-enable))
