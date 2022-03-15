@@ -579,7 +579,6 @@ the vertical drag is done."
   :custom
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
   (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir))
-  (elfeed-score-score-file (change-base-dir elfeed-score-score-file))
   (elfeed-feeds
    '("http://export.arxiv.org/api/query?search_query=cat:math.OC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
      "http://export.arxiv.org/api/query?search_query=cat:stat.ML&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
@@ -588,6 +587,8 @@ the vertical drag is done."
 
 (use-package elfeed-score
   :demand :after elfeed
+  :custom
+  (elfeed-score-serde-score-file (change-base-dir elfeed-score-score-file))
   :config
   (define-key elfeed-search-mode-map "=" elfeed-score-map)
   (elfeed-score-enable))
