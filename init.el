@@ -578,12 +578,14 @@ the vertical drag is done."
 (use-package elfeed
   :custom
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
-  (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir))
-  (elfeed-feeds
-   '("http://export.arxiv.org/api/query?search_query=cat:math.OC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
-     "http://export.arxiv.org/api/query?search_query=cat:stat.ML&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
-     "http://export.arxiv.org/api/query?search_query=cat:cs.LG&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
-     "https://www.jmlr.org/jmlr.xml")))
+  (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir)))
+
+(use-package elfeed-org
+  :demand :after elfeed
+  :custom
+  (rmh-elfeed-org-files (list (expand-file-name "elfeed.org" personal-emacs-directory)))
+  :config
+  (elfeed-org))
 
 (use-package elfeed-score
   :demand :after elfeed
