@@ -116,7 +116,24 @@
 
 (require 'bind-key)
 
-(use-package no-littering :demand)
+(use-package no-littering
+  :demand
+  :preface
+  (defun change-base-dir (file)
+    (setq file (abbreviate-file-name (expand-file-name file)))
+    (if (string-prefix-p user-emacs-directory file)
+        (expand-file-name (substring file (length user-emacs-directory)) personal-emacs-directory)
+      (user-error "Unable to change base directory")
+      file))
+
+  (defun set-no-littering-base-dir (&rest vars)
+    (mapc (lambda (var)
+            (if (not (boundp var))
+                (user-error "Unbounded variable `%s'" var)
+              (if (not (featurep 'no-littering))
+                  (user-error "Package `no-littering' not loaded")
+                (set var (change-base-dir (symbol-value var))))))
+          vars)))
 
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
