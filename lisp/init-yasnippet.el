@@ -35,6 +35,7 @@
   (defun auto-insert-yasnippet-expand (snippet)
     "Expand yasnippet's SNIPPET in current buffer."
     (with-demoted-errors
+        "Error: %S"
         (save-window-excursion
           (require 'yasnippet)
           ;; make buffer visible before yasnippet
