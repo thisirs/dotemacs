@@ -66,25 +66,26 @@
   (dired-define-sorter dired-sort-by-time " -t" "Sort by time")
   (dired-define-sorter dired-sort-directory-first " --group-directories-first" "Sort directories first")
 
-  :bind (:map dired-mode-map
-              :prefix-map dired-sort-map
-              :prefix "s"
-              ("x" . dired-sort-by-extension)
-              ("s" . dired-sort-by-size)
-              ("t" . dired-sort-by-time)
-              ("n" . dired-sort-by-name)
-              ("d" . dired-sort-directory-first)
-              :map dired-mode-map
-              ("C-j" . dired-up-directory)
-              ("<C-return>" . dired-open)
-              ("e" . dired-ediff-marked-files)
-              ("M-!" . async-shell-command)
-              ("C-j" . dired-up-directory)
-              ("C-x C-k" . dired-do-delete)
-              ("w" . dired-copy-filename-as-kill-fix)
-              ("@" . (lambda () (interactive) (dired "/tmp")))
-              ("/" . (lambda () (interactive) (dired "/")))
-              ("~" . (lambda () (interactive) (dired (getenv "HOME")))))
+  :bind (("C-x C-j" . dired-jump)
+         :map dired-mode-map
+         :prefix-map dired-sort-map
+         :prefix "s"
+         ("x" . dired-sort-by-extension)
+         ("s" . dired-sort-by-size)
+         ("t" . dired-sort-by-time)
+         ("n" . dired-sort-by-name)
+         ("d" . dired-sort-directory-first)
+         :map dired-mode-map
+         ("C-j" . dired-up-directory)
+         ("<C-return>" . dired-open)
+         ("e" . dired-ediff-marked-files)
+         ("M-!" . async-shell-command)
+         ("C-j" . dired-up-directory)
+         ("C-x C-k" . dired-do-delete)
+         ("w" . dired-copy-filename-as-kill-fix)
+         ("@" . (lambda () (interactive) (dired "/tmp")))
+         ("/" . (lambda () (interactive) (dired "/")))
+         ("~" . (lambda () (interactive) (dired (getenv "HOME")))))
 
   :config
   (setq dired-recursive-copies 'always)
@@ -107,10 +108,7 @@
 
 (use-package dired-x
   :straight nil
-  :demand :after dired
-  :bind (("C-x C-j" . dired-jump)
-         (:map dired-mode-map
-               ("M-!" . async-shell-command))))
+  :demand :after dired)
 
 (defun dired-bury-all (&optional kill)
   "Bury dired buffer as they appear. It keeps you from pressing
