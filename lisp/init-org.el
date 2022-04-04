@@ -532,6 +532,7 @@ this with to-do items than with projects or headings."
 (use-package calendar
   :straight nil
   :custom
+  (calendar-time-zone-style 'numeric)
   (calendar-date-style 'european)
   (calendar-mark-holidays-flag t))
 
