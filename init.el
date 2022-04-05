@@ -80,6 +80,8 @@
 (add-to-list 'auto-save-file-name-transforms
              '(".*" "~/.emacs.d/var/auto-save/files/" t) t)
 
+(auto-save-visited-mode +1)
+
 ;; No lockfiles
 (setq create-lockfiles nil)
 
@@ -1844,6 +1846,7 @@ the vertical drag is done."
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 (use-package real-auto-save
+  :disabled
   :demand
   :config
   (real-auto-save-mode +1)
