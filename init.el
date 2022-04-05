@@ -1282,6 +1282,7 @@ the vertical drag is done."
   :custom
   (mu4e-attachment-dir "~/deathrow")
   (mu4e-completing-read-function 'completing-read)
+  (mu4e-save-multiple-attachments-without-asking t)
   (mu4e-compose-keep-self-cc nil)
   (mu4e-compose-dont-reply-to-self t)
   (mu4e-context-policy 'pick-first)
