@@ -1135,6 +1135,9 @@ the vertical drag is done."
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
 
+(use-package jupyter
+  :demand)
+
 (use-package keyfreq                    ; track command frequencies
   :config
   (let ((filepath (format (expand-file-name (format ".emacs.%s.keyfreq" (system-name)) personal-emacs-directory))))
