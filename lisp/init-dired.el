@@ -100,6 +100,11 @@
 
   (setq auto-revert-verbose nil))
 
+(use-package dired-aux
+  :straight nil
+  :custom
+  (dired-create-destination-dirs 'ask))
+
 (use-package dired-x
   :straight nil
   :demand :after dired
