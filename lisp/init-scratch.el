@@ -3,9 +3,9 @@
       ";; scratch buffer created -- happy hacking\n\n")
 
 (defun scratch-message-qwertee ()
-  (let* ((image1 (create-image "~/.emacs.d/cache/0.jpg"))
-         (image2 (create-image "~/.emacs.d/cache/1.jpg"))
-         (image3 (create-image "~/.emacs.d/cache/2.jpg"))
+  (let* ((image1 (create-image "~/.emacs.d/var/qwertee/0.jpg"))
+         (image2 (create-image "~/.emacs.d/var/qwertee/1.jpg"))
+         (image3 (create-image "~/.emacs.d/var/qwertee/2.jpg"))
          (text "aaa"))
     (add-text-properties 0 1 `(display ,image1
                                        rear-nonsticky (display)
