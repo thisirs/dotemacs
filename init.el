@@ -289,7 +289,7 @@
 
 ;; https://github.com/bdarcus/citar
 (use-package citar             ; Citation-related commands for org, latex, markdown.
-  :bind (("C-c b" . citar-insert-citation))
+  :bind (("C-c b" . citar-open))
   :custom
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
