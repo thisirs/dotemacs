@@ -2852,7 +2852,7 @@ to cancel it."
       kill-buffer-query-functions)
 
 ;; Make URLs/mail adresses in comments/strings highlighted and clickable
-(add-hook 'find-file-hook 'goto-address-prog-mode)
+(global-goto-address-mode +1)
 
 ;; Enable narrow-to-region binding
 (put 'narrow-to-region 'disabled nil)
