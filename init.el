@@ -2635,8 +2635,8 @@ not, return nil."
 ;; Follow links to version-controlled files
 (setq vc-follow-symlinks t)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-
+;; Use "y" and "n" in yes-or-no-p or read-answer
+(setq use-short-answers t)
 
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
