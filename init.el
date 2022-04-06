@@ -2462,6 +2462,8 @@ Change directory to `default-directory' if ARG is non-nil."
                    (lambda (name)
                      (replace-match "~" nil nil name 1))))
 
+(setq ffap-file-name-with-spaces t)
+
 ;; Find pdf at a ref which has the same name in `pdfs-directory'
 (defvar pdfs-directory nil
   "Directory to look for pdf files.")
