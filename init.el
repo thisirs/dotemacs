@@ -2746,7 +2746,7 @@ in file in a non-autocommitted repository."
                  (vc-auto-commit-backend)))))
 
 (defvar shared-directory-list
-  '("~/ownCloud/Shared/")
+  '("~/Nextcloud/Shared/")
   "Shared directories")
 
 (defun shared-directory ()
