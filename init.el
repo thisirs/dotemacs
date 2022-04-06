@@ -2902,9 +2902,8 @@ to cancel it."
 
 (define-minor-mode temp-mode
   "A temporary minor mode to be activated only specific to a buffer."
-  nil
   :lighter " Temp"
-  temp-mode-map)
+  :map temp-mode-map)
 
 ;; From http://www.emacswiki.org/emacs/EmacsAsDaemon
 (defun shutdown-emacs-server ()
