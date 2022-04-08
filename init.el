@@ -54,10 +54,6 @@
 
 (setq ring-bell-function #'ignore)
 
-;; Tramp env to properly display dired
-(with-eval-after-load "tramp"
-  (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append))
-
 ;; Backups
 (setq make-backup-files t
       version-control t
@@ -2244,6 +2240,15 @@ behavior added."
 
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
+
+;; Tramp env to properly display dired
+(use-package tramp
+  :straight nil
+  :custom
+  (remote-file-name-inhibit-locks t)
+  :config
+  ;; (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append)
+  )
 
 ;; http://www.dr-qubit.org/emacs.php
 (use-package undo-tree                  ; Treat undo history as a tree
