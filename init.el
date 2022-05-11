@@ -76,6 +76,7 @@
 (add-to-list 'auto-save-file-name-transforms
              '(".*" "~/.emacs.d/var/auto-save/files/" t) t)
 
+(setq auto-save-visited-interval 60)
 (auto-save-visited-mode +1)
 
 ;; No lockfiles
