@@ -2830,10 +2830,8 @@ to cancel it."
 (use-package savehist
   :hook (after-init-hook . savehist-mode)
   :config
-  (setq savehist-additional-variables
-        ;; also save my search entries
-        '(search-ring regexp-search-ring)
-        savehist-file "~/.emacs.d/savehist"))
+  (add-to-list 'savehist-additional-variables 'search-ring)
+  (add-to-list 'savehist-additional-variables 'regexp-search-ring))
 
 ;; Always add a final newline
 (setq require-final-newline t)
