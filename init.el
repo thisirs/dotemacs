@@ -1868,9 +1868,9 @@ the vertical drag is done."
       :program "latexindent"
       :args (list "-y=defaultIndent:'  '")))
 
-  (when (executable-find "black-macchiato")
+  (when (executable-find "black-macchiato-strip")
     (reformatter-define reformatter-black
-      :program "black-macchiato"
+      :program "black-macchiato-strip"
       :args (list "--target-version" "py310")))
 
   (when (executable-find "npx")
