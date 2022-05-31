@@ -1870,7 +1870,8 @@ the vertical drag is done."
 
   (when (executable-find "black-macchiato")
     (reformatter-define reformatter-black
-      :program "black-macchiato"))
+      :program "black-macchiato"
+      :args (list "--target-version" "py310")))
 
   (when (executable-find "npx")
     (reformatter-define reformatter-sql
