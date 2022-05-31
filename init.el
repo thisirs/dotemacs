@@ -1839,6 +1839,15 @@ the vertical drag is done."
     (">" python-indent-shift-right)
     ("q" nil :exit t))
 
+  (defvar python-indent-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "<" 'python-indent-shift-left)
+      (define-key map ">" 'python-indent-shift-right)
+      map))
+
+  (put 'python-indent-shift-left 'repeat-map 'python-indent-repeat-map)
+  (put 'python-indent-shift-right 'repeat-map 'python-indent-repeat-map)
+
   (setq python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter-args "-m IPython -i --simple-prompt"))
 
