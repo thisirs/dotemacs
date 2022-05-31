@@ -210,6 +210,7 @@
 
 ;; https://github.com/minad/affe
 (use-package affe                       ; Asynchronous Fuzzy Finder for Emacs
+  :disabled
   :demand :after orderless
   :bind ("M-g f" . affe-grep)
   :custom (affe-count 100)
@@ -428,6 +429,7 @@ This function is used in `citar-open-note-function'."
   :bind (([remap list-buffers] . consult-buffer)
          ("C-x l" . consult-locate)
          ("M-g i" . consult-imenu)
+         ("M-g f" . consult-grep)
          ("M-g m" . consult-mark)
 
          ([remap bookmark-jump] . consult-bookmark)
