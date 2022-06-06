@@ -1867,7 +1867,7 @@ the vertical drag is done."
 (use-package reformatter               ; Define commands which run re-formatters
   :demand
   :config
-  (when (zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\" > /dev/null 2>&1"))
+  (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
     (reformatter-define reformatter-R
       :program "Rscript"
       :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, width.cutoff = 500)")))
