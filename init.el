@@ -2475,32 +2475,32 @@ Change directory to `default-directory' if ARG is non-nil."
 ;; Notify events
 (require 'notifications)
 
-(require 'ffap)
-;; Find file at point even if it is the wrong user: /home/otheruser/.bashrc
-(add-to-list 'ffap-alist
-             (cons "\\`\\(/home/[^/]+\\)"
-                   (lambda (name)
-                     (replace-match "~" nil nil name 1))))
-
-(setq ffap-file-name-with-spaces t)
-
 ;; Find pdf at a ref which has the same name in `pdfs-directory'
 (defvar pdfs-directory nil
   "Directory to look for pdf files.")
 
 (put 'pdfs-directory 'safe-local-variable 'string-or-null-p)
 
-(defun ffap-bib-latex-mode (bib_id)
-  "Infer a filename from BIB_ID."
-  (when (eq major-mode 'latex-mode)
-    (if (and pdfs-directory (file-exists-p (concat pdfs-directory bib_id ".pdf")))
-        (concat pdfs-directory name ".pdf")
-      (condition-case nil
-          (concat (file-name-directory (car (reftex-get-bibfile-list))) bib_id ".pdf")
-        (error nil)))))
 
-(add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
-(add-to-list 'ffap-alist '(org-mode . ffap-bib-latex-mode))
+(use-package ffap
+  :config
+  (defun ffap-bib-latex-mode (bib_id)
+    "Infer a filename from BIB_ID."
+    (when (eq major-mode 'latex-mode)
+      (if (and pdfs-directory (file-exists-p (concat pdfs-directory bib_id ".pdf")))
+          (concat pdfs-directory name ".pdf")
+        (condition-case nil
+            (concat (file-name-directory (car (reftex-get-bibfile-list))) bib_id ".pdf")
+          (error nil)))))
+  ;; Find file at point even if it is the wrong user: /home/otheruser/.bashrc
+  (add-to-list 'ffap-alist
+               (cons "\\`\\(/home/[^/]+\\)"
+                     (lambda (name)
+                       (replace-match "~" nil nil name 1))))
+  (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
+  (add-to-list 'ffap-alist '(org-mode . ffap-bib-latex-mode))
+  (setq ffap-file-name-with-spaces t))
+
 
 (defun my-find-thing-at-point ()
   "Find variable, function or file at point."
