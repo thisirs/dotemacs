@@ -2125,8 +2125,9 @@ behavior added."
   :config
   (state-define-state org-roam
     :key "b"
-    :in (or (eq (buffer-name) org-roam-buffer)
-            (state--in-in-file org-roam-directory))
+    :in (and (featurep 'org-roam)
+             (or (eq (buffer-name) org-roam-buffer)
+                 (state--in-in-file org-roam-directory)))
     :create
     (progn
       (dired org-roam-directory)
