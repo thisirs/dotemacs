@@ -310,7 +310,7 @@ refile targets.")
 
   ;; First open someday.org and look for org files to add to
   ;; org-other-files in "Projects" headline.
-  (find-file "~/SynologyDrive/Sylvain/Org/someday.org")
+  (find-file-noselect "~/SynologyDrive/Sylvain/Org/someday.org")
 
   (setq org-other-files
         (with-current-buffer "someday.org"
