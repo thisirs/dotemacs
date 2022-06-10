@@ -449,7 +449,7 @@ This function is used in `citar-open-note-function'."
   :demand
   :config
   (setq corfu-cycle t)
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 ;; https://github.com/abo-abo/swiper
 (use-package counsel                    ; Various completion functions using Ivy
