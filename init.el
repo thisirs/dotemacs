@@ -421,8 +421,6 @@ This function is used in `citar-open-note-function'."
 ;; https://github.com/minad/consult
 (use-package consult                    ; Consulting completing-read
   :init
-  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
