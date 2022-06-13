@@ -246,7 +246,9 @@ Note that the MAX parameter is used so we can exit the parse early."
                      (push alist all))
                    all))
           all)
-      (let (after-change-major-mode-hook) ; ess-r-package-auto-activate creates an infinite loop
+      (let (after-change-major-mode-hook ; ess-r-package-auto-activate creates an infinite loop
+            org-element-cache-persistent ; fix encoding bug in org-persist-load
+            org-element-use-cache)
         (org-mode))
       ;; tramp is interfering when asking a password, org-map-entries
       ;; calls file-name-case-insensitive-p which seems to be remapped
