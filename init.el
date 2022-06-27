@@ -1136,7 +1136,11 @@ the vertical drag is done."
   :commands json-mode)
 
 (use-package jupyter
-  :demand)
+  :after org
+  :config
+  (use-package ob-jupyter
+    :config
+    (org-babel-jupyter-override-src-block "python")))
 
 (use-package keyfreq                    ; track command frequencies
   :config
