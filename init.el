@@ -115,7 +115,8 @@
 
 (require 'bind-key)
 
-(use-package no-littering
+;; https://github.com/emacscollective/no-littering
+(use-package no-littering               ; help keeping ~/.emacs.d clean
   :demand
   :preface
   (defun change-base-dir (file)
@@ -301,7 +302,8 @@
   ;; Watch for changes in `citar-bibliography'
   (citar-filenotify-setup nil)
 
-  (use-package all-the-icons
+  ;; https://github.com/domtronn/all-the-icons.el
+  (use-package all-the-icons            ; A library for inserting Developer icons
     :config
     (setq citar-symbols
           `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
@@ -574,20 +576,23 @@ the vertical drag is done."
   :config
   (electric-pair-mode))
 
-(use-package elfeed
+;; https://github.com/skeeto/elfeed
+(use-package elfeed                     ; an Emacs Atom/RSS feed reader
   :custom
   (elfeed-search-title-max-width 120)
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
   (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir)))
 
-(use-package elfeed-org
+;; https://github.com/remyhonig/elfeed-org
+(use-package elfeed-org                 ; Configure elfeed with one or more org-mode files
   :demand :after elfeed
   :custom
   (rmh-elfeed-org-files (list (expand-file-name "elfeed.org" personal-emacs-directory)))
   :config
   (elfeed-org))
 
-(use-package elfeed-score
+;; https://github.com/sp1ff/elfeed-score
+(use-package elfeed-score               ; Gnus-style scoring for Elfeed
   :demand :after elfeed
   :custom
   (elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
@@ -1135,7 +1140,8 @@ the vertical drag is done."
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
 
-(use-package jupyter
+;; https://github.com/dzop/emacs-jupyter
+(use-package jupyter                    ; Jupyter
   :after org
   :config
   (use-package ob-jupyter
@@ -1619,7 +1625,8 @@ the vertical drag is done."
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(use-package org-superstar
+;; https://github.com/integral-dw/org-superstar-mode
+(use-package org-superstar              ; Prettify headings and plain lists in Org mode
   :demand :after org
   :custom
   (org-superstar-headline-bullets-list '("•"))
@@ -1856,7 +1863,8 @@ the vertical drag is done."
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
-(use-package real-auto-save
+;; https://github.com/ChillarAnand/real-auto-save
+(use-package real-auto-save             ; Automatically save your buffers/files at regular intervals
   :disabled
   :demand
   :config
@@ -1977,7 +1985,8 @@ out")
    (prescient-aggressive-file-save t)
    (selectrum-fix-vertical-window-height t)))
 
-(use-package separedit
+;; https://github.com/twlz0ne/separedit.el
+(use-package separedit                  ; Edit comment/string/docstring/code block in separate buffer
   :bind (:map prog-mode-map
               ("C-c '" . separedit))
   :custom
@@ -2259,7 +2268,8 @@ behavior added."
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
 ;; Tramp env to properly display dired
-(use-package tramp
+;; https://www.gnu.org/software/tramp/
+(use-package tramp                      ; Transparent Remote Access, Multiple Protocol
   :straight nil
   :custom
   (remote-file-name-inhibit-locks t)
