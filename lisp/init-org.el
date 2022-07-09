@@ -172,8 +172,6 @@ the selected file."
      (matlab . t)
      (ruby . t)
      (python . t)
-     (jupyter . t)
-     ;; (ipython . t)
      (R . t)))
 
   ;; Bigger latex fragment

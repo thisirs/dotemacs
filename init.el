@@ -1148,11 +1148,16 @@ the vertical drag is done."
 
 ;; https://github.com/dzop/emacs-jupyter
 (use-package jupyter                    ; Jupyter
-  :after org
+  :demand :after org
   :config
   (use-package ob-jupyter
+    :straight nil
     :config
-    (org-babel-jupyter-override-src-block "python")))
+    (org-babel-jupyter-override-src-block "python"))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (append org-babel-load-languages
+           '((jupyter . t)))))
 
 (use-package keyfreq                    ; track command frequencies
   :config
