@@ -288,7 +288,12 @@
 
 ;; https://github.com/bdarcus/citar
 (use-package citar             ; Citation-related commands for org, latex, markdown.
-  :bind (("C-c b" . citar-open))
+  :bind (("C-c b" . citar-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . citar-insert-preset)
+         :map citar-map
+         ;; Allow to open resources with selected application
+         ("O" . citar-open-external))
   :custom
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
@@ -299,8 +304,11 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-  ;; Watch for changes in `citar-bibliography'
-  (citar-filenotify-setup nil)
+  (use-package citar-embark
+    :straight nil
+    :after citar embark
+    :no-require
+    :config (citar-embark-mode))
 
   ;; https://github.com/domtronn/all-the-icons.el
   (use-package all-the-icons            ; A library for inserting Developer icons
