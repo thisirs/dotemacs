@@ -289,8 +289,6 @@
 ;; https://github.com/bdarcus/citar
 (use-package citar             ; Citation-related commands for org, latex, markdown.
   :bind (("C-c b" . citar-insert-citation)
-         :map minibuffer-local-map
-         ("M-b" . citar-insert-preset)
          :map citar-map
          ;; Allow to open resources with selected application
          ("O" . citar-open-external))
