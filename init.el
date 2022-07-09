@@ -2282,10 +2282,12 @@ behavior added."
   :demand
   :bind (:map undo-tree-visualizer-mode-map ("RET" . undo-tree-visualizer-quit))
   :diminish
+  :custom
+  (undo-tree-auto-save-history nil)
+  (undo-tree-visualizer-timestamps t)
+  (undo-tree-enable-undo-in-region t)
   :config
-  (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-enable-undo-in-region t))
+  (global-undo-tree-mode))
 
 ;; https://github.com/purcell/unfill
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
