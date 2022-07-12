@@ -447,6 +447,7 @@ This function is used in `citar-open-note-function'."
 
 ;; https://github.com/karthink/consult-dir
 (use-package consult-dir                ; Consult based directory picker
+  :demand :after vertico
   :bind
   (:map vertico-map
         ("M-." . consult-dir)
