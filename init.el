@@ -1566,14 +1566,16 @@ the vertical drag is done."
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :diminish
   :init
-  (setq org-roam-v2-ack t)
+  (defun org-roam-dired-jump ()
+    (interactive)
+    (dired org-roam-directory))
   :custom
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-              ("C-c n f" . org-roam-node-find)
-              ("C-c n i" . org-roam-node-insert)
-              ("C-c n g" . org-roam-graph)
-              ("C-c n j" . (lambda () (interactive) (dired org-roam-directory))))
+  :bind (("C-c n r" . org-roam-buffer-toggle)
+         ("C-c n d" . org-roam-dailies-goto-today)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n j" . org-roam-dired-jump))
   :config
   (org-roam-db-autosync-enable)
 
@@ -1594,8 +1596,9 @@ the vertical drag is done."
   ;; org-protocol://roam-citekey?template=r&citekey=belkin_reconciling_2018.
   ;; The function `org-roam-bibtex-open-citekey' handles the link by
   ;; editing the note corresponding to citekey.
-  (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
-        org-protocol-protocol-alist)
+  (with-eval-after-load 'org-protocol
+      (push '("org-roam-citekey" :protocol "roam-citekey" :function org-roam-bibtex-open-citekey)
+            org-protocol-protocol-alist))
   :custom
   ;; Use Org syntax to cite: [cite:@citekey]
   (orb-roam-ref-format 'org-cite)
@@ -1605,13 +1608,13 @@ the vertical drag is done."
   (add-to-list 'org-roam-capture-templates
                '("r" "bibliography reference" plain "%?"
                  :target
-                 (file+head "${citekey}.org" "#+TITLE: ${title}\n#+AUTHORS: ${author}")
+                 (file+head "${citekey}.org" "#+TITLE: ${title}\n#+AUTHORS: ${author}\n#+YEAR: ${date}")
                  :unnarrowed t
                  :jump-to-captured t
                  :immediate-finish t))
 
   (defun org-roam-bibtex-open-citekey (info)
-    "Open an Org-roam note from an org-protocol call"
+    "Open an Org-roam note from an Org protocol call."
     (unless (plist-get info :citekey)
       (user-error "No citekey key provided"))
     (unless (plist-get info :template)
@@ -1631,12 +1634,7 @@ the vertical drag is done."
 
 (use-package org-roam-ui
   :after org-roam
-  :diminish
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+  :diminish)
 
 ;; https://github.com/integral-dw/org-superstar-mode
 (use-package org-superstar              ; Prettify headings and plain lists in Org mode
