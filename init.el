@@ -1514,7 +1514,6 @@ the vertical drag is done."
   :straight `(org-context
               :type git
               :local-repo ,(expand-file-name "org-context" projects-directory))
-  :demand
   :config
   (defun org-capture--add-link ()
     (format "%s %s"
