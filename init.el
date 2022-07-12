@@ -1291,7 +1291,7 @@ the vertical drag is done."
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   ;; When invoking via `state'
-  :commands mu4e-running-p              ; used by state
+  :commands mu4e-running-p       ; used by state
   ;; When opening a link in an Org task
   :commands (mu4e-org-open mu4e-org-store-link)
   :init
@@ -1315,10 +1315,13 @@ the vertical drag is done."
   ;; Don't save message to Sent Messages, Gmail/IMAP takes care of this
   (mu4e-sent-messages-behavior 'delete)
 
-  ;; Use mu4e for e-mail in emacs
+  ;; Make sure we use mu4e message mode to compose emails
   (mail-user-agent 'mu4e-user-agent)
 
+  ;; "Works better" with mbsync
   (mu4e-change-filenames-when-moving t)
+
+  (mu4e-get-mail-command "mbsync -a")
 
   ;; No AM date
   (mu4e-headers-time-format "%T")
@@ -1329,7 +1332,6 @@ the vertical drag is done."
      (:mailing-list . 10)
      (:from . 22)
      (:subject)))
-  (mu4e-get-mail-command "mbsync -a")
   (mu4e-update-interval (when (or (on-zbook) (on-knuth)) 500))
   :config
   (setq mu4e-headers-unread-mark    '("u" .  "")
