@@ -453,6 +453,20 @@ This function is used in `citar-open-note-function'."
         ("M-." . consult-dir)
         ("M-j" . consult-dir-jump-file)))
 
+(use-package consult-org-roam
+  :diminish
+  :demand :after org-roam
+  :bind
+  ("C-c n s" . consult-org-roam-search)
+  :custom
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  :config
+  (consult-org-roam-mode 1)
+  ;; Eventually suppress previewing for certain functions
+  (consult-customize
+   consult-org-roam-forward-links
+   :preview-key (kbd "M-.")))
+
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
