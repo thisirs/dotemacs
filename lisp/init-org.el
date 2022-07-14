@@ -29,7 +29,19 @@
     (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
     (message "Saving all agenda buffers... done"))
 
-  :hook (auto-save-hook . org-save-all-agenda-buffers)
+  (defun org-force-auto-fill ()
+    "Make `comment-auto-fill-only-comments' buffer-local and set it to nil."
+    (when comment-auto-fill-only-comments
+      (set (make-local-variable 'comment-auto-fill-only-comments) nil))
+    (auto-fill-mode +1))
+
+  (defun turn-off-truncate-lines ()
+    (toggle-truncate-lines -1))
+
+  :hook
+  (auto-save-hook . org-save-all-agenda-buffers)
+  (org-mode-hook . org-force-auto-fill)
+  (org-mode-hook . turn-off-truncate-lines)
 
   :custom
   ;; Adapt indentation to outline node level
