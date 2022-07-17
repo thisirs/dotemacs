@@ -311,7 +311,7 @@
   :config
   (use-package citar-embark
     :straight nil
-    :after citar embark
+    :demand :after citar embark
     :no-require
     :config (citar-embark-mode))
 
