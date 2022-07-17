@@ -1293,6 +1293,14 @@ the vertical drag is done."
                        (lambda ()
                          (run-hooks 'midnight-hook))))
 
+;; https://github.com/tarsius/minions
+(use-package minions                    ; A minor-mode menu for the mode line
+  :demand
+  :custom
+  (minions-mode-line-lighter "[+]")
+  :config
+  (minions-mode 1))
+
 (use-package message
   :straight nil
   :custom
@@ -1302,6 +1310,15 @@ the vertical drag is done."
   :hook
   (message-mode-hook . turn-off-auto-fill)
   (message-mode-hook . turn-on-visual-line-mode))
+
+;; https://gitlab.com/jessieh/mood-line
+(use-package mood-line                  ; A minimal mode-line inspired by doom-modeline
+  :demand :after minions
+  :config
+  (defun mood-line-segment-major-mode ()
+    "Displays the current major mode in the mode-line."
+    (concat (format-mode-line minions-mode-line-modes 'mood-line-major-mode) "  "))
+  (mood-line-mode))
 
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
@@ -2061,6 +2078,7 @@ behavior added."
 ;; Smart modeline
 ;; http://github.com/Malabarba/smart-mode-line
 (use-package smart-mode-line            ; A color coded smart mode-line.
+  :disabled
   :if (window-system)
   :commands sml/setup
   :demand
