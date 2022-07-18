@@ -1903,7 +1903,7 @@ the vertical drag is done."
 
 ;; https://github.com/purcell/reformatter.el
 (use-package reformatter               ; Define commands which run re-formatters
-  :demand
+  :demand :after exec-path-from-shell   ; for ~/.local/bin
   :config
   (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
     (reformatter-define reformatter-R
