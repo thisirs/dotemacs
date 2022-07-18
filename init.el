@@ -73,7 +73,7 @@
 (setq backup-enable-predicate 'my-dont-backup-files-p)
 
 ;; Auto-save remote file in /tmp and the rest in
-;; ~/.emacs.d/cache/auto-save-list/
+;; ~/.emacs.d/var/auto-save/files/
 (add-to-list 'auto-save-file-name-transforms
              '(".*" "~/.emacs.d/var/auto-save/files/" t) t)
 
