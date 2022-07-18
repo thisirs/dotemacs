@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-utils)
 
@@ -1225,32 +1226,10 @@ the vertical drag is done."
 ;; https://github.com/magit/magit
 (use-package magit                      ; A Git porcelain inside Emacs
   :bind ("C-c i" . magit-status)
-  :init
-  ;; Taken from http://endlessparentheses.com/easily-create-github-prs-from-magit.html
-  (defun visit-pull-request-url ()
-    "Visit the current branch's PR on Github."
-    (interactive)
-    (browse-url
-     (format "https://github.com/%s/pull/new/%s"
-             (replace-regexp-in-string
-              "\\`.+github\\.com/\\(.+\\)\\.git\\'" "\\1"
-              (magit-get "remote"
-                         (or (magit-get-remote)
-                             (magit-get-push-remote))
-                         "url"))
-             (magit-get-current-branch))))
-  :config
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
-
+  :custom
   ;; Let auth-source handle the passwords for me
-  (setq magit-process-find-password-functions '(magit-process-password-auth-source))
-
-  (define-key magit-mode-map (kbd "C-o")
-    (lambda ()
-      (interactive)
-      (let ((current-prefix-arg t))
-        (call-interactively 'magit-diff-visit-file))))
-  (define-key magit-mode-map "V" #'visit-pull-request-url))
+  (magit-process-find-password-functions '(magit-process-password-auth-source))
+  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 
 ;; https://github.com/vermiculus/magithub
 (use-package magithub                   ; Magit interfaces for GitHub
