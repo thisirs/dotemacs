@@ -2302,6 +2302,9 @@ behavior added."
 ;; http://www.emacswiki.org/elisp/tidy.el
 (use-package tidy)              ; Interface to the HTML Tidy program
 
+;; https://git.sr.ht/~protesilaos/tmr
+(use-package tmr)                       ; Set timers using a convenient notation
+
 ;; Taken from https://github.com/raxod502/radian/blob/develop/emacs/radian.el
 ;; https://github.com/magit/transient
 (use-package transient                  ; Transient commands
