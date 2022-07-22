@@ -310,7 +310,8 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-  (use-package citar-embark
+  ;; https://github.com/emacs-citar/citar-embark
+  (use-package citar-embark             ; Citar/Embark integration
     :straight nil
     :demand :after citar embark
     :no-require
@@ -462,7 +463,8 @@ This function is used in `citar-open-note-function'."
         ("M-." . consult-dir)
         ("M-j" . consult-dir-jump-file)))
 
-(use-package consult-org-roam
+;; https://github.com/jgru/consult-org-roam
+(use-package consult-org-roam           ; Consult integration for org-roam
   :diminish
   :demand :after org-roam
   :bind
@@ -1006,7 +1008,8 @@ the vertical drag is done."
 ;; http://github.com/nonsequitur/inf-ruby
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
 
-(use-package isearch-mb
+;; https://github.com/astoff/isearch-mb
+(use-package isearch-mb                 ; Control isearch from the minibuffer
   :disabled
   :demand
   :config
@@ -1667,7 +1670,8 @@ the vertical drag is done."
   :straight nil
   :demand :after org-protocol)
 
-(use-package org-roam-ui
+;; https://github.com/org-roam/org-roam-ui
+(use-package org-roam-ui                ; User Interface for Org-roam
   :after org-roam
   :diminish)
 
@@ -2374,7 +2378,7 @@ behavior added."
           ("M-%" . vr/query-replace)))
 
 ;; https://github.com/benma/visual-regexp-steroids.el/
-(use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
+(use-package Visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
   :commands (vr/select-replace vr/select-query-replace)
   :demand :after visual-regexp)
 
