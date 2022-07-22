@@ -501,8 +501,21 @@ This function is used in `citar-open-note-function'."
 
 ;; https://github.com/raxod502/ctrlf
 (use-package ctrlf                      ; Emacs finally learns how to ctrl+F
-  :disabled
   :demand
+  :init
+  (defun ctrlf-yank-word-or-char ()
+    (interactive)
+    (let ((input (field-string (point-max))) yank)
+      (when (or ctrlf--match-bounds (= (length input) 0))
+        (with-current-buffer (window-buffer (minibuffer-selected-window))
+          (setq yank (buffer-substring-no-properties
+                      (or (and ctrlf--match-bounds
+                               (cdr ctrlf--match-bounds))
+                          ctrlf--current-starting-point)
+                      (progn (forward-word) (point)))))
+        (goto-char (field-end (point-max)))
+        (insert yank))))
+  :bind (:map ctrlf-minibuffer-mode-map ("C-w" . ctrlf-yank-word-or-char))
   :config
   (ctrlf-mode +1))
 
