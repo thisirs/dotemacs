@@ -1601,6 +1601,7 @@ the vertical drag is done."
   :diminish
   :init
   (defun org-roam-dired-jump ()
+    "Jump to Dired buffer of `org-roam-directory'."
     (interactive)
     (dired org-roam-directory))
   :custom
