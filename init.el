@@ -1007,6 +1007,7 @@ the vertical drag is done."
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
 
 (use-package isearch-mb
+  :disabled
   :demand
   :config
   (add-to-list 'isearch-mb--with-buffer #'isearch-yank-word)
