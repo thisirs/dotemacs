@@ -227,4 +227,21 @@ and the index of the match."
        'init
        (format "File %s does not exist" filepath)))))
 
+(defmacro autoload-config (command library &optional docstring)
+  "Define COMMAND to autoload LIBRARY.
+
+Similar to an autoload but does not require the library to
+directly define COMMAND. COMMAND is allowed to be defined after
+loading LIBRARY in an `eval-after-load'."
+  `(progn
+     (defun ,command ()
+       ,(or docstring (format "Configuration autoload for command `%s'" command))
+       (interactive)
+       (makunbound ',command)
+       (require ',library)
+       (if (boundp ',command)
+           (error ,(format "Loading library `%s' did not define `%s'" library command)))
+       (call-interactively ',command))
+     (put ',command 'autoload-config t)))
+
 (provide 'init-utils)
