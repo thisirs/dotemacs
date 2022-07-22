@@ -763,10 +763,12 @@ the vertical drag is done."
 (use-package eval-expr                  ; enhanced eval-expression command
   :defer 10
   :bind ("M-:" . eval-expr)
+  :custom
+  (eval-expr-print-function 'pp)
+  (eval-expr-print-level 20)
+  (eval-expr-print-length 100)
   :config
-  (setq eval-expr-print-function 'pp
-        eval-expr-print-level 20
-        eval-expr-print-length 100)
+  ;; Enable paredit and eldoc in eval-expr
   (use-package paredit                  ; minor mode for editing parentheses
     :config
     (defun eval-expr-minibuffer-setup ()
