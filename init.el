@@ -443,13 +443,14 @@ This function is used in `citar-open-note-function'."
   :bind (([remap list-buffers] . consult-buffer)
          ("C-x l" . consult-locate)
          ("M-g i" . consult-imenu)
-         ("M-g f" . consult-grep)
+         ("M-g f" . consult-find)
          ("M-g m" . consult-mark)
+         ("M-g g" . consult-grep)
+         ("M-g l" . consult-goto-line)
 
          ([remap bookmark-jump] . consult-bookmark)
          ([remap yank-pop] . consult-yank-pop)
-         ([remap keep-lines] . consult-keep-lines)
-         ([remap goto-line] . consult-goto-line))
+         ([remap keep-lines] . consult-keep-lines))
   :custom
   (completion-in-region-function #'consult-completion-in-region))
 
