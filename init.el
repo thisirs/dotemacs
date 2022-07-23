@@ -256,6 +256,26 @@
   (global-anzu-mode 1)
   :diminish anzu-mode)
 
+(use-package app-launcher
+  :straight '(app-launcher :host github :repo "SebastienWae/app-launcher")
+  :preface
+  (defun app-launcher--action-function-file (selected &optional file)
+    "Open `file' with the selected application."
+    (let* ((exec (cdr (assq 'exec (gethash selected app-launcher--cache))))
+           (command (mapconcat
+                     (lambda (chunk)
+                       (cond
+                        ((or (equal chunk "%U")
+                             (equal chunk "%F")
+                             (equal chunk "%u")
+                             (equal chunk "%f"))
+                         (if file (shell-quote-argument file) ""))
+                        (t chunk)))
+                     (split-string exec)
+                     " ")))
+      (call-process-shell-command command nil 0 nil)))
+  :custom (app-launcher--action-function #'app-launcher--action-function-file))
+
 ;; http://nschum.de/src/emacs/auto-dictionary/
 (use-package auto-dictionary            ; automatic dictionary switcher for flyspell
   :bind (("C-c w l" . adict-change-dictionary)
