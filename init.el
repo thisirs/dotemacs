@@ -359,7 +359,28 @@ This function is used in `citar-open-note-function'."
         (orb-edit-note citekey))
       (error "No template with key `r' found in `org-roam-capture-templates'")))
 
-  (setq citar-open-note-function 'orb-citar-edit-note-template))
+  (setq citar-open-note-function 'orb-citar-edit-note-template)
+
+  (defun citar-open-external (key-or-keys)
+    (citar--library-file-action key-or-keys #'citar-file-open-external))
+
+  (defun citar-file-open-external (file)
+    "Select application with `app-launcher' and open `file' with it."
+    (require 'app-launcher)
+    (let* ((candidates (app-launcher-list-apps))
+           (result (completing-read
+                    "Run app: "
+                    (lambda (str pred flag)
+                      (if (eq flag 'metadata)
+                          '(metadata
+                            (annotation-function . (lambda (choice)
+                                                     (funcall
+                                                      app-launcher--annotation-function
+                                                      choice))))
+                        (complete-with-action flag candidates str pred)))
+                    (lambda (x y) (cdr (assq 'visible y)))
+                    t nil 'app-launcher nil nil)))
+      (funcall app-launcher--action-function result file))))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
