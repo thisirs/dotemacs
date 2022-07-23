@@ -786,7 +786,10 @@ the vertical drag is done."
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
-  :demand
+  :defer 10
+  :custom
+  ;; Don't run a login shell
+  (exec-path-from-shell-arguments '("-l"))
   :config
   (setq exec-path-from-shell-variables
         (append exec-path-from-shell-variables
