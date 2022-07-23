@@ -1922,25 +1922,9 @@ the vertical drag is done."
 ;; https://github.com/fgallina/python.el
 (use-package python                     ; Python's flying circus support for Emacs
   :straight nil
-  :bind (:map python-mode-map
-              ("C-c <" . (lambda ()
-                           "Shift lines to the left"
-                           (interactive)
-                           (call-interactively 'python-indent-shift-left)
-                           (python-indent/body)))
-              ("C-c >" . (lambda ()
-                           "Shift lines to the right"
-                           (interactive)
-                           (call-interactively 'python-indent-shift-right)
-                           (python-indent/body))))
   :config
-  ;; https://github.com/abo-abo/hydra
-  (use-package hydra)                   ; Make bindings that stick around.
-  (defhydra python-indent (:post (deactivate-mark))
-    "Python indent"
-    ("<" python-indent-shift-left)
-    (">" python-indent-shift-right)
-    ("q" nil :exit t))
+  (setq python-indent-guess-indent-offset-verbose nil
+        python-shell-interpreter-args "-m IPython -i --simple-prompt")
 
   (defvar python-indent-repeat-map
     (let ((map (make-sparse-keymap)))
@@ -1949,10 +1933,7 @@ the vertical drag is done."
       map))
 
   (put 'python-indent-shift-left 'repeat-map 'python-indent-repeat-map)
-  (put 'python-indent-shift-right 'repeat-map 'python-indent-repeat-map)
-
-  (setq python-indent-guess-indent-offset-verbose nil
-        python-shell-interpreter-args "-m IPython -i --simple-prompt"))
+  (put 'python-indent-shift-right 'repeat-map 'python-indent-repeat-map))
 
 ;; http://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
@@ -2040,6 +2021,10 @@ out")
   (add-hook 'dired-mode-hook 'recentf-add-dired-directory)
   :config
   (recentf-mode 1))
+
+(use-package repeat
+  :straight nil
+  :hook (after-init-hook . repeat-mode))
 
 ;; A search tool based on ripgrep
 ;; https://github.com/dajva/rg.el
