@@ -1879,9 +1879,32 @@ the vertical drag is done."
    (prescient-aggressive-file-save t)
    (selectrum-fix-vertical-window-height t)))
 
+;; https://elpa.gnu.org/packages/project.html
+(use-package project                    ; Operations on the current project
+  :straight nil
+  :custom (project-switch-commands 'project-dired)
+  :config
+  (defun project-reload-projects ()
+    (interactive)
+    (project-remember-projects-under "~/SynologyDrive/Sylvain/enseignements/repositories/")
+    (project-remember-projects-under "~/.emacs.d/straight/repos/")
+    (project-remember-projects-under "~/repositories")
+    (project-remember-projects-under "~/SynologyDrive/Sylvain/projects"))
+
+  (defun project-try-known (dir)
+    (when (member dir (directory-files "~/SynologyDrive/Sylvain/enseignements/repositories/" 'full "^[^.]"))
+      (cons 'known dir)))
+
+  (cl-defmethod project-root ((project (head known)))
+    "Return root directory of known PROJECT."
+    (cdr project))
+
+  (add-to-list 'project-find-functions 'project-try-known))
+
 ;; Projectile
 ;; https://github.com/bbatsov/projectile
 (use-package projectile                 ; Manage and navigate projects in Emacs easily
+  :disabled
   :init
   ;; Auto-remove non-existent projects
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
