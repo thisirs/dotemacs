@@ -1685,12 +1685,19 @@ the vertical drag is done."
   ;; Use Org syntax to cite: [cite:@citekey]
   (orb-roam-ref-format 'org-cite)
   :config
+  (defun org-roam-capture-add-tags ()
+    (mapconcat
+     'identity
+     (completing-read-multiple
+      "Tag(s): " (org-roam-tag-completions))
+     " "))
+
   ;; Immediately file capture and display file: add :immediate-finish
   ;; and :jump-to-captured.
   (add-to-list 'org-roam-capture-templates
                '("r" "bibliography reference" plain "%?"
                  :target
-                 (file+head "${citekey}.org" "#+TITLE: ${title}\n#+AUTHORS: ${author}\n#+YEAR: ${date}")
+                 (file+head "${citekey}.org" "#+title: ${title}\n#+authors: ${author}\n#+year: ${date}\n#+filetags: %(org-roam-capture-add-tags)")
                  :unnarrowed t
                  :jump-to-captured t
                  :immediate-finish t))
