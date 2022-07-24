@@ -1893,10 +1893,12 @@ the vertical drag is done."
   :config
   (defun project-reload-projects ()
     (interactive)
-    (project-remember-projects-under "~/SynologyDrive/Sylvain/enseignements/repositories/")
-    (project-remember-projects-under "~/.emacs.d/straight/repos/")
-    (project-remember-projects-under "~/repositories")
-    (project-remember-projects-under "~/SynologyDrive/Sylvain/projects"))
+    (dolist (dir '("~/SynologyDrive/Sylvain/enseignements/repositories/"
+                   "~/.emacs.d/straight/repos/"
+                   "~/repositories"
+                   "~/SynologyDrive/Sylvain/projects"))
+      (when (file-directory-p dir)
+        (project-remember-projects-under dir))))
 
   (defun project-try-known (dir)
     (when (member dir (directory-files "~/SynologyDrive/Sylvain/enseignements/repositories/" 'full "^[^.]"))
