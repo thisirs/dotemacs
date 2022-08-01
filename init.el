@@ -472,9 +472,9 @@ This function is used in `citar-open-note-function'."
   :hook (company-mode-hook . company-posframe-mode))
 
 (use-package compile
-  :config
+  :custom
   ;; Move point to first error
-  (setq compilation-scroll-output 'first-error))
+  (compilation-scroll-output 'first-error))
 
 ;; https://github.com/minad/consult
 (use-package consult                    ; Consulting completing-read
