@@ -224,6 +224,13 @@ inherited by a parent headline."
 
   (add-hook 'before-save-hook #'clean-org-buffer)
 
+  (defun org-toggle-timestamp (beg end)
+    "Toggle all timestamps in region."
+    (interactive "*r")
+    (goto-char beg)
+    (while (re-search-forward org-element--timestamp-regexp end t)
+      (org-toggle-timestamp-type)))
+
   (defun org-context-capture-find-headline ()
     "Used with `org-context' in a capture template as a locating
 function. Capture under a headline whose name is the file we
