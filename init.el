@@ -522,8 +522,9 @@ This function is used in `citar-open-note-function'."
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
+  :custom
+  (corfu-cycle t)
   :config
-  (setq corfu-cycle t)
   (global-corfu-mode))
 
 ;; https://github.com/abo-abo/swiper
