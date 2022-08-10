@@ -1063,6 +1063,7 @@ the vertical drag is done."
 
 ;; https://github.com/tmalsburg/helm-bibtex
 (use-package bibtex-completion          ; A BibTeX backend for completion frameworks
+  :disabled
   :demand :after bibtex-completion
   :straight (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
                                :files ("bibtex-completion.el"))
