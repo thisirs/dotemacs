@@ -239,9 +239,8 @@ loading LIBRARY in an `eval-after-load'."
        (interactive)
        (makunbound ',command)
        (require ',library)
-       (if (boundp ',command)
+       (unless (boundp ',command)
            (error ,(format "Loading library `%s' did not define `%s'" library command)))
-       (call-interactively ',command))
-     (put ',command 'autoload-config t)))
+       (call-interactively ',command))))
 
 (provide 'init-utils)
