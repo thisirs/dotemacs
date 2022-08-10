@@ -2001,10 +2001,14 @@ the vertical drag is done."
       :program "latexindent"
       :args (list "-y=defaultIndent:'  '")))
 
-  (when (executable-find "black-macchiato-strip")
-    (reformatter-define reformatter-black
-      :program "black-macchiato-strip"
-      :args (list "--target-version" "py310")))
+  (cond ((executable-find "black-macchiato-strip")
+         (reformatter-define reformatter-black
+           :program "black-macchiato-strip"
+           :args (list "--target-version" "py310")))
+        ((executable-find "black-macchiato")
+         (reformatter-define reformatter-black
+           :program "black-macchiato"
+           :args (list "--target-version" "py310"))))
 
   (when (executable-find "npx")
     (reformatter-define reformatter-sql
