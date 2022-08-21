@@ -2418,6 +2418,7 @@ behavior added."
   (undo-tree-auto-save-history nil)
   (undo-tree-visualizer-timestamps t)
   (undo-tree-enable-undo-in-region t)
+  (undo-tree-visualizer-diff t)
   :config
   (global-undo-tree-mode))
 
