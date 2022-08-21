@@ -1364,6 +1364,7 @@ the vertical drag is done."
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
   (message-send-mail-function 'smtpmail-send-it)
+  (message-screenshot-command '("import" "-silent" "png:-"))
   :hook
   (message-mode-hook . turn-off-auto-fill)
   (message-mode-hook . turn-on-visual-line-mode))
