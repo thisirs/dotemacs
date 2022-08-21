@@ -672,7 +672,7 @@ the vertical drag is done."
 
 ;; https://github.com/remyhonig/elfeed-org
 (use-package elfeed-org                 ; Configure elfeed with one or more org-mode files
-  :demand :after elfeed
+  :demand :after (:all org elfeed)
   :custom
   (rmh-elfeed-org-files (list (expand-file-name "elfeed.org" personal-emacs-directory)))
   :config
