@@ -928,6 +928,11 @@ the vertical drag is done."
 ;; https://github.com/magit/git-modes
 (use-package git-modes)                 ; Major modes for editing Git configuration files
 
+;; https://gitlab.com/pidu/git-timemachine
+(use-package git-timemachine            ; Walk through git revisions of a file
+  :bind ("C-x v t" . git-timemachine-toggle)
+  :commands git-timemachine)
+
 ;; https://github.com/atykhonov/google-translate
 (use-package google-translate ; Emacs interface to Google Translate.
   :config
