@@ -1379,7 +1379,9 @@ the vertical drag is done."
   (mood-line-mode))
 
 (use-package mu4e
-  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :straight (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
+                   :pre-build (("./autogen.sh")
+                               ("ninja" "-C" "build")))
   ;; When invoking via `state'
   :commands mu4e-running-p       ; used by state
   ;; When opening a link in an Org task
@@ -1391,6 +1393,7 @@ the vertical drag is done."
                               :follow #'mu4e-org-open
                               :store #'mu4e-org-store-link))
   :custom
+  (mu4e-mu-binary (expand-file-name "build/mu/mu" (straight--repos-dir "mu")))
   (mu4e-attachment-dir "~/deathrow")
   (mu4e-completing-read-function 'completing-read)
   (mu4e-save-multiple-attachments-without-asking t)
