@@ -1300,7 +1300,13 @@ the vertical drag is done."
   :custom
   ;; Let auth-source handle the passwords for me
   (magit-process-find-password-functions '(magit-process-password-auth-source))
-  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
+  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  :config
+  ;; Add local branches section in magit status
+  (unless (memq 'magit-insert-local-branches magit-status-sections-hook)
+    (setq magit-status-sections-hook
+          (seq-insert-at magit-status-sections-hook 'magit-insert-local-branches
+                         (seq-position magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)))))
 
 ;; https://github.com/vermiculus/magithub
 (use-package magithub                   ; Magit interfaces for GitHub

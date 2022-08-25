@@ -243,4 +243,9 @@ loading LIBRARY in an `eval-after-load'."
            (error ,(format "Loading library `%s' did not define `%s'" library command)))
        (call-interactively ',command))))
 
+(defun seq-insert-at (sequence elt i)
+  (nconc
+   (seq-subseq sequence 0 i)
+   (cons elt (seq-subseq sequence i))))
+
 (provide 'init-utils)
