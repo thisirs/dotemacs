@@ -1480,11 +1480,10 @@ the vertical drag is done."
   (defun mu4e-headers-search-hydra ()
     (interactive)
     (minibuffer-with-setup-hook #'hydra-mu4e-search/body
-      (mu4e-headers-search
+      (mu4e-search
        (read-string "Search for: "))))
 
-  (define-key mu4e-headers-mode-map (kbd "s") #'mu4e-headers-search-hydra)
-  (define-key mu4e-main-mode-map (kbd "s") #'mu4e-headers-search-hydra)
+  (define-key mu4e-search-minor-mode-map (kbd "s") #'mu4e-headers-search-hydra)
 
   (require 'org-mu4e)
 
