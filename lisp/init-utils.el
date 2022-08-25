@@ -237,9 +237,9 @@ loading LIBRARY in an `eval-after-load'."
      (defun ,command ()
        ,(or docstring (format "Configuration autoload for command `%s'" command))
        (interactive)
-       (makunbound ',command)
+       (fmakunbound ',command)
        (require ',library)
-       (unless (boundp ',command)
+       (unless (fboundp ',command)
            (error ,(format "Loading library `%s' did not define `%s'" library command)))
        (call-interactively ',command))))
 
