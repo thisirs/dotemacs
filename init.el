@@ -1651,7 +1651,12 @@ the vertical drag is done."
 
 (use-package org-protocol
   :straight nil
-  :demand :after server)
+  :preface
+  ;; Load org-protocol only when `server-visit-files' is called. An
+  ;; advice around `server-visit-files' is present in org-protocol but
+  ;; not autoloaded, so do it here.
+  (autoload 'org--protocol-detect-protocol-server "org-protocol")
+  (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server))
 
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
