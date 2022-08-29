@@ -1449,25 +1449,21 @@ the vertical drag is done."
         mu4e-headers-encrypted-mark '("x" .  "🔑")
         mu4e-headers-signed-mark    '("s" .  ""))
 
-  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
-                                :name "Unread or today"
-                                :query "flag:unread OR date:today..now"
-                                :key ?u))
+  (add-to-list 'mu4e-bookmarks '(:name "Unread or today"
+                                       :query "flag:unread OR date:today..now"
+                                       :key ?u))
 
-  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
-                                :name "Unread"
-                                :query "flag:unread AND NOT flag:trashed"
-                                :key ?U))
+  (add-to-list 'mu4e-bookmarks '(:name "Unread"
+                                       :query "flag:unread AND NOT flag:trashed"
+                                       :key ?U))
 
-  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
-                                :name "Sent"
-                                :query "maildir:/utc/Sent"
-                                :key ?s))
+  (add-to-list 'mu4e-bookmarks '(:name "Sent"
+                                       :query "maildir:/utc/Sent"
+                                       :key ?s))
 
-  (add-to-list 'mu4e-bookmarks (make-mu4e-bookmark
-                                :name "Last month's messages"
-                                :query "date:31d..now"
-                                :key ?W))
+  (add-to-list 'mu4e-bookmarks '(:name "Last month's messages"
+                                       :query "date:31d..now"
+                                       :key ?W))
 
   (define-key-after global-map [menu-bar tools mu4e]
     (cons "Mu4e" (make-sparse-keymap " blah")) 'tools)
@@ -1495,7 +1491,6 @@ the vertical drag is done."
 
   (define-key mu4e-search-minor-mode-map (kbd "s") #'mu4e-headers-search-hydra)
 
-  (require 'org-mu4e)
 
   ;; Use mu4e when attaching from dired
   (setq gnus-dired-mail-mode 'mu4e-user-agent)
@@ -1514,7 +1509,6 @@ the vertical drag is done."
             (push (buffer-name buffer) buffers))))
       (nreverse buffers)))
 
-  (setq gnus-dired-mail-mode 'mu4e-user-agent)
   (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
   ;; Open in emacs on M-RET
