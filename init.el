@@ -1054,7 +1054,12 @@ the vertical drag is done."
   :custom
   (ical2org/event-format "\
 * {SUMMARY} en {LOCATION}
-  {TIME}"))
+  {TIME}")
+  :config
+  (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
+    (let ((system-time-locale "en_US.UTF-8"))
+      (apply oldfun args)))
+  (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
 
 ;; https://www.emacswiki.org/emacs/download/info%2b.el
 ;; (use-package info+)             ; Extensions to `info.el'.
