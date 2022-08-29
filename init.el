@@ -519,6 +519,10 @@ This function is used in `citar-open-note-function'."
    consult-org-roam-forward-links
    :preview-key (kbd "M-.")))
 
+;; https://codeberg.org/jao/consult-recoll
+(use-package consult-recoll             ; Recoll queries using consult
+  :bind ("M-g t" . consult-recoll))
+
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
