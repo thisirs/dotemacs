@@ -36,7 +36,9 @@
     (auto-fill-mode +1))
 
   (defun turn-off-truncate-lines ()
-    (toggle-truncate-lines -1))
+    (cl-letf (((symbol-function 'message)
+               (lambda (&rest args) t)))
+      (toggle-truncate-lines -1)))
 
   :hook
   (auto-save-hook . org-save-all-agenda-buffers)
