@@ -167,7 +167,6 @@
   (setq solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
 
-;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme            ; Color theme with a dark and light versions
   :disabled
   :init
@@ -249,7 +248,7 @@
   :config
   (alert-add-rule :style 'libnotify))
 
-;; https://github.com/syohex/emacs-anzu
+;; https://github.com/emacsorphanage/anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :disabled
   :config
@@ -307,8 +306,8 @@
   (dolist (mode beginend-modes) (diminish (cdr mode)))
   (beginend-global-mode))
 
-;; https://github.com/bdarcus/citar
-(use-package citar             ; Citation-related commands for org, latex, markdown.
+;; https://github.com/emacs-citar/citar
+(use-package citar                      ; Citation-related commands for org, latex, markdown
   :bind (("C-c b" . citar-open-or-cite)
          :map citar-map
          ;; Allow to open resources with selected application
@@ -547,7 +546,7 @@ This function is used in `citar-open-note-function'."
   ;; Remaps some built-in emacs functions
   (counsel-mode))
 
-;; https://github.com/raxod502/ctrlf
+;; https://github.com/radian-software/ctrlf
 (use-package ctrlf                      ; Emacs finally learns how to ctrl+F
   :demand
   :init
@@ -1291,7 +1290,7 @@ the vertical drag is done."
          (python-mode-hook . lsp))
   :commands lsp)
 
-;; http://immerrr.github.com/lua-mode
+;; https://immerrr.github.io/lua-mode
 (use-package lua-mode)          ; a major-mode for editing Lua scripts
 
 ;; https://github.com/joddie/macrostep
@@ -1323,7 +1322,7 @@ the vertical drag is done."
   :hook
   (after-init-hook . marginalia-mode))
 
-;; http://jblevins.org/projects/markdown-mode/
+;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.Rmd\\'" . rmarkdown-mode))
@@ -1871,10 +1870,10 @@ the vertical drag is done."
   :straight `(pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
   :after pdf-tools :demand)
 
-;; https://github.com/ejmr/php-mode
+;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
 
-;; https://github.com/vitoshka/polymode
+;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
   :commands poly-latex-mode
   :config
@@ -1986,7 +1985,7 @@ the vertical drag is done."
   (put 'python-indent-shift-left 'repeat-map 'python-indent-repeat-map)
   (put 'python-indent-shift-right 'repeat-map 'python-indent-repeat-map))
 
-;; http://elpa.gnu.org/packages/rainbow-mode.html
+;; https://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
 
 ;; https://github.com/ChillarAnand/real-auto-save
@@ -1999,7 +1998,7 @@ the vertical drag is done."
   (with-eval-after-load 'org
     (setq real-auto-save-buffers-list org-agenda-files)))
 
-;; https://github.com/purcell/reformatter.el
+;; https://github.com/purcell/emacs-reformatter
 (use-package reformatter               ; Define commands which run re-formatters
   :preface
   ;; Don't config reformatter but define reformatter functions to
@@ -2420,7 +2419,7 @@ behavior added."
   ;; (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append)
   )
 
-;; http://www.dr-qubit.org/emacs.php
+;; https://www.dr-qubit.org/undo-tree.html
 (use-package undo-tree                  ; Treat undo history as a tree
   :demand
   :bind (:map undo-tree-visualizer-mode-map ("RET" . undo-tree-visualizer-quit))
