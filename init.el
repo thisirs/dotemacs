@@ -1703,6 +1703,9 @@ the vertical drag is done."
   :custom
   ;; Use Org syntax to cite: [cite:@citekey]
   (orb-roam-ref-format 'org-cite)
+
+  ;; ORB use bibtex-completion to read bib files
+  (bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   :config
   (defun org-roam-capture-add-tags ()
     (mapconcat
