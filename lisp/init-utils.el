@@ -131,8 +131,9 @@ and the index of the match."
                            (if (or (eq it t) (null it))
                                (cadr def)
                              it))))
-          (when-let* ((pkg (cadr (assoc pkg-name package-archive-contents)))
-                      (url (cdr (assoc :url (package-desc-extras pkg)))))
+          (when-let* ((pkgs (cdr (assoc pkg-name package-archive-contents)))
+                      (pkg (car pkgs))
+                      (url (car (delq nil (mapcar (lambda (e) (cdr (assoc :url (package-desc-extras e)))) pkgs)))))
             (unless (save-excursion
                       (forward-line -1)
                       (looking-at "[[:space:]]*;+[[:space:]]*http"))
