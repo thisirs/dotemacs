@@ -167,6 +167,7 @@
   (setq solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
 
+;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme            ; Color theme with a dark and light versions
   :disabled
   :init
@@ -329,12 +330,7 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-  ;; https://github.com/emacs-citar/citar-embark
-  (use-package citar-embark             ; Citar/Embark integration
-    :straight nil
-    :demand :after citar embark
-    :no-require
-    :config (citar-embark-mode))
+  (citar-embark-mode)
 
   ;; https://github.com/domtronn/all-the-icons.el
   (use-package all-the-icons            ; A library for inserting Developer icons
@@ -380,6 +376,11 @@ This function is used in `citar-open-note-function'."
                     (lambda (x y) (cdr (assq 'visible y)))
                     t nil 'app-launcher nil nil)))
       (funcall app-launcher--action-function result file))))
+
+(use-package citar-org-roam
+  :demand :after citar org-roam
+  :no-require
+  :config (citar-org-roam-mode))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
