@@ -2471,7 +2471,7 @@ behavior added."
           ("M-%" . vr/query-replace)))
 
 ;; https://github.com/benma/visual-regexp-steroids.el/
-(use-package Visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
+(use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
   :commands (vr/select-replace vr/select-query-replace)
   :demand :after visual-regexp)
 
