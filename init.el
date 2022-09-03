@@ -1554,14 +1554,11 @@ the vertical drag is done."
 (use-package mu4e-alert                 ; Desktop notification for mu4e
   :if (on-zbook)
   :demand :after mu4e
+  :custom
+  (mu4e-alert-interesting-mail-query "flag:unread AND NOT flag:trashed AND NOT maildir:/gmail/INBOX")
   :config
   (mu4e-alert-set-default-style 'libnotify)
-  (mu4e-alert-enable-notifications)
-  (setq mu4e-alert-interesting-mail-query
-        (concat
-         "flag:unread"
-         " AND NOT flag:trashed"
-         " AND NOT maildir:/gmail/INBOX")))
+  (mu4e-alert-enable-notifications))
 
 ;; Using multi-term instead of term
 ;; http://www.emacswiki.org/emacs/download/multi-term.el
