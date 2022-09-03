@@ -1676,6 +1676,10 @@ the vertical drag is done."
     (interactive)
     (dired org-roam-directory))
   :custom
+  (org-roam-node-display-template
+   (concat "${title:80} "
+           (propertize "${tags:30}" 'face 'org-tag)
+           (propertize "${refs:30}" 'face 'org-tag)))
   (org-roam-directory (expand-file-name "recherche/notes" personal-directory))
   :bind (("C-c n r" . org-roam-buffer-toggle)
          ("C-c n d" . org-roam-dailies-goto-today)
@@ -1683,6 +1687,9 @@ the vertical drag is done."
          ("C-c n i" . org-roam-node-insert)
          ("C-c n j" . org-roam-dired-jump))
   :config
+  (cl-defmethod org-roam-node-refs ((node org-roam-node))
+    (cdr (assoc-string "ROAM_REFS" (org-roam-node-properties node))))
+
   (org-roam-db-autosync-enable)
 
   ;; Disable auto-insert feature when capturing in new Org file
