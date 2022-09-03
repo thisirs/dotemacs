@@ -1424,7 +1424,9 @@ the vertical drag is done."
   ;; When opening a link in an Org task
   :commands (mu4e-org-open mu4e-org-store-link)
   :init
-  ;; Install link support but don't load mu4e
+  ;; Install mu4e-link support but don't load mu4e. mu4e will be
+  ;; loaded by `mu4e-org-open' or `mu4e-org-store-link' that are in
+  ;; commands.
   (eval-after-load "org"
     '(org-link-set-parameters "mu4e"
                               :follow #'mu4e-org-open
