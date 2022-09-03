@@ -628,6 +628,27 @@ the vertical drag is done."
   ;; Ignore whitespace in diff
   (ediff-diff-options "-w"))
 
+(use-package ediff-util
+  :straight nil
+  :hook (ediff-keymap-setup-hook . add-d-to-ediff-mode-map)
+  :config
+  (defun ediff-copy-both-to-C (&optional arg)
+    "In ediff, copy A and then B to C."
+    (interactive "P")
+    (let* ((first (if arg 'B 'A))
+           (second (if arg 'A 'B))
+           (merge (concat
+                   (ediff-get-region-contents ediff-current-difference first ediff-control-buffer)
+                   (ediff-get-region-contents ediff-current-difference second ediff-control-buffer))))
+      (if ediff-3way-job
+          (ediff-copy-diff ediff-current-difference nil 'C nil merge)
+        (ediff-copy-diff ediff-current-difference nil 'A nil merge)
+        (ediff-copy-diff ediff-current-difference nil 'B nil merge))))
+
+  (defun add-d-to-ediff-mode-map ()
+    "Add key 'd' for 'copy both to C' functionality in ediff."
+    (define-key ediff-mode-map "d" #'ediff-copy-both-to-C)))
+
 (use-package ediff-wind
   :straight nil
   :preface
