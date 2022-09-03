@@ -1083,8 +1083,8 @@ the vertical drag is done."
       (apply oldfun args)))
   (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
 
-;; https://www.emacswiki.org/emacs/download/info%2b.el
-;; (use-package info+)             ; Extensions to `info.el'.
+(use-package info+              ; Extensions to `info.el'.
+  :disabled)
 
 ;; http://github.com/nonsequitur/inf-ruby
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
