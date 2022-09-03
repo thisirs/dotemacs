@@ -939,6 +939,7 @@ the vertical drag is done."
 
 ;; https://github.com/atykhonov/google-translate
 (use-package google-translate ; Emacs interface to Google Translate.
+  :disabled
   :config
   (setq google-translate-translation-directions-alist
         '(("en" . "fr") ("fr" . "en")))
@@ -2108,6 +2109,11 @@ out")
     :format regexp
     :dir current
     :files "*"))
+
+(use-package reverso
+  :straight (:host github :repo "SqrtMinusOne/reverso.el")
+  :custom (reverso-languages '(english french))
+  :bind ("C-c t" . reverso-translate))
 
 ;; https://github.com/dgutov/robe
 (use-package robe                       ; Code navigation, documentation lookup and completion for Ruby
