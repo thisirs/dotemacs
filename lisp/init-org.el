@@ -386,6 +386,17 @@ refile targets.")
       (forward-line)
       (org-paste-subtree))))
 
+
+(use-package org-cite
+  :straight nil
+  :custom
+  (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+
+
+)
 (use-package ox-latex
   :straight nil
   :config
