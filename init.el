@@ -309,18 +309,14 @@
 
 ;; https://github.com/emacs-citar/citar
 (use-package citar                      ; Citation-related commands for org, latex, markdown
+  :preface
+  (autoload-config citar-open-current citar)
+  (autoload-config citar-open-or-cite citar)
   :bind (("C-c b" . citar-open-or-cite)
          ("C-c n o" . citar-open-current)
          :map citar-map
          ;; Allow to open resources with selected application
          ("O" . citar-open-external))
-  :init
-  (defun citar-open-or-cite ()
-    (require 'citar)
-    (interactive)
-    (call-interactively
-     (if (citar--get-major-mode-function 'insert-citation)
-         'citar-insert-citation 'citar-open)))
   :custom
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
@@ -340,6 +336,12 @@
          (key (file-name-base buf-name)))
         (citar--library-file-action key #'citar-file-open)
       (user-error "Not a buffer visiting a file")))
+
+  (defun citar-open-or-cite ()
+    (interactive)
+    (call-interactively
+     (if (citar--get-major-mode-function 'insert-citation)
+         'citar-insert-citation 'citar-open)))
 
 
   ;; https://github.com/domtronn/all-the-icons.el
