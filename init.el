@@ -327,7 +327,6 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-  (citar-embark-mode)
   (defun citar-open-current ()
     "Open files associated to a BibTeX key taken from the current visited filename."
     (interactive)
@@ -343,6 +342,10 @@
      (if (citar--get-major-mode-function 'insert-citation)
          'citar-insert-citation 'citar-open)))
 
+  (use-package citar-embark
+    :demand
+    :config
+    (citar-embark-mode))
 
   ;; https://github.com/domtronn/all-the-icons.el
   (use-package all-the-icons            ; A library for inserting Developer icons
