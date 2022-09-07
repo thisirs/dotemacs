@@ -345,15 +345,13 @@
 
   ;; https://github.com/domtronn/all-the-icons.el
   (use-package all-the-icons            ; A library for inserting Developer icons
+    :demand
     :config
     (setq citar-symbols
-          `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
-            (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
-            (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
-    (setq citar-symbol-separator "  "))
-
-  ;; Don't display link
-  (setf (cdr (assoc 'link citar-symbols)) (cons "" ""))
+          `((file ,(all-the-icons-octicon "file-pdf" :face 'error) . " ")
+            (note ,(all-the-icons-octicon "file-text" :face 'warning) . " ")
+            (link "" . "")))
+    (setq citar-symbol-separator " "))
 
   (defun orb-citar-edit-note-template (citekey _entry)
     "Use `org-roam-bibtex' to open a note file.
