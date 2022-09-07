@@ -310,6 +310,7 @@
 ;; https://github.com/emacs-citar/citar
 (use-package citar                      ; Citation-related commands for org, latex, markdown
   :bind (("C-c b" . citar-open-or-cite)
+         ("C-c n o" . citar-open-current)
          :map citar-map
          ;; Allow to open resources with selected application
          ("O" . citar-open-external))
@@ -331,6 +332,15 @@
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
   (citar-embark-mode)
+  (defun citar-open-current ()
+    "Open files associated to a BibTeX key taken from the current visited filename."
+    (interactive)
+    (if-let*
+        ((buf-name (buffer-file-name))
+         (key (file-name-base buf-name)))
+        (citar--library-file-action key #'citar-file-open)
+      (user-error "Not a buffer visiting a file")))
+
 
   ;; https://github.com/domtronn/all-the-icons.el
   (use-package all-the-icons            ; A library for inserting Developer icons
