@@ -2333,7 +2333,7 @@ behavior added."
     (progn
       (dired org-roam-directory)
       (delete-other-windows)
-      (org-roam)))
+      (org-roam-buffer-toggle)))
 
   (state-define-state agenda
     :key "a"
