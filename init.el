@@ -2508,7 +2508,13 @@ behavior added."
 
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
-  :hook (after-init-hook . vertico-mode))
+  :straight (vertico :files (:defaults "extensions/*"))
+  :hook (after-init-hook . vertico-mode)
+  :bind (:map vertico-map
+              ("M-q" . vertico-multiform-grid))
+  :config
+  (vertico-multiform-mode 1)
+  (setq vertico-multiform-categories '((consult-grep buffer))))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
