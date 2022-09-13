@@ -2514,6 +2514,10 @@ behavior added."
               ("M-q" . vertico-multiform-grid))
   :config
   (vertico-multiform-mode 1)
+  (setq vertico-multiform-commands
+        '((consult-grep buffer)
+          (consult-line buffer)))
+
   (setq vertico-multiform-categories '((consult-grep buffer))))
 
 ;; https://github.com/benma/visual-regexp.el/
