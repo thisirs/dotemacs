@@ -1824,6 +1824,11 @@ the vertical drag is done."
                '(mu4e-compose-mode . orgalist-message-mode-context))
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
+(use-package osm
+  :init
+  (with-eval-after-load 'org
+    (require 'osm-ol)))
+
 (use-package ox-ipynb
   :straight (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
 
