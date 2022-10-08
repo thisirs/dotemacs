@@ -1728,7 +1728,22 @@ the vertical drag is done."
     (let (auto-insert)
       (apply oldfun args)))
 
-  (advice-add 'org-roam-capture- :around #'org-roam-capture--no-autoinsert))
+  (advice-add 'org-roam-capture- :around #'org-roam-capture--no-autoinsert)
+
+  ;; Force specific todo keywords in `org-roam-directory'
+  (defun org-roam-set-todo-keywords ()
+    (when (string-prefix-p org-roam-directory (buffer-file-name))
+      (org-set-todo-keywords
+       '((sequence "IDEA(i!/!)" "|" "STUPID(s@)" "REFINED(r)" "DONE(d)")
+         (sequence "TOREAD(t)" "READING(r)" "|" "DONE(d)" "ABANDONED(a)")))))
+
+  (defun org-set-todo-keywords (todo-keywords)
+    ;; Avoid recursion
+    (cl-letf (((symbol-function 'org-roam-set-todo-keywords) #'ignore))
+      (let ((org-todo-keywords todo-keywords))
+        (org-mode-restart))))
+
+  (add-hook 'org-mode-hook #'org-roam-set-todo-keywords))
 
 ;; https://github.com/org-roam/org-roam-bibtex
 (use-package org-roam-bibtex            ; Org Roam meets BibTeX
