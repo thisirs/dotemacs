@@ -2532,13 +2532,13 @@ behavior added."
   :hook (after-init-hook . vertico-mode)
   :bind (:map vertico-map
               ("M-q" . vertico-multiform-grid))
+  :custom
+  ((vertico-multiform-commands
+    '((consult-grep buffer)
+      (consult-imenu buffer)
+      (consult-line buffer))))
   :config
-  (vertico-multiform-mode 1)
-  (setq vertico-multiform-commands
-        '((consult-grep buffer)
-          (consult-line buffer)))
-
-  (setq vertico-multiform-categories '((consult-grep buffer))))
+  (vertico-multiform-mode 1))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
