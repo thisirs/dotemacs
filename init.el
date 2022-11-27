@@ -1088,7 +1088,7 @@ the vertical drag is done."
   {TIME}")
   :config
   (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
-    (let ((system-time-locale "en_US.UTF-8"))
+    (let ((system-time-locale "C"))
       (apply oldfun args)))
   (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
 
