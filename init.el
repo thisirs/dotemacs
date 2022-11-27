@@ -1717,8 +1717,6 @@ the vertical drag is done."
          ("C-c n i" . org-roam-node-insert)
          ("C-c n j" . org-roam-dired-jump))
   :config
-  (cl-defmethod org-roam-node-refs ((node org-roam-node))
-    (cdr (assoc-string "ROAM_REFS" (org-roam-node-properties node))))
 
   (org-roam-db-autosync-enable)
 
