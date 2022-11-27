@@ -1979,6 +1979,7 @@ the vertical drag is done."
     (dolist (dir '("~/SynologyDrive/Sylvain/enseignements/repositories/"
                    "~/.emacs.d/straight/repos/"
                    "~/repositories"
+                   "~/SynologyDrive/Sylvain/recherche/programs/"
                    "~/SynologyDrive/Sylvain/projects"))
       (when (file-directory-p dir)
         (project-remember-projects-under dir))))
