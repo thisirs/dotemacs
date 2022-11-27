@@ -1699,12 +1699,9 @@ the vertical drag is done."
 
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
+  :preface
+  (autoload-config org-roam-dired-jump org-roam)
   :diminish
-  :init
-  (defun org-roam-dired-jump ()
-    "Jump to Dired buffer of `org-roam-directory'."
-    (interactive)
-    (dired org-roam-directory))
   :custom
   (org-roam-node-display-template
    (concat "${title:80} "
@@ -1717,6 +1714,10 @@ the vertical drag is done."
          ("C-c n i" . org-roam-node-insert)
          ("C-c n j" . org-roam-dired-jump))
   :config
+  (defun org-roam-dired-jump ()
+    "Jump to Dired buffer of `org-roam-directory'."
+    (interactive)
+    (dired org-roam-directory))
 
   (org-roam-db-autosync-enable)
 
