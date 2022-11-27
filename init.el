@@ -2485,10 +2485,7 @@ behavior added."
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
   :straight nil
   :custom
-  (remote-file-name-inhibit-locks t)
-  :config
-  ;; (add-to-list 'tramp-remote-process-environment "LC_ALL=en_US.utf8" 'append)
-  )
+  (remote-file-name-inhibit-locks t))
 
 ;; https://www.dr-qubit.org/undo-tree.html
 (use-package undo-tree                  ; Treat undo history as a tree
