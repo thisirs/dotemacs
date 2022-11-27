@@ -1367,8 +1367,13 @@ the vertical drag is done."
 
 ;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
+  :init
+  (defun markdown-mode-settings ()
+    (add-to-list (make-local-variable 'electric-pair-pairs)
+                 '(?` . ?`)))
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.Rmd\\'" . rmarkdown-mode))
+  :hook (markdown-mode-hook . markdown-mode-settings)
   :bind (:map markdown-mode-map
               ("C-c C-f" . nil)
               ("C-c C-f b" . markdown-insert-bold)
