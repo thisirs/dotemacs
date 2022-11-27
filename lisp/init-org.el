@@ -451,18 +451,18 @@ child checkboxes."
     (setq org-latex-format-headline-function
           'org-latex-format-headline-checkbox-function)))
 
-(use-package org-expiry
+(use-package org-auto-archive
   :if (on-zbook)
-  :straight `(org-expiry :type git
-                         :local-repo ,(expand-file-name "org-expiry" projects-directory))
-  :hook (kill-emacs-hook . org-expiry-process-buffers)
+  :straight `(org-auto-archive :type git
+                               :local-repo ,(expand-file-name "org-auto-archive" projects-directory))
+  :hook (kill-emacs-hook . org-auto-archive-process-buffers)
   :custom
-  (org-expiry-plan
+  (org-auto-archive-plan
    '(("agenda.org" . ((subtree "External events")))
-     ("someday.org" . ((org-expiry-event-wait "1m")))
+     ("someday.org" . ((org-auto-archive-event-wait "1m")))
      ("agenda.org" . ((subtree "Liste des scheduled")))
      ("agenda.org" . ((subtree "Liste des deadlines")))))
-  (org-expiry-handler-function 'org-expiry-handler-function-force))
+  (org-auto-archive-handler-function 'org-auto-archive-handler-function-force))
 
 (use-package org-capture
   :straight nil
