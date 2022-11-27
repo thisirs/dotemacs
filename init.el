@@ -2680,11 +2680,8 @@ behavior added."
   (interactive "P")
   (if (tmux-has-session)
       (apply #'start-process "Attach" nil
-             (split-string  (format "urxvt -title %s@%s -e tmux attach-session -d"
-                                    (user-login-name) (system-name))))
-    (apply #'start-process "Start" nil
-           (split-string  (format "urxvt -title %s@%s -e tmux new-session"
-                                  (user-login-name) (system-name)))))
+             (list "wmctrl" "-a" (format "%s@%s" (user-login-name) (system-name))))
+    (apply #'start-process "Start" nil (list "alacritty")))
   (if arg
       (let ((current-command (tmux-display "#{pane_current_command}")))
         (cond ((string= current-command "R")
