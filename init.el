@@ -307,6 +307,12 @@
   (dolist (mode beginend-modes) (diminish (cdr mode)))
   (beginend-global-mode))
 
+(use-package cape
+  :demand
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
 ;; https://github.com/emacs-citar/citar
 (use-package citar                      ; Citation-related commands for org, latex, markdown
   :preface
