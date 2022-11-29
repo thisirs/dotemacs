@@ -1708,6 +1708,21 @@ the vertical drag is done."
   (autoload 'org--protocol-detect-protocol-server "org-protocol")
   (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server))
 
+(use-package org-ql
+  :config
+  (defun org-ql-projects ()
+    (interactive)
+    (let ((todo-files
+           (delete-dups
+            (seq-filter #'file-exists-p
+                        (mapcar (lambda (e) (expand-file-name "todo.org" (car e)))
+                                (progn
+                                  (project--ensure-read-project-list)
+                                  project--list))))))
+      (org-ql-search todo-files
+        '(todo)
+        :super-groups '((:auto-dir-name))))))
+
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :preface
