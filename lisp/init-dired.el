@@ -129,7 +129,7 @@ repeatedly q."
 ;; C-c C-m C-a jumps to gnus with current file attached
 (use-package gnus-dired
   :straight nil
-  :hook (dired-mode . turn-on-gnus-dired-mode))
+  :hook (dired-mode-hook . turn-on-gnus-dired-mode))
 
 ;; (defvar dired-do-command-result nil)
 
