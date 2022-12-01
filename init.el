@@ -159,13 +159,21 @@
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :demand
-  :if (or (on-zbook) (on-knuth))
+  :if (on-knuth)
   :if (window-system)
   :straight solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
+
+(use-package emacs
+  :demand
+  :if (or (on-zbook) (on-knuth))
+  :if (window-system)
+  :straight nil
+  :config
+  (load-theme 'modus-vivendi t))
 
 ;; https://github.com/nashamri/spacemacs-theme
 (use-package spacemacs-theme            ; Color theme with a dark and light versions
