@@ -294,6 +294,8 @@
 ;; https://github.com/alpha22jp/atomic-chrome
 (use-package atomic-chrome              ; Edit Chrome text area with Emacs using Atomic Chrome
   :demand
+  :custom
+  (atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)))
   :config
   (atomic-chrome-start-server))
 
