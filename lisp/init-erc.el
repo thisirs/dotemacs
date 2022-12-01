@@ -1,69 +1,74 @@
+(use-package erc
+  :straight nil
+  :custom
+  (erc-autojoin-channels-alist
+   '(("libera.chat"
+      "#emacs"
+      "#ruby-lang"
+      "#ruby.fr"
+      "#ruby"
+      "#git-fr"
+      "#archlinux"
+      "#archlinux-fr"
+      "#emacsfr"
+      "#flexget"
+      "#linux-fr"
+      "#debianfr"
+      "#TikZ"
+      "#org-mode-fr")))
+  (erc-autojoin-timing 'ident)
+  (erc-prompt (lambda () (concat (buffer-name) ">"))))
+
+
 ;;; erc
 ;; Check channels
-(require 'erc)
-(erc-track-mode t)
-(setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                "324" "329" "332" "333" "353" "477"))
+(use-package erc-track
+  :straight nil
+  :custom (erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
+                                     "324" "329" "332" "333" "353" "477"))
+  :config (erc-track-mode 1))
 
-;; List of channels to join at startup
-(setq erc-autojoin-channels-alist
-      '(("freenode.net"
-         "#emacs"
-         "#ruby-lang"
-         "#ruby.fr"
-         "#ruby"
-         "#git-fr"
-         "#archlinux"
-         "#archlinux-fr"
-         "#emacsfr"
-         "#flexget"
-         "#linux-fr"
-         "#debianfr"
-         "#TikZ"
-         "#org-mode-fr")))
+(use-package erc-spelling
+  :straight nil
+  :config (erc-spelling-mode 1))
 
 ;; Flyspell input line with different dictionaries
-(erc-spelling-mode 1)
-(mapc (lambda (chan)
-        (mapc (lambda (name)
-                (if (string-match "fr$" name)
-                    (push (list name "francais") erc-spelling-dictionaries)
-                  (push (list name "english") erc-spelling-dictionaries)))
-              (cdr chan)))
-      erc-autojoin-channels-alist)
+;; (mapc (lambda (chan)
+;;         (mapc (lambda (name)
+;;                 (if (string-match "fr$" name)
+;;                     (push (list name "francais") erc-spelling-dictionaries)
+;;                   (push (list name "english") erc-spelling-dictionaries)))
+;;               (cdr chan)))
+;;       erc-autojoin-channels-alist)
 
-;; Custom prompt
-(setq erc-prompt
-      (lambda () (concat (buffer-name) ">")))
+;; (erc-match-mode 1)
+;; (setq erc-keywords '("\\<magit\\>" "\\<koans\\>" "\\<rubywarrior\\>" "\\<org\\>"))
 
-(erc-match-mode 1)
-(setq erc-keywords '("\\<magit\\>" "\\<koans\\>" "\\<rubywarrior\\>" "\\<org\\>"))
+;; (defvar erc-notifications-ring-size 5
+;;   "Maximum number of simultaneous notifications.")
 
-(defvar erc-notifications-ring-size 5
-  "Maximum number of simultaneous notifications.")
+;; (defvar erc-notifications-ring (make-ring (1+ erc-notifications-ring-size))
+;;   "Ring of notifications id.")
 
-(defvar erc-notifications-ring (make-ring (1+ erc-notifications-ring-size))
-  "Ring of notifications id.")
+;; (with-eval-after-load 'erc-desktop-notifications
+;;   (setq erc-notifications-icon "emacs-snapshot")
+;;   (defun erc-notifications-notify-on-match (match-type nickuserhost msg)
+;;     (let ((nick (nth 0 (erc-parse-user nickuserhost))))
+;;       (unless (or (string-match-p "^Server:" nick)
+;;                   (when (boundp 'erc-track-exclude)
+;;                     (member nick erc-track-exclude)))
+;;         (dbus-ignore-errors
+;;           (ring-insert
+;;            erc-notifications-ring
+;;            (notifications-notify
+;;             :title (xml-escape-string (concat nick " on " (or (erc-default-target) "#unknown")))
+;;             :body (xml-escape-string (replace-regexp-in-string "[\t\n ]+" " " msg))
+;;             :replaces-id (if (equal (ring-length erc-notifications-ring)
+;;                                     erc-notifications-ring-size)
+;;                              (ring-remove erc-notifications-ring))
+;;             :app-icon erc-notifications-icon)))))))
 
-(with-eval-after-load 'erc-desktop-notifications
-  (setq erc-notifications-icon "emacs-snapshot")
-  (defun erc-notifications-notify-on-match (match-type nickuserhost msg)
-    (let ((nick (nth 0 (erc-parse-user nickuserhost))))
-      (unless (or (string-match-p "^Server:" nick)
-                  (when (boundp 'erc-track-exclude)
-                    (member nick erc-track-exclude)))
-        (dbus-ignore-errors
-          (ring-insert
-           erc-notifications-ring
-           (notifications-notify
-            :title (xml-escape-string (concat nick " on " (or (erc-default-target) "#unknown")))
-            :body (xml-escape-string (replace-regexp-in-string "[\t\n ]+" " " msg))
-            :replaces-id (if (equal (ring-length erc-notifications-ring)
-                                    erc-notifications-ring-size)
-                             (ring-remove erc-notifications-ring))
-            :app-icon erc-notifications-icon)))))))
-
-(erc-notifications-mode t)
+;; (erc-notifications-mode t)
 
 (setq erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
@@ -74,18 +79,17 @@
 Start ERC if it is not running and ask for confirmation if ARG is
 nil."
   (interactive "P")
-  (if (and (get-buffer "irc.freenode.net:6667")
-           (erc-server-process-alive (get-buffer "irc.freenode.net:6667")))
+  (if (and (get-buffer "irc.libera.chat:6667")
+           (erc-server-process-alive (get-buffer "irc.libera.chat:6667")))
       (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
-      (erc :server "irc.freenode.net"
-           :port "6667"
-           :nick "thisirs"
-           :password (if-let* ((it (funcall (plist-get (car (auth-source-search :max 1
-                                                                                :host "NickServ"
-                                                                                :require '(:host)))
-                                                       :secret))))
-                         it ""))
+      (let ((results (auth-source-search :max 1
+                                         :host "NickServ"
+                                         :require '(:host))))
+        (erc :server "irc.libera.chat"
+             :port "6667"
+             :nick "thisirs"
+             :password (if-let* ((it (funcall (plist-get (car results) :secret)))) it "")))
       (erc-track-switch-buffer 1))))
 
 (setq erc-pcomplete-order-nickname-completions t)
@@ -105,9 +109,11 @@ nil."
   :config
   (erc-colorize-mode 1))
 
-;; Make nicks aligned to the right
-(setq erc-fill-function 'erc-fill-static)
-(setq erc-fill-static-center 20)
-(setq erc-fill-column 102)
+(use-package erc-fill
+  :straight nil
+  :custom
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 20)
+  (erc-fill-column 102))
 
 (provide 'init-erc)
