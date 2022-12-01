@@ -602,7 +602,9 @@ this with to-do items than with projects or headings."
                          (format "in %s minutes" min))))
         :body msg
         :app-icon (check-filepath "~/.emacs.d/icons/appointment-soon.png")
-        :sound-file (check-filepath "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg")))
+        :sound-file (check-filepath "/usr/share/sounds/ubuntu/stereo/phone-incoming-call.ogg"
+                                    "/usr/share/sounds/gnome/default/alerts/sonar.ogg"
+                                    "/usr/share/sounds/freedesktop/stereo/bell.oga")))
      (if (listp mins) mins (list mins))
      (if (listp msgs) msgs (list msgs))))
 
