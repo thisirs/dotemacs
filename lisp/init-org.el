@@ -459,9 +459,9 @@ child checkboxes."
   :custom
   (org-auto-archive-plan
    '(("agenda.org" . ((subtree "External events")))
+     ("agenda.org" . ((subtree "Evénements simples")))
      ("someday.org" . ((org-auto-archive-event-wait "1m")))
-     ("agenda.org" . ((subtree "Liste des scheduled")))
-     ("agenda.org" . ((subtree "Liste des deadlines")))))
+     ("agenda.org" . ((subtree "CID events")))))
   (org-auto-archive-handler-function 'org-auto-archive-handler-function-force))
 
 (use-package org-capture
