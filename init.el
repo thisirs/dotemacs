@@ -2154,7 +2154,11 @@ the vertical drag is done."
 out <- styler::style_text(readLines(con))
 close(con)
 out")
-    :lighter " styler"))
+    :lighter " styler")
+
+  (reformatter-define reformatter-isort
+    :program "isort"
+    :args (list "-d" "-")))
 
 
 ;; From https://github.com/jwiegley/dot-emacs
