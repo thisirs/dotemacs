@@ -96,6 +96,8 @@
   ;; Automatically revert Dired buffer on revisiting.
   (setq dired-auto-revert-buffer t)
 
+  (setq dired-do-revert-buffer t)
+
   ;; But show symlinks
   (setq dired-hide-details-hide-symlink-targets nil)
 
