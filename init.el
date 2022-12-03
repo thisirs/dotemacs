@@ -1534,22 +1534,22 @@ the vertical drag is done."
             (cancel-timer mu4e~update-timer)
             (setq mu4e-update-interval nil))))
 
-  (defhydra hydra-mu4e-search (:foreign-keys run :base-map (make-sparse-keymap))
-    "mu search keywords"
-    ("C-c a" (insert "flag:attach ") "Attach")
-    ("C-c p" (insert "mime:application/pdf ") "PDF")
-    ("C-c s" (insert "maildir:/utc/Sent ") "Sent")
-    ("C-c h" (progn (browse-url "https://www.djcbsoftware.nl/code/mu/mu4e/Queries.html")) "Help")
-    ("RET" exit-minibuffer "Search" :exit t))
+  (transient-define-prefix mu4e-search-transient ()
+    "Transient for mu4e search"
+    :transient-non-suffix 'transient--do-stay
+    ["Actions"
+     ("C-c a" "Attach" (lambda () (interactive) (insert "flag:attach")) :transient t)
+     ("C-c p" "PDF" (lambda () (interactive) (insert "mime:application/pdf")) :transient t)
+     ("C-c s" "Sent" (lambda () (interactive) (insert "maildir:/utc/Sent")) :transient t)
+     ("C-c h" "Online help" (lambda () (interactive) (browse-url "https://www.djcbsoftware.nl/code/mu/mu4e/Queries.html")) :transient t)
+     ("RET" "Return" (lambda () (interactive) (call-interactively (keymap-local-lookup "RET"))))
+     ])
 
-  (defun mu4e-headers-search-hydra ()
-    (interactive)
-    (minibuffer-with-setup-hook #'hydra-mu4e-search/body
-      (mu4e-search
-       (read-string "Search for: "))))
+  (defun mu4e-search-with-transient (oldfun prompt &optional initial-input)
+    (minibuffer-with-setup-hook #'mu4e-search-transient
+      (apply oldfun prompt initial-input)))
 
-  (define-key mu4e-search-minor-mode-map (kbd "s") #'mu4e-headers-search-hydra)
-
+  (advice-add 'mu4e-search-read-query :around #'mu4e-search-with-transient)
 
   ;; Use mu4e when attaching from dired
   (setq gnus-dired-mail-mode 'mu4e-user-agent)
