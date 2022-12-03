@@ -56,6 +56,8 @@
 
   (org-todo-keywords '((sequence "TODO" "|" "CANCELLED" "DONE")))
 
+  (org-use-fast-todo-selection t)
+
   ;; Allow property inheritance for org-context agenda in my scripts
   ;; directory
   (org-use-property-inheritance t)
