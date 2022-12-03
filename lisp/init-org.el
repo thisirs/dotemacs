@@ -395,10 +395,9 @@ refile targets.")
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar)
+  (org-cite-activate-processor 'citar))
 
 
-)
 (use-package ox-latex
   :straight nil
   :config
