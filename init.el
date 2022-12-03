@@ -2002,8 +2002,7 @@ the vertical drag is done."
   :custom
   ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
    (prescient-sort-length-enable nil)
-   (prescient-aggressive-file-save t)
-   (selectrum-fix-vertical-window-height t)))
+   (prescient-aggressive-file-save t)))
 
 ;; https://elpa.gnu.org/packages/project.html
 (use-package project                    ; Operations on the current project
