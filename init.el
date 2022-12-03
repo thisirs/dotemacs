@@ -406,6 +406,8 @@ This function is used in `citar-open-note-function'."
 (use-package citar-org-roam
   :demand :after citar org-roam
   :no-require
+  :custom
+  (citar-org-roam-subdir nil)
   :config (citar-org-roam-mode))
 
 ;; https://github.com/proofit404/blacken
