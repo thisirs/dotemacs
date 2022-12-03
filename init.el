@@ -317,7 +317,8 @@
   (dolist (mode beginend-modes) (diminish (cdr mode)))
   (beginend-global-mode))
 
-(use-package cape
+;; https://github.com/minad/cape
+(use-package cape                       ; Completion At Point Extensions
   :demand
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
@@ -1292,6 +1293,9 @@ the vertical drag is done."
   :demand :after prescient
   :config (ivy-prescient-mode))
 
+;; https://github.com/mooz/js2-mode/
+(use-package js2-mode)                  ; Improved JavaScript editing mode
+
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
@@ -1859,7 +1863,8 @@ the vertical drag is done."
                '(mu4e-compose-mode . orgalist-message-mode-context))
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
-(use-package osm
+;; https://github.com/minad/osm
+(use-package osm                        ; OpenStreetMap viewer
   :init
   (with-eval-after-load 'org
     (require 'osm-ol)))
