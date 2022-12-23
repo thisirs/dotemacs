@@ -1773,6 +1773,7 @@ the vertical drag is done."
 
   ;; Force specific todo keywords in `org-roam-directory'
   (defun org-roam-set-todo-keywords ()
+    "Set specific set of todo keywords for Org-roam files."
     (when (string-prefix-p org-roam-directory (buffer-file-name))
       (org-set-todo-keywords
        '((sequence "IDEA(i!/!)" "|" "STUPID(s@)" "REFINED(r)" "DONE(d)")
@@ -1807,6 +1808,7 @@ the vertical drag is done."
   (bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   :config
   (defun org-roam-capture-add-tags ()
+    "Return space-separated set of tags."
     (mapconcat
      'identity
      (completing-read-multiple
