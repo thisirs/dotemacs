@@ -2116,6 +2116,10 @@ the vertical drag is done."
   ;; trigger their own redefinition in :config.
   (autoload-config reformatter-black-region reformatter)
   (autoload-config reformatter-black-buffer reformatter)
+  (autoload-config reformatter-isort-region reformatter)
+  (autoload-config reformatter-isort-buffer reformatter)
+  (autoload-config reformatter-styler-region reformatter)
+  (autoload-config reformatter-styler-buffer reformatter)
   :config
   (require 'exec-path-from-shell) ; for ~/.local/bin
   (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
