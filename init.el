@@ -2544,6 +2544,13 @@ behavior added."
   :custom
   (remote-file-name-inhibit-locks t))
 
+(use-package treesit
+  :straight nil
+  :config
+  (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript")))
+  (add-to-list 'treesit-language-source-alist '(python . ("https://github.com/tree-sitter/tree-sitter-python")))
+  (add-to-list 'treesit-language-source-alist '(latex . ("https://github.com/latex-lsp/tree-sitter-latex"))))
+
 ;; https://www.dr-qubit.org/undo-tree.html
 (use-package undo-tree                  ; Treat undo history as a tree
   :demand
