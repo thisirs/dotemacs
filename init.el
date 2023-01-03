@@ -1984,6 +1984,10 @@ the vertical drag is done."
 ;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
 
+(use-package pixel-scroll
+  :straight nil
+  :config (pixel-scroll-precision-mode +1))
+
 ;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
   :commands poly-latex-mode
