@@ -121,6 +121,8 @@
   :demand
   :preface
   (defun change-base-dir (file)
+    "Change `user-emacs-directory' into `personal-emacs-directory' for files that are in `user-emacs-directory'"
+
     (setq file (abbreviate-file-name (expand-file-name file)))
     (if (string-prefix-p user-emacs-directory file)
         (expand-file-name (substring file (length user-emacs-directory)) personal-emacs-directory)
