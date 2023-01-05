@@ -1344,12 +1344,8 @@ the vertical drag is done."
 
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode                   ; LSP mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  ;; (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (python-mode-hook . lsp))
-  :commands lsp)
+  :custom (lsp-enable-snippet nil)
+  :hook (python-mode-hook . lsp))
 
 ;; https://immerrr.github.io/lua-mode
 (use-package lua-mode)          ; a major-mode for editing Lua scripts
