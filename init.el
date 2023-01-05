@@ -1241,6 +1241,19 @@ the vertical drag is done."
                 :caller 'ivy-bookmarks))))
 
 (use-package emacs
+  :straight nil
+  :demand
+  :config
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
+
+(use-package emacs
   :bind ("C-c j" . browse-bookmark)
   :config
   (defun bookmarks-get-candidates ()
