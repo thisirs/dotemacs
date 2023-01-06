@@ -1,7 +1,7 @@
 (require 'hippie-exp)
 
 (defun try-complete-wcheck (old)
-  (when (bound-and-true-p 'wcheck-mode)
+  (when (bound-and-true-p wcheck-mode)
     (when (not old)
       (he-init-string (he-dabbrev-beg) (point))
       (let ((marked-text
