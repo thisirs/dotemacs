@@ -16,7 +16,7 @@
   (shell-bind "<f6>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Right" "next"))
 
 ;; Shortcut for reverting a buffer
-(global-set-key (kbd "C-x C-r") #'revert-buffer)
+(global-set-key (kbd "C-x C-r") #'revert-buffer-quick)
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
 
 (global-set-key (kbd "<C-kp-4>") #'enlarge-window-horizontally)
