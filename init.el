@@ -1736,6 +1736,8 @@ the vertical drag is done."
   (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server))
 
 (use-package org-ql
+  :preface
+  (autoload-config org-ql-projects org-ql)
   :config
   (defun org-ql-projects ()
     (interactive)
