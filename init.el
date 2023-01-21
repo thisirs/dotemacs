@@ -1756,6 +1756,7 @@ the vertical drag is done."
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :preface
   (autoload-config org-roam-dired-jump org-roam)
+  (autoload-config org-roam-todo-list org-roam)
   :diminish
   :custom
   (org-roam-node-display-template
