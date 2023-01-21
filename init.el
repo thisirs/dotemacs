@@ -342,13 +342,13 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
-  (defun citar-open-current ()
+  (defun citar-open-current (&optional arg)
     "Open files associated to a BibTeX key taken from the current visited filename."
-    (interactive)
+    (interactive "P")
     (if-let*
         ((buf-name (buffer-file-name))
          (key (file-name-base buf-name)))
-        (citar--library-file-action key #'citar-file-open)
+        (citar--library-file-action key (if arg #'citar-file-open-external #'citar-file-open))
       (user-error "Not a buffer visiting a file")))
 
   (defun citar-open-or-cite ()
