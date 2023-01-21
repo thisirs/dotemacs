@@ -539,7 +539,7 @@ This function is used in `citar-open-note-function'."
   :diminish
   :demand :after org-roam
   :bind
-  ("C-c n s" . consult-org-roam-search)
+  ("C-c n g" . consult-org-roam-search)
   :custom
   (consult-org-roam-grep-func #'consult-ripgrep)
   :config
