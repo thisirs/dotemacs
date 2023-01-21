@@ -1767,12 +1767,20 @@ the vertical drag is done."
          ("C-c n d" . org-roam-dailies-goto-today)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
-         ("C-c n j" . org-roam-dired-jump))
+         ("C-c n j" . org-roam-dired-jump)
+         ("C-c n t" . org-roam-todo-list))
   :config
   (defun org-roam-dired-jump ()
     "Jump to Dired buffer of `org-roam-directory'."
     (interactive)
     (dired org-roam-directory))
+
+  (defun org-roam-todo-list ()
+    (interactive)
+    (let ((todo-files (org-roam-list-files)))
+      (org-ql-search todo-files
+        '(todo)
+        :super-groups '((:auto-category t)))))
 
   (org-roam-db-autosync-enable)
 
