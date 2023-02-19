@@ -2008,7 +2008,7 @@ the vertical drag is done."
 
 (use-package pixel-scroll
   :straight nil
-  :config (pixel-scroll-precision-mode +1))
+  :hook (after-init-hook . pixel-scroll-precision-mode))
 
 ;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
