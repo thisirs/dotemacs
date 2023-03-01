@@ -297,7 +297,9 @@
 (use-package atomic-chrome              ; Edit Chrome text area with Emacs using Atomic Chrome
   :demand
   :custom
-  (atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)))
+  (atomic-chrome-url-major-mode-alist '(("overleaf\\.com" . LaTeX-mode)
+                                        ("github\\.com" . gfm-mode)))
+  (atomic-chrome-extension-type-list '(ghost-text))
   :config
   (atomic-chrome-start-server))
 
@@ -387,23 +389,24 @@ This function is used in `citar-open-note-function'."
   (defun citar-open-external (key-or-keys)
     (citar--library-file-action key-or-keys #'citar-file-open-external))
 
-  (defun citar-file-open-external (file)
-    "Select application with `app-launcher' and open `file' with it."
-    (require 'app-launcher)
-    (let* ((candidates (app-launcher-list-apps))
-           (result (completing-read
-                    "Run app: "
-                    (lambda (str pred flag)
-                      (if (eq flag 'metadata)
-                          '(metadata
-                            (annotation-function . (lambda (choice)
-                                                     (funcall
-                                                      app-launcher--annotation-function
-                                                      choice))))
-                        (complete-with-action flag candidates str pred)))
-                    (lambda (x y) (cdr (assq 'visible y)))
-                    t nil 'app-launcher nil nil)))
-      (funcall app-launcher--action-function result file))))
+  ;; (defun citar-file-open-external (file)
+  ;;   "Select application with `app-launcher' and open `file' with it."
+  ;;   (require 'app-launcher)
+  ;;   (let* ((candidates (app-launcher-list-apps))
+  ;;          (result (completing-read
+  ;;                   "Run app: "
+  ;;                   (lambda (str pred flag)
+  ;;                     (if (eq flag 'metadata)
+  ;;                         '(metadata
+  ;;                           (annotation-function . (lambda (choice)
+  ;;                                                    (funcall
+  ;;                                                     app-launcher--annotation-function
+  ;;                                                     choice))))
+  ;;                       (complete-with-action flag candidates str pred)))
+  ;;                   (lambda (x y) (cdr (assq 'visible y)))
+  ;;                   t nil 'app-launcher nil nil)))
+  ;;     (funcall app-launcher--action-function result file)))
+  )
 
 (use-package citar-org-roam
   :demand :after citar org-roam
@@ -1317,6 +1320,9 @@ the vertical drag is done."
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
 
+(use-package js2-mode
+  :mode ("\\.js\\'" . js2-mode))
+
 ;; https://github.com/dzop/emacs-jupyter
 (use-package jupyter                    ; Jupyter
   :demand :after org
@@ -1353,7 +1359,8 @@ the vertical drag is done."
   :demand :after lsp-mode
   :config
   (add-to-list 'lsp-disabled-clients 'pyls)
-  (add-to-list 'lsp-enabled-clients 'jedi))
+  (add-to-list 'lsp-enabled-clients 'jedi)
+  (add-to-list 'lsp-enabled-clients 'ts-ls))
 
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode                   ; LSP mode
@@ -1413,11 +1420,8 @@ the vertical drag is done."
   (use-package edit-indirect)   ; Edit regions in separate buffers
 
   (setq markdown-enable-math t)
-  (setq markdown-command
-        (concat
-         "pandoc -f markdown+smart -t html5 -s --self-contained --css "
-         (expand-file-name "data/splendor.css" user-emacs-directory)))
-  (setq markdown-css-paths nil)
+  (setq markdown-command-needs-filename t)
+  (setq markdown-command (expand-file-name "rmarkdown-render" user-emacs-directory))
 
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
@@ -1954,10 +1958,13 @@ the vertical drag is done."
           pdf-cache-prefetch-minor-mode
           pdf-occur-global-minor-mode))
 
+  :custom
+  (pdf-view-display-size 'fit-page)
+
   :config
   (pdf-loader-install :no-query)
 
-  (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
+  ;; (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
 
   (use-package pdf-sync
     :straight nil
@@ -2053,7 +2060,7 @@ the vertical drag is done."
                    "~/SynologyDrive/Sylvain/recherche/programs/"
                    "~/SynologyDrive/Sylvain/projects"))
       (when (file-directory-p dir)
-        (project-remember-projects-under dir))))
+        (project-remember-projects-under dir :recursive))))
 
   (defun project-try-known (dir)
     (when (member dir (directory-files "~/SynologyDrive/Sylvain/enseignements/repositories/" 'full "^[^.]"))
@@ -2971,6 +2978,9 @@ not, return nil."
 
 ;;; Prevent Extraneous Tabs
 (setq-default indent-tabs-mode nil)
+
+(setq-default fill-column 80)
+(setq-default truncate-lines nil)
 
 ;; Follow links to version-controlled files
 (setq vc-follow-symlinks t)

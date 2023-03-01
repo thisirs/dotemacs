@@ -1,5 +1,5 @@
 ;; auto-fill
-(setq comment-auto-fill-only-comments t)
+;; (setq comment-auto-fill-only-comments t)
 
 ;; Turns on auto-fill everywhere except in minibuffer
 ;; (defun do-auto-fill-exept-in-minibuffer ()

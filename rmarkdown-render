@@ -2,10 +2,13 @@
 
 input <- commandArgs(trailing = TRUE)[1]
 sink("/dev/null")
-library(rmarkdown)
 library(knitr)
-output <- sub("\\.rmd", "\\.htmlknit", input, ignore.case = TRUE)
+library(rmarkdown)
+output <- sub("\\.[rR]?[mM][dD]", "\\.html", input, ignore.case = TRUE)
 rmarkdown::render(input, output_file = output, quiet = TRUE, output_format = html_fragment(), encoding = "utf-8")
-suppressMessages(purl(input))
+# suppressMessages(purl(input))
 sink()
 system(paste("cat", output))
+
+
+# Rscript - e "library(rmarkdown); render(, output_format = html_fragment())"
