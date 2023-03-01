@@ -539,6 +539,7 @@ This function is used in `citar-open-note-function'."
 
 ;; https://github.com/jgru/consult-org-roam
 (use-package consult-org-roam           ; Consult integration for org-roam
+  :disabled
   :diminish
   :demand :after org-roam
   :bind
