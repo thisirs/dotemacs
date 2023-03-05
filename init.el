@@ -350,7 +350,7 @@
     (if-let*
         ((buf-name (if (eq major-mode 'dired-mode) (dired-get-filename) (buffer-file-name)))
          (key (file-name-base buf-name)))
-        (citar--library-file-action key (if arg #'citar-file-open-external #'citar-file-open))
+        (citar--library-file-action key (if arg #'citar-file-open #'citar-file-open-external))
       (user-error "Not a buffer visiting a file")))
 
   (defun citar-open-or-cite ()
