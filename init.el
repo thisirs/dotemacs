@@ -348,7 +348,7 @@
     "Open files associated to a BibTeX key taken from the current visited filename."
     (interactive "P")
     (if-let*
-        ((buf-name (buffer-file-name))
+        ((buf-name (if (eq major-mode 'dired-mode) (dired-get-filename) (buffer-file-name)))
          (key (file-name-base buf-name)))
         (citar--library-file-action key (if arg #'citar-file-open-external #'citar-file-open))
       (user-error "Not a buffer visiting a file")))
