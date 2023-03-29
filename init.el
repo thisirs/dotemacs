@@ -520,7 +520,7 @@ This function is used in `citar-open-note-function'."
          ("M-g i" . consult-imenu)
          ("M-g f" . consult-find)
          ("M-g m" . consult-mark)
-         ("M-g g" . consult-grep)
+         ("M-g g" . consult-ripgrep)
          ("M-g l" . consult-goto-line)
 
          ([remap bookmark-jump] . consult-bookmark)
@@ -2625,7 +2625,7 @@ behavior added."
               ("M-q" . vertico-multiform-grid))
   :custom
   ((vertico-multiform-commands
-    '((consult-grep buffer)
+    '((consult-ripgrep buffer)
       (consult-imenu buffer)
       (consult-line buffer))))
   :config
