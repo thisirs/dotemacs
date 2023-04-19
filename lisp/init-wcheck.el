@@ -1,4 +1,5 @@
 (use-package wcheck-mode                ; General interface for text checkers
+  :disabled
   :functions (wcheck-query-language-data wcheck-parser-ispell-suggestions)
   :bind (("C-c w w" . wcheck-mode)
          ("C-c w f" . wcheck-fr)
