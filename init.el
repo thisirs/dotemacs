@@ -1314,6 +1314,10 @@ the vertical drag is done."
   :demand :after prescient
   :config (ivy-prescient-mode))
 
+(use-package jinx
+  :hook (emacs-startup-hook . global-jinx-mode)
+  :bind ([remap ispell-word] . jinx-correct))
+
 ;; https://github.com/mooz/js2-mode/
 (use-package js2-mode)                  ; Improved JavaScript editing mode
 
