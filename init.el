@@ -796,7 +796,7 @@ the vertical drag is done."
 (use-package embark-consult             ; Consult integration for Embark
   :demand :after (embark consult)
   :hook
-  (embark-collect-mode-hook . embark-consult-preview-minor-mode))
+  (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 ;; https://github.com/hrs/engine-mode
 (use-package engine-mode                ; Define and query search engines from within Emacs.
