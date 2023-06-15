@@ -55,28 +55,11 @@
 
 (setq ring-bell-function #'ignore)
 
-;; Backups
-(setq make-backup-files t
-      version-control t
-      kept-new-versions 10
-      kept-old-versions 0
-      delete-old-versions t)
+;; Don't make backups
+(setq make-backup-files nil)
 
-;; Don't backup sudo opened files and .recentf
-(defun my-dont-backup-files-p (filename)
-  (unless (or
-           (string-match "\\`/sudo:root@" filename)
-           (string-match "\\.recentf$" filename)
-           (string-match "\\.gpg$" filename))
-    (normal-backup-enable-predicate filename)))
-
-(setq backup-enable-predicate 'my-dont-backup-files-p)
-
-;; Auto-save remote file in /tmp and the rest in
-;; ~/.emacs.d/var/auto-save/files/
-(add-to-list 'auto-save-file-name-transforms
-             '(".*" "~/.emacs.d/var/auto-save/files/" t) t)
-
+;; Don't create auto-save files, just save the file
+(setq auto-save-default nil)
 (setq auto-save-visited-interval 60)
 (auto-save-visited-mode +1)
 
