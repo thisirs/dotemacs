@@ -76,6 +76,15 @@
 
   :config
 
+  ;; Custom datetimes in overlay when choosing a datetime
+  (defun org-read-date-display-advice (oldfun)
+    (let ((system-time-locale "fr_FR.utf8")
+          (org-display-custom-times t)
+          (org-timestamp-custom-formats '("%A %d %B %Y" . "%A %d %B %Y %H:%M")))
+      (funcall oldfun)))
+
+  (advice-add 'org-read-date-display :around #'org-read-date-display-advice)
+
   ;; Set org id locations
   (setq org-id-locations-file "~/SynologyDrive/Sylvain/Org/.org-id-locations")
 
