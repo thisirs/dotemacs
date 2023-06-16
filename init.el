@@ -68,22 +68,70 @@
 
 (mouse-wheel-mode 1)
 
-(setq straight-recipes-gnu-elpa-use-mirror t)
-(setq straight-repository-branch "develop")
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(defvar elpaca-installer-version 0.4)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (kill-buffer buffer)
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-(setq straight-use-package-by-default t)
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
+  (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
+  (setq elpaca-use-package-by-default t))
+
+;; Block until current queue processed.
+(elpaca-wait)
+
+;; (setq straight-recipes-gnu-elpa-use-mirror t)
+;; (setq straight-repository-branch "develop")
+;; (defvar bootstrap-version)
+;; (let ((bootstrap-file
+;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;;       (bootstrap-version 5))
+;;   (unless (file-exists-p bootstrap-file)
+;;     (with-current-buffer
+;;         (url-retrieve-synchronously
+;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+;;          'silent 'inhibit-cookies)
+;;       (goto-char (point-max))
+;;       (eval-print-last-sexp)))
+;;   (load bootstrap-file nil 'nomessage))
+
+;; (setq straight-use-package-by-default t)
+
 (setq use-package-verbose nil)
 ;; (setq use-package-verbose 'debug)
 ;; (setq debug-on-error t)
@@ -91,8 +139,8 @@
 (setq use-package-always-defer t)
 (setq use-package-hook-name-suffix "")
 ;; (setq use-package-verbose 'debug)
-(straight-use-package 'use-package)
-(straight-use-package 'diminish)
+;; (straight-use-package 'use-package)
+;; (straight-use-package 'diminish)
 (require 'use-package)
 (setq use-package-always-defer t)
 (setq use-package-compute-statistics t)
@@ -136,6 +184,7 @@
   (load-theme 'zenburn t))
 
 (use-package server
+  :elpaca nil
   :if (window-system)
   :demand
   :config
@@ -146,7 +195,7 @@
   :demand
   :if (on-knuth)
   :if (window-system)
-  :straight solarized-theme
+  :elpaca solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-scale-org-headlines nil)
@@ -156,7 +205,7 @@
   :demand
   :if (or (on-zbook) (on-knuth))
   :if (window-system)
-  :straight nil
+  :elpaca nil
   :config
   (load-theme 'modus-vivendi t))
 
@@ -195,7 +244,7 @@
 (setq ispell-choices-win-default-height 5)
 
 (use-package abbrev
-  :straight nil
+  :elpaca nil
   :init
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
@@ -250,7 +299,7 @@
   :diminish anzu-mode)
 
 (use-package app-launcher
-  :straight '(app-launcher :host github :repo "SebastienWae/app-launcher")
+  :elpaca '(app-launcher :host github :repo "SebastienWae/app-launcher")
   :preface
   (defun app-launcher--action-function-file (selected &optional file)
     "Open `file' with the selected application."
@@ -403,7 +452,7 @@ This function is used in `citar-open-note-function'."
   :disabled t)
 
 (use-package bookmark
-  :straight nil
+  :elpaca nil
   :custom
   (bookmark-set-fringe-mark nil)
   (bookmark-default-file (change-base-dir bookmark-default-file))
@@ -479,7 +528,7 @@ This function is used in `citar-open-note-function'."
   (company-echo-delay 0)
   (company-minimum-prefix-length 1)
   :hook
-  (after-init-hook . global-company-mode))
+  (elpaca-after-init-hook . global-company-mode))
 
 ;; https://github.com/tumashu/company-posframe
 (use-package company-posframe           ; Use a posframe as company candidate menu
@@ -488,6 +537,7 @@ This function is used in `citar-open-note-function'."
   :hook (company-mode-hook . company-posframe-mode))
 
 (use-package compile
+  :elpaca nil
   :custom
   ;; Move point to first error
   (compilation-scroll-output 'first-error))
@@ -640,13 +690,13 @@ the vertical drag is done."
 
 ;; ediff settings
 (use-package ediff-diff
-  :straight nil
+  :elpaca nil
   :custom
   ;; Ignore whitespace in diff
   (ediff-diff-options "-w"))
 
 (use-package ediff-util
-  :straight nil
+  :elpaca nil
   :hook (ediff-keymap-setup-hook . add-d-to-ediff-mode-map)
   :config
   (defun ediff-copy-both-to-C (&optional arg)
@@ -667,7 +717,7 @@ the vertical drag is done."
     (define-key ediff-mode-map "d" #'ediff-copy-both-to-C)))
 
 (use-package ediff-wind
-  :straight nil
+  :elpaca nil
   :preface
   (defalias 'ediff-buffer-with-file 'ediff-current-file)
 
@@ -686,7 +736,7 @@ the vertical drag is done."
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package electric
-  :straight nil
+  :elpaca nil
   :demand
   :config
   (electric-indent-mode 1))
@@ -700,7 +750,7 @@ the vertical drag is done."
 
 (use-package elec-pair
   :if (or (on-zbook) (on-knuth))
-  :straight nil
+  :elpaca nil
   :demand
   :config
   (electric-pair-mode))
@@ -817,8 +867,7 @@ the vertical drag is done."
     ("g" engine/search-google "google")))
 
 (use-package epwdgen                    ; Flexible password generator
-  :straight `(epwdgen :type git
-                     :local-repo ,(expand-file-name "epwdgen" projects-directory))
+  :elpaca `(epwdgen :repo ,(expand-file-name "epwdgen" projects-directory))
   :commands epwdgen-generate-password
   :config
   (setq epwdgen-password-presets
@@ -889,7 +938,7 @@ the vertical drag is done."
 ;; https://github.com/thisirs/find-temp-file.git
 (use-package find-temp-file             ; Open quickly a temporary file
   :hook
-  (after-init-hook . set-scratch-buffer-default-directory)
+  (elpaca-after-init-hook . set-scratch-buffer-default-directory)
   ;; Save scratch buffer as temp file when quitting emacs
   (kill-emacs-hook . find-temp-file-save-scratch)
   :bind ("C-x C-t" . find-temp-file)
@@ -990,6 +1039,7 @@ the vertical drag is done."
   :bind ("C-c t" . google-translate-smooth-translate))
 
 (use-package grep
+  :elpaca nil
   :bind (:map grep-mode-map
               ("a" . grep-toggle-binary-search))
   :config
@@ -1088,17 +1138,17 @@ the vertical drag is done."
                                      (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
     ("j" ivy-bookmarks "Bookmarks")))
 
-(use-package ical2org
-  :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
-  :custom
-  (ical2org/event-format "\
-* {SUMMARY} en {LOCATION}
-  {TIME}")
-  :config
-  (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
-    (let ((system-time-locale "C"))
-      (apply oldfun args)))
-  (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
+;; (use-package ical2org
+;;   :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
+;;   :custom
+;;   (ical2org/event-format "\
+;; * {SUMMARY} en {LOCATION}
+;;   {TIME}")
+;;   :config
+;;   (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
+;;     (let ((system-time-locale "C"))
+;;       (apply oldfun args)))
+;;   (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
 
 (use-package info+              ; Extensions to `info.el'.
   :disabled)
@@ -1118,7 +1168,7 @@ the vertical drag is done."
 (use-package bibtex-completion          ; A BibTeX backend for completion frameworks
   :disabled
   :demand :after bibtex-completion
-  :straight (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
+  :elpaca (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
                                :files ("bibtex-completion.el"))
   :config
   ;; Main Bibtex file automatically exported by Zotero
@@ -1133,7 +1183,7 @@ the vertical drag is done."
 ;; https://github.com/tmalsburg/helm-bibtex
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :disabled
-  :straight (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
+  :elpaca (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
                         :files ("ivy-bibtex.el")
                         :fork (:host github :repo "thisirs/helm-bibtex"))
   :bind ("C-x b" . ivy-bibtex)
@@ -1228,7 +1278,7 @@ the vertical drag is done."
                 :caller 'ivy-bookmarks))))
 
 (use-package emacs
-  :straight nil
+  :elpaca nil
   :demand
   :config
   (defun crm-indicator (args)
@@ -1241,6 +1291,7 @@ the vertical drag is done."
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package emacs
+  :elpaca nil
   :bind ("C-c j" . browse-bookmark)
   :config
   (defun bookmarks-get-candidates ()
@@ -1316,7 +1367,7 @@ the vertical drag is done."
   :demand :after org
   :config
   (use-package ob-jupyter
-    :straight nil
+    :elpaca nil
     :config
     (org-babel-jupyter-override-src-block "python"))
   (org-babel-do-load-languages
@@ -1385,7 +1436,7 @@ the vertical drag is done."
 ;; https://github.com/minad/marginalia
 (use-package marginalia                 ; Enrich existing commands with completion annotations
   :hook
-  (after-init-hook . marginalia-mode))
+  (elpaca-after-init-hook . marginalia-mode))
 
 ;; https://jblevins.org/projects/markdown-mode/
 (use-package markdown-mode              ; Major mode for Markdown-formatted text
@@ -1418,7 +1469,7 @@ the vertical drag is done."
 
 (use-package midnight
   :demand
-  :straight nil
+  :elpaca nil
   :config
   (cancel-timer midnight-timer)
   (defalias 'midnight-clean-buffer-list 'clean-buffer-list)
@@ -1435,7 +1486,7 @@ the vertical drag is done."
   (minions-mode 1))
 
 (use-package message
-  :straight nil
+  :elpaca nil
   :custom
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
@@ -1455,7 +1506,7 @@ the vertical drag is done."
   (mood-line-mode))
 
 (use-package mu4e
-  :straight (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
+  :elpaca (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
                    :pre-build (("./autogen.sh")
                                ("ninja" "-C" "build")))
   ;; When invoking via `state'
@@ -1471,7 +1522,7 @@ the vertical drag is done."
                               :follow #'mu4e-org-open
                               :store #'mu4e-org-store-link))
   :custom
-  (mu4e-mu-binary (expand-file-name "build/mu/mu" (straight--repos-dir "mu")))
+  (mu4e-mu-binary (expand-file-name "mu/build/mu/mu" elpaca-repos-directory))
   (mu4e-attachment-dir "~/deathrow")
   (mu4e-completing-read-function 'completing-read)
   (mu4e-save-multiple-attachments-without-asking t)
@@ -1630,10 +1681,10 @@ the vertical drag is done."
            (target-window (if window (concat "=" window) "")))
       (concat target-session ":" target-window))))
 
-(use-package octave
-  :config
-  (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
-  (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
+;; (use-package octave
+;;   :config
+;;   (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
+;;   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
 
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith                   ; Open files with external programs
@@ -1657,7 +1708,7 @@ the vertical drag is done."
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
-  :straight `(org-context
+  :elpaca `(org-context
               :type git
               :local-repo ,(expand-file-name "org-context" projects-directory))
   :config
@@ -1695,15 +1746,15 @@ the vertical drag is done."
 
   (org-context-mode))
 
-(use-package org-link-minor-mode
-  :init
-  (define-globalized-minor-mode
-    global-org-link-minor-mode
-    org-link-minor-mode
-    (lambda () (org-link-minor-mode 1)))
-  :diminish)
+;; (use-package org-link-minor-mode
+;;   :init
+;;   (define-globalized-minor-mode
+;;     global-org-link-minor-mode
+;;     org-link-minor-mode
+;;     (lambda () (org-link-minor-mode 1)))
+;;   :diminish)
 
-(use-package org-pdfview)
+;; (use-package org-pdfview)
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
@@ -1719,7 +1770,7 @@ the vertical drag is done."
   (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
 (use-package org-protocol
-  :straight nil
+  :elpaca nil
   :preface
   ;; Load org-protocol only when `server-visit-files' is called. An
   ;; advice around `server-visit-files' is present in org-protocol but
@@ -1855,7 +1906,7 @@ the vertical drag is done."
       (orb-edit-note (plist-get info :citekey)))))
 
 (use-package org-roam-protocol
-  :straight nil
+  :elpaca nil
   :demand :after org-protocol)
 
 ;; https://github.com/org-roam/org-roam-ui
@@ -1889,7 +1940,7 @@ the vertical drag is done."
     (require 'osm-ol)))
 
 (use-package ox-ipynb
-  :straight (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
+  :elpaca (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
 
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
@@ -1917,7 +1968,7 @@ the vertical drag is done."
   ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook) . paredit-mode))
 
 (use-package paren
-  :straight nil
+  :elpaca nil
   :demand
   :custom
   (show-paren-when-point-inside-paren t)
@@ -1955,7 +2006,7 @@ the vertical drag is done."
   ;; (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
 
   (use-package pdf-sync
-    :straight nil
+    :elpaca nil
     :bind (:map
            pdf-sync-minor-mode-map
            ("C-c C-v" . (lambda () (interactive) (pdf-sync-backward-search 0 0)))))
@@ -1965,7 +2016,7 @@ the vertical drag is done."
   (setq pdf-misc-print-programm lpr-command)
 
   (use-package pdf-annot
-    :straight nil
+    :elpaca nil
     :config
     (defun pdf-annot-add-text-annotation-here (ev)
       (interactive "@e")
@@ -1994,16 +2045,16 @@ the vertical drag is done."
            ("C-c C-d" . pdf-annot-delete-current))))
 
 ;; https://github.com/thisirs/pdf-tools-points.git
-(use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-  :straight `(pdf-tools-points :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
-  :after pdf-tools :demand)
+;; (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
+;;   :elpaca `(pdf-tools-points :type git :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
+;;   :after pdf-tools :demand)
 
 ;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
 
 (use-package pixel-scroll
-  :straight nil
-  :hook (after-init-hook . pixel-scroll-precision-mode))
+  :elpaca nil
+  :hook (elpaca-after-init-hook . pixel-scroll-precision-mode))
 
 ;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
@@ -2037,7 +2088,7 @@ the vertical drag is done."
 
 ;; https://elpa.gnu.org/packages/project.html
 (use-package project                    ; Operations on the current project
-  :straight nil
+  :elpaca nil
   :custom (project-switch-commands 'project-dired)
   :config
   (defun project-reload-projects ()
@@ -2103,7 +2154,7 @@ the vertical drag is done."
 
 ;; https://github.com/fgallina/python.el
 (use-package python                     ; Python's flying circus support for Emacs
-  :straight nil
+  :elpaca nil
   :config
   (setq python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter-args "-m IPython -i --simple-prompt")
@@ -2197,6 +2248,7 @@ out")
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
+  :elpaca nil
   :defer 10
   :commands (recentf-mode
              recentf-add-file
@@ -2217,8 +2269,8 @@ out")
   (recentf-mode 1))
 
 (use-package repeat
-  :straight nil
-  :hook (after-init-hook . repeat-mode))
+  :elpaca nil
+  :hook (elpaca-after-init-hook . repeat-mode))
 
 ;; A search tool based on ripgrep
 ;; https://github.com/dajva/rg.el
@@ -2234,7 +2286,7 @@ out")
     :files "*"))
 
 (use-package reverso
-  :straight (:host github :repo "SqrtMinusOne/reverso.el")
+  :elpaca (:host github :repo "SqrtMinusOne/reverso.el")
   :custom (reverso-languages '(english french))
   :bind ("C-c t" . reverso-translate))
 
@@ -2277,7 +2329,7 @@ out")
   (separedit-default-mode 'markdown-mode))
 
 (use-package simple
-  :straight nil
+  :elpaca nil
   :custom
   (line-move-visual t)
   :preface
@@ -2348,7 +2400,8 @@ behavior added."
   (smex-initialize))
 
 (use-package saveplace
-  :hook (after-init-hook . save-place-mode))
+  :elpaca nil
+  :hook (elpaca-after-init-hook . save-place-mode))
 
 (use-package skeletor)          ; Provides project skeletons for Emacs
 
@@ -2376,6 +2429,7 @@ behavior added."
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
+  :elpaca nil
   :hook (find-file-hook . sm-try-smerge)
   :config
   (defun sm-try-smerge ()
@@ -2388,12 +2442,12 @@ behavior added."
 
 ;; https://savannah.nongnu.org/projects/so-long
 (use-package so-long                    ; Say farewell to performance problems with minified code.
-  :straight nil
-  :hook (after-init-hook . global-so-long-mode))
+  :elpaca nil
+  :hook (elpaca-after-init-hook . global-so-long-mode))
 
 (use-package spotify.el
   :disabled
-  :straight (spotify.el :type git :host github :repo "danielfm/spotify.el"
+  :elpaca (spotify.el :type git :host github :repo "danielfm/spotify.el"
                      :files ("*.el")))
 
 ;; https://github.com/thisirs/state.git
@@ -2537,7 +2591,7 @@ behavior added."
          ("C-r" . swiper)))
 
 ;; http://www.emacswiki.org/elisp/tidy.el
-(use-package tidy)              ; Interface to the HTML Tidy program
+;; (use-package tidy)              ; Interface to the HTML Tidy program
 
 ;; https://git.sr.ht/~protesilaos/tmr
 (use-package tmr)                       ; Set timers using a convenient notation
@@ -2557,12 +2611,12 @@ behavior added."
 ;; Tramp env to properly display dired
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
-  :straight nil
+  :elpaca nil
   :custom
   (remote-file-name-inhibit-locks t))
 
 (use-package treesit
-  :straight nil
+  :elpaca nil
   :config
   (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript")))
   (add-to-list 'treesit-language-source-alist '(python . ("https://github.com/tree-sitter/tree-sitter-python")))
@@ -2606,8 +2660,8 @@ behavior added."
 
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
-  :straight (vertico :files (:defaults "extensions/*"))
-  :hook (after-init-hook . vertico-mode)
+  :elpaca (vertico :files (:defaults "extensions/*"))
+  :demand
   :bind (:map vertico-map
               ("M-q" . vertico-multiform-grid))
   :custom
@@ -2616,6 +2670,7 @@ behavior added."
       (consult-imenu buffer)
       (consult-line buffer))))
   :config
+  (vertico-mode 1)
   (vertico-multiform-mode 1))
 
 ;; https://github.com/benma/visual-regexp.el/
@@ -2632,7 +2687,7 @@ behavior added."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :straight `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
+  :elpaca `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
@@ -2643,7 +2698,7 @@ behavior added."
   (vc-auto-commit-activate))
 
 (use-package warnings
-  :straight nil
+  :elpaca nil
   :config
   (add-to-list 'warning-suppress-types '(comp)))
 
@@ -2670,14 +2725,14 @@ behavior added."
 
 (use-package whitespace
   :demand
-  :straight nil
+  :elpaca nil
   :config
   (setq whitespace-style
         '(face trailing tabs))
   (global-whitespace-mode))
 
 (use-package windmove
-  :straight nil
+  :elpaca nil
   :bind
   ("s-b" . windmove-left)
   ("s-f" . windmove-right)
@@ -2685,6 +2740,7 @@ behavior added."
   ("s-n" . windmove-down))
 
 (use-package winner
+  :elpaca nil
   :if (not noninteractive)
   :defer 5
   :bind (("M-N" . winner-redo)
@@ -2717,20 +2773,20 @@ behavior added."
 ;; https://github.com/AndreaCrotti/yasnippet-snippets
 (use-package yasnippet-snippets         ; Collection of yasnippet snippets
   :demand :after yasnippet
-  :straight (yasnippet-snippets
+  :elpaca (yasnippet-snippets
              :type git
              :host github
              :repo "AndreaCrotti/yasnippet-snippets"
              :files ("*.el" ("snippets" "snippets/python-mode"))))
 
 ;; http://www.emacswiki.org/zoom-frm.el
-(use-package zoom-frm                   ; Commands to zoom frame font size.
-  :bind (("C-<down-mouse-4>" . zoom-in)
-         ("C-<down-mouse-5>" . zoom-out)
-         ("C-c +" . zoom-in)
-         ("C-c -" . zoom-out)
-         ("<C-kp-add>" . zoom-in)
-         ("<C-kp-subtract>" . zoom-out)))
+;; (use-package zoom-frm                   ; Commands to zoom frame font size.
+;;   :bind (("C-<down-mouse-4>" . zoom-in)
+;;          ("C-<down-mouse-5>" . zoom-out)
+;;          ("C-c +" . zoom-in)
+;;          ("C-c -" . zoom-out)
+;;          ("<C-kp-add>" . zoom-in)
+;;          ("<C-kp-subtract>" . zoom-out)))
 
 ;; https://github.com/thierryvolpiatto/zop-to-char
 (use-package zop-to-char                ; A replacement of zap-to-char.
@@ -2796,6 +2852,7 @@ Change directory to `default-directory' if ARG is non-nil."
 
 
 (use-package ffap
+  :elpaca nil
   :config
   (defun ffap-bib-latex-mode (bib_id)
     "Infer a filename from BIB_ID."
@@ -2832,9 +2889,8 @@ Change directory to `default-directory' if ARG is non-nil."
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
-  :straight `(auto-insert-multiple
-             :type git
-             :local-repo ,(expand-file-name "auto-insert-multiple"
+  :elpaca `(auto-insert-multiple
+             :repo ,(expand-file-name "auto-insert-multiple"
                                             projects-directory))
   :hook (find-file-hook . auto-insert)
   :config
@@ -2874,6 +2930,7 @@ Change directory to `default-directory' if ARG is non-nil."
 (set-terminal-coding-system 'utf-8-unix)
 
 (use-package diff
+  :elpaca nil
   :config
   ;; Unified diff format and no whitespace when using `diff'
   (setq diff-switches "-u -w"))
@@ -3156,7 +3213,8 @@ to cancel it."
 
 ;; Minibuffer history
 (use-package savehist
-  :hook (after-init-hook . savehist-mode)
+  :elpaca nil
+  :hook (elpaca-after-init-hook . savehist-mode)
   :config
   (add-to-list 'savehist-additional-variables 'search-ring)
   (add-to-list 'savehist-additional-variables 'regexp-search-ring))

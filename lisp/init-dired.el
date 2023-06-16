@@ -1,5 +1,5 @@
 (use-package dired
-  :straight nil
+  :elpaca nil
   :hook ((dired-mode-hook . turn-on-auto-revert-mode)
          (dired-mode-hook . dired-hide-details-mode))
   :init
@@ -104,12 +104,12 @@
   (setq auto-revert-verbose nil))
 
 (use-package dired-aux
-  :straight nil
+  :elpaca nil
   :custom
   (dired-create-destination-dirs 'ask))
 
 (use-package dired-x
-  :straight nil
+  :elpaca nil
   :demand :after dired)
 
 (defun dired-bury-all (&optional kill)
@@ -130,7 +130,7 @@ repeatedly q."
 
 ;; C-c C-m C-a jumps to gnus with current file attached
 (use-package gnus-dired
-  :straight nil
+  :elpaca nil
   :hook (dired-mode-hook . turn-on-gnus-dired-mode))
 
 ;; (defvar dired-do-command-result nil)

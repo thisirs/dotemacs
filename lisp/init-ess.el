@@ -1,7 +1,7 @@
 (use-package ess)
 
 (use-package ess-r-mode
-  :straight nil
+  :elpaca nil
   :bind (:map ess-r-mode-map ("_" . ess-insert-assign))
   :config
   ;; No double sharp sign when starting a comment
@@ -9,12 +9,12 @@
         (append ess-r-customize-alist '((comment-add . 0)))))
 
 (use-package ess-inf
-  :straight nil
+  :elpaca nil
   :bind (:map inferior-ess-mode-map ("_" . ess-insert-assign)))
 
 
 (use-package ess-custom
-  :straight nil
+  :elpaca nil
   :custom (
            ;; No special behaviour of comments starting with #, ## or ###
            (ess-indent-with-fancy-comments nil)

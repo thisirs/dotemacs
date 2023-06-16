@@ -2,14 +2,14 @@
 (use-package org-caldav)
 
 (use-package org-attach
-  :straight nil
+  :elpaca nil
   :custom (org-attach-archive-delete t))
 
 ;; https://github.com/emacsattic/org-link-minor-mode
-(use-package org-link-minor-mode) ;; Enable org-mode links in non-org modes
+;; (use-package org-link-minor-mode) ;; Enable org-mode links in non-org modes
 
 (use-package ox-koma-letter
-  :straight nil
+  :elpaca nil
   :custom
   ;; email is specified is lco file
   (org-koma-letter-email nil)
@@ -399,7 +399,7 @@ refile targets.")
 
 
 (use-package org-cite
-  :straight nil
+  :elpaca nil
   :custom
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
@@ -408,7 +408,7 @@ refile targets.")
 
 
 (use-package ox-latex
-  :straight nil
+  :elpaca nil
   :config
   ;; You need to install pygments to use minted
   (when (executable-find "pygmentize")
@@ -461,21 +461,21 @@ child checkboxes."
     (setq org-latex-format-headline-function
           'org-latex-format-headline-checkbox-function)))
 
-(use-package org-auto-archive
-  :if (on-zbook)
-  :straight `(org-auto-archive :type git
-                               :local-repo ,(expand-file-name "org-auto-archive" projects-directory))
-  :hook (kill-emacs-hook . org-auto-archive-process-buffers)
-  :custom
-  (org-auto-archive-plan
-   '(("agenda.org" . ((subtree "External events")))
-     ("agenda.org" . ((subtree "Evénements simples")))
-     ("someday.org" . ((org-auto-archive-event-wait "1m")))
-     ("agenda.org" . ((subtree "CID events")))))
-  (org-auto-archive-handler-function 'org-auto-archive-handler-function-force))
+;; (use-package org-auto-archive
+;;   :if (on-zbook)
+;;   :elpaca `(org-auto-archive :type git
+;;                                :local-repo ,(expand-file-name "org-auto-archive" projects-directory))
+;;   :hook (kill-emacs-hook . org-auto-archive-process-buffers)
+;;   :custom
+;;   (org-auto-archive-plan
+;;    '(("agenda.org" . ((subtree "External events")))
+;;      ("agenda.org" . ((subtree "Evénements simples")))
+;;      ("someday.org" . ((org-auto-archive-event-wait "1m")))
+;;      ("agenda.org" . ((subtree "CID events")))))
+;;   (org-auto-archive-handler-function 'org-auto-archive-handler-function-force))
 
 (use-package org-capture
-  :straight nil
+  :elpaca nil
   :preface (require 'init-org-capture-helpers)
   :custom
   ;; Load templates from personal location
@@ -484,7 +484,7 @@ child checkboxes."
     (expand-file-name "org-capture-templates.el" personal-emacs-directory))))
 
 (use-package org-agenda
-  :straight nil
+  :elpaca nil
   :init
   (defun annotedp ()
     (if (derived-mode-p 'org-mode)
@@ -571,14 +571,14 @@ this with to-do items than with projects or headings."
   (define-key org-agenda-mode-map [(control return)] #'org-agenda-add-report))
 
 (use-package calendar
-  :straight nil
+  :elpaca nil
   :custom
   (calendar-time-zone-style 'numeric)
   (calendar-date-style 'european)
   (calendar-mark-holidays-flag t))
 
 (use-package holidays
-  :straight nil
+  :elpaca nil
   :demand :after org-agenda
   :custom
   (calendar-holidays
@@ -596,7 +596,7 @@ this with to-do items than with projects or headings."
      (holiday-easter-etc 50 "Lundi de Pentecôte"))))
 
 (use-package appt
-  :straight nil
+  :elpaca nil
   :preface
   (defun appt-display (mins current-time msgs)
     (seq-mapn
@@ -633,7 +633,7 @@ this with to-do items than with projects or headings."
   )
 
 (use-package parse-time
-  :straight nil
+  :elpaca nil
   :config
   (setq parse-time-months
         (append parse-time-months

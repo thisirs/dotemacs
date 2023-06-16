@@ -3,7 +3,7 @@
 
 ;; https://git.leafac.com/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
-  :straight (org-password-manager
+  :elpaca (org-password-manager
              :type git
              :host github
              :repo "thisirs/org-password-manager")
@@ -78,7 +78,7 @@
              (message "No stored password"))))))
 
 (use-package auth-source
-  :straight nil
+  :elpaca nil
   :defer
   :config
   (require 'org-password-manager)

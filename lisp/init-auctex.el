@@ -1,6 +1,6 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package latex                      ; Integrated environment for *TeX*
-  :straight auctex
+  :elpaca auctex
   :preface
   ;; Remove eqnarray and eqnarray* from known environments
   (defun LaTeX-remove-eqnarray ()
@@ -104,6 +104,7 @@ filled by AuCTeX functions."
 
 
 (use-package reftex
+  :elpaca nil
   :demand :after latex
   :preface
   (defun LaTeX-setup-reftex ()
@@ -140,10 +141,10 @@ filled by AuCTeX functions."
 
 
 [(use-package tex-site               ; Integrated environment for *TeX*
-   :straight auctex
+   :elpaca auctex
    :config
    (use-package latex
-     :straight nil
+     :elpaca nil
      :defer t
      :defines TeX-sentinel-function
      :functions (TeX-run-command TeX-run-TeX)
