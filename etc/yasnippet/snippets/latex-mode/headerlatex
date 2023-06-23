@@ -6,7 +6,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[francais]{babel}
+\usepackage[french]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage[a4paper]{geometry}
 \usepackage{graphicx}
