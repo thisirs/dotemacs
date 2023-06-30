@@ -3,8 +3,9 @@
 elpa/
 var/
 etc/
+eln-cache/
 
 # Custom package repository
-straight/
+elpaca/
 
 Dockerfile
