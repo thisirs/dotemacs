@@ -291,6 +291,10 @@
   :config
   (alert-add-rule :style 'libnotify))
 
+;; https://github.com/domtronn/all-the-icons.el
+(use-package all-the-icons            ; A library for inserting Developer icons
+  :elpaca (all-the-icons :type git :host github :repo "domtronn/all-the-icons.el" :branch "svg" :files (:defaults "svg")))
+
 ;; https://github.com/emacsorphanage/anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
   :disabled
