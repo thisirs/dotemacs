@@ -395,21 +395,6 @@
      (if (citar--get-major-mode-function 'insert-citation)
          'citar-insert-citation 'citar-open)))
 
-  (use-package citar-embark
-    :demand
-    :config
-    (citar-embark-mode))
-
-  ;; https://github.com/domtronn/all-the-icons.el
-  (use-package all-the-icons            ; A library for inserting Developer icons
-    :demand
-    :config
-    (setq citar-symbols
-          `((file ,(all-the-icons-octicon "file-pdf" :face 'error) . " ")
-            (note ,(all-the-icons-octicon "file-text" :face 'warning) . " ")
-            (link "" . "")))
-    (setq citar-symbol-separator " "))
-
   (defun orb-citar-edit-note-template (citekey _entry)
     "Use `org-roam-bibtex' to open a note file.
 
@@ -424,6 +409,17 @@ This function is used in `citar-open-note-function'."
 
   (defun citar-open-external (key-or-keys)
     (citar--library-file-action key-or-keys #'citar-file-open-external))
+
+  (when (require 'all-the-icons nil t)
+    (setq citar-indicators
+          (list (citar-indicator-create
+                 :symbol (all-the-icons-icon-for-file "foo.pdf")
+                 :function #'citar-has-files
+                 :tag "has:files")
+                (citar-indicator-create
+                 :symbol (all-the-icons-icon-for-file "foo.txt")
+                 :function #'citar-has-notes
+                 :tag "has:notes"))))
 
   ;; (defun citar-file-open-external (file)
   ;;   "Select application with `app-launcher' and open `file' with it."
@@ -443,6 +439,12 @@ This function is used in `citar-open-note-function'."
   ;;                   t nil 'app-launcher nil nil)))
   ;;     (funcall app-launcher--action-function result file)))
   )
+
+
+(use-package citar-embark
+  :demand :after citar embark
+  :config
+  (citar-embark-mode))
 
 (use-package citar-org-roam
   :demand :after citar org-roam
