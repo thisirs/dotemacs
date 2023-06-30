@@ -459,6 +459,7 @@ This function is used in `citar-open-note-function'."
 
 (use-package bookmark
   :elpaca nil
+  :after no-littering
   :custom
   (bookmark-fringe-mark nil)
   (bookmark-default-file (change-base-dir bookmark-default-file))
