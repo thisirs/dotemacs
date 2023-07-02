@@ -77,9 +77,4 @@
             (t
              (message "No stored password"))))))
 
-(use-package auth-source-org
-  :elpaca `(auth-source-org
-            :repo ,(expand-file-name "auth-source-org" projects-directory)))
-
-
 (provide 'init-password)
