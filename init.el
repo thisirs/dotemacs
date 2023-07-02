@@ -1360,14 +1360,12 @@ the vertical drag is done."
   :bind ([remap ispell-word] . jinx-correct))
 
 ;; https://github.com/mooz/js2-mode/
-(use-package js2-mode)                  ; Improved JavaScript editing mode
+(use-package js2-mode                  ; Improved JavaScript editing mode
+  :mode ("\\.js\\'" . js2-mode))
 
 ;; https://github.com/joshwnj/json-mode
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
-
-(use-package js2-mode
-  :mode ("\\.js\\'" . js2-mode))
 
 ;; https://github.com/dzop/emacs-jupyter
 (use-package jupyter                    ; Jupyter
