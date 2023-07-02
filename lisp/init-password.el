@@ -7,6 +7,8 @@
              :type git
              :host github
              :repo "thisirs/org-password-manager")
+  :preface
+  (autoload-config org-password-manager-get-pass org-password-manager)
   :defer
   :config
   (require 'auth-source)
