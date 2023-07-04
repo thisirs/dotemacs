@@ -115,37 +115,12 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;; (setq straight-recipes-gnu-elpa-use-mirror t)
-;; (setq straight-repository-branch "develop")
-;; (defvar bootstrap-version)
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 5))
-;;   (unless (file-exists-p bootstrap-file)
-;;     (with-current-buffer
-;;         (url-retrieve-synchronously
-;;          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;          'silent 'inhibit-cookies)
-;;       (goto-char (point-max))
-;;       (eval-print-last-sexp)))
-;;   (load bootstrap-file nil 'nomessage))
-
-;; (setq straight-use-package-by-default t)
-
-(setq use-package-verbose nil)
-;; (setq use-package-verbose 'debug)
-;; (setq debug-on-error t)
-(setq use-package-minimum-reported-time 0.1)
-(setq use-package-always-defer t)
-(setq use-package-hook-name-suffix "")
-;; (setq use-package-verbose 'debug)
-;; (straight-use-package 'use-package)
-;; (straight-use-package 'diminish)
-(require 'use-package)
-(setq use-package-always-defer t)
-(setq use-package-compute-statistics t)
-
-(require 'bind-key)
+(use-package emacs
+  :elpaca nil
+  :custom
+  (use-package-verbose nil)
+  (use-package-hook-name-suffix "")
+  (use-package-always-defer t))
 
 ;; https://github.com/emacscollective/no-littering
 (use-package no-littering               ; help keeping ~/.emacs.d clean
