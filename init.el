@@ -1840,6 +1840,7 @@ the vertical drag is done."
     (dired org-roam-directory))
 
   (defun org-roam-todo-list ()
+    "List all todos from all org-roam files."
     (interactive)
     (let ((todo-files (org-roam-list-files)))
       (org-ql-search todo-files
