@@ -385,6 +385,16 @@
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
   :config
+  (if (not (executable-find "bibtool"))
+      (display-warning :warning "bibtool not installed"))
+
+  (defun citar-cache--update-bibliography-advice (bib &optional props)
+    (let* ((bib (expand-file-name "recherche/biblio/refs.bib" personal-directory))
+           (command (mapconcat #'identity (list "bibtool" "-r biblatex" "-s --sort.format='{%s(dateadded)}' --sort.reverse=on" "-i" bib "-o" bib) " ")))
+      (shell-command command)))
+
+  (advice-add #'citar-cache--update-bibliography :before #'citar-cache--update-bibliography-advice)
+
   (defun citar-open-current (&optional arg)
     "Open files associated to a BibTeX key taken from the current visited filename."
     (interactive "P")
