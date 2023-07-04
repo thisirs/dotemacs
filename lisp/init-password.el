@@ -40,6 +40,7 @@
         (yank))))
 
   (defun org-password-manager-get-pass ()
+    (interactive)
     (let* ((property-entries
             (delq nil
                   (org-map-entries
