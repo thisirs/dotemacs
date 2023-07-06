@@ -396,7 +396,8 @@ This function is used in `citar-open-note-function'."
         (orb-edit-note citekey))
       (error "No template with key `r' found in `org-roam-capture-templates'")))
 
-  (setq citar-open-note-function 'orb-citar-edit-note-template)
+  ;; Use org-roam-bibtex to open a note
+  (setq citar-note-format-function #'orb-citar-edit-note-template)
 
   (defun citar-open-external (key-or-keys)
     (citar--library-file-action key-or-keys #'citar-file-open-external))
@@ -438,11 +439,19 @@ This function is used in `citar-open-note-function'."
   (citar-embark-mode))
 
 (use-package citar-org-roam
-  :demand :after citar org-roam
+  :demand :after citar org-roam org-roam-bibtex
   :no-require
   :custom
   (citar-org-roam-subdir nil)
-  :config (citar-org-roam-mode))
+  (citar-org-roam-capture-template-key "r")
+  :config
+  ;; Use custom function using org-roam-bibtex to create a note.
+  (plist-put
+   (alist-get 'citar-org-roam citar-notes-sources)
+   :create
+   'orb-citar-edit-note-template)
+
+  (citar-org-roam-mode))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
