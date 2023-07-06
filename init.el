@@ -364,6 +364,7 @@
       (display-warning :warning "bibtool not installed"))
 
   (defun citar-cache--update-bibliography-advice (bib &optional props)
+    "Advice function to run bibtool to sort entries before citar loads it."
     (let* ((bib (expand-file-name "recherche/biblio/refs.bib" personal-directory))
            (command (mapconcat #'identity (list "bibtool" "-r biblatex" "-s --sort.format='{%s(dateadded)}' --sort.reverse=on" "-i" bib "-o" bib) " ")))
       (shell-command command)))
