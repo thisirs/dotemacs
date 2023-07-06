@@ -2677,7 +2677,8 @@ behavior added."
       (consult-line buffer))))
   :config
   (vertico-mode 1)
-  (vertico-multiform-mode 1))
+  (vertico-multiform-mode 1)
+  (vertico-mouse-mode 1))
 
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
