@@ -445,13 +445,13 @@ This function is used in `citar-open-note-function'."
   (citar-org-roam-subdir nil)
   (citar-org-roam-capture-template-key "r")
   :config
+  (citar-org-roam-mode)
+
   ;; Use custom function using org-roam-bibtex to create a note.
   (plist-put
    (alist-get 'citar-org-roam citar-notes-sources)
    :create
-   'orb-citar-edit-note-template)
-
-  (citar-org-roam-mode))
+   'orb-citar-edit-note-template))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
