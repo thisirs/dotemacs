@@ -1857,7 +1857,17 @@ the vertical drag is done."
       (let ((org-todo-keywords todo-keywords))
         (org-mode-restart))))
 
-  (add-hook 'org-mode-hook #'org-roam-set-todo-keywords))
+  (add-hook 'org-mode-hook #'org-roam-set-todo-keywords)
+
+  (defun org-roam-add-creation-date-property ()
+    "Add creation time to Org-roam capture note."
+    (unless (file-exists-p (buffer-file-name))
+      (unless (org-find-property "CREATION_TIME")
+        (org-roam-add-property
+         (format-time-string "%Y-%m-%d %a %H:%M")
+         "CREATION_TIME"))))
+
+  (add-hook 'org-roam-capture-new-node-hook #'org-roam-add-creation-date-property))
 
 ;; https://github.com/org-roam/org-roam-bibtex
 (use-package org-roam-bibtex            ; Org Roam meets BibTeX
