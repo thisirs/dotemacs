@@ -1981,7 +1981,7 @@ the vertical drag is done."
 
   :hook
   (minibuffer-setup-hook . conditionally-enable-paredit-mode)
-  ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook) . paredit-mode))
+  ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook lisp-data-mode-hook) . paredit-mode))
 
 (use-package paren
   :elpaca nil
