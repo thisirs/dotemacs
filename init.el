@@ -320,13 +320,15 @@
 
 ;; https://github.com/abo-abo/avy
 (use-package avy                        ; tree-based completion
+  :custom
+  (avy-timeout-seconds .5)
   :config
   (setq avy-style 'at)
   (setq avy-keys '(?a ?z ?e ?r ?t ?y ?u ?i ?o ?p
                       ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
                       ?w ?x ?c ?v ?b ?n))
   (setq avy-background t)
-  :bind ("M-h" . avy-goto-subword-1))
+  :bind ("M-h" . avy-goto-char-timer))
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
