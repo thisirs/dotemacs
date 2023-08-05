@@ -1512,8 +1512,10 @@ the vertical drag is done."
 
 (use-package mu4e
   :elpaca (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
-                   :pre-build (("./autogen.sh")
-                               ("ninja" "-C" "build")))
+                 :depth nil
+                 :tag "v1.10.5"
+                 :pre-build (("./autogen.sh")
+                             ("ninja" "-C" "build")))
   ;; When invoking via `state'
   :commands mu4e-running-p       ; used by state
   ;; When opening a link in an Org task
