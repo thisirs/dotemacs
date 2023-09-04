@@ -21,6 +21,9 @@
   (org-koma-letter-use-foldmarks nil))
 
 (use-package org        ; Outline-based notes management and organizer
+  :elpaca
+  ;; Latest Org breaks Org-roam/org-ql
+  (org :depth nil :tag "release_9.6.7" :inherit t)
   :init
   (defun org-save-all-agenda-buffers ()
     "Save all agenda buffers without user confirmation."
