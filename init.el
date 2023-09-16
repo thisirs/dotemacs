@@ -497,7 +497,7 @@ This function is used in `citar-open-note-function'."
 
   (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
     "Import bookmarks generated from specific directories."
-    (let ((directory "~/SynologyDrive/Sylvain/enseignements/"))
+    (let ((directory (expand-file-name "enseignements" personal-directory)))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
                  `(,dir
@@ -505,7 +505,7 @@ This function is used in `citar-open-note-function'."
                    (position . 0)
                    (generated . t)))
                (directory-files directory nil "^\\(A\\|P\\)[0-9]\\{4\\}"))))
-    (let ((directory "~/SynologyDrive/Sylvain/Documents/"))
+    (let ((directory (expand-file-name "Documents" personal-directory)))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
                  `(,dir
@@ -880,8 +880,8 @@ the vertical drag is done."
   :commands epwdgen-generate-password
   :config
   (setq epwdgen-password-presets
-        '(("passphrase, 4 words, space separator" passphrase
-           :sep " " :file "/home/sylvain/SynologyDrive/Sylvain/wordlist.lst")
+        `(("passphrase, 4 words, space separator" passphrase
+           :sep " " :file ,(expand-file-name "wordlist.lst" personal-directory))
           ("alphanumeric, length 10" password
            :length 10
            :letter mixed
@@ -1198,14 +1198,15 @@ the vertical drag is done."
   :bind ("C-x b" . ivy-bibtex)
   :config
   (setq bibtex-completion-bibliography
-        '("~/SynologyDrive/Sylvain/recherche/biblio/refs.bib"))
+        (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (setq bibtex-completion-library-path
-        '("~/SynologyDrive/Sylvain/recherche/biblio/tracking/"
-          "~/SynologyDrive/Sylvain/recherche/biblio/compressed_sensing/"
-          "~/SynologyDrive/Sylvain/recherche/biblio/hashing/"
-          "~/SynologyDrive/Sylvain/recherche/biblio/graphs_and_deep_learning/"
-          "~/SynologyDrive/Sylvain/recherche/biblio/NN regularization/"
-          "~/SynologyDrive/Sylvain/recherche/biblio/books/"))
+        (list
+         (expand-file-name "recherche/biblio/tracking" personal-directory)
+         (expand-file-name "recherche/biblio/compressed_sensing" personal-directory)
+         (expand-file-name "recherche/biblio/hashing" personal-directory)
+         (expand-file-name "recherche/biblio/graphs_and_deep_learning" personal-directory)
+         (expand-file-name "recherche/biblio/NN regularization" personal-directory)
+         (expand-file-name "recherche/biblio/books" personal-directory)))
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file")
 
@@ -2910,8 +2911,9 @@ Change directory to `default-directory' if ARG is non-nil."
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
   :elpaca `(auto-insert-multiple
-             :repo ,(expand-file-name "auto-insert-multiple"
-                                            projects-directory))
+            :type git
+            :repo ,(expand-file-name "auto-insert-multiple"
+                                     projects-directory))
   :hook (find-file-hook . auto-insert)
   :config
   ;; Reset templates
