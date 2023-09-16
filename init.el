@@ -1147,17 +1147,18 @@ the vertical drag is done."
                                      (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
     ("j" ivy-bookmarks "Bookmarks")))
 
-;; (use-package ical2org
-;;   :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
-;;   :custom
-;;   (ical2org/event-format "\
-;; * {SUMMARY} en {LOCATION}
-;;   {TIME}")
-;;   :config
-;;   (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
-;;     (let ((system-time-locale "C"))
-;;       (apply oldfun args)))
-;;   (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
+(use-package ical2org
+  :elpaca (ical2org :host github :repo "thisirs/ical2org")
+  :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
+  :custom
+  (ical2org/event-format "\
+* {SUMMARY} en {LOCATION}
+  {TIME}")
+  :config
+  (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
+    (let ((system-time-locale "C"))
+      (apply oldfun args)))
+  (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
 
 (use-package info+              ; Extensions to `info.el'.
   :disabled)
