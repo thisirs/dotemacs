@@ -1859,6 +1859,7 @@ the vertical drag is done."
     (when (string-prefix-p org-roam-directory (buffer-file-name))
       (org-set-todo-keywords
        '((sequence "IDEA(i!/!)" "|" "STUPID(s@)" "REFINED(r)" "DONE(d)")
+         (sequence "QUESTION(q!/!)" "|" "ANSWERED(a)")
          (sequence "TODO(t)" "|" "DONE(d)")
          (sequence "TOREAD(t)" "READING(r)" "|" "DONE(d)" "ABANDONED(a)")))))
 
