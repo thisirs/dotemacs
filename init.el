@@ -328,7 +328,7 @@
                       ?q ?s ?d ?f ?g ?h ?j ?k ?l ?m
                       ?w ?x ?c ?v ?b ?n))
   (setq avy-background t)
-  :bind ("M-h" . avy-goto-char-timer))
+  :bind* ("M-h" . avy-goto-char-timer))
 
 ;; https://github.com/DamienCassou/beginend
 (use-package beginend                   ; Redefine M-< and M-> for some modes
