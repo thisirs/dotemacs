@@ -581,19 +581,25 @@ This function is used in `citar-open-note-function'."
 
 ;; https://github.com/jgru/consult-org-roam
 (use-package consult-org-roam           ; Consult integration for org-roam
-  :disabled
   :diminish
   :demand :after org-roam
   :bind
   ("C-c n g" . consult-org-roam-search)
   :custom
+  (consult-org-roam-buffer-enabled nil)
   (consult-org-roam-grep-func #'consult-ripgrep)
   :config
   (consult-org-roam-mode 1)
   ;; Eventually suppress previewing for certain functions
   (consult-customize
    consult-org-roam-forward-links
-   :preview-key (kbd "M-.")))
+   :preview-key (kbd "M-."))
+  :bind
+  ;; Define some convenient keybindings as an addition
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n l" . consult-org-roam-forward-links)
+  ("C-c n r" . consult-org-roam-search))
 
 ;; https://codeberg.org/jao/consult-recoll
 (use-package consult-recoll             ; Recoll queries using consult
