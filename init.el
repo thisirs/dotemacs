@@ -586,8 +586,8 @@ This function is used in `citar-open-note-function'."
   :bind
   ("C-c n g" . consult-org-roam-search)
   :custom
-  (consult-org-roam-buffer-enabled nil)
   (consult-org-roam-grep-func #'consult-ripgrep)
+  (consult-org-roam-buffer-enabled nil) ;; too slow
   :config
   (consult-org-roam-mode 1)
   ;; Eventually suppress previewing for certain functions
