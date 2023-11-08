@@ -1870,7 +1870,7 @@ the vertical drag is done."
     (unless (file-exists-p (buffer-file-name))
       (unless (org-find-property "CREATION_TIME")
         (org-roam-add-property
-         (format-time-string "%Y-%m-%d %a %H:%M")
+         (format-time-string "%Y-%m-%d_%H:%M")
          "CREATION_TIME"))))
 
   (add-hook 'org-roam-capture-new-node-hook #'org-roam-add-creation-date-property))
