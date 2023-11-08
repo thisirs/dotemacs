@@ -1762,13 +1762,7 @@ the vertical drag is done."
 
   (org-context-mode))
 
-;; (use-package org-link-minor-mode
-;;   :init
-;;   (define-globalized-minor-mode
-;;     global-org-link-minor-mode
-;;     org-link-minor-mode
-;;     (lambda () (org-link-minor-mode 1)))
-;;   :diminish)
+(use-package orglink)
 
 ;; (use-package org-pdfview)
 
