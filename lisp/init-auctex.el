@@ -1,6 +1,9 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package latex                      ; Integrated environment for *TeX*
-  :elpaca auctex
+  :elpaca (auctex :repo "https://git.savannah.gnu.org/git/auctex.git"
+                  :pre-build (("./autogen.sh") ("./configure" "--without-texmf-dir" "--with-lispdir=.") ("make")))
+  :init
+  (require 'tex-site)
   :preface
   ;; Remove eqnarray and eqnarray* from known environments
   (defun LaTeX-remove-eqnarray ()
