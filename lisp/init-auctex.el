@@ -22,7 +22,7 @@
 Auto-fill is enabled everywhere except for environments specified
 in `LaTeX-indent-environment-list' whose second element is nil.
 This corresponds to environments that are not supposed to be
-filled by AuCTeX functions."
+filled by AUCTeX functions."
     (turn-on-auto-fill)
     (advice-add 'auto-fill-function :before-while #'LaTeX-auto-fill-maybe)
     (when comment-auto-fill-only-comments
