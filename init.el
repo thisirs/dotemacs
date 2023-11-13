@@ -2429,7 +2429,9 @@ behavior added."
   :elpaca nil
   :hook (elpaca-after-init-hook . save-place-mode))
 
-(use-package skeletor)          ; Provides project skeletons for Emacs
+(use-package skeletor                   ; Provides project skeletons for Emacs
+  :custom
+  (skeletor-completing-read-function #'completing-read))
 
 ;; https://github.com/yuya373/emacs-slack
 (use-package slack                      ; Slack client for Emacs
