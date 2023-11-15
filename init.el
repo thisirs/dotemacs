@@ -361,6 +361,11 @@
   (citar-library-paths (list (expand-file-name "recherche/biblio" personal-directory)))
   ;; Org-roam notes
   (citar-notes-paths (list (expand-file-name "recherche/notes" personal-directory)))
+
+  ;; Don't prompt me, always use default cite command with no extra argument
+  (citar-latex-prompt-for-cite-style nil)
+  (citar-latex-prompt-for-extra-arguments nil)
+
   :config
   (if (not (executable-find "bibtool"))
       (display-warning :warning "bibtool not installed"))
