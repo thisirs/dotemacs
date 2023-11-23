@@ -119,35 +119,37 @@ and the index of the match."
   "Add url of package before use-package"
   (interactive)
   (save-excursion
-    (goto-char (point-min))
+    ;; (goto-char (point-min))
     (while (re-search-forward "([u]se-package[[:space:]]" nil t)
-      (save-excursion
-        (let* ((standard-input (current-buffer))
-               (def (save-excursion
-                      (goto-char (match-beginning 0))
-                      (read standard-input)))
-               (pkg-name (let ((it (plist-get (use-package-normalize-plist (cadr def) (cddr def) nil #'use-package-merge-keys)
-                                              :ensure)))
-                           (if (or (eq it t) (null it))
-                               (cadr def)
-                             it))))
-          (when-let* ((pkgs (cdr (assoc pkg-name package-archive-contents)))
-                      (pkg (car pkgs))
-                      (url (car (delq nil (mapcar (lambda (e) (cdr (assoc :url (package-desc-extras e)))) pkgs)))))
-            (unless (save-excursion
-                      (forward-line -1)
-                      (looking-at "[[:space:]]*;+[[:space:]]*http"))
-              (save-excursion
-                (beginning-of-line)
-                (open-line 1)
-                (indent-according-to-mode)
-                (insert (format ";; %s" url))))
-            (when-let* ((desc (package-desc-summary pkg)))
-              (unless (or (equal desc package--default-summary)
-                          (save-excursion (re-search-forward ";" (line-end-position) t)))
-                (end-of-line)
-                (indent-to comment-column 1)
-                (insert (format "; %s" desc))))))))))
+      (unless (nth 4 (syntax-ppss))
+        (save-excursion
+          (let* ((standard-input (current-buffer))
+                 (def (save-excursion
+                        (goto-char (match-beginning 0))
+                        (read standard-input)))
+                 (pkg-name (let ((it (plist-get (use-package-normalize-plist (cadr def) (cddr def) nil #'use-package-merge-keys)
+                                                :ensure)))
+                             (if (or (eq it t) (null it))
+                                 (cadr def)
+                               it))))
+            (message "%S" pkg-name)
+            (when-let* ((pkgs (cdr (assoc pkg-name package-archive-contents)))
+                        (pkg (car pkgs))
+                        (url (car (delq nil (mapcar (lambda (e) (cdr (assoc :url (package-desc-extras e)))) pkgs)))))
+              (unless (save-excursion
+                        (forward-line -1)
+                        (looking-at "[[:space:]]*;+[[:space:]]*http"))
+                (save-excursion
+                  (beginning-of-line)
+                  (open-line 1)
+                  (indent-according-to-mode)
+                  (insert (format ";; %s" url))))
+              (when-let* ((desc (package-desc-summary pkg)))
+                (unless (or (equal desc package--default-summary)
+                            (save-excursion (re-search-forward ";" (line-end-position) t)))
+                  (end-of-line)
+                  (indent-to comment-column 1)
+                  (insert (format "; %s" desc)))))))))))
 
 (defun copy-downloaded-file (file &optional directory)
   (interactive
