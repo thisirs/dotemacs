@@ -1058,6 +1058,16 @@ the vertical drag is done."
     (list 430675 2721866130))
   :bind ("C-c t" . google-translate-smooth-translate))
 
+(use-package gptel
+  :custom (gptel-model "mistral:latest")
+  :config
+  (setq gptel-backend
+        (gptel-make-ollama
+         "Ollama"
+         :host "localhost:11434"
+         :models '("mistral:latest")
+         :stream t)))
+
 (use-package grep
   :elpaca nil
   :bind (:map grep-mode-map
