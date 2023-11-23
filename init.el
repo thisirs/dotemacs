@@ -436,12 +436,14 @@ This function is used in `citar-open-note-function'."
   )
 
 
-(use-package citar-embark
+;; https://github.com/emacs-citar/citar
+(use-package citar-embark               ; Citar/Embark integration
   :demand :after citar embark
   :config
   (citar-embark-mode))
 
-(use-package citar-org-roam
+;; https://github.com/emacs-citar/citar-org-roam
+(use-package citar-org-roam             ; Citar/org-roam integration
   :demand :after citar org-roam org-roam-bibtex
   :no-require
   :custom
@@ -920,6 +922,7 @@ the vertical drag is done."
   (eval-expr-print-length 100)
   :config
   ;; Enable paredit and eldoc in eval-expr
+  ;; https://paredit.org
   (use-package paredit                  ; minor mode for editing parentheses
     :config
     (defun eval-expr-minibuffer-setup ()
@@ -1054,7 +1057,8 @@ the vertical drag is done."
     (list 430675 2721866130))
   :bind ("C-c t" . google-translate-smooth-translate))
 
-(use-package gptel
+;; https://github.com/karthink/gptel
+(use-package gptel                      ; A simple multi-LLM client
   :custom (gptel-model "mistral:latest")
   :config
   (setq gptel-backend
@@ -1376,7 +1380,8 @@ the vertical drag is done."
   :demand :after prescient
   :config (ivy-prescient-mode))
 
-(use-package jinx
+;; https://github.com/minad/jinx
+(use-package jinx                       ; Enchanted Spell Checker
   :hook (emacs-startup-hook . global-jinx-mode)
   :bind ([remap ispell-word] . jinx-correct))
 
@@ -1773,9 +1778,12 @@ the vertical drag is done."
 
   (org-context-mode))
 
-(use-package orglink)
+;; https://github.com/tarsius/orglink
+(use-package orglink)                   ; Use Org Mode links in other modes
 
-;; (use-package org-pdfview)
+;; https://github.com/fuxialexander/org-pdftools
+(use-package org-pdftools               ; Support for links to documents in pdfview mode
+  :hook (org-mode . org-pdftools-setup-link))
 
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
@@ -1799,7 +1807,8 @@ the vertical drag is done."
   (autoload 'org--protocol-detect-protocol-server "org-protocol")
   (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server))
 
-(use-package org-ql
+;; https://github.com/alphapapa/org-ql
+(use-package org-ql                     ; Org Query Language, search command, and agenda-like view
   :preface
   (autoload-config org-ql-projects org-ql)
   :config
@@ -1987,7 +1996,8 @@ the vertical drag is done."
   (setq paradox-github-token t)
   (setq paradox-execute-asynchronously t))
 
-(use-package paredit
+;; https://paredit.org
+(use-package paredit                    ; minor mode for editing parentheses
   :preface
   (defvar paredit-minibuffer-commands '(ibuffer-do-eval
                                         ibuffer-do-view-and-eval
