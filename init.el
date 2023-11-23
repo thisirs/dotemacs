@@ -2635,7 +2635,6 @@ behavior added."
 ;; https://git.sr.ht/~protesilaos/tmr
 (use-package tmr)                       ; Set timers using a convenient notation
 
-;; Taken from https://github.com/raxod502/radian/blob/develop/emacs/radian.el
 ;; https://github.com/magit/transient
 (use-package transient                  ; Transient commands
   :config
@@ -2647,7 +2646,6 @@ behavior added."
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
-;; Tramp env to properly display dired
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
   :elpaca nil
