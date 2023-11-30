@@ -1068,12 +1068,12 @@ the vertical drag is done."
 (use-package gptel                      ; A simple multi-LLM client
   :custom (gptel-model "mistral:latest")
   :config
-  (setq gptel-backend
-        (gptel-make-ollama
-         "Ollama"
-         :host "localhost:11434"
-         :models '("mistral:latest")
-         :stream t)))
+  (setq-default gptel-backend
+                (gptel-make-ollama
+                 "Ollama"
+                 :host "localhost:11434"
+                 :models '("mistral:latest")
+                 :stream t)))
 
 (use-package grep
   :elpaca nil
