@@ -4,17 +4,15 @@
   (erc-autojoin-channels-alist
    '(("libera.chat"
       "#emacs"
-      "#ruby-lang"
-      "#ruby.fr"
-      "#ruby"
+      "#emacsfr"
       "#git-fr"
       "#archlinux"
       "#archlinux-fr"
-      "#emacsfr"
       "#flexget"
       "#linux-fr"
       "#debianfr"
       "#TikZ"
+      "#org-mode"
       "#org-mode-fr")))
   (erc-autojoin-timing 'ident)
   (erc-prompt (lambda () (concat (buffer-name) ">"))))
