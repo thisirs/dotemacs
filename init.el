@@ -1987,10 +1987,7 @@ the vertical drag is done."
   (add-hook 'mu4e-compose-mode-hook #'orgalist-mode))
 
 ;; https://github.com/minad/osm
-(use-package osm                        ; OpenStreetMap viewer
-  :init
-  (with-eval-after-load 'org
-    (require 'osm-ol)))
+(use-package osm)                       ; OpenStreetMap viewer
 
 (use-package ox-ipynb
   :elpaca (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
