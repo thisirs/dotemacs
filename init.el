@@ -2145,7 +2145,7 @@ the vertical drag is done."
   (defun project-reload-projects ()
     (interactive)
     (dolist (dir '("~/SynologyDrive/Sylvain/enseignements/repositories/"
-                   "~/.emacs.d/straight/repos/"
+                   "~/.emacs.d/elpaca/repos/"
                    "~/repositories"
                    "~/SynologyDrive/Sylvain/recherche/programs/"
                    "~/SynologyDrive/Sylvain/projects"))
