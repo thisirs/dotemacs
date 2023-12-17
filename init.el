@@ -1221,6 +1221,9 @@ the vertical drag is done."
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file"))
 
+(use-package code-cells
+  :hook (python-mode-hook . code-cells-mode-maybe))
+
 ;; https://github.com/tmalsburg/helm-bibtex
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :disabled
