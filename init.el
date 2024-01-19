@@ -61,6 +61,7 @@
 ;; Don't create auto-save files, just save the file
 (setq auto-save-default nil)
 (setq auto-save-visited-interval 60)
+(setq auto-save-visited-predicate (lambda () (derived-mode-p 'message-mode)))
 (auto-save-visited-mode +1)
 
 ;; No lockfiles
