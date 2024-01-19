@@ -1540,6 +1540,11 @@ the vertical drag is done."
   (message-mode-hook . turn-off-auto-fill)
   (message-mode-hook . turn-on-visual-line-mode))
 
+(use-package mml
+  :elpaca nil
+  :custom
+  (mml-attach-file-at-the-end t))
+
 ;; https://gitlab.com/jessieh/mood-line
 (use-package mood-line                  ; A minimal mode-line inspired by doom-modeline
   :demand :after minions
