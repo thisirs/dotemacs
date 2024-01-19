@@ -3117,18 +3117,6 @@ not, return nil."
 ;; Leave point at center of the screen when scrolling
 (setq scroll-preserve-screen-position t)
 
-(defun rename-current-file-or-buffer ()
-  (interactive)
-  (if (not (buffer-file-name))
-      (call-interactively 'rename-buffer)
-    (let ((file (buffer-file-name)))
-      (save-buffer)
-      (with-temp-buffer
-        (set-buffer (dired-noselect file))
-        (dired-do-rename)
-        (kill-buffer nil))))
-  nil)
-
 ;; History navigation
 (with-eval-after-load "comint"
   (define-key comint-mode-map [(control ?p)] 'comint-previous-input)
