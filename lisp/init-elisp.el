@@ -18,20 +18,6 @@
 ;; Load newest file
 (setq load-prefer-newer t)
 
-(defun eval-region-or-buffer ()
-  (interactive)
-  (cond
-   (mark-active
-    (call-interactively 'eval-region)
-    (message "Region evaluated!")
-    (setq deactivate-mark t))
-   (t
-    (eval-buffer)
-    (message "Buffer evaluated!"))))
-
-(define-key emacs-lisp-mode-map (kbd "C-x E") #'eval-region-or-buffer)
-(define-key lisp-interaction-mode-map (kbd "C-x E") #'eval-region-or-buffer)
-
 ;; Custom name for bookmark when in a defun
 (defun emacs-lisp-custom-record-function ()
   (set (make-local-variable 'bookmark-make-record-function)
