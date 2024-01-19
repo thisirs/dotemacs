@@ -2477,6 +2477,11 @@ behavior added."
   :elpaca nil
   :hook (elpaca-after-init-hook . save-place-mode))
 
+(use-package shell
+  :elpaca nil
+  :custom
+  (shell-kill-buffer-on-exit t))
+
 (use-package skeletor                   ; Provides project skeletons for Emacs
   :custom
   (skeletor-completing-read-function #'completing-read))
@@ -3140,18 +3145,6 @@ not, return nil."
         (set-window-buffer (funcall selector) this-win)
         (select-window (funcall selector)))
       (setq arg (if (> arg 0) (1- arg) (1+ arg))))))
-
-;; C-d to kill buffer if process is dead.
-(defun comint-delchar-or-eof-or-kill-buffer (arg)
-  (interactive "p")
-  (if (null (get-buffer-process (current-buffer)))
-      (kill-buffer)
-    (comint-delchar-or-maybe-eof arg)))
-
-(add-hook 'shell-mode-hook
-          (lambda ()
-            (define-key shell-mode-map (kbd "C-d")
-              'comint-delchar-or-eof-or-kill-buffer)))
 
 ;; echo keystrokes quickly
 (setq echo-keystrokes 1e-6)
