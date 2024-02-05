@@ -1,5 +1,39 @@
 (require 'hippie-exp)
 
+(defun jinx--correct-suggestions2 (word)
+  "Retrieve suggestions for WORD."
+  (cl-loop
+   with idx = 1
+   with ht = (make-hash-table :test #'equal)
+   for dict in jinx--dicts
+   nconc
+   (cl-loop
+    for sugg in (jinx--mod-suggest dict word)
+    if (not (gethash sugg ht)) collect
+    (progn
+      (cl-incf idx)
+      (puthash sugg t ht)
+      sugg))))
+
+(defun try-complete-jinx (old)
+  (when (bound-and-true-p jinx-mode)
+    (when (not old)
+      (setq he-search-loc2 0)
+      (he-init-string (he-dabbrev-beg) (point))
+      (setq he-expand-list (jinx--correct-suggestions2 he-search-string))
+      (while (and he-expand-list
+                  (or (not (car he-expand-list))
+                      (he-string-member (car he-expand-list) he-tried-table t)))
+        (setq he-expand-list (cdr he-expand-list)))
+      (if (null he-expand-list)
+          (progn
+            (if old (he-reset-string))
+            ())
+        (progn
+          (he-substitute-string (car he-expand-list) t)
+          (setq he-expand-list (cdr he-expand-list))
+          t)))))
+
 (defun try-complete-wcheck (old)
   (when (bound-and-true-p wcheck-mode)
     (when (not old)
@@ -178,7 +212,7 @@ string). It returns t if a new expansion is found, nil otherwise."
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
-        try-complete-ispell))
+        try-complete-jinx))
 
 (add-to-list 'hippie-expand-ignore-buffers "^.*\\.gpg$")
 
