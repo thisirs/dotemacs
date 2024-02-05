@@ -580,7 +580,10 @@ This function is used in `citar-open-note-function'."
          ([remap yank-pop] . consult-yank-pop)
          ([remap keep-lines] . consult-keep-lines))
   :custom
-  (completion-in-region-function #'consult-completion-in-region))
+  (completion-in-region-function #'consult-completion-in-region)
+  :config
+  (setq consult-ripgrep-args (concat consult-ripgrep-args " --hidden")))
+
 
 ;; https://github.com/karthink/consult-dir
 (use-package consult-dir                ; Consult based directory picker
