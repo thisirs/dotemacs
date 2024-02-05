@@ -1999,19 +1999,6 @@ the vertical drag is done."
 ;; http://elpa.gnu.org/packages/orgalist.html
 (use-package orgalist                   ; Manage Org-like lists in non-Org buffers
   :demand :after mu4e
-  :preface
-  (defun fix-orgalist-fix-bug:31361 ()
-    "Add &rest _"
-    (unless (advice-member-p 'orgalist-fix-bug:31361 'indent-according-to-mode)
-      (advice-add 'indent-according-to-mode
-                  :around (lambda (old &rest _)
-                            "Workaround bug#31361."
-                            (or (orgalist--indent-line)
-                                (let ((indent-line-function
-                                       (advice--cd*r indent-line-function)))
-                                  (funcall old))))
-                  '((name . orgalist-fix-bug:31361)))))
-  :hook (orgalist-mode-hook . fix-orgalist-fix-bug:31361)
   :config
   (add-to-list 'orgalist-context-function
                '(mu4e-compose-mode . orgalist-message-mode-context))
