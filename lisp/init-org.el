@@ -461,18 +461,17 @@ child checkboxes."
     (setq org-latex-format-headline-function
           'org-latex-format-headline-checkbox-function)))
 
-;; (use-package org-auto-archive
-;;   :if (on-zbook)
-;;   :elpaca `(org-auto-archive :type git
-;;                                :local-repo ,(expand-file-name "org-auto-archive" projects-directory))
-;;   :hook (kill-emacs-hook . org-auto-archive-process-buffers)
-;;   :custom
-;;   (org-auto-archive-plan
-;;    '(("agenda.org" . ((subtree "External events")))
-;;      ("agenda.org" . ((subtree "Evénements simples")))
-;;      ("someday.org" . ((org-auto-archive-event-wait "1m")))
-;;      ("agenda.org" . ((subtree "CID events")))))
-;;   (org-auto-archive-handler-function 'org-auto-archive-handler-function-force))
+(use-package org-auto-archive
+  :if (on-zbook)
+  :elpaca `(org-auto-archive :repo ,(expand-file-name "org-auto-archive" projects-directory))
+  :hook (kill-emacs-hook . org-auto-archive-process-buffers)
+  :custom
+  (org-auto-archive-plan
+   '(("agenda.org" . ((subtree "External events")))
+     ("agenda.org" . ((subtree "Evénements simples")))
+     ("someday.org" . ((org-auto-archive-event-wait "1m")))
+     ("agenda.org" . ((subtree "CID events")))))
+  (org-auto-archive-handler-function 'org-auto-archive-handler-function-default))
 
 (use-package org-capture
   :elpaca nil
