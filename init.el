@@ -1875,16 +1875,12 @@ the vertical drag is done."
     (interactive)
     (dired org-roam-directory))
 
-  (defun org-roam-todo-list-compare (x y)
-    (string< (org-element-property "title" y) (org-element-property "title" x)))
-
   (defun org-roam-todo-list (arg)
     "List all todos from all org-roam files."
     (interactive "P")
     (let ((todo-files (org-roam-list-files)))
       (org-ql-search todo-files
         (if arg '(or (todo) (done)) '(todo))
-        :sort 'org-roam-todo-list-compare
         :super-groups '((:auto-category t)))))
 
   (org-roam-db-autosync-enable)
