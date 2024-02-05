@@ -168,7 +168,7 @@ string). It returns t if a new expansion is found, nil otherwise."
 
 ;;; hippie-expand
 (setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
+      '(yas-hippie-try-expand
         try-complete-file-name-partially
         try-complete-file-name
         ;;try-expand-list

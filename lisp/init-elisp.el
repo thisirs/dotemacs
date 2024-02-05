@@ -46,7 +46,7 @@
 
 (defun emacs-lisp-custom-hippie-expand ()
   (set (make-local-variable 'hippie-expand-try-functions-list)
-       '(yas/hippie-try-expand
+       '(yas-hippie-try-expand
          try-complete-file-name-partially
          try-complete-file-name
          try-expand-dabbrev-closest-first
