@@ -128,12 +128,12 @@
   :demand
   :preface
   (defun change-base-dir (file)
-    "Change `user-emacs-directory' into `personal-emacs-directory' for files that are in `user-emacs-directory'"
-
+    "Change base directory from `user-emacs-directory' into `personal-emacs-directory'."
     (setq file (abbreviate-file-name (expand-file-name file)))
-    (if (string-prefix-p user-emacs-directory file)
-        (expand-file-name (substring file (length user-emacs-directory)) personal-emacs-directory)
-      (user-error "Unable to change base directory")
+    (unless (string-prefix-p personal-emacs-directory file)
+      (if (string-prefix-p user-emacs-directory file)
+          (expand-file-name (substring file (length user-emacs-directory)) personal-emacs-directory)
+        (user-error "File %s not in `user-emacs-directory'" file))
       file))
 
   (defun set-no-littering-base-dir (&rest vars)
