@@ -396,8 +396,8 @@
 This function is used in `citar-open-note-function'."
     (require 'org-roam-bibtex)
     (if-let ((tmpl (assoc "r" org-roam-capture-templates)))
-      (let ((org-roam-capture-templates (list tmpl)))
-        (orb-edit-note citekey))
+        (let ((org-roam-capture-templates (list tmpl)))
+          (orb-edit-note citekey))
       (error "No template with key `r' found in `org-roam-capture-templates'")))
 
   ;; Use org-roam-bibtex to open a note
