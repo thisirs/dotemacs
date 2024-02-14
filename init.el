@@ -1404,7 +1404,8 @@ the vertical drag is done."
 ;; https://github.com/minad/jinx
 (use-package jinx                       ; Enchanted Spell Checker
   :hook (emacs-startup-hook . global-jinx-mode)
-  :bind ([remap ispell-word] . jinx-correct))
+  :bind ([remap ispell-word] . jinx-correct)
+  :custom (jinx-languages "fr en_US"))
 
 ;; https://github.com/mooz/js2-mode/
 (use-package js2-mode                  ; Improved JavaScript editing mode
