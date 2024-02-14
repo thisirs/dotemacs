@@ -2962,7 +2962,7 @@ Change directory to `default-directory' if ARG is non-nil."
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
   :elpaca `(auto-insert-multiple
-            :type git
+            :main "autoinsert.el"
             :repo ,(expand-file-name "auto-insert-multiple"
                                      projects-directory))
   :hook (find-file-hook . auto-insert)
