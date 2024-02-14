@@ -3,7 +3,7 @@
 
 ;; https://git.leafac.com/org-password-manager
 (use-package org-password-manager       ; Minimal password manager for Emacs Org Mode.
-  :elpaca (org-password-manager
+  :ensure (org-password-manager
              :type git
              :host github
              :repo "thisirs/org-password-manager")

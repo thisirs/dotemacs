@@ -1,5 +1,5 @@
 (use-package erc
-  :elpaca nil
+  :ensure nil
   :custom
   (erc-autojoin-channels-alist
    '(("libera.chat"
@@ -21,13 +21,13 @@
 ;;; erc
 ;; Check channels
 (use-package erc-track
-  :elpaca nil
+  :ensure nil
   :custom (erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                      "324" "329" "332" "333" "353" "477"))
   :config (erc-track-mode 1))
 
 (use-package erc-spelling
-  :elpaca nil
+  :ensure nil
   :config (erc-spelling-mode 1))
 
 ;; Flyspell input line with different dictionaries
@@ -108,7 +108,7 @@ nil."
   (erc-colorize-mode 1))
 
 (use-package erc-fill
-  :elpaca nil
+  :ensure nil
   :custom
   (erc-fill-function 'erc-fill-static)
   (erc-fill-static-center 20)

@@ -108,16 +108,16 @@
 
 ;; Install use-package support
 (elpaca elpaca-use-package
-  ;; Enable :elpaca use-package keyword.
-  (elpaca-use-package-mode)
-  ;; Assume :elpaca t unless otherwise specified.
-  (setq elpaca-use-package-by-default t))
+  ;; Enable use-package :ensure support for Elpaca.
+  (elpaca-use-package-mode))
 
 ;; Block until current queue processed.
 (elpaca-wait)
 
+(setq use-package-always-ensure t)
+
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (use-package-verbose nil)
   (use-package-hook-name-suffix "")
@@ -160,7 +160,7 @@
   (load-theme 'zenburn t))
 
 (use-package server
-  :elpaca nil
+  :ensure nil
   :if (window-system)
   :demand
   :config
@@ -171,7 +171,7 @@
   :demand
   :if (on-knuth)
   :if (window-system)
-  :elpaca solarized-theme
+  :ensure solarized-theme
   :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-scale-org-headlines nil)
@@ -181,7 +181,7 @@
   :demand
   :if (or (on-zbook) (on-knuth))
   :if (window-system)
-  :elpaca nil
+  :ensure nil
   :config
   (load-theme 'modus-vivendi t))
 
@@ -220,7 +220,7 @@
 (setq ispell-choices-win-default-height 5)
 
 (use-package abbrev
-  :elpaca nil
+  :ensure nil
   :init
   ;; Silently save abbrevs on quitting emacs
   (setq save-abbrevs 'silently))
@@ -269,7 +269,7 @@
 
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons            ; A library for inserting Developer icons
-  :elpaca (all-the-icons :type git :host github :repo "domtronn/all-the-icons.el" :branch "svg" :files (:defaults "svg")))
+  :ensure (all-the-icons :type git :host github :repo "domtronn/all-the-icons.el" :branch "svg" :files (:defaults "svg")))
 
 ;; https://github.com/emacsorphanage/anzu
 (use-package anzu                       ; Display incremental search stats in the modeline.
@@ -279,7 +279,7 @@
   :diminish anzu-mode)
 
 (use-package app-launcher
-  :elpaca '(app-launcher :host github :repo "SebastienWae/app-launcher")
+  :ensure '(app-launcher :host github :repo "SebastienWae/app-launcher")
   :preface
   (defun app-launcher--action-function-file (selected &optional file)
     "Open `file' with the selected application."
@@ -316,7 +316,7 @@
   (atomic-chrome-start-server))
 
 (use-package auth-source-org
-  :elpaca `(auth-source-org
+  :ensure `(auth-source-org
             :repo ,(expand-file-name "auth-source-org" projects-directory)))
 
 ;; https://github.com/abo-abo/avy
@@ -471,7 +471,7 @@ This function is used in `citar-open-note-function'."
   :disabled t)
 
 (use-package bookmark
-  :elpaca nil
+  :ensure nil
   :after no-littering
   :custom
   (bookmark-fringe-mark nil)
@@ -557,7 +557,7 @@ This function is used in `citar-open-note-function'."
   :hook (company-mode-hook . company-posframe-mode))
 
 (use-package compile
-  :elpaca nil
+  :ensure nil
   :custom
   ;; Move point to first error
   (compilation-scroll-output 'first-error))
@@ -720,13 +720,13 @@ the vertical drag is done."
 
 ;; ediff settings
 (use-package ediff-diff
-  :elpaca nil
+  :ensure nil
   :custom
   ;; Ignore whitespace in diff
   (ediff-diff-options "-w"))
 
 (use-package ediff-util
-  :elpaca nil
+  :ensure nil
   :hook (ediff-keymap-setup-hook . add-d-to-ediff-mode-map)
   :config
   (defun ediff-copy-both-to-C (&optional arg)
@@ -747,7 +747,7 @@ the vertical drag is done."
     (define-key ediff-mode-map "d" #'ediff-copy-both-to-C)))
 
 (use-package ediff-wind
-  :elpaca nil
+  :ensure nil
   :preface
   (defalias 'ediff-buffer-with-file 'ediff-current-file)
 
@@ -766,7 +766,7 @@ the vertical drag is done."
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package electric
-  :elpaca nil
+  :ensure nil
   :demand
   :config
   (electric-indent-mode 1))
@@ -780,7 +780,7 @@ the vertical drag is done."
 
 (use-package elec-pair
   :if (or (on-zbook) (on-knuth))
-  :elpaca nil
+  :ensure nil
   :demand
   :config
   (electric-pair-mode))
@@ -901,7 +901,7 @@ the vertical drag is done."
     ("g" engine/search-google "google")))
 
 (use-package epwdgen                    ; Flexible password generator
-  :elpaca `(epwdgen :repo ,(expand-file-name "epwdgen" projects-directory))
+  :ensure `(epwdgen :repo ,(expand-file-name "epwdgen" projects-directory))
   :commands epwdgen-generate-password
   :config
   (setq epwdgen-password-presets
@@ -1085,7 +1085,7 @@ the vertical drag is done."
                  :stream t)))
 
 (use-package grep
-  :elpaca nil
+  :ensure nil
   :bind (:map grep-mode-map
               ("a" . grep-toggle-binary-search))
   :config
@@ -1185,7 +1185,7 @@ the vertical drag is done."
     ("j" ivy-bookmarks "Bookmarks")))
 
 (use-package ical2org
-  :elpaca (ical2org :host github :repo "thisirs/ical2org")
+  :ensure (ical2org :host github :repo "thisirs/ical2org")
   :commands (ical2org/buffer-to-buffer ical2org/import-to-agenda ical2org/convert-file)
   :custom
   (ical2org/event-format "\
@@ -1217,7 +1217,7 @@ the vertical drag is done."
 (use-package bibtex-completion          ; A BibTeX backend for completion frameworks
   :disabled
   :demand :after bibtex-completion
-  :elpaca (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
+  :ensure (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
                                :files ("bibtex-completion.el"))
   :config
   ;; Main Bibtex file automatically exported by Zotero
@@ -1235,7 +1235,7 @@ the vertical drag is done."
 ;; https://github.com/tmalsburg/helm-bibtex
 (use-package ivy-bibtex                 ; A bibliography manager based on Ivy
   :disabled
-  :elpaca (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
+  :ensure (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
                         :files ("ivy-bibtex.el")
                         :fork (:host github :repo "thisirs/helm-bibtex"))
   :bind ("C-x b" . ivy-bibtex)
@@ -1331,7 +1331,7 @@ the vertical drag is done."
                 :caller 'ivy-bookmarks))))
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :demand
   :config
   (defun crm-indicator (args)
@@ -1344,7 +1344,7 @@ the vertical drag is done."
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind ("C-c j" . browse-bookmark)
   :config
   (defun bookmarks-get-candidates ()
@@ -1420,7 +1420,7 @@ the vertical drag is done."
   :demand :after org
   :config
   (use-package ob-jupyter
-    :elpaca nil
+    :ensure nil
     :config
     (org-babel-jupyter-override-src-block "python"))
   (org-babel-do-load-languages
@@ -1522,7 +1522,7 @@ the vertical drag is done."
 
 (use-package midnight
   :demand
-  :elpaca nil
+  :ensure nil
   :config
   (cancel-timer midnight-timer)
   (defalias 'midnight-clean-buffer-list 'clean-buffer-list)
@@ -1539,7 +1539,7 @@ the vertical drag is done."
   (minions-mode 1))
 
 (use-package message
-  :elpaca nil
+  :ensure nil
   :custom
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
@@ -1550,7 +1550,7 @@ the vertical drag is done."
   (message-mode-hook . turn-on-visual-line-mode))
 
 (use-package mml
-  :elpaca nil
+  :ensure nil
   :custom
   (mml-attach-file-at-the-end t))
 
@@ -1564,7 +1564,7 @@ the vertical drag is done."
   (mood-line-mode))
 
 (use-package mu4e
-  :elpaca (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
+  :ensure (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
                  :depth nil
                  :tag "v1.10.5"
                  :pre-build (("./autogen.sh")
@@ -1767,7 +1767,7 @@ the vertical drag is done."
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
-  :elpaca `(org-context
+  :ensure `(org-context
               :type git
               :local-repo ,(expand-file-name "org-context" projects-directory))
   :config
@@ -1826,7 +1826,7 @@ the vertical drag is done."
   (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
 (use-package org-protocol
-  :elpaca nil
+  :ensure nil
   :preface
   ;; Load org-protocol only when `server-visit-files' is called. An
   ;; advice around `server-visit-files' is present in org-protocol but
@@ -1975,7 +1975,7 @@ the vertical drag is done."
       (orb-edit-note (plist-get info :citekey)))))
 
 (use-package org-roam-protocol
-  :elpaca nil
+  :ensure nil
   :demand :after org-protocol)
 
 ;; https://github.com/org-roam/org-roam-ui
@@ -2005,7 +2005,7 @@ the vertical drag is done."
 (use-package osm)                       ; OpenStreetMap viewer
 
 (use-package ox-ipynb
-  :elpaca (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
+  :ensure (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
 
 ;; https://github.com/Malabarba/paradox
 (use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
@@ -2034,7 +2034,7 @@ the vertical drag is done."
   ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook lisp-data-mode-hook) . paredit-mode))
 
 (use-package paren
-  :elpaca nil
+  :ensure nil
   :demand
   :custom
   (show-paren-when-point-inside-paren t)
@@ -2072,7 +2072,7 @@ the vertical drag is done."
   ;; (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
 
   (use-package pdf-sync
-    :elpaca nil
+    :ensure nil
     :bind (:map
            pdf-sync-minor-mode-map
            ("C-c C-v" . (lambda () (interactive) (pdf-sync-backward-search 0 0)))))
@@ -2082,7 +2082,7 @@ the vertical drag is done."
   (setq pdf-misc-print-programm lpr-command)
 
   (use-package pdf-annot
-    :elpaca nil
+    :ensure nil
     :config
     (defun pdf-annot-add-text-annotation-here (ev)
       (interactive "@e")
@@ -2112,14 +2112,14 @@ the vertical drag is done."
 
 ;; https://github.com/thisirs/pdf-tools-points.git
 ;; (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-;;   :elpaca `(pdf-tools-points :type git :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
+;;   :ensure `(pdf-tools-points :type git :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
 ;;   :after pdf-tools :demand)
 
 ;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
 
 (use-package pixel-scroll
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init-hook . pixel-scroll-precision-mode))
 
 ;; https://github.com/polymode/polymode
@@ -2154,7 +2154,7 @@ the vertical drag is done."
 
 ;; https://elpa.gnu.org/packages/project.html
 (use-package project                    ; Operations on the current project
-  :elpaca nil
+  :ensure nil
   :custom (project-switch-commands 'project-dired)
   :config
   (defun project-reload-projects ()
@@ -2220,7 +2220,7 @@ the vertical drag is done."
 
 ;; https://github.com/fgallina/python.el
 (use-package python                     ; Python's flying circus support for Emacs
-  :elpaca nil
+  :ensure nil
   :config
   (setq python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter-args "-m IPython -i --simple-prompt")
@@ -2314,7 +2314,7 @@ out")
 
 ;; From https://github.com/jwiegley/dot-emacs
 (use-package recentf
-  :elpaca nil
+  :ensure nil
   :defer 10
   :commands (recentf-mode
              recentf-add-file
@@ -2335,7 +2335,7 @@ out")
   (recentf-mode 1))
 
 (use-package repeat
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init-hook . repeat-mode))
 
 ;; A search tool based on ripgrep
@@ -2352,7 +2352,7 @@ out")
     :files "*"))
 
 (use-package reverso
-  :elpaca (:host github :repo "SqrtMinusOne/reverso.el")
+  :ensure (:host github :repo "SqrtMinusOne/reverso.el")
   :custom (reverso-languages '(english french))
   :bind ("C-c t" . reverso-translate))
 
@@ -2395,7 +2395,7 @@ out")
   (separedit-default-mode 'markdown-mode))
 
 (use-package simple
-  :elpaca nil
+  :ensure nil
   :custom
   (line-move-visual t)
   :preface
@@ -2466,11 +2466,11 @@ behavior added."
   (smex-initialize))
 
 (use-package saveplace
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init-hook . save-place-mode))
 
 (use-package shell
-  :elpaca nil
+  :ensure nil
   :custom
   (shell-kill-buffer-on-exit t))
 
@@ -2502,7 +2502,7 @@ behavior added."
 
 ;; Minor mode to resolve diff3 conflicts
 (use-package smerge-mode
-  :elpaca nil
+  :ensure nil
   :hook (find-file-hook . sm-try-smerge)
   :config
   (defun sm-try-smerge ()
@@ -2515,12 +2515,12 @@ behavior added."
 
 ;; https://savannah.nongnu.org/projects/so-long
 (use-package so-long                    ; Say farewell to performance problems with minified code.
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init-hook . global-so-long-mode))
 
 (use-package spotify.el
   :disabled
-  :elpaca (spotify.el :type git :host github :repo "danielfm/spotify.el"
+  :ensure (spotify.el :type git :host github :repo "danielfm/spotify.el"
                      :files ("*.el")))
 
 ;; https://github.com/thisirs/state.git
@@ -2682,12 +2682,12 @@ behavior added."
 
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
-  :elpaca nil
+  :ensure nil
   :custom
   (remote-file-name-inhibit-locks t))
 
 (use-package treesit
-  :elpaca nil
+  :ensure nil
   :config
   (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript")))
   (add-to-list 'treesit-language-source-alist '(python . ("https://github.com/tree-sitter/tree-sitter-python")))
@@ -2731,7 +2731,7 @@ behavior added."
 
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
-  :elpaca (vertico :files (:defaults "extensions/*"))
+  :ensure (vertico :files (:defaults "extensions/*"))
   :demand
   :bind (:map vertico-map
               ("M-q" . vertico-multiform-grid))
@@ -2759,7 +2759,7 @@ behavior added."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :elpaca `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
+  :ensure `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
@@ -2770,7 +2770,7 @@ behavior added."
   (vc-auto-commit-activate))
 
 (use-package warnings
-  :elpaca nil
+  :ensure nil
   :config
   (add-to-list 'warning-suppress-types '(comp)))
 
@@ -2797,14 +2797,14 @@ behavior added."
 
 (use-package whitespace
   :demand
-  :elpaca nil
+  :ensure nil
   :config
   (setq whitespace-style
         '(face trailing tabs))
   (global-whitespace-mode))
 
 (use-package windmove
-  :elpaca nil
+  :ensure nil
   :bind
   ("s-b" . windmove-left)
   ("s-f" . windmove-right)
@@ -2812,7 +2812,7 @@ behavior added."
   ("s-n" . windmove-down))
 
 (use-package winner
-  :elpaca nil
+  :ensure nil
   :if (not noninteractive)
   :defer 5
   :bind (("M-N" . winner-redo)
@@ -2845,7 +2845,7 @@ behavior added."
 ;; https://github.com/AndreaCrotti/yasnippet-snippets
 (use-package yasnippet-snippets         ; Collection of yasnippet snippets
   :demand :after yasnippet
-  :elpaca (yasnippet-snippets
+  :ensure (yasnippet-snippets
              :type git
              :host github
              :repo "AndreaCrotti/yasnippet-snippets"
@@ -2924,7 +2924,7 @@ Change directory to `default-directory' if ARG is non-nil."
 
 
 (use-package ffap
-  :elpaca nil
+  :ensure nil
   :config
   (defun ffap-bib-latex-mode (bib_id)
     "Infer a filename from BIB_ID."
@@ -2961,7 +2961,7 @@ Change directory to `default-directory' if ARG is non-nil."
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
-  :elpaca `(auto-insert-multiple
+  :ensure `(auto-insert-multiple
             :main "autoinsert.el"
             :repo ,(expand-file-name "auto-insert-multiple"
                                      projects-directory))
@@ -3003,7 +3003,7 @@ Change directory to `default-directory' if ARG is non-nil."
 (set-terminal-coding-system 'utf-8-unix)
 
 (use-package diff
-  :elpaca nil
+  :ensure nil
   :config
   ;; Unified diff format and no whitespace when using `diff'
   (setq diff-switches "-u -w"))
@@ -3262,7 +3262,7 @@ to cancel it."
 
 ;; Minibuffer history
 (use-package savehist
-  :elpaca nil
+  :ensure nil
   :hook (elpaca-after-init-hook . savehist-mode)
   :config
   (add-to-list 'savehist-additional-variables 'search-ring)

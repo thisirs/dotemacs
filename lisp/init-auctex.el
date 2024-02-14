@@ -1,6 +1,6 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package latex                      ; Integrated environment for *TeX*
-  :elpaca (auctex :repo "https://git.savannah.gnu.org/git/auctex.git"
+  :ensure (auctex :repo "https://git.savannah.gnu.org/git/auctex.git"
                   :pre-build (("./autogen.sh") ("./configure" "--without-texmf-dir" "--with-lispdir=.") ("make")))
   :init
   (require 'tex-site)
@@ -107,7 +107,7 @@ filled by AUCTeX functions."
 
 
 (use-package reftex
-  :elpaca nil
+  :ensure nil
   :demand :after latex
   :preface
   (defun LaTeX-setup-reftex ()
@@ -144,10 +144,10 @@ filled by AUCTeX functions."
 
 
 [(use-package tex-site               ; Integrated environment for *TeX*
-   :elpaca auctex
+   :ensure auctex
    :config
    (use-package latex
-     :elpaca nil
+     :ensure nil
      :defer t
      :defines TeX-sentinel-function
      :functions (TeX-run-command TeX-run-TeX)

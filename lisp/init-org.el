@@ -2,14 +2,14 @@
 (use-package org-caldav)
 
 (use-package org-attach
-  :elpaca nil
+  :ensure nil
   :custom (org-attach-archive-delete t))
 
 ;; https://github.com/emacsattic/org-link-minor-mode
 ;; (use-package org-link-minor-mode) ;; Enable org-mode links in non-org modes
 
 (use-package ox-koma-letter
-  :elpaca nil
+  :ensure nil
   :custom
   ;; email is specified is lco file
   (org-koma-letter-email nil)
@@ -399,7 +399,7 @@ refile targets.")
 
 
 (use-package org-cite
-  :elpaca nil
+  :ensure nil
   :custom
   (org-cite-global-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
   (org-cite-insert-processor 'citar)
@@ -408,7 +408,7 @@ refile targets.")
 
 
 (use-package ox-latex
-  :elpaca nil
+  :ensure nil
   :config
   ;; You need to install pygments to use minted
   (when (executable-find "pygmentize")
@@ -463,7 +463,7 @@ child checkboxes."
 
 (use-package org-auto-archive
   :if (on-zbook)
-  :elpaca `(org-auto-archive :repo ,(expand-file-name "org-auto-archive" projects-directory))
+  :ensure `(org-auto-archive :repo ,(expand-file-name "org-auto-archive" projects-directory))
   :hook (kill-emacs-hook . org-auto-archive-process-buffers)
   :custom
   (org-auto-archive-plan
@@ -474,7 +474,7 @@ child checkboxes."
   (org-auto-archive-handler-function 'org-auto-archive-handler-function-default))
 
 (use-package org-capture
-  :elpaca nil
+  :ensure nil
   :preface (require 'init-org-capture-helpers)
   :custom
   ;; Load templates from personal location
@@ -483,7 +483,7 @@ child checkboxes."
     (expand-file-name "org-capture-templates.el" personal-emacs-directory))))
 
 (use-package org-agenda
-  :elpaca nil
+  :ensure nil
   :init
   (defun annotedp ()
     (if (derived-mode-p 'org-mode)
@@ -570,14 +570,14 @@ this with to-do items than with projects or headings."
   (define-key org-agenda-mode-map [(control return)] #'org-agenda-add-report))
 
 (use-package calendar
-  :elpaca nil
+  :ensure nil
   :custom
   (calendar-time-zone-style 'numeric)
   (calendar-date-style 'european)
   (calendar-mark-holidays-flag t))
 
 (use-package holidays
-  :elpaca nil
+  :ensure nil
   :demand :after org-agenda
   :custom
   (calendar-holidays
@@ -595,7 +595,7 @@ this with to-do items than with projects or headings."
      (holiday-easter-etc 50 "Lundi de Pentecôte"))))
 
 (use-package appt
-  :elpaca nil
+  :ensure nil
   :preface
   (defun appt-display (mins current-time msgs)
     (seq-mapn
@@ -632,7 +632,7 @@ this with to-do items than with projects or headings."
   )
 
 (use-package parse-time
-  :elpaca nil
+  :ensure nil
   :config
   (setq parse-time-months
         (append parse-time-months
