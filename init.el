@@ -169,7 +169,7 @@
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :demand
-  :if (on-knuth)
+  :if (or (on-zbook) (on-knuth))
   :if (window-system)
   :ensure solarized-theme
   :config
@@ -178,6 +178,7 @@
   (load-theme 'solarized-dark t))
 
 (use-package emacs
+  :disabled
   :demand
   :if (or (on-zbook) (on-knuth))
   :if (window-system)
