@@ -115,6 +115,7 @@
 (elpaca-wait)
 
 (setq use-package-always-ensure t)
+(setq elpaca-verbosity 1)
 
 (use-package emacs
   :ensure nil
@@ -130,7 +131,7 @@
   (defun change-base-dir (file)
     "Change base directory from `user-emacs-directory' into `personal-emacs-directory'."
     (setq file (abbreviate-file-name (expand-file-name file)))
-    (unless (string-prefix-p personal-emacs-directory file)
+    (if (not (string-prefix-p personal-emacs-directory file))
       (if (string-prefix-p user-emacs-directory file)
           (expand-file-name (substring file (length user-emacs-directory)) personal-emacs-directory)
         (user-error "File %s not in `user-emacs-directory'" file))
@@ -1078,9 +1079,15 @@ the vertical drag is done."
 (use-package gptel                      ; A simple multi-LLM client
   :custom (gptel-model "mistral:latest")
   :config
+  (gptel-make-ollama
+   "Ollama tinyllama"
+   :host "localhost:11434"
+   :models '("tinyllama:latest")
+   :stream t)
+
   (setq-default gptel-backend
                 (gptel-make-ollama
-                 "Ollama"
+                 "Ollama mistral"
                  :host "localhost:11434"
                  :models '("mistral:latest")
                  :stream t)))
@@ -1449,6 +1456,7 @@ the vertical drag is done."
 
 ;; http://github.com/fredcamps/lsp-jedi
 (use-package lsp-jedi                   ; Lsp client plugin for Python Jedi Language Server
+  :disabled
   :demand :after lsp-mode
   :config
   (add-to-list 'lsp-disabled-clients 'pyls)
@@ -1457,6 +1465,7 @@ the vertical drag is done."
 
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode                   ; LSP mode
+  :disabled
   :custom (lsp-enable-snippet nil)
   :hook (python-mode-hook . lsp))
 
