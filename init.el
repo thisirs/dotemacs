@@ -597,6 +597,21 @@ This function is used in `citar-open-note-function'."
         ("M-." . consult-dir)
         ("M-j" . consult-dir-jump-file)))
 
+(use-package consult-mu
+  :ensure (consult-mu :type git :host github :repo "armindarvish/consult-mu" :files (:defaults "extras/*.el"))
+  :after (consult mu4e)
+  :custom
+  ;;maximum number of results shown in minibuffer
+  (consult-mu-maxnum 200)
+  ;;show preview when pressing any keys
+  (consult-mu-preview-key 'any)
+  ;;do not mark email as read when previewed
+  (consult-mu-mark-previewed-as-read nil)
+  ;;do not amrk email as read when selected. This is a good starting point to ensure you would not miss important emails marked as read by mistake especially when trying this package out. Later you can change this to t.
+  (consult-mu-mark-viewed-as-read nil)
+  ;; open the message in mu4e-view-buffer when selected.
+  (consult-mu-action #'consult-mu--view-action))
+
 ;; https://github.com/jgru/consult-org-roam
 (use-package consult-org-roam           ; Consult integration for org-roam
   :diminish
