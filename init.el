@@ -784,6 +784,23 @@ the vertical drag is done."
   ;; No separate frame for ediff control buffer
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package eglot
+  :ensure nil
+  :hook (python-mode-hook . eglot-ensure)
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-extend-to-xref nil)
+  (eglot-ignored-server-capabilities
+   '(:hoverProvider
+     :documentHighlightProvider
+     :documentFormattingProvider
+     :documentRangeFormattingProvider
+     :documentOnTypeFormattingProvider
+     :colorProvider
+     :foldingRangeProvider))
+  (eglot-stay-out-of '(yasnippet)))
+
 (use-package electric
   :ensure nil
   :demand
