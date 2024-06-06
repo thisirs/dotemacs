@@ -827,10 +827,9 @@ the vertical drag is done."
   (elfeed-search-title-max-width 120)
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
   (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir))
-
   :init
-  (run-with-idle-timer 60 nil #'elfeed-update)
-  (run-with-timer (* 6 60 60) t #'elfeed-update))
+  ;; Run every two hours but when idling
+  (run-with-timer 0 (* 2 60 60) #'run-with-idle-timer 60 nil #'elfeed-update))
 
 ;; https://github.com/remyhonig/elfeed-org
 (use-package elfeed-org                 ; Configure elfeed with one or more org-mode files
