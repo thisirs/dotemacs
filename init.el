@@ -586,7 +586,7 @@ This function is used in `citar-open-note-function'."
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config
-  (setq consult-ripgrep-args (concat consult-ripgrep-args " --hidden")))
+  (setq consult-ripgrep-args (concat consult-ripgrep-args " --hidden" " --no-ignore-vcs")))
 
 
 ;; https://github.com/karthink/consult-dir
