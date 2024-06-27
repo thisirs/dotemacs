@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: rcode
-# key: rcode
-# --
-%% begin.rcode
-% $0
-%% end.rcode

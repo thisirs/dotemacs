@@ -6,7 +6,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage{graphicx}
 \graphicspath{{~/texmf/tex/latex/images}}
 
@@ -22,7 +22,7 @@
 
   $0
 
-  \closing{Je vous prie d’agréer, Madame, Monsieur, l'expression de ma
+  \closing{Je vous prie d'agréer, Madame, Monsieur, l'expression de ma
     considération distinguée.}
 
 \end{letter}
