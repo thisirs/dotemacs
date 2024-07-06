@@ -3347,10 +3347,6 @@ to cancel it."
 ;; Make files with a shebang executable
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-;; Open bash-fc-* files from fc command or C-x C-e in terminal in sh-mode
-(add-to-list 'auto-mode-alist '("bash-fc-[0-9]+\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("PKGBUILD\\'" . sh-mode))
-
 ;; Taken from http://emacs.stackexchange.com/questions/519/key-bindings-specific-to-a-buffer
 (defvar temp-mode-map (make-sparse-keymap)
   "Keymap while temp-mode is active.")
