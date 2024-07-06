@@ -126,6 +126,28 @@
   (use-package-hook-name-suffix "")
   (use-package-always-defer t))
 
+(use-package emamux
+  :preface
+  (autoload-config emamux:switch-cd emamux)
+  :bind ("C-z" . emamux:switch-cd)
+  :config
+  (defun emamux:display-message (message)
+    (with-temp-buffer
+      (emamux:tmux-run-command t "display-message" "-p" message)
+      (string-trim (buffer-string))))
+
+  (defun emamux:switch-cd (&optional arg)
+    (interactive)
+    (let* ((current-command (emamux:display-message "#{pane_current_command}"))
+           (chdir-command
+            (cond ((string= current-command "R")
+                   (format "setwd(\"%s\")" (file-truename default-directory)))
+                  ((string-match "python[23]?" current-command)
+                   (format "import os; os.chdir(\"%s\")" (file-truename default-directory)))
+                  (t (format "cd \"%s\"" (file-truename default-directory))))))
+      (let ((new-pane-id (emamux:current-active-pane-id)))
+        (emamux:tmux-run-command nil "send-keys" "-t" new-pane-id "C-u" "C-k" chdir-command "C-m")))))
+
 ;; https://github.com/emacscollective/no-littering
 (use-package no-littering               ; help keeping ~/.emacs.d clean
   :demand
@@ -2907,54 +2929,6 @@ behavior added."
 (use-package zop-to-char                ; A replacement of zap-to-char.
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
-
-(defun switch-to-external-terminal (&optional arg)
-  "Switch to an external terminal. Change directory if ARG is non-nil."
-  (interactive "P")
-  (if (display-graphic-p)
-      (switch-to-tmux arg)
-    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
-
-(defun tmux-display (message)
-  (with-temp-buffer
-    (shell-command (format "tmux display -p \"%s\"" message) (current-buffer))
-    (string-trim (buffer-string))))
-
-(defun tmux-has-session ()
-  (eq 0 (shell-command "tmux -q has-session")))
-
-(defun switch-to-tmux (&optional arg)
-  "Switch to tmux and change current directory to current
-`default-directory' if ARG is non-nil."
-  (interactive "P")
-  (if (tmux-has-session)
-      (apply #'start-process "Attach" nil
-             (list "wmctrl" "-a" (format "%s@%s" (user-login-name) (system-name))))
-    (apply #'start-process "Start" nil (list "alacritty")))
-  (if arg
-      (let ((current-command (tmux-display "#{pane_current_command}")))
-        (cond ((string= current-command "R")
-               (let ((coding-system-for-write 'utf-8))
-                 (shell-command (format "tmux send C-u C-k \"setwd(\\\"%s\\\")\" ENTER"
-                                        (file-truename default-directory)))))
-              ((string-match "python[23]?" current-command)
-               (let ((coding-system-for-write 'utf-8))
-                 (shell-command (format "tmux send C-u C-k \"import os; os.chdir(\\\"%s\\\")\" ENTER"
-                                        (file-truename default-directory)))))
-              (t (let ((coding-system-for-write 'utf-8))
-                   (shell-command (format "tmux send C-u \"cd \\\"%s\\\"\" ENTER"
-                                          (file-truename default-directory))))))))
-  (message "Switched to tmux"))
-
-(defun switch-to-tmux-or-suspend (&optional arg)
-  "Switch to tmux if in a graphic session. Otherwise, suspend emacs.
-Change directory to `default-directory' if ARG is non-nil."
-  (interactive "P")
-  (if (display-graphic-p)
-      (switch-to-tmux arg)
-    (suspend-emacs (if arg (format "cd \"%s\"" (file-truename default-directory))))))
-
-(global-set-key (kbd "C-z") 'switch-to-tmux-or-suspend)
 
 ;; Notify events
 (require 'notifications)
