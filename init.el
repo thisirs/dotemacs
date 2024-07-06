@@ -2909,12 +2909,7 @@ behavior added."
 
 ;; https://github.com/AndreaCrotti/yasnippet-snippets
 (use-package yasnippet-snippets         ; Collection of yasnippet snippets
-  :demand :after yasnippet
-  :ensure (yasnippet-snippets
-             :type git
-             :host github
-             :repo "AndreaCrotti/yasnippet-snippets"
-             :files ("*.el" ("snippets" "snippets/python-mode"))))
+  :demand :after yasnippet)
 
 ;; http://www.emacswiki.org/zoom-frm.el
 ;; (use-package zoom-frm                   ; Commands to zoom frame font size.
