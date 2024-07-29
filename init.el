@@ -167,7 +167,7 @@
   :if (window-system)
   :demand
   :config
-  (unless (server-running-p server-name)
+  (unless (server-running-p)
     (server-start)))
 
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
