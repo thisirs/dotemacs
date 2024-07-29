@@ -3374,7 +3374,7 @@ to cancel it."
   "Kill emacs, close frame or editing buffer.
 
 If a server buffer is current, it is marked \"done\" and
-optionnaly saved. Otherwise, kill current frame if there
+optionally saved. Otherwise, kill current frame if there
 is more than one or kill emacs if there is only one."
   (interactive "P")
   (cond
