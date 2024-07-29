@@ -126,28 +126,6 @@
   (use-package-hook-name-suffix "")
   (use-package-always-defer t))
 
-(use-package emamux
-  :preface
-  (autoload-config emamux:switch-cd emamux)
-  :bind ("C-z" . emamux:switch-cd)
-  :config
-  (defun emamux:display-message (message)
-    (with-temp-buffer
-      (emamux:tmux-run-command t "display-message" "-p" message)
-      (string-trim (buffer-string))))
-
-  (defun emamux:switch-cd (&optional arg)
-    (interactive)
-    (let* ((current-command (emamux:display-message "#{pane_current_command}"))
-           (chdir-command
-            (cond ((string= current-command "R")
-                   (format "setwd(\"%s\")" (file-truename default-directory)))
-                  ((string-match "python[23]?" current-command)
-                   (format "import os; os.chdir(\"%s\")" (file-truename default-directory)))
-                  (t (format "cd \"%s\"" (file-truename default-directory))))))
-      (let ((new-pane-id (emamux:current-active-pane-id)))
-        (emamux:tmux-run-command nil "send-keys" "-t" new-pane-id "C-u" "C-k" chdir-command "C-m")))))
-
 ;; https://github.com/emacscollective/no-littering
 (use-package no-littering               ; help keeping ~/.emacs.d clean
   :demand
@@ -891,6 +869,29 @@ the vertical drag is done."
     (if (region-active-p)
         (elpy-shell-send-region-or-buffer-and-step)
       (elpy-shell-send-group-and-step))))
+
+;; https://github.com/syohex/emacs-emamux
+(use-package emamux                     ; Interact with tmux
+  :preface
+  (autoload-config emamux:switch-cd emamux)
+  :bind ("C-z" . emamux:switch-cd)
+  :config
+  (defun emamux:display-message (message)
+    (with-temp-buffer
+      (emamux:tmux-run-command t "display-message" "-p" message)
+      (string-trim (buffer-string))))
+
+  (defun emamux:switch-cd (&optional arg)
+    (interactive)
+    (let* ((current-command (emamux:display-message "#{pane_current_command}"))
+           (chdir-command
+            (cond ((string= current-command "R")
+                   (format "setwd(\"%s\")" (file-truename default-directory)))
+                  ((string-match "python[23]?" current-command)
+                   (format "import os; os.chdir(\"%s\")" (file-truename default-directory)))
+                  (t (format "cd \"%s\"" (file-truename default-directory))))))
+      (let ((new-pane-id (emamux:current-active-pane-id)))
+        (emamux:tmux-run-command nil "send-keys" "-t" new-pane-id "C-u" "C-k" chdir-command "C-m")))))
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions
