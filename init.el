@@ -116,12 +116,12 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-(setq use-package-always-ensure t)
 (setq elpaca-verbosity 1)
 
 (use-package emacs
   :ensure nil
   :custom
+  (use-package-always-ensure t)
   (use-package-verbose nil)
   (use-package-hook-name-suffix "")
   (use-package-always-defer t))
