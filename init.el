@@ -1293,7 +1293,8 @@ the vertical drag is done."
   (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
   (setq bibtex-completion-pdf-field "file"))
 
-(use-package code-cells
+;; https://github.com/astoff/code-cells.el
+(use-package code-cells                 ; Lightweight notebooks with support for ipynb files
   :hook (python-mode-hook . code-cells-mode-maybe))
 
 ;; https://github.com/tmalsburg/helm-bibtex
