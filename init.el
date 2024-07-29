@@ -2801,7 +2801,8 @@ behavior added."
   :ensure (vertico :files (:defaults "extensions/*"))
   :demand
   :bind (:map vertico-map
-              ("M-q" . vertico-multiform-grid))
+              ("M-q" . vertico-multiform-grid)
+              ("M-RET" . minibuffer-force-complete-and-exit))
   :custom
   ((vertico-multiform-commands
     '((consult-ripgrep buffer)
