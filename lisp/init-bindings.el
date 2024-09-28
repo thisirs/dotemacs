@@ -1,5 +1,5 @@
 (defmacro shell-bind (key cmd &optional msg)
-  `(global-set-key (kbd ,key)
+  `(keymap-global-set ,key
                    (lambda ()
                      (interactive)
                      (shell-command ,cmd)
@@ -16,95 +16,91 @@
   (shell-bind "<f6>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Right" "next"))
 
 ;; Shortcut for reverting a buffer
-(global-set-key (kbd "C-x C-r") #'revert-buffer-quick)
-(global-set-key (kbd "C-x k") #'kill-current-buffer)
+(keymap-global-set "C-x C-r" #'revert-buffer-quick)
+(keymap-global-set "C-x k" #'kill-current-buffer)
 
-(global-set-key (kbd "<C-kp-4>") #'enlarge-window-horizontally)
-(global-set-key (kbd "<C-kp-6>") #'shrink-window-horizontally)
-(global-set-key (kbd "<C-kp-8>") #'enlarge-window)
-(global-set-key (kbd "<C-kp-2>") #'shrink-window)
+(keymap-global-set "C-<left>" #'enlarge-window-horizontally)
+(keymap-global-set "C-<right>" #'shrink-window-horizontally)
+(keymap-global-set "C-<up>" #'enlarge-window)
+(keymap-global-set "C-<down>" #'shrink-window)
 
-(global-set-key (kbd "<C-kp-divide>") #'transpose-buffers)
+(keymap-global-set "C-/" #'transpose-buffers)
 
-(global-set-key (kbd "M-p") #'scroll-down-command)
-(global-set-key (kbd "M-n") #'scroll-up-command)
+(keymap-global-set "M-p" #'scroll-down-command)
+(keymap-global-set "M-n" #'scroll-up-command)
 
 ;; A complementary binding to the apropos-command (C-h a)
 (define-key 'help-command "A" #'apropos)
 
 ;; Toggle menu-bar visibility
-(global-set-key (kbd "<f8>") #'menu-bar-mode)
+(keymap-global-set "<f8>" #'menu-bar-mode)
 
-(global-set-key (kbd "C-x à") #'delete-other-windows)
-(global-set-key (kbd "C-x C-à") #'delete-other-windows)
-(global-set-key (kbd "C-,") #'other-window)
-(global-set-key (kbd "M-o") #'other-window)
+(keymap-global-set "C-x à" #'delete-other-windows)
+(keymap-global-set "C-x C-à" #'delete-other-windows)
+(keymap-global-set "C-," #'other-window)
+(keymap-global-set "M-o" #'other-window)
 
-(global-set-key (kbd "M-g r") #'recompile)
-(global-set-key (kbd "M-g c") #'compile)
+(keymap-global-set "M-g r" #'recompile)
+(keymap-global-set "M-g c" #'compile)
 
-(global-set-key (kbd "C-c h") help-map)
+(keymap-global-set "C-c h" help-map)
 
-(global-set-key [remap move-beginning-of-line]
-                #'beginning-of-line-or-indentation)
+(keymap-global-set "<remap> <move-beginning-of-line>" #'beginning-of-line-or-indentation)
 
 ;; Move more quickly
-(global-set-key (kbd "C-S-n") (lambda () (interactive) (forward-line 5)))
-(global-set-key (kbd "C-S-p") (lambda () (interactive) (forward-line -5)))
-(global-set-key (kbd "C-S-f") (lambda () (interactive) (forward-char 5)))
-(global-set-key (kbd "C-S-b") (lambda () (interactive) (backward-char 5)))
+(keymap-global-set "C-S-n" (lambda () (interactive) (forward-line 5)))
+(keymap-global-set "C-S-p" (lambda () (interactive) (forward-line -5)))
+(keymap-global-set "C-S-f" (lambda () (interactive) (forward-char 5)))
+(keymap-global-set "C-S-b" (lambda () (interactive) (backward-char 5)))
 
-(global-set-key (kbd "C-c C-t") #'ring-transparency)
+(keymap-global-set "C-c C-t" #'ring-transparency)
 
 ;; If electric-indent-mode is not available
 (with-emacs-version< "24.1"
-  (global-set-key (kbd "RET") #'newline-and-indent))
+  (keymap-global-set "RET" #'newline-and-indent))
 
-(global-set-key (kbd "C-x TAB") #'indent-region-or-buffer)
-
-(global-set-key [\C-home] #'beginning-of-buffer)
-(global-set-key [\C-end] #'end-of-buffer)
+(keymap-global-set "C-x TAB" #'indent-region-or-buffer)
 
 ;; Fuck occur and word isearch
-(global-set-key (kbd "M-s") #'backward-kill-word)
+(keymap-global-set "M-s" #'backward-kill-word)
 
 ;; Make upcase and co work with region
-(global-set-key [remap upcase-word] #'upcase-dwim)
-(global-set-key [remap downcase-word] #'downcase-dwim)
-(global-set-key [remap capitalize-word] #'capitalize-dwim)
+(keymap-global-set "<remap> <upcase-word>" #'upcase-dwim)
+(keymap-global-set "<remap> <downcase-word>" #'downcase-dwim)
+(keymap-global-set "<remap> <capitalize-word>" #'capitalize-dwim)
 
-(global-set-key [(control tab)] #'other-window)
+(keymap-global-set "C-<tab>" #'other-window)
 
 ;; Split window and switch to newly created one
-(global-set-key (kbd "C-x 3")
+(keymap-global-set "C-x 3"
                 (lambda nil
                   (interactive)
                   (split-window-horizontally)
                   (other-window 1)))
 
-(global-set-key (kbd "C-x 2")
+(keymap-global-set "C-x 2"
                 (lambda nil
                   (interactive)
                   (split-window-vertically)
                   (other-window 1)))
 
-(global-set-key (kbd "C-x C-v") #'find-file-other-window)
+(keymap-global-set "C-x C-v" #'find-file-other-window)
 
 ;; Binding for `replace-string'
-(global-set-key (kbd "C-c s") #'replace-string)
+(keymap-global-set "C-c s" #'replace-string)
 
 (defmacro create-flash-binding (key)
   "Make KEY boundable to a command.
 
 Select the command by pressing Control + KEY. Invoke the command
 by pressing KEY."
-  `(global-set-key
-    (kbd ,(concat "C-" key))
+  `(keymap-global-set
+    ,(concat "C-" key)
     (lambda ()
       (interactive)
       (lexical-let ((cmd (read--expression ,(format "Bind %s to: " key))))
-        (global-set-key
-         (kbd ,key)
+        (keymap-global-set
+         ,key
          (lambda ()
            (interactive)
            (message "%s" (eval cmd))))))))
@@ -125,7 +121,7 @@ body passed in argument."
                         `(lambda ()
                            (interactive)
                            ,@fns))))
-         `(global-set-key ,,key ,command)))
+         `(keymap-global-set ,,key ,command)))
      (defmacro ,(intern (concat (symbol-name name) "e")) (&rest fns)
        ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively. Show the result in minibuffer." name)
        (let ((command (if (and (eq (length fns) 1)
@@ -136,7 +132,7 @@ body passed in argument."
                            (message "%s"
                                     (progn
                                       ,@fns))))))
-         `(global-set-key ,,key ,command)))))
+         `(keymap-global-set ,,key ,command)))))
 
 ;; Creates f9 and f9e functions
 (create-simple-keybinding-command f9)
@@ -161,28 +157,28 @@ body passed in argument."
                 (insert region))))))
 
 ;; Align your code in a pretty way.
-(global-set-key (kbd "C-x /") #'align-regexp)
+(keymap-global-set "C-x /" #'align-regexp)
 
-(global-set-key (kbd "M-!") #'async-shell-command)
-(global-set-key (kbd "C-x C-d") #'duplicate-line)
-(global-set-key (kbd "C-c f") #'flush-lines)
-(global-set-key (kbd "C-c k") #'keep-lines)
+(keymap-global-set "M-!" #'async-shell-command)
+(keymap-global-set "C-x C-d" #'duplicate-line)
+(keymap-global-set "C-c f" #'flush-lines)
+(keymap-global-set "C-c k" #'keep-lines)
 
 
-(global-set-key (kbd "C-c e k") #'find-function-on-key)
-(global-set-key (kbd "C-c e b") #'eval-buffer)
-(global-set-key (kbd "C-c e d") #'toggle-debug-on-error)
-(global-set-key (kbd "C-c e r") #'eval-region)
-(global-set-key (kbd "C-c e q") #'toggle-debug-on-quit)
-(global-set-key (kbd "C-c e g") #'toggle-debug-on-quit)
-(global-set-key (kbd "C-c e L") #'elint-current-buffer)
-(global-set-key (kbd "C-c e t") #'ert-run-tests-interactively)
-(global-set-key (kbd "C-c e l") #'find-library)
+(keymap-global-set "C-c e k" #'find-function-on-key)
+(keymap-global-set "C-c e b" #'eval-buffer)
+(keymap-global-set "C-c e d" #'toggle-debug-on-error)
+(keymap-global-set "C-c e r" #'eval-region)
+(keymap-global-set "C-c e q" #'toggle-debug-on-quit)
+(keymap-global-set "C-c e g" #'toggle-debug-on-quit)
+(keymap-global-set "C-c e L" #'elint-current-buffer)
+(keymap-global-set "C-c e t" #'ert-run-tests-interactively)
+(keymap-global-set "C-c e l" #'find-library)
 
 (defun kmacro-reset-counter ()
   (interactive)
   (kmacro-set-counter 0))
 
-(global-set-key (kbd "C-x C-k C-r") #'kmacro-reset-counter)
+(keymap-global-set "C-x C-k C-r" #'kmacro-reset-counter)
 
 (provide 'init-bindings)

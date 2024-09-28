@@ -19,11 +19,11 @@
 (helm-mode)
 
 (setq helm-M-x-fuzzy-match t)
-(global-set-key (kbd "C-x C-m") #'helm-M-x)
+(keymap-global-set "C-x C-m" #'helm-M-x)
 
-(global-set-key (kbd "C-x r b") #'helm-bookmarks)
+(keymap-global-set "C-x r b" #'helm-bookmarks)
 
-(global-set-key (kbd "M-y") #'helm-show-kill-ring)
+(keymap-global-set "M-y" #'helm-show-kill-ring)
 
 ;; Show input in header line
 (setq helm-echo-input-in-header-line t)

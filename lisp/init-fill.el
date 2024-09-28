@@ -8,6 +8,6 @@
 
 ;; (setq-default auto-fill-function 'do-auto-fill-exept-in-minibuffer)
 
-(global-set-key [C-return] #'comment-indent-new-line)
+(keymap-global-set "C-RET" #'comment-indent-new-line)
 
 (provide 'init-fill)

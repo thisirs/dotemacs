@@ -17,7 +17,7 @@ cancel the indentation if needed."
       (kill-region (region-beginning) (region-end))
     (backward-kill-word 1)))
 
-(global-set-key (kbd "C-w") #'kill-region-or-backward)
+(keymap-global-set "C-w" #'kill-region-or-backward)
 
 ;; Taken from https://github.com/skeeto/.emacs.d/blob/master/lisp/extras.el
 (defun flash-region (start end &optional timeout)
@@ -34,13 +34,13 @@ cancel the indentation if needed."
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))
     (message "line copied")))
 
-(global-set-key [remap kill-ring-save] #'save-region-or-current-line)
+(keymap-global-set "<remap> <kill-ring-save>" #'save-region-or-current-line)
 
 (defun join-to-next-line ()
   (interactive)
   (join-line t))
 
-(global-set-key (kbd "M-j") #'join-to-next-line)
+(keymap-global-set "M-j" #'join-to-next-line)
 
 ;; Copy when in read only buffer
 (setq kill-read-only-ok t)
