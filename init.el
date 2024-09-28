@@ -2337,6 +2337,8 @@ the vertical drag is done."
   (autoload-config reformatter-isort-buffer reformatter)
   (autoload-config reformatter-styler-region reformatter)
   (autoload-config reformatter-styler-buffer reformatter)
+  (autoload-config reformatter-ruff-buffer reformatter)
+  (autoload-config reformatter-ruff-region reformatter)
   :config
   (require 'exec-path-from-shell) ; for ~/.local/bin
   (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
@@ -2357,6 +2359,11 @@ the vertical drag is done."
          (reformatter-define reformatter-black
            :program "black-macchiato"
            :args (list "--target-version" "py310"))))
+
+  (when (executable-find "ruff")
+    (reformatter-define reformatter-ruff
+      :program "ruff"
+      :args `("format" "--stdin-filename" ,input-file "-")))
 
   (when (executable-find "npx")
     (reformatter-define reformatter-sql
