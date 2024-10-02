@@ -2226,6 +2226,7 @@ the vertical drag is done."
   :config
   (defun project-reload-projects ()
     (interactive)
+    (setq project--list nil)
     (dolist (dir '("~/SynologyDrive/Sylvain/enseignements/repositories/"
                    "~/.emacs.d/elpaca/repos/"
                    "~/repositories"
