@@ -2027,6 +2027,10 @@ the vertical drag is done."
                  :jump-to-captured t
                  :immediate-finish t))
 
+  (defvar org-roam-bibtex-collection-tags
+    "Alist of collection vs corresponding tags to add in Org-roam note."
+    '(("conformal prediction" . ("ml" "mlpaper" "conformal_prediction"))))
+
   (defun org-roam-bibtex-open-citekey (info)
     "Open an Org-roam note from an Org protocol call."
     (unless (plist-get info :citekey)
@@ -2039,8 +2043,14 @@ the vertical drag is done."
                                 (org-protocol-sanitize-uri v)
                               v))) info)
     (raise-frame)
-    (let ((org-roam-capture-templates (list (assoc (plist-get info :template) org-roam-capture-templates))))
-      (orb-edit-note (plist-get info :citekey)))))
+    (let* ((org-roam-capture-templates (list (assoc (plist-get info :template) org-roam-capture-templates)))
+           (tags (if-let* ((it (plist-get info :collection))
+                           (tags (cdr (assoc it org-roam-bibtex-collection-tags))))
+                     (string-join tags " "))))
+      (if tags
+          (cl-letf (((symbol-function 'org-roam-capture-add-tags) (lambda () tags)))
+            (orb-edit-note (plist-get info :citekey)))
+        (orb-edit-note (plist-get info :citekey))))))
 
 (use-package org-roam-protocol
   :ensure nil
