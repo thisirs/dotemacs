@@ -799,6 +799,7 @@ the vertical drag is done."
      :documentOnTypeFormattingProvider
      :colorProvider
      :foldingRangeProvider))
+  (eglot-sync-connect nil)
   (eglot-stay-out-of '(yasnippet)))
 
 (use-package electric
