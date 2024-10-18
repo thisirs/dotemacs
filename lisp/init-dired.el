@@ -131,6 +131,7 @@ repeatedly q."
 ;; C-c C-m C-a jumps to gnus with current file attached
 (use-package gnus-dired
   :ensure nil
+  :custom (gnus-dired-mail-mode 'mu4e-user-agent)
   :hook (dired-mode-hook . turn-on-gnus-dired-mode))
 
 ;; (defvar dired-do-command-result nil)
