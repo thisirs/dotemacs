@@ -44,6 +44,8 @@
   (auto-save-hook . org-save-all-agenda-buffers)
   (org-mode-hook . org-force-auto-fill)
   (org-mode-hook . turn-off-truncate-lines)
+  ;; Insert an extra newline after a note
+  (org-after-note-stored-hook . (lambda () (insert-and-inherit "\n")))
 
   :custom
   ;; Adapt indentation to outline node level
