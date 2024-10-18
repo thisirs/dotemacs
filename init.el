@@ -1589,10 +1589,11 @@ the vertical drag is done."
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
 (use-package midnight
+  :disabled
   :demand
   :ensure nil
   :config
-  (cancel-timer midnight-timer)
+  (when (timerp midnight-timer) (cancel-timer midnight-timer))
   (defalias 'midnight-clean-buffer-list 'clean-buffer-list)
   (run-with-idle-timer 20 nil
                        (lambda ()
