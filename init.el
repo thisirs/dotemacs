@@ -2340,6 +2340,12 @@ the vertical drag is done."
   (autoload-config reformatter-ruff-buffer reformatter)
   (autoload-config reformatter-ruff-region reformatter)
   :config
+  ;; Autoswitch to error buffer if any
+  (defun reformatter--do-region-switch (name beg end program args stdin stdout input-file exit-code-success-p display-errors &optional working-directory)
+    (if-let ((it (get-buffer-window (format "*%s errors*" name)))) (select-window it)))
+
+  (advice-add #'reformatter--do-region :after #'reformatter--do-region-switch)
+
   (require 'exec-path-from-shell) ; for ~/.local/bin
   (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
     (reformatter-define reformatter-R
