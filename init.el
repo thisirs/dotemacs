@@ -2028,8 +2028,8 @@ the vertical drag is done."
                  :immediate-finish t))
 
   (defvar org-roam-bibtex-collection-tags
-    "Alist of collection vs corresponding tags to add in Org-roam note."
-    '(("conformal prediction" . ("ml" "mlpaper" "conformal_prediction"))))
+    '(("conformal prediction" . ("ml" "mlpaper" "conformal_prediction")))
+    "Alist of collection vs corresponding tags to add in Org-roam note.")
 
   (defun org-roam-bibtex-open-citekey (info)
     "Open an Org-roam note from an Org protocol call."
