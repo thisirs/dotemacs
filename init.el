@@ -1661,6 +1661,41 @@ the vertical drag is done."
     '(org-link-set-parameters "mu4e"
                               :follow #'mu4e-org-open
                               :store #'mu4e-org-store-link))
+  (defun mu4e-view-save-all-attachments (&optional ask-dir)
+    "Save all files from the current view buffer.
+This applies to all MIME-parts that are \"attachment-like\" (have a filename),
+regardless of their disposition.
+
+With ASK-DIR is non-nil, user can specify the target-directory; otherwise
+one is determined using `mu4e-attachment-dir'."
+    (interactive "P")
+    (let* ((parts (mu4e-view-mime-parts))
+           (candidates  (seq-map
+                         (lambda (fpart)
+                           (cons ;; (filename . annotation)
+                            (plist-get fpart :filename)
+                            fpart))
+                         (seq-filter
+                          (lambda (part) (plist-get part :attachment-like))
+                          parts)))
+           (candidates (or candidates
+                           (mu4e-warn "No attachments for this message")))
+           (custom-dir (when ask-dir (read-directory-name
+                                      "Save to directory: ")))
+           files)
+      ;; we have determined what files to save, and where.
+      (setq files (seq-map (lambda (candidate)
+                            (let* ((part (cdr candidate))
+                                   (path (mu4e--uniqify-file-name
+                                          (mu4e-join-paths
+                                           (or custom-dir (plist-get part :target-dir))
+                                           (plist-get part :filename)))))
+                              (mm-save-part-to-file (plist-get part :handle) path)
+                              path))
+                          candidates))
+      (if files
+          (message (format "Wrote %d attachments %s" (length files) (mapconcat 'identity files ", "))))))
+
   :custom
   (mu4e-mu-binary (expand-file-name "mu/build/mu/mu" elpaca-repos-directory))
   (mu4e-attachment-dir "~/deathrow")
@@ -1694,6 +1729,8 @@ the vertical drag is done."
      (:from . 22)
      (:subject)))
   (mu4e-update-interval (when (or (on-zbook) (on-knuth)) 500))
+  :bind (:map mu4e-view-mode-map
+              ("E" . mu4e-view-save-all-attachments))
   :config
   (setq mu4e-headers-unread-mark    '("u" .  "")
         mu4e-headers-draft-mark     '("D" .  "🚧")
