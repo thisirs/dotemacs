@@ -38,6 +38,7 @@ filled by AUCTeX functions."
   (LaTeX-mode-hook . LaTeX-auto-fill-config)
 
   :custom
+  (TeX-engine 'luatex)
 
   (TeX-source-correlate-mode t)
 
