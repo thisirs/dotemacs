@@ -170,6 +170,7 @@
   (unless (server-running-p)
     (server-start)))
 
+;; http://github.com/bbatsov/solarized-emacs
 (use-package solarized                  ; The Solarized color theme, ported to Emacs.
   :demand
   :if (or (on-zbook) (on-knuth))
@@ -696,6 +697,9 @@ This function is used in `citar-open-note-function'."
   :config
   (ctrlf-mode +1))
 
+;; https://github.com/astoff/devdocs.el
+(use-package devdocs)                   ; Emacs viewer for DevDocs
+
 ;; http://github.com/rejeep/drag-stuff
 (use-package drag-stuff                 ; Drag stuff (lines, words, region, etc...) around
   :diminish drag-stuff-mode
@@ -797,7 +801,8 @@ the vertical drag is done."
   ;; No separate frame for ediff control buffer
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
-(use-package eglot
+;; https://github.com/joaotavora/eglot
+(use-package eglot                      ; The Emacs Client for LSP servers
   :ensure nil
   :hook (python-mode-hook . eglot-ensure)
   :custom
