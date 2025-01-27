@@ -374,7 +374,7 @@
   (defun citar-cache--update-bibliography-advice (bib &optional props)
     "Advice function to run bibtool to sort entries before citar loads it."
     (let* ((bib (expand-file-name "recherche/biblio/refs.bib" personal-directory))
-           (command (mapconcat #'identity (list "bibtool" "-r biblatex" "-s --sort.format='{%s(dateadded)}' --sort.reverse=on" "-i" bib "-o" bib) " ")))
+           (command (format "bibtool -r biblatex -s --sort-format='{%%s(dateadded)}' --sort.reverse=on -i %s -o %s -- print.line.length=1000" bib)))
       (shell-command command)))
 
   (advice-add #'citar-cache--update-bibliography :before #'citar-cache--update-bibliography-advice)
