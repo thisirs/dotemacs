@@ -2799,6 +2799,12 @@ behavior added."
 
 ;; https://github.com/nflath/sudo-edit
 (use-package sudo-edit                  ; Open files as another user
+  :after embark
+  :bind
+  (:map embark-file-map
+        ("s" . sudo-edit-find-file))
+  (:map embark-become-file+buffer-map
+        ("s" . sudo-edit-find-file))
   :config
   (sudo-edit-indicator-mode))
 
