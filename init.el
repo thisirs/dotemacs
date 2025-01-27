@@ -2888,8 +2888,17 @@ behavior added."
   (vertico-multiform-mode 1)
   (vertico-mouse-mode 1))
 
+(use-package visual-replace
+  :demand
+  :bind (("C-c r" . visual-replace)
+         ("C-c q" . visual-replace))
+  :config
+  (visual-replace-global-mode 1)
+  :hook (visual-replace-defaults-hook . visual-replace-toggle-regexp))
+
 ;; https://github.com/benma/visual-regexp.el/
 (use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
+  :disabled
   :commands (vr/query-replace vr/replace)
   :bind* (("C-c r" . vr/replace)
           ("C-c q" . vr/query-replace)
@@ -2897,6 +2906,7 @@ behavior added."
 
 ;; https://github.com/benma/visual-regexp-steroids.el/
 (use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
+  :disabled
   :commands (vr/select-replace vr/select-query-replace)
   :demand :after visual-regexp)
 
