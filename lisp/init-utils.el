@@ -223,9 +223,9 @@ and the index of the match."
                          (string-equal season "P")))))))))
 
 (defun check-filepath (&rest filepaths)
-  (if-let ((available (seq-filter #'file-exists-p filepaths)))
+  (if-let* ((available (seq-filter #'file-exists-p filepaths)))
       (car available)
-    (display-warning 'init (format "File(s) %s do not exist" (mapconcat 'identity filepaths " ")))))t
+    (display-warning 'init (format "File(s) %s do not exist" (mapconcat 'identity filepaths " ")))))
 
 (defmacro autoload-config (command library &optional docstring)
   "Define COMMAND to autoload LIBRARY.
