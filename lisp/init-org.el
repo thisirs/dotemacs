@@ -409,6 +409,8 @@ refile targets.")
   (org-cite-activate-processor 'citar))
 
 
+(use-package org-inlinetask :after org :ensure nil)
+
 (use-package ox-latex
   :ensure nil
   :config
