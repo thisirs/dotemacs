@@ -217,13 +217,6 @@
 (require 'init-ess)
 (require 'init-password)
 
-;; Activate Hunspell
-(when (executable-find "hunspell")
-  (setq-default ispell-program-name (executable-find "hunspell"))
-  (setq ispell-really-hunspell t))
-(ignore-errors (ispell-change-dictionary "fr-reforme1990"))
-(setq ispell-choices-win-default-height 5)
-
 (use-package abbrev
   :ensure nil
   :init
