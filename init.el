@@ -1884,7 +1884,7 @@ one is determined using `mu4e-attachment-dir'."
 (use-package org-context                ; Contextual capture and agenda commands for Org-mode
   :ensure `(org-context
               :type git
-              :local-repo ,(expand-file-name "org-context" projects-directory))
+              :repo ,(expand-file-name "org-context" projects-directory))
   :demand :after org
   :config
   (defun org-capture--add-link ()
@@ -2911,7 +2911,7 @@ behavior added."
 
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :ensure `(vc-auto-commit :local-repo ,(expand-file-name "vc-auto-commit" projects-directory))
+  :ensure `(vc-auto-commit :repo ,(expand-file-name "vc-auto-commit" projects-directory))
   :defer 5
   :commands (vc-auto-commit-backend)
   :bind ("C-x v C" . vc-auto-commit)
