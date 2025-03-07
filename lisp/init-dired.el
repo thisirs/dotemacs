@@ -1,7 +1,12 @@
 (use-package dired
   :ensure nil
+  :preface
+  (defun turn-on-truncate-lines ()
+    (toggle-truncate-lines 1))
+
   :hook ((dired-mode-hook . turn-on-auto-revert-mode)
-         (dired-mode-hook . dired-hide-details-mode))
+         (dired-mode-hook . dired-hide-details-mode)
+         (dired-mode-hook . turn-on-truncate-lines))
   :init
   (defun dired-copy-filename-as-kill-fix (&optional arg)
     (interactive "P")
