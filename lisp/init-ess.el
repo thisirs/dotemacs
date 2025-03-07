@@ -4,6 +4,9 @@
   :ensure nil
   :bind (:map ess-r-mode-map ("_" . ess-insert-assign))
   :config
+  ;; Some buffers in special-mode have default-directory set to
+  ;; /sudo:root@localhost. So prevent auto-activation that asks for a password.
+  (add-to-list 'ess-r-package-exclude-modes 'special-mode)
   ;; No double sharp sign when starting a comment
   (setq ess-r-customize-alist
         (append ess-r-customize-alist '((comment-add . 0)))))
