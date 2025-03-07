@@ -92,6 +92,9 @@
          ("/" . (lambda () (interactive) (dired "/")))
          ("~" . (lambda () (interactive) (dired (getenv "HOME")))))
 
+  :custom
+  (dired-movement-style 'cycle)
+
   :config
   (setq dired-recursive-copies 'always)
   (setq dired-dwim-target t)
