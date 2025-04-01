@@ -25,9 +25,10 @@
   (defun org-save-all-agenda-buffers ()
     "Save all agenda buffers without user confirmation."
     (interactive)
-    (message "Saving all agenda buffers...")
-    (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
-    (message "Saving all agenda buffers... done"))
+    (when (featurep 'org)
+      (message "Saving all agenda buffers...")
+      (save-some-buffers t (lambda () (org-agenda-file-p (buffer-file-name))))
+      (message "Saving all agenda buffers... done")))
 
   (defun org-force-auto-fill ()
     "Make `comment-auto-fill-only-comments' buffer-local and set it to nil."
