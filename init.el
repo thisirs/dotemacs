@@ -1557,7 +1557,14 @@ the vertical drag is done."
   (unless (memq 'magit-insert-local-branches magit-status-sections-hook)
     (setq magit-status-sections-hook
           (seq-insert-at magit-status-sections-hook 'magit-insert-local-branches
-                         (seq-position magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)))))
+                         (seq-position magit-status-sections-hook 'magit-insert-unpushed-to-pushremote))))
+
+  (defun my-magit-refs-sort-by-creation-date (orig-fun &rest args)
+    "Ensure `magit-buffer-arguments` includes `--sort=-creatordate` when calling `magit-refs--format-local-branches`."
+    (let ((magit-buffer-arguments (cons "--sort=-creatordate" magit-buffer-arguments)))
+      (apply orig-fun args)))
+
+  (advice-add 'magit-refs--format-local-branches :around #'my-magit-refs-sort-by-creation-date))
 
 ;; https://github.com/vermiculus/magithub
 (use-package magithub                   ; Magit interfaces for GitHub
