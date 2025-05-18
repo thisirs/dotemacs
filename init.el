@@ -20,8 +20,8 @@
 (modify-all-frames-parameters '((fullscreen . maximized)))
 
 ;; Disable dialog box, tool bar...
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
+(setopt use-file-dialog nil)
+(setopt use-dialog-box nil)
 
 (menu-bar-mode -1)
 
@@ -35,37 +35,37 @@
 (column-number-mode)
 (size-indication-mode)
 
-(setq inhibit-startup-screen t)
+(setopt inhibit-startup-screen t)
 
 (defun display-startup-echo-area-message ()
   (message "Let the hacking begin!"))
 
-(setq visible-bell nil)
+(setopt visible-bell nil)
 
 ;; Use gtklp
 (when (executable-find "gtklp")
-  (setq lpr-command "gtklp")
+  (setopt lpr-command "gtklp")
   (setq ps-lpr-command "gtklp"))
 
 ;; No disabled command like timer-list
 (setq disabled-command-function nil)
 
 ;; No confirmation because of openwith
-(setq large-file-warning-threshold nil)
+(setopt large-file-warning-threshold nil)
 
-(setq ring-bell-function #'ignore)
+(setopt ring-bell-function #'ignore)
 
 ;; Don't make backups
-(setq make-backup-files nil)
+(setopt make-backup-files nil)
 
 ;; Don't create auto-save files, just save the file
-(setq auto-save-default nil)
-(setq auto-save-visited-interval 60)
-(setq auto-save-visited-predicate (lambda () (not (derived-mode-p 'message-mode))))
+(setopt auto-save-default nil)
+(setopt auto-save-visited-interval 60)
+(setopt auto-save-visited-predicate (lambda () (not (derived-mode-p 'message-mode))))
 (auto-save-visited-mode +1)
 
 ;; No lockfiles
-(setq create-lockfiles nil)
+(setopt create-lockfiles nil)
 
 (mouse-wheel-mode 1)
 
@@ -117,7 +117,7 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-(setq elpaca-verbosity 1)
+(setopt elpaca-verbosity 1)
 
 (use-package emacs
   :ensure nil
@@ -152,7 +152,7 @@
 (load (expand-file-name "personal.el" personal-emacs-directory) :noerror)
 
 ;; No confirmation when loading theme
-(setq custom-safe-themes t)
+(setopt custom-safe-themes t)
 
 ;; Loading zenburn theme
 ;; http://github.com/bbatsov/zenburn-emacs
@@ -178,8 +178,8 @@
   :if (window-system)
   :ensure solarized-theme
   :config
-  (setq solarized-use-variable-pitch nil)
-  (setq solarized-scale-org-headlines nil)
+  (setopt solarized-use-variable-pitch nil)
+  (setopt solarized-scale-org-headlines nil)
   (load-theme 'solarized-dark t))
 
 (use-package emacs
@@ -222,7 +222,7 @@
   :ensure nil
   :init
   ;; Silently save abbrevs on quitting emacs
-  (setq save-abbrevs 'silently))
+  (setopt save-abbrevs 'silently))
 
 ;; https://github.com/nashamri/academic-phrases
 (use-package academic-phrases)          ; Bypass that mental block when writing your papers.
@@ -400,7 +400,7 @@ This function is used in `citar-open-note-function'."
       (error "No template with key `r' found in `org-roam-capture-templates'")))
 
   ;; Use org-roam-bibtex to open a note
-  (setq citar-note-format-function #'orb-citar-edit-note-template)
+  (setopt citar-note-format-function #'orb-citar-edit-note-template)
 
   (defun citar-open-external (key-or-keys)
     (citar--library-file-action key-or-keys #'citar-file-open-external))
@@ -463,7 +463,7 @@ This function is used in `citar-open-note-function'."
                            :annotate #'citar-org-roam--annotate))
 
   ;; Not in custom because changed by `citar-org-roam-mode'
-  (setq citar-notes-source 'orb-citar-source))
+  (setopt citar-notes-source 'orb-citar-source))
 
 ;; https://github.com/proofit404/blacken
 (use-package blacken                    ; Reformat python buffers using the "black" formatter
@@ -565,7 +565,7 @@ This function is used in `citar-open-note-function'."
 (use-package consult                    ; Consulting completing-read
   :init
   ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
+  (setopt xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
   :bind (([remap list-buffers] . consult-buffer)
          ("C-x l" . consult-locate)
@@ -581,7 +581,7 @@ This function is used in `citar-open-note-function'."
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   :config
-  (setq consult-ripgrep-args (concat consult-ripgrep-args " --hidden" " --no-ignore-vcs"))
+  (setopt consult-ripgrep-args (concat consult-ripgrep-args " --hidden" " --no-ignore-vcs"))
 
   (defvar consult-known-projects
     `(:narrow (?p . "Projects")
@@ -858,7 +858,7 @@ the vertical drag is done."
   :custom
   (elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
   :config
-  (setq elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
+  (setopt elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
   (define-key elfeed-search-mode-map "=" elfeed-score-map)
   (elfeed-score-enable))
 
@@ -1030,7 +1030,7 @@ the vertical drag is done."
   ;; Don't run a login shell
   (exec-path-from-shell-arguments '("-l"))
   :config
-  (setq exec-path-from-shell-variables
+  (setopt exec-path-from-shell-variables
         (append exec-path-from-shell-variables
                 (list "SSH_AGENT_PID" "SSH_AUTH_SOCK")))
   (exec-path-from-shell-initialize))
@@ -1082,7 +1082,7 @@ the vertical drag is done."
 (use-package firestarter                ; Execute (shell) commands on save
   :hook (prog-mode-hook . firestarter-mode)
   :init
-  (setq firestarter-default-type 'failure))
+  (setopt firestarter-default-type 'failure))
 
 ;; http://www.flycheck.org
 (use-package flycheck                   ; On-the-fly syntax checking
@@ -1093,14 +1093,14 @@ the vertical drag is done."
   (setq-default flycheck-disabled-checkers
                 '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
 
-  (setq flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))"))
+  (setopt flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))"))
 
 ;; https://github.com/flycheck/flycheck-color-mode-line
 (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
   :after flycheck
   :hook (flycheck-mode . flycheck-color-mode-line-mode)
   :config
-  (setq flycheck-highlighting-mode 'symbols))
+  (setopt flycheck-highlighting-mode 'symbols))
 
 (use-package folding
   :init
@@ -1233,8 +1233,8 @@ the vertical drag is done."
   :disabled
   :config
   ;; Highlight the line only in the active window
-  (setq global-hl-line-sticky-flag t)
-  (setq hl-line-sticky-flag t)
+  (setopt global-hl-line-sticky-flag t)
+  (setopt hl-line-sticky-flag t)
 
   ;; hl-line+
   ;; http://www.emacswiki.org/emacs/hl-line+.el
@@ -1556,7 +1556,7 @@ the vertical drag is done."
   :config
   ;; Add local branches section in magit status
   (unless (memq 'magit-insert-local-branches magit-status-sections-hook)
-    (setq magit-status-sections-hook
+    (setopt magit-status-sections-hook
           (seq-insert-at magit-status-sections-hook 'magit-insert-local-branches
                          (seq-position magit-status-sections-hook 'magit-insert-unpushed-to-pushremote))))
 
@@ -1598,9 +1598,9 @@ the vertical drag is done."
   ;; https://github.com/Fanael/edit-indirect
   (use-package edit-indirect)   ; Edit regions in separate buffers
 
-  (setq markdown-enable-math t)
-  (setq markdown-command-needs-filename t)
-  (setq markdown-command (expand-file-name "rmarkdown-render" user-emacs-directory))
+  (setopt markdown-enable-math t)
+  (setopt markdown-command-needs-filename t)
+  (setopt markdown-command (expand-file-name "rmarkdown-render" user-emacs-directory))
 
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
@@ -1774,7 +1774,7 @@ one is determined using `mu4e-attachment-dir'."
           (lambda ()
             (interactive)
             (cancel-timer mu4e~update-timer)
-            (setq mu4e-update-interval nil))))
+            (setopt mu4e-update-interval nil))))
 
   (transient-define-prefix mu4e-search-transient ()
     "Transient for mu4e search"
@@ -1794,7 +1794,7 @@ one is determined using `mu4e-attachment-dir'."
   (advice-add 'mu4e-search-read-query :around #'mu4e-search-with-transient)
 
   ;; Use mu4e when attaching from dired
-  (setq gnus-dired-mail-mode 'mu4e-user-agent)
+  (setopt gnus-dired-mail-mode 'mu4e-user-agent)
 
   (require 'gnus-dired)
   ;; make the `gnus-dired-mail-buffers' function also work on
@@ -1884,8 +1884,8 @@ one is determined using `mu4e-attachment-dir'."
 (use-package orderless                  ; Completion style for matching regexps in any order
   :demand
   :config
-  (setq completion-styles '(substring orderless))
-  (setq completion-category-overrides '((file (styles basic partial-completion)))))
+  (setopt completion-styles '(substring orderless))
+  (setopt completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
@@ -1941,13 +1941,13 @@ one is determined using `mu4e-attachment-dir'."
   :disabled
   :demand
   :config
-  (setq bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
+  (setopt bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
 
   ;; Use bibtex-completion-find-pdf-in-field to open pdf file
   (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
     (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
         "/dummy"))
-  (setq org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
+  (setopt org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
 (use-package org-protocol
   :ensure nil
@@ -2146,8 +2146,8 @@ one is determined using `mu4e-attachment-dir'."
   :disabled
   :commands paradox-list-packages
   :config
-  (setq paradox-github-token t)
-  (setq paradox-execute-asynchronously t))
+  (setopt paradox-github-token t)
+  (setopt paradox-execute-asynchronously t))
 
 ;; https://paredit.org
 (use-package paredit                    ; minor mode for editing parentheses
@@ -2183,7 +2183,7 @@ one is determined using `mu4e-attachment-dir'."
   :defer 10
   :init
   ;; pdf-annot-minor-mode before pdf-sync-minor-mode
-  (setq pdf-tools-enabled-modes
+  (setopt pdf-tools-enabled-modes
         '(pdf-history-minor-mode
           pdf-isearch-minor-mode
           pdf-links-minor-mode
@@ -2213,7 +2213,7 @@ one is determined using `mu4e-attachment-dir'."
 
   (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
 
-  (setq pdf-misc-print-programm lpr-command)
+  (setopt pdf-misc-print-programm lpr-command)
 
   (use-package pdf-annot
     :ensure nil
@@ -2331,11 +2331,11 @@ one is determined using `mu4e-attachment-dir'."
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; Open root directory when switching
-  (setq projectile-switch-project-action #'projectile-dired)
+  (setopt projectile-switch-project-action #'projectile-dired)
 
-  (setq projectile-mode-line-function #'projectile-custom-mode-line)
+  (setopt projectile-mode-line-function #'projectile-custom-mode-line)
 
-  (setq projectile-completion-system 'default)
+  (setopt projectile-completion-system 'default)
 
   ;; Use custom function to add specific projects
   (add-to-list 'projectile-project-root-functions 'projectile-fake-projects)
@@ -2343,13 +2343,13 @@ one is determined using `mu4e-attachment-dir'."
   ;; Add list of default projects
   (mapc #'projectile-add-known-project (projectile-default-projects))
 
-  (setq projectile-require-project-root nil)
+  (setopt projectile-require-project-root nil)
 
   ;; Use custom function to ignore specific projects
-  (setq projectile-ignored-project-function #'projectile-ignored-semester)
+  (setopt projectile-ignored-project-function #'projectile-ignored-semester)
 
   ;; Unconditionaly add these projects
-  (setq projectile-project-search-path (list (expand-file-name "projects" personal-directory)))
+  (setopt projectile-project-search-path (list (expand-file-name "projects" personal-directory)))
 
   (projectile-mode))
 
@@ -2357,7 +2357,7 @@ one is determined using `mu4e-attachment-dir'."
 (use-package python                     ; Python's flying circus support for Emacs
   :ensure nil
   :config
-  (setq python-indent-guess-indent-offset-verbose nil
+  (setopt python-indent-guess-indent-offset-verbose nil
         python-shell-interpreter-args "-m IPython -i --simple-prompt")
 
   (defvar python-indent-repeat-map
@@ -2378,9 +2378,9 @@ one is determined using `mu4e-attachment-dir'."
   :demand
   :config
   (real-auto-save-mode +1)
-  (setq real-auto-save-buffers-list nil)
+  (setopt real-auto-save-buffers-list nil)
   (with-eval-after-load 'org
-    (setq real-auto-save-buffers-list org-agenda-files)))
+    (setopt real-auto-save-buffers-list org-agenda-files)))
 
 ;; https://github.com/purcell/emacs-reformatter
 (use-package reformatter               ; Define commands which run re-formatters
@@ -2516,11 +2516,11 @@ out")
               ("C-M-j" . selectrum-submit-exact-input)
               ("C-j" . selectrum-insert-current-candidate))
   :config
-  (setq selectrum-count-style 'current/matches)
+  (setopt selectrum-count-style 'current/matches)
   (selectrum-mode +1)
-  (setq selectrum-highlight-candidates-function #'orderless-highlight-matches)
-  (setq selectrum-refine-candidates-function #'orderless-filter)
-  (setq selectrum-prescient-enable-filtering nil)
+  (setopt selectrum-highlight-candidates-function #'orderless-highlight-matches)
+  (setopt selectrum-refine-candidates-function #'orderless-filter)
+  (setopt selectrum-prescient-enable-filtering nil)
   (selectrum-prescient-mode +1)
   (prescient-persist-mode)
 
@@ -2590,7 +2590,7 @@ behavior added."
   :commands sml/setup
   :demand
   :init
-  (setq sml/theme 'respectful
+  (setopt sml/theme 'respectful
         sml/shorten-directory t
         sml/shorten-modes t
         sml/name-width 40
@@ -2631,8 +2631,8 @@ behavior added."
   :disabled
   :commands (slack-start)
   :init
-  (setq slack-buffer-emojify t)
-  (setq slack-prefer-current-team t)
+  (setopt slack-buffer-emojify t)
+  (setopt slack-prefer-current-team t)
   :config
   (slack-register-team
    :name (plist-get (car (auth-source-search :require '(:client_id))) :name)
@@ -2948,10 +2948,10 @@ behavior added."
   :diminish
   :config
   ;; Trigger which-key on C-h or on specific keystrokes
-  (setq which-key-show-early-on-C-h t)
-  (setq which-key-idle-delay 10000)
-  (setq which-key-idle-secondary-delay 0.05)
-  (setq which-key-allow-regexps
+  (setopt which-key-show-early-on-C-h t)
+  (setopt which-key-idle-delay 10000)
+  (setopt which-key-idle-secondary-delay 0.05)
+  (setopt which-key-allow-regexps
         '("C-c n" "C-x RET"))
   (which-key-mode))
 
@@ -2959,7 +2959,7 @@ behavior added."
   :demand
   :ensure nil
   :config
-  (setq whitespace-style
+  (setopt whitespace-style
         '(face trailing tabs))
   (global-whitespace-mode))
 
@@ -2978,7 +2978,7 @@ behavior added."
   :bind (("M-N" . winner-redo)
          ("M-P" . winner-undo))
   :config
-  (setq winner-boring-buffers
+  (setopt winner-boring-buffers
         '("*Completions*"
           "*helm for files*"
           "*helm find-file*"
@@ -2996,8 +2996,8 @@ behavior added."
 
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
-  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-  (setq uniquify-after-kill-buffer-p t))
+  (setopt uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (setopt uniquify-after-kill-buffer-p t))
 
 ;; https://github.com/yoshiki/yaml-mode
 (use-package yaml-mode)         ; Major mode for editing YAML files
@@ -3048,7 +3048,7 @@ behavior added."
                        (replace-match "~" nil nil name 1))))
   (add-to-list 'ffap-alist '(latex-mode . ffap-bib-latex-mode))
   (add-to-list 'ffap-alist '(org-mode . ffap-bib-latex-mode))
-  (setq ffap-file-name-with-spaces t))
+  (setopt ffap-file-name-with-spaces t))
 
 
 (defun my-find-thing-at-point ()
@@ -3075,15 +3075,15 @@ behavior added."
   :hook (find-file-hook . auto-insert)
   :config
   ;; Reset templates
-  (setq auto-insert-alist nil)
+  (setopt auto-insert-alist nil)
 
   ;; Load templates from yasnippet
   (require 'yasnippet)
 
-  (setq auto-insert 'other)
-  (setq auto-insert-query 'multiple)
+  (setopt auto-insert 'other)
+  (setopt auto-insert-query 'multiple)
 
-  (setq auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
+  (setopt auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
 
 (cond ((member "Cascadia Code" (font-family-list))
        (set-frame-font (font-spec :name "Cascadia Code" :size 16 :slant 'normal) nil t))
@@ -3106,17 +3106,17 @@ behavior added."
 (setq locale-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (setq-default buffer-file-coding-system 'utf-8-unix)
-(setq keyboard-coding-system 'utf-8-unix)
+(setopt keyboard-coding-system 'utf-8-unix)
 (set-terminal-coding-system 'utf-8-unix)
 
 (use-package diff
   :ensure nil
   :config
   ;; Unified diff format and no whitespace when using `diff'
-  (setq diff-switches "-u -w"))
+  (setopt diff-switches "-u -w"))
 
 ;; No limit on how many lines to keep in *Messages* buffer
-(setq message-log-max t)
+(setopt message-log-max t)
 
 ;; No fringe on the right
 (set-fringe-mode '(8 . 0))
@@ -3126,7 +3126,7 @@ behavior added."
 
 ;; Don't automatically split vertically
 (on-zbook
- (setq split-height-threshold nil))
+ (setopt split-height-threshold nil))
 
 ;; Clashes with org's date selection in calendar
 ;; Quit minibuffer if there is a click on another buffer
@@ -3158,7 +3158,7 @@ not, return nil."
 (define-key minibuffer-local-filename-completion-map (kbd "C-v")
   'minibuffer--goto-root)
 
-(setq lexical-binding t)
+(setopt lexical-binding t)
 
 ;;; Taken from https://with-emacs.com/posts/projectize-commands-using-numeric-arguments/
 (defun projectize-1 (cmd f &rest args)
@@ -3190,7 +3190,7 @@ not, return nil."
 ;; (projectize #'rg-custom-search)
 
 ;; No fast scrolling
-(setq mouse-wheel-progressive-speed nil)
+(setopt mouse-wheel-progressive-speed nil)
 
 ;; Bar cursor
 (setq-default cursor-type 'box)
@@ -3208,13 +3208,13 @@ not, return nil."
 (setq-default truncate-lines nil)
 
 ;; Follow links to version-controlled files
-(setq vc-follow-symlinks t)
+(setopt vc-follow-symlinks t)
 
 ;; Use "y" and "n" in yes-or-no-p or read-answer
-(setq use-short-answers t)
+(setopt use-short-answers t)
 
 ;; Leave point at center of the screen when scrolling
-(setq scroll-preserve-screen-position t)
+(setopt scroll-preserve-screen-position t)
 
 ;; History navigation
 (with-eval-after-load "comint"
@@ -3234,14 +3234,14 @@ not, return nil."
       (setq arg (if (> arg 0) (1- arg) (1+ arg))))))
 
 ;; echo keystrokes quickly
-(setq echo-keystrokes 1e-6)
+(setopt echo-keystrokes 1e-6)
 
 ;; Delete all whitespace when deleting backward
-(setq backward-delete-char-untabify-method 'all)
+(setopt backward-delete-char-untabify-method 'all)
 
 ;; Custom frame title
 (modify-frame-parameters nil '((name . nil)))
-(setq frame-title-format
+(setopt frame-title-format
       '(:eval
         (concat "Emacs: "
                 (or
@@ -3254,7 +3254,7 @@ not, return nil."
                  (buffer-name)))))
 
 ;; Don't let Customize mess with my .emacs
-(setq custom-file (make-temp-file "custom" nil ".el"))
+(setopt custom-file (make-temp-file "custom" nil ".el"))
 (load custom-file 'noerror)
 
 ;;; Conditional untabify, delete trailing whitespaces
@@ -3354,10 +3354,10 @@ to cancel it."
     (set-frame-parameter nil 'alpha next)))
 
 ;; Ignore case when completing
-(setq completion-ignore-case t)
+(setopt completion-ignore-case t)
 
 ;; Filenames too, to browse with dired for example...
-(setq read-file-name-completion-ignore-case t)
+(setopt read-file-name-completion-ignore-case t)
 
 (defun change-to-utf-8 ()
   (interactive)
@@ -3365,7 +3365,7 @@ to cancel it."
 
 (global-set-key [(f2)] 'change-to-utf-8)
 
-(setq set-mark-command-repeat-pop t)
+(setopt set-mark-command-repeat-pop t)
 
 ;; Minibuffer history
 (use-package savehist
@@ -3376,11 +3376,11 @@ to cancel it."
   (add-to-list 'savehist-additional-variables 'regexp-search-ring))
 
 ;; Always add a final newline
-(setq require-final-newline t)
+(setopt require-final-newline t)
 
 ;; Display only time in the modeline
-(setq display-time-format "%k:%M %b %y")
-(setq display-time-string-forms
+(setopt display-time-format "%k:%M %b %y")
+(setopt display-time-string-forms
       '((propertize
          (format-time-string display-time-format now)
          'help-echo
@@ -3389,13 +3389,13 @@ to cancel it."
 ;; Display time in the modeline
 (display-time-mode t)
 
-(setq sentence-end-double-space nil)
+(setopt sentence-end-double-space nil)
 
 ;; Save existing clipboard text into kill ring before replacing it.
-(setq save-interprogram-paste-before-kill t)
+(setopt save-interprogram-paste-before-kill t)
 
 ;; Don't ask when killing processes on exit.
-(setq confirm-kill-processes nil)
+(setopt confirm-kill-processes nil)
 
 ;; Don't ask before killing a buffer that has a running process.
 (delq 'process-kill-buffer-query-function
@@ -3416,16 +3416,16 @@ to cancel it."
 
 ;; Non interactive function in apropos
 ;; Make C-h a act as C-u C-h a
-(setq apropos-do-all t)
+(setopt apropos-do-all t)
 
 ;; Use system trash (for emacs 23)
-(setq delete-by-moving-to-trash t)
+(setopt delete-by-moving-to-trash t)
 
 ;; Activate automatic update of in-file timestamp
-(setq time-stamp-active t)
+(setopt time-stamp-active t)
 
 ;; Time-stamp format like this: <2014-05-03 18:44:06 (thisirs)>
-(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
+(setopt time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)")
 
 (defun time-stamp-insert ()
   "Insert a commented out time-stamp line."
@@ -3457,7 +3457,7 @@ to cancel it."
   (when (not (eq window-system 'x))
     (message "Initializing x windows system.")
     (x-initialize-window-system)
-    (unless x-display-name (setq x-display-name (getenv "DISPLAY")))
+    (unless x-display-name (setopt x-display-name (getenv "DISPLAY")))
     (select-frame (make-frame-on-display x-display-name '((window-system . x)))))
   (let ((last-nonmenu-event nil)
         (window-system "x"))
@@ -3493,7 +3493,7 @@ is more than one or kill emacs if there is only one."
  ;; http://github.com/nflath/hungry-delete
  (use-package hungry-delete             ; hungry delete minor mode
    :config
-   (setq hungry-delete-chars-to-skip " \t\r\f\v")
+   (setopt hungry-delete-chars-to-skip " \t\r\f\v")
 
    (defun modi/turn-off-hungry-delete-mode ()
      "Turn off hungry delete mode."
@@ -3502,7 +3502,7 @@ is more than one or kill emacs if there is only one."
    ;; Enable `hungry-delete-mode' everywhere ..
    (global-hungry-delete-mode)
 
-   (setq hungry-delete-join-reluctantly t)
+   (setopt hungry-delete-join-reluctantly t)
 
    ;; Except ..
    ;; `hungry-delete-mode'-loaded backspace does not work in `wdired-mode',
