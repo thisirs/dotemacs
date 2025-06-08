@@ -574,6 +574,7 @@ This function is used in `citar-open-note-function'."
          ("M-g m" . consult-mark)
          ("M-g g" . consult-ripgrep)
          ("M-g l" . consult-goto-line)
+         ("C-c h" . consult-history)
 
          ([remap bookmark-jump] . consult-bookmark)
          ([remap yank-pop] . consult-yank-pop)
