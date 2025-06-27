@@ -8,17 +8,19 @@
          (dired-mode-hook . dired-hide-details-mode)
          (dired-mode-hook . turn-on-truncate-lines))
   :init
-  (defun dired-copy-filename-as-kill-fix (&optional arg)
+  (defun dired-copy-filename-as-kill-fix (orig-fn &rest args)
+    "Wrap `dired-copy-filename-as-kill` with remapped prefix args."
     (interactive "P")
-    (cond ((equal arg '(4))
-           (dired-copy-filename-as-kill '(0)))
-          ((equal arg '(16))
-           (let* ((file (car (dired-get-marked-files nil t)))
-                  (root (vc-responsible-backend-root file))
-                  (string (file-relative-name file root)))
-             (kill-new string)
-             (message "%s" string)))
-          (t (dired-copy-filename-as-kill arg))))
+    (let* ((arg (car args))
+           (new-arg
+            (cond
+             ((equal arg '(4)) 0)    ;; C-u -> 1 instead of quoting
+             ((equal arg '(16)) 1)
+             ;; Add more remapping logic here if needed
+             (t args)))) ;; Default fallthrough
+      (apply orig-fn (list new-arg))))
+
+  (advice-add 'dired-copy-filename-as-kill :around #'dired-copy-filename-as-kill-fix)
 
   ;; Adapted from http://stackoverflow.com/a/19112313/1299368
   (defun dired-ediff-marked-files ()
