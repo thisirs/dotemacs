@@ -914,7 +914,9 @@ the vertical drag is done."
   (("C-x C-p" . embark-act)
    (:map vertico-map
          ("C-c C-o" . embark-export)
-         ("C-c C-c" . embark-act)))
+         ("C-c C-c" . embark-act))
+   (:map embark-file-map
+         ("S" . sudo-edit-find-file)))
   :custom
   (embark-prompter #'embark-completing-read-prompter)
   (embark-indicators '(embark-minimal-indicator
