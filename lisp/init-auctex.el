@@ -1,7 +1,10 @@
 ;; http://www.gnu.org/software/auctex/
 (use-package latex                      ; Integrated environment for *TeX*
-  :ensure (auctex :repo "https://git.savannah.gnu.org/git/auctex.git"
-                  :pre-build (("./autogen.sh") ("./configure" "--without-texmf-dir" "--with-lispdir=.") ("make")))
+  :ensure (auctex :repo "https://git.savannah.gnu.org/git/auctex.git" :branch "main"
+                  :pre-build (("make" "elpa"))
+                  :build (:not elpaca--compile-info) ;; Make will take care of this step
+                  :files ("*.el" "doc/*.info*" "etc" "images" "latex" "style")
+                  :version (lambda (_) (require 'auctex) AUCTeX-version))
   :init
   (require 'tex-site)
   :preface
