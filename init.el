@@ -279,10 +279,30 @@
 
 (use-package app-launcher
   :ensure '(app-launcher :host github :repo "SebastienWae/app-launcher")
+  :after embark
+  :bind
+  (:map embark-file-map
+        ("x" . app-launcher-external-open-file))
   :preface
-  (defun app-launcher--action-function-file (selected &optional file)
-    "Open `file' with the selected application."
-    (let* ((exec (cdr (assq 'exec (gethash selected app-launcher--cache))))
+  (defun app-launcher-external-open-file (file)
+    (interactive (list (read-file-name (format "Open file : "))))
+    (let* ((candidates (app-launcher-list-apps))
+           (selected (completing-read
+                      "Run app: "
+                      (lambda (str pred flag)
+                        (if (eq flag 'metadata)
+                            '(metadata
+                              (annotation-function . (lambda (choice)
+                                                       (funcall
+                                                        app-launcher--annotation-function
+                                                        choice))))
+                          (complete-with-action flag candidates str pred)))
+                      (lambda (x y)
+                        (if nil
+                            t
+                          (cdr (assq 'visible y))))
+                      t nil 'app-launcher nil nil))
+           (exec (cdr (assq 'exec (gethash selected app-launcher--cache))))
            (command (mapconcat
                      (lambda (chunk)
                        (cond
@@ -290,10 +310,11 @@
                              (equal chunk "%F")
                              (equal chunk "%u")
                              (equal chunk "%f"))
-                         (if file (shell-quote-argument file) ""))
+                         (if file (shell-quote-argument (expand-file-name file)) ""))
                         (t chunk)))
                      (split-string exec)
                      " ")))
+      (message "Opening with \"%s\"" command)
       (call-process-shell-command command nil 0 nil)))
   :custom (app-launcher--action-function #'app-launcher--action-function-file))
 
@@ -414,26 +435,7 @@ This function is used in `citar-open-note-function'."
                 (citar-indicator-create
                  :symbol (all-the-icons-icon-for-file "foo.txt")
                  :function #'citar-has-notes
-                 :tag "has:notes"))))
-
-  ;; (defun citar-file-open-external (file)
-  ;;   "Select application with `app-launcher' and open `file' with it."
-  ;;   (require 'app-launcher)
-  ;;   (let* ((candidates (app-launcher-list-apps))
-  ;;          (result (completing-read
-  ;;                   "Run app: "
-  ;;                   (lambda (str pred flag)
-  ;;                     (if (eq flag 'metadata)
-  ;;                         '(metadata
-  ;;                           (annotation-function . (lambda (choice)
-  ;;                                                    (funcall
-  ;;                                                     app-launcher--annotation-function
-  ;;                                                     choice))))
-  ;;                       (complete-with-action flag candidates str pred)))
-  ;;                   (lambda (x y) (cdr (assq 'visible y)))
-  ;;                   t nil 'app-launcher nil nil)))
-  ;;     (funcall app-launcher--action-function result file)))
-  )
+                 :tag "has:notes")))))
 
 
 ;; https://github.com/emacs-citar/citar
