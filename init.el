@@ -1695,7 +1695,7 @@ one is determined using `mu4e-attachment-dir'."
       ;; we have determined what files to save, and where.
       (setq files (seq-map (lambda (candidate)
                             (let* ((part (cdr candidate))
-                                   (path (mu4e--uniqify-file-name
+                                   (path (mu4e--uniquify-file-name
                                           (mu4e-join-paths
                                            (or custom-dir (plist-get part :target-dir))
                                            (plist-get part :filename)))))
