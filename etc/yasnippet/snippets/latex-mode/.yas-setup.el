@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun yas/maybe-escape (text)
   (let ((first-char (if (> (length text) 0) (substring text 0 1))))
     (cond

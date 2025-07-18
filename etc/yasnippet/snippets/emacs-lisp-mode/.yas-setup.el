@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun yas/wordify (s)
   "Transform a mail adress by replacing \".\" by \" dot \" and
 \"@\" by \" at \"."
