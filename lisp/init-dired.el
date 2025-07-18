@@ -10,14 +10,12 @@
   :init
   (defun dired-copy-filename-as-kill-fix (orig-fn &rest args)
     "Wrap `dired-copy-filename-as-kill` with remapped prefix args."
-    (interactive "P")
     (let* ((arg (car args))
            (new-arg
             (cond
-             ((equal arg '(4)) 0)    ;; C-u -> 1 instead of quoting
+             ((equal arg '(4)) 0)
              ((equal arg '(16)) 1)
-             ;; Add more remapping logic here if needed
-             (t args)))) ;; Default fallthrough
+             (t args))))
       (apply orig-fn (list new-arg))))
 
   (advice-add 'dired-copy-filename-as-kill :around #'dired-copy-filename-as-kill-fix)
@@ -89,7 +87,6 @@
          ("M-!" . async-shell-command)
          ("C-j" . dired-up-directory)
          ("C-x C-k" . dired-do-delete)
-         ("w" . dired-copy-filename-as-kill-fix)
          ("@" . (lambda () (interactive) (dired "/tmp")))
          ("/" . (lambda () (interactive) (dired "/")))
          ("~" . (lambda () (interactive) (dired (getenv "HOME")))))
