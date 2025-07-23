@@ -3056,20 +3056,6 @@ behavior added."
   (setopt ffap-file-name-with-spaces t))
 
 
-(defun my-find-thing-at-point ()
-  "Find variable, function or file at point."
-  (interactive)
-  (cond ((not (eq (variable-at-point) 0))
-         (call-interactively 'describe-variable))
-        ((function-called-at-point)
-         (call-interactively 'describe-function))
-        ((and (thing-at-point 'filename) (file-exists-p (thing-at-point 'filename)))
-         (find-file (thing-at-point 'filename)))
-        ((thing-at-point 'url)
-         (browse-url (thing-at-point 'url)))
-        (t
-         (find-file-at-point))))
-
 ;; Using modified version of autoinsert to allow multiple autoinsert
 ;; https://github.com/thisirs/auto-insert-multiple.git
 (use-package autoinsert
