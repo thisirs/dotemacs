@@ -284,6 +284,7 @@
   (:map embark-file-map
         ("x" . app-launcher-external-open-file))
   :preface
+  (autoload-config app-launcher-external-open-file app-launcher)
   (defun app-launcher-external-open-file (file)
     (interactive (list (read-file-name (format "Open file : "))))
     (let* ((candidates (app-launcher-list-apps))
@@ -315,8 +316,7 @@
                      (split-string exec)
                      " ")))
       (message "Opening with \"%s\"" command)
-      (call-process-shell-command command nil 0 nil)))
-  :custom (app-launcher--action-function #'app-launcher--action-function-file))
+      (call-process-shell-command command nil 0 nil))))
 
 ;; http://nschum.de/src/emacs/auto-dictionary/
 (use-package auto-dictionary            ; automatic dictionary switcher for flyspell
