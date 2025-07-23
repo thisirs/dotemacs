@@ -30,15 +30,17 @@
 (defun dwim-location (path fun)
   "Call FUN on each buffer visiting a file contained in PATH."
   (mapc (lambda (buf)
-          (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
-                              (buffer-local-value 'default-directory buf)
-                            (buffer-file-name buf))))
-            (and (stringp location)
-                 (string-prefix-p
-                  (let (file-name-handler-alist)
-                    (file-truename (abbreviate-file-name path)))
-                  (file-truename (abbreviate-file-name location)))
-                 (funcall fun buf))))
+          (when-let* ((file (buffer-local-value 'buffer-file-name buf)))
+            (unless (file-remote-p file)
+              (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
+                                   (buffer-local-value 'default-directory buf)
+                                file)))
+                (and (stringp location)
+                     (string-prefix-p
+                      (let (file-name-handler-alist)
+                        (file-truename (abbreviate-file-name path)))
+                      (file-truename (abbreviate-file-name location)))
+                     (funcall fun buf))))))
         (buffer-list)))
 
 (defun kill-location (path)
