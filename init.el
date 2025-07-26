@@ -285,6 +285,7 @@
         ("x" . app-launcher-external-open-file))
   :preface
   (autoload-config app-launcher-external-open-file app-launcher)
+  :config
   (defun app-launcher-external-open-file (file)
     (interactive (list (read-file-name (format "Open file : "))))
     (let* ((candidates (app-launcher-list-apps))
