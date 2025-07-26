@@ -914,7 +914,9 @@ the vertical drag is done."
 (use-package embark                     ; Conveniently act on minibuffer completions
   :after vertico
   :bind
-  (("C-x C-p" . embark-act)
+  (("C-," . embark-act)
+   ("C-;" . embark-dwim)
+   ("C-x C-p" . embark-act)
    (:map vertico-map
          ("C-c C-o" . embark-export)
          ("C-c C-c" . embark-act))
