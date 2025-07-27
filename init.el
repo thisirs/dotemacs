@@ -1128,7 +1128,7 @@ the vertical drag is done."
 (use-package forge                      ; Access Git forges from Magit.
   :demand :after magit
   :custom
-  (forge-owned-accounts '(("thisirs" :remote-name "fork"))))
+  (forge-owned-accounts '(("thisirs" remote-name "fork"))))
 
 ;; https://github.com/magit/git-modes
 (use-package git-modes)                 ; Major modes for editing Git configuration files
