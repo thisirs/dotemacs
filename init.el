@@ -529,6 +529,7 @@ This function is used in `citar-open-note-function'."
 
   (advice-add 'bookmark-load :after #'bookmark-add-generated-bookmarks))
 
+;; https://gitlab.kitware.com/cmake/cmake.git
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
 ;; http://company-mode.github.io/
@@ -1110,7 +1111,8 @@ the vertical drag is done."
   :config
   (setopt flycheck-highlighting-mode 'symbols))
 
-(use-package folding
+;; https://github.com/jaalto/project-emacs--folding-mode.git
+(use-package folding                    ; A folding-editor-like minor mode
   :init
   (defun unfold-current ()
     (interactive)
@@ -1514,6 +1516,7 @@ the vertical drag is done."
    (append org-babel-load-languages
            '((jupyter . t)))))
 
+;; https://github.com/dacap/keyfreq.git
 (use-package keyfreq                    ; track command frequencies
   :config
   (let ((filepath (format (expand-file-name (format ".emacs.%s.keyfreq" (system-name)) personal-emacs-directory))))
@@ -2184,6 +2187,7 @@ one is determined using `mu4e-attachment-dir'."
   :config
   (show-paren-mode))
 
+;; https://github.com/sigma/pcache.git
 (use-package pcache)            ; persistent caching for Emacs.
 
 ;; http://github.com/vedang/pdf-tools/
@@ -2376,6 +2380,9 @@ one is determined using `mu4e-attachment-dir'."
 
   (put 'python-indent-shift-left 'repeat-map 'python-indent-repeat-map)
   (put 'python-indent-shift-right 'repeat-map 'python-indent-repeat-map))
+
+;; https://github.com/quarto-dev/quarto-emacs.git
+(use-package quarto-mode)               ; A (poly)mode for https://quarto.org
 
 ;; https://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
@@ -2630,6 +2637,7 @@ behavior added."
   :custom
   (shell-kill-buffer-on-exit t))
 
+;; https://github.com/chrisbarrett/skeletor.el.git
 (use-package skeletor                   ; Provides project skeletons for Emacs
   :custom
   (skeletor-completing-read-function #'completing-read))
@@ -2651,6 +2659,7 @@ behavior added."
    ;; :subscribed-channels '(test-rename rrrrr)
    :full-and-display-names t))
 
+;; https://github.com/victorteokw/smart-mark.git
 (use-package smart-mark                 ; Restore point after C-g when mark
   :demand
   :config
@@ -2834,6 +2843,7 @@ behavior added."
 ;; https://github.com/magit/transient
 (use-package transient)                 ; Transient commands
 
+;; https://github.com/emacsorphanage/transpose-frame.git
 (use-package transpose-frame            ; Transpose windows arrangement in a frame
   :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
 
@@ -2903,7 +2913,8 @@ behavior added."
   (vertico-multiform-mode 1)
   (vertico-mouse-mode 1))
 
-(use-package visual-replace
+;; https://github.com/szermatt/visual-replace.git
+(use-package visual-replace             ; A prompt for replace-string and query-replace
   :demand
   :bind (("C-c r" . visual-replace)
          ("C-c q" . visual-replace))
