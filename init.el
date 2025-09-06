@@ -585,6 +585,8 @@ This function is used in `citar-open-note-function'."
          ([remap keep-lines] . consult-keep-lines))
   :custom
   (completion-in-region-function #'consult-completion-in-region)
+  ;; Remove filter in dot files
+  (consult-find-args "find .")
   :config
   (setopt consult-ripgrep-args (concat consult-ripgrep-args " --hidden" " --no-ignore-vcs"))
 
