@@ -1284,7 +1284,19 @@ the vertical drag is done."
   (defun ical2org/org-time-fmt-en_US (oldfun &rest args)
     (let ((system-time-locale "C"))
       (apply oldfun args)))
-  (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US))
+  (advice-add 'ical2org/org-time-fmt :around #'ical2org/org-time-fmt-en_US)
+
+  (defun ical2org/org-timestamp (start end)
+    "Format `START' and `END' as `org-time-stamp'."
+    (let ((start-time (nth 2 start))
+          (end-time (nth 2 end))
+          (start (car start))
+          (end (car end)))
+      (if end
+          (format "%s-%s" (ical2org/org-time-fmt start start-time)
+                  (ical2org/org-time-fmt end end-time))
+        (if start
+            (ical2org/org-time-fmt start start-time))))))
 
 (use-package info+              ; Extensions to `info.el'.
   :disabled)
