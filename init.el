@@ -2746,9 +2746,10 @@ behavior added."
     :in (eq major-mode 'org-agenda-mode)
     :switch (org-agenda nil "a"))
 
-  (state-define-state debug
+  (state-define-state deathrow
     :key "d"
-    :switch "*debug*")
+    :in (state--in-in-file "~/deathrow")
+    :create (dired "~/deathrow"))
 
   (state-define-state mu4e
     :key "u"
