@@ -1821,6 +1821,9 @@ one is determined using `mu4e-attachment-dir'."
   ;; Use mu4e when attaching from dired
   (setopt gnus-dired-mail-mode 'mu4e-user-agent)
 
+  ;; Open pdf files with Evince
+  (add-to-list 'mailcap-user-mime-data '((viewer . "evince %s") (type . "application/pdf") (test "command" "-v" "evince" ">" "/dev/null" "2>&1" "&&" "test" "-n" "\"$DISPLAY\"") (source . system)))
+
   ;; Store attachments
   (setq mm-tmp-directory (expand-file-name "~/deathrow"))
 
