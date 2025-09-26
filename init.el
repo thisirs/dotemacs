@@ -1821,6 +1821,9 @@ one is determined using `mu4e-attachment-dir'."
   ;; Use mu4e when attaching from dired
   (setopt gnus-dired-mail-mode 'mu4e-user-agent)
 
+  ;; Store attachments
+  (setq mm-tmp-directory (expand-file-name "~/deathrow"))
+
   (require 'gnus-dired)
   ;; make the `gnus-dired-mail-buffers' function also work on
   ;; message-mode derived modes, such as mu4e-compose-mode
