@@ -4,8 +4,6 @@
 # --
 \documentclass{scrlttr2}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{graphicx}
 \graphicspath{{~/texmf/tex/latex/images}}

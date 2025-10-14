@@ -4,8 +4,6 @@
 # --
 \documentclass{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage[a4paper]{geometry}

@@ -4,14 +4,11 @@
 # --
 \documentclass{standalone}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[francais]{babel}
+\usepackage[french]{babel}
 \usepackage[babel=true]{microtype}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
-\usetikzlibrary{snakes}
 \usetikzlibrary{backgrounds}
 \usetikzlibrary{patterns}
 \usetikzlibrary{matrix}
