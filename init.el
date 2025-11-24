@@ -284,7 +284,7 @@
   (:map embark-file-map
         ("x" . app-launcher-external-open-file))
   :preface
-  (autoload-config app-launcher-external-open-file app-launcher)
+  (autoload-after app-launcher-external-open-file app-launcher)
   :config
   (defun app-launcher-external-open-file (file)
     (interactive (list (read-file-name (format "Open file : "))))
@@ -367,8 +367,8 @@
 ;; https://github.com/emacs-citar/citar
 (use-package citar                      ; Citation-related commands for org, latex, markdown
   :preface
-  (autoload-config citar-open-current citar)
-  (autoload-config citar-open-or-cite citar)
+  (autoload-after citar-open-current citar)
+  (autoload-after citar-open-or-cite citar)
   :bind (("C-c b" . citar-open-or-cite)
          ("C-c n o" . citar-open-current)
          :map citar-map
@@ -893,7 +893,7 @@ the vertical drag is done."
 ;; https://github.com/syohex/emacs-emamux
 (use-package emamux                     ; Interact with tmux
   :preface
-  (autoload-config emamux:switch-cd emamux)
+  (autoload-after emamux:switch-cd emamux)
   :bind ("C-z" . emamux:switch-cd)
   :config
   (defun emamux:display-message (message)
@@ -1992,7 +1992,7 @@ one is determined using `mu4e-attachment-dir'."
 ;; https://github.com/alphapapa/org-ql
 (use-package org-ql                     ; Org Query Language, search command, and agenda-like view
   :preface
-  (autoload-config org-ql-projects org-ql)
+  (autoload-after org-ql-projects org-ql)
   :config
   (defun org-ql-projects ()
     (interactive)
@@ -2010,8 +2010,8 @@ one is determined using `mu4e-attachment-dir'."
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
   :preface
-  (autoload-config org-roam-dired-jump org-roam)
-  (autoload-config org-roam-todo-list org-roam)
+  (autoload-after org-roam-dired-jump org-roam)
+  (autoload-after org-roam-todo-list org-roam)
   :diminish
   :custom
   (org-roam-node-display-template
@@ -2422,32 +2422,48 @@ one is determined using `mu4e-attachment-dir'."
   :preface
   ;; Don't config reformatter but define reformatter functions to
   ;; trigger their own redefinition in :config.
-  (autoload-config reformatter-black-region reformatter)
-  (autoload-config reformatter-black-buffer reformatter)
-  (autoload-config reformatter-isort-region reformatter)
-  (autoload-config reformatter-isort-buffer reformatter)
-  (autoload-config reformatter-styler-region reformatter)
-  (autoload-config reformatter-styler-buffer reformatter)
-  (autoload-config reformatter-ruff-buffer reformatter)
-  (autoload-config reformatter-ruff-region reformatter)
+  (autoload-after reformatter-black-region reformatter)
+  (autoload-after reformatter-black-buffer reformatter)
+  (autoload-after reformatter-isort-region reformatter)
+  (autoload-after reformatter-isort-buffer reformatter)
+  (autoload-after reformatter-R-styler-region reformatter)
+  (autoload-after reformatter-R-styler-buffer reformatter)
+  (autoload-after reformatter-R-formatR-region reformatter)
+  (autoload-after reformatter-R-formatR-buffer reformatter)
+  (autoload-after reformatter-ruff-buffer reformatter)
+  (autoload-after reformatter-ruff-region reformatter)
   :config
-  ;; Autoswitch to error buffer if any
+  ;; Automatically switch to error buffer if any (so that I can quit)
   (defun reformatter--do-region-switch (name beg end program args stdin stdout input-file exit-code-success-p display-errors &optional working-directory)
     (if-let ((it (get-buffer-window (format "*%s errors*" name)))) (select-window it)))
 
   (advice-add #'reformatter--do-region :after #'reformatter--do-region-switch)
 
   (require 'exec-path-from-shell) ; for ~/.local/bin
-  (when (zerop (call-process-shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
-    (reformatter-define reformatter-R
-      :program "Rscript"
-      :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, width.cutoff = 500)")))
 
-  (when (executable-find "latexindent")
+  ;; R formatting
+  (cond ((zerop (shell-command "Rscript -e 'quit(status = !requireNamespace(\"styler\", quietly = TRUE))'"))
+         (reformatter-define reformatter-R-styler
+           :program "Rscript"
+           :args (list "--vanilla" "-e" "con <- file(\"stdin\")
+out <- styler::style_text(readLines(con))
+close(con)
+out")
+           :lighter " styler"))
+        ((zerop (shell-command "Rscript -e \"quit(status = ifelse(require(formatR), 0, 1))\""))
+         (reformatter-define reformatter-R-formatR
+           :program "Rscript"
+           :args (list "-e" "library(formatR); tidy_source(file('stdin', 'r'), arrow = TRUE, width.cutoff = 500)"))
+         )
+        (t (display-warning 'config "reformatter: styler or formatR R library not found" :warning)))
+
+  (if (executable-find "latexindent")
     (reformatter-define reformatter-latex
       :program "latexindent"
-      :args (list "-y=defaultIndent:'  '")))
+      :args (list "-y=defaultIndent:'  '"))
+    (display-warning 'config "reformatter: latexindent not found" :warning))
 
+  ;; Python formatting
   (cond ((executable-find "black-macchiato-strip")
          (reformatter-define reformatter-black
            :program "black-macchiato-strip"

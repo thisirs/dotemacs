@@ -227,21 +227,40 @@ and the index of the match."
       (car available)
     (display-warning 'init (format "File(s) %s do not exist" (mapconcat 'identity filepaths " ")))))
 
-(defmacro autoload-config (command library &optional docstring)
-  "Define COMMAND to autoload LIBRARY.
+(defmacro autoload-after (command library &optional docstring)
+  "Autoload LIBRARY to define COMMAND after any deferred loading.
 
-Similar to an autoload but does not require the library to
-directly define COMMAND. COMMAND is allowed to be defined after
-loading LIBRARY in an `eval-after-load'."
-  `(progn
-     (defun ,command ()
-       ,(or docstring (format "Configuration autoload for command `%s'" command))
-       (interactive)
-       (fmakunbound ',command)
-       (require ',library)
-       (unless (fboundp ',command)
+COMMAND is the command name to be defined.
+LIBRARY is the library that must define COMMAND after loading.
+DOCSTRING optionally overrides the automatically generated docstring."
+  (let* ((impl-fn (intern (format "%s--autoload-after-impl" command)))
+         (default-doc (format "Configuration autoload for command `%s'"
+                              command)))
+    `(progn
+       ;; Internal implementation
+       (defun ,impl-fn ()
+         ,(or docstring default-doc)
+         (interactive)
+         (fmakunbound ',command)
+         (require ',library)
+         (unless (fboundp ',command)
            (error ,(format "Loading library `%s' did not define `%s'" library command)))
-       (call-interactively ',command))))
+         (call-interactively ',command))
+
+       ;; Warn only if COMMAND is defined AND not created by autoload-after
+       (if (and (fboundp ',command)
+                (not (get ',command 'autoload-after)))
+           (display-warning
+            'autoload-after
+            (format "Function `%s' already defined" ',command))
+
+         ;; Install our implementation
+         (fset ',command (symbol-function ',impl-fn))
+
+         ;; Tag COMMAND as owned by autoload-after
+         (put ',command 'autoload-after t)
+
+         ',command))))
 
 (defun seq-insert-at (sequence elt i)
   (nconc
