@@ -28,20 +28,24 @@
               (revert-buffer t)))))))
 
 (defun dwim-location (path fun)
-  "Call FUN on each buffer visiting a file contained in PATH."
-  (mapc (lambda (buf)
-          (when-let* ((file (buffer-local-value 'buffer-file-name buf)))
-            (unless (file-remote-p file)
-              (let ((location (if (eq (buffer-local-value 'major-mode buf) 'dired-mode)
-                                   (buffer-local-value 'default-directory buf)
-                                file)))
-                (and (stringp location)
+  "Call FUN on each buffer visiting a file or directory contained in PATH."
+  (let* ((path (file-truename (expand-file-name path))))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (let ((location
+               (cond
+                ;; Dired buffers
+                ((derived-mode-p 'dired-mode)
+                 default-directory)
+                ;; File-visiting buffers
+                (buffer-file-name
+                 (file-name-directory buffer-file-name)))))
+          (when (and location
+                     (not (file-remote-p location))
                      (string-prefix-p
-                      (let (file-name-handler-alist)
-                        (file-truename (abbreviate-file-name path)))
-                      (file-truename (abbreviate-file-name location)))
-                     (funcall fun buf))))))
-        (buffer-list)))
+                      path
+                      (file-truename (expand-file-name location))))
+            (funcall fun buf)))))))
 
 (defun kill-location (path)
   "Kill all buffers visiting a file contained in PATH."
