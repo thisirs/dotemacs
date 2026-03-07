@@ -3146,6 +3146,9 @@ behavior added."
 
   (setopt auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
 
+;; Make Emacs treat *.j2 as templates of the base file type
+(add-to-list 'auto-mode-alist '("\\.j2\\'" nil t))
+
 (cond ((member "Cascadia Code" (font-family-list))
        (set-frame-font (font-spec :name "Cascadia Code" :size 16 :slant 'normal) nil t))
       ((member "JetBrainsMono NF" (font-family-list))
