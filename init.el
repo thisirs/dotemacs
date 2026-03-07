@@ -2212,6 +2212,7 @@ one is determined using `mu4e-attachment-dir'."
 
 ;; http://github.com/vedang/pdf-tools/
 (use-package pdf-tools                  ; Support library for PDF documents.
+  :disabled
   :defer 10
   :init
   ;; pdf-annot-minor-mode before pdf-sync-minor-mode
