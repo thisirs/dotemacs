@@ -3033,7 +3033,10 @@ behavior added."
   :config
   (setopt whitespace-style
         '(face trailing tabs))
-  (global-whitespace-mode))
+  (global-whitespace-mode)
+  (add-hook 'makefile-mode-hook
+            (lambda ()
+              (setq-local whitespace-style '(face trailing)))))
 
 (use-package windmove
   :ensure nil
