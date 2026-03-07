@@ -49,7 +49,7 @@
 
 (defun kill-location (path)
   "Kill all buffers visiting a file contained in PATH."
-  (interactive "fLocation: ")
+  (interactive "FLocation: ")
   (dwim-location path 'kill-buffer))
 
 (defun revert-location (path)
