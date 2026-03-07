@@ -2472,44 +2472,59 @@ out")
         ((executable-find "black-macchiato")
          (reformatter-define reformatter-black
            :program "black-macchiato"
-           :args (list "--target-version" "py310"))))
+           :args (list "--target-version" "py310")))
+        (t (display-warning 'config "reformatter: black-macchiato not found" :warning)))
 
-  (when (executable-find "ruff")
+  (if (executable-find "ruff")
     (reformatter-define reformatter-ruff
       :program "ruff"
-      :args `("format" "--stdin-filename" ,input-file "-")))
+      :args `("format" "--stdin-filename" ,input-file "-"))
+    (display-warning 'config "reformatter: ruff not found" :warning))
 
-  (when (executable-find "npx")
-    (reformatter-define reformatter-sql
-      :program "npx"
-      :args (list "sql-formatter" "-u")))
+  (cond ((executable-find "uvx")
+         (reformatter-define reformatter-ruff-sort
+           :program "uvx"
+           :args `("ruff" "check" "--select" "I" "--fix" "--stdin-filename" ,input-file "-")))
+        ((executable-find "isort")
+         (reformatter-define reformatter-isort
+           :program "isort"
+           :args (list "-d" "-")))
+        (t (display-warning 'config "reformatter: uvx or isort not found" :warning)))
 
-  (when (executable-find "sqlformat")
+  (if (executable-find "npx")
+      (reformatter-define reformatter-sql
+        :program "npx"
+        :args (list "sql-formatter" "-u"))
+    (display-warning 'config "reformatter: npx not found" :warning))
+
+  (if (executable-find "sqlformat")
     (reformatter-define reformatter-sql
       :program "sqlformat"
-      :args (list "-k" "upper" "-r" "-")))
+      :args (list "-k" "upper" "-r" "-"))
+    (display-warning 'config "reformatter: sqlformat not found" :warning))
 
-  (when (executable-find "sql-formatter-cli")
+  (if (executable-find "sql-formatter-cli")
     (reformatter-define reformatter-sql
       :program "sql-formatter-cli"
-      :args (list "-")))
+      :args (list "-"))
+    (display-warning 'config "reformatter: sql-formatter-cli not found" :warning))
 
-  (when (executable-find "/snap/bin/shfmt")
+  (if (executable-find "/snap/bin/shfmt")
     (reformatter-define reformatter-bash
       :program "/snap/bin/shfmt"
-      :lighter " ShFmt"))
+      :lighter " ShFmt")
+    (display-warning 'config "reformatter: shmft not found" :warning))
 
-  (reformatter-define reformatter-styler
-    :program "Rscript"
-    :args (list "--vanilla" "-e" "con <- file(\"stdin\")
+  (if (shell-command "Rscript -e 'quit(status = !requireNamespace(\"styler\", quietly = TRUE))'")
+      (reformatter-define reformatter-styler
+        :program "Rscript"
+        :args (list "--vanilla" "-e" "con <- file(\"stdin\")
 out <- styler::style_text(readLines(con))
 close(con)
 out")
-    :lighter " styler")
+        :lighter " styler"))
 
-  (reformatter-define reformatter-isort
-    :program "isort"
-    :args (list "-d" "-")))
+  )
 
 
 ;; From https://github.com/jwiegley/dot-emacs
