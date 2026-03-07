@@ -260,6 +260,9 @@
     (let ((current-prefix-arg last-prefix-arg))
       (ag/search string default-directory))))
 
+;; https://github.com/xenodium/agent-shell
+(use-package agent-shell)               ; Native agentic integrations for Claude Code, Gemini CLI, etc
+
 ;; https://github.com/jwiegley/alert
 (use-package alert                      ; Growl-style notification system for Emacs
   :config
