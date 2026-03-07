@@ -135,7 +135,7 @@ and the index of the match."
             (message "%S" pkg-name)
             (when-let* ((menu-item (elpaca-menu-item pkg-name))
                         (recipe (plist-get menu-item :recipe))
-                        (url (with-demoted-errors "Error: %S" (elpaca--repo-uri recipe))))
+                        (url (plist-get menu-item :url)))
               (unless (save-excursion
                         (forward-line -1)
                         (looking-at "[[:space:]]*;+[[:space:]]*http"))
@@ -145,8 +145,7 @@ and the index of the match."
                   (indent-according-to-mode)
                   (insert (format ";; %s" url))))
               (when-let* ((desc (plist-get menu-item :description)))
-                (unless (or (equal desc package--default-summary)
-                            (save-excursion (re-search-forward ";" (line-end-position) t)))
+                (unless (save-excursion (re-search-forward ";" (line-end-position) t))
                   (end-of-line)
                   (indent-to comment-column 1)
                   (insert (format "; %s" desc)))))))))))
