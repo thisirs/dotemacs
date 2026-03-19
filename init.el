@@ -223,9 +223,6 @@
   ;; Silently save abbrevs on quitting emacs
   (setopt save-abbrevs 'silently))
 
-;; https://github.com/nashamri/academic-phrases
-(use-package academic-phrases)          ; Bypass that mental block when writing your papers.
-
 ;; https://github.com/minad/affe
 (use-package affe                       ; Asynchronous Fuzzy Finder for Emacs
   :disabled
