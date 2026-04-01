@@ -258,7 +258,25 @@
       (ag/search string default-directory))))
 
 ;; https://github.com/xenodium/agent-shell
-(use-package agent-shell)               ; Native agentic integrations for Claude Code, Gemini CLI, etc
+(use-package agent-shell                ; Native agentic integrations for Claude Code, Gemini CLI, etc
+  :config
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8))
+  (add-hook 'agent-shell-section-functions
+            (lambda (section)
+              (when (and (map-nested-elt section '(:body :start))
+                         (map-nested-elt section '(:body :end)))
+                (require 'org)
+                ;; Silence org-element warnings (hacky!!)
+                (let ((major-mode 'org-mode))
+                  (save-excursion
+                    (save-restriction
+                      (narrow-to-region (map-nested-elt section '(:body :start))
+                                        (map-nested-elt section '(:body :end)))
+                      (org-format-latex
+                       (concat org-preview-latex-image-directory "markdown-overlays")
+                       (point-min) (point-max)
+                       temporary-file-directory
+                       'overlays nil 'forbuffer org-preview-latex-default-process))))))))
 
 ;; https://github.com/jwiegley/alert
 (use-package alert                      ; Growl-style notification system for Emacs
