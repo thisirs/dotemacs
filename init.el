@@ -1752,7 +1752,7 @@ one is determined using `mu4e-attachment-dir'."
           (message (format "Wrote %d attachments %s" (length files) (mapconcat 'identity files ", "))))))
 
   :custom
-  (mu4e-mu-binary (expand-file-name "mu/build/mu/mu" elpaca-repos-directory))
+  (mu4e-mu-binary (expand-file-name "mu/build/mu/mu" elpaca-sources-directory))
   (mu4e-attachment-dir "~/deathrow")
   (mu4e-completing-read-function 'completing-read)
   (mu4e-compose-keep-self-cc nil)
