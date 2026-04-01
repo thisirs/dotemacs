@@ -325,6 +325,13 @@
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
+(use-package auto-update-timeline
+  :load-path (lambda () (list (expand-file-name "timeline-paper" projects-directory)))
+  :commands notes-update-timeline)
+
+(use-package auto-export-notes
+  :load-path (lambda () (list (expand-file-name "auto-export-notes" projects-directory))))
+
 ;; https://github.com/alpha22jp/atomic-chrome
 (use-package atomic-chrome              ; Edit Chrome text area with Emacs using Atomic Chrome
   :demand
