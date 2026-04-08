@@ -79,6 +79,14 @@
 
   :config
 
+  (define-minor-mode org-indent-headline-data-mode
+    "Set `org-adapt-indentation` to 'headline-data locally."
+    :init-value nil
+    :lighter ""
+    (if org-indent-headline-data-mode
+        (setq-local org-adapt-indentation 'headline-data)))
+  (put 'org-indent-headline-data-mode 'safe-local-variable #'booleanp)
+
   ;; Custom datetimes in overlay when choosing a datetime
   (defun org-read-date-display-advice (oldfun)
     (let ((system-time-locale "fr_FR.utf8")
