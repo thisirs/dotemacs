@@ -3170,6 +3170,12 @@ behavior added."
 
   (setopt auto-insert-directory (expand-file-name "~/.emacs.d/autoinsert/")))
 
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+(setq redisplay-skip-fontification-on-input t)
+(setq read-process-output-max (* 4 1024 1024)) ; 4MB
+
 ;; Make Emacs treat *.j2 as templates of the base file type
 (add-to-list 'auto-mode-alist '("\\.j2\\'" nil t))
 
