@@ -1,19 +1,27 @@
-(defmacro shell-bind (key cmd &optional msg)
-  `(keymap-global-set ,key
-                   (lambda ()
-                     (interactive)
-                     (shell-command ,cmd)
-                     ,@(if msg `((minibuffer-message ,msg))))))
+(defun shell-bind (key command &optional msg interactive)
+  "Bind a shell command to a global key sequence.
 
-(shell-bind "<f4>" "dbus-spotify playpause" "play/paused")
-(shell-bind "<f5>" "dbus-spotify previous" "previous")
-(shell-bind "<f6>" "dbus-spotify next" "next")
+KEY is the key sequence to bind, as a string or vector.
+COMMAND is the shell command to execute when the key is pressed.
+Optional MSG, if non-nil and non-empty, is displayed after execution.
+Optional INTERACTIVE, if non-nil, indicates the function is called interactively.
 
-(defun mpv-bindings ()
-  (interactive)
-  (shell-bind "<f4>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" p" "play/paused")
-  (shell-bind "<f5>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Left" "advance")
-  (shell-bind "<f6>" "xdotool key --window \"$(xdotool search --class mpv | head -1)\" Right" "next"))
+When called interactively, prompts for KEY, COMMAND, and MSG.
+Displays a confirmation message after binding the key.
+
+Example:
+  (shell-bind \"C-c s\" \"ls -l\" \"List files\")
+  ; Binds C-c s to run `ls -l` and show \"List files\" as a message."
+  (interactive "KSet key globally: \nsSet key %s globally to shell command: \nsMessage: \np")
+  (when interactive
+    (setq key (key-description key)))
+  (keymap-global-set key
+                     `(lambda ()
+                        (interactive)
+                        (shell-command ,command)
+                        (or (null ,msg) (string-empty-p ,msg) (message "%s" ,msg))))
+  (when interactive
+    (message "Bound %s to `%s`" key command)))
 
 ;; Shortcut for reverting a buffer
 (keymap-global-set "C-x C-r" #'revert-buffer-quick)
@@ -35,8 +43,7 @@
 ;; Toggle menu-bar visibility
 (keymap-global-set "<f8>" #'menu-bar-mode)
 
-(keymap-global-set "C-x à" #'delete-other-windows)
-(keymap-global-set "C-x C-à" #'delete-other-windows)
+
 (keymap-global-set "C-," #'other-window)
 (keymap-global-set "M-o" #'other-window)
 
@@ -70,21 +77,6 @@
 (keymap-global-set "<remap> <capitalize-word>" #'capitalize-dwim)
 
 (keymap-global-set "C-<tab>" #'other-window)
-
-;; Split window and switch to newly created one
-(keymap-global-set "C-x 3"
-                (lambda nil
-                  (interactive)
-                  (split-window-horizontally)
-                  (other-window 1)))
-
-(keymap-global-set "C-x 2"
-                (lambda nil
-                  (interactive)
-                  (split-window-vertically)
-                  (other-window 1)))
-
-(keymap-global-set "C-x C-v" #'find-file-other-window)
 
 ;; Binding for `replace-string'
 (keymap-global-set "C-c s" #'replace-string)
@@ -174,11 +166,5 @@ body passed in argument."
 (keymap-global-set "C-c e L" #'elint-current-buffer)
 (keymap-global-set "C-c e t" #'ert-run-tests-interactively)
 (keymap-global-set "C-c e l" #'find-library)
-
-(defun kmacro-reset-counter ()
-  (interactive)
-  (kmacro-set-counter 0))
-
-(keymap-global-set "C-x C-k C-r" #'kmacro-reset-counter)
 
 (provide 'init-bindings)
