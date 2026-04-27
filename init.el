@@ -2405,7 +2405,7 @@ one is determined using `mu4e-attachment-dir'."
   ;; Use custom function to ignore specific projects
   (setopt projectile-ignored-project-function #'projectile-ignored-semester)
 
-  ;; Unconditionaly add these projects
+  ;; Unconditionally add these projects
   (setopt projectile-project-search-path (list (expand-file-name "projects" personal-directory)))
 
   (projectile-mode))
