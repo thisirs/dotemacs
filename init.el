@@ -3025,6 +3025,9 @@ behavior added."
   (add-hook 'vc-auto-commit-cancel-hook #'not-on-zbook)
   (vc-auto-commit-activate))
 
+(use-package vox-note
+  :load-path (lambda () (list (expand-file-name "vox-note" projects-directory))))
+
 (use-package warnings
   :ensure nil
   :config
