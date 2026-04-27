@@ -3491,6 +3491,8 @@ to cancel it."
 ;; Save existing clipboard text into kill ring before replacing it.
 (setopt save-interprogram-paste-before-kill t)
 
+(setopt kill-do-not-save-duplicates t)
+
 ;; Don't ask when killing processes on exit.
 (setopt confirm-kill-processes nil)
 
