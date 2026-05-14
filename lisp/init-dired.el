@@ -93,6 +93,7 @@
 
   :custom
   (dired-movement-style 'cycle)
+  (dired-listing-switches "-alhv --group-directories-first")
 
   :config
   (setq dired-recursive-copies 'always)
