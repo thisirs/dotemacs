@@ -872,8 +872,16 @@ the vertical drag is done."
   (elfeed-db-directory (change-base-dir elfeed-db-directory))
   (elfeed-enclosure-default-dir (change-base-dir elfeed-enclosure-default-dir))
   :init
-  ;; Update elfeed periodically
-  (run-at-time nil (* 4 60 60) #'elfeed-update))
+  ;; Update elfeed periodically. Using cancel-and-reschedule instead of a
+  ;; repeat interval to avoid burst catches-up after sleep/suspend.
+  (defvar my-elfeed-update-timer nil)
+  (defun my-elfeed-update ()
+    (when (timerp my-elfeed-update-timer)
+      (cancel-timer my-elfeed-update-timer))
+    (run-with-idle-timer 5 nil #'elfeed-update)
+    (setq my-elfeed-update-timer
+          (run-at-time (* 4 60 60) nil #'my-elfeed-update)))
+  (setq my-elfeed-update-timer (run-at-time nil nil #'my-elfeed-update)))
 
 ;; https://github.com/remyhonig/elfeed-org
 (use-package elfeed-org                 ; Configure elfeed with one or more org-mode files
