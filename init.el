@@ -350,7 +350,8 @@
   :commands notes-update-timeline)
 
 (use-package auto-export-notes
-  :load-path (lambda () (list (expand-file-name "auto-export-notes" projects-directory))))
+  :load-path (lambda () (list (expand-file-name "auto-export-notes" projects-directory)))
+  :commands notes-auto-export-mode)
 
 ;; https://github.com/alpha22jp/atomic-chrome
 (use-package atomic-chrome              ; Edit Chrome text area with Emacs using Atomic Chrome
