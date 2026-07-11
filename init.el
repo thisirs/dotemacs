@@ -1050,28 +1050,6 @@ the vertical drag is done."
            :ambiguous nil
            :group t))))
 
-(use-package eval-expr                  ; enhanced eval-expression command
-  :defer 10
-  :bind ("M-:" . eval-expr)
-  :custom
-  (eval-expr-print-function 'pp)
-  (eval-expr-print-level 20)
-  (eval-expr-print-length 100)
-  :config
-  ;; Enable paredit and eldoc in eval-expr
-  ;; https://paredit.org
-  (use-package paredit                  ; minor mode for editing parentheses
-    :config
-    (defun eval-expr-minibuffer-setup ()
-      (add-function :before-until (local 'eldoc-documentation-function)
-                    #'elisp-eldoc-documentation-function)
-      (eldoc-mode)
-      (enable-paredit-mode)
-      (add-hook 'completion-at-point-functions
-                #'elisp-completion-at-point nil 'local)
-      (local-set-key (kbd "<tab>") #'completion-at-point)
-      (set-syntax-table emacs-lisp-mode-syntax-table))))
-
 ;; Set path as if emacs were run in a terminal
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
