@@ -2200,7 +2200,8 @@ one is determined using `mu4e-attachment-dir'."
 ;; https://paredit.org
 (use-package paredit                    ; minor mode for editing parentheses
   :preface
-  (defvar paredit-minibuffer-commands '(ibuffer-do-eval
+  (defvar paredit-minibuffer-commands '(eval-expression
+                                        ibuffer-do-eval
                                         ibuffer-do-view-and-eval
                                         edebug-eval-expression
                                         edebug-set-conditional-breakpoint)
@@ -2208,12 +2209,20 @@ one is determined using `mu4e-attachment-dir'."
 
   (defun conditionally-enable-paredit-mode ()
     "Enable paredit during lisp-related minibuffer commands."
-    (if (memq this-command paredit-minibuffer-commands)
-        (enable-paredit-mode)))
+    (when (memq this-command paredit-minibuffer-commands)
+      (enable-paredit-mode)))
 
   :hook
   (minibuffer-setup-hook . conditionally-enable-paredit-mode)
-  ((eval-expression-minibuffer-setup-hook emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook lisp-data-mode-hook) . paredit-mode))
+  ;; Enable paredit in following modes
+  ((emacs-lisp-mode-hook lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook lisp-data-mode-hook) . paredit-mode)
+
+  :config
+  (defun paredit-RET-advice (oldfun)
+    (if-let (binding (keymap-lookup (current-local-map) "RET"))
+        (call-interactively binding)
+      (funcall oldfun)))
+  (advice-add #'paredit-RET :around #'paredit-RET-advice))
 
 (use-package paren
   :ensure nil
