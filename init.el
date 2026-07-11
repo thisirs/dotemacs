@@ -3128,9 +3128,6 @@ behavior added."
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
 
-;; Notify events
-(require 'notifications)
-
 ;; Find pdf at a ref which has the same name in `pdfs-directory'
 (defvar pdfs-directory nil
   "Directory to look for pdf files.")
