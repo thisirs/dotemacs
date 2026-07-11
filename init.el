@@ -556,6 +556,12 @@ This function is used in `citar-open-note-function'."
 
   (advice-add 'bookmark-load :after #'bookmark-add-generated-bookmarks))
 
+(use-package claude-p
+  :load-path (lambda () (list (expand-file-name "claude-p" projects-directory)))
+  :bind ("C-c q" . claude-p-dispatch)
+  :custom
+  (claude-p-default-model "haiku"))
+
 ;; https://gitlab.kitware.com/cmake/cmake.git
 (use-package cmake-mode)        ; major-mode for editing CMake sources
 
