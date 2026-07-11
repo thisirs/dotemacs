@@ -3040,7 +3040,11 @@ behavior added."
   :bind ("C-c j" . webjump))
 
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
-(use-package wgrep)                     ; Writable grep buffer and apply the changes to files
+(use-package wgrep                      ; Writable grep buffer and apply the changes to files
+  :bind (:map grep-mode-map
+              ("e" . wgrep-change-to-wgrep-mode)
+              ("C-x C-q" . wgrep-change-to-wgrep-mode)
+              ("C-c C-c" . wgrep-finish-edit)))
 
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key                  ; Display available keybindings in popup
