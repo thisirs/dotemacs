@@ -179,7 +179,9 @@
   :config
   (setopt solarized-use-variable-pitch nil)
   (setopt solarized-scale-org-headlines nil)
-  (load-theme 'solarized-dark t))
+  (load-theme 'solarized-dark t)
+  (set-face-attribute 'mode-line nil :underline nil :overline nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :underline nil :overline nil :box nil))
 
 (use-package emacs
   :disabled
