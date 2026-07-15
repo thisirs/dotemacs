@@ -1118,6 +1118,7 @@ the vertical drag is done."
 
 ;; http://www.flycheck.org
 (use-package flycheck                   ; On-the-fly syntax checking
+  :disabled
   :commands global-flycheck-mode
   :defer 10
   :config
@@ -1179,6 +1180,7 @@ the vertical drag is done."
 
 ;; https://github.com/karthink/gptel
 (use-package gptel                      ; A simple multi-LLM client
+  :disabled
   :custom (gptel-model "mistral:latest")
   :config
   (gptel-make-ollama
