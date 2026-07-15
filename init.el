@@ -781,6 +781,10 @@ the vertical drag is done."
 ;; https://github.com/spotify/dockerfile-mode
 (use-package dockerfile-mode)   ; Major mode for editing Docker's Dockerfiles
 
+(use-package doom-modeline
+  :after solarized
+  :hook (elpaca-after-init-hook . doom-modeline-mode))
+
 ;; https://github.com/jacktasia/dumb-jump
 (use-package dumb-jump                  ; jump to definition for multiple languages without configuration.
   :after xref
@@ -1686,6 +1690,7 @@ the vertical drag is done."
 
 ;; https://gitlab.com/jessieh/mood-line
 (use-package mood-line                  ; A minimal mode-line inspired by doom-modeline
+  :disabled
   :demand :after minions
   :config
   (defun mood-line-segment-major-mode ()
