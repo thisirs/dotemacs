@@ -8,8 +8,6 @@
 ;; Add personal site-lisp to load-path
 (defvar personal-emacs-directory "~/SynologyDrive/Sylvain/emacs/")
 
-(defvar site-lisp-directory (expand-file-name "site-lisp" personal-emacs-directory ))
-
 ;; Add .emacs.d/site-lisp to load path and all sub-directories
 (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
@@ -1911,6 +1909,7 @@ one is determined using `mu4e-attachment-dir'."
 
 ;; https://github.com/ahendriksen/ob-tmux
 (use-package ob-tmux                    ; Babel Support for Interactive Terminal
+  :disabled
   :custom
   (org-babel-default-header-args:tmux
    `((:results . "silent")
@@ -1924,11 +1923,6 @@ one is determined using `mu4e-attachment-dir'."
            (window (ob-tmux--window ob-session))
            (target-window (if window (concat "=" window) "")))
       (concat target-session ":" target-window))))
-
-;; (use-package octave
-;;   :config
-;;   (define-key octave-mode-map "\C-c\C-r" #'octave-send-region)
-;;   (define-key octave-mode-map "\C-c\C-s" #'octave-send-buffer))
 
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith                   ; Open files with external programs
@@ -2974,9 +2968,6 @@ behavior added."
 (use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
   :defer 5
   :config
-  ;; Be sure to leave my packages' repo on master
-  (push '("~/SynologyDrive/Sylvain/emacs/site-lisp/" (not-on-branch "master")) vc-check-alist)
-
   ;; Only look for unpushed commits on master
   (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
 
