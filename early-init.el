@@ -6,5 +6,9 @@
   (horizontal-scroll-bar-mode -1)
   (tooltip-mode -1))
 
+(when (boundp 'native-comp-eln-load-path)
+  (setcar native-comp-eln-load-path
+          (expand-file-name (convert-standard-filename "var/eln-cache/")
+                            user-emacs-directory)))
 
-(setq package-enable-at-startup nil) ;; use straight
+(setq package-enable-at-startup nil)
