@@ -1902,13 +1902,6 @@ one is determined using `mu4e-attachment-dir'."
   (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind (("C-M-c" . mc/mark-next-like-this)))
 
-(use-package new-document
-  :load-path (lambda () (list (expand-file-name "new-document" projects-directory)))
-  :commands (new-document add-new-document)
-  :bind ("C-c n d" . new-document)
-  :custom
-  (new-document-directory "~/SynologyDrive/Sylvain/Documents/"))
-
 ;; https://github.com/ahendriksen/ob-tmux
 (use-package ob-tmux                    ; Babel Support for Interactive Terminal
   :disabled
