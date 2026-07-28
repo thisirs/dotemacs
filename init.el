@@ -207,7 +207,6 @@
 (require 'init-desktop)
 (require 'init-dired)
 (require 'init-erc)
-(require 'init-hippie-expand)
 (require 'init-ibuffer)
 (require 'init-isearch)
 (require 'init-org)
