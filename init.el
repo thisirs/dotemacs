@@ -2319,13 +2319,20 @@ one is determined using `mu4e-attachment-dir'."
 
 ;; https://github.com/thomas-louvigne/playerctl.el
 (use-package playerctl                  ; Control your music player (MPRIS) via playerctl
-  :ensure (:host github :repo "thomas-louvigne/playerctl.el")
-  :bind (("C-c p SPC" . playerctl-play-pause-song)
-         ("C-c p n"   . playerctl-next-song)
-         ("C-c p p"   . playerctl-previous-song)
-         ("C-c p f"   . playerctl-seek-foward)
-         ("C-c p b"   . playerctl-seek-backward))
+  :ensure (:host github :repo "thisirs/playerctl.el" :branch "fix-metadata-message-filter")
   :config
+  (require 'transient)
+
+  (defvar playerctl-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "SPC") 'playerctl-play-pause-song)
+      (define-key map "n" 'playerctl-next-song)
+      (define-key map "p" 'playerctl-previous-song)
+      (define-key map "f" 'playerctl-seek-foward)
+      (define-key map "b" 'playerctl-seek-backward)
+      map)
+    "Keymap of playerctl commands, bound as a `C-c p' prefix.")
+
   (defvar playerctl-seek-repeat-map
     (let ((map (make-sparse-keymap)))
       (define-key map "f" 'playerctl-seek-foward)
@@ -2333,7 +2340,37 @@ one is determined using `mu4e-attachment-dir'."
       map))
 
   (put 'playerctl-seek-foward 'repeat-map 'playerctl-seek-repeat-map)
-  (put 'playerctl-seek-backward 'repeat-map 'playerctl-seek-repeat-map))
+  (put 'playerctl-seek-backward 'repeat-map 'playerctl-seek-repeat-map)
+
+  (transient-define-prefix playerctl-transient ()
+    "Control the current MPRIS player via playerctl."
+    ["Playback"
+     ("SPC" "Play/Pause" playerctl-play-pause-song)
+     ("n"   "Next"       playerctl-next-song)
+     ("p"   "Previous"   playerctl-previous-song)
+     ("s"   "Stop"       playerctl-stop-song)]
+    ["Seek"
+     ("f" "Forward"  playerctl-seek-foward)
+     ("b" "Backward" playerctl-seek-backward)]
+    ["Volume"
+     ("=" "Up"   playerctl-volume-up)
+     ("-" "Down" playerctl-volume-down)]
+    ["Info"
+     ("t" "Status"   playerctl-status)
+     ("m" "Metadata" playerctl-metadata)])
+
+  (defun playerctl--set-c-c-p-binding (sym val)
+    (set-default sym val)
+    (keymap-global-set "C-c p" (if val 'playerctl-transient playerctl-map)))
+
+  (defcustom playerctl-use-transient-menu t
+    "If non-nil, `C-c p' opens a transient menu of playerctl commands.
+If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
+    :type 'boolean
+    :group 'multimedia
+    :set #'playerctl--set-c-c-p-binding)
+
+  (playerctl--set-c-c-p-binding 'playerctl-use-transient-menu playerctl-use-transient-menu))
 
 ;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
