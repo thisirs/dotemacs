@@ -2317,6 +2317,24 @@ one is determined using `mu4e-attachment-dir'."
   :ensure nil
   :hook (elpaca-after-init-hook . pixel-scroll-precision-mode))
 
+;; https://github.com/thomas-louvigne/playerctl.el
+(use-package playerctl                  ; Control your music player (MPRIS) via playerctl
+  :ensure (:host github :repo "thomas-louvigne/playerctl.el")
+  :bind (("C-c p SPC" . playerctl-play-pause-song)
+         ("C-c p n"   . playerctl-next-song)
+         ("C-c p p"   . playerctl-previous-song)
+         ("C-c p f"   . playerctl-seek-foward)
+         ("C-c p b"   . playerctl-seek-backward))
+  :config
+  (defvar playerctl-seek-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "f" 'playerctl-seek-foward)
+      (define-key map "b" 'playerctl-seek-backward)
+      map))
+
+  (put 'playerctl-seek-foward 'repeat-map 'playerctl-seek-repeat-map)
+  (put 'playerctl-seek-backward 'repeat-map 'playerctl-seek-repeat-map))
+
 ;; https://github.com/polymode/polymode
 (use-package polymode                   ; Versatile multiple modes with extensive literate programming support
   :commands poly-latex-mode
