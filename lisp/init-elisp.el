@@ -44,23 +44,8 @@
   ;;     1 font-lock-keyword-face prepend)))
   )
 
-(defun emacs-lisp-custom-hippie-expand ()
-  (set (make-local-variable 'hippie-expand-try-functions-list)
-       '(yas-hippie-try-expand
-         try-complete-file-name-partially
-         try-complete-file-name
-         try-expand-dabbrev-closest-first
-         try-expand-dabbrev-visible
-         try-complete-lisp-symbol-partially
-         try-complete-lisp-symbol
-         try-expand-dabbrev
-         try-expand-dabbrev-all-buffers
-         try-expand-dabbrev-from-kill
-         try-complete-ispell)))
-
 (add-hook 'emacs-lisp-mode-hook #'emacs-lisp-custom-record-function)
 (add-hook 'emacs-lisp-mode-hook #'emacs-lisp-add-keywords)
-(add-hook 'emacs-lisp-mode-hook #'emacs-lisp-custom-hippie-expand)
 
 ;; C-u C-u C-x C-e does eval and replace
 (defun eval-last-sexp-replace (oldfun eval-last-sexp-arg-internal)

@@ -386,6 +386,18 @@
 ;; https://github.com/minad/cape
 (use-package cape                       ; Completion At Point Extensions
   :demand
+  ;; Replaces the old `hippie-expand' on C-S-SPC: pops up the candidate
+  ;; list. S-SPC expands in place, see the `dabbrev' block below.
+  :bind ("C-S-SPC" . cape-dabbrev)
+  :preface
+  (defun my-cape-dabbrev-buffers ()
+    "Buffers scanned by `cape-dabbrev', minus encrypted ones.
+Like `cape-text-buffers', but never offers candidates coming from a
+`.gpg' buffer, to avoid leaking secrets into a completion."
+    (seq-remove (lambda (buf) (string-match-p "\\.gpg\\'" (buffer-name buf)))
+                (cape-text-buffers)))
+  :custom
+  (cape-dabbrev-buffer-function #'my-cape-dabbrev-buffers)
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
@@ -729,6 +741,16 @@ This function is used in `citar-open-note-function'."
   :bind (:map ctrlf-minibuffer-mode-map ("C-w" . ctrlf-yank-word-or-char))
   :config
   (ctrlf-mode +1))
+
+(use-package dabbrev                    ; Dynamic abbreviations
+  :ensure nil
+  ;; The in-place, cycling expansion `hippie-expand' used to provide on
+  ;; S-SPC: expand the word at point from any buffer, press again for the
+  ;; next candidate. C-S-SPC shows the list instead, see `cape' above.
+  :bind ("S-SPC" . dabbrev-expand)
+  :custom
+  ;; `dabbrev-check-all-buffers' is t by default, so keep secrets out
+  (dabbrev-ignored-buffer-regexps '("\\.gpg\\'")))
 
 ;; https://github.com/astoff/devdocs.el
 (use-package devdocs)                   ; Emacs viewer for DevDocs
