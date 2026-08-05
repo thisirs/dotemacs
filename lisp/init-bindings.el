@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun shell-bind (key command &optional msg interactive)
   "Bind a shell command to a global key sequence.
 
@@ -81,29 +83,27 @@ Example:
 ;; Binding for `replace-string'
 (keymap-global-set "C-c s" #'replace-string)
 
-(defmacro create-flash-binding (key)
+(defun create-flash-binding (key)
   "Make KEY boundable to a command.
 
 Select the command by pressing Control + KEY. Invoke the command
-by pressing KEY."
-  `(keymap-global-set
-    ,(concat "C-" key)
-    (lambda ()
-      (interactive)
-      (lexical-let ((cmd (read--expression ,(format "Bind %s to: " key))))
-        (keymap-global-set
-         ,key
-         (lambda ()
-           (interactive)
-           (message "%s" (eval cmd))))))))
+by pressing KEY.  KEY is a key description string, as accepted by
+`keymap-global-set'."
+  (keymap-global-set
+   (concat "C-" key)
+   (lambda ()
+     (interactive)
+     (keymap-global-set
+      key
+      (read-command (format "Bind %s to command: " key))))))
 
-(create-flash-binding "<f11>")
+(create-flash-binding "<f10>")
 (create-flash-binding "<f12>")
 
 (defmacro create-simple-keybinding-command (name &optional key)
   "Define two macros `<NAME>' and `<NAME>e' that bind KEY to the
 body passed in argument."
-  (unless key (setq key `[,name]))
+  (unless key (setq key (format "<%s>" name)))
   `(progn
      (defmacro ,name (&rest fns)
        ,(format "Execute FNS when %s is pressed. If FNS is a command symbol, call it interactively." name)
@@ -126,10 +126,8 @@ body passed in argument."
                                       ,@fns))))))
          `(keymap-global-set ,,key ,command)))))
 
-;; Creates f9 and f9e functions
+;; Creates f9 and f9e macros, bound to <f9>
 (create-simple-keybinding-command f9)
-(create-simple-keybinding-command f10)
-
 
 ;; For example: (f9 (with-region-or-line s-snake-case s-upcase))
 ;; When pressing f9, snake-case and upcase region or line
