@@ -2327,11 +2327,6 @@ one is determined using `mu4e-attachment-dir'."
            ("C-c C-k" . pdf-annot-edit-contents-abort-or-delete)
            ("C-c C-d" . pdf-annot-delete-current))))
 
-;; https://github.com/thisirs/pdf-tools-points.git
-;; (use-package pdf-tools-points          ; Offline annotation with pdf-tools and tikz
-;;   :ensure `(pdf-tools-points :type git :local-repo ,(expand-file-name "pdf-tools-points" projects-directory))
-;;   :after pdf-tools :demand)
-
 ;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
 
