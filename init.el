@@ -2035,18 +2035,95 @@ one is determined using `mu4e-attachment-dir'."
   :preface
   (autoload-after org-ql-projects org-ql)
   :config
+  (defvar org-ql-projects-files
+    (list ;(expand-file-name "Org/agenda.org" personal-directory)
+          (expand-file-name "Org/someday.org" personal-directory))
+    "Loose todo files, not attached to any project.")
+
+  (defvar org-ql-projects-directories
+    (mapcar (lambda (dir) (file-name-as-directory (expand-file-name dir)))
+            (list projects-directory
+                  (expand-file-name "enseignements/repositories" personal-directory)
+                  (expand-file-name "conf-files" personal-directory)))
+    "Directories holding my projects.
+A known project counts as mine when its root is one of these or
+lies below one.")
+
+  (defvar org-ql-projects-ignore-regexps '("/obsolete/")
+    "Regexps matched against project roots to exclude them.
+Projects outside `org-ql-projects-directories' are already excluded.")
+
+  (defun org-ql-projects--roots ()
+    "Known project roots in `org-ql-projects-directories', minus ignored ones."
+    (seq-filter (lambda (root)
+                  (and (seq-some (lambda (dir) (string-prefix-p dir root))
+                                 org-ql-projects-directories)
+                       (not (seq-some (lambda (re) (string-match-p re root))
+                                      org-ql-projects-ignore-regexps))))
+                (mapcar #'expand-file-name (project-known-project-roots))))
+
+  (defun org-ql-projects--activity (root)
+    "Last-activity time of project ROOT, in seconds since the epoch.
+The date of the last Git commit, falling back to todo.org's mtime
+for projects that are not repositories."
+    (or (let ((default-directory root))
+          (ignore-errors
+            (string-to-number (car (process-lines "git" "log" "-1" "--format=%ct")))))
+        (float-time (file-attribute-modification-time
+                     (file-attributes (expand-file-name "todo.org" root))))))
+
+  (defun org-ql-projects--name (root)
+    "Display name for ROOT: its path below its `org-ql-projects-directories' base.
+Nested projects such as the AOS1/AOS2 teaching repositories would
+otherwise all show up as bare, ambiguous names like \"Lectures\"."
+    (let ((base (seq-find (lambda (dir) (string-prefix-p dir root))
+                          org-ql-projects-directories)))
+      (directory-file-name
+       (if (and base (> (length root) (length base)))
+           (substring root (length base))
+         (file-name-nondirectory (directory-file-name root))))))
+
+  (defun org-ql-projects--groups (roots)
+    "Super-group specs for ROOTS, most recently active first.
+Each group matches todo.org's full path rather than the root
+prefix, so a project nested inside another cannot swallow its
+items."
+    (let ((decorated (mapcar (lambda (root)
+                               (cons (org-ql-projects--activity root) root))
+                             roots)))
+      (mapcar (lambda (cell)
+                (let ((root (cdr cell)))
+                  (list :name (org-ql-projects--name root)
+                        :file-path (regexp-quote (expand-file-name "todo.org" root)))))
+              (sort decorated (lambda (a b) (> (car a) (car b)))))))
+
   (defun org-ql-projects ()
+    "Show all todos from every known project's todo.org, plus loose ones.
+Projects are ordered by last activity, most recent first.  Files
+tagged `noagenda' (via #+FILETAGS:) are skipped."
     (interactive)
-    (let ((todo-files
-           (delete-dups
-            (seq-filter #'file-exists-p
-                        (mapcar (lambda (e) (expand-file-name "todo.org" (car e)))
-                                (progn
-                                  (project--ensure-read-project-list)
-                                  project--list))))))
+    (let* ((roots (seq-filter (lambda (root)
+                                (file-exists-p (expand-file-name "todo.org" root)))
+                              (org-ql-projects--roots)))
+           (todo-files
+            (delete-dups (append org-ql-projects-files
+                                 (mapcar (lambda (root)
+                                           (expand-file-name "todo.org" root))
+                                         roots)))))
       (org-ql-search todo-files
-        '(todo)
-        :super-groups '((:auto-dir-name))))))
+        '(and (todo) (not (tags "noagenda")))
+        :super-groups (cons '(:name "Inbox" :file-path "Sylvain/Org/")
+                            (org-ql-projects--groups roots)))))
+
+  ;; `org-ql-views' lives in org-ql-view, which loading org-ql alone
+  ;; does not pull in.
+  (require 'org-ql-view)
+
+  ;; A function view is `call-interactively'd by `org-ql-view', so
+  ;; register the command itself rather than duplicating its file list
+  ;; into a :buffers-files plist.
+  (setf (alist-get "Projects: All todos" org-ql-views nil nil #'string=)
+        #'org-ql-projects))
 
 ;; https://github.com/org-roam/org-roam
 (use-package org-roam                   ; Roam Research replica with Org-mode
