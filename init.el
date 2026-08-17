@@ -2087,15 +2087,46 @@ otherwise all show up as bare, ambiguous names like \"Lectures\"."
     "Super-group specs for ROOTS, most recently active first.
 Each group matches todo.org's full path rather than the root
 prefix, so a project nested inside another cannot swallow its
-items."
+items.
+
+The group name carries its project root as the text property
+`org-ql-projects-root'.  `org-super-agenda--make-agenda-header'
+copies the name's properties onto the header line, which is what
+`org-ql-projects-dired' reads.  Since the super-group specs are
+saved buffer-locally, this survives refreshing the view."
     (let ((decorated (mapcar (lambda (root)
                                (cons (org-ql-projects--activity root) root))
                              roots)))
       (mapcar (lambda (cell)
                 (let ((root (cdr cell)))
-                  (list :name (org-ql-projects--name root)
+                  (list :name (propertize (org-ql-projects--name root)
+                                          'org-ql-projects-root root
+                                          'mouse-face 'highlight
+                                          'follow-link t
+                                          'help-echo (format "mouse-1: Dired %s" root))
                         :file-path (regexp-quote (expand-file-name "todo.org" root)))))
               (sort decorated (lambda (a b) (> (car a) (car b)))))))
+
+  (defun org-ql-projects-dired ()
+    "Open Dired on the project of the group header at point."
+    (interactive)
+    (let ((root (org-get-at-bol 'org-ql-projects-root)))
+      (unless root
+        (user-error "No project attached to this line"))
+      (dired root)))
+
+  (defun org-ql-projects-dired-mouse (event)
+    "Open Dired on the project of the group header clicked in EVENT.
+Off a project header, fall back to `org-agenda-goto-mouse'.  That
+makes this safe to bind in `org-ql-view-map' too, which is what
+catches clicks to the right of a header: the header string is
+only as wide as its name, so the rest of the line is not covered
+by `org-super-agenda-header-map'."
+    (interactive "e")
+    (mouse-set-point event)
+    (if (org-get-at-bol 'org-ql-projects-root)
+        (org-ql-projects-dired)
+      (org-agenda-goto-mouse event)))
 
   (defun org-ql-projects ()
     "Show all todos from every known project's todo.org, plus loose ones.
@@ -2116,8 +2147,17 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
                             (org-ql-projects--groups roots)))))
 
   ;; `org-ql-views' lives in org-ql-view, which loading org-ql alone
-  ;; does not pull in.
+  ;; does not pull in.  It also pulls in org-super-agenda.
   (require 'org-ql-view)
+
+  ;; `org-super-agenda-header-map' is a text-property keymap, so these
+  ;; only take effect with point on a group header.  Headers with no
+  ;; project attached ("Inbox", the `:auto-category' groups of
+  ;; `org-roam-todo-list') just signal a `user-error'.
+  (define-key org-super-agenda-header-map (kbd "RET") #'org-ql-projects-dired)
+  (define-key org-super-agenda-header-map [mouse-2] #'org-ql-projects-dired-mouse)
+  ;; And on the bare part of a header line, past the header string.
+  (define-key org-ql-view-map [mouse-2] #'org-ql-projects-dired-mouse)
 
   ;; A function view is `call-interactively'd by `org-ql-view', so
   ;; register the command itself rather than duplicating its file list
