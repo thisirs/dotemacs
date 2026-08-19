@@ -1342,7 +1342,15 @@ the vertical drag is done."
         (if start
             (ical2org/org-time-fmt start start-time))))))
 
-(use-package info+              ; Extensions to `info.el'.
+(use-package indent
+  :ensure nil
+  :custom (tab-always-indent 'complete))
+
+
+(setq text-mode-ispell-word-completion nil)
+
+
+(use-package info+                      ; Extensions to `info.el'.
   :disabled)
 
 ;; http://github.com/nonsequitur/inf-ruby
