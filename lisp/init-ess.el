@@ -35,7 +35,7 @@
           (re-end-chunk "end\\.rcode")
           (re-prefix-chunk " *%+ *")
           (prefix-chunk "% "))
-      (while (re-search-forward begin-chunk nil t)
+      (while (re-search-forward re-begin-chunk nil t)
         (let* ((column (progn
                          (goto-char (match-beginning 1))
                          (current-column)))
@@ -43,7 +43,7 @@
                       (forward-line 1)
                       (point-at-bol)))
                (end (progn
-                      (re-search-forward end-chunk nil t)
+                      (re-search-forward re-end-chunk nil t)
                       (forward-line -1)
                       (point-at-eol)))
                (code (delete-and-extract-region beg end))
