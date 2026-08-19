@@ -1,3 +1,5 @@
+;;; init-editing.el --- -*- lexical-binding: t; -*-
+
 ;; Auto-indent pasted code
 (defun maybe-indent-on-paste (&optional arg)
   "Indent the region when in prog mode. Make an undo boundary to

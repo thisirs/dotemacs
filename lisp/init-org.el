@@ -1,3 +1,5 @@
+;;; init-org.el --- -*- lexical-binding: t; -*-
+
 ;; Sync org files with external calendar through CalDAV
 (use-package org-caldav)
 

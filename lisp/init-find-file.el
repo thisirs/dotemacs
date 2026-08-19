@@ -1,3 +1,5 @@
+;;; init-find-file.el --- -*- lexical-binding: t; -*-
+
 ;; ;; Open certain files externally with ido, dired, find-file
 ;; (defvar find-file-externally '("ods" "odt" "pdf" "docx" "doc" "xls" "xlsx" "avi" "mp4" "flv")
 ;;   "List of file extensions that should be opened externally.")

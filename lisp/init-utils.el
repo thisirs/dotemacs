@@ -1,3 +1,5 @@
+;;; init-utils.el --- -*- lexical-binding: t; -*-
+
 (defun load-file-to-list (file)
   "Return a list of forms read in file FILE."
   (if (and (file-exists-p file)

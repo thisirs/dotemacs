@@ -1,3 +1,5 @@
+;;; init-dired.el --- -*- lexical-binding: t; -*-
+
 (use-package dired
   :ensure nil
   :preface

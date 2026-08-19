@@ -1,3 +1,5 @@
+;;; init-latex.el --- -*- lexical-binding: t; -*-
+
 (defun latex-escape-or-unescape-accented-characters (&optional escape)
   "Escapes accented characters when no prefix argument. When
 escaping, the first element of a list is preferred when there is

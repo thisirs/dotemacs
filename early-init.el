@@ -1,3 +1,5 @@
+;;; early-init.el --- -*- lexical-binding: t; -*-
+
 (menu-bar-mode -1)
 
 (when (display-graphic-p)

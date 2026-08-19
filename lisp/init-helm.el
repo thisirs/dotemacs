@@ -1,3 +1,5 @@
+;;; init-helm.el --- -*- lexical-binding: t; -*-
+
 (setq helm-command-prefix-key "C-x C-a")
 (setq helm-ff-transformer-show-only-basename t)
 

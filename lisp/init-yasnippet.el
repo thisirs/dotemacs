@@ -1,3 +1,5 @@
+;;; init-yasnippet.el --- -*- lexical-binding: t; -*-
+
 ;; http://github.com/joaotavora/yasnippet
 (use-package yasnippet                  ; Yet another snippet extension for Emacs.
   :diminish yas-minor-mode

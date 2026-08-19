@@ -1,3 +1,5 @@
+;;; init-ess.el --- -*- lexical-binding: t; -*-
+
 (use-package ess)
 
 (use-package ess-r-mode

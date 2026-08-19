@@ -1,3 +1,5 @@
+;;; init-auctex.el --- -*- lexical-binding: t; -*-
+
 ;; http://www.gnu.org/software/auctex/
 (use-package latex                      ; Integrated environment for *TeX*
   :ensure (auctex :repo "https://git.savannah.gnu.org/git/auctex.git" :branch "main"

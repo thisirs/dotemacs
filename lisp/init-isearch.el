@@ -1,3 +1,5 @@
+;;; init-isearch.el --- -*- lexical-binding: t; -*-
+
 ;; Put the cursor in an intelligent place when searching
 (add-hook 'isearch-mode-end-hook #'custom-goto-match-beginning)
 (defun custom-goto-match-beginning ()

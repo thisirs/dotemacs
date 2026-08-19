@@ -1,3 +1,5 @@
+;;; init-desktop.el --- -*- lexical-binding: t; -*-
+
 ;;; desktop-mode
 ;; save a list of open files in ~/.emacs.desktop
 

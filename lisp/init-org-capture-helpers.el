@@ -1,3 +1,5 @@
+;;; init-org-capture-helpers.el --- -*- lexical-binding: t; -*-
+
 (defun org-capture-inline-todo ()
   "Return an org link pointing to the location we captured from
 if a TODO cookie is present on the line."

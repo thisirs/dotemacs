@@ -1,3 +1,5 @@
+;;; init-scratch.el --- -*- lexical-binding: t; -*-
+
 ;; Put something different in the scratch buffer
 (setq initial-scratch-message
       ";; scratch buffer created -- happy hacking\n\n")

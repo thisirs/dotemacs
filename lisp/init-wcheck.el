@@ -1,3 +1,5 @@
+;;; init-wcheck.el --- -*- lexical-binding: t; -*-
+
 (use-package wcheck-mode                ; General interface for text checkers
   :disabled
   :functions (wcheck-query-language-data wcheck-parser-ispell-suggestions)

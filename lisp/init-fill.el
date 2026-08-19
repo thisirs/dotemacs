@@ -1,3 +1,5 @@
+;;; init-fill.el --- -*- lexical-binding: t; -*-
+
 ;; auto-fill
 ;; (setq comment-auto-fill-only-comments t)
 

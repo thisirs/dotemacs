@@ -1,3 +1,5 @@
+;;; init-ibuffer.el --- -*- lexical-binding: t; -*-
+
 ;;; IBuffer
 
 (require 'ibuffer)
