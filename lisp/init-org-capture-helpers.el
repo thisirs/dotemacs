@@ -99,7 +99,7 @@ recently downloaded files to attach."
                         (unless (string-empty-p output)
                           (split-string output "\n"))))))
   (require 'org-attach)
-  (let ((org-attach-directory (org-capture-get :attachments_dir)))
+  (let ((org-attach-id-dir (org-capture-get :attachments_dir)))
     (ignore (org-attach-attach file nil 'cp))))
 
 
