@@ -1848,7 +1848,7 @@ one is determined using `mu4e-attachment-dir'."
 
   (transient-define-prefix mu4e-search-transient ()
     "Transient for mu4e search"
-    :transient-non-suffix 'transient--do-stay
+    :transient-non-suffix t
     ["Actions"
      ("C-c a" "Attach" (lambda () (interactive) (insert "flag:attach")) :transient t)
      ("C-c p" "PDF" (lambda () (interactive) (insert "mime:application/pdf")) :transient t)
