@@ -1911,7 +1911,7 @@ one is determined using `mu4e-attachment-dir'."
   :if (on-zbook)
   :demand :after mu4e
   :custom
-  (mu4e-alert-interesting-mail-query "flag:unread AND NOT flag:trashed AND NOT maildir:/gmail/INBOX")
+  (mu4e-alert-interesting-mail-query "flag:unread AND NOT flag:trashed AND maildir:/utc/INBOX")
   :config
   (mu4e-alert-set-default-style 'libnotify)
   (mu4e-alert-enable-notifications))
