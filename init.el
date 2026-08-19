@@ -2660,8 +2660,12 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
   (autoload-after reformatter-ruff-region reformatter)
   :config
   ;; Automatically switch to error buffer if any (so that I can quit)
-  (defun reformatter--do-region-switch (name beg end program args stdin stdout input-file exit-code-success-p display-errors &optional working-directory)
-    (if-let ((it (get-buffer-window (format "*%s errors*" name)))) (select-window it)))
+  (defun reformatter--do-region-switch (name &rest _)
+    "Select the *NAME errors* buffer when the reformatter wrote something to it."
+    (when-let* ((buf (get-buffer (format "*%s errors*" name)))
+                ((> (buffer-size buf) 0))
+                (win (display-buffer buf)))
+      (select-window win)))
 
   (advice-add #'reformatter--do-region :after #'reformatter--do-region-switch)
 
