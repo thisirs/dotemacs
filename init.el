@@ -2658,6 +2658,8 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
   (autoload-after reformatter-R-formatR-buffer reformatter)
   (autoload-after reformatter-ruff-buffer reformatter)
   (autoload-after reformatter-ruff-region reformatter)
+  (autoload-after reformatter-import-ruff-buffer reformatter)
+  (autoload-after reformatter-import-ruff-region reformatter)
   :config
   ;; Automatically switch to error buffer if any (so that I can quit)
   (defun reformatter--do-region-switch (name &rest _)
@@ -2704,21 +2706,19 @@ out")
            :args (list "--target-version" "py310")))
         (t (display-warning 'config "reformatter: black-macchiato not found" :warning)))
 
-  (if (executable-find "ruff")
+  (when (executable-find "ruff")
+    (reformatter-define reformatter-import-ruff
+      :program "ruff"
+      :args `("check" "--select=I" "--fix" "-q" "--stdin-filename" ,input-file))
     (reformatter-define reformatter-ruff
       :program "ruff"
-      :args `("format" "--stdin-filename" ,input-file "-"))
-    (display-warning 'config "reformatter: ruff not found" :warning))
+      :args `("format" "--stdin-filename" ,input-file)))
 
-  (cond ((executable-find "uvx")
-         (reformatter-define reformatter-ruff-sort
-           :program "uvx"
-           :args `("ruff" "check" "--select" "I" "--fix" "--stdin-filename" ,input-file "-")))
-        ((executable-find "isort")
-         (reformatter-define reformatter-isort
-           :program "isort"
-           :args (list "-d" "-")))
-        (t (display-warning 'config "reformatter: uvx or isort not found" :warning)))
+  (if (executable-find "isort")
+      (reformatter-define reformatter-isort
+        :program "isort"
+        :args (list "-d" "-"))
+    (display-warning 'config "reformatter: isort not found" :warning))
 
   (if (executable-find "npx")
       (reformatter-define reformatter-sql
