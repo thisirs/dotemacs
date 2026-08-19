@@ -569,7 +569,7 @@ This function is used in `citar-open-note-function'."
 
 (use-package claude-p
   :load-path (lambda () (list (expand-file-name "claude-p" projects-directory)))
-  :bind ("C-c q" . claude-p-dispatch)
+  :bind ("C-c d" . claude-p-dispatch)
   :custom
   (claude-p-default-model "haiku"))
 
