@@ -1571,6 +1571,7 @@ the vertical drag is done."
 
 ;; https://github.com/dzop/emacs-jupyter
 (use-package jupyter                    ; Jupyter
+  :disabled
   :demand :after org
   :config
   (use-package ob-jupyter
