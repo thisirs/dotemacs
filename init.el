@@ -215,6 +215,7 @@
 (require 'init-yasnippet)
 (require 'init-ess)
 (require 'init-password)
+(require 'init-bookmarks)
 
 (use-package abbrev
   :ensure nil
@@ -1315,7 +1316,7 @@ the vertical drag is done."
                       (url-hexify-string search))))) "Google")
     ("m" (browse-url-firefox (format "https://cas.utc.fr/cas/login?service=%s%%3FauthCAS%%3DCAS"
                                      (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
-    ("j" ivy-bookmarks "Bookmarks")))
+    ("j" my/browse-bookmark "Bookmarks")))
 
 (use-package ical2org
   :ensure (ical2org :host github :repo "thisirs/ical2org")
@@ -1444,45 +1445,7 @@ the vertical drag is done."
   (ivy-mode)
 
   ;; Don't sort in org-attach-attach-from
-  (add-to-list 'ivy-sort-functions-alist (list 'org-attach-attach-from))
-
-  (defun ivy-bookmarks-display-transformer (candidate)
-    (let* ((width (1- (frame-width)))
-           (p1 60.0)
-           (p2 30.0)
-           (w1 (floor (/ (* (- width 2) p1) 100)))
-           (w2 (floor (/ (* (- width 2) p2) 100)))
-           (w3 (- width (+ 2 w1 w2)))
-           (idx (get-text-property 0 'idx candidate))
-           (entry (cdr (nth idx (ivy-state-collection ivy-last)))))
-
-      (concat (truncate-string-to-width candidate w1 0 ?\ )
-              " "
-              (truncate-string-to-width (concat (cdr (assoc "href" entry))) w2 0 ?\ )
-              " "
-              (truncate-string-to-width (concat (cdr (assoc "tags" entry))) w3 0 ?\ ))))
-
-  (defun ivy-bookmarks-open (candidate)
-    (let ((key (cdr (assoc "href" (cdr candidate)))))
-      (browse-url key)))
-
-  (ivy-set-display-transformer
-   'ivy-bookmarks
-   'ivy-bookmarks-display-transformer)
-
-  (defun ivy-bookmarks ()
-    (interactive)
-    (let* ((fn "~/.mozilla/firefox/bookmark_list.el")
-           candidates)
-      (when (file-exists-p fn)
-        (setq candidates (with-temp-buffer
-                           (insert-file-contents fn)
-                           (goto-char (point-min))
-                           (read (current-buffer)))))
-      (ivy-read (concat "Visit bookmark" (if (null candidates) " (not found)") ": ")
-                candidates
-                :action 'ivy-bookmarks-open
-                :caller 'ivy-bookmarks))))
+  (add-to-list 'ivy-sort-functions-alist (list 'org-attach-attach-from)))
 
 (use-package emacs
   :ensure nil
@@ -1496,58 +1459,6 @@ the vertical drag is done."
                   (car args))
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
-
-(use-package emacs
-  :ensure nil
-  :bind ("C-c j" . browse-bookmark)
-  :config
-  (defun bookmarks-get-candidates ()
-    (interactive)
-    (let* ((fn "~/.mozilla/firefox/bookmark_list.el")
-           (width (1- (frame-width)))
-           (p1 40.0)
-           (p2 50.0)
-           (w1 (floor (/ (* (- width 2) p1) 100)))
-           (w2 (floor (/ (* (- width 2) p2) 100)))
-           (w3 (- width (+ 2 w1 w2)))
-           candidates)
-      (when (file-exists-p fn)
-        (setq candidates (with-temp-buffer
-                           (insert-file-contents fn)
-                           (goto-char (point-min))
-                           (read (current-buffer))))
-        (cl-loop
-         for candidate in candidates
-         collect
-         (let* ((href (cdr (assoc "href" (cdr candidate))))
-                (title (cdr (assoc "title" (cdr candidate))))
-                (tags (cdr (assoc "tags" (cdr candidate))))
-                (candidate-hidden (mapconcat 'identity (list href title tags) " "))
-                (candidate-main
-                 (concat (truncate-string-to-width (concat title) w1 0 ?\ )
-                         " "
-                         (truncate-string-to-width (concat href) w2 0 ?\ )
-                         " "
-                         (truncate-string-to-width (concat tags) w3 0 ?\ ))))
-           (cons
-            (concat
-             (propertize candidate-main) " "
-             (propertize candidate-hidden 'invisible t))
-            href))))))
-
-  (defun browse-bookmark ()
-    (interactive)
-    (let ((candidates (bookmarks-get-candidates)) choice)
-      (setq choice
-            (completing-read
-             "Bookmark URLs: "
-             (lambda (string predicate action)
-               (if (eq action 'metadata)
-                   `(metadata
-                     (display-sort-function . ,#'identity)
-                     (category . bookmark-url))
-                 (complete-with-action action candidates string predicate)))))
-      (browse-url (cdr (assoc choice candidates))))))
 
 ;; https://github.com/raxod502/prescient.el
 (use-package ivy-prescient              ; prescient.el + Ivy
