@@ -1467,7 +1467,7 @@ the vertical drag is done."
 
 ;; https://github.com/minad/jinx
 (use-package jinx                       ; Enchanted Spell Checker
-  :hook (emacs-startup-hook . global-jinx-mode)
+  :hook (elpaca-after-init-hook . global-jinx-mode)
   :bind ([remap ispell-word] . jinx-correct)
   :custom (jinx-languages "fr_FR fr_custom en_US en_custom"))
 
