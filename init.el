@@ -211,7 +211,6 @@
 (require 'init-isearch)
 (require 'init-org)
 (require 'init-scratch)
-(require 'init-wcheck)
 (require 'init-yasnippet)
 (require 'init-ess)
 (require 'init-password)
