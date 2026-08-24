@@ -1342,7 +1342,7 @@ one is determined using `mu4e-attachment-dir'."
     (cons "Disable auto-update"
           (lambda ()
             (interactive)
-            (cancel-timer mu4e~update-timer)
+            (cancel-timer mu4e--update-timer)
             (setopt mu4e-update-interval nil))))
 
   (transient-define-prefix mu4e-search-transient ()
@@ -1358,7 +1358,7 @@ one is determined using `mu4e-attachment-dir'."
 
   (defun mu4e-search-with-transient (oldfun prompt &optional initial-input)
     (minibuffer-with-setup-hook #'mu4e-search-transient
-      (apply oldfun prompt initial-input)))
+      (funcall oldfun prompt initial-input)))
 
   (advice-add 'mu4e-search-read-query :around #'mu4e-search-with-transient)
 
@@ -1670,7 +1670,8 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
   ;; Force specific todo keywords in `org-roam-directory'
   (defun org-roam-set-todo-keywords ()
     "Set specific set of todo keywords for Org-roam files."
-    (when (string-prefix-p org-roam-directory (buffer-file-name))
+    (when-let* ((file (buffer-file-name))
+                (_ (string-prefix-p org-roam-directory file)))
       (org-set-todo-keywords
        '((sequence "IDEA(i!/!)" "|" "STUPID(s@)" "REFINED(r)" "DONE(d)")
          (sequence "QUESTION(q!/!)" "|" "ANSWERED(a)")
@@ -2521,7 +2522,7 @@ behavior added."
     "Infer a filename from BIB_ID."
     (when (eq major-mode 'latex-mode)
       (if (and pdfs-directory (file-exists-p (concat pdfs-directory bib_id ".pdf")))
-          (concat pdfs-directory name ".pdf")
+          (concat pdfs-directory bib_id ".pdf")
         (condition-case nil
             (concat (file-name-directory (car (reftex-get-bibfile-list))) bib_id ".pdf")
           (error nil)))))
