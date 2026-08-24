@@ -111,12 +111,6 @@ and the index of the match."
         (let ((i (cl-position (match-string-no-properties 0) varnames :test 'equal)))
           (replace-match (funcall replace (match-string 0) i)))))))
 
-(defun straight-get-url (package)
-  (let ((recipe (straight-recipes-retrieve package straight-recipe-repositories)))
-    (straight-vc-git--destructure (straight--convert-recipe recipe)
-        (repo host protocol)
-      (straight-vc-git--encode-url repo host protocol))))
-
 (defun use-package-add-url ()
   "Add url of package before use-package"
   (interactive)
@@ -191,37 +185,6 @@ and the index of the match."
       (if (<= month 2)
           (format "A%d" (1- year))
         (format "A%d" year)))))
-
-(defun projectile-fake-projects (dir)
-  (car (member dir (projectile-default-projects))))
-
-(defun projectile-default-projects ()
-  (seq-filter #'file-exists-p
-              (mapcar (lambda (args)
-                        (apply #'format (expand-file-name "enseignements/%s/%s/%s" personal-directory) args))
-                      (let ((semesters (delete-dups
-                                        (list (UTC-semester-from-time (current-time))
-                                              (UTC-semester-from-time
-                                               (time-add
-                                                (current-time)
-                                                (seconds-to-time (* 60 60 24 31 2)))))))
-                            (uvs '("SY02" "AOS1" "AOS2" "SY09" "SY19"))
-                            (dirs '("Cours" "TP" "TD" "poly" "")))
-                        (-table-flat 'list semesters uvs dirs)))))
-
-(defun projectile-ignored-semester (truename)
-  "Ignore past semesters."
-  (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" truename)
-      (let ((year (string-to-number (match-string 2 truename)))
-            (season (match-string 1 truename)))
-        (let ((current-semester (UTC-semester-from-time (current-time))))
-          (if (string-match "\\([AP]\\)\\([0-9]\\{4\\}\\)" current-semester)
-              (let ((cyear (string-to-number (match-string 2 current-semester)))
-                    (cseason (match-string 1 current-semester)))
-                (or (< year cyear)
-                    (and (= year cyear)
-                         (string-equal cseason "A")
-                         (string-equal season "P")))))))))
 
 (defun check-filepath (&rest filepaths)
   (if-let* ((available (seq-filter #'file-exists-p filepaths)))

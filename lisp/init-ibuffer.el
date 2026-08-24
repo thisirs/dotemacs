@@ -61,24 +61,6 @@
            (name . "^\\*MATLAB\\*$"))))))
 
 
-(when (require 'ibuffer-project nil t)
-  (setq ibuffer-project-alist
-        '(("Project: %S"
-           "~/SynologyDrive/Sylvain/emacs/site-lisp"
-           "~/repositories"
-           "~/.emacs.d"
-           "~/SynologyDrive/Sylvain/programming")
-          ("%D" "~/SynologyDrive/Sylvain/scripts")
-          ("%D" "~/SynologyDrive/Sylvain/projects/")
-          ("%D" "~/SynologyDrive/Sylvain/conf-files/")
-          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/publications/")
-          ("Boss: %D" "~/SynologyDrive/Sylvain/enseignements/programs")
-          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/programs")
-          ("Boss: %D" "~/SynologyDrive/Sylvain/recherche/projects/")))
-  (setq ibuffer-project-cache-file
-        (expand-file-name "cache/.ibuffer-project.el" user-emacs-directory))
-  (ibuffer-project-refresh t))
-
 ;; Files that are part of the same project might be in different
 ;; filter group.
 (setq find-file-visit-truename t)
@@ -164,7 +146,6 @@ two marked buffers."
 
 (define-key ibuffer-mode-map (kbd "C-g") #'quit-window)
 
-(define-key ibuffer-mode-map (kbd "C-s") #'helm-buffers-list)
 
 (defadvice ibuffer (around ibuffer-point-to-most-recent activate)
   "Open ibuffer with cursor pointed to second most recent buffer

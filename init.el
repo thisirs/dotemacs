@@ -2477,13 +2477,8 @@ behavior added."
   :config
   (setopt winner-boring-buffers
         '("*Completions*"
-          "*helm for files*"
-          "*helm find-file*"
-          "*helm complete*"
-          "*helm M-x*"
           "*Ibuffer*"
-          "*Calendar*"
-          "*helm*"))
+          "*Calendar*"))
   (winner-mode 1))
 
 ;; Buffers can't have the same name
