@@ -46,7 +46,6 @@ Example:
 (keymap-global-set "<f8>" #'menu-bar-mode)
 
 
-(keymap-global-set "C-," #'other-window)
 (keymap-global-set "M-o" #'other-window)
 
 (keymap-global-set "M-g r" #'recompile)

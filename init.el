@@ -615,7 +615,7 @@ This function is used in `citar-open-note-function'."
          ("M-g m" . consult-mark)
          ("M-g g" . consult-ripgrep)
          ("M-g l" . consult-goto-line)
-         ("C-c h" . consult-history)
+         ("C-c H" . consult-history)
 
          ([remap bookmark-jump] . consult-bookmark)
          ([remap yank-pop] . consult-yank-pop)
@@ -670,6 +670,9 @@ This function is used in `citar-open-note-function'."
   :demand :after org-roam
   :bind
   ("C-c n g" . consult-org-roam-search)
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n l" . consult-org-roam-forward-links)
   :custom
   (consult-org-roam-grep-func #'consult-ripgrep)
   (consult-org-roam-buffer-enabled nil) ;; too slow
@@ -678,13 +681,7 @@ This function is used in `citar-open-note-function'."
   ;; Eventually suppress previewing for certain functions
   (consult-customize
    consult-org-roam-forward-links
-   :preview-key (kbd "M-."))
-  :bind
-  ;; Define some convenient keybindings as an addition
-  ("C-c n e" . consult-org-roam-file-find)
-  ("C-c n b" . consult-org-roam-backlinks)
-  ("C-c n l" . consult-org-roam-forward-links)
-  ("C-c n r" . consult-org-roam-search))
+   :preview-key (kbd "M-.")))
 
 ;; https://codeberg.org/jao/consult-recoll
 (use-package consult-recoll             ; Recoll queries using consult
@@ -3010,8 +3007,7 @@ behavior added."
 ;; https://github.com/szermatt/visual-replace.git
 (use-package visual-replace             ; A prompt for replace-string and query-replace
   :demand
-  :bind (("C-c r" . visual-replace)
-         ("C-c q" . visual-replace))
+  :bind (("C-c r" . visual-replace))
   :config
   (visual-replace-global-mode 1)
   :hook (visual-replace-defaults-hook . visual-replace-toggle-regexp))
