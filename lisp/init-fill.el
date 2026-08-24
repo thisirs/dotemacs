@@ -10,6 +10,6 @@
 
 ;; (setq-default auto-fill-function 'do-auto-fill-exept-in-minibuffer)
 
-(keymap-global-set "C-RET" #'comment-indent-new-line)
+(keymap-global-set "C-<return>" #'comment-indent-new-line)
 
 (provide 'init-fill)
