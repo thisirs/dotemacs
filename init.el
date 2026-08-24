@@ -2974,24 +2974,3 @@ is more than one or kill emacs if there is only one."
     (lower-frame)))
 
 ;;; init.el ends here
-
-[
- ;; http://github.com/nflath/hungry-delete
- (use-package hungry-delete             ; hungry delete minor mode
-   :config
-   (setopt hungry-delete-chars-to-skip " \t\r\f\v")
-
-   (defun modi/turn-off-hungry-delete-mode ()
-     "Turn off hungry delete mode."
-     (hungry-delete-mode -1))
-
-   ;; Enable `hungry-delete-mode' everywhere ..
-   (global-hungry-delete-mode)
-
-   (setopt hungry-delete-join-reluctantly t)
-
-   ;; Except ..
-   ;; `hungry-delete-mode'-loaded backspace does not work in `wdired-mode',
-   ;; i.e. when editing file names in the *Dired* buffer.
-   (add-hook 'wdired-mode-hook #'modi/turn-off-hungry-delete-mode))
- ]
