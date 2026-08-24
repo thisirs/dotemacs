@@ -198,7 +198,6 @@
 (require 'init-latex)
 
 (require 'init-auctex)
-(require 'init-desktop)
 (require 'init-dired)
 (require 'init-erc)
 (require 'init-ibuffer)
