@@ -175,21 +175,6 @@
   (set-face-attribute 'mode-line nil :underline nil :overline nil :box nil)
   (set-face-attribute 'mode-line-inactive nil :underline nil :overline nil :box nil))
 
-(use-package emacs
-  :disabled
-  :demand
-  :if (or (on-zbook) (on-knuth))
-  :if (window-system)
-  :ensure nil
-  :config
-  (load-theme 'modus-vivendi t))
-
-;; https://github.com/nashamri/spacemacs-theme
-(use-package spacemacs-theme            ; Color theme with a dark and light versions
-  :disabled
-  :init
-  (load-theme 'spacemacs-dark t))
-
 (require 'init-elisp)
 (require 'init-bindings)
 (require 'init-editing)
@@ -214,40 +199,6 @@
   :init
   ;; Silently save abbrevs on quitting emacs
   (setopt save-abbrevs 'silently))
-
-;; https://github.com/minad/affe
-(use-package affe                       ; Asynchronous Fuzzy Finder for Emacs
-  :disabled
-  :demand :after orderless
-  :bind ("M-g f" . affe-grep)
-  :custom (affe-count 100)
-  :config
-  ;; Configure Orderless
-  (setq affe-regexp-function #'orderless-pattern-compiler
-        affe-highlight-function #'orderless--highlight)
-
-  ;; Manual preview key for `affe-grep'
-  (consult-customize affe-grep :preview-key (kbd "C-o")))
-
-;; https://github.com/Wilfred/ag.el
-(use-package ag                         ; A front-end for ag ('the silver searcher'), the C ack replacement.
-  :disabled
-  :if (and (executable-find "ag")
-           (not (executable-find "rg")))
-  :bind ("M-g f" . ag-search-current-directory)
-  :config
-  ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep-ag.el
-  (use-package wgrep-ag                 ; Writable ag buffer and apply the changes to files
-    :bind (:map wgrep-mode-map
-                ("C-x s" . wgrep-save-all-buffers)))
-
-  (setq ag-arguments (list "--smart-case" "--stats" "--hidden" "--all-text"))
-  (setq ag-group-matches nil)
-
-  (defun ag-search-current-directory (string)
-    (interactive (list (ag/read-from-minibuffer "Ag search string")))
-    (let ((current-prefix-arg last-prefix-arg))
-      (ag/search string default-directory))))
 
 ;; https://github.com/xenodium/agent-shell
 (use-package agent-shell                ; Native agentic integrations for Claude Code, Gemini CLI, etc
@@ -280,13 +231,6 @@
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons            ; A library for inserting Developer icons
   :ensure (all-the-icons :type git :host github :repo "domtronn/all-the-icons.el" :branch "svg" :files (:defaults "svg")))
-
-;; https://github.com/emacsorphanage/anzu
-(use-package anzu                       ; Display incremental search stats in the modeline.
-  :disabled
-  :config
-  (global-anzu-mode 1)
-  :diminish anzu-mode)
 
 (use-package app-launcher
   :ensure '(app-launcher :host github :repo "SebastienWae/app-launcher")
@@ -366,15 +310,6 @@
   (avy-style 'at)
   (avy-background t)
   :bind* ("M-h" . avy-goto-char-timer))
-
-;; https://github.com/DamienCassou/beginend
-(use-package beginend                   ; Redefine M-< and M-> for some modes
-  :disabled
-  :demand
-  :diminish beginend-global-mode
-  :config
-  (dolist (mode beginend-modes) (diminish (cdr mode)))
-  (beginend-global-mode))
 
 ;; https://github.com/minad/cape
 (use-package cape                       ; Completion At Point Extensions
@@ -499,10 +434,6 @@ This function is used in `citar-open-note-function'."
   ;; Not in custom because changed by `citar-org-roam-mode'
   (setopt citar-notes-source 'orb-citar-source))
 
-;; https://github.com/proofit404/blacken
-(use-package blacken                    ; Reformat python buffers using the "black" formatter
-  :disabled t)
-
 (use-package bookmark
   :ensure nil
   :after no-littering
@@ -568,33 +499,6 @@ This function is used in `citar-open-note-function'."
 
 ;; https://gitlab.kitware.com/cmake/cmake.git
 (use-package cmake-mode)        ; major-mode for editing CMake sources
-
-;; http://company-mode.github.io/
-(use-package company                    ; Modular text completion framework
-  :disabled
-  :diminish company-mode
-  :defines
-  (company-dabbrev-ignore-case company-dabbrev-downcase)
-  :bind
-  (:map company-active-map
-        ("C-n" . company-select-next)
-        ("C-p" . company-select-previous)
-        ("<tab>" . company-complete-common-or-cycle)
-        :map company-search-map
-        ("C-p" . company-select-previous)
-        ("C-n" . company-select-next))
-  :custom
-  (company-idle-delay 0)
-  (company-echo-delay 0)
-  (company-minimum-prefix-length 1)
-  :hook
-  (elpaca-after-init-hook . global-company-mode))
-
-;; https://github.com/tumashu/company-posframe
-(use-package company-posframe           ; Use a posframe as company candidate menu
-  :disabled
-  :custom (company-posframe-show-indicator t)
-  :hook (company-mode-hook . company-posframe-mode))
 
 (use-package compile
   :ensure nil
@@ -694,43 +598,6 @@ This function is used in `citar-open-note-function'."
   (corfu-cycle t)
   :config
   (global-corfu-mode))
-
-;; https://github.com/abo-abo/swiper
-(use-package counsel                    ; Various completion functions using Ivy
-  :disabled
-  :demand
-  :bind (("C-x l" . counsel-locate)
-         :map counsel-find-file-map
-         ("<right>" . counsel-down-directory)
-         ("<left>" . counsel-up-directory)
-         :map ivy-minibuffer-map
-         ("M-y" . ivy-next-line))
-  :custom ((counsel-yank-pop-separator
-            "\n────────────────────────────────────────────────────────\n"))
-  :config
-  ;; Remaps some built-in emacs functions
-  (counsel-mode))
-
-;; https://github.com/radian-software/ctrlf
-(use-package ctrlf                      ; Emacs finally learns how to ctrl+F
-  :disabled
-  :demand
-  :init
-  (defun ctrlf-yank-word-or-char ()
-    (interactive)
-    (let ((input (field-string (point-max))) yank)
-      (when (or ctrlf--match-bounds (= (length input) 0))
-        (with-current-buffer (window-buffer (minibuffer-selected-window))
-          (setq yank (buffer-substring-no-properties
-                      (or (and ctrlf--match-bounds
-                               (cdr ctrlf--match-bounds))
-                          ctrlf--current-starting-point)
-                      (progn (forward-word) (point)))))
-        (goto-char (field-end (point-max)))
-        (insert yank))))
-  :bind (:map ctrlf-minibuffer-mode-map ("C-w" . ctrlf-yank-word-or-char))
-  :config
-  (ctrlf-mode +1))
 
 (use-package dabbrev                    ; Dynamic abbreviations
   :ensure nil
@@ -1001,41 +868,6 @@ the vertical drag is done."
 (use-package embark-consult             ; Consult integration for Embark
   :demand :after (embark consult))
 
-;; https://github.com/hrs/engine-mode
-(use-package engine-mode                ; Define and query search engines from within Emacs.
-  :disabled
-  :bind* ("C-c /" . engine-mode-hydra/body)
-  :config
-  (engine-mode t)
-
-  (defengine duckduckgo
-    "https://duckduckgo.com/?q=%s"
-    :keybinding "d")
-
-  (defengine stack-overflow
-    "https://stackoverflow.com/search?q=%s"
-    :keybinding "s")
-
-  (defengine google
-    "https://google.com/search?q=%s"
-    :keybinding "g")
-
-  (defengine wikipedia
-    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
-    :keybinding "w")
-
-  (defengine rfcs
-    "http://pretty-rfc.herokuapp.com/search?q=%s"
-    :keybinding "r")
-
-  (defhydra engine-mode-hydra (:color blue)
-    "Engine mode"
-    ("d" engine/search-duckduckgo "duckduckgo")
-    ("w" engine/search-wikipedia "wikipedia")
-    ("r" engine/search-rfcs "RFC")
-    ("s" engine/search-stack-overflow "stack overflow")
-    ("g" engine/search-google "google")))
-
 (use-package epwdgen                    ; Flexible password generator
   :ensure `(epwdgen :repo ,(expand-file-name "epwdgen" projects-directory))
   :commands epwdgen-generate-password
@@ -1127,18 +959,6 @@ the vertical drag is done."
   :init
   (setopt firestarter-default-type 'failure))
 
-;; http://www.flycheck.org
-(use-package flycheck                   ; On-the-fly syntax checking
-  :disabled
-  :commands global-flycheck-mode
-  :defer 10
-  :config
-  (global-flycheck-mode 1)
-  (setq-default flycheck-disabled-checkers
-                '(emacs-lisp emacs-lisp-checkdoc tex-chktex tex-lacheck))
-
-  (setopt flycheck-lintr-linters "with_defaults(commented_code_linter = NULL, line_length_linter = line_length_linter(120))"))
-
 ;; https://github.com/flycheck/flycheck-color-mode-line
 (use-package flycheck-color-mode-line ; Change mode line color with Flycheck status
   :after flycheck
@@ -1175,38 +995,6 @@ the vertical drag is done."
   :bind ("C-x v t" . git-timemachine-toggle)
   :commands git-timemachine)
 
-;; https://github.com/atykhonov/google-translate
-(use-package google-translate ; Emacs interface to Google Translate.
-  :disabled
-  :config
-  (setq google-translate-translation-directions-alist
-        '(("en" . "fr") ("fr" . "en")))
-  (setq google-translate-listen-program
-        (or (executable-find "mplayer")
-            (executable-find "vlc")))
-  (defun google-translate--search-tkk ()
-    "Search TKK."
-    (list 430675 2721866130))
-  :bind ("C-c t" . google-translate-smooth-translate))
-
-;; https://github.com/karthink/gptel
-(use-package gptel                      ; A simple multi-LLM client
-  :disabled
-  :custom (gptel-model "mistral:latest")
-  :config
-  (gptel-make-ollama
-   "Ollama tinyllama"
-   :host "localhost:11434"
-   :models '("tinyllama:latest")
-   :stream t)
-
-  (setq-default gptel-backend
-                (gptel-make-ollama
-                 "Ollama mistral"
-                 :host "localhost:11434"
-                 :models '("mistral:latest")
-                 :stream t)))
-
 (use-package grep
   :ensure nil
   :bind (:map grep-mode-map
@@ -1241,22 +1029,6 @@ the vertical drag is done."
                           (cons grep-find-cmd point))
       (message msg))))
 
-;; https://github.com/kai2nenobu/guide-key
-(use-package guide-key                  ; Guide the following key bindings automatically and dynamically
-  :disabled
-  :diminish guide-key-mode
-  :commands guide-key-mode
-  :defer 10
-  :config
-  (setq guide-key/guide-key-sequence
-        '("C-c p"
-          "C-x r"
-          "C-x 4"
-          "C-x 5"
-          (org-mode "C-c C-x")
-          (smerge-mode "C-c ^")))
-  (guide-key-mode 1))
-
 ;; https://github.com/Wilfred/helpful
 (use-package helpful                    ; A better *help* buffer
   :bind* (("C-c C-d" . helpful-at-point))
@@ -1274,38 +1046,6 @@ the vertical drag is done."
           ("F" . helpful-function)
           ("M-f" . helpful-macro)
           ("C" . helpful-command)))
-
-(use-package hl-line
-  :disabled
-  :config
-  ;; Highlight the line only in the active window
-  (setopt global-hl-line-sticky-flag t)
-  (setopt hl-line-sticky-flag t)
-
-  ;; hl-line+
-  ;; http://www.emacswiki.org/emacs/hl-line+.el
-  (use-package hl-line+               ; Extensions to hl-line.el.
-    :config
-    (toggle-hl-line-when-idle 1) ; Highlight line only when idle
-    ;; Number of seconds of idle time after when the line should be highlighted
-    (setq hl-line-idle-interval 5)
-    ;; Number of seconds for `hl-line-flash' to highlight the line
-    (setq hl-line-flash-show-period 3)))
-
-;; https://github.com/abo-abo/hydra
-(use-package hydra                      ; Make bindings that stick around.
-  :commands jump-hydra-body
-  :config
-  (defhydra jump-hydra (:color blue)
-    "Jump to bookmarks"
-    ("g" (progn
-           (let ((search (read-string "Google search: ")))
-             (browse-url-firefox
-              (format "http://www.google.com/search?q=%s"
-                      (url-hexify-string search))))) "Google")
-    ("m" (browse-url-firefox (format "https://cas.utc.fr/cas/login?service=%s%%3FauthCAS%%3DCAS"
-                                     (url-hexify-string "https://moodle.utc.fr/course/view.php?id=1717"))) "UTC Moodle")
-    ("j" my/browse-bookmark "Bookmarks")))
 
 (use-package ical2org
   :ensure (ical2org :host github :repo "thisirs/ical2org")
@@ -1340,9 +1080,6 @@ the vertical drag is done."
 (setq text-mode-ispell-word-completion nil)
 
 
-(use-package info+                      ; Extensions to `info.el'.
-  :disabled)
-
 ;; http://github.com/nonsequitur/inf-ruby
 (use-package inf-ruby)          ; Run a Ruby process in a buffer
 
@@ -1356,85 +1093,9 @@ the vertical drag is done."
   (define-key isearch-mb-minibuffer-map (kbd "C-w") #'isearch-yank-word)
   (isearch-mb-mode))
 
-;; https://github.com/tmalsburg/helm-bibtex
-(use-package bibtex-completion          ; A BibTeX backend for completion frameworks
-  :disabled
-  :demand :after bibtex-completion
-  :ensure (bibtex-completion :host github :repo "tmalsburg/helm-bibtex"
-                               :files ("bibtex-completion.el"))
-  :config
-  ;; Main Bibtex file automatically exported by Zotero
-  (setq bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
-
-  ;; Base directory of all pdf files
-  (setq bibtex-completion-library-path (expand-file-name "recherche/biblio" personal-directory))
-
-  (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
-  (setq bibtex-completion-pdf-field "file"))
-
 ;; https://github.com/astoff/code-cells.el
 (use-package code-cells                 ; Lightweight notebooks with support for ipynb files
   :hook (python-mode-hook . code-cells-mode-maybe))
-
-;; https://github.com/tmalsburg/helm-bibtex
-(use-package ivy-bibtex                 ; A bibliography manager based on Ivy
-  :disabled
-  :ensure (ivy-bibtex :type git :host github :repo "tmalsburg/helm-bibtex"
-                        :files ("ivy-bibtex.el")
-                        :fork (:host github :repo "thisirs/helm-bibtex"))
-  :bind ("C-x b" . ivy-bibtex)
-  :config
-  (setq bibtex-completion-bibliography
-        (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
-  (setq bibtex-completion-library-path
-        (list
-         (expand-file-name "recherche/biblio/tracking" personal-directory)
-         (expand-file-name "recherche/biblio/compressed_sensing" personal-directory)
-         (expand-file-name "recherche/biblio/hashing" personal-directory)
-         (expand-file-name "recherche/biblio/graphs_and_deep_learning" personal-directory)
-         (expand-file-name "recherche/biblio/NN regularization" personal-directory)
-         (expand-file-name "recherche/biblio/books" personal-directory)))
-  (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
-  (setq bibtex-completion-pdf-field "file")
-
-  (setq ivy-re-builders-alist
-        '((ivy-bibtex . ivy--regex-ignore-order)
-          (t . ivy--regex-plus)))
-
-  ;; Always cite with \cite
-  (defun bibtex-completion-format-always-cite (oldfun keys)
-    (cl-flet ((completing-read (&rest _) "cite"))
-      (funcall oldfun keys)))
-
-  (advice-add 'bibtex-completion-format-citation-cite :around
-              #'bibtex-completion-format-always-cite))
-
-;; https://github.com/abo-abo/swiper
-(use-package ivy                        ; Incremental Vertical completYon
-  :disabled
-  :demand
-  :diminish (ivy-mode . "")
-  :bind (("C-x C-b" . ivy-switch-buffer)
-         ("C-x j" . jump-hydra/body)
-         ("C-c j" . jump-hydra/body))
-  :bind (:map ivy-minibuffer-map ("C-w" . ivy-yank-word)
-              :map ivy-switch-buffer-map
-              ("C-b" . next-line))
-  :config
-  (setq ivy-height-alist (cons (cons 'counsel-yank-pop 15) ivy-height-alist))
-
-  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-use-selectable-prompt t)
-
-  ;; number of result lines to display
-  (setq ivy-height 10)
-
-  (ivy-mode)
-
-  ;; Don't sort in org-attach-attach-from
-  (add-to-list 'ivy-sort-functions-alist (list 'org-attach-attach-from)))
 
 (use-package emacs
   :ensure nil
@@ -1448,12 +1109,6 @@ the vertical drag is done."
                   (car args))
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
-
-;; https://github.com/raxod502/prescient.el
-(use-package ivy-prescient              ; prescient.el + Ivy
-  :disabled
-  :demand :after prescient
-  :config (ivy-prescient-mode))
 
 ;; https://github.com/minad/jinx
 (use-package jinx                       ; Enchanted Spell Checker
@@ -1469,20 +1124,6 @@ the vertical drag is done."
 (use-package json-mode                  ; json beautifier and more
   :commands json-mode)
 
-;; https://github.com/dzop/emacs-jupyter
-(use-package jupyter                    ; Jupyter
-  :disabled
-  :demand :after org
-  :config
-  (use-package ob-jupyter
-    :ensure nil
-    :config
-    (org-babel-jupyter-override-src-block "python"))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   (append org-babel-load-languages
-           '((jupyter . t)))))
-
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool                   ; Grammar check utility using LanguageTool
   :config
@@ -1492,21 +1133,6 @@ the vertical drag is done."
          (setq langtool-java-bin "/usr/bin/java")))
   (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*:/tmp/bar/languagetool-4.1/LanguageTool-4.1-stable/")
   (setq langtool-default-language "fr"))
-
-;; http://github.com/fredcamps/lsp-jedi
-(use-package lsp-jedi                   ; Lsp client plugin for Python Jedi Language Server
-  :disabled
-  :demand :after lsp-mode
-  :config
-  (add-to-list 'lsp-disabled-clients 'pyls)
-  (add-to-list 'lsp-enabled-clients 'jedi)
-  (add-to-list 'lsp-enabled-clients 'ts-ls))
-
-;; https://github.com/emacs-lsp/lsp-mode
-(use-package lsp-mode                   ; LSP mode
-  :disabled
-  :custom (lsp-enable-snippet nil)
-  :hook (python-mode-hook . lsp))
 
 ;; https://immerrr.github.io/lua-mode
 (use-package lua-mode)          ; a major-mode for editing Lua scripts
@@ -1535,12 +1161,6 @@ the vertical drag is done."
       (apply orig-fun args)))
 
   (advice-add 'magit-refs--format-local-branches :around #'my-magit-refs-sort-by-creation-date))
-
-;; https://github.com/vermiculus/magithub
-(use-package magithub                   ; Magit interfaces for GitHub
-  :disabled
-  :after magit
-  :config (magithub-feature-autoinject t))
 
 ;; https://github.com/minad/marginalia
 (use-package marginalia                 ; Enrich existing commands with completion annotations
@@ -1576,17 +1196,6 @@ the vertical drag is done."
     (set (make-local-variable 'markdown-command-needs-filename) t)
     (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
-(use-package midnight
-  :disabled
-  :demand
-  :ensure nil
-  :config
-  (when (timerp midnight-timer) (cancel-timer midnight-timer))
-  (defalias 'midnight-clean-buffer-list 'clean-buffer-list)
-  (run-with-idle-timer 20 nil
-                       (lambda ()
-                         (run-hooks 'midnight-hook))))
-
 ;; https://github.com/tarsius/minions
 (use-package minions                    ; A minor-mode menu for the mode line
   :demand
@@ -1610,16 +1219,6 @@ the vertical drag is done."
   :ensure nil
   :custom
   (mml-attach-file-at-the-end t))
-
-;; https://gitlab.com/jessieh/mood-line
-(use-package mood-line                  ; A minimal mode-line inspired by doom-modeline
-  :disabled
-  :demand :after minions
-  :config
-  (defun mood-line-segment-major-mode ()
-    "Displays the current major mode in the mode-line."
-    (concat (format-mode-line minions-mode-line-modes 'mood-line-major-mode) "  "))
-  (mood-line-mode))
 
 (use-package mu4e
   :ensure (:host github :files ("build/mu4e/*.el") :repo "djcb/mu"
@@ -1816,23 +1415,6 @@ one is determined using `mu4e-attachment-dir'."
   (add-to-list 'mc/unsupported-minor-modes 'electric-pair-mode)
   :bind (("C-M-c" . mc/mark-next-like-this)))
 
-;; https://github.com/ahendriksen/ob-tmux
-(use-package ob-tmux                    ; Babel Support for Interactive Terminal
-  :disabled
-  :custom
-  (org-babel-default-header-args:tmux
-   `((:results . "silent")
-     (:session . ,(format "%s@%s" (user-login-name) (system-name)))
-     (:socket  . nil)
-     (:terminal . "urxvt")))
-  (org-babel-tmux-session-prefix "")
-  :config
-  (defun ob-tmux--target (ob-session)
-    (let* ((target-session (ob-tmux--session ob-session))
-           (window (ob-tmux--window ob-session))
-           (target-window (if window (concat "=" window) "")))
-      (concat target-session ":" target-window))))
-
 ;; https://bitbucket.org/jpkotta/openwith
 (use-package openwith                   ; Open files with external programs
   :preface
@@ -1898,19 +1480,6 @@ one is determined using `mu4e-attachment-dir'."
 
 ;; https://github.com/tarsius/orglink
 (use-package orglink)                   ; Use Org Mode links in other modes
-
-;; https://github.com/jkitchin/org-ref
-(use-package org-ref ; citations, cross-references and bibliographies in org-mode
-  :disabled
-  :demand
-  :config
-  (setopt bibtex-completion-bibliography (list (expand-file-name "recherche/biblio/refs.bib" personal-directory)))
-
-  ;; Use bibtex-completion-find-pdf-in-field to open pdf file
-  (defun bibtex-completion-find-pdf-in-field-for-org-ref (key-or-entry)
-    (or (car (bibtex-completion-find-pdf-in-field key-or-entry))
-        "/dummy"))
-  (setopt org-ref-get-pdf-filename-function 'bibtex-completion-find-pdf-in-field-for-org-ref))
 
 (use-package org-protocol
   :ensure nil
@@ -2221,14 +1790,6 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
 (use-package ox-ipynb
   :ensure (ox-ipynb :type git :host github :repo "jkitchin/ox-ipynb"))
 
-;; https://github.com/Malabarba/paradox
-(use-package paradox                    ; A modern Packages Menu. Colored, with package ratings, and customizable.
-  :disabled
-  :commands paradox-list-packages
-  :config
-  (setopt paradox-github-token t)
-  (setopt paradox-execute-asynchronously t))
-
 ;; https://paredit.org
 (use-package paredit                    ; minor mode for editing parentheses
   :preface
@@ -2386,47 +1947,6 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
 
   (add-to-list 'project-find-functions 'project-try-known))
 
-;; Projectile
-;; https://github.com/bbatsov/projectile
-(use-package projectile                 ; Manage and navigate projects in Emacs easily
-  :disabled
-  :init
-  ;; Auto-remove non-existent projects
-  (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
-
-  (defun projectile-custom-mode-line ()
-    (if (projectile-project-p)
-        (let* ((project-name (projectile-project-name))
-               (project-name-mode-line (if (> (length project-name) 12)
-                                           (substring project-name 0 8)
-                                         project-name)))
-          (format " Pj[%s]" project-name-mode-line))
-      ""))
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :config
-  ;; Open root directory when switching
-  (setopt projectile-switch-project-action #'projectile-dired)
-
-  (setopt projectile-mode-line-function #'projectile-custom-mode-line)
-
-  (setopt projectile-completion-system 'default)
-
-  ;; Use custom function to add specific projects
-  (add-to-list 'projectile-project-root-functions 'projectile-fake-projects)
-
-  ;; Add list of default projects
-  (mapc #'projectile-add-known-project (projectile-default-projects))
-
-  (setopt projectile-require-project-root nil)
-
-  ;; Use custom function to ignore specific projects
-  (setopt projectile-ignored-project-function #'projectile-ignored-semester)
-
-  ;; Unconditionally add these projects
-  (setopt projectile-project-search-path (list (expand-file-name "projects" personal-directory)))
-
-  (projectile-mode))
-
 ;; https://github.com/fgallina/python.el
 (use-package python                     ; Python's flying circus support for Emacs
   :ensure nil
@@ -2448,16 +1968,6 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
 
 ;; https://elpa.gnu.org/packages/rainbow-mode.html
 (use-package rainbow-mode)      ; Colorize color names in buffers
-
-;; https://github.com/ChillarAnand/real-auto-save
-(use-package real-auto-save             ; Automatically save your buffers/files at regular intervals
-  :disabled
-  :demand
-  :config
-  (real-auto-save-mode +1)
-  (setopt real-auto-save-buffers-list nil)
-  (with-eval-after-load 'org
-    (setopt real-auto-save-buffers-list org-agenda-files)))
 
 ;; https://github.com/purcell/emacs-reformatter
 (use-package reformatter               ; Define commands which run re-formatters
@@ -2598,19 +2108,6 @@ out")
   :ensure nil
   :hook (elpaca-after-init-hook . repeat-mode))
 
-;; A search tool based on ripgrep
-;; https://github.com/dajva/rg.el
-(use-package rg                         ; A search tool based on ripgrep
-  :disabled
-  :if (executable-find "rg")
-  :bind ("M-g f" . rg-custom-search)
-  :config
-  (add-hook 'rg-mode-hook (lambda () (interactive) (toggle-truncate-lines t)))
-  (rg-define-search rg-custom-search
-    :format regexp
-    :dir current
-    :files "*"))
-
 (use-package reverso
   :ensure (:host github :repo "SqrtMinusOne/reverso.el")
   :custom (reverso-languages '(english french))
@@ -2619,32 +2116,6 @@ out")
 ;; https://github.com/dgutov/robe
 (use-package robe                       ; Code navigation, documentation lookup and completion for Ruby
   :hook (ruby-mode-hook . robe-mode))
-
-;; https://github.com/raxod502/prescient.el
-(use-package selectrum-prescient        ; Selectrum integration
-  :disabled
-  :demand
-  :bind (:map selectrum-minibuffer-map
-              ("C-M-j" . selectrum-submit-exact-input)
-              ("C-j" . selectrum-insert-current-candidate))
-  :config
-  (setopt selectrum-count-style 'current/matches)
-  (selectrum-mode +1)
-  (setopt selectrum-highlight-candidates-function #'orderless-highlight-matches)
-  (setopt selectrum-refine-candidates-function #'orderless-filter)
-  (setopt selectrum-prescient-enable-filtering nil)
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode)
-
-  (when (require 'embark nil t)
-    (define-key selectrum-minibuffer-map (kbd "C-c C-o") 'embark-export)
-    (define-key selectrum-minibuffer-map (kbd "C-c C-c") 'embark-act))
-
-  :custom
-  ((prescient-save-file (expand-file-name "prescient-save.el" personal-emacs-directory))
-   (prescient-sort-length-enable nil)
-   (prescient-aggressive-file-save t)
-   (selectrum-fix-vertical-window-height t)))
 
 ;; https://github.com/twlz0ne/separedit.el
 (use-package separedit                  ; Edit comment/string/docstring/code block in separate buffer
@@ -2694,37 +2165,6 @@ behavior added."
 
   :bind ([remap keyboard-quit] . #'keyboard-quit-context+))
 
-;; Smart modeline
-;; http://github.com/Malabarba/smart-mode-line
-(use-package smart-mode-line            ; A color coded smart mode-line.
-  :disabled
-  :if (window-system)
-  :commands sml/setup
-  :demand
-  :init
-  (setopt sml/theme 'respectful
-        sml/shorten-directory t
-        sml/shorten-modes t
-        sml/name-width 40
-        sml/mode-width 'full)
-  :config
-  (sml/setup))
-
-;; https://github.com/Fuco1/smartparens
-(use-package smartparens                ; Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
-  :disabled
-  :config
-  (sp-local-pair
-   '(markdown-mode gfm-mode)
-   "\`\`\`" "\`\`\`" :post-handlers '(("||\n" "RET"))))
-
-;; http://github.com/nonsequitur/smex/
-(use-package smex                       ; M-x interface with Ido-style fuzzy matching.
-  :disabled
-  :defer 10
-  :config
-  (smex-initialize))
-
 (use-package saveplace
   :ensure nil
   :hook (elpaca-after-init-hook . save-place-mode))
@@ -2738,23 +2178,6 @@ behavior added."
 (use-package skeletor                   ; Provides project skeletons for Emacs
   :custom
   (skeletor-completing-read-function #'completing-read))
-
-;; https://github.com/yuya373/emacs-slack
-(use-package slack                      ; Slack client for Emacs
-  :disabled
-  :commands (slack-start)
-  :init
-  (setopt slack-buffer-emojify t)
-  (setopt slack-prefer-current-team t)
-  :config
-  (slack-register-team
-   :name (plist-get (car (auth-source-search :require '(:client_id))) :name)
-   :default t
-   :client-id (plist-get (car (auth-source-search :require '(:name :client_id))) :client_id)
-   :client-secret (plist-get (car (auth-source-search :require '(:name :client_id))) :client_secret)
-   :token (plist-get (car (auth-source-search :require '(:name :client_id))) :token)
-   ;; :subscribed-channels '(test-rename rrrrr)
-   :full-and-display-names t))
 
 ;; https://github.com/victorteokw/smart-mark.git
 (use-package smart-mark                 ; Restore point after C-g when mark
@@ -2779,11 +2202,6 @@ behavior added."
 (use-package so-long                    ; Say farewell to performance problems with minified code.
   :ensure nil
   :hook (elpaca-after-init-hook . global-so-long-mode))
-
-(use-package spotify.el
-  :disabled
-  :ensure (spotify.el :type git :host github :repo "danielfm/spotify.el"
-                     :files ("*.el")))
 
 ;; https://github.com/thisirs/state.git
 (use-package state                      ; Quick navigation between workspaces
@@ -2924,14 +2342,6 @@ behavior added."
   :config
   (sudo-edit-indicator-mode))
 
-;; https://github.com/abo-abo/swiper
-(use-package swiper                     ; Isearch with an overview. Oh, man!
-  :disabled
-  :bind (:map ivy-minibuffer-map
-              ("C-w" . ivy-yank-word))
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper)))
-
 ;; http://www.emacswiki.org/elisp/tidy.el
 ;; (use-package tidy)              ; Interface to the HTML Tidy program
 
@@ -3012,20 +2422,6 @@ behavior added."
   (visual-replace-global-mode 1)
   :hook (visual-replace-defaults-hook . visual-replace-toggle-regexp))
 
-;; https://github.com/benma/visual-regexp.el/
-(use-package visual-regexp              ; A regexp/replace command for Emacs with interactive visual feedback
-  :disabled
-  :commands (vr/query-replace vr/replace)
-  :bind* (("C-c r" . vr/replace)
-          ("C-c q" . vr/query-replace)
-          ("M-%" . vr/query-replace)))
-
-;; https://github.com/benma/visual-regexp-steroids.el/
-(use-package visual-regexp-steroids   ; Extends visual-regexp to support other regexp engines
-  :disabled
-  :commands (vr/select-replace vr/select-query-replace)
-  :demand :after visual-regexp)
-
 ;; http://github.com/thisirs/vc-auto-commit.git
 (use-package vc-auto-commit             ; Auto-committing feature for your repository
   :ensure `(vc-auto-commit :repo ,(expand-file-name "vc-auto-commit" projects-directory))
@@ -3046,30 +2442,12 @@ behavior added."
   :config
   (add-to-list 'warning-suppress-types '(comp)))
 
-(use-package webjump
-  :disabled
-  :bind ("C-c j" . webjump))
-
 ;; http://github.com/mhayashi1120/Emacs-wgrep/raw/master/wgrep.el
 (use-package wgrep                      ; Writable grep buffer and apply the changes to files
   :bind (:map grep-mode-map
               ("e" . wgrep-change-to-wgrep-mode)
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
-
-;; https://github.com/justbur/emacs-which-key
-(use-package which-key                  ; Display available keybindings in popup
-  :disabled
-  :demand
-  :diminish
-  :config
-  ;; Trigger which-key on C-h or on specific keystrokes
-  (setopt which-key-show-early-on-C-h t)
-  (setopt which-key-idle-delay 10000)
-  (setopt which-key-idle-secondary-delay 0.05)
-  (setopt which-key-allow-regexps
-        '("C-c n" "C-x RET"))
-  (which-key-mode))
 
 (use-package whitespace
   :demand
@@ -3107,11 +2485,6 @@ behavior added."
           "*Calendar*"
           "*helm*"))
   (winner-mode 1))
-
-;; wtf for acronym lookup
-(use-package wtf
-  :disabled
-  :commands wtf-is)
 
 ;; Buffers can't have the same name
 (with-eval-after-load 'uniquify
