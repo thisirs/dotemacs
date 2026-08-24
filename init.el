@@ -2638,8 +2638,6 @@ not, return nil."
 (define-key minibuffer-local-filename-completion-map (kbd "C-v")
   'minibuffer--goto-root)
 
-(setopt lexical-binding t)
-
 ;;; Taken from https://with-emacs.com/posts/projectize-commands-using-numeric-arguments/
 (defun projectize-1 (cmd f &rest args)
   (if (eq cmd real-this-command)

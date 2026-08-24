@@ -97,8 +97,8 @@ and the index of the match."
   (when (stringp replace)
     (unless (string-match "%\\([0-9]+\\)?d" replace)
       (user-error "Replacement string must have a %%d"))
-    (setq replace (lexical-let ((replace replace))
-                    (lambda (s i) (format replace i)))))
+    (let ((format-string replace))
+      (setq replace (lambda (s i) (format format-string i)))))
   (save-excursion
     (let (varnames)
       (goto-char (point-min))
