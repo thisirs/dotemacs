@@ -348,31 +348,6 @@ entry from each headline of FILEV."
 
   (add-hook 'org-after-todo-statistics-hook #'org-update-project-cookies)
 
-  (defvar org-other-files nil
-    "List of org files other than agenda files destined to be
-refile targets.")
-
-  ;; First open someday.org and look for org files to add to
-  ;; org-other-files in "Projects" headline.
-  (find-file-noselect "~/SynologyDrive/Sylvain/Org/someday.org")
-
-  (setq org-other-files
-        (with-current-buffer "someday.org"
-          (save-excursion
-            (goto-char (point-min))
-            (if (re-search-forward
-                 (format org-complex-heading-regexp-format "Projects")
-                 nil t)
-                (let (project-files project-file)
-                  (org-map-entries
-                   (lambda ()
-                     (setq project-file (org-entry-get (point) "TODOFILE"))
-                     (if (and (stringp project-file)
-                              (file-exists-p project-file))
-                         (setq project-files (cons project-file project-files))))
-                   nil 'tree)
-                  project-files)))))
-
   (defun org-refile-all-org-files ()
     (seq-filter 'identity
                 (seq-map (lambda (buf)
