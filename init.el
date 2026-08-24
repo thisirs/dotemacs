@@ -1487,15 +1487,6 @@ the vertical drag is done."
    (append org-babel-load-languages
            '((jupyter . t)))))
 
-;; https://github.com/dacap/keyfreq.git
-(use-package keyfreq                    ; track command frequencies
-  :config
-  (let ((filepath (format (expand-file-name (format ".emacs.%s.keyfreq" (system-name)) personal-emacs-directory))))
-    (make-directory (file-name-directory filepath) :parents)
-    (setq keyfreq-file filepath))
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
-
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (use-package langtool                   ; Grammar check utility using LanguageTool
   :config
@@ -1820,13 +1811,6 @@ one is determined using `mu4e-attachment-dir'."
   :config
   (mu4e-alert-set-default-style 'libnotify)
   (mu4e-alert-enable-notifications))
-
-;; Using multi-term instead of term
-;; http://www.emacswiki.org/emacs/download/multi-term.el
-(use-package multi-term                 ; Managing multiple terminal buffers in Emacs.
-  :config
-  (defalias 'term 'multi-term)
-  (setq multi-term-program "/bin/zsh"))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors           ; Multiple cursors for Emacs.
