@@ -1128,7 +1128,7 @@ the vertical drag is done."
          (setq langtool-java-bin "/usr/lib/jvm/java-8-openjdk/jre/bin/java"))
         ((file-exists-p "/usr/bin/java")
          (setq langtool-java-bin "/usr/bin/java")))
-  (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*:/tmp/bar/languagetool-4.1/LanguageTool-4.1-stable/")
+  (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
   (setq langtool-default-language "fr"))
 
 ;; https://immerrr.github.io/lua-mode
