@@ -15,18 +15,12 @@
 (define-on-macro "zbook")
 (define-on-macro "zouzou")
 
-(modify-all-frames-parameters '((fullscreen . maximized)))
-
-;; Disable dialog box, tool bar...
+;; Frame chrome (menu/tool/scroll bars, maximized) is handled in
+;; early-init.el through `default-frame-alist'.
 (setopt use-file-dialog nil)
 (setopt use-dialog-box nil)
 
-(menu-bar-mode -1)
-
 (when (display-graphic-p)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (horizontal-scroll-bar-mode -1)
   (tooltip-mode -1))
 
 (line-number-mode)
