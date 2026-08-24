@@ -34,7 +34,7 @@ filled by AUCTeX functions."
     (turn-on-auto-fill)
     (advice-add 'auto-fill-function :before-while #'LaTeX-auto-fill-maybe)
     (when comment-auto-fill-only-comments
-      (set (make-local-variable 'comment-auto-fill-only-comments) nil)))
+      (setq-local comment-auto-fill-only-comments nil)))
 
   :hook
   ;; Revert buffer visiting pdf file after compilation

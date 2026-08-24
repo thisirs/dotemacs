@@ -32,7 +32,7 @@
   (defun org-force-auto-fill ()
     "Make `comment-auto-fill-only-comments' buffer-local and set it to nil."
     (when comment-auto-fill-only-comments
-      (set (make-local-variable 'comment-auto-fill-only-comments) nil))
+      (setq-local comment-auto-fill-only-comments nil))
     (auto-fill-mode +1))
 
   (defun turn-off-truncate-lines ()
@@ -252,7 +252,7 @@ inherited by a parent headline."
     "Toggle all timestamps in region."
     (interactive "*r")
     (goto-char beg)
-    (while (re-search-forward org-element--timestamp-regexp end t)
+    (while (re-search-forward org-ts-regexp-both end t)
       (org-toggle-timestamp-type)))
 
   (defun org-context-capture-find-headline ()
@@ -307,8 +307,8 @@ entry from each headline of FILEV."
               '((org-agenda-buffer-name "Projects TODO"))))))
 
   ;; Enable sticky agenda to navigate between them
-  (eval-after-load "org-agenda"
-    '(org-toggle-sticky-agenda -1))
+  (with-eval-after-load "org-agenda"
+    (org-toggle-sticky-agenda -1))
 
   ;; Update project cookie and look at specified org file
   (defun org-update-project-cookies (n-done n-not-done)
@@ -401,7 +401,7 @@ entry from each headline of FILEV."
   ;; You need to install pygments to use minted
   (when (executable-find "pygmentize")
     (add-to-list 'org-latex-packages-alist '("" "minted"))
-    (setq org-latex-listings 'minted)
+    (setq org-latex-src-block-backend 'minted)
     (setq org-latex-minted-options
           '(("mathescape" "true")
             ("linenos" "true")

@@ -147,13 +147,15 @@ two marked buffers."
 (define-key ibuffer-mode-map (kbd "C-g") #'quit-window)
 
 
-(defadvice ibuffer (around ibuffer-point-to-most-recent activate)
+(defun ibuffer-point-to-most-recent (oldfun &rest args)
   "Open ibuffer with cursor pointed to second most recent buffer
 name"
   (let ((recent-buffer-name (buffer-name)))
-    ad-do-it
+    (apply oldfun args)
     (ibuffer-jump-to-buffer recent-buffer-name)
     (ibuffer-next-buffer)))
+
+(advice-add 'ibuffer :around #'ibuffer-point-to-most-recent)
 
 ;; Use human readable Size column instead of original one
 (define-ibuffer-column size-h

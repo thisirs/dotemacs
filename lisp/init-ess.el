@@ -41,11 +41,11 @@
                          (current-column)))
                (beg (progn
                       (forward-line 1)
-                      (point-at-bol)))
+                      (pos-bol)))
                (end (progn
                       (re-search-forward re-end-chunk nil t)
                       (forward-line -1)
-                      (point-at-eol)))
+                      (pos-eol)))
                (code (delete-and-extract-region beg end))
                (new-code (progn
                            (with-temp-buffer

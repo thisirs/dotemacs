@@ -899,9 +899,6 @@ the vertical drag is done."
 ;; https://github.com/purcell/exec-path-from-shell
 (use-package exec-path-from-shell       ; Get environment variables such as $PATH from the shell
   :defer 10
-  :custom
-  ;; Don't run a login shell
-  (exec-path-from-shell-arguments '("-l"))
   :config
   (setopt exec-path-from-shell-variables
         (append exec-path-from-shell-variables
@@ -1190,8 +1187,8 @@ the vertical drag is done."
 
   (define-derived-mode rmarkdown-mode markdown-mode "Rmarkdown"
     "Mode for RMarkdown"
-    (set (make-local-variable 'markdown-command-needs-filename) t)
-    (set (make-local-variable 'markdown-command) (expand-file-name "rmarkdown-render" user-emacs-directory))))
+    (setq-local markdown-command-needs-filename t)
+    (setq-local markdown-command (expand-file-name "rmarkdown-render" user-emacs-directory))))
 
 ;; https://github.com/tarsius/minions
 (use-package minions                    ; A minor-mode menu for the mode line
@@ -1229,10 +1226,10 @@ the vertical drag is done."
   ;; Install mu4e-link support but don't load mu4e. mu4e will be
   ;; loaded by `mu4e-org-open' or `mu4e-org-store-link' that are in
   ;; commands.
-  (eval-after-load "org"
-    '(org-link-set-parameters "mu4e"
-                              :follow #'mu4e-org-open
-                              :store #'mu4e-org-store-link))
+  (with-eval-after-load "org"
+    (org-link-set-parameters "mu4e"
+                             :follow #'mu4e-org-open
+                             :store #'mu4e-org-store-link))
   (defun mu4e-view-save-all-attachments (&optional ask-dir)
     "Save all files from the current view buffer.
 This applies to all MIME-parts that are \"attachment-like\" (have a filename),
