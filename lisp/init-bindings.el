@@ -159,7 +159,6 @@ body passed in argument."
 (keymap-global-set "C-c e d" #'toggle-debug-on-error)
 (keymap-global-set "C-c e r" #'eval-region)
 (keymap-global-set "C-c e q" #'toggle-debug-on-quit)
-(keymap-global-set "C-c e g" #'toggle-debug-on-quit)
 (keymap-global-set "C-c e L" #'elint-current-buffer)
 (keymap-global-set "C-c e t" #'ert-run-tests-interactively)
 (keymap-global-set "C-c e l" #'find-library)

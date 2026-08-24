@@ -785,8 +785,6 @@ the vertical drag is done."
 ;; https://github.com/sp1ff/elfeed-score
 (use-package elfeed-score               ; Gnus-style scoring for Elfeed
   :demand :after elfeed
-  :custom
-  (elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
   :config
   (setopt elfeed-score-serde-score-file (change-base-dir elfeed-score-serde-score-file))
   (define-key elfeed-search-mode-map "=" elfeed-score-map)
@@ -1031,7 +1029,6 @@ the vertical drag is done."
 
 ;; https://github.com/Wilfred/helpful
 (use-package helpful                    ; A better *help* buffer
-  :bind* (("C-c C-d" . helpful-at-point))
   :bind* (;; Remap standard commands.
           ("C-c C-d" . helpful-at-point)
           ([remap describe-function] . helpful-callable)

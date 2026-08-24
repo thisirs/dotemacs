@@ -93,10 +93,6 @@
 
   (yas-global-mode 1)
 
-  (defvar yas-snippet-chars
-    '("1" "2" "3")
-    "Keystroke to st")
-
   (defvar yas-disposable-snippets
     (make-vector (length yas-snippet-chars) nil))
 

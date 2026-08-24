@@ -611,7 +611,6 @@ this with to-do items than with projects or headings."
 
   :config
   (appt-activate 1) ;; active appt (appointment notification)
-  (display-time)    ;; time display is required for this...
   )
 
 (use-package parse-time

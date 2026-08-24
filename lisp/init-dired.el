@@ -87,7 +87,6 @@
          ("<C-return>" . dired-open)
          ("e" . dired-ediff-marked-files)
          ("M-!" . async-shell-command)
-         ("C-j" . dired-up-directory)
          ("C-x C-k" . dired-do-delete)
          ("@" . (lambda () (interactive) (dired "/tmp")))
          ("/" . (lambda () (interactive) (dired "/")))
