@@ -1840,13 +1840,15 @@ one is determined using `mu4e-attachment-dir'."
 (use-package openwith                   ; Open files with external programs
   :preface
   (rassq-delete-all #'doc-view-mode-maybe auto-mode-alist)
+  ;; `use-package-always-defer' is t, so an explicit trigger is needed:
+  ;; without one nothing ever loads openwith and the mode stays off.
+  :hook (elpaca-after-init-hook . openwith-mode)
   :config
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file))
           ("\\.\\(?:mpe?g\\|avi\\|wmv\\|flv\\)\\'" "vlc" (file))
           ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file))))
-  (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler)
-  (openwith-mode))
+  (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler))
 
 ;; https://github.com/oantolin/orderless
 (use-package orderless                  ; Completion style for matching regexps in any order
