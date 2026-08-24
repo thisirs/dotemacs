@@ -110,13 +110,11 @@
 
 (setopt elpaca-verbosity 1)
 
-(use-package emacs
-  :ensure nil
-  :custom
-  (use-package-always-ensure t)
-  (use-package-verbose nil)
-  (use-package-hook-name-suffix "")
-  (use-package-always-defer t))
+;; Global use-package behaviour, set before any declaration below relies on it
+(setopt use-package-always-ensure t)
+(setopt use-package-verbose nil)
+(setopt use-package-hook-name-suffix "")
+(setopt use-package-always-defer t)
 
 ;; https://github.com/emacscollective/no-littering
 (use-package no-littering               ; help keeping ~/.emacs.d clean
