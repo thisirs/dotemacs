@@ -534,11 +534,6 @@ child checkboxes."
   ;; Compact the block agenda view
   (org-agenda-compact-blocks t)
 
-  ;; Custom agenda view
-  (agenda-custom-commands
-   '(("b" "Thesis Work" tags-todo "boss")
-     ("t" "All TODO" alltodo "")))
-
   ;; Icons in agenda
   (org-agenda-category-icon-alist
    '(("Emacs" "/usr/local/share/icons/hicolor/16x16/apps/emacs.png" nil nil :ascent center)
