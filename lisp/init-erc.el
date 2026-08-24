@@ -24,12 +24,14 @@
 ;; Check channels
 (use-package erc-track
   :ensure nil
+  :after erc :demand t
   :custom (erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                      "324" "329" "332" "333" "353" "477"))
   :config (erc-track-mode 1))
 
 (use-package erc-spelling
   :ensure nil
+  :after erc :demand t
   :config (erc-spelling-mode 1))
 
 ;; Flyspell input line with different dictionaries
@@ -79,17 +81,17 @@
 Start ERC if it is not running and ask for confirmation if ARG is
 nil."
   (interactive "P")
-  (if (and (get-buffer "irc.libera.chat:6667")
-           (erc-server-process-alive (get-buffer "irc.libera.chat:6667")))
+  (if (and (get-buffer "irc.libera.chat:6697")
+           (erc-server-process-alive (get-buffer "irc.libera.chat:6697")))
       (erc-track-switch-buffer 1) ;; yes: switch to last active
     (when (or arg (y-or-n-p "Start ERC? ")) ;; no: maybe start ERC
       (let ((results (auth-source-search :max 1
                                          :host "NickServ"
                                          :require '(:host))))
-        (erc :server "irc.libera.chat"
-             :port "6667"
-             :nick "thisirs"
-             :password (if-let* ((it (funcall (plist-get (car results) :secret)))) it "")))
+        (erc-tls :server "irc.libera.chat"
+                 :port "6697"
+                 :nick "thisirs"
+                 :password (if-let* ((it (funcall (plist-get (car results) :secret)))) it "")))
       (erc-track-switch-buffer 1))))
 
 (setq erc-pcomplete-order-nickname-completions t)
@@ -106,6 +108,7 @@ nil."
 ;; Per user message colorization
 ;; https://github.com/thisirs/erc-colorize.git
 (use-package erc-colorize               ; Per user colorization of whole message
+  :after erc :demand t
   :config
   (erc-colorize-mode 1))
 
