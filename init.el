@@ -1917,10 +1917,6 @@ one is determined using `mu4e-attachment-dir'."
 ;; https://github.com/tarsius/orglink
 (use-package orglink)                   ; Use Org Mode links in other modes
 
-;; https://github.com/fuxialexander/org-pdftools
-(use-package org-pdftools               ; Support for links to documents in pdfview mode
-  :hook (org-mode . org-pdftools-setup-link))
-
 ;; https://github.com/jkitchin/org-ref
 (use-package org-ref ; citations, cross-references and bibliographies in org-mode
   :disabled
@@ -2289,73 +2285,6 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
 
 ;; https://github.com/sigma/pcache.git
 (use-package pcache)            ; persistent caching for Emacs.
-
-;; http://github.com/vedang/pdf-tools/
-(use-package pdf-tools                  ; Support library for PDF documents.
-  :disabled
-  :defer 10
-  :init
-  ;; pdf-annot-minor-mode before pdf-sync-minor-mode
-  (setopt pdf-tools-enabled-modes
-        '(pdf-history-minor-mode
-          pdf-isearch-minor-mode
-          pdf-links-minor-mode
-          pdf-misc-minor-mode
-          pdf-outline-minor-mode
-          pdf-misc-size-indication-minor-mode
-          pdf-misc-menu-bar-minor-mode
-          pdf-sync-minor-mode
-          pdf-annot-minor-mode
-          pdf-misc-context-menu-minor-mode
-          pdf-cache-prefetch-minor-mode
-          pdf-occur-global-minor-mode))
-
-  :custom
-  (pdf-view-display-size 'fit-page)
-
-  :config
-  (pdf-loader-install :no-query)
-
-  ;; (add-hook 'pdf-isearch-minor-mode-hook (lambda () (ctrlf-local-mode -1)))
-
-  (use-package pdf-sync
-    :ensure nil
-    :bind (:map
-           pdf-sync-minor-mode-map
-           ("C-c C-v" . (lambda () (interactive) (pdf-sync-backward-search 0 0)))))
-
-  (define-key pdf-view-mode-map (kbd "M-w") 'pdf-view-kill-ring-save)
-
-  (setopt pdf-misc-print-programm lpr-command)
-
-  (use-package pdf-annot
-    :ensure nil
-    :config
-    (defun pdf-annot-add-text-annotation-here (ev)
-      (interactive "@e")
-      (pdf-annot-activate-annotation (pdf-annot-mouse-add-text-annotation ev)))
-
-    (defun pdf-annot-edit-contents-abort-or-delete ()
-      "Abort current annotation or delete if empty"
-      (interactive)
-      (if (zerop (buffer-size))
-          (pdf-annot-delete-current)
-        (pdf-annot-edit-contents-abort)))
-
-    (defun pdf-annot-delete-current ()
-      "Delete currently edited annotation"
-      (interactive)
-      (pdf-annot-delete pdf-annot-edit-contents--annotation)
-      (pdf-annot-edit-contents-abort))
-
-    :bind (:map
-           pdf-annot-minor-mode-map
-           ([double-mouse-1] . pdf-annot-add-text-annotation-here)
-           :map
-           pdf-annot-edit-contents-minor-mode-map
-           ;; Instead of C-c C-q
-           ("C-c C-k" . pdf-annot-edit-contents-abort-or-delete)
-           ("C-c C-d" . pdf-annot-delete-current))))
 
 ;; https://github.com/emacs-php/php-mode
 (use-package php-mode)          ; Major mode for editing PHP code
