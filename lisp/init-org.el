@@ -188,8 +188,9 @@ the selected file."
                 date
                 (calendar-gregorian-from-absolute (+ easter 56)))))))
 
-  ;; Don't wait for agenda to be opened to update appt
-  (org-agenda-to-appt 1)
+  ;; Don't wait for agenda to be opened to update appt; deferred so it
+  ;; does not block the first org file that gets opened.
+  (run-with-idle-timer 5 nil #'org-agenda-to-appt 1)
 
 
   ;; (holiday-float 6 0 3 "Fête des pères")
@@ -199,7 +200,7 @@ the selected file."
 
   ;; Update appt each time agenda is opened, force a refresh to cancel
   ;; deleted appt
-  (add-hook 'org-finalize-agenda-hook
+  (add-hook 'org-agenda-finalize-hook
             (lambda () (org-agenda-to-appt 1)))
 
   (org-babel-do-load-languages
