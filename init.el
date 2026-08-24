@@ -2047,38 +2047,25 @@ out")
         :args (list "-d" "-"))
     (display-warning 'config "reformatter: isort not found" :warning))
 
-  (if (executable-find "npx")
-      (reformatter-define reformatter-sql
-        :program "npx"
-        :args (list "sql-formatter" "-u"))
-    (display-warning 'config "reformatter: npx not found" :warning))
-
-  (if (executable-find "sqlformat")
-    (reformatter-define reformatter-sql
-      :program "sqlformat"
-      :args (list "-k" "upper" "-r" "-"))
-    (display-warning 'config "reformatter: sqlformat not found" :warning))
-
-  (if (executable-find "sql-formatter-cli")
-    (reformatter-define reformatter-sql
-      :program "sql-formatter-cli"
-      :args (list "-"))
-    (display-warning 'config "reformatter: sql-formatter-cli not found" :warning))
+  (cond ((executable-find "sql-formatter-cli")
+         (reformatter-define reformatter-sql
+           :program "sql-formatter-cli"
+           :args (list "-")))
+        ((executable-find "sqlformat")
+         (reformatter-define reformatter-sql
+           :program "sqlformat"
+           :args (list "-k" "upper" "-r" "-")))
+        ((executable-find "npx")
+         (reformatter-define reformatter-sql
+           :program "npx"
+           :args (list "sql-formatter" "-u")))
+        (t (display-warning 'config "reformatter: no SQL formatter found" :warning)))
 
   (if (executable-find "/snap/bin/shfmt")
     (reformatter-define reformatter-bash
       :program "/snap/bin/shfmt"
       :lighter " ShFmt")
     (display-warning 'config "reformatter: shmft not found" :warning))
-
-  (if (shell-command "Rscript -e 'quit(status = !requireNamespace(\"styler\", quietly = TRUE))'")
-      (reformatter-define reformatter-styler
-        :program "Rscript"
-        :args (list "--vanilla" "-e" "con <- file(\"stdin\")
-out <- styler::style_text(readLines(con))
-close(con)
-out")
-        :lighter " styler"))
 
   )
 
