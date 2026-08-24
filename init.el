@@ -3036,10 +3036,6 @@ behavior added."
 ;; https://github.com/magit/transient
 (use-package transient)                 ; Transient commands
 
-;; https://github.com/emacsorphanage/transpose-frame.git
-(use-package transpose-frame            ; Transpose windows arrangement in a frame
-  :bind ("<C-kp-multiply>" . rotate-frame-anticlockwise))
-
 ;; https://www.gnu.org/software/tramp/
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
   :ensure nil
