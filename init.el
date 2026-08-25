@@ -297,10 +297,6 @@
   :config
   (atomic-chrome-start-server))
 
-(use-package auth-source-org
-  :ensure `(auth-source-org
-            :repo ,(expand-file-name "auth-source-org" projects-directory)))
-
 ;; https://github.com/abo-abo/avy
 (use-package avy                        ; tree-based completion
   :custom
