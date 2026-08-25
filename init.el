@@ -1419,6 +1419,9 @@ one is determined using `mu4e-attachment-dir'."
         '(("\\.pdf\\'" "evince" (file))
           ("\\.\\(?:mpe?g\\|avi\\|wmv\\|flv\\)\\'" "vlc" (file))
           ("\\.\\(od[ts]\\|docx?\\|xlsx?\\)\\'" "soffice" (file))))
+  ;; `mm-inhibit-file-name-handlers' is defined in mm-util, which nothing
+  ;; else pulls in this early.
+  (require 'mm-util)
   (add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler))
 
 ;; https://github.com/oantolin/orderless
