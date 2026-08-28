@@ -1839,18 +1839,18 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
       (define-key map (kbd "SPC") 'playerctl-play-pause-song)
       (define-key map "n" 'playerctl-next-song)
       (define-key map "p" 'playerctl-previous-song)
-      (define-key map "f" 'playerctl-seek-foward)
+      (define-key map "f" 'playerctl-seek-forward)
       (define-key map "b" 'playerctl-seek-backward)
       map)
     "Keymap of playerctl commands, bound as a `C-c p' prefix.")
 
   (defvar playerctl-seek-repeat-map
     (let ((map (make-sparse-keymap)))
-      (define-key map "f" 'playerctl-seek-foward)
+      (define-key map "f" 'playerctl-seek-forward)
       (define-key map "b" 'playerctl-seek-backward)
       map))
 
-  (put 'playerctl-seek-foward 'repeat-map 'playerctl-seek-repeat-map)
+  (put 'playerctl-seek-forward 'repeat-map 'playerctl-seek-repeat-map)
   (put 'playerctl-seek-backward 'repeat-map 'playerctl-seek-repeat-map)
 
   (transient-define-prefix playerctl-transient ()
@@ -1861,7 +1861,7 @@ tagged `noagenda' (via #+FILETAGS:) are skipped."
      ("p"   "Previous"   playerctl-previous-song)
      ("s"   "Stop"       playerctl-stop-song)]
     ["Seek"
-     ("f" "Forward"  playerctl-seek-foward)
+     ("f" "Forward"  playerctl-seek-forward)
      ("b" "Backward" playerctl-seek-backward)]
     ["Volume"
      ("=" "Up"   playerctl-volume-up)
