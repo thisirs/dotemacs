@@ -2308,6 +2308,11 @@ behavior added."
     :switch elfeed
     :in (memq major-mode '(elfeed-show-mode elfeed-search-mode)))
 
+  (state-define-state org-ql-todo
+    :key "t"
+    :switch org-ql-projects
+    :in (equal (buffer-name) "*Org QL View: (and (todo) (not (tags noagenda)))*"))
+
   (state-global-mode 1))
 
 ;; https://github.com/nflath/sudo-edit
