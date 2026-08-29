@@ -36,11 +36,36 @@ filled by AUCTeX functions."
     (when comment-auto-fill-only-comments
       (setq-local comment-auto-fill-only-comments nil)))
 
+  (defun LaTeX-electric-pair-dollar-config ()
+    "Let `electric-pair-mode' skip over an existing closing $.
+
+When `TeX-electric-math' is nil, AUCTeX deliberately delegates $
+pairing to `electric-pair-mode': `TeX-insert-dollar' inserts via
+`self-insert-command' precisely so that other electric modes run
+their `post-self-insert-hook' (see the rationale in the docstring
+of `TeX--put-electric-delete-selection').
+
+But `electric-pair-skip-if-helps-balance' only handles the
+close-paren and string-quote syntax classes, so for $ -- whose
+class is the paired-delimiter ?$ -- it falls through and returns
+nil.  Skipping is therefore always refused while pairing is never
+inhibited, so typing $ at `$x|$' yields `$x$|$$' instead of `$x$|'.
+
+Restore the skip for paired-delimiter syntax only, delegating
+every other character to the stock predicate."
+    (require 'elec-pair)
+    (setq-local electric-pair-skip-self
+                (lambda (char)
+                  (if (eq (char-syntax char) ?$)
+                      t
+                    (electric-pair-skip-if-helps-balance char)))))
+
   :hook
   ;; Revert buffer visiting pdf file after compilation
   (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
   (LaTeX-mode-hook . LaTeX-remove-eqnarray)
   (LaTeX-mode-hook . LaTeX-auto-fill-config)
+  (LaTeX-mode-hook . LaTeX-electric-pair-dollar-config)
 
   :custom
   (TeX-engine 'luatex)
