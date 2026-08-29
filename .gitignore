@@ -4,6 +4,7 @@ elpa/
 var/
 etc/
 eln-cache/
+tree-sitter/
 
 # Custom package repository
 elpaca/
