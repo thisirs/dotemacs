@@ -41,7 +41,6 @@
       (toggle-truncate-lines -1)))
 
   :hook
-  (auto-save-hook . org-save-all-agenda-buffers)
   (org-mode-hook . org-force-auto-fill)
   (org-mode-hook . turn-off-truncate-lines)
   ;; Insert an extra newline after a note

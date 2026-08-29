@@ -56,6 +56,12 @@
 (setopt auto-save-visited-predicate (lambda () (not (derived-mode-p 'message-mode))))
 (auto-save-visited-mode +1)
 
+;; Nothing auto-saves, so don't keep a recovery list either.  Delayed
+;; because `no-littering' sets the prefix when it loads, which happens
+;; after this file is read.
+(with-eval-after-load 'no-littering
+  (setopt auto-save-list-file-prefix nil))
+
 ;; No lockfiles
 (setopt create-lockfiles nil)
 
@@ -1198,6 +1204,8 @@ the vertical drag is done."
   ;; Exit after sending message
   (message-kill-buffer-on-exit t)
   (message-send-mail-function 'smtpmail-send-it)
+  ;; No auto-save of drafts
+  (message-auto-save-directory nil)
   (message-screenshot-command '("import" "-silent" "png:-"))
   :hook
   (message-mode-hook . turn-off-auto-fill)
