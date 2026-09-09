@@ -2323,6 +2323,16 @@ behavior added."
 
   (state-global-mode 1))
 
+;; Switch to another application's window.  Wayland lets no client raise
+;; another client's window, and GNOME refuses org.gnome.Shell.Introspect to
+;; unprivileged callers, so this goes out to the window-focus@local shell
+;; extension.  ("App" rather than "window" -- an Emacs window is another
+;; thing.)  `switch-to-app-matching' is what claude-p picks up.
+(use-package switch-to-app              ; Raise another application's window
+  :load-path (lambda () (list (expand-file-name "gnome-window-focus" projects-directory)))
+  :bind ("C-c o" . switch-to-app)
+  :commands switch-to-app-matching)
+
 ;; https://github.com/nflath/sudo-edit
 (use-package sudo-edit                  ; Open files as another user
   :after embark
