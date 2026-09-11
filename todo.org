@@ -1,0 +1,27 @@
+#+TODO: TODO | DONE CANCELLED
+#+TODO: QUESTION ANSWERED(@) | FIXED
+#+TODO: BUG | WONTFIX(@) FIX
+
+* TODO Add pseudo-project to org-ql-projects
+
+  I want to list another category under org-ql-projects. It is not an actual
+  project. It is a todo file in some directory with some task to do inside that
+  directory. For example, this one:
+  /home/sylvain/SynologyDrive/Sylvain/projects/todo.org. It is not a project,
+  but there is a todo to do some housekeeping. This todo.org should be listed
+  somewhere because they can be anywhere.
+
+* TODO Sort org-ql-projects by last activity
+
+  org-ql-projects should sort its project by last activity seen for that
+  project: datetime of actual directory of project. Inbox first, next random
+  todo categories (see other todo item) and last project by last activity.
+* TODO Make email notifications transient
+
+  I use mu4e and emacs notifications and i would like to make these
+  notifications transient as they keep piling up in the notification pane.
+
+* TODO Emamux and C-u C-z
+
+  Use /home/sylvain/SynologyDrive/Sylvain/projects/gnome-window-focus script to
+  automatically switch to tmux when pressing C-u C-z.
