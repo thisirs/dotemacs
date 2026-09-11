@@ -1542,6 +1542,41 @@ otherwise all show up as bare, ambiguous names like \"Lectures\"."
            (substring root (length base))
          (file-name-nondirectory (directory-file-name root))))))
 
+  (defun org-ql-projects--git-status (root)
+    "Git status of project ROOT, as a string to append to its name.
+Empty for a clean repository, and for a project that is not one at
+all.  Otherwise the counts `git status --porcelain' reports, in that
+order: staged files after a plus sign, modified but unstaged ones
+after an asterisk, untracked ones after a question mark, then how far
+the branch is ahead of and behind its upstream, after ↑ and ↓."
+    (let ((default-directory root)
+          (staged 0) (unstaged 0) (untracked 0)
+          branch lines parts)
+      (setq lines (ignore-errors
+                    (process-lines "git" "--no-optional-locks" "status"
+                                   "--porcelain" "--branch")))
+      (setq branch (car lines))
+      (dolist (line (cdr lines))
+        (if (string-prefix-p "??" line)
+            (setq untracked (1+ untracked))
+          (unless (eq (aref line 0) ?\s)
+            (setq staged (1+ staged)))
+          (unless (eq (aref line 1) ?\s)
+            (setq unstaged (1+ unstaged)))))
+      (when (> staged 0) (push (format "+%d" staged) parts))
+      (when (> unstaged 0) (push (format "*%d" unstaged) parts))
+      (when (> untracked 0) (push (format "?%d" untracked) parts))
+      ;; The --branch line reads like "## master...origin/master
+      ;; [ahead 1, behind 2]"; either half of the bracket can be missing,
+      ;; as can the bracket and the upstream themselves.
+      (when (and branch (string-match "ahead \\([0-9]+\\)" branch))
+        (push (concat "↑" (match-string 1 branch)) parts))
+      (when (and branch (string-match "behind \\([0-9]+\\)" branch))
+        (push (concat "↓" (match-string 1 branch)) parts))
+      (if parts
+          (concat "  " (string-join (nreverse parts) " "))
+        "")))
+
   (defun org-ql-projects--groups (roots)
     "Super-group specs for ROOTS, most recently active first.
 Each group matches todo.org's full path rather than the root
@@ -1558,7 +1593,8 @@ saved buffer-locally, this survives refreshing the view."
                              roots)))
       (mapcar (lambda (cell)
                 (let ((root (cdr cell)))
-                  (list :name (propertize (org-ql-projects--name root)
+                  (list :name (propertize (concat (org-ql-projects--name root)
+                                                  (org-ql-projects--git-status root))
                                           'org-ql-projects-root root
                                           'mouse-face 'highlight
                                           'follow-link t
