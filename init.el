@@ -820,13 +820,27 @@ the vertical drag is done."
   (autoload-after emamux:switch-cd emamux)
   :bind ("C-z" . emamux:switch-cd)
   :config
+  (defcustom emamux:terminal-window-pattern "wezterm"
+    "Regexp matching the window of the terminal that hosts tmux.
+Matched case-insensitively against the window class and title.  A
+prefix argument to `emamux:switch-cd' hands this to
+`switch-to-app-matching' (see the gnome-window-focus repository) to
+raise that terminal, so `C-u C-z' actually switches to tmux instead
+of only syncing its cwd in the background."
+    :type 'regexp)
+
   (defun emamux:display-message (message)
     (with-temp-buffer
       (emamux:tmux-run-command t "display-message" "-p" message)
       (string-trim (buffer-string))))
 
-  (defun emamux:switch-cd (&optional arg)
-    (interactive)
+  (defun emamux:switch-cd (&optional focus)
+    "Sync the active tmux pane's cwd to `default-directory'.
+With a prefix argument FOCUS, also raise the terminal hosting tmux
+via `switch-to-app-matching' and `emamux:terminal-window-pattern',
+best-effort: no such function, or a window manager that will not
+play along, just leaves the terminal where it is."
+    (interactive "P")
     (let* ((current-command (emamux:display-message "#{pane_current_command}"))
            (chdir-command
             (cond ((string= current-command "R")
@@ -835,7 +849,9 @@ the vertical drag is done."
                    (format "import os; os.chdir(\"%s\")" (file-truename default-directory)))
                   (t (format "cd \"%s\"" (file-truename default-directory))))))
       (let ((new-pane-id (emamux:current-active-pane-id)))
-        (emamux:tmux-run-command nil "send-keys" "-t" new-pane-id "C-u" "C-k" chdir-command "C-m")))))
+        (emamux:tmux-run-command nil "send-keys" "-t" new-pane-id "C-u" "C-k" chdir-command "C-m")))
+    (when (and focus (fboundp 'switch-to-app-matching))
+      (ignore-errors (switch-to-app-matching emamux:terminal-window-pattern)))))
 
 ;; https://github.com/oantolin/embark
 (use-package embark                     ; Conveniently act on minibuffer completions

@@ -21,7 +21,7 @@
   I use mu4e and emacs notifications and i would like to make these
   notifications transient as they keep piling up in the notification pane.
 
-* TODO Emamux and C-u C-z
+* DONE Emamux and C-u C-z
 
   Use /home/sylvain/SynologyDrive/Sylvain/projects/gnome-window-focus script to
   automatically switch to tmux when pressing C-u C-z.
