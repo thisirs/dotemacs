@@ -16,7 +16,7 @@
   org-ql-projects should sort its project by last activity seen for that
   project: datetime of actual directory of project. Inbox first, next random
   todo categories (see other todo item) and last project by last activity.
-* TODO Make email notifications transient
+* DONE Make email notifications transient
 
   I use mu4e and emacs notifications and i would like to make these
   notifications transient as they keep piling up in the notification pane.

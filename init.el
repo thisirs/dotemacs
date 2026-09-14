@@ -230,7 +230,10 @@
 ;; https://github.com/jwiegley/alert
 (use-package alert                      ; Growl-style notification system for Emacs
   :config
-  (alert-add-rule :style 'libnotify))
+  (alert-add-rule :style 'libnotify)
+  ;; Transient notifications (mu4e-alert's included) don't linger in the
+  ;; GNOME Shell message tray once they expire or are dismissed.
+  (setopt alert-libnotify-additional-args '("--transient")))
 
 ;; https://github.com/domtronn/all-the-icons.el
 (use-package all-the-icons            ; A library for inserting Developer icons
