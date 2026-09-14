@@ -2,7 +2,7 @@
 #+TODO: QUESTION ANSWERED(@) | FIXED
 #+TODO: BUG | WONTFIX(@) FIX
 
-* TODO Add pseudo-project to org-ql-projects
+* DONE Add pseudo-project to org-ql-projects
 
   I want to list another category under org-ql-projects. It is not an actual
   project. It is a todo file in some directory with some task to do inside that
@@ -11,7 +11,7 @@
   but there is a todo to do some housekeeping. This todo.org should be listed
   somewhere because they can be anywhere.
 
-* TODO Sort org-ql-projects by last activity
+* DONE Sort org-ql-projects by last activity
 
   org-ql-projects should sort its project by last activity seen for that
   project: datetime of actual directory of project. Inbox first, next random

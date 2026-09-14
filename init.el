@@ -1531,6 +1531,15 @@ lies below one.")
     "Regexps matched against project roots to exclude them.
 Projects outside `org-ql-projects-directories' are already excluded.")
 
+  (defvar org-ql-projects-pseudo-roots
+    (list (expand-file-name projects-directory))
+    "Directories with a todo.org that are not projects.
+Unlike `org-ql-projects-directories', these can be anywhere: each
+holds housekeeping tasks for that directory itself rather than for a
+project inside it, so it gets its own group instead of being folded
+into `org-ql-projects-files'.  Listed between Inbox and the sorted
+projects, in the order given here.")
+
   (defun org-ql-projects--roots ()
     "Known project roots in `org-ql-projects-directories', minus ignored ones."
     (seq-filter (lambda (root)
@@ -1596,30 +1605,38 @@ the branch is ahead of and behind its upstream, after ↑ and ↓."
           (concat "  " (string-join (nreverse parts) " "))
         "")))
 
-  (defun org-ql-projects--groups (roots)
-    "Super-group specs for ROOTS, most recently active first.
-Each group matches todo.org's full path rather than the root
-prefix, so a project nested inside another cannot swallow its
-items.
+  (defun org-ql-projects--group-spec (root)
+    "Super-group spec matching ROOT's todo.org.
+The group matches the file's full path rather than the root prefix,
+so a project nested inside another cannot swallow its items.
 
-The group name carries its project root as the text property
+The group name carries ROOT as the text property
 `org-ql-projects-root'.  `org-super-agenda--make-agenda-header'
 copies the name's properties onto the header line, which is what
 `org-ql-projects-dired' reads.  Since the super-group specs are
 saved buffer-locally, this survives refreshing the view."
+    (list :name (propertize (concat (org-ql-projects--name root)
+                                    (org-ql-projects--git-status root))
+                            'org-ql-projects-root root
+                            'mouse-face 'highlight
+                            'follow-link t
+                            'help-echo (format "mouse-1: Dired %s" root))
+          :file-path (regexp-quote (expand-file-name "todo.org" root))))
+
+  (defun org-ql-projects--groups (roots)
+    "Super-group specs for ROOTS, most recently active first."
     (let ((decorated (mapcar (lambda (root)
                                (cons (org-ql-projects--activity root) root))
                              roots)))
-      (mapcar (lambda (cell)
-                (let ((root (cdr cell)))
-                  (list :name (propertize (concat (org-ql-projects--name root)
-                                                  (org-ql-projects--git-status root))
-                                          'org-ql-projects-root root
-                                          'mouse-face 'highlight
-                                          'follow-link t
-                                          'help-echo (format "mouse-1: Dired %s" root))
-                        :file-path (regexp-quote (expand-file-name "todo.org" root)))))
+      (mapcar (lambda (cell) (org-ql-projects--group-spec (cdr cell)))
               (sort decorated (lambda (a b) (> (car a) (car b)))))))
+
+  (defun org-ql-projects--pseudo-groups (roots)
+    "Super-group specs for pseudo-project ROOTS, in the order given.
+Unlike `org-ql-projects--groups', these are not sorted by activity:
+pseudo-projects are not projects, so \"most recently active\" is not
+a meaningful order for them.  See `org-ql-projects-pseudo-roots'."
+    (mapcar #'org-ql-projects--group-spec roots))
 
   (defun org-ql-projects-dired ()
     "Open Dired on the project of the group header at point."
@@ -1644,21 +1661,27 @@ by `org-super-agenda-header-map'."
 
   (defun org-ql-projects ()
     "Show all todos from every known project's todo.org, plus loose ones.
-Projects are ordered by last activity, most recent first.  Files
-tagged `noagenda' (via #+FILETAGS:) are skipped."
+Groups run Inbox, then the pseudo-projects in
+`org-ql-projects-pseudo-roots', then real projects ordered by last
+activity, most recent first.  Files tagged `noagenda' (via
+#+FILETAGS:) are skipped."
     (interactive)
     (let* ((roots (seq-filter (lambda (root)
                                 (file-exists-p (expand-file-name "todo.org" root)))
                               (org-ql-projects--roots)))
+           (pseudo-roots (seq-filter (lambda (root)
+                                       (file-exists-p (expand-file-name "todo.org" root)))
+                                     org-ql-projects-pseudo-roots))
            (todo-files
             (delete-dups (append org-ql-projects-files
                                  (mapcar (lambda (root)
                                            (expand-file-name "todo.org" root))
-                                         roots)))))
+                                         (append pseudo-roots roots))))))
       (org-ql-search todo-files
         '(and (todo) (not (tags "noagenda")))
-        :super-groups (cons '(:name "Inbox" :file-path "Sylvain/Org/")
-                            (org-ql-projects--groups roots)))))
+        :super-groups (append (list '(:name "Inbox" :file-path "Sylvain/Org/"))
+                              (org-ql-projects--pseudo-groups pseudo-roots)
+                              (org-ql-projects--groups roots)))))
 
   ;; `org-ql-views' lives in org-ql-view, which loading org-ql alone
   ;; does not pull in.  It also pulls in org-super-agenda.
