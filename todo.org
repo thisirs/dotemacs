@@ -25,3 +25,25 @@
 
   Use /home/sylvain/SynologyDrive/Sylvain/projects/gnome-window-focus script to
   automatically switch to tmux when pressing C-u C-z.
+
+* DONE Remove emamux package
+
+  The only feature I use is C-z which is already partly implemented in claude-p.
+  Only thing missing in claude-p is a universal argument that reuse current tmux
+  window and change current working directory whether it is bash, python or R.
+  Shouldn't do something with claude windows but these windows are already
+  renamed so i don't know if it is possible to detect that current window is in
+  a claude session.
+
+  The missing half is =claude-p-tmux-cd= in claude-p, which
+  =claude-p-tmux-new-window= delegates to under a prefix argument; C-z is now
+  bound to the latter, so plain C-z opens a tmux window in the current buffer's
+  directory and C-u C-z moves the window already there instead, both raising
+  the terminal the way =emamux:switch-cd= did. The line typed into the pane
+  comes from =pane_current_command=: =setwd= for R, =os.chdir= for
+  =python[23]?=, =cd= for everything else, which is also right for IPython and
+  for any shell. Detecting a claude window needed nothing clever in the end —
+  the window /name/ is rewritten by the session, but =pane_current_command=
+  still reports =claude=, so the refusal is a membership test against
+  =claude-p--tmux-cd-refused-commands=. The =emamux= block is gone from
+  init.el, its defcustom and its two redefined emamux functions with it.
