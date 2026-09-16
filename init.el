@@ -2427,22 +2427,6 @@ behavior added."
 (use-package unfill                     ; Unfill paragraphs or regions, and toggle between filled & unfilled
   :bind ([remap fill-paragraph] . unfill-toggle))
 
-;; https://github.com/thisirs/vc-check-status
-(use-package vc-check-status            ; Warn you when quitting emacs and leaving repo dirty.
-  :defer 5
-  :config
-  ;; Only look for unpushed commits on master
-  (push '("~/.emacs.d" (unpushed "master") changes) vc-check-alist)
-
-  ;; Don't check on auto-committed repo
-  (add-to-list 'vc-check-cancel-hook
-               (lambda ()
-                 (and
-                  (fboundp 'vc-auto-commit-backend)
-                  (vc-auto-commit-backend))))
-
-  (vc-check-status-activate))
-
 ;; https://github.com/minad/vertico
 (use-package vertico                    ; VERTical Interactive COmpletion
   :ensure (vertico :files (:defaults "extensions/*"))
