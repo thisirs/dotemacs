@@ -2452,18 +2452,6 @@ behavior added."
   (visual-replace-global-mode 1)
   :hook (visual-replace-defaults-hook . visual-replace-toggle-regexp))
 
-;; http://github.com/thisirs/vc-auto-commit.git
-(use-package vc-auto-commit             ; Auto-committing feature for your repository
-  :ensure `(vc-auto-commit :repo ,(expand-file-name "vc-auto-commit" projects-directory))
-  :defer 5
-  :commands (vc-auto-commit-backend)
-  :bind ("C-x v C" . vc-auto-commit)
-  :config
-  (defun not-on-zbook (root backend)
-    (not (on-zbook)))
-  (add-hook 'vc-auto-commit-cancel-hook #'not-on-zbook)
-  (vc-auto-commit-activate))
-
 (use-package vox-note
   :load-path (lambda () (list (expand-file-name "vox-note" projects-directory))))
 
