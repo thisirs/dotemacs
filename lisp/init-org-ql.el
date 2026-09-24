@@ -247,6 +247,15 @@ by `org-super-agenda-header-map'."
         (org-ql-projects-dired)
       (org-agenda-goto-mouse event)))
 
+  (defun org-ql-projects-display ()
+    "Display the thing at point in another window, without selecting it.
+On a project group header, that is Dired on the project; elsewhere,
+the entry at point, as `org-agenda-show-and-scroll-up' does."
+    (interactive)
+    (if-let* ((root (org-get-at-bol 'org-ql-projects-root)))
+        (display-buffer (dired-noselect root))
+      (call-interactively #'org-agenda-show-and-scroll-up)))
+
   (org-ql-defpred research-project ()
     "Match entries in a project under `org-ql-projects-research-directories'."
     :body (let ((file (buffer-file-name (buffer-base-buffer))))
@@ -302,8 +311,11 @@ drop out."
   ;; `org-roam-todo-list') just signal a `user-error'.
   (define-key org-super-agenda-header-map (kbd "RET") #'org-ql-projects-dired)
   (define-key org-super-agenda-header-map [mouse-2] #'org-ql-projects-dired-mouse)
+  (define-key org-super-agenda-header-map (kbd "C-o") #'org-ql-projects-display)
   ;; And on the bare part of a header line, past the header string.
   (define-key org-ql-view-map [mouse-2] #'org-ql-projects-dired-mouse)
+  ;; Like C-o in Dired or a compilation buffer: show, don't select.
+  (define-key org-ql-view-map (kbd "C-o") #'org-ql-projects-display)
 
   ;; A function view is `call-interactively'd by `org-ql-view', so
   ;; register the command itself rather than duplicating its file list
