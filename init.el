@@ -446,22 +446,6 @@ This function is used in `citar-open-note-function'."
   (bookmark-watch-bookmark-file 'silent)
   (bookmark-save-flag 1)
   :preface
-  ;; Support for placeholder in filename of bookmarks
-  (defun bookmark-get-filename-advice (bookmark-name-or-record)
-    (if-let ((spec (bookmark-prop-get bookmark-name-or-record 'spec))
-             (filename (bookmark-prop-get bookmark-name-or-record 'filename)))
-        (progn (if (symbolp spec)
-                   (setq spec (funcall spec)))
-               (format-spec filename spec))
-      (bookmark-prop-get bookmark-name-or-record 'filename)))
-
-  (advice-add #'bookmark-get-filename :override #'bookmark-get-filename-advice)
-
-  (defun bookmark-spec ()
-    `((?a . ,(UTC-autumn-from-time (current-time)))
-      (?p . ,(UTC-spring-from-time (current-time)))
-      (?s . ,(UTC-semester-from-time (current-time)))))
-
   ;; Support for dynamically generated bookmarks
   (defun bookmark-not-generated (bmk-record)
     (null (bookmark-prop-get bmk-record 'generated)))
@@ -473,23 +457,45 @@ This function is used in `citar-open-note-function'."
 
   (advice-add 'bookmark-save :around #'bookmark-save-filter)
 
-  (defun bookmark-add-generated-bookmarks (file &optional overwrite no-msg default)
+  (defun bookmark-generated-record (name filename)
+    `(,name (filename . ,filename) (position . 0) (generated . t)))
+
+  (defun bookmark-semester-key (semester)
+    "Sort key for SEMESTER: P2026 comes before A2026."
+    (concat (substring semester 1) (if (eq (aref semester 0) ?P) "0" "1")))
+
+  (defun bookmark-teaching-bookmarks ()
+    "Bookmarks for semesters and their teaching units.
+Each semester directory (A2026, P2025...) gets a bookmark, and so
+does each teaching unit in it, as A2026_SY02.  The bare unit name,
+SY02, goes to the most recent semester that has it."
+    (let* ((directory (expand-file-name "enseignements" personal-directory))
+           (semesters (sort (directory-files directory nil "\\`[AP][0-9]\\{4\\}\\'")
+                            :key #'bookmark-semester-key))
+           (latest (make-hash-table :test #'equal))
+           records)
+      (dolist (semester semesters)
+        (let ((semester-dir (expand-file-name semester directory)))
+          (push (bookmark-generated-record semester semester-dir) records)
+          (dolist (unit (directory-files semester-dir nil "\\`[A-Z]+[0-9]+\\'"))
+            (let ((unit-dir (expand-file-name unit semester-dir)))
+              (when (file-directory-p unit-dir)
+                (push (bookmark-generated-record (concat semester "_" unit) unit-dir)
+                      records)
+                (puthash unit unit-dir latest))))))
+      (maphash (lambda (unit dir) (push (bookmark-generated-record unit dir) records))
+               latest)
+      (nreverse records)))
+
+  (defun bookmark-add-generated-bookmarks (&rest _)
     "Import bookmarks generated from specific directories."
-    (let ((directory (expand-file-name "enseignements" personal-directory)))
-      (bookmark-import-new-list
-       (mapcar (lambda (dir)
-                 `(,dir
-                   (filename . ,(expand-file-name dir directory))
-                   (position . 0)
-                   (generated . t)))
-               (directory-files directory nil "^\\(A\\|P\\)[0-9]\\{4\\}"))))
+    ;; Drop the previous ones so that reloading does not yield A2026<2>
+    (setq bookmark-alist (seq-filter #'bookmark-not-generated bookmark-alist))
+    (bookmark-import-new-list (bookmark-teaching-bookmarks))
     (let ((directory (expand-file-name "Documents" personal-directory)))
       (bookmark-import-new-list
        (mapcar (lambda (dir)
-                 `(,dir
-                   (filename . ,(expand-file-name dir directory))
-                   (position . 0)
-                   (generated . t)))
+                 (bookmark-generated-record dir (expand-file-name dir directory)))
                (directory-files directory nil "^[0-9]\\{4\\}")))))
 
   (advice-add 'bookmark-load :after #'bookmark-add-generated-bookmarks))

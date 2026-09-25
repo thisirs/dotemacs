@@ -157,35 +157,6 @@ and the index of the match."
     (read-directory-name "Copy in directory? " default-directory)))
   (copy-file file (expand-file-name (file-name-nondirectory file) (or directory default-directory))))
 
-(defun UTC-autumn-from-time (time)
-  "Return the autumn semester corresponding to TIME."
-  (let* ((dtime (decode-time time))
-         (month (nth 4 dtime))
-         (year (nth 5 dtime)))
-    (if (and (< month 8))
-        (format "A%d" (1- year))
-      (format "A%d" year))))
-
-(defun UTC-spring-from-time (time)
-  "Return the spring semester corresponding to TIME."
-  (let* ((dtime (decode-time time))
-         (month (nth 4 dtime))
-         (year (nth 5 dtime)))
-    (if (and (>= month 2))
-        (format "P%d" year)
-      (format "P%d" (1- year)))))
-
-(defun UTC-semester-from-time (time)
-  "Return the semester corresponding to TIME."
-  (let* ((dtime (decode-time time))
-         (month (nth 4 dtime))
-         (year (nth 5 dtime)))
-    (if (and (< month 8) (>= month 2))
-        (format "P%d" year)
-      (if (<= month 2)
-          (format "A%d" (1- year))
-        (format "A%d" year)))))
-
 (defun check-filepath (&rest filepaths)
   (if-let* ((available (seq-filter #'file-exists-p filepaths)))
       (car available)
