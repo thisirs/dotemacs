@@ -2407,7 +2407,12 @@ behavior added."
 (use-package tramp                      ; Transparent Remote Access, Multiple Protocol
   :ensure nil
   :custom
-  (remote-file-name-inhibit-locks t))
+  (remote-file-name-inhibit-locks t)
+  ;; Never let a background save reach out to a remote host: a stale
+  ;; buffer on an unreachable one turns every idle period into a failed
+  ;; connection and a password prompt.
+  (remote-file-name-inhibit-auto-save t)
+  (remote-file-name-inhibit-auto-save-visited t))
 
 (use-package treesit
   :ensure nil
