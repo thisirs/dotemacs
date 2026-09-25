@@ -22,6 +22,15 @@
 
   (advice-add 'dired-copy-filename-as-kill :around #'dired-copy-filename-as-kill-fix)
 
+  ;; `dired--ls-error-buffer' is only reset by the interactive `dired'
+  ;; commands, so an `ls' error from elsewhere (e.g. auto-revert of
+  ;; /tmp with vanishing files) makes every new Dired buffer fail.
+  (defun dired-reset-stale-ls-error (&rest _)
+    "Forget any `ls' error left over from a previous listing."
+    (setq dired--ls-error-buffer nil))
+
+  (advice-add 'dired-internal-noselect :before #'dired-reset-stale-ls-error)
+
   ;; Adapted from http://stackoverflow.com/a/19112313/1299368
   (defun dired-ediff-marked-files ()
     "Run ediff-files on a pair of files marked in dired buffer"
