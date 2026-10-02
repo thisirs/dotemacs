@@ -1372,6 +1372,162 @@ one is determined using `mu4e-attachment-dir'."
   ;; Store attachments
   (setq mm-tmp-directory (expand-file-name "~/deathrow"))
 
+  ;; Writing a part out is shared between `C-u e' below and the Embark
+  ;; actions under it, so that reaching one attachment two ways lands on one
+  ;; file rather than on two copies uniquified apart.
+  (defvar mu4e-mime-part--files (make-hash-table :test #'eq :weakness 'key)
+    "MIME handles already written out, mapped to where they went.
+Weak on the key, so an entry lives exactly as long as the article buffer
+that holds the handle does.")
+
+  (defun mu4e-mime-part-file (handle)
+    "Write the MIME part HANDLE under `mu4e-attachment-dir', return the path.
+
+Unlike the mailcap route, which hides the part in a temporary directory
+and deletes it a minute after the viewer exits, the file is kept: the
+point of opening an attachment in an editor is to still have afterwards
+what you did to it.  Written once per handle, so opening the same
+attachment a second time reopens the first file."
+    (or (gethash handle mu4e-mime-part--files)
+        (let* ((name (or (mm-handle-filename handle) "mime-part"))
+               (name (gnus-map-function mm-file-name-rewrite-functions
+                                        (file-name-nondirectory name)))
+               (file (mu4e--uniquify-file-name
+                      (mu4e-join-paths
+                       (mu4e-determine-attachment-dir
+                        name (mm-handle-media-type handle))
+                       name))))
+          (mm-save-part-to-file handle file)
+          (puthash handle file mu4e-mime-part--files))))
+
+  ;; Choose the viewing application by hand with `C-u e' on a MIME button
+  (define-advice gnus-mime-view-part-externally
+      (:around (orig-fun &optional handle ask) app-launcher)
+    "Pick the viewer with `app-launcher' when called with a prefix arg.
+ASK is that prefix argument; without it, defer to ORIG-FUN, i.e. the
+mailcap-defined viewer.  Lisp callers never pass ASK, so the other entry
+points to this function (`K e', the MIME menu) keep their behaviour."
+    (interactive (list (get-text-property (point) 'gnus-data)
+                       current-prefix-arg)
+                 gnus-article-mode gnus-summary-mode)
+    (if (not ask)
+        (funcall orig-fun handle)
+      (gnus-article-check-buffer)
+      (unless handle
+        (mu4e-warn "No MIME-part here"))
+      ;; `app-launcher-external-open-file' is defined in the `:config' of
+      ;; app-launcher, which use-package defers until embark is loaded as
+      ;; well; until then the name only holds the `autoload-after' stub,
+      ;; which takes no argument.
+      (require 'embark)
+      (require 'app-launcher)
+      (app-launcher-external-open-file (mu4e-mime-part-file handle))))
+
+  ;; And the same attachments as Embark targets, because opening one in an
+  ;; application is not the only thing worth doing to it, and everything
+  ;; else meant saving it by hand first and then finding it again.  Each
+  ;; action writes the part out on demand and works on that one path.
+  (defun mu4e-view-attachments ()
+    "The attachment-like MIME parts of the message being viewed."
+    (when (derived-mode-p 'mu4e-view-mode)
+      (seq-filter (lambda (part) (plist-get part :attachment-like))
+                  (mu4e-view-mime-parts))))
+
+  (defun mu4e-view-attachment-handle (filename)
+    "The MIME handle of the attachment named FILENAME in this message.
+Looked up by name when the action runs, rather than carried along from
+wherever the target was found, so that point having moved in between
+changes nothing.  Two parts of one message sharing a filename is rare
+enough to answer with the first."
+    (or (plist-get (seq-find (lambda (part)
+                               (equal (plist-get part :filename) filename))
+                             (mu4e-view-attachments))
+                   :handle)
+        (mu4e-warn "No attachment named %s here" filename)))
+
+  (defun mu4e-view-read-attachment ()
+    "Read the name of one of this message's attachments, with completion.
+This is the `interactive' spec of the commands below, and it is also how
+Embark hands them a target: it fills the prompt in and answers it."
+    (list (completing-read
+           "Attachment: "
+           (or (mapcar (lambda (part) (plist-get part :filename))
+                       (mu4e-view-attachments))
+               (mu4e-warn "No attachments for this message"))
+           nil t)))
+
+  (defun mu4e-view-attachment-open-with-app (filename)
+    "Open the attachment FILENAME with an application chosen by hand."
+    (interactive (mu4e-view-read-attachment) mu4e-view-mode)
+    (require 'embark)
+    (require 'app-launcher)
+    (app-launcher-external-open-file
+     (mu4e-mime-part-file (mu4e-view-attachment-handle filename))))
+
+  (defun mu4e-view-attachment-open-externally (filename)
+    "Open the attachment FILENAME with the system handler for its type."
+    (interactive (mu4e-view-read-attachment) mu4e-view-mode)
+    (embark-open-externally
+     (mu4e-mime-part-file (mu4e-view-attachment-handle filename))))
+
+  (defun mu4e-view-attachment-find-file (filename)
+    "Visit the attachment FILENAME in Emacs."
+    (interactive (mu4e-view-read-attachment) mu4e-view-mode)
+    (find-file (mu4e-mime-part-file (mu4e-view-attachment-handle filename))))
+
+  (defun mu4e-view-attachment-dired (filename)
+    "Open `dired' where the attachment FILENAME was written, point on it."
+    (interactive (mu4e-view-read-attachment) mu4e-view-mode)
+    (dired-jump nil (mu4e-mime-part-file (mu4e-view-attachment-handle filename))))
+
+  (defun mu4e-view-attachment-save (filename)
+    "Save the attachment FILENAME to a directory of your choosing."
+    (interactive (mu4e-view-read-attachment) mu4e-view-mode)
+    (let* ((handle (mu4e-view-attachment-handle filename))
+           (path (mu4e--uniquify-file-name
+                  (mu4e-join-paths (read-directory-name "Save to directory: ")
+                                   filename))))
+      (mm-save-part-to-file handle path)
+      (message "Wrote %s" path)))
+
+  (with-eval-after-load 'embark
+    (defun mu4e-embark-attachment-target ()
+      "The attachment under point, as an Embark target.
+
+Its MIME button and nothing else, with bounds, so that Embark says which
+part it is talking about.  Offering every attachment of the message from
+anywhere in it reads as convenient and is not: `C-,' in the body is
+aimed at what is under point, and an attachment target there pushes that
+aside -- with the cursor in a paragraph, the paragraph is the target.
+
+A button for a part that is not attachment-like -- the message body's
+own text/plain -- is no target either: there is nothing on this keymap
+worth doing to it."
+      (when-let* ((handle (get-text-property (point) 'gnus-data))
+                  (part (seq-find (lambda (p) (eq (plist-get p :handle) handle))
+                                  (mu4e-view-attachments))))
+        (cons 'mu4e-attachment
+              (cons (plist-get part :filename)
+                    (cons (or (previous-single-property-change
+                               (1+ (point)) 'gnus-data)
+                              (point-min))
+                          (or (next-single-property-change (point) 'gnus-data)
+                              (point-max)))))))
+
+    (defvar-keymap embark-mu4e-attachment-map
+      :doc "Actions on an attachment of the message being viewed."
+      :parent embark-general-map
+      "RET" #'mu4e-view-attachment-open-with-app
+      "x" #'mu4e-view-attachment-open-with-app
+      "e" #'mu4e-view-attachment-open-externally
+      "f" #'mu4e-view-attachment-find-file
+      "j" #'mu4e-view-attachment-dired
+      "s" #'mu4e-view-attachment-save)
+
+    (add-to-list 'embark-keymap-alist
+                 '(mu4e-attachment embark-mu4e-attachment-map))
+    (add-to-list 'embark-target-finders #'mu4e-embark-attachment-target))
+
   (require 'gnus-dired)
   ;; make the `gnus-dired-mail-buffers' function also work on
   ;; message-mode derived modes, such as mu4e-compose-mode
