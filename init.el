@@ -331,8 +331,9 @@ drops the field codes altogether."
 ;; https://github.com/minad/cape
 (use-package cape                       ; Completion At Point Extensions
   :demand
-  ;; Replaces the old `hippie-expand' on C-S-SPC: pops up the candidate
-  ;; list. S-SPC expands in place, see the `dabbrev' block below.
+  ;; Dabbrev-only candidate list on C-S-SPC; S-SPC goes through every
+  ;; capf instead, see `my-complete-or-correct' in the `corfu' block
+  ;; below.
   :bind ("C-S-SPC" . cape-dabbrev)
   :preface
   (defun my-cape-dabbrev-buffers ()
@@ -622,6 +623,10 @@ SY02, goes to the most recent semester that has it."
 ;; https://github.com/minad/corfu
 (use-package corfu                      ; Completion Overlay Region FUnction
   :demand
+  ;; Completion at point, displayed by corfu, on S-SPC.  Falls back to
+  ;; the Jinx corrections when nothing completes, see the `jinx' block
+  ;; below.
+  :bind ("S-SPC" . my-complete-or-correct)
   :custom
   (corfu-cycle t)
   :config
@@ -629,10 +634,6 @@ SY02, goes to the most recent semester that has it."
 
 (use-package dabbrev                    ; Dynamic abbreviations
   :ensure nil
-  ;; The in-place, cycling expansion `hippie-expand' used to provide on
-  ;; S-SPC: expand the word at point from any buffer, press again for the
-  ;; next candidate. C-S-SPC shows the list instead, see `cape' above.
-  :bind ("S-SPC" . dabbrev-expand)
   :custom
   ;; `dabbrev-check-all-buffers' is t by default, so keep secrets out
   (dabbrev-ignored-buffer-regexps '("\\.gpg\\'")))
@@ -1113,7 +1114,68 @@ the vertical drag is done."
 (use-package jinx                       ; Enchanted Spell Checker
   :hook (elpaca-after-init-hook . global-jinx-mode)
   :bind ([remap ispell-word] . jinx-correct)
-  :custom (jinx-languages "fr_FR fr_custom en_US en_custom"))
+  :custom (jinx-languages "fr_FR fr_custom en_US en_custom")
+  :preface
+  (defun my-complete-or-correct ()
+    "Complete the word at point, or correct it when nothing completes.
+Bound to S-SPC in the `corfu' block above.  The usual
+`completion-at-point-functions' are asked first, so dabbrev, file names
+and whatever the major mode provides keep the priority they have; only
+when they all come up empty does `my-jinx-capf' get its turn."
+    (interactive)
+    (or (completion-at-point)
+        (let ((completion-at-point-functions (list #'my-jinx-capf)))
+          (completion-at-point))))
+
+  (defun my-jinx-capf ()
+    "Correct the word at point from the Jinx dictionaries.
+Only reached through `my-complete-or-correct', and only for a word
+Enchant rejects: typing `electrique' and hitting S-SPC offers
+`électrique'.
+
+The candidates are corrections, not extensions of what is typed, so they
+would not survive `substring' and `orderless'.  Hence the `jinx'
+completion category, whose `completion-category-overrides' entry in the
+`orderless' block below selects the permissive `jinx' completion style
+defined here."
+    (when-let* ((dicts (bound-and-true-p jinx--dicts))
+                (bounds (jinx--bounds-of-word))
+                ((< (car bounds) (point) (1+ (cdr bounds))))
+                (word (buffer-substring-no-properties (car bounds) (point)))
+                ;; Below four characters Enchant mostly suggests noise.
+                ((>= (length word) 4))
+                ((not (jinx--word-valid-p word)))
+                (cands (delete-dups
+                        (mapcan (lambda (dict) (jinx--mod-suggest dict word))
+                                dicts))))
+      (list (car bounds) (cdr bounds)
+            (lambda (str pred action)
+              (if (eq action 'metadata)
+                  '(metadata (category . jinx))
+                (complete-with-action action cands str pred)))
+            ;; Exclusive on purpose: `completion--capf-wrapper' drops a
+            ;; non-exclusive Capf whose candidates do not start with what
+            ;; is typed, which is every correction there is.
+            :annotation-function (lambda (_word) " Jinx"))))
+
+  (defun my-jinx-try-completion (string _table _pred point)
+    "Leave STRING and POINT alone, a misspelling completes to nothing.
+Completion style function for the `jinx' style, see
+`completion-styles-alist'."
+    (cons string point))
+
+  (defun my-jinx-all-completions (_string table pred _point)
+    "Return every candidate of TABLE, however the word was misspelled.
+Completion style function for the `jinx' style, see
+`completion-styles-alist'.  Enchant already sorts its suggestions by
+likelihood, so they are kept in order and none is filtered out."
+    (when-let* ((all (all-completions "" table pred)))
+      (nconc all 0)))
+
+  :init
+  (add-to-list 'completion-styles-alist
+               '(jinx my-jinx-try-completion my-jinx-all-completions
+                      "Keep every Jinx suggestion, whatever was typed.")))
 
 ;; https://github.com/mooz/js2-mode/
 (use-package js2-mode                  ; Improved JavaScript editing mode
@@ -1594,7 +1656,11 @@ worth doing to it."
   :demand
   :config
   (setopt completion-styles '(substring orderless))
-  (setopt completion-category-overrides '((file (styles basic partial-completion)))))
+  (setopt completion-category-overrides
+          '((file (styles basic partial-completion))
+            ;; Spelling suggestions match none of the styles above, see
+            ;; `my-jinx-capf' in the `jinx' block above.
+            (jinx (styles jinx)))))
 
 ;; Contextual capture and agenda commands for Org-mode
 ;; https://github.com/thisirs/org-context
