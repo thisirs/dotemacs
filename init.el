@@ -1448,20 +1448,20 @@ one is determined using `mu4e-attachment-dir'."
             (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Evénements simples")
             "\
 * %?%(org-capture--add-link) %^G
-  %^T
+  %^t
   OPENED: %U"
             :created t)
            ("es" "Scheduled event" entry
             (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Liste des scheduled")
             "\
 * %?%(org-capture--add-link) %^G
-  SCHEDULED: %^T
+  SCHEDULED: %^t
   OPENED: %U")
            ("ed" "Deadline event" entry
             (file+headline "~/SynologyDrive/Sylvain/Org/agenda.org" "Liste des deadlines")
             "\
 * %?%(org-capture--add-link) %^G
-  DEADLINE: %^T
+  DEADLINE: %^t
   OPENED: %U"
             ))))
     (add-to-list 'org-context-capture-alist (cons 'mu4e-view-mode capture-tmpls))
