@@ -2837,11 +2837,9 @@ on save."
 
 (defun shared-on-vc ()
   "Return non-nil if current buffer is editing an already checked
-in file in a non-autocommitted repository."
+in file."
   (and (buffer-file-name)
-       (memq (vc-backend (buffer-file-name)) vc-handled-backends)
-       (not (and (fboundp 'vc-auto-commit-backend)
-                 (vc-auto-commit-backend)))))
+       (memq (vc-backend (buffer-file-name)) vc-handled-backends)))
 
 (defvar shared-directory-list
   '("~/Nextcloud/Shared/")
@@ -2858,7 +2856,7 @@ shared as specified in `shared-directory-list'."
               shared-directory-list)))
 
 ;; Don't delete trailing whitespaces on checked in vc-controlled files
-;; that are not auto-committed and on shared files
+;; and on shared files
 (add-hook 'delete-trailing-whitespace-hook #'shared-on-vc)
 (add-hook 'delete-trailing-whitespace-hook #'shared-directory)
 
@@ -2869,9 +2867,8 @@ shared as specified in `shared-directory-list'."
 (defun untabify-shared ()
   (or indent-tabs-mode (shared-directory)))
 
-;; Don't untabify (1) vc-controlled checked in files that are not
-;; auto-committed, (2) shared files through ownCloud and (3) buffer
-;; where `indent-tabs-mode' is on.
+;; Don't untabify (1) vc-controlled checked in files, (2) shared files
+;; through ownCloud and (3) buffer where `indent-tabs-mode' is on.
 (add-hook 'untabify-hook #'untabify-vc)
 (add-hook 'untabify-hook #'untabify-shared)
 
