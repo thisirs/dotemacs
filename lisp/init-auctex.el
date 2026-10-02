@@ -72,6 +72,16 @@ every other character to the stock predicate."
 
   (TeX-source-correlate-mode t)
 
+  ;; View PDFs with Papers, opened at the page matching point
+  (TeX-view-program-list
+   '(("Papers" ("papers" (mode-io-correlate " --page-index=%(outpage)") " %o") "papers")))
+  (TeX-view-program-selection
+   '(((output-dvi has-no-display-manager) "dvi2tty")
+     ((output-dvi style-pstricks) "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "Papers")
+     (output-html "xdg-open")))
+
   ;; Autosave before compiling
   (TeX-save-query nil)
 
