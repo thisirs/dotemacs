@@ -524,7 +524,7 @@ SY02, goes to the most recent semester that has it."
   :bind (("C-c d" . claude-p-dispatch)
          ("C-z" . claude-p-tmux-new-window))
   :custom
-  (claude-p-default-model "haiku"))
+  (claude-p-default-model "sonnet"))
 
 ;; https://gitlab.kitware.com/cmake/cmake.git
 (use-package cmake-mode)        ; major-mode for editing CMake sources
