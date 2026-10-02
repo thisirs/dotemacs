@@ -249,11 +249,14 @@
   :preface
   (autoload-after app-launcher-external-open-file app-launcher)
   :config
-  (defun app-launcher-external-open-file (file)
-    (interactive (list (read-file-name (format "Open file : "))))
+  (defun app-launcher-read-exec (&optional prompt)
+    "Read an application with completion and return its Exec entry.
+PROMPT defaults to \"Run app: \".  The returned string still holds the
+field codes of the desktop entry (%f, %F, %u, %U); turn it into a shell
+command with `app-launcher-exec-command'."
     (let* ((candidates (app-launcher-list-apps))
            (selected (completing-read
-                      "Run app: "
+                      (or prompt "Run app: ")
                       (lambda (str pred flag)
                         (if (eq flag 'metadata)
                             '(metadata
@@ -266,19 +269,29 @@
                         (if nil
                             t
                           (cdr (assq 'visible y))))
-                      t nil 'app-launcher nil nil))
-           (exec (cdr (assq 'exec (gethash selected app-launcher--cache))))
-           (command (mapconcat
-                     (lambda (chunk)
-                       (cond
-                        ((or (equal chunk "%U")
-                             (equal chunk "%F")
-                             (equal chunk "%u")
-                             (equal chunk "%f"))
-                         (if file (shell-quote-argument (expand-file-name file)) ""))
-                        (t chunk)))
-                     (split-string exec)
-                     " ")))
+                      t nil 'app-launcher nil nil)))
+      (cdr (assq 'exec (gethash selected app-launcher--cache)))))
+
+  (defun app-launcher-exec-command (exec arg)
+    "Replace the file field codes of EXEC, an Exec entry of a desktop file.
+ARG is inserted verbatim in place of %f, %F, %u and %U, so it must
+already be quoted for the shell.  It can also be a placeholder such as
+\"%s\", to build a command template for `mm-display-external'.  A nil ARG
+drops the field codes altogether."
+    (mapconcat
+     (lambda (chunk)
+       (if (member chunk '("%U" "%F" "%u" "%f"))
+           (or arg "")
+         chunk))
+     (split-string exec)
+     " "))
+
+  (defun app-launcher-external-open-file (file)
+    "Open FILE with an application chosen interactively."
+    (interactive (list (read-file-name "Open file : ")))
+    (let ((command (app-launcher-exec-command
+                    (app-launcher-read-exec)
+                    (and file (shell-quote-argument (expand-file-name file))))))
       (message "Opening with \"%s\"" command)
       (call-process-shell-command command nil 0 nil))))
 
