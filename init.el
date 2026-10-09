@@ -2066,7 +2066,10 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
 ;; https://elpa.gnu.org/packages/project.html
 (use-package project                    ; Operations on the current project
   :ensure nil
-  :custom (project-switch-commands 'project-dired)
+  :after no-littering
+  :custom
+  (project-list-file (change-base-dir project-list-file))
+  (project-switch-commands 'project-dired)
   :config
   (defun project-reload-projects ()
     (interactive)
