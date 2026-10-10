@@ -2918,16 +2918,8 @@ to cancel it."
 ;; Always add a final newline
 (setopt require-final-newline t)
 
-;; Display only time in the modeline
-(setopt display-time-format "%k:%M %b %y")
-(setopt display-time-string-forms
-      '((propertize
-         (format-time-string display-time-format now)
-         'help-echo
-         (format-time-string "%a %b %e, %Y" now))))
-
-;; Display time in the modeline
-(display-time-mode t)
+;; Disable display time in the modeline
+(display-time-mode -1)
 
 (setopt sentence-end-double-space nil)
 
