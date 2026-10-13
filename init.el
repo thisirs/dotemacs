@@ -1333,6 +1333,8 @@ one is determined using `mu4e-attachment-dir'."
   :custom
   (mu4e-mu-binary (expand-file-name "mu/build/mu/mu" elpaca-sources-directory))
   (mu4e-attachment-dir "~/deathrow")
+  ;; No unread(+new)/total counter in the global mode line
+  (mu4e-modeline-support nil)
   (mu4e-completing-read-function 'completing-read)
   (mu4e-compose-keep-self-cc nil)
   (mu4e-compose-dont-reply-to-self t)

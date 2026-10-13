@@ -47,3 +47,18 @@
   still reports =claude=, so the refusal is a membership test against
   =claude-p--tmux-cd-refused-commands=. The =emamux= block is gone from
   init.el, its defcustom and its two redefined emamux functions with it.
+* DONE Don't display email information in modeline
+
+  Currently there is a string that looks like "34(+16)/703" plus some icon.
+  Remove all of it. It comes from mu4e.
+
+  The counter is =mu4e-modeline-mode=, the global segment mu4e turns on at
+  start-up when =mu4e-modeline-support= is non-nil (the default). That option
+  is now nil in the =:custom= of =mu4e= in init.el, so the mode is switched off
+  instead and neither the counts nor the icon appear. Notifications from
+  =mu4e-alert= are unaffected.
+
+* TODO Make inline task for org-mode available
+
+  Inline tasks are not available directly; we need to require the library before
+  using it. Would it be possible to autoload it?
