@@ -58,7 +58,15 @@
   instead and neither the counts nor the icon appear. Notifications from
   =mu4e-alert= are unaffected.
 
-* TODO Make inline task for org-mode available
+* DONE Make inline task for org-mode available
 
   Inline tasks are not available directly; we need to require the library before
   using it. Would it be possible to autoload it?
+
+  The =use-package org-inlinetask= form in lisp/init-org.el already had
+  =:after org=, but with =use-package-always-defer= set to t it only registered
+  the package and never required it. It now has =:demand t=, so the library is
+  loaded as soon as org is. I preferred that to an autoload on
+  =org-inlinetask-insert-task= (=C-c C-x t=): existing inline tasks in a file
+  need the library for their fontification and folding before any command is
+  called.

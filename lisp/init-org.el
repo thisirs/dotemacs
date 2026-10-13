@@ -392,7 +392,8 @@ entry from each headline of FILEV."
   (org-cite-activate-processor 'citar))
 
 
-(use-package org-inlinetask :after org :ensure nil)
+;; `use-package-always-defer' would otherwise never load it
+(use-package org-inlinetask :after org :demand t :ensure nil)
 
 (use-package ox-latex
   :ensure nil
