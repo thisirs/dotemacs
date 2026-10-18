@@ -26,8 +26,7 @@
 ;; https://github.com/thisirs/scratch-message.git
 (use-package scratch-message            ; Changing message in your scratch buffer
   :demand
-  :ensure `(scratch-message :type git
-                              :local-repo ,(expand-file-name "scratch-message" projects-directory))
+  :ensure `(scratch-message :repo ,(expand-file-name "scratch-message" projects-directory))
   :config
   (defun scratch-message-random ()
     (let ((funs '(scratch-message-print-quote
