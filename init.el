@@ -116,6 +116,33 @@
 
 (setopt elpaca-verbosity 1)
 
+;; Packages built straight from a local working repo are pinned (no
+;; upstream to merge), so `elpaca-update-all' skips them. Rebuild them
+;; once the update queue settles so new files, autoloads and .elc
+;; follow local commits.
+(defun elpaca-local-pinned-ids ()
+  "Return ids of queued packages pinned to a local working repo."
+  (cl-loop for (id . e) in (elpaca--queued)
+           for recipe = (elpaca<-recipe e)
+           for repo = (plist-get recipe :repo)
+           when (and (plist-get recipe :pin) (stringp repo) (file-directory-p repo))
+           collect id))
+
+(defun elpaca-rebuild-local-pinned (&rest _)
+  "Rebuild every package pinned to a local working repo."
+  (interactive)
+  (remove-hook 'elpaca-queue-finish-functions #'elpaca-rebuild-local-pinned)
+  (dolist (id (elpaca-local-pinned-ids))
+    (elpaca-rebuild id)
+    ;; `elpaca-rebuild' keeps a failed package's old steps (fetch, merge),
+    ;; which cannot succeed without an upstream
+    (let ((e (elpaca-get id)))
+      (setf (elpaca<-build-steps e) (elpaca-build-steps e :rebuild))))
+  (elpaca-process-queues))
+
+(define-advice elpaca-merge-all (:after (&rest _) rebuild-local-pinned)
+  (add-hook 'elpaca-queue-finish-functions #'elpaca-rebuild-local-pinned))
+
 ;; Global use-package behaviour, set before any declaration below relies on it
 (setopt use-package-always-ensure t)
 (setopt use-package-verbose nil)

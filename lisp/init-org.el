@@ -451,7 +451,8 @@ child checkboxes."
 
 (use-package org-auto-archive
   :if (on-zbook)
-  :ensure `(org-auto-archive :repo ,(expand-file-name "org-auto-archive" projects-directory))
+  ;; Local working repo with no upstream: nothing to update
+  :ensure `(org-auto-archive :repo ,(expand-file-name "org-auto-archive" projects-directory) :pin t)
   :hook (kill-emacs-hook . org-auto-archive-process-buffers)
   :custom
   (org-auto-archive-plan

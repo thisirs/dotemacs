@@ -5,7 +5,9 @@
 ;; https://github.com/thisirs/org-password-manager
 (use-package org-password-manager       ; Password manager for Org mode
   :ensure `(org-password-manager
-            :repo ,(expand-file-name "org-password-manager" projects-directory))
+            :repo ,(expand-file-name "org-password-manager" projects-directory)
+            ;; Local working repo with no upstream: nothing to update
+            :pin t)
   ;; Loaded on idle rather than on first use: the store has to follow
   ;; every save of the org file, not only the saves that happen after a
   ;; password was asked for.
