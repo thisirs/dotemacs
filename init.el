@@ -237,7 +237,8 @@
   :config
   (with-eval-after-load 'org
       (progn
-        (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8))
+        (require (quote org-latex-preview))
+        (setq org-latex-preview-appearance-options (plist-put org-latex-preview-appearance-options :scale 1.8))
         (add-hook 'agent-shell-section-functions
                   (lambda (section)
                     (when (and (map-nested-elt section '(:body :start))

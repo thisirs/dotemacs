@@ -210,7 +210,8 @@ the selected file."
      (R . t)))
 
   ;; Bigger latex fragment
-  (plist-put org-format-latex-options :scale 1.5)
+  (require (quote org-latex-preview))
+  (plist-put org-latex-preview-appearance-options :scale 1.5)
 
   (and (boundp 'server-process)
        (require 'org-protocol))
