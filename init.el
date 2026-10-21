@@ -2072,23 +2072,25 @@ If nil, `C-c p' is instead a keymap prefix (`playerctl-map')."
 "
     "Header inserted in a project's todo.org when it is created.")
 
-  (defun project-todo-capture-target ()
-    "Visit the todo.org of the current project, at its end.
+  (defun project-todo-capture-target (file)
+    "Visit FILE, a project's todo.org, at its end.
 Create it with `project-todo-header' if it does not exist."
-    (let ((file (expand-file-name "todo.org" (project-root (project-current t)))))
-      (set-buffer (org-capture-target-buffer file))
-      (when (= (buffer-size) 0)
-        (insert project-todo-header))
-      (widen)
-      (goto-char (point-max))))
+    (set-buffer (org-capture-target-buffer file))
+    (when (= (buffer-size) 0)
+      (insert project-todo-header))
+    (widen)
+    (goto-char (point-max)))
 
-  (defun project-add-todo ()
-    "Capture a todo item at the end of the current project's todo.org."
-    (interactive)
+  (defun project-add-todo (dir)
+    "Capture a todo item at the end of the todo.org of the project in DIR.
+Interactively, prompt for the project."
+    (interactive (list (project-prompt-project-dir)))
     (require 'org-capture)
-    (let ((org-capture-templates
-           '(("t" "Project todo" entry (function project-todo-capture-target)
-              "* TODO %?" :empty-lines-before 1))))
+    (let* ((file (expand-file-name "todo.org" dir))
+           (org-capture-templates
+            `(("t" "Project todo" entry
+               (function ,(lambda () (project-todo-capture-target file)))
+               "* TODO %?" :empty-lines-before 1))))
       (org-capture nil "t")))
 
   (keymap-set project-prefix-map "t" #'project-add-todo))
