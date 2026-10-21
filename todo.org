@@ -70,3 +70,13 @@
   =org-inlinetask-insert-task= (=C-c C-x t=): existing inline tasks in a file
   need the library for their fontification and folding before any command is
   called.
+* DONE Add a "C-x p t" binding to add todo items to project
+
+  =project-add-todo= in the =use-package project= form of init.el, bound to =t=
+  in =project-prefix-map=, runs =org-capture= with a one-off template that
+  files a =* TODO= entry at the end of the current project's todo.org
+  (=project-todo-capture-target=). A missing todo.org is created with the usual
+  three =#+TODO:= lines (=project-todo-header=). The template is let-bound
+  rather than added to the personal =org-capture-templates=, so it does not
+  show up in the =C-c c= menu and its target always follows the current project.
+
