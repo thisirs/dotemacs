@@ -1115,6 +1115,11 @@ the vertical drag is done."
   :config
   (add-to-list 'isearch-mb--with-buffer #'isearch-yank-word)
   (define-key isearch-mb-minibuffer-map (kbd "C-w") #'isearch-yank-word)
+  ;; isearch-mb briefly selects the search window on each keystroke; a
+  ;; redisplay at that moment makes `minibuffer-nonselected-mode'
+  ;; flash the whole search string in yellow.
+  (advice-add 'minibuffer--nonselected-check :before-until
+              (lambda (&rest _) isearch-mode))
   (isearch-mb-mode))
 
 ;; https://github.com/astoff/code-cells.el
