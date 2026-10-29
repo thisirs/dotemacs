@@ -56,6 +56,21 @@
 (setopt auto-save-visited-predicate (lambda () (not (derived-mode-p 'message-mode))))
 (auto-save-visited-mode +1)
 
+;; Files edited on another machine come back through Synology Drive:
+;; reload them.  `magit-auto-revert-mode' only covers files tracked by
+;; git, which left the Org files stale.  A buffer with unsaved changes
+;; is never reverted, so save it too as soon as Emacs loses focus,
+;; without waiting for `auto-save-visited-interval'.
+(setopt auto-revert-verbose nil)
+(global-auto-revert-mode +1)
+(add-function :after after-focus-change-function
+              (lambda ()
+                (unless (frame-focus-state)
+                  (save-some-buffers t (lambda ()
+                                         (and buffer-file-name
+                                              (not (file-remote-p buffer-file-name))
+                                              (funcall auto-save-visited-predicate)))))))
+
 ;; Nothing auto-saves, so don't keep a recovery list either.  Delayed
 ;; because `no-littering' sets the prefix when it loads, which happens
 ;; after this file is read.
