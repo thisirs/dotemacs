@@ -563,7 +563,11 @@ SY02, goes to the most recent semester that has it."
   :bind (("C-c d" . claude-p-dispatch)
          ("C-z" . claude-p-tmux-new-window))
   :custom
-  (claude-p-default-model "sonnet"))
+  (claude-p-default-model "sonnet")
+  ;; A JavaScript regexp (the shell extension tests it), tried on wm_class
+  ;; and title alike: anchored so a title merely mentioning kitty does not
+  ;; match.  wezterm's wm_class is kept for when it comes back.
+  (claude-p-terminal-window-pattern "^(kitty|org\\.wezfurlong\\.wezterm)$"))
 
 ;; https://gitlab.kitware.com/cmake/cmake.git
 (use-package cmake-mode)        ; major-mode for editing CMake sources
