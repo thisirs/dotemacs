@@ -15,7 +15,8 @@
             (list projects-directory
                   (expand-file-name "enseignements/repositories" personal-directory)
                   (expand-file-name "conf-files" personal-directory)
-                  (expand-file-name "~/.emacs.d")))
+                  (expand-file-name "~/.emacs.d")
+                  (expand-file-name "anki" personal-directory)))
     "Directories holding my projects.
 A known project counts as mine when its root is one of these or
 lies below one.")
