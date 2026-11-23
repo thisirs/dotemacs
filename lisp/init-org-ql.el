@@ -5,53 +5,51 @@
   :preface
   (autoload-after org-ql-projects org-ql)
   :config
-  (defvar org-ql-projects-files
-    (list ;(expand-file-name "Org/agenda.org" personal-directory)
-          (expand-file-name "Org/someday.org" personal-directory))
-    "Loose todo files, not attached to any project.")
+  (defvar org-ql-projects-sources
+    `((inbox ,(expand-file-name "Org/someday.org" personal-directory))
+      (fixed ,projects-directory)
+      (projects ,projects-directory :git t)
+      (projects ,(expand-file-name "enseignements/repositories" personal-directory)
+                :git t :depth 2)
+      (project ,(expand-file-name "conf-files" personal-directory))
+      (project "~/.emacs.d")
+      (project ,(expand-file-name "anki" personal-directory)
+               :files ("todo.org" "queue.org"))
+      (projects ,(expand-file-name "recherche/projects" personal-directory)
+                :keep t :research t :prefix t)
+      (projects ,(expand-file-name "recherche/PoC" personal-directory)
+                :keep t :research t :prefix t)
+      (ignore "/obsolete/"))
+    "Every source of todos shown by `org-ql-projects'.
+Each entry is (KIND ARG . PLIST), KIND being one of:
 
-  (defvar org-ql-projects-directories
-    (mapcar (lambda (dir) (file-name-as-directory (expand-file-name dir)))
-            (list projects-directory
-                  (expand-file-name "enseignements/repositories" personal-directory)
-                  (expand-file-name "conf-files" personal-directory)
-                  (expand-file-name "~/.emacs.d")
-                  (expand-file-name "anki" personal-directory)))
-    "Directories holding my projects.
-A known project counts as mine when its root is one of these or
-lies below one.")
+  (inbox FILE)      A loose todo file, shown in the \"Inbox\" group.
+  (fixed DIR)       DIR's own todo.org, for housekeeping tasks of a
+                    directory that is not a project.  Shown in its own
+                    group after Inbox, in the order of this list.
+  (project DIR)     A single project rooted at DIR.
+  (projects DIR)    Every directory below DIR with a todo.org is a
+                    project.  The search stops at the first such
+                    directory, so a project's subdirectories are never
+                    projects themselves.
+  (ignore REGEXP)   Drop the projects whose root matches REGEXP.
 
-  (defvar org-ql-projects-research-directories
-    (mapcar (lambda (dir) (file-name-as-directory (expand-file-name dir personal-directory)))
-            (list "recherche/projects" "recherche/PoC"))
-    "Directories whose every subdirectory is a research project.
-Unlike projects found through `org-ql-projects-directories', one is
-listed as soon as it has a todo.org, even with no open todo, until
-that todo.org is tagged `closed' (via #+FILETAGS:).  One without a
-todo.org is not listed at all, which is what hides the finished
-projects that predate this.  They need not be known to project.el.")
+Projects, from `project' or `projects' entries, are shown after the
+fixed groups, most recently active first.  Their PLIST can hold:
 
-  (defvar org-ql-projects-ignore-regexps '("/obsolete/")
-    "Regexps matched against project roots to exclude them.
-Projects outside `org-ql-projects-directories' are already excluded.")
+  :files LIST   Org files of the project, relative to its root and
+                possibly wildcards.  Defaults to (\"todo.org\").
+  :keep t       Show the project even with no open todo.
+  :research t   Include it in the research view, see `org-ql-projects'.
 
-  (defvar org-ql-projects-pseudo-roots
-    (list (expand-file-name projects-directory))
-    "Directories with a todo.org that are not projects.
-Unlike `org-ql-projects-directories', these can be anywhere: each
-holds housekeeping tasks for that directory itself rather than for a
-project inside it, so it gets its own group instead of being folded
-into `org-ql-projects-files'.  Listed between Inbox and the sorted
-projects, in the order given here.")
+and for `projects' entries only:
 
-  (defun org-ql-projects--roots ()
-    "Known project roots in `org-ql-projects-directories', minus ignored ones."
-    (seq-filter (lambda (root)
-                  (and (seq-some (lambda (dir) (string-prefix-p dir root))
-                                 org-ql-projects-directories)
-                       (not (seq-some (lambda (re) (string-match-p re root))
-                                      org-ql-projects-ignore-regexps))))
-                (mapcar #'expand-file-name (project-known-project-roots))))
+  :git t        Only count directories that are Git repositories.
+  :depth N      How many levels below DIR to look, 1 by default.
+  :prefix t     Name projects \"DIR-NAME/SUB\" instead of \"SUB\".
+
+A project whose todo.org is tagged `closed' (via #+FILETAGS:) is not
+listed, which is how a finished project with :keep goes away.")
 
   (defun org-ql-projects--closed-p (root)
     "Non-nil if ROOT's todo.org is tagged `closed' via #+FILETAGS:."
@@ -62,17 +60,67 @@ projects, in the order given here.")
              (let ((case-fold-search t))
                (re-search-forward "^#\\+FILETAGS:.*:closed:" nil t))))))
 
-  (defun org-ql-projects--research-roots ()
-    "Research project roots with a todo.org not tagged `closed'.
-See `org-ql-projects-research-directories'."
-    (seq-remove #'org-ql-projects--closed-p
-                (mapcar #'file-name-as-directory
-                        (seq-filter (lambda (dir)
-                                      (file-exists-p (expand-file-name "todo.org" dir)))
-                                    (mapcan (lambda (dir)
-                                              (when (file-directory-p dir)
-                                                (directory-files dir t "\\`[^.]")))
-                                            org-ql-projects-research-directories)))))
+  (defun org-ql-projects--scan (dir depth git)
+    "Project roots below DIR, at most DEPTH levels down.
+A directory is a project when it has a todo.org and, with GIT
+non-nil, is a Git repository.  The search does not descend into a
+project, nor into any Git repository."
+    (when (file-directory-p dir)
+      (mapcan (lambda (sub)
+                (let ((sub (file-name-as-directory sub)))
+                  (cond ((and (file-exists-p (expand-file-name "todo.org" sub))
+                              (or (not git) (file-exists-p (expand-file-name ".git" sub))))
+                         (list sub))
+                        ((and (> depth 1)
+                              (not (file-exists-p (expand-file-name ".git" sub))))
+                         (org-ql-projects--scan sub (1- depth) git)))))
+              (seq-filter #'file-directory-p (directory-files dir t "\\`[^.]")))))
+
+  (defun org-ql-projects--make (root name plist)
+    "Project record for ROOT, displayed as NAME, with options PLIST.
+It is a plist with :root, :name, :files (existing absolute paths,
+see `org-ql-projects-sources'), :keep and :research."
+    (list :root root
+          :name name
+          :files (delete-dups
+                  (mapcan (lambda (file)
+                            (file-expand-wildcards (expand-file-name file root)))
+                          (or (plist-get plist :files) '("todo.org"))))
+          :keep (plist-get plist :keep)
+          :research (plist-get plist :research)))
+
+  (defun org-ql-projects--projects (kinds)
+    "Project records from the `org-ql-projects-sources' entries of KINDS.
+KINDS is a list of entry kinds, such as (project projects).  Projects
+with no existing file, ignored, or closed are left out."
+    (let ((ignore (mapcar #'cadr (seq-filter (lambda (entry) (eq (car entry) 'ignore))
+                                             org-ql-projects-sources)))
+          projects)
+      (pcase-dolist (`(,kind ,arg . ,plist) org-ql-projects-sources)
+        (when (memq kind kinds)
+          (let ((dir (file-name-as-directory (expand-file-name arg))))
+            (pcase kind
+              ((or 'project 'fixed)
+               (push (org-ql-projects--make
+                      dir (file-name-nondirectory (directory-file-name dir)) plist)
+                     projects))
+              ('projects
+               (let ((base (if (plist-get plist :prefix)
+                               (file-name-directory (directory-file-name dir))
+                             dir)))
+                 (dolist (root (org-ql-projects--scan dir (or (plist-get plist :depth) 1)
+                                                      (plist-get plist :git)))
+                   (push (org-ql-projects--make
+                          root (directory-file-name (substring root (length base))) plist)
+                         projects))))))))
+      (seq-filter (lambda (project)
+                    (let ((root (plist-get project :root)))
+                      (and (plist-get project :files)
+                           (not (seq-some (lambda (re) (string-match-p re root)) ignore))
+                           (not (org-ql-projects--closed-p root)))))
+                  (seq-uniq (nreverse projects)
+                            (lambda (a b) (equal (plist-get a :root) (plist-get b :root)))))))
+
 
   (defun org-ql-projects--activity (root)
     "Last-activity time of project ROOT, in seconds since the epoch.
@@ -87,21 +135,6 @@ when there is no todo.org either."
                       (let ((todo (expand-file-name "todo.org" root)))
                         (if (file-exists-p todo) todo root)))))))
 
-  (defun org-ql-projects--name (root)
-    "Display name for ROOT: its path below its `org-ql-projects-directories' base.
-Nested projects such as the AOS1/AOS2 teaching repositories would
-otherwise all show up as bare, ambiguous names like \"Lectures\".
-Projects in `org-ql-projects-research-directories' keep that
-directory's name as a prefix, as in \"PoC/Some_Idea\"."
-    (let ((base (seq-find (lambda (dir) (string-prefix-p dir root))
-                          (append org-ql-projects-directories
-                                  (mapcar (lambda (dir)
-                                            (file-name-directory (directory-file-name dir)))
-                                          org-ql-projects-research-directories)))))
-      (directory-file-name
-       (if (and base (> (length root) (length base)))
-           (substring root (length base))
-         (file-name-nondirectory (directory-file-name root))))))
 
   (defun org-ql-projects--git-status (root)
     "Git status of project ROOT, as a string to append to its name.
@@ -138,36 +171,40 @@ the branch is ahead of and behind its upstream, after ↑ and ↓."
           (concat "  " (string-join (nreverse parts) " "))
         "")))
 
-  (defun org-ql-projects--group-spec (root &optional keep)
-    "Super-group spec matching ROOT's todo.org.
-The group matches the file's full path rather than the root prefix,
-so a project nested inside another cannot swallow its items.
+  (defun org-ql-projects--group-spec (project)
+    "Super-group spec matching the org files of PROJECT, a project record.
+See `org-ql-projects--make'.  The group matches the files' full
+paths rather than the root prefix, so a project nested inside
+another cannot swallow its items.
 
-The group name carries ROOT as the text property
+The group name carries the root as the text property
 `org-ql-projects-root'.  `org-super-agenda--make-agenda-header'
 copies the name's properties onto the header line, which is what
 `org-ql-projects-dired' reads.  Since the super-group specs are
 saved buffer-locally, this survives refreshing the view.
 
-With KEEP non-nil, the group is shown even with no todo: the name
-also carries `org-ql-projects-keep', which tells
+With :keep, the group is shown even with no todo: the name also
+carries the project's files as `org-ql-projects-keep', which tells
 `org-ql-projects--add-placeholders' to feed the group a placeholder
 item, and the group matches that item too."
-    (append
-     (list :name (propertize (concat (org-ql-projects--name root)
-                                     (org-ql-projects--git-status root))
-                             'org-ql-projects-root root
-                             'org-ql-projects-keep keep
-                             'mouse-face 'highlight
-                             'follow-link t
-                             'help-echo (format "mouse-1: Dired %s" root))
-           :file-path (regexp-quote (expand-file-name "todo.org" root)))
-     (when keep
-       ;; A quoted lambda, not a closure: `org-super-agenda' names
-       ;; :pred groups by pattern-matching on `(lambda . ,_)'.
-       (list :pred `(lambda (item)
-                      (equal (get-text-property 0 'org-ql-projects-placeholder item)
-                             ,root))))))
+    (let ((root (plist-get project :root))
+          (files (plist-get project :files))
+          (keep (plist-get project :keep)))
+      (append
+       (list :name (propertize (concat (plist-get project :name)
+                                       (org-ql-projects--git-status root))
+                               'org-ql-projects-root root
+                               'org-ql-projects-keep (and keep files)
+                               'mouse-face 'highlight
+                               'follow-link t
+                               'help-echo (format "mouse-1: Dired %s" root))
+             :file-path (mapcar #'regexp-quote files))
+       (when keep
+         ;; A quoted lambda, not a closure: `org-super-agenda' names
+         ;; :pred groups by pattern-matching on `(lambda . ,_)'.
+         (list :pred `(lambda (item)
+                        (equal (get-text-property 0 'org-ql-projects-placeholder item)
+                               ,root)))))))
 
   (defun org-ql-projects--placeholder (root)
     "Agenda line standing in for the missing todos of project ROOT.
@@ -185,7 +222,7 @@ on ROOT like on the header itself."
 Around advice for `org-super-agenda--group-items', which drops
 empty groups.  A group is kept when its name carries
 `org-ql-projects-keep' (see `org-ql-projects--group-spec'); it gets
-a placeholder only if no item comes from its project's todo.org.
+a placeholder only if no item comes from its project's files.
 Doing it here rather than in `org-ql-projects' is what makes it
 survive refreshing the view."
     (let ((files (delete-dups
@@ -198,34 +235,24 @@ survive refreshing the view."
           placeholders)
       (dolist (group (and (listp org-super-agenda-groups) org-super-agenda-groups))
         (let* ((name (plist-get group :name))
-               (root (and (stringp name)
-                          (get-text-property 0 'org-ql-projects-keep name)
-                          (get-text-property 0 'org-ql-projects-root name))))
+               (keep (and (stringp name)
+                          (get-text-property 0 'org-ql-projects-keep name)))
+               (root (and keep (get-text-property 0 'org-ql-projects-root name))))
           (when (and root
-                     (not (member (expand-file-name "todo.org" root)
-                                  (mapcar #'expand-file-name files))))
+                     (not (seq-intersection keep (mapcar #'expand-file-name files))))
             (push (org-ql-projects--placeholder root) placeholders))))
       (funcall fn (append all-items (nreverse placeholders)))))
 
   (advice-add 'org-super-agenda--group-items :around #'org-ql-projects--add-placeholders)
 
-  (defun org-ql-projects--groups (roots &optional keep-roots)
-    "Super-group specs for ROOTS, most recently active first.
-Those also in KEEP-ROOTS are shown even with no todo."
-    (let ((decorated (mapcar (lambda (root)
-                               (cons (org-ql-projects--activity root) root))
-                             roots)))
-      (mapcar (lambda (cell)
-                (org-ql-projects--group-spec (cdr cell)
-                                             (and (member (cdr cell) keep-roots) t)))
-              (sort decorated (lambda (a b) (> (car a) (car b)))))))
-
-  (defun org-ql-projects--pseudo-groups (roots)
-    "Super-group specs for pseudo-project ROOTS, in the order given.
-Unlike `org-ql-projects--groups', these are not sorted by activity:
-pseudo-projects are not projects, so \"most recently active\" is not
-a meaningful order for them.  See `org-ql-projects-pseudo-roots'."
-    (mapcar #'org-ql-projects--group-spec roots))
+  (defun org-ql-projects--groups (projects)
+    "Super-group specs for PROJECTS, most recently active first."
+    (mapcar #'cdr
+            (sort (mapcar (lambda (project)
+                            (cons (org-ql-projects--activity (plist-get project :root))
+                                  (org-ql-projects--group-spec project)))
+                          projects)
+                  (lambda (a b) (> (car a) (car b))))))
 
   (defun org-ql-projects-dired ()
     "Open Dired on the project of the group header at point."
@@ -257,50 +284,41 @@ the entry at point, as `org-agenda-show-and-scroll-up' does."
         (display-buffer (dired-noselect root))
       (call-interactively #'org-agenda-show-and-scroll-up)))
 
-  (org-ql-defpred research-project ()
-    "Match entries in a project under `org-ql-projects-research-directories'."
-    :body (let ((file (buffer-file-name (buffer-base-buffer))))
-            (and file
-                 (seq-some (lambda (dir) (string-prefix-p dir (expand-file-name file)))
-                           org-ql-projects-research-directories))))
-
   (defun org-ql-projects (&optional research)
-    "Show all todos from every known project's todo.org, plus loose ones.
-Groups run Inbox, then the pseudo-projects in
-`org-ql-projects-pseudo-roots', then real projects ordered by last
-activity, most recent first.  Files tagged `noagenda' (via
-#+FILETAGS:) are skipped.  Research projects (see
-`org-ql-projects-research-directories') are listed as soon as they
-have a todo.org, even with no open todo, unless it is tagged
-`closed'.
+    "Show the todos of every source in `org-ql-projects-sources'.
+Groups run Inbox, then the fixed groups in the order given, then the
+projects, most recently active first.  Files tagged `noagenda' (via
+#+FILETAGS:) are skipped.
 
 With RESEARCH (interactively, a prefix argument), only show todos
-from research projects or tagged `research'.  The other projects
-drop out."
+tagged `research' or from projects with :research.  The other
+projects drop out."
     (interactive "P")
-    (let* ((keep-roots (org-ql-projects--research-roots))
-           (roots (seq-filter (lambda (root)
-                                (file-exists-p (expand-file-name "todo.org" root)))
-                              (org-ql-projects--roots)))
-           (pseudo-roots (seq-filter (lambda (root)
-                                       (file-exists-p (expand-file-name "todo.org" root)))
-                                     org-ql-projects-pseudo-roots))
-           (todo-files
-            (delete-dups (append org-ql-projects-files
-                                 (seq-filter #'file-exists-p
-                                             (mapcar (lambda (root)
-                                                       (expand-file-name "todo.org" root))
-                                                     (append pseudo-roots roots keep-roots)))))))
-      (org-ql-search todo-files
+    (let* ((inbox (seq-filter #'file-exists-p
+                              (mapcar (lambda (entry) (expand-file-name (cadr entry)))
+                                      (seq-filter (lambda (entry) (eq (car entry) 'inbox))
+                                                  org-ql-projects-sources))))
+           (fixed (org-ql-projects--projects '(fixed)))
+           (projects (org-ql-projects--projects '(project projects)))
+           (research-files (mapcan (lambda (project)
+                                     (and (plist-get project :research)
+                                          (copy-sequence (plist-get project :files))))
+                                   projects)))
+      (org-ql-search (delete-dups (append inbox
+                                          (mapcan (lambda (project)
+                                                    (copy-sequence (plist-get project :files)))
+                                                  (append fixed projects))))
         (if research
-            '(and (todo) (or (tags "research") (research-project))
-                  (not (tags "noagenda")))
+            `(and (todo) (not (tags "noagenda"))
+                  (or (tags "research")
+                      ,@(when research-files
+                          `((path ,@(mapcar #'regexp-quote research-files))))))
           '(and (todo) (not (tags "noagenda"))))
         :title (and research "Research projects")
-        :super-groups (append (list '(:name "Inbox" :file-path "Sylvain/Org/"))
-                              (org-ql-projects--pseudo-groups pseudo-roots)
-                              (org-ql-projects--groups (delete-dups (append roots keep-roots))
-                                                       keep-roots)))))
+        :super-groups (append (list (list :name "Inbox"
+                                          :file-path (mapcar #'regexp-quote inbox)))
+                              (mapcar #'org-ql-projects--group-spec fixed)
+                              (org-ql-projects--groups projects)))))
 
   ;; `org-ql-views' lives in org-ql-view, which loading org-ql alone
   ;; does not pull in.  It also pulls in org-super-agenda.
